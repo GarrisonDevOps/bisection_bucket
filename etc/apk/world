@@ -1,0 +1,11 @@
+alpine-baselayout
+alpine-keys
+apk-tools
+busybox
+git
+git-lfs
+gpg
+less
+libc-utils
+openssh
+patch
