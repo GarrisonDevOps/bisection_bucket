@@ -1,0 +1,1279 @@
+Request: EIPP 0.1
+Architecture: amd64
+Architectures: amd64
+Install: libpam0g:amd64 fdisk:amd64 perl-base:amd64 libseccomp2:amd64 libcom-err2:amd64 libfdisk1:amd64 libpam-modules:amd64 libsystemd0:amd64 gcc-10-base:amd64 apt:amd64 libmount1:amd64 e2fsprogs:amd64 zlib1g:amd64 libgmp10:amd64 libncurses6:amd64 libc6:amd64 util-linux:amd64 libsepol1:amd64 passwd:amd64 procps:amd64 libpam-runtime:amd64 libncursesw6:amd64 libprocps8:amd64 libapt-pkg6.0:amd64 libudev1:amd64 libss2:amd64 mount:amd64 libext2fs2:amd64 libblkid1:amd64 dpkg:amd64 libc-bin:amd64 libtinfo6:amd64 libpcre3:amd64 tar:amd64 libuuid1:amd64 libgcrypt20:amd64 liblz4-1:amd64 libpcre2-8-0:amd64 gpgv:amd64 libsmartcols1:amd64 login:amd64 libhogweed5:amd64 ncurses-bin:amd64 libpam-modules-bin:amd64 bsdutils:amd64 libgcc-s1:amd64 libnettle7:amd64 ncurses-base:amd64 bash:amd64 libgnutls30:amd64 libp11-kit0:amd64 libzstd1:amd64 logsave:amd64 gzip:amd64 liblzma5:amd64 libstdc++6:amd64 base-files:amd64
+Planner: internal
+
+Package: libpam0g
+Architecture: amd64
+Version: 1.3.1-5ubuntu4
+APT-ID: 3248
+Multi-Arch: same
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), debconf (>= 0.5) | debconf-2.0
+
+Package: libpam0g
+Architecture: amd64
+Version: 1.3.1-5ubuntu4.7
+APT-ID: 7229
+Multi-Arch: same
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), debconf (>= 0.5) | debconf-2.0
+
+Package: debconf
+Architecture: all
+Version: 1.5.73
+APT-ID: 278
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: perl-base (>= 5.20.1-3~)
+Conflicts: apt (<< 0.3.12.1), cdebconf (<< 0.96), debconf-tiny, debconf-utils (<< 1.3.22), dialog (<< 0.9b-20020814-1), menu (<= 2.1.3-1), whiptail (<< 0.51.4-11), whiptail-utf8 (<= 0.50.17-13)
+Breaks: apt-listchanges (<< 3.14), ubiquity (<< 17.10.2), update-notifier-common (<< 3.187~)
+Provides: debconf-2.0
+
+Package: fdisk
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 418
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.14), libfdisk1 (>= 2.33), libmount1 (>= 2.24.2), libncursesw6 (>= 6), libsmartcols1 (>= 2.28~rc1), libtinfo6 (>= 6)
+Breaks: util-linux (<< 2.30.1-0ubuntu4~)
+
+Package: fdisk
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 6429
+Multi-Arch: foreign
+Depends: libc6 (>= 2.14), libfdisk1 (>= 2.33), libmount1 (>= 2.24.2), libncursesw6 (>= 6), libsmartcols1 (>= 2.28~rc1), libtinfo6 (>= 6)
+Breaks: util-linux (<< 2.30.1-0ubuntu4~)
+
+Package: perl-base
+Architecture: amd64
+Version: 5.30.0-9build1
+APT-ID: 4849
+Essential: yes
+Status: installed
+Pre-Depends: libc6 (>= 2.29), libcrypt1 (>= 1:4.1.0), dpkg (>= 1.17.17)
+Conflicts: defoma (<< 0.11.12), doc-base (<< 0.10.3), mono-gac (<< 2.10.8.1-3), safe-rm (<< 0.8), update-inetd (<< 4.41)
+Breaks: amanda-common (<< 1:3.3.9-2), backuppc (<< 3.3.1-2), debconf (<< 1.5.61), dh-haskell (<< 0.3), intltool (<< 0.51.0-4), libexception-class-perl (<< 1.42), libfile-path-perl (<< 2.16), libfile-spec-perl (<< 3.7800), libfile-temp-perl (<< 0.2309), libio-socket-ip-perl (<< 0.39), libsbuild-perl (<< 0.67.0-1), libscalar-list-utils-perl (<< 1:1.50), libsocket-perl (<< 2.027), libxsloader-perl (<< 0.30), mailagent (<< 1:3.1-81-2), perl (<< 5.30.0~), perl-modules (<< 5.30.0~), slic3r (<< 1.2.9+dfsg-6.1), slic3r-prusa (<< 1.37.0+dfsg-1.1), texinfo (<< 6.1.0.dfsg.1-8)
+Provides: libxsloader-perl (= 0.30), libsocket-perl (= 2.027), libscalar-list-utils-perl (= 1:1.50), libio-socket-ip-perl (= 0.39), libfile-temp-perl (= 0.2309), libfile-path-perl (= 2.16)
+
+Package: perl-base
+Architecture: amd64
+Version: 5.30.0-9ubuntu0.5
+APT-ID: 23911
+Essential: yes
+Pre-Depends: libc6 (>= 2.29), libcrypt1 (>= 1:4.1.0), dpkg (>= 1.17.17)
+Conflicts: defoma (<< 0.11.12), doc-base (<< 0.10.3), mono-gac (<< 2.10.8.1-3), safe-rm (<< 0.8), update-inetd (<< 4.41)
+Breaks: amanda-common (<< 1:3.3.9-2), backuppc (<< 3.3.1-2), debconf (<< 1.5.61), dh-haskell (<< 0.3), intltool (<< 0.51.0-4), libexception-class-perl (<< 1.42), libfile-path-perl (<< 2.16), libfile-spec-perl (<< 3.7800), libfile-temp-perl (<< 0.2309), libio-socket-ip-perl (<< 0.39), libsbuild-perl (<< 0.67.0-1), libscalar-list-utils-perl (<< 1:1.50), libsocket-perl (<< 2.027), libxsloader-perl (<< 0.30), mailagent (<< 1:3.1-81-2), perl (<< 5.30.0~), perl-modules (<< 5.30.0~), slic3r (<< 1.2.9+dfsg-6.1), slic3r-prusa (<< 1.37.0+dfsg-1.1), texinfo (<< 6.1.0.dfsg.1-8)
+Provides: libxsloader-perl (= 0.30), libsocket-perl (= 2.027), libscalar-list-utils-perl (= 1:1.50), libio-socket-ip-perl (= 0.39), libfile-temp-perl (= 0.2309), libfile-path-perl (= 2.16)
+
+Package: init-system-helpers
+Architecture: all
+Version: 1.57
+APT-ID: 1254
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: perl-base (>= 5.20.1-3)
+Conflicts: file-rc (<< 0.8.17~), openrc (<= 0.18.3-1)
+Breaks: systemd (<< 228), sysvinit-utils (<< 2.88dsf-59.3~)
+
+Package: ubuntu-keyring
+Architecture: all
+Version: 2020.02.11.4
+APT-ID: 44052
+Multi-Arch: foreign
+Status: installed
+Breaks: ubuntu-cloudimage-keyring (<< 2018.02.05)
+
+Package: libseccomp2
+Architecture: amd64
+Version: 2.4.3-1ubuntu1
+APT-ID: 3699
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: libseccomp2
+Architecture: amd64
+Version: 2.5.1-1ubuntu1~20.04.2
+APT-ID: 7515
+Multi-Arch: same
+Depends: libc6 (>= 2.4)
+
+Package: diffutils
+Architecture: amd64
+Version: 1:3.7-3
+APT-ID: 325
+Essential: yes
+Status: installed
+Pre-Depends: libc6 (>= 2.17)
+
+Package: libaudit-common
+Architecture: all
+Version: 1:2.8.5-2ubuntu6
+APT-ID: 1821
+Multi-Arch: foreign
+Status: installed
+Breaks: libaudit0, libaudit1 (<< 1:2.2.1-2)
+
+Package: libcom-err2
+Architecture: amd64
+Version: 1.45.5-2ubuntu1
+APT-ID: 2058
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.17)
+Breaks: libcomerr2 (<< 1.43.9-1~)
+Provides: libcomerr2 (= 1.45.5-2ubuntu1)
+
+Package: libcom-err2
+Architecture: amd64
+Version: 1.45.5-2ubuntu1.2
+APT-ID: 42630
+Multi-Arch: same
+Depends: libc6 (>= 2.17)
+Breaks: libcomerr2 (<< 1.43.9-1~)
+Provides: libcomerr2 (= 1.45.5-2ubuntu1.2)
+
+Package: libsemanage1
+Architecture: amd64
+Version: 3.0-1build2
+APT-ID: 3706
+Multi-Arch: same
+Status: installed
+Depends: libsemanage-common (= 3.0-1build2), libaudit1 (>= 1:2.2.1), libbz2-1.0, libc6 (>= 2.14), libselinux1 (>= 3.0), libsepol1 (>= 3.0)
+Breaks: policycoreutils (<< 3.0), selinux-policy-default (<< 2:2.20140421-10~), selinux-policy-mls (<< 2:2.20140421-10~)
+
+Package: sysvinit-utils
+Architecture: amd64
+Version: 2.96-2.1ubuntu1
+APT-ID: 5740
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: init-system-helpers (>= 1.25~), lsb-base (>= 11.0.0~), util-linux (>> 2.28-2~), libc6 (>= 2.14)
+Breaks: systemd (<< 215)
+
+Package: libfdisk1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 2323
+Multi-Arch: same
+Status: installed
+Depends: libblkid1 (>= 2.24.2), libc6 (>= 2.25), libuuid1 (>= 2.16)
+
+Package: libfdisk1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 6937
+Multi-Arch: same
+Depends: libblkid1 (>= 2.24.2), libc6 (>= 2.25), libuuid1 (>= 2.16)
+
+Package: libpam-modules
+Architecture: amd64
+Version: 1.3.1-5ubuntu4
+APT-ID: 3238
+Multi-Arch: same
+Status: installed
+Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.27), libdb5.3, libpam0g (>= 1.3.1), libselinux1 (>= 2.1.9), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.3.1-5ubuntu4)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Provides: libpam-umask, libpam-motd, libpam-mkhomedir
+
+Package: libpam-modules
+Architecture: amd64
+Version: 1.3.1-5ubuntu4.7
+APT-ID: 7223
+Multi-Arch: same
+Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.27), libcrypt1 (>= 1:4.1.0), libdb5.3, libpam0g (>= 1.3.1), libselinux1 (>= 2.1.9), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.3.1-5ubuntu4.7)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Provides: libpam-umask, libpam-motd, libpam-mkhomedir
+
+Package: libsystemd0
+Architecture: amd64
+Version: 245.4-4ubuntu3
+APT-ID: 3849
+Multi-Arch: same
+Status: installed
+Pre-Depends: libc6 (>= 2.30), libgcrypt20 (>= 1.8.0), liblz4-1 (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614)
+
+Package: libsystemd0
+Architecture: amd64
+Version: 245.4-4ubuntu3.24
+APT-ID: 42897
+Multi-Arch: same
+Pre-Depends: libc6 (>= 2.30), libgcrypt20 (>= 1.8.0), liblz4-1 (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614)
+
+Package: base-passwd
+Architecture: amd64
+Version: 3.5.47
+APT-ID: 92
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.8), libdebconfclient0 (>= 0.145)
+
+Package: dash
+Architecture: amd64
+Version: 0.5.10.2-6
+APT-ID: 265
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: debianutils (>= 2.15), dpkg (>= 1.19.1), debconf (>= 0.5) | debconf-2.0
+Pre-Depends: libc6 (>= 2.14)
+
+Package: gcc-10-base
+Architecture: amd64
+Version: 10-20200411-0ubuntu1
+APT-ID: 676
+Multi-Arch: same
+Status: installed
+Breaks: gnat (<< 7)
+
+Package: gcc-10-base
+Architecture: amd64
+Version: 10.5.0-1ubuntu1~20.04
+APT-ID: 6546
+Multi-Arch: same
+Breaks: gnat (<< 7)
+
+Package: apt
+Architecture: amd64
+Version: 2.0.2
+APT-ID: 48
+Essential: yes
+Status: installed
+Depends: adduser, gpgv | gpgv2 | gpgv1, libapt-pkg6.0 (>= 2.0.2), ubuntu-keyring, libc6 (>= 2.15), libgcc-s1 (>= 3.0), libgnutls30 (>= 3.6.12), libseccomp2 (>= 2.4.2), libstdc++6 (>= 9), libsystemd0
+Breaks: apt-transport-https (<< 1.5~alpha4~), apt-utils (<< 1.3~exp2~), aptitude (<< 0.8.10)
+Provides: apt-transport-https (= 2.0.2)
+
+Package: apt
+Architecture: amd64
+Version: 2.0.10
+APT-ID: 41953
+Essential: yes
+Depends: adduser, gpgv | gpgv2 | gpgv1, libapt-pkg6.0 (>= 2.0.10), ubuntu-keyring, libc6 (>= 2.15), libgcc-s1 (>= 3.0), libgnutls30 (>= 3.6.12), libseccomp2 (>= 2.4.2), libstdc++6 (>= 9), libsystemd0
+Breaks: apt-transport-https (<< 1.5~alpha4~), apt-utils (<< 1.3~exp2~), aptitude (<< 0.8.10)
+Provides: apt-transport-https (= 2.0.10)
+
+Package: libacl1
+Architecture: amd64
+Version: 2.2.53-6
+APT-ID: 1714
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libmount1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 3032
+Multi-Arch: same
+Status: installed
+Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.25), libselinux1 (>= 2.6-3~)
+
+Package: libmount1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 7163
+Multi-Arch: same
+Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.25), libselinux1 (>= 2.6-3~)
+
+Package: libbz2-1.0
+Architecture: amd64
+Version: 1.0.8-2
+APT-ID: 1930
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: libgpg-error0
+Architecture: amd64
+Version: 1.37-1
+APT-ID: 2565
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: e2fsprogs
+Architecture: amd64
+Version: 1.45.5-2ubuntu1
+APT-ID: 363
+Multi-Arch: foreign
+Status: installed
+Depends: logsave
+Pre-Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.14), libcom-err2 (>= 1.43.9), libext2fs2 (= 1.45.5-2ubuntu1), libss2 (>= 1.38), libuuid1 (>= 2.16)
+
+Package: e2fsprogs
+Architecture: amd64
+Version: 1.45.5-2ubuntu1.2
+APT-ID: 42010
+Multi-Arch: foreign
+Depends: logsave
+Pre-Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.14), libcom-err2 (>= 1.43.9), libext2fs2 (= 1.45.5-2ubuntu1.2), libss2 (>= 1.38), libuuid1 (>= 2.16)
+
+Package: zlib1g
+Architecture: amd64
+Version: 1:1.2.11.dfsg-2ubuntu1
+APT-ID: 6082
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Conflicts: zlib1 (<= 1:1.0.4-7)
+Breaks: libxml2 (<< 2.7.6.dfsg-2), texlive-binaries (<< 2009-12)
+
+Package: zlib1g
+Architecture: amd64
+Version: 1:1.2.11.dfsg-2ubuntu1.5
+APT-ID: 24344
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+Conflicts: zlib1 (<= 1:1.0.4-7)
+Breaks: libxml2 (<< 2.7.6.dfsg-2), texlive-binaries (<< 2009-12)
+
+Package: libgmp10
+Architecture: amd64
+Version: 2:6.2.0+dfsg-4
+APT-ID: 2515
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Breaks: libmath-gmp-perl (<< 2.20-1), libmath-prime-util-gmp-perl (<< 0.51-2), postgresql-pgmp (<< 1.0.3-1)
+
+Package: libgmp10
+Architecture: amd64
+Version: 2:6.2.0+dfsg-4ubuntu0.1
+APT-ID: 7019
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+Breaks: libmath-gmp-perl (<< 2.20-1), libmath-prime-util-gmp-perl (<< 0.51-2), postgresql-pgmp (<< 1.0.3-1)
+
+Package: libncurses6
+Architecture: amd64
+Version: 6.2-0ubuntu2
+APT-ID: 3076
+Multi-Arch: same
+Status: installed
+Depends: libtinfo6 (= 6.2-0ubuntu2), libc6 (>= 2.14)
+
+Package: libncurses6
+Architecture: amd64
+Version: 6.2-0ubuntu2.1
+APT-ID: 7170
+Multi-Arch: same
+Depends: libtinfo6 (= 6.2-0ubuntu2.1), libc6 (>= 2.14)
+
+Package: libc6
+Architecture: amd64
+Version: 2.31-0ubuntu9
+APT-ID: 1936
+Multi-Arch: same
+Status: installed
+Depends: libgcc-s1, libcrypt1 (>= 1:4.4.10-10ubuntu4)
+Conflicts: openrc (<< 0.27-2~)
+Breaks: hurd (<< 1:0.9.git20170910-1), iraf-fitsutil (<< 2018.07.06-4), libtirpc1 (<< 0.2.3), locales (<< 2.31), locales-all (<< 2.31), nocache (<< 1.1-1~), nscd (<< 2.31), r-cran-later (<< 0.7.5+dfsg-2), wcc (<< 0.0.2+dfsg-3)
+
+Package: libc6
+Architecture: amd64
+Version: 2.31-0ubuntu9.16
+APT-ID: 6817
+Multi-Arch: same
+Depends: libgcc-s1, libcrypt1 (>= 1:4.4.10-10ubuntu4)
+Conflicts: openrc (<< 0.27-2~)
+Breaks: hurd (<< 1:0.9.git20170910-1), iraf-fitsutil (<< 2018.07.06-4), libtirpc1 (<< 0.2.3), locales (<< 2.31), locales-all (<< 2.31), nocache (<< 1.1-1~), nscd (<< 2.31), r-cran-later (<< 0.7.5+dfsg-2), wcc (<< 0.0.2+dfsg-3)
+
+Package: util-linux
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 5924
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: login (>= 1:4.5-1.1~)
+Pre-Depends: libaudit1 (>= 1:2.2.1), libblkid1 (>= 2.31.1), libc6 (>= 2.25), libcap-ng0 (>= 0.7.9), libcrypt1 (>= 1:4.1.0), libmount1 (>= 2.34), libpam0g (>= 0.99.7.1), libselinux1 (>= 2.6-3~), libsmartcols1 (>= 2.34), libsystemd0, libtinfo6 (>= 6), libudev1 (>= 183), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4)
+Breaks: bash-completion (<< 1:2.8), grml-debootstrap (<< 0.68), mount (<< 2.29.2-3~), s390-tools (<< 2.2.0-1~), setpriv (<< 2.32.1-0.2~), sysvinit-utils (<< 2.88dsf-59.4~)
+
+Package: util-linux
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 24311
+Essential: yes
+Multi-Arch: foreign
+Depends: login (>= 1:4.5-1.1~)
+Pre-Depends: libaudit1 (>= 1:2.2.1), libblkid1 (>= 2.31.1), libc6 (>= 2.25), libcap-ng0 (>= 0.7.9), libcrypt1 (>= 1:4.1.0), libmount1 (>= 2.34), libpam0g (>= 0.99.7.1), libselinux1 (>= 2.6-3~), libsmartcols1 (>= 2.34), libsystemd0, libtinfo6 (>= 6), libudev1 (>= 183), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4)
+Breaks: bash-completion (<< 1:2.8), grml-debootstrap (<< 0.68), mount (<< 2.29.2-3~), s390-tools (<< 2.2.0-1~), setpriv (<< 2.32.1-0.2~), sysvinit-utils (<< 2.88dsf-59.4~)
+
+Package: coreutils
+Architecture: amd64
+Version: 8.30-3ubuntu2
+APT-ID: 214
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libacl1 (>= 2.2.23), libattr1 (>= 1:2.4.44), libc6 (>= 2.28), libselinux1 (>= 2.1.13)
+
+Package: libsepol1
+Architecture: amd64
+Version: 3.0-1
+APT-ID: 3711
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libsepol1
+Architecture: amd64
+Version: 3.0-1ubuntu0.1
+APT-ID: 7516
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+
+Package: passwd
+Architecture: amd64
+Version: 1:4.8.1-1ubuntu5
+APT-ID: 4840
+Multi-Arch: foreign
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 2.1.9), libsemanage1 (>= 2.0.3), libpam-modules
+
+Package: passwd
+Architecture: amd64
+Version: 1:4.8.1-1ubuntu5.20.04.5
+APT-ID: 23909
+Multi-Arch: foreign
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 2.1.9), libsemanage1 (>= 2.0.3), libpam-modules
+
+Package: procps
+Architecture: amd64
+Version: 2:3.3.16-1ubuntu2
+APT-ID: 4959
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.27), libncurses6 (>= 6), libncursesw6 (>= 6), libprocps8 (>= 2:3.3.16-1), libtinfo6 (>= 6), lsb-base (>= 3.0-10), init-system-helpers (>= 1.29~)
+Conflicts: pgrep (<< 3.3-5), w-bassman (<< 1.0-3)
+Breaks: guymager (<= 0.5.9-1), open-vm-tools (<= 2011.12.20-562307-1)
+
+Package: procps
+Architecture: amd64
+Version: 2:3.3.16-1ubuntu2.4
+APT-ID: 23961
+Multi-Arch: foreign
+Depends: libc6 (>= 2.27), libncurses6 (>= 6), libncursesw6 (>= 6), libprocps8 (>= 2:3.3.16-1), libtinfo6 (>= 6), lsb-base (>= 3.0-10), init-system-helpers (>= 1.29~)
+Conflicts: pgrep (<< 3.3-5), w-bassman (<< 1.0-3)
+Breaks: guymager (<= 0.5.9-1), open-vm-tools (<= 2011.12.20-562307-1)
+
+Package: libpam-runtime
+Architecture: all
+Version: 1.3.1-5ubuntu4
+APT-ID: 3244
+Multi-Arch: foreign
+Status: installed
+Depends: debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules (>= 1.0.1-6)
+Conflicts: libpam0g-util
+
+Package: libpam-runtime
+Architecture: all
+Version: 1.3.1-5ubuntu4.7
+APT-ID: 7225
+Multi-Arch: foreign
+Depends: debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules (>= 1.0.1-6)
+Conflicts: libpam0g-util
+
+Package: libncursesw6
+Architecture: amd64
+Version: 6.2-0ubuntu2
+APT-ID: 3078
+Multi-Arch: same
+Status: installed
+Depends: libtinfo6 (= 6.2-0ubuntu2), libc6 (>= 2.14)
+
+Package: libncursesw6
+Architecture: amd64
+Version: 6.2-0ubuntu2.1
+APT-ID: 7172
+Multi-Arch: same
+Depends: libtinfo6 (= 6.2-0ubuntu2.1), libc6 (>= 2.14)
+
+Package: libprocps8
+Architecture: amd64
+Version: 2:3.3.16-1ubuntu2
+APT-ID: 3359
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libsystemd0 (>= 209)
+
+Package: libprocps8
+Architecture: amd64
+Version: 2:3.3.16-1ubuntu2.4
+APT-ID: 7265
+Multi-Arch: same
+Depends: libc6 (>= 2.14), libsystemd0 (>= 209)
+
+Package: libapt-pkg6.0
+Architecture: amd64
+Version: 2.0.2
+APT-ID: 1762
+Multi-Arch: same
+Status: installed
+Depends: libbz2-1.0, libc6 (>= 2.27), libgcc-s1 (>= 3.0), libgcrypt20 (>= 1.8.0), liblz4-1 (>= 0.0~r127), liblzma5 (>= 5.1.1alpha+20120614), libstdc++6 (>= 9), libsystemd0 (>= 221), libudev1 (>= 183), libzstd1 (>= 1.3.2), zlib1g (>= 1:1.2.2.3)
+Breaks: appstream (<< 0.9.0-3~), apt (<< 1.6~), aptitude (<< 0.8.9), libapt-inst1.5 (<< 0.9.9~)
+
+Package: libapt-pkg6.0
+Architecture: amd64
+Version: 2.0.10
+APT-ID: 42590
+Multi-Arch: same
+Depends: libbz2-1.0, libc6 (>= 2.27), libgcc-s1 (>= 3.0), libgcrypt20 (>= 1.8.0), liblz4-1 (>= 0.0~r127), liblzma5 (>= 5.1.1alpha+20120614), libstdc++6 (>= 9), libsystemd0 (>= 221), libudev1 (>= 183), libzstd1 (>= 1.3.2), zlib1g (>= 1:1.2.2.3)
+Breaks: appstream (<< 0.9.0-3~), apt (<< 1.6~), aptitude (<< 0.8.9), libapt-inst1.5 (<< 0.9.9~)
+
+Package: debianutils
+Architecture: amd64
+Version: 4.9.1
+APT-ID: 284
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.15)
+
+Package: libudev1
+Architecture: amd64
+Version: 245.4-4ubuntu3
+APT-ID: 3962
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.30)
+
+Package: libudev1
+Architecture: amd64
+Version: 245.4-4ubuntu3.24
+APT-ID: 42908
+Multi-Arch: same
+Depends: libc6 (>= 2.30)
+
+Package: libcrypt1
+Architecture: amd64
+Version: 1:4.4.10-10ubuntu4
+APT-ID: 2091
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.25)
+Breaks: libc6 (<< 2.31)
+
+Package: adduser
+Architecture: all
+Version: 3.118ubuntu2
+APT-ID: 5
+Multi-Arch: foreign
+Status: installed
+Depends: passwd, debconf (>= 0.5) | debconf-2.0
+
+Package: libss2
+Architecture: amd64
+Version: 1.45.5-2ubuntu1
+APT-ID: 3780
+Multi-Arch: same
+Status: installed
+Depends: libcom-err2, libc6 (>= 2.17)
+
+Package: libss2
+Architecture: amd64
+Version: 1.45.5-2ubuntu1.2
+APT-ID: 42893
+Multi-Arch: same
+Depends: libcom-err2, libc6 (>= 2.17)
+
+Package: mount
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 4622
+Multi-Arch: foreign
+Status: installed
+Depends: util-linux (>= 2.30.1-0ubuntu4~)
+Pre-Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.17), libmount1 (>= 2.34), libsmartcols1 (>= 2.33)
+Breaks: bash-completion (<< 1:2.1-4.3~)
+
+Package: mount
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 23811
+Multi-Arch: foreign
+Depends: util-linux (>= 2.30.1-0ubuntu4~)
+Pre-Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.17), libmount1 (>= 2.34), libsmartcols1 (>= 2.33)
+Breaks: bash-completion (<< 1:2.1-4.3~)
+
+Package: libsemanage-common
+Architecture: all
+Version: 3.0-1build2
+APT-ID: 3705
+Multi-Arch: foreign
+Status: installed
+Breaks: libsemanage1 (<= 2.0.41-1), libsemanage1-dev (<< 2.1.6-3~)
+
+Package: libext2fs2
+Architecture: amd64
+Version: 1.45.5-2ubuntu1
+APT-ID: 2312
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.28)
+Breaks: e2fslibs (<< 1.43.9-1~)
+Provides: e2fslibs (= 1.45.5-2ubuntu1)
+
+Package: libext2fs2
+Architecture: amd64
+Version: 1.45.5-2ubuntu1.2
+APT-ID: 42672
+Multi-Arch: same
+Depends: libc6 (>= 2.28)
+Breaks: e2fslibs (<< 1.43.9-1~)
+Provides: e2fslibs (= 1.45.5-2ubuntu1.2)
+
+Package: libattr1
+Architecture: amd64
+Version: 1:2.4.48-5
+APT-ID: 1819
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: libblkid1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 1863
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.25)
+
+Package: libblkid1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 6807
+Multi-Arch: same
+Depends: libc6 (>= 2.25)
+
+Package: dpkg
+Architecture: amd64
+Version: 1.19.7ubuntu3
+APT-ID: 350
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: tar (>= 1.28-1)
+Pre-Depends: libbz2-1.0, libc6 (>= 2.15), liblzma5 (>= 5.2.2), libselinux1 (>= 2.3), libzstd1 (>= 1.3.2), zlib1g (>= 1:1.1.4)
+Breaks: acidbase (<= 1.4.5-4), amule (<< 2.3.1+git1a369e47-3), beep (<< 1.3-4), im (<< 1:151-4), libapt-pkg5.0 (<< 1.7~b), libdpkg-perl (<< 1.18.11), lsb-base (<< 10.2019031300), netselect (<< 0.3.ds1-27), pconsole (<< 1.0-12), phpgacl (<< 3.3.7-7.3), pure-ftpd (<< 1.0.43-1), systemtap (<< 2.8-1), terminatorx (<< 4.0.1-1), xvt (<= 2.1-20.1)
+
+Package: dpkg
+Architecture: amd64
+Version: 1.19.7ubuntu3.2
+APT-ID: 6388
+Essential: yes
+Multi-Arch: foreign
+Depends: tar (>= 1.28-1)
+Pre-Depends: libbz2-1.0, libc6 (>= 2.15), liblzma5 (>= 5.2.2), libselinux1 (>= 2.3), libzstd1 (>= 1.3.2), zlib1g (>= 1:1.1.4)
+Breaks: acidbase (<= 1.4.5-4), amule (<< 2.3.1+git1a369e47-3), beep (<< 1.3-4), im (<< 1:151-4), libapt-pkg5.0 (<< 1.7~b), libdpkg-perl (<< 1.18.11), lsb-base (<< 10.2019031300), netselect (<< 0.3.ds1-27), pconsole (<< 1.0-12), phpgacl (<< 3.3.7-7.3), pure-ftpd (<< 1.0.43-1), systemtap (<< 2.8-1), terminatorx (<< 4.0.1-1), xvt (<= 2.1-20.1)
+
+Package: libc-bin
+Architecture: amd64
+Version: 2.31-0ubuntu9
+APT-ID: 1934
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>> 2.31), libc6 (<< 2.32)
+
+Package: libc-bin
+Architecture: amd64
+Version: 2.31-0ubuntu9.16
+APT-ID: 6815
+Essential: yes
+Multi-Arch: foreign
+Depends: libc6 (>> 2.31), libc6 (<< 2.32)
+
+Package: libtinfo6
+Architecture: amd64
+Version: 6.2-0ubuntu2
+APT-ID: 3910
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.16)
+
+Package: libtinfo6
+Architecture: amd64
+Version: 6.2-0ubuntu2.1
+APT-ID: 7599
+Multi-Arch: same
+Depends: libc6 (>= 2.16)
+
+Package: libpcre3
+Architecture: amd64
+Version: 2:8.39-12build1
+APT-ID: 3288
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Conflicts: libpcre3-dev (<= 4.3-3)
+Breaks: approx (<< 4.4-1~), cduce (<< 0.5.3-2~), cmigrep (<< 1.5-7~), galax (<< 1.1-7~), libpcre-ocaml (<< 6.0.1~), liquidsoap (<< 0.9.2-3~), ocsigen (<< 1.3.3-1~)
+
+Package: libpcre3
+Architecture: amd64
+Version: 2:8.39-12ubuntu0.1
+APT-ID: 7237
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+Conflicts: libpcre3-dev (<= 4.3-3)
+Breaks: approx (<< 4.4-1~), cduce (<< 0.5.3-2~), cmigrep (<< 1.5-7~), galax (<< 1.1-7~), libpcre-ocaml (<< 6.0.1~), liquidsoap (<< 0.9.2-3~), ocsigen (<< 1.3.3-1~)
+
+Package: sed
+Architecture: amd64
+Version: 4.7-1
+APT-ID: 5650
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libacl1 (>= 2.2.51-8), libc6 (>= 2.14), libselinux1 (>= 1.32)
+
+Package: tar
+Architecture: amd64
+Version: 1.30+dfsg-7
+APT-ID: 5742
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libacl1 (>= 2.2.23), libc6 (>= 2.17), libselinux1 (>= 1.32)
+Conflicts: cpio (<= 2.4.2-38)
+Breaks: dpkg-dev (<< 1.14.26)
+
+Package: tar
+Architecture: amd64
+Version: 1.30+dfsg-7ubuntu0.20.04.4
+APT-ID: 24208
+Essential: yes
+Multi-Arch: foreign
+Pre-Depends: libacl1 (>= 2.2.23), libc6 (>= 2.17), libselinux1 (>= 1.32)
+Conflicts: cpio (<= 2.4.2-38)
+Breaks: dpkg-dev (<< 1.14.26)
+
+Package: mawk
+Architecture: amd64
+Version: 1.3.4.20200120-2
+APT-ID: 4597
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.29)
+Provides: awk
+
+Package: libuuid1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 4010
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.25)
+
+Package: libuuid1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 7633
+Multi-Arch: same
+Depends: libc6 (>= 2.25)
+
+Package: libgcrypt20
+Architecture: amd64
+Version: 1.8.5-5ubuntu1
+APT-ID: 2432
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.15), libgpg-error0 (>= 1.25)
+
+Package: libgcrypt20
+Architecture: amd64
+Version: 1.8.5-5ubuntu1.1
+APT-ID: 6980
+Multi-Arch: same
+Depends: libc6 (>= 2.15), libgpg-error0 (>= 1.25)
+
+Package: libselinux1
+Architecture: amd64
+Version: 3.0-1build2
+APT-ID: 3703
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.30), libpcre2-8-0 (>= 10.22)
+
+Package: liblz4-1
+Architecture: amd64
+Version: 1.9.2-2
+APT-ID: 2952
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Breaks: liblz4-1a
+
+Package: liblz4-1
+Architecture: amd64
+Version: 1.9.2-2ubuntu0.20.04.1
+APT-ID: 7155
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+Breaks: liblz4-1a
+
+Package: libpcre2-8-0
+Architecture: amd64
+Version: 10.34-7
+APT-ID: 3285
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libpcre2-8-0
+Architecture: amd64
+Version: 10.34-7ubuntu0.1
+APT-ID: 7234
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+
+Package: gpgv
+Architecture: amd64
+Version: 2.2.19-3ubuntu2
+APT-ID: 1019
+Multi-Arch: foreign
+Status: installed
+Depends: libbz2-1.0, libc6 (>= 2.25), libgcrypt20 (>= 1.8.0), libgpg-error0 (>= 1.35), zlib1g (>= 1:1.1.4)
+Breaks: gnupg2 (<< 2.0.21-2), gpgv2 (<< 2.1.11-7+exp1), python-debian (<< 0.1.29)
+
+Package: gpgv
+Architecture: amd64
+Version: 2.2.19-3ubuntu2.2
+APT-ID: 6652
+Multi-Arch: foreign
+Depends: libbz2-1.0, libc6 (>= 2.25), libgcrypt20 (>= 1.8.0), libgpg-error0 (>= 1.35), zlib1g (>= 1:1.1.4)
+Breaks: gnupg2 (<< 2.0.21-2), gpgv2 (<< 2.1.11-7+exp1), python-debian (<< 0.1.29)
+
+Package: libsmartcols1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9
+APT-ID: 3734
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.25)
+
+Package: libsmartcols1
+Architecture: amd64
+Version: 2.34-0.1ubuntu9.6
+APT-ID: 7522
+Multi-Arch: same
+Depends: libc6 (>= 2.25)
+
+Package: grep
+Architecture: amd64
+Version: 3.4-1
+APT-ID: 1021
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: dpkg (>= 1.15.4) | install-info
+Pre-Depends: libc6 (>= 2.14), libpcre3
+Conflicts: rgrep
+Provides: rgrep
+
+Package: login
+Architecture: amd64
+Version: 1:4.8.1-1ubuntu5
+APT-ID: 4557
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libpam-runtime, libpam-modules (>= 1.1.8-1)
+Conflicts: amavisd-new (<< 2.3.3-8), backupninja (<< 0.9.3-5), echolot (<< 2.1.8-4), gnunet (<< 0.7.0c-2), python-4suite (<< 0.99cvs20060405-1)
+Breaks: util-linux (<< 2.32-0.2~)
+
+Package: login
+Architecture: amd64
+Version: 1:4.8.1-1ubuntu5.20.04.5
+APT-ID: 23803
+Essential: yes
+Multi-Arch: foreign
+Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libpam-runtime, libpam-modules (>= 1.1.8-1)
+Conflicts: amavisd-new (<< 2.3.3-8), backupninja (<< 0.9.3-5), echolot (<< 2.1.8-4), gnunet (<< 0.7.0c-2), python-4suite (<< 0.99cvs20060405-1)
+Breaks: util-linux (<< 2.32-0.2~)
+
+Package: libhogweed5
+Architecture: amd64
+Version: 3.5.1+really3.5.1-2
+APT-ID: 2685
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libgmp10 (>= 2:6.0.0), libnettle7 (= 3.5.1+really3.5.1-2)
+
+Package: libhogweed5
+Architecture: amd64
+Version: 3.5.1+really3.5.1-2ubuntu0.2
+APT-ID: 7090
+Multi-Arch: same
+Depends: libc6 (>= 2.14), libgmp10 (>= 2:6.0.0), libnettle7 (= 3.5.1+really3.5.1-2ubuntu0.2)
+
+Package: ncurses-bin
+Architecture: amd64
+Version: 6.2-0ubuntu2
+APT-ID: 4697
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.14), libtinfo6 (>= 6.2)
+
+Package: ncurses-bin
+Architecture: amd64
+Version: 6.2-0ubuntu2.1
+APT-ID: 23826
+Essential: yes
+Multi-Arch: foreign
+Pre-Depends: libc6 (>= 2.14), libtinfo6 (>= 6.2)
+
+Package: libpam-modules-bin
+Architecture: amd64
+Version: 1.3.1-5ubuntu4
+APT-ID: 3239
+Multi-Arch: foreign
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), libpam0g (>= 0.99.7.1), libselinux1 (>= 1.32)
+
+Package: libpam-modules-bin
+Architecture: amd64
+Version: 1.3.1-5ubuntu4.7
+APT-ID: 7224
+Multi-Arch: foreign
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.14), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 1.32)
+
+Package: libdb5.3
+Architecture: amd64
+Version: 5.3.28+dfsg1-0.6ubuntu2
+APT-ID: 2135
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.17)
+
+Package: bzip2
+Architecture: amd64
+Version: 1.0.8-2
+APT-ID: 159
+Multi-Arch: foreign
+Status: installed
+Depends: libbz2-1.0 (= 1.0.8-2), libc6 (>= 2.14)
+
+Package: bsdutils
+Architecture: amd64
+Version: 1:2.34-0.1ubuntu9
+APT-ID: 151
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.17), libsystemd0
+Breaks: bash-completion (<< 1:2.1-4.1~)
+
+Package: bsdutils
+Architecture: amd64
+Version: 1:2.34-0.1ubuntu9.6
+APT-ID: 6316
+Essential: yes
+Multi-Arch: foreign
+Pre-Depends: libc6 (>= 2.17), libsystemd0
+Breaks: bash-completion (<< 1:2.1-4.1~)
+
+Package: libgcc-s1
+Architecture: amd64
+Version: 10-20200411-0ubuntu1
+APT-ID: 2420
+Multi-Arch: same
+Status: installed
+Depends: gcc-10-base (= 10-20200411-0ubuntu1), libc6 (>= 2.14)
+Breaks: cryptsetup-initramfs (<< 2:2.2.2-3~)
+
+Package: libgcc-s1
+Architecture: amd64
+Version: 10.5.0-1ubuntu1~20.04
+APT-ID: 6975
+Multi-Arch: same
+Depends: gcc-10-base (= 10.5.0-1ubuntu1~20.04), libc6 (>= 2.14)
+Breaks: cryptsetup-initramfs (<< 2:2.2.2-3~)
+
+Package: libnettle7
+Architecture: amd64
+Version: 3.5.1+really3.5.1-2
+APT-ID: 3111
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libnettle7
+Architecture: amd64
+Version: 3.5.1+really3.5.1-2ubuntu0.2
+APT-ID: 7179
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+
+Package: ncurses-base
+Architecture: all
+Version: 6.2-0ubuntu2
+APT-ID: 4696
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Breaks: bash-static (<< 4.4.18-1.1), libmono-corlib4.5-cil (<< 4.6.2.7+dfsg-2), libslang2 (<< 2.3.1a-3), libtinfo5 (<< 6.1), libunibilium0 (<< 2), libunibilium4 (<< 2.0.0-3), zsh-static (<< 5.4.2-4)
+
+Package: ncurses-base
+Architecture: all
+Version: 6.2-0ubuntu2.1
+APT-ID: 23825
+Essential: yes
+Multi-Arch: foreign
+Breaks: bash-static (<< 4.4.18-1.1), libmono-corlib4.5-cil (<< 4.6.2.7+dfsg-2), libslang2 (<< 2.3.1a-3), libtinfo5 (<< 6.1), libunibilium0 (<< 2), libunibilium4 (<< 2.0.0-3), zsh-static (<< 5.4.2-4)
+
+Package: bash
+Architecture: amd64
+Version: 5.0-6ubuntu1
+APT-ID: 93
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: base-files (>= 2.1.12), debianutils (>= 2.15)
+Pre-Depends: libc6 (>= 2.15), libtinfo6 (>= 6)
+Conflicts: bash-completion (<< 20060301-0)
+
+Package: bash
+Architecture: amd64
+Version: 5.0-6ubuntu1.2
+APT-ID: 6274
+Essential: yes
+Multi-Arch: foreign
+Depends: base-files (>= 2.1.12), debianutils (>= 2.15)
+Pre-Depends: libc6 (>= 2.15), libtinfo6 (>= 6)
+Conflicts: bash-completion (<< 20060301-0)
+
+Package: findutils
+Architecture: amd64
+Version: 4.7.0-1ubuntu1
+APT-ID: 424
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.17), libselinux1 (>= 1.32)
+Breaks: binstats (<< 1.08-8.1), guilt (<< 0.36-0.2), libpython3.4-minimal (<< 3.4.4-2), libpython3.5-minimal (<< 3.5.1-3), lsat (<< 0.9.7.1-2.1), mc (<< 3:4.8.11-1), switchconf (<< 0.0.9-2.1)
+
+Package: libcap-ng0
+Architecture: amd64
+Version: 0.7.9-2.1build1
+APT-ID: 1978
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.8)
+
+Package: libgnutls30
+Architecture: amd64
+Version: 3.6.13-2ubuntu1
+APT-ID: 2541
+Multi-Arch: same
+Status: installed
+Depends: libgmp10 (>= 2:6.0.0), libc6 (>= 2.25), libhogweed5, libidn2-0 (>= 2.0.0), libnettle7, libp11-kit0 (>= 0.23.18.1), libtasn1-6 (>= 4.14), libunistring2 (>= 0.9.7)
+
+Package: libgnutls30
+Architecture: amd64
+Version: 3.6.13-2ubuntu1.11
+APT-ID: 7031
+Multi-Arch: same
+Depends: libgmp10 (>= 2:6.0.0), libc6 (>= 2.25), libhogweed5, libidn2-0 (>= 2.0.0), libnettle7, libp11-kit0 (>= 0.23.18.1), libtasn1-6 (>= 4.14), libunistring2 (>= 0.9.7)
+
+Package: libffi7
+Architecture: amd64
+Version: 3.3-4
+APT-ID: 2327
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libunistring2
+Architecture: amd64
+Version: 0.9.10-2
+APT-ID: 3972
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libp11-kit0
+Architecture: amd64
+Version: 0.23.20-1build1
+APT-ID: 3223
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.26), libffi7 (>= 3.3~20180313)
+Breaks: opencryptoki (<= 3.6.1+dfsg-1)
+
+Package: libp11-kit0
+Architecture: amd64
+Version: 0.23.20-1ubuntu0.1
+APT-ID: 7215
+Multi-Arch: same
+Depends: libc6 (>= 2.26), libffi7 (>= 3.3~20180313)
+Breaks: opencryptoki (<= 3.6.1+dfsg-1)
+
+Package: libzstd1
+Architecture: amd64
+Version: 1.4.4+dfsg-3
+APT-ID: 4346
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libzstd1
+Architecture: amd64
+Version: 1.4.4+dfsg-3ubuntu0.1
+APT-ID: 7732
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+
+Package: lsb-base
+Architecture: all
+Version: 11.1.0ubuntu2
+APT-ID: 4564
+Multi-Arch: foreign
+Status: installed
+
+Package: logsave
+Architecture: amd64
+Version: 1.45.5-2ubuntu1
+APT-ID: 4559
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.14)
+Breaks: e2fsprogs (<< 1.45.3-1)
+
+Package: logsave
+Architecture: amd64
+Version: 1.45.5-2ubuntu1.2
+APT-ID: 43699
+Multi-Arch: foreign
+Depends: libc6 (>= 2.14)
+Breaks: e2fsprogs (<< 1.45.3-1)
+
+Package: gzip
+Architecture: amd64
+Version: 1.10-0ubuntu4
+APT-ID: 1082
+Essential: yes
+Status: installed
+Depends: dpkg (>= 1.15.4) | install-info
+Pre-Depends: libc6 (>= 2.17)
+
+Package: gzip
+Architecture: amd64
+Version: 1.10-0ubuntu4.1
+APT-ID: 6697
+Essential: yes
+Depends: dpkg (>= 1.15.4) | install-info
+Pre-Depends: libc6 (>= 2.17)
+
+Package: libtasn1-6
+Architecture: amd64
+Version: 4.16.0-2
+APT-ID: 3858
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: liblzma5
+Architecture: amd64
+Version: 5.2.4-1
+APT-ID: 2956
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.17)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+
+Package: liblzma5
+Architecture: amd64
+Version: 5.2.4-1ubuntu1.1
+APT-ID: 7159
+Multi-Arch: same
+Depends: libc6 (>= 2.17)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+
+Package: libstdc++6
+Architecture: amd64
+Version: 10-20200411-0ubuntu1
+APT-ID: 3810
+Multi-Arch: same
+Status: installed
+Depends: gcc-10-base (= 10-20200411-0ubuntu1), libc6 (>= 2.18), libgcc-s1 (>= 4.2)
+Conflicts: scim (<< 1.4.2-1)
+Breaks: gcc-4.3 (<< 4.3.6-1), gcc-4.4 (<< 4.4.6-4), gcc-4.5 (<< 4.5.3-2)
+
+Package: libstdc++6
+Architecture: amd64
+Version: 10.5.0-1ubuntu1~20.04
+APT-ID: 7566
+Multi-Arch: same
+Depends: gcc-10-base (= 10.5.0-1ubuntu1~20.04), libc6 (>= 2.23), libgcc-s1 (>= 4.2)
+Conflicts: scim (<< 1.4.2-1)
+Breaks: gcc-4.3 (<< 4.3.6-1), gcc-4.4 (<< 4.4.6-4), gcc-4.5 (<< 4.5.3-2)
+
+Package: libidn2-0
+Architecture: amd64
+Version: 2.2.0-2
+APT-ID: 2730
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libunistring2 (>= 0.9.7)
+
+Package: libaudit1
+Architecture: amd64
+Version: 1:2.8.5-2ubuntu6
+APT-ID: 1823
+Multi-Arch: same
+Status: installed
+Depends: libaudit-common (>= 1:2.8.5-2ubuntu6), libc6 (>= 2.14), libcap-ng0 (>= 0.7.9)
+
+Package: sensible-utils
+Architecture: all
+Version: 0.0.12+nmu1
+APT-ID: 5651
+Multi-Arch: foreign
+Status: installed
+
+Package: hostname
+Architecture: amd64
+Version: 3.23
+APT-ID: 1100
+Essential: yes
+Status: installed
+Pre-Depends: libc6 (>= 2.4)
+Breaks: nis (<< 3.17-30)
+
+Package: libdebconfclient0
+Architecture: amd64
+Version: 0.251ubuntu1
+APT-ID: 2173
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: base-files
+Architecture: amd64
+Version: 11ubuntu5
+APT-ID: 91
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.3.4), libcrypt1 (>= 1:4.4.10-10ubuntu3)
+Pre-Depends: awk
+Breaks: debian-security-support (<< 2019.04.25), initscripts (<< 2.88dsf-13.3), sendfile (<< 2.1b.20080616-5.2~)
+
+Package: base-files
+Architecture: amd64
+Version: 11ubuntu5.8
+APT-ID: 41958
+Essential: yes
+Multi-Arch: foreign
+Depends: libc6 (>= 2.3.4), libcrypt1 (>= 1:4.4.10-10ubuntu3)
+Pre-Depends: awk
+Breaks: debian-security-support (<< 2019.04.25), initscripts (<< 2.88dsf-13.3), sendfile (<< 2.1b.20080616-5.2~), ubuntu-server (<< 1.450.2)
+
