@@ -1,0 +1,1397 @@
+Request: EIPP 0.1
+Architecture: amd64
+Architectures: amd64
+Install: libperl5.36:amd64 libgdbm-compat4:amd64 python3.11:amd64 libcurl3-gnutls:amd64 openssh-client:amd64 mercurial-common:amd64 git:amd64 perl:amd64 libtirpc-common:amd64 python3-minimal:amd64 libapr1:amd64 ucf:amd64 libexpat1:amd64 libfido2-1:amd64 libproc2-0:amd64 libserf-1-1:amd64 python3:amd64 libpython3.11-minimal:amd64 libbsd0:amd64 mercurial:amd64 sensible-utils:amd64 libsvn1:amd64 media-types:amd64 libnsl2:amd64 libaprutil1:amd64 libpython3.11-stdlib:amd64 liberror-perl:amd64 procps:amd64 libutf8proc2:amd64 libpython3-stdlib:amd64 python3.11-minimal:amd64 libcbor0.8:amd64 perl-modules-5.36:amd64 git-man:amd64 libtirpc3:amd64 subversion:amd64 libedit2:amd64 libgdbm6:amd64
+Planner: internal
+
+Package: dpkg
+Architecture: amd64
+Version: 1.21.22
+APT-ID: 7306
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: tar (>= 1.28-1)
+Pre-Depends: libbz2-1.0, libc6 (>= 2.34), liblzma5 (>= 5.4.0), libmd0 (>= 0.0.0), libselinux1 (>= 3.1~), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+Breaks: libapt-pkg5.0 (<< 1.7~b), lsb-base (<< 10.2019031300)
+
+Package: libssh2-1
+Architecture: amd64
+Version: 1.10.0-3+b1
+APT-ID: 32409
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libssl3 (>= 3.0.0), zlib1g (>= 1:1.1.4)
+
+Package: libperl5.36
+Architecture: amd64
+Version: 5.36.0-7
+APT-ID: 42742
+Multi-Arch: same
+Depends: libbz2-1.0, libc6 (>= 2.35), libcrypt1 (>= 1:4.1.0), libdb5.3, libgdbm-compat4 (>= 1.18-3), libgdbm6 (>= 1.21), zlib1g (>= 1:1.2.2.3), perl-modules-5.36 (>= 5.36.0-7)
+Breaks: libcompress-raw-bzip2-perl (<< 2.103), libcompress-raw-zlib-perl (<< 2.105), libcompress-zlib-perl (<< 2.106), libdigest-md5-perl (<< 2.58), libdigest-sha-perl (<< 6.02), libencode-perl (<< 3.17), libfilter-perl (<< 1.60), libio-compress-base-perl (<< 2.106), libio-compress-bzip2-perl (<< 2.106), libio-compress-perl (<< 2.106), libio-compress-zlib-perl (<< 2.106), libmime-base64-perl (<< 3.16), libstorable-perl (<< 3.26), libsys-syslog-perl (<< 0.36), libthreads-perl (<< 2.27), libthreads-shared-perl (<< 1.64), libtime-hires-perl (<< 1.9770), libtime-piece-perl (<< 1.3401)
+
+Package: libkeyutils1
+Architecture: amd64
+Version: 1.6.3-2
+APT-ID: 24319
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libcurl4
+Architecture: amd64
+Version: 7.88.1-10+deb12u4
+APT-ID: 63387
+Multi-Arch: same
+Status: installed
+Depends: libbrotli1 (>= 0.6.0), libc6 (>= 2.34), libgssapi-krb5-2 (>= 1.17), libidn2-0 (>= 0.6), libldap-2.5-0 (>= 2.5.4), libnghttp2-14 (>= 1.50.0), libpsl5 (>= 0.16.0), librtmp1 (>= 2.3), libssh2-1 (>= 1.7.0), libssl3 (>= 3.0.0), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+Conflicts: libcurl3
+
+Package: libsmartcols1
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60540
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33)
+
+Package: libpam-runtime
+Architecture: all
+Version: 1.5.2-6+deb12u1
+APT-ID: 42136
+Multi-Arch: foreign
+Status: installed
+Depends: debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules (>= 1.0.1-6)
+Conflicts: libpam0g-util
+
+Package: coreutils
+Architecture: amd64
+Version: 9.1-1
+APT-ID: 4833
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libacl1 (>= 2.2.23), libattr1 (>= 1:2.4.44), libc6 (>= 2.34), libgmp10 (>= 2:6.2.1+dfsg1), libselinux1 (>= 3.1~)
+
+Package: libgdbm-compat4
+Architecture: amd64
+Version: 1.23-3
+APT-ID: 13788
+Multi-Arch: same
+Depends: libc6 (>= 2.33), libgdbm6 (>= 1.16)
+
+Package: python3.11
+Architecture: amd64
+Version: 3.11.2-6
+APT-ID: 47876
+Multi-Arch: allowed
+Depends: python3.11-minimal (= 3.11.2-6), libpython3.11-stdlib (= 3.11.2-6), media-types | mime-support
+Breaks: python3-all (<< 3.6.5~rc1-1), python3-dev (<< 3.6.5~rc1-1), python3-venv (<< 3.6.5-2)
+
+Package: libext2fs2
+Architecture: amd64
+Version: 1.47.0-2
+APT-ID: 7599
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+Breaks: e2fslibs (<< 1.43.9-1~)
+Provides: e2fslibs (= 1.47.0-2)
+
+Package: libffi8
+Architecture: amd64
+Version: 3.4.4-1
+APT-ID: 27748
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+Breaks: libffi8ubuntu1 (<< 3.4.2-1)
+Provides: libffi8ubuntu1 (= 3.4.4-1)
+
+Package: libgssapi-krb5-2
+Architecture: amd64
+Version: 1.20.1-2+deb12u1
+APT-ID: 24859
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33), libcom-err2 (>= 1.43.9), libk5crypto3 (>= 1.20), libkrb5-3 (= 1.20.1-2+deb12u1), libkrb5support0 (>= 1.15~beta1)
+Breaks: moonshot-gss-eap (<= 1.0)
+
+Package: netbase
+Architecture: all
+Version: 6.4
+APT-ID: 37938
+Multi-Arch: foreign
+Status: installed
+Breaks: ebtables (<< 2.0.11-2)
+
+Package: readline-common
+Architecture: all
+Version: 8.2-1.3
+APT-ID: 50484
+Multi-Arch: foreign
+Status: installed
+Depends: dpkg (>= 1.15.4) | install-info
+Conflicts: libreadline-common, libreadline5 (<< 5.0-11)
+
+Package: libnghttp2-14
+Architecture: amd64
+Version: 1.52.0-1
+APT-ID: 38223
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libcurl3-gnutls
+Architecture: amd64
+Version: 7.88.1-10+deb12u4
+APT-ID: 63385
+Multi-Arch: same
+Depends: libbrotli1 (>= 0.6.0), libc6 (>= 2.34), libgnutls30 (>= 3.7.5), libgssapi-krb5-2 (>= 1.17), libidn2-0 (>= 0.6), libldap-2.5-0 (>= 2.5.4), libnettle8, libnghttp2-14 (>= 1.50.0), libpsl5 (>= 0.16.0), librtmp1 (>= 2.3), libssh2-1 (>= 1.7.0), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+
+Package: openssh-client
+Architecture: amd64
+Version: 1:9.2p1-2+deb12u1
+APT-ID: 41497
+Multi-Arch: foreign
+Depends: adduser, passwd, libc6 (>= 2.36), libedit2 (>= 2.11-20080614-0), libfido2-1 (>= 1.8.0), libgssapi-krb5-2 (>= 1.17), libselinux1 (>= 3.1~), libssl3 (>= 3.0.10), zlib1g (>= 1:1.1.4)
+Conflicts: sftp
+Breaks: openssh-sk-helper
+
+Package: libaudit-common
+Architecture: all
+Version: 1:3.0.9-1
+APT-ID: 1483
+Multi-Arch: foreign
+Status: installed
+
+Package: mercurial-common
+Architecture: all
+Version: 6.3.2-1
+APT-ID: 36140
+Depends: python3:any
+Breaks: mercurial (<< 6.3.2-1)
+
+Package: apt
+Architecture: amd64
+Version: 2.6.1
+APT-ID: 1031
+Essential: yes
+Status: installed
+Depends: adduser, gpgv | gpgv2 | gpgv1, libapt-pkg6.0 (>= 2.6.1), debian-archive-keyring, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libgnutls30 (>= 3.7.5), libseccomp2 (>= 2.4.2), libstdc++6 (>= 11), libsystemd0
+Breaks: apt-transport-https (<< 1.5~alpha4~), apt-utils (<< 1.3~exp2~), aptitude (<< 0.8.10)
+Provides: apt-transport-https (= 2.6.1)
+
+Package: libnettle8
+Architecture: amd64
+Version: 3.8.1-2
+APT-ID: 38040
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.17)
+
+Package: git
+Architecture: amd64
+Version: 1:2.39.2-1.1
+APT-ID: 14316
+Multi-Arch: foreign
+Depends: libc6 (>= 2.34), libcurl3-gnutls (>= 7.56.1), libexpat1 (>= 2.0.1), libpcre2-8-0 (>= 10.34), zlib1g (>= 1:1.2.2), perl, liberror-perl, git-man (>> 1:2.39.2), git-man (<< 1:2.39.2-.)
+Breaks: bash-completion (<< 1:1.90-1), cogito (<= 0.18.2+), dgit (<< 5.1~), git-buildpackage (<< 0.6.5), git-el (<< 1:2.32.0~rc2-1~), gitosis (<< 0.2+20090917-7), gitpkg (<< 0.15), guilt (<< 0.33), openssh-client (<< 1:6.8), stgit (<< 0.15), stgit-contrib (<< 0.15)
+
+Package: libacl1
+Architecture: amd64
+Version: 2.3.1-3
+APT-ID: 153
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33)
+
+Package: gpg
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15170
+Multi-Arch: foreign
+Status: installed
+Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
+Breaks: gnupg (<< 2.1.21-4)
+
+Package: perl
+Architecture: amd64
+Version: 5.36.0-7
+APT-ID: 42743
+Multi-Arch: allowed
+Depends: perl-base (= 5.36.0-7), perl-modules-5.36 (>= 5.36.0-7), libperl5.36 (= 5.36.0-7)
+Pre-Depends: dpkg (>= 1.17.17)
+Conflicts: libjson-pp-perl (<< 2.27200-2)
+Breaks: apt-show-versions (<< 0.22.10), libdist-inkt-perl (<< 0.024-5), libmarc-charset-perl (<< 1.35-3), libperl-dev (<< 5.24.0~), perl-doc (<< 5.36.0-1), perl-modules-5.22, perl-modules-5.24, perl-modules-5.26 (<< 5.26.2-5)
+Provides: podlators-perl (= 4.14), libversion-perl (= 1:0.9929), libunicode-collate-perl (= 1.31), libtime-piece-perl (= 1.3401), libtime-local-perl (= 1.3000), libtime-hires-perl (= 1.9770), libthreads-shared-perl (= 1.64), libthreads-perl (= 2.27), libthread-queue-perl (= 3.14), libtext-balanced-perl (= 2.04), libtest-use-ok-perl (= 1.302190), libtest-tester-perl (= 1.302190), libtest-simple-perl (= 1.302190), libtest-harness-perl (= 3.44), libsys-syslog-perl (= 0.36), libstorable-perl (= 3.26), libpod-simple-perl (= 3.43), libpod-escapes-perl (= 1.07), libperl-ostype-perl (= 1.010), libparse-cpan-meta-perl (= 2.150010), libparent-perl (= 0.238), libparams-check-perl (= 0.38), libnet-ping-perl (= 2.74), libnet-perl (= 1:3.14), libmodule-metadata-perl (= 1.000037), libmodule-load-perl (= 0.36), libmodule-load-conditional-perl (= 0.74), libmodule-corelist-perl (= 5.20220520), libmime-base64-perl (= 3.16), libmath-complex-perl (= 1.5902), libmath-bigint-perl (= 1.999830), liblocale-maketext-simple-perl (= 0.21.01), liblocale-maketext-perl (= 1.31), libjson-pp-perl (= 4.07000), libio-zlib-perl (= 1.11), libio-compress-zlib-perl (= 2.106), libio-compress-perl (= 2.106), libio-compress-bzip2-perl (= 2.106), libio-compress-base-perl (= 2.106), libi18n-langtags-perl (= 0.45), libhttp-tiny-perl (= 0.080), libfile-spec-perl (= 3.8400), libextutils-parsexs-perl (= 3.450000), libextutils-install-perl (= 2.20), libextutils-command-perl (= 7.64), libextutils-cbuilder-perl (= 0.280236), libexperimental-perl (= 0.028), libencode-perl (= 3.17), libdigest-sha-perl (= 6.02), libdigest-perl (= 1.20), libdigest-md5-perl (= 2.58), libcpan-meta-yaml-perl (= 0.018), libcpan-meta-requirements-perl (= 2.140), libcpan-meta-perl (= 2.150010), libcompress-zlib-perl (= 2.106), libcompress-raw-zlib-perl (= 2.105), libcompress-raw-bzip2-perl (= 2.103), libautodie-perl (= 2.34), libattribute-handlers-perl (= 1.02), libarchive-tar-perl (= 2.40), libansicolor-perl (= 5.01)
+
+Package: libtinfo6
+Architecture: amd64
+Version: 6.4-4
+APT-ID: 37849
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: libtirpc-common
+Architecture: all
+Version: 1.3.3+ds-1
+APT-ID: 33136
+Multi-Arch: foreign
+Breaks: libtirpc1, libtirpc3 (<< 1.1.4-0.1~)
+
+Package: tzdata
+Architecture: all
+Version: 2023c-5
+APT-ID: 59938
+Multi-Arch: foreign
+Status: installed
+Depends: debconf (>= 0.5) | debconf-2.0
+
+Package: libunistring2
+Architecture: amd64
+Version: 1.0-2
+APT-ID: 33289
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: libidn2-0
+Architecture: amd64
+Version: 2.3.3-1+b1
+APT-ID: 28694
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libunistring2 (>= 0.9.7)
+
+Package: libtasn1-6
+Architecture: amd64
+Version: 4.19.0-2
+APT-ID: 32651
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: python3-minimal
+Architecture: amd64
+Version: 3.11.2-1+b1
+APT-ID: 47851
+Multi-Arch: allowed
+Depends: dpkg (>= 1.13.20)
+Pre-Depends: python3.11-minimal (>= 3.11.2-1~)
+
+Package: libselinux1
+Architecture: amd64
+Version: 3.4-1+b6
+APT-ID: 32089
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libpcre2-8-0 (>= 10.22)
+
+Package: liblzma5
+Architecture: amd64
+Version: 5.4.1-0.2
+APT-ID: 62816
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+
+Package: sed
+Architecture: amd64
+Version: 4.9-1
+APT-ID: 55547
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libacl1 (>= 2.2.23), libc6 (>= 2.34), libselinux1 (>= 3.1~)
+
+Package: tar
+Architecture: amd64
+Version: 1.34+dfsg-1.2
+APT-ID: 58097
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libacl1 (>= 2.2.23), libc6 (>= 2.34), libselinux1 (>= 3.1~)
+Conflicts: cpio (<= 2.4.2-38)
+Breaks: dpkg-dev (<< 1.14.26)
+
+Package: libapr1
+Architecture: amd64
+Version: 1.7.2-3
+APT-ID: 1014
+Multi-Arch: same
+Depends: libc6 (>= 2.34), libuuid1 (>= 2.16)
+Conflicts: libapr1.0
+
+Package: ucf
+Architecture: all
+Version: 3.0043+nmu1
+APT-ID: 59996
+Multi-Arch: foreign
+Depends: debconf (>= 0.5) | debconf-2.0, sensible-utils
+
+Package: base-passwd
+Architecture: amd64
+Version: 3.6.1
+APT-ID: 1842
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.34), libdebconfclient0 (>= 0.145), libselinux1 (>= 3.1~)
+
+Package: libsasl2-2
+Architecture: amd64
+Version: 2.1.28+dfsg-10
+APT-ID: 5508
+Multi-Arch: same
+Status: installed
+Depends: libsasl2-modules-db (>= 2.1.28+dfsg-10), libc6 (>= 2.34)
+
+Package: libexpat1
+Architecture: amd64
+Version: 2.5.0-1
+APT-ID: 8680
+Multi-Arch: same
+Depends: libc6 (>= 2.25)
+
+Package: libdb5.3
+Architecture: amd64
+Version: 5.3.28+dfsg2-1
+APT-ID: 5698
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: libp11-kit0
+Architecture: amd64
+Version: 0.24.1-2
+APT-ID: 42015
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libffi8 (>= 3.4)
+
+Package: libapt-pkg6.0
+Architecture: amd64
+Version: 2.6.1
+APT-ID: 1037
+Multi-Arch: same
+Status: installed
+Depends: libbz2-1.0, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libgcrypt20 (>= 1.10.0), liblz4-1 (>= 0.0~r127), liblzma5 (>= 5.1.1alpha+20120614), libstdc++6 (>= 11), libsystemd0 (>= 221), libudev1 (>= 183), libxxhash0 (>= 0.7.1), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.2.2.3)
+Breaks: appstream (<< 0.9.0-3~), apt (<< 1.6~), aptitude (<< 0.8.9), dpkg (<< 1.20.8), libapt-inst1.5 (<< 0.9.9~)
+
+Package: libfido2-1
+Architecture: amd64
+Version: 1.12.0-2+b1
+APT-ID: 27754
+Multi-Arch: same
+Depends: libc6 (>= 2.36), libcbor0.8 (>= 0.8.0), libssl3 (>= 3.0.0), libudev1 (>= 183), zlib1g (>= 1:1.1.4)
+
+Package: librtmp1
+Architecture: amd64
+Version: 2.4+20151223.gitfa8646d.1-2+b2
+APT-ID: 51539
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libgmp10, libgnutls30 (>= 3.6.14), libhogweed6, libnettle8, zlib1g (>= 1:1.1.4)
+
+Package: debconf
+Architecture: all
+Version: 1.5.82
+APT-ID: 5859
+Multi-Arch: foreign
+Status: installed
+Conflicts: debconf-tiny, whiptail-utf8 (<= 0.50.17-13)
+Provides: debconf-2.0
+
+Package: libproc2-0
+Architecture: amd64
+Version: 2:4.0.2-3
+APT-ID: 44540
+Multi-Arch: same
+Depends: libc6 (>= 2.34), libsystemd0 (>= 209)
+
+Package: libsystemd0
+Architecture: amd64
+Version: 252.17-1~deb12u1
+APT-ID: 57932
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libcap2 (>= 1:2.10), libgcrypt20 (>= 1.10.0), liblz4-1 (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614), libzstd1 (>= 1.5.2)
+
+Package: libmount1
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60538
+Multi-Arch: same
+Status: installed
+Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.34), libselinux1 (>= 3.1~)
+
+Package: debianutils
+Architecture: amd64
+Version: 5.7-0.5~deb12u1
+APT-ID: 6237
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.34)
+Breaks: ifupdown (<< 0.8.36+nmu1), printer-driver-pnm2ppa (<< 1.13-12), x11-common (<< 1:7.7+23~)
+
+Package: libserf-1-1
+Architecture: amd64
+Version: 1.3.9-11
+APT-ID: 55648
+Multi-Arch: same
+Depends: libapr1 (>= 1.4.8-2~), libaprutil1 (>= 1.2.7+dfsg), libc6 (>= 2.14), libgssapi-krb5-2 (>= 1.17), libssl3 (>= 3.0.0), zlib1g (>= 1:1.1.4)
+
+Package: python3
+Architecture: amd64
+Version: 3.11.2-1+b1
+APT-ID: 47842
+Multi-Arch: allowed
+Depends: python3.11 (>= 3.11.2-1~), libpython3-stdlib (= 3.11.2-1+b1)
+Pre-Depends: python3-minimal (= 3.11.2-1+b1)
+
+Package: libpython3.11-minimal
+Architecture: amd64
+Version: 3.11.2-6
+APT-ID: 47873
+Multi-Arch: same
+Depends: libc6 (>= 2.14), libssl3 (>= 3.0.0)
+Conflicts: binfmt-support (<< 1.1.2)
+
+Package: gnupg
+Architecture: all
+Version: 2.2.40-1.1
+APT-ID: 15165
+Multi-Arch: foreign
+Status: installed
+Depends: dirmngr (<< 2.2.40-1.1.1~), dirmngr (>= 2.2.40-1.1), gnupg-l10n (= 2.2.40-1.1), gnupg-utils (<< 2.2.40-1.1.1~), gnupg-utils (>= 2.2.40-1.1), gpg (<< 2.2.40-1.1.1~), gpg (>= 2.2.40-1.1), gpg-agent (<< 2.2.40-1.1.1~), gpg-agent (>= 2.2.40-1.1), gpg-wks-client (<< 2.2.40-1.1.1~), gpg-wks-client (>= 2.2.40-1.1), gpg-wks-server (<< 2.2.40-1.1.1~), gpg-wks-server (>= 2.2.40-1.1), gpgsm (<< 2.2.40-1.1.1~), gpgsm (>= 2.2.40-1.1), gpgv (<< 2.2.40-1.1.1~), gpgv (>= 2.2.40-1.1)
+Breaks: debsig-verify (<< 0.15), dirmngr (<< 2.2.40-1.1), gnupg2 (<< 2.1.11-7+exp1), libgnupg-interface-perl (<< 0.52-3), libgnupg-perl (<= 0.19-1), libmail-gnupg-perl (<= 0.22-1), monkeysphere (<< 0.38~), php-crypt-gpg (<= 1.4.1-1), python-apt (<= 1.1.0~beta4), python-gnupg (<< 0.3.8-3), python3-apt (<= 1.1.0~beta4)
+
+Package: libsasl2-modules-db
+Architecture: amd64
+Version: 2.1.28+dfsg-10
+APT-ID: 5511
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libdb5.3
+
+Package: gpg-wks-server
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15173
+Multi-Arch: foreign
+Status: installed
+Depends: gpg (= 2.2.40-1.1), gpg-agent (= 2.2.40-1.1), libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42)
+
+Package: libkrb5support0
+Architecture: amd64
+Version: 1.20.1-2+deb12u1
+APT-ID: 24870
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+Breaks: libgssapi-krb5-2 (<< 1.20), libk5crypto3 (<< 1.20), libkadm5clnt-mit9 (<< 1.13~alpha1-1), libkadm5srv-mit9 (<< 1.13~alpha1-1), libkdb5-8 (<< 1.16)
+
+Package: libsepol2
+Architecture: amd64
+Version: 3.4-2.1
+APT-ID: 32104
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33)
+
+Package: libzstd1
+Architecture: amd64
+Version: 1.5.4+dfsg2-5
+APT-ID: 34105
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: util-linux
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60544
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: util-linux-extra
+Pre-Depends: libblkid1 (>= 2.37.2), libc6 (>= 2.34), libcap-ng0 (>= 0.7.9), libcrypt1 (>= 1:4.1.0), libmount1 (>= 2.38), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~), libsmartcols1 (>= 2.38), libsystemd0, libtinfo6 (>= 6), libudev1 (>= 183), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4)
+Conflicts: hardlink
+Provides: hardlink
+
+Package: libbsd0
+Architecture: amd64
+Version: 0.11.7-2
+APT-ID: 26046
+Multi-Arch: same
+Depends: libc6 (>= 2.34), libmd0 (>= 1.0.3-2)
+
+Package: util-linux-extra
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60545
+Multi-Arch: foreign
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libsmartcols1 (>= 2.38)
+Breaks: util-linux (<< 2.38~)
+
+Package: libldap-2.5-0
+Architecture: amd64
+Version: 2.5.13+dfsg-5
+APT-ID: 41350
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libgnutls30 (>= 3.7.5), libsasl2-2 (>= 2.1.28+dfsg)
+Conflicts: ldap-utils (<= 2.1.23-1)
+
+Package: libudev1
+Architecture: amd64
+Version: 252.17-1~deb12u1
+APT-ID: 57934
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: gpg-agent
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15171
+Multi-Arch: foreign
+Status: installed
+Depends: gpgconf (= 2.2.40-1.1), pinentry-curses | pinentry, init-system-helpers (>= 1.52), libassuan0 (>= 2.5.1), libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libnpth0 (>= 0.90)
+Breaks: gnupg-agent (<< 2.1.21-4)
+Provides: gnupg-agent
+
+Package: libgpg-error0
+Architecture: amd64
+Version: 1.46-1
+APT-ID: 28281
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: wget
+Architecture: amd64
+Version: 1.21.3-1+b2
+APT-ID: 61499
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.33), libgnutls30 (>= 3.7.2), libidn2-0 (>= 0.6), libnettle8, libpcre2-8-0 (>= 10.22), libpsl5 (>= 0.16.0), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4)
+Conflicts: wget-ssl
+
+Package: mercurial
+Architecture: amd64
+Version: 6.3.2-1
+APT-ID: 36139
+Depends: mercurial-common (= 6.3.2-1), ucf (>= 2.0020), python3 (<< 3.12), python3 (>= 3.11~), python3:any, libc6 (>= 2.34)
+Breaks: hgsubversion (<= 1.9.3+git20190419+6a6ce-3), hgview-common, mercurial-crecord (<< 0.20151121-2~), mercurial-git (<= 0.8.12-1.2), mercurial-keyring (<= 1.3.0-1), mercurial-server, python-sphinx-patchqueue, qct, trac-mercurial
+
+Package: libreadline8
+Architecture: amd64
+Version: 8.2-1.3
+APT-ID: 50483
+Multi-Arch: same
+Status: installed
+Depends: readline-common, libc6 (>= 2.33), libtinfo6 (>= 6)
+
+Package: usr-is-merged
+Architecture: all
+Version: 35
+APT-ID: 60495
+Multi-Arch: foreign
+Status: installed
+Conflicts: acl (<< 2.2.52-3~), arptables (<< 0.0.4+snapshot20181021-1~), coreutils (<< 8.24-1~), cruft (<< 0.9.44~), cryptsetup (<< 2:1.7.0-1~), davfs2 (<< 1.5.2-1.2~), debianutils (<< 4.5~), ebtables (<< 2.0.10.4+snapshot20181205-1~), elvis-tiny (<< 1.4-24~), kbd (<< 2.0.4-4~), ksh (<< 93u+20120801-3.1~), less (<< 481-2~), libbrlapi-dev (<< 5.3.1-1~), libc0.1 (<< 2.35-4), libc0.3 (<< 2.35-4), libc6 (<< 2.35-4), libc6.1 (<< 2.35-4), libdm0-dev, libjson-c-dev (<< 0.12.1-1.1~), libpng12-0 (<< 1.2.54-6~), libusb-0.1-4 (<< 2:0.1.12-28~), mksh (<< 52b-1~), molly-guard (<< 0.7.1+exp1~), musl-dev (<< 1.1.9-1.1~), nano (<< 2.3.99pre3-1~), open-iscsi (<< 2.0.873+git0.3b4b4500-13~), open-vm-tools (<< 2:10.0.5-3227872-2~), policycoreutils (<< 2.4-4~), safe-rm (<< 0.12-6~), tcsh (<< 6.18.01-4~), vsearch (<< 1.9.5-2~), xfsdump (<< 3.1.6+nmu1~), xfslibs-dev (<< 4.9.0+nmu1~), yp-tools (<< 3.3-5~), zsh (<< 5.2-4~)
+Breaks: cruft-ng (<< 0.4.4~), initramfs-tools (<< 0.121~)
+
+Package: debian-archive-keyring
+Architecture: all
+Version: 2023.3+deb12u1
+APT-ID: 5874
+Multi-Arch: foreign
+Status: installed
+
+Package: libcom-err2
+Architecture: amd64
+Version: 1.47.0-2
+APT-ID: 7597
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.17)
+Breaks: libcomerr2 (<< 1.43.9-1~)
+Provides: libcomerr2 (= 1.47.0-2)
+
+Package: diffutils
+Architecture: amd64
+Version: 1:3.8-4
+APT-ID: 6567
+Essential: yes
+Status: installed
+Pre-Depends: libc6 (>= 2.34)
+
+Package: sensible-utils
+Architecture: all
+Version: 0.0.17+nmu1
+APT-ID: 55600
+Multi-Arch: foreign
+
+Package: libassuan0
+Architecture: amd64
+Version: 2.5.5-5
+APT-ID: 25742
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libgpg-error0 (>= 1.33)
+
+Package: libnpth0
+Architecture: amd64
+Version: 1.6-3
+APT-ID: 40062
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.17)
+
+Package: libcap2
+Architecture: amd64
+Version: 1:2.66-4
+APT-ID: 26147
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: libc6
+Architecture: amd64
+Version: 2.36-9+deb12u3
+APT-ID: 63515
+Multi-Arch: same
+Status: installed
+Depends: libgcc-s1
+Breaks: aide (<< 0.17.3-4+b3), busybox (<< 1.30.1-6), chrony (<< 4.2-3~), fakechroot (<< 2.19-3.5), firefox (<< 91~), firefox-esr (<< 91~), gnumach-image-1.8-486 (<< 2:1.8+git20210923~), gnumach-image-1.8-486-dbg (<< 2:1.8+git20210923~), gnumach-image-1.8-xen-486 (<< 2:1.8+git20210923~), gnumach-image-1.8-xen-486-dbg (<< 2:1.8+git20210923~), hurd (<< 1:0.9.git20220301-2), ioquake3 (<< 1.36+u20200211.f2c61c1~dfsg-2~), iraf-fitsutil (<< 2018.07.06-4), libgegl-0.4-0 (<< 0.4.18), libtirpc1 (<< 0.2.3), locales (<< 2.36), locales-all (<< 2.36), macs (<< 2.2.7.1-3~), nocache (<< 1.1-1~), nscd (<< 2.36), openarena (<< 0.8.8+dfsg-4~), openssh-server (<< 1:8.1p1-5), python3-iptables (<< 1.0.0-2), r-cran-later (<< 0.7.5+dfsg-2), tinydns (<< 1:1.05-14), valgrind (<< 1:3.19.0-1~), wcc (<< 0.0.2+dfsg-3)
+
+Package: libssl3
+Architecture: amd64
+Version: 3.0.11-1~deb12u2
+APT-ID: 63667
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: libkrb5-3
+Architecture: amd64
+Version: 1.20.1-2+deb12u1
+APT-ID: 24867
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libcom-err2 (>= 1.43.9), libk5crypto3 (>= 1.20), libkeyutils1 (>= 1.5.9), libkrb5support0 (= 1.20.1-2+deb12u1), libssl3 (>= 3.0.0)
+Breaks: libapache2-mod-auth-kerb (<= 5.4-2.4), libsmbclient (<= 2:3.6.1-2), sssd (<= 1.2.1-4.3)
+
+Package: libpam-modules
+Architecture: amd64
+Version: 1.5.2-6+deb12u1
+APT-ID: 42134
+Multi-Arch: same
+Status: installed
+Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libdb5.3, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.2-6+deb12u1)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Provides: libpam-umask, libpam-motd, libpam-mkhomedir
+
+Package: libsvn1
+Architecture: amd64
+Version: 1.14.2-4+b2
+APT-ID: 57354
+Multi-Arch: same
+Depends: libsqlite3-0 (>= 3.8.7), libapr1 (>= 1.5.0), libaprutil1 (>= 1.4.0), libc6 (>= 2.33), libdb5.3, libexpat1 (>= 2.0.1), liblz4-1 (>= 0.0~r130), libsasl2-2 (>= 2.1.28+dfsg), libserf-1-1 (>= 1.3.9-4~), libutf8proc2 (>= 1.3), zlib1g (>= 1:1.2.0)
+
+Package: libuuid1
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60541
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.25)
+
+Package: gpgv
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15176
+Multi-Arch: foreign
+Status: installed
+Depends: libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), zlib1g (>= 1:1.1.4)
+Breaks: gnupg2 (<< 2.0.21-2), gpgv2 (<< 2.1.11-7+exp1), python-debian (<< 0.1.29)
+
+Package: bash
+Architecture: amd64
+Version: 5.2.15-2+b2
+APT-ID: 1848
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: base-files (>= 2.1.12), debianutils (>= 5.6-0.1)
+Pre-Depends: libc6 (>= 2.36), libtinfo6 (>= 6)
+Conflicts: bash-completion (<< 20060301-0)
+
+Package: libgcrypt20
+Architecture: amd64
+Version: 1.10.1-3
+APT-ID: 28036
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libgpg-error0 (>= 1.27)
+
+Package: grep
+Architecture: amd64
+Version: 3.8-5
+APT-ID: 17617
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: dpkg (>= 1.15.4) | install-info
+Pre-Depends: libc6 (>= 2.34), libpcre2-8-0 (>= 10.32)
+Conflicts: rgrep
+Provides: rgrep
+
+Package: media-types
+Architecture: all
+Version: 10.0.0
+APT-ID: 36057
+Multi-Arch: foreign
+Breaks: mime-support (<< 3.65)
+
+Package: mawk
+Architecture: amd64
+Version: 1.3.4.20200120-3.1
+APT-ID: 35924
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.29)
+Provides: awk
+
+Package: libcap-ng0
+Architecture: amd64
+Version: 0.8.3-1+b3
+APT-ID: 26144
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33)
+
+Package: libsemanage2
+Architecture: amd64
+Version: 3.4-1+b5
+APT-ID: 32096
+Multi-Arch: same
+Status: installed
+Depends: libsemanage-common (>= 3.4-1), libaudit1 (>= 1:2.2.1), libbz2-1.0, libc6 (>= 2.34), libselinux1 (>= 3.4), libsepol2 (>= 3.4)
+Breaks: policycoreutils (<< 3.0)
+
+Package: libnsl2
+Architecture: amd64
+Version: 1.3.0-2
+APT-ID: 30523
+Multi-Arch: same
+Depends: libc6 (>= 2.14), libtirpc3 (>= 1.0.2)
+
+Package: base-files
+Architecture: amd64
+Version: 12.4+deb12u2
+APT-ID: 1841
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: awk
+Breaks: debian-security-support (<< 2019.04.25), initscripts (<< 2.88dsf-13.3), sendfile (<< 2.1b.20080616-5.2~)
+
+Package: libk5crypto3
+Architecture: amd64
+Version: 1.20.1-2+deb12u1
+APT-ID: 24861
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33), libkrb5support0 (>= 1.20)
+Breaks: libgssapi-krb5-2 (<= 1.18~), libkrb5-3 (<= 1.18~)
+
+Package: libaprutil1
+Architecture: amd64
+Version: 1.6.3-1
+APT-ID: 1016
+Multi-Arch: same
+Depends: libapr1 (>= 1.6.2), libc6 (>= 2.25), libcrypt1 (>= 1:4.1.0), libdb5.3, libexpat1 (>= 2.0.1), libgdbm6 (>= 1.16), libssl3 (>= 3.0.0)
+
+Package: ncurses-base
+Architecture: all
+Version: 6.4-4
+APT-ID: 37850
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Breaks: bash-static (<< 4.4.18-1.1), libmono-corlib4.5-cil (<< 4.6.2.7+dfsg-2), libslang2 (<< 2.3.1a-3), libtinfo5 (<< 6.1), libunibilium0 (<< 2), libunibilium4 (<< 2.0.0-3), neovim (<< 0.6.0), vim-common (<< 2:9.0.1000-2), zsh-static (<< 5.4.2-4)
+
+Package: gzip
+Architecture: amd64
+Version: 1.12-1
+APT-ID: 18251
+Essential: yes
+Status: installed
+Depends: dpkg (>= 1.15.4) | install-info
+Pre-Depends: libc6 (>= 2.33)
+
+Package: libpython3.11-stdlib
+Architecture: amd64
+Version: 3.11.2-6
+APT-ID: 47874
+Multi-Arch: same
+Depends: libpython3.11-minimal (= 3.11.2-6), media-types | mime-support, libbz2-1.0, libc6 (>= 2.34), libcrypt1 (>= 1:4.1.0), libdb5.3, libffi8 (>= 3.4), liblzma5 (>= 5.1.1alpha+20120614), libncursesw6 (>= 6.1), libnsl2 (>= 1.0), libreadline8 (>= 7.0~beta), libsqlite3-0 (>= 3.36.0), libtinfo6 (>= 6), libtirpc3 (>= 1.0.2), libuuid1 (>= 2.20.1)
+Breaks: python3-gdbm (<< 3.9.9-1~)
+
+Package: login
+Architecture: amd64
+Version: 1:4.13+dfsg1-1+b1
+APT-ID: 55727
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libpam-runtime, libpam-modules
+Conflicts: python-4suite (<< 0.99cvs20060405-1)
+
+Package: libsqlite3-0
+Architecture: amd64
+Version: 3.40.1-2
+APT-ID: 56889
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+Breaks: crowdsec (<< 1.4), python-migrate (<< 0.11.0-4~), python3-migrate (<< 0.11.0-4~)
+
+Package: hostname
+Architecture: amd64
+Version: 3.23+nmu1
+APT-ID: 21917
+Essential: yes
+Status: installed
+Pre-Depends: libc6 (>= 2.34)
+Breaks: nis (<< 3.17-30)
+
+Package: pinentry-curses
+Architecture: amd64
+Version: 1.2.1-1
+APT-ID: 43685
+Multi-Arch: foreign
+Status: installed
+Depends: libassuan0 (>= 2.1.0), libc6 (>= 2.34), libgpg-error0 (>= 1.16), libncursesw6 (>= 6), libtinfo6 (>= 6)
+Provides: pinentry
+
+Package: gpgsm
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15175
+Multi-Arch: foreign
+Status: installed
+Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libksba8 (>= 1.6.0), libreadline8 (>= 6.0)
+Breaks: gnupg2 (<< 2.1.10-2)
+
+Package: adduser
+Architecture: all
+Version: 3.134
+APT-ID: 218
+Multi-Arch: foreign
+Status: installed
+Depends: passwd
+
+Package: findutils
+Architecture: amd64
+Version: 4.9.0-4
+APT-ID: 9378
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.34), libselinux1 (>= 3.1~)
+Breaks: binstats (<< 1.08-8.1), guilt (<< 0.36-0.2), libpython3.4-minimal (<< 3.4.4-2), libpython3.5-minimal (<< 3.5.1-3), lsat (<< 0.9.7.1-2.1), mc (<< 3:4.8.11-1), switchconf (<< 0.0.9-2.1)
+
+Package: libgmp10
+Architecture: amd64
+Version: 2:6.2.1+dfsg1-1.1
+APT-ID: 14805
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Breaks: libmath-gmp-perl (<< 2.20-1), libmath-prime-util-gmp-perl (<< 0.51-2), postgresql-pgmp (<< 1.0.3-1)
+
+Package: libxxhash0
+Architecture: amd64
+Version: 0.8.1-1
+APT-ID: 62797
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+
+Package: libpcre2-8-0
+Architecture: amd64
+Version: 10.42-1
+APT-ID: 42522
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34)
+
+Package: libcrypt1
+Architecture: amd64
+Version: 1:4.4.33-2
+APT-ID: 33769
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.36)
+Conflicts: libpam0g (<< 1.4.0-10)
+
+Package: ca-certificates
+Architecture: all
+Version: 20230311
+APT-ID: 3060
+Multi-Arch: foreign
+Status: installed
+Depends: openssl (>= 1.1.1), debconf (>= 0.5) | debconf-2.0
+Breaks: ca-certificates-java (<< 20121112+nmu1)
+
+Package: liberror-perl
+Architecture: all
+Version: 0.17029-2
+APT-ID: 27559
+Multi-Arch: foreign
+Depends: perl:any
+
+Package: libpam-modules-bin
+Architecture: amd64
+Version: 1.5.2-6+deb12u1
+APT-ID: 42135
+Multi-Arch: foreign
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~)
+
+Package: init-system-helpers
+Architecture: all
+Version: 1.65.2
+APT-ID: 22724
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: usrmerge | usr-is-merged
+
+Package: libsemanage-common
+Architecture: all
+Version: 3.4-1
+APT-ID: 32094
+Multi-Arch: foreign
+Status: installed
+
+Package: libseccomp2
+Architecture: amd64
+Version: 2.5.4-1+b3
+APT-ID: 32071
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: procps
+Architecture: amd64
+Version: 2:4.0.2-3
+APT-ID: 44542
+Multi-Arch: foreign
+Depends: libc6 (>= 2.34), libncursesw6 (>= 6), libproc2-0 (>= 2:4.0.2), libtinfo6 (>= 6), init-system-helpers (>= 1.29~)
+Breaks: guymager (<= 0.5.9-1), manpages-de (<< 4.9.1-2), manpages-fr (<< 4.9.1-2), manpages-fr-extra (<< 20151231+nmu1), manpages-pl (<< 1:4.9.1-2), open-vm-tools (<= 2011.12.20-562307-1)
+
+Package: libutf8proc2
+Architecture: amd64
+Version: 2.8.0-1
+APT-ID: 60522
+Multi-Arch: same
+Depends: libc6 (>= 2.4)
+
+Package: libpython3-stdlib
+Architecture: amd64
+Version: 3.11.2-1+b1
+APT-ID: 47841
+Multi-Arch: same
+Depends: libpython3.11-stdlib (>= 3.11.2-1~)
+
+Package: mount
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60542
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.34), libmount1 (>= 2.38), libselinux1 (>= 3.1~), libsmartcols1 (>= 2.33)
+
+Package: perl-base
+Architecture: amd64
+Version: 5.36.0-7
+APT-ID: 42744
+Essential: yes
+Status: installed
+Pre-Depends: libc6 (>= 2.35), libcrypt1 (>= 1:4.1.0), dpkg (>= 1.17.17)
+Conflicts: defoma (<< 0.11.12), doc-base (<< 0.10.3), mono-gac (<< 2.10.8.1-3), safe-rm (<< 0.8), update-inetd (<< 4.41)
+Breaks: amanda-common (<< 1:3.3.9-2), backuppc (<< 4.4.0-7~), bucardo (<< 5.5.0-1.1), debconf (<< 1.5.61), dh-haskell (<< 0.3), duck (<< 0.14.1), intltool (<< 0.51.0-4), kio-perldoc (<< 20.04.1-1), latexml (<< 0.8.4-2), libdevel-mat-dumper-perl (<< 0.42-3), libencode-arabic-perl (<< 14.2-2), libexception-class-perl (<< 1.42), libfile-path-perl (<< 2.18), libfile-spec-perl (<< 3.8400), libfile-temp-perl (<< 0.2311), libio-socket-ip-perl (<< 0.41), libmp3-tag-perl (<< 1.13-1.2), libsbuild-perl (<< 0.67.0-1), libscalar-list-utils-perl (<< 1:1.62), libsocket-perl (<< 2.033), libxsloader-perl (<< 0.31), mailagent (<< 1:3.1-81-2), perl (<< 5.36.0~), perl-modules (<< 5.36.0~), pod2pdf (<< 0.42-5.1), slic3r (<< 1.2.9+dfsg-6.1), slic3r-prusa (<< 1.37.0+dfsg-1.1), texinfo (<< 6.1.0.dfsg.1-8)
+Provides: libxsloader-perl (= 0.31), libsocket-perl (= 2.033), libscalar-list-utils-perl (= 1:1.62), libio-socket-ip-perl (= 0.41), libfile-temp-perl (= 0.2311), libfile-path-perl (= 2.18)
+
+Package: libpam0g
+Architecture: amd64
+Version: 1.5.2-6+deb12u1
+APT-ID: 42137
+Multi-Arch: same
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+
+Package: libbrotli1
+Architecture: amd64
+Version: 1.0.9-2+b6
+APT-ID: 2815
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.29)
+
+Package: python3.11-minimal
+Architecture: amd64
+Version: 3.11.2-6
+APT-ID: 47882
+Multi-Arch: allowed
+Depends: libpython3.11-minimal (= 3.11.2-6), libexpat1 (>= 2.1~beta3), zlib1g (>= 1:1.2.0)
+Pre-Depends: libc6 (>= 2.35)
+Conflicts: binfmt-support (<< 1.1.2)
+
+Package: libc-bin
+Architecture: amd64
+Version: 2.36-9+deb12u3
+APT-ID: 63511
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>> 2.36), libc6 (<< 2.37)
+Breaks: dh-lua (<< 27+nmu1~)
+
+Package: libattr1
+Architecture: amd64
+Version: 1:2.5.1-4
+APT-ID: 1453
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: libaudit1
+Architecture: amd64
+Version: 1:3.0.9-1
+APT-ID: 1485
+Multi-Arch: same
+Status: installed
+Depends: libaudit-common (>= 1:3.0.9-1), libc6 (>= 2.33), libcap-ng0 (>= 0.7.9)
+
+Package: libhogweed6
+Architecture: amd64
+Version: 3.8.1-2
+APT-ID: 38039
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libgmp10 (>= 2:6.2.1+dfsg1), libnettle8
+
+Package: dirmngr
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15164
+Multi-Arch: foreign
+Status: installed
+Depends: adduser, gpgconf (= 2.2.40-1.1), lsb-base (>= 3.2-13), init-system-helpers (>= 1.52), libassuan0 (>= 2.5.0), libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgnutls30 (>= 3.7.5), libgpg-error0 (>= 1.42), libksba8 (>= 1.3.5), libldap-2.5-0 (>= 2.5.4), libnpth0 (>= 0.90)
+Breaks: gnupg2 (<< 2.1.10-2)
+
+Package: libksba8
+Architecture: amd64
+Version: 1.6.3-2
+APT-ID: 29289
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14), libgpg-error0 (>= 1.46)
+
+Package: sq
+Architecture: amd64
+Version: 0.27.0-2+b1
+APT-ID: 54494
+Multi-Arch: allowed
+Status: installed
+Depends: libbz2-1.0, libc6 (>= 2.34), libgcc-s1 (>= 4.2), libgmp10 (>= 2:6.2.1+dfsg1), libhogweed6, libnettle8, libssl3 (>= 3.0.0)
+Breaks: ispell (<< 3.4.00-6.1~)
+
+Package: gnupg-utils
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15168
+Multi-Arch: foreign
+Status: installed
+Depends: libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libksba8 (>= 1.3.5), libreadline8 (>= 6.0), zlib1g (>= 1:1.1.4)
+Breaks: gnupg (<< 2.1.21-4), gnupg-agent (<< 2.1.21-4)
+
+Package: libblkid1
+Architecture: amd64
+Version: 2.38.1-5+b1
+APT-ID: 60534
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33)
+
+Package: libgnutls30
+Architecture: amd64
+Version: 3.7.9-2
+APT-ID: 15260
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.34), libgmp10 (>= 2:6.2.1+dfsg1), libhogweed6 (>= 3.6), libidn2-0 (>= 2.0.0), libnettle8 (>= 3.7~), libp11-kit0 (>= 0.23.18.1), libtasn1-6 (>= 4.14), libunistring2 (>= 0.9.7)
+
+Package: curl
+Architecture: amd64
+Version: 7.88.1-10+deb12u4
+APT-ID: 63384
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.34), libcurl4 (= 7.88.1-10+deb12u4), zlib1g (>= 1:1.1.4)
+
+Package: sysvinit-utils
+Architecture: amd64
+Version: 3.06-4
+APT-ID: 57976
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.34)
+Conflicts: lsb-base (<< 11.3~)
+Provides: lsb-base (= 11.1.0)
+
+Package: libcbor0.8
+Architecture: amd64
+Version: 0.8.0-2+b1
+APT-ID: 26279
+Multi-Arch: same
+Depends: libc6 (>= 2.14)
+
+Package: logsave
+Architecture: amd64
+Version: 1.47.0-2
+APT-ID: 7601
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.34)
+Breaks: e2fsprogs (<< 1.45.3-1)
+
+Package: gnupg-l10n
+Architecture: all
+Version: 2.2.40-1.1
+APT-ID: 15167
+Multi-Arch: foreign
+Status: installed
+Breaks: gnupg (<< 2.1.14-2~), gnupg2 (<< 2.1.14-2~)
+
+Package: gpg-wks-client
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15172
+Multi-Arch: foreign
+Status: installed
+Depends: dirmngr (= 2.2.40-1.1), gpg (= 2.2.40-1.1), gpg-agent (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42)
+
+Package: liblz4-1
+Architecture: amd64
+Version: 1.9.4-1
+APT-ID: 35305
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Breaks: liblz4-1a
+
+Package: perl-modules-5.36
+Architecture: all
+Version: 5.36.0-7
+APT-ID: 42747
+Multi-Arch: foreign
+Depends: perl-base (>= 5.36.0-1)
+Pre-Depends: dpkg (>= 1.17.17)
+Conflicts: perl-modules (<< 5.22.0~)
+Breaks: libansicolor-perl (<< 5.01), libarchive-tar-perl (<< 2.40), libattribute-handlers-perl (<< 1.02), libautodie-perl (<< 2.34), libcpan-meta-perl (<< 2.150010), libcpan-meta-requirements-perl (<< 2.140), libcpan-meta-yaml-perl (<< 0.018), libdigest-perl (<< 1.20), libexperimental-perl (<< 0.028), libextutils-cbuilder-perl (<< 0.280236), libextutils-command-perl (<< 7.64), libextutils-install-perl (<< 2.20), libextutils-parsexs-perl (<< 3.450000), libfile-spec-perl (<< 3.8400), libhttp-tiny-perl (<< 0.080), libi18n-langtags-perl (<< 0.45), libio-zlib-perl (<< 1.11), libjson-pp-perl (<< 4.07000), liblocale-maketext-perl (<< 1.31), liblocale-maketext-simple-perl (<< 0.21.01), libmath-bigint-perl (<< 1.999830), libmath-complex-perl (<< 1.5902), libmodule-corelist-perl (<< 5.20220520), libmodule-load-conditional-perl (<< 0.74), libmodule-load-perl (<< 0.36), libmodule-metadata-perl (<< 1.000037), libnet-perl (<< 1:3.14), libnet-ping-perl (<< 2.74), libparams-check-perl (<< 0.38), libparent-perl (<< 0.238), libparse-cpan-meta-perl (<< 2.150010), libperl-ostype-perl (<< 1.010), libpod-escapes-perl (<< 1.07), libpod-simple-perl (<< 3.43), libtest-harness-perl (<< 3.44), libtest-simple-perl (<< 1.302190), libtest-tester-perl (<< 1.302190), libtest-use-ok-perl (<< 1.302190), libtext-balanced-perl (<< 2.04), libthread-queue-perl (<< 3.14), libtime-local-perl (<< 1.3000), libunicode-collate-perl (<< 1.31), libversion-perl (<< 1:0.9929), maildirsync (<< 1.2-2.1), perl (<< 5.36.0~), podlators-perl (<< 4.14)
+Provides: perl-modules
+
+Package: libncursesw6
+Architecture: amd64
+Version: 6.4-4
+APT-ID: 37846
+Multi-Arch: same
+Status: installed
+Depends: libtinfo6 (= 6.4-4), libc6 (>= 2.34)
+
+Package: ncurses-bin
+Architecture: amd64
+Version: 6.4-4
+APT-ID: 37851
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.34), libtinfo6 (>= 6.3)
+
+Package: libbz2-1.0
+Architecture: amd64
+Version: 1.0.8-5+b1
+APT-ID: 3013
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: zlib1g
+Architecture: amd64
+Version: 1:1.2.13.dfsg-1
+APT-ID: 63221
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.14)
+Conflicts: zlib1 (<= 1:1.0.4-7)
+Breaks: libxml2 (<< 2.7.6.dfsg-2), texlive-binaries (<< 2009-12)
+
+Package: gcc-12-base
+Architecture: amd64
+Version: 12.2.0-14
+APT-ID: 12005
+Multi-Arch: same
+Status: installed
+Breaks: gnat (<< 7)
+
+Package: libmd0
+Architecture: amd64
+Version: 1.0.4-2
+APT-ID: 29755
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.33)
+
+Package: git-man
+Architecture: all
+Version: 1:2.39.2-1.1
+APT-ID: 14324
+Multi-Arch: foreign
+
+Package: dash
+Architecture: amd64
+Version: 0.5.12-2
+APT-ID: 5632
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: debianutils (>= 5.6-0.1), dpkg (>= 1.19.1)
+Pre-Depends: libc6 (>= 2.34)
+
+Package: libtirpc3
+Architecture: amd64
+Version: 1.3.3+ds-1
+APT-ID: 33138
+Multi-Arch: same
+Depends: libc6 (>= 2.34), libgssapi-krb5-2 (>= 1.17), libtirpc-common (>= 1.3.3+ds-1)
+Breaks: nfs-common (<< 1:1.2.8-7), nfs-kernel-server (<< 1:1.2.8-7)
+
+Package: subversion
+Architecture: amd64
+Version: 1.14.2-4+b2
+APT-ID: 57357
+Depends: libsvn1 (= 1.14.2-4+b2), libapr1 (>= 1.5.0), libaprutil1 (>= 1.3.2+dfsg), libc6 (>= 2.34)
+
+Package: libedit2
+Architecture: amd64
+Version: 3.1-20221030-2
+APT-ID: 27469
+Multi-Arch: same
+Depends: libbsd0 (>= 0.1.3), libc6 (>= 2.33), libtinfo6 (>= 6)
+
+Package: bsdutils
+Architecture: amd64
+Version: 1:2.38.1-5+b1
+APT-ID: 60530
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Pre-Depends: libc6 (>= 2.34), libsystemd0
+
+Package: gpgconf
+Architecture: amd64
+Version: 2.2.40-1.1
+APT-ID: 15174
+Multi-Arch: foreign
+Status: installed
+Depends: libassuan0 (>= 2.5.0), libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0)
+Breaks: gnupg (<< 2.1.21-4), gnupg-agent (<< 2.1.21-4)
+
+Package: libss2
+Architecture: amd64
+Version: 1.47.0-2
+APT-ID: 7600
+Multi-Arch: same
+Status: installed
+Depends: libcom-err2, libc6 (>= 2.34)
+
+Package: libgdbm6
+Architecture: amd64
+Version: 1.23-3
+APT-ID: 13790
+Multi-Arch: same
+Depends: libc6 (>= 2.34)
+
+Package: libpsl5
+Architecture: amd64
+Version: 0.21.2-1
+APT-ID: 31281
+Multi-Arch: same
+Status: installed
+Depends: libidn2-0 (>= 0.16), libc6 (>= 2.33), libunistring2 (>= 0.9.7)
+
+Package: libstdc++6
+Architecture: amd64
+Version: 12.2.0-14
+APT-ID: 12075
+Multi-Arch: same
+Status: installed
+Depends: gcc-12-base (= 12.2.0-14), libc6 (>= 2.36), libgcc-s1 (>= 4.2)
+Conflicts: scim (<< 1.4.2-1)
+Breaks: gcc-4.3 (<< 4.3.6-1), gcc-4.4 (<< 4.4.6-4), gcc-4.5 (<< 4.5.3-2)
+
+Package: libdebconfclient0
+Architecture: amd64
+Version: 0.270
+APT-ID: 3504
+Multi-Arch: same
+Status: installed
+Depends: libc6 (>= 2.4)
+
+Package: openssl
+Architecture: amd64
+Version: 3.0.11-1~deb12u2
+APT-ID: 63668
+Multi-Arch: foreign
+Status: installed
+Depends: libc6 (>= 2.34), libssl3 (>= 3.0.9)
+
+Package: e2fsprogs
+Architecture: amd64
+Version: 1.47.0-2
+APT-ID: 7594
+Multi-Arch: foreign
+Status: installed
+Depends: logsave
+Pre-Depends: libblkid1 (>= 2.36), libc6 (>= 2.34), libcom-err2 (>= 1.43.9), libext2fs2 (= 1.47.0-2), libss2 (>= 1.38), libuuid1 (>= 2.16)
+
+Package: passwd
+Architecture: amd64
+Version: 1:4.13+dfsg1-1+b1
+APT-ID: 55728
+Multi-Arch: foreign
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.36), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~), libsemanage2 (>= 2.0.32), libpam-modules
+
+Package: libgcc-s1
+Architecture: amd64
+Version: 12.2.0-14
+APT-ID: 12051
+Multi-Arch: same
+Status: installed
+Depends: gcc-12-base (= 12.2.0-14), libc6 (>= 2.35)
+
