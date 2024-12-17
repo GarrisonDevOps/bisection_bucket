@@ -4,7 +4,7 @@ from typing import Union, Callable, Optional, Tuple, Dict, NamedTuple, Any, over
 from typing_extensions import TypedDict, Unpack, NotRequired
 
 from Cryptodome.Math.Numbers import Integer
-from Cryptodome.IO._PBES import ProtParams
+from Cryptodome.IO._PBES import ProtParam
 
 from ._point import EccPoint as EccPoint
 from ._point import EccXPoint as EccXPoint
