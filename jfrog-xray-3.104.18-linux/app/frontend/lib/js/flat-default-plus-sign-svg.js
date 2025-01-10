@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["flat-default-plus-sign-svg"],{"3c6e":function(o,r,t){"use strict";t.r(r),r["default"]='<symbol viewBox="0 0 1024 1024" id="flat/default/plus-sign"><path d="M1024 477.867h-477.867v-477.867h-68.267v477.867h-477.867v68.267h477.867v477.867h68.267v-477.867h477.867z" fill="currentColor"></path></symbol>'}}]);
+//# sourceMappingURL=flat-default-plus-sign-svg.js.map?h=f8598109bca0991a2bb6

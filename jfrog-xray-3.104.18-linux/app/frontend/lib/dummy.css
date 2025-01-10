@@ -1,0 +1,35 @@
+[data-v-108d5a62] .el-date-editor .el-range-separator {
+    width: 40px
+}
+
+[data-v-108d5a62] .modal-body {
+    min-height: 300px
+}
+
+.el-date-editor[data-v-108d5a62] {
+    margin-top: 25px;
+    margin-left: 13px
+}
+
+.el-card[data-v-640c167c] {
+    margin: 10px 0;
+    width: 65%;
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin-left: 10px;
+    border-radius: 0
+}
+
+.el-card .icon-clear[data-v-640c167c] {
+    position: absolute;
+    right: -6px;
+    top: -10px;
+    font-size: 17px;
+    background: #fff;
+    cursor: pointer
+}
+
+[data-v-640c167c] .card.stretch.card-pole-pad.card-side-pad {
+    padding-bottom: 60px
+}

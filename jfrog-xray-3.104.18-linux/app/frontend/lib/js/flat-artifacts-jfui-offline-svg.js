@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["flat-artifacts-jfui-offline-svg"],{"0e8a":function(f,o,i){"use strict";i.r(o),o["default"]='<symbol viewBox="0 0 32 32" id="flat/artifacts/jfui-offline"><path d="M19.733 14.667c0 1.988-1.612 3.6-3.6 3.6s-3.6-1.612-3.6-3.6c0-1.988 1.612-3.6 3.6-3.6s3.6 1.612 3.6 3.6z" fill="currentColor"></path></symbol>'}}]);
+//# sourceMappingURL=flat-artifacts-jfui-offline-svg.js.map?h=d62eeaa577f1428ebb24

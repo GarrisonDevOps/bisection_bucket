@@ -1,0 +1,30 @@
+---
+- name: Copy file to another localtion
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /etc/rancher/k3s/k3s_config.yaml
+    remote_src: yes
+    force: true
+  become: true
+  when: ansible_hostname == hostvars[groups['master'][0]]['ansible_hostname']
+
+- name: Replace server ip in kube config with first master ip
+  replace:
+    path: /etc/rancher/k3s/k3s_config.yaml
+    regexp: '127.0.0.1'
+    replace: '{{ kubeapiserver_ip | trim }}'
+  become: true
+  when: ansible_hostname == hostvars[groups['master'][0]]['ansible_hostname']
+
+- name: Download file from remote server
+  fetch:
+    src: /etc/rancher/k3s/k3s_config.yaml
+    dest: "{{ playbook_dir }}/k3s_config.yaml"
+    flat: yes
+  become: true
+  when: ansible_hostname == hostvars[groups['master'][0]]['ansible_hostname']
+
+- name: Remove tmp directory used for manifests
+  file:
+    path: /tmp/k3s
+    state: absent

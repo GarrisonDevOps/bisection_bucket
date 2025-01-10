@@ -1,0 +1,4 @@
+---
+# K3s kube config file name
+metal_lb_available_timeout: 120s
+k3s_kube_config_file_name: k3s_config.yaml

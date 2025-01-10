@@ -1,0 +1,49 @@
+migration:
+  product: XRAY
+  propertyFiles:
+    files:
+      haNodeProperty
+    haNodeProperty:
+      # Note $JF_ROOT_DATA_DIR/var will be prepended to the filePath value
+      filePath: work/old/server/ha
+      fileName: ha-node.properties
+      map:
+      # map should be in format example: systemYamlPath=property
+        shared.node.id=name
+  yaml:
+    files: 
+      xrayConfigYaml
+    xrayConfigYaml:
+      # Note $JF_ROOT_DATA_DIR/var will be prepended to the filePath value
+      filePath: work/old/server/config
+      fileName: xray_config.yaml
+      # map should be in format example: systemYamlPath=key in config file
+      map:
+        server.ver=ver
+        server.port=XrayServerPort
+        shared.rabbitMq.url=mqBaseUrl
+        shared.mongo.url=mongoUrl
+        shared.mongoCertFilePath=mongoCertFilePath
+        shared.mongoKeyFilePath=mongoKeyFilePath
+        shared.mongoCaCertFilePath=mongoCaCertFilePath
+        shared.mongoSsl=mongoSsl
+        shared.clientCaCertFilePath=clientCaCertFilePath
+        shared.clientCertFilePath=clientCertFilePath
+        shared.clientCertKeyFilePath=clientCertKeyFilePath
+        shared.database.url=postgresqlUrl
+        persist.maxOpenConn=maxOpenConnPersist
+        persist.maxIdleConnt=maxIdleConnPersist
+        persist.maxIdleConnTimeout=maxIdleConnTimeoutPersist
+        persist.port=XrayPersistMsPort
+        analysis.maxOpenConn=maxOpenConnAnalysis
+        analysis.maxIdleConn=maxIdleConnAnalysis
+        analysis.maxIdleConnTimeout=maxIdleConnTimeoutAnalysis
+        analysis.port=XrayAnalysisMsPort
+        indexer.maxOpenConn=maxOpenConnIndexer
+        indexer.maxIdleConn=maxIdleConnIndexer
+        indexer.maxIdleConnTimeout=maxIdleConnTimeoutIndexer
+        indexer.port=XrayIndexerMsPort
+  erlangCookie: 
+  # Note : $JF_ROOT_DATA_DIR will be prepended to the filePath
+    filePath: var/data/rabbitmq
+    yamlPath: shared.rabbitMq.erlangCookie.value

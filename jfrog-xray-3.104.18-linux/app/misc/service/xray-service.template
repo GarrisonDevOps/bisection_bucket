@@ -1,0 +1,87 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          __SERVICE__
+# Required-Start:    $local_fs $network $named $time $syslog
+# Required-Stop:     $local_fs $network $named $time $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       __SERVICE__
+### END INIT INFO
+
+JF_PRODUCT_HOME=__JF_PRODUCT_HOME__
+PRODUCT_NAME=__SERVICE__
+SOURCE=${JF_PRODUCT_HOME}/app/bin/${PRODUCT_NAME}.default
+MANAGE_SCRIPT=${JF_PRODUCT_HOME}/app/bin/${PRODUCT_NAME}.sh
+
+export PATH="${PATH}:/sbin:/usr/sbin:/bin:/usr/bin"
+
+# Exit code constants
+EXIT_CODE_SUCCESS=0
+EXIT_CODE_FAILURE=1
+
+errorExit() {
+    echo; echo -e "\033[31mERROR:\033[0m $1"; echo
+    exit ${EXIT_CODE_FAILURE}
+}
+
+. ${JF_PRODUCT_HOME}/app/bin/${PRODUCT_NAME}.default || { EXIT_CODE_FAILURE=1; errorExit "Could not load ${JF_PRODUCT_HOME}/app/bin/${PRODUCT_NAME}.default"; }
+. ${JF_PRODUCT_HOME}/app/bin/installerCommon.sh      || { EXIT_CODE_FAILURE=1; errorExit "Could not load ${JF_PRODUCT_HOME}/app/bin/installerCommon.sh"; }
+. ${JF_PRODUCT_HOME}/app/bin/systemYamlHelper.sh     || { EXIT_CODE_FAILURE=1; errorExit "Could not load ${JF_PRODUCT_HOME}/app/bin/systemYamlHelper.sh"; }
+. ${JF_PRODUCT_HOME}/app/bin/xrayCommon.sh           || { EXIT_CODE_FAILURE=1; errorExit "Could not load ${JF_PRODUCT_HOME}/app/bin/xrayCommon.sh"; }
+
+
+checkFileExist () {
+    if [[ -f "${MANAGE_SCRIPT}" ]]; then
+        RETVAL=${EXIT_CODE_SUCCESS}
+    else
+        RETVAL=${EXIT_CODE_FAILURE}
+        errorExit "File [${MANAGE_SCRIPT}] not found to manage services"
+    fi
+}
+
+start () {
+    su -c "${MANAGE_SCRIPT} start" "${JF_XRAY_USER}" \
+        || RETVAL=${EXIT_CODE_FAILURE}
+}
+
+restart () {
+    su -c "${MANAGE_SCRIPT} restart" "${JF_XRAY_USER}" \
+        || RETVAL=${EXIT_CODE_FAILURE}
+} 
+
+stop () {
+    su -c "${MANAGE_SCRIPT} stop" "${JF_XRAY_USER}" \
+        || RETVAL=${EXIT_CODE_FAILURE}
+}
+
+status () {
+    su -c "${MANAGE_SCRIPT} status" "${JF_XRAY_USER}" \
+        || RETVAL=${EXIT_CODE_FAILURE}
+}
+
+main () {
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status
+    ;;
+  restart)
+    restart
+    ;;
+  *)
+    errorExit "Usage: service ${PRODUCT_NAME} {start|stop|status|restart}"
+    RETVAL=${EXIT_CODE_FAILURE}
+esac
+}
+
+###### MAIN #######
+checkFileExist
+setUserGroup
+main $1
+
+exit ${RETVAL:-$EXIT_CODE_SUCCESS}

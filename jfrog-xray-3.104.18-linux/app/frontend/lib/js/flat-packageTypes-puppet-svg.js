@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["flat-packageTypes-puppet-svg"],{"7d79":function(o,p,r){"use strict";r.r(p),p["default"]='<symbol viewBox="0 0 32 32" id="flat/packageTypes/puppet"><path d="M28 22v-12h-10.6l-1.4-1.2v-8.8h-10v10h8.4l1.6 1.6v8.8l-1.4 1.6h-8.6v10h10v-8.8l1.4-1.2h10.6zM8 2h6v6h-6v-6zM14 30h-6v-6h6v6z" fill="currentColor"></path></symbol>'}}]);
+//# sourceMappingURL=flat-packageTypes-puppet-svg.js.map?h=56e152c8078e41ec9048

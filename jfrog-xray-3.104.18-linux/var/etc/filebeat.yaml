@@ -1,0 +1,275 @@
+path.data: ${JF_PRODUCT_HOME}/var/data/filebeat
+filebeat.inputs:
+  - type: log
+    enabled: ${METRICS_LOG_ENABLED:false}
+    paths:
+      - ${JF_PRODUCT_HOME}/var/log/xray-request.log
+    processors:
+      - dissect:
+          tokenizer: "%{timestamp}|%{req_trace_id}|%{req_remote_address}|%{req_user}|%{req_type}|%{req_url}|%{res_status}|%{req_content_length}|%{res_content_length}|%{res_duration}|%{req_user_agent}"
+          target_prefix: ""
+      - if:
+          or:
+            - equals.req_remote_address: "127.0.0.1"
+            - contains.req_user_agent: "JFrog-Router"
+        then:
+          - add_fields:
+              target: ''
+              fields:
+                req_call_type: "internal"
+        else:
+          - add_fields:
+              target: ''
+              fields:
+                req_call_type: "external"
+    fields:
+      service_id: "${XRAY_SERVICE_ID}"
+      node_id: "${NODE_ID}"
+      record_type: "jfxr"
+    fields_under_root: true
+    clean_inactive: 0
+  - type: log
+    enabled: ${METRICS_LOG_ENABLED:false}
+    paths:
+      - ${JF_PRODUCT_HOME}/var/log/observability-metrics.log
+    include_lines: ['^sys_']
+    processors:
+      - dissect:
+          tokenizer: "%{metric_name} %{metric_value} %{timestamp}"
+          target_prefix: ""
+    fields:
+      service_id: "${XRAY_SERVICE_ID}"
+      node_id: "${NODE_ID}"
+      record_type: "system_metrics"
+      micro_service: "jfxr"
+    fields_under_root: true
+    clean_inactive: 0
+  - type: log
+    enabled: ${METRICS_LOG_ENABLED:false}
+    paths:
+      - ${JF_PRODUCT_HOME}/var/log/xray-server-metrics.log
+    include_lines: ['^db_connection', '^queue_messages', '^go_routines_total', '^jfxr_data_components_total','^jfxr_data_artifacts_total','^jfxr_performance_server_up_time_seconds', '^app_disk', '^jfxr_db_sync_running_total']
+    processors:
+      - dissect:
+          when:
+            contains:
+              message: "queue_messages"
+          tokenizer: "%{metric_name}{queue_name=\"%{queue_name}\"} %{metric_value} %{timestamp}"
+          target_prefix: ""
+      - dissect:
+          when:
+            contains:
+              message: "jfxr_data_components_total"
+          tokenizer: "%{metric_name}{package_type=\"%{package_type}\"} %{metric_value} %{timestamp}"
+          target_prefix: ""
+      - dissect:
+          when:
+            contains:
+              message: "jfxr_data_artifacts_total"
+          tokenizer: "%{metric_name}{package_type=\"%{package_type}\"} %{metric_value} %{timestamp}"
+          target_prefix: ""
+      - dissect:
+          tokenizer: "%{metric_name} %{metric_value} %{timestamp}"
+          target_prefix: ""
+      - add_fields:
+          when:
+            contains:
+              message: "db_connection"
+          target: ""
+          fields:
+            record_type: "xray_db_connections"
+      - add_fields:
+          when:
+            contains:
+              message: "queue_messages"
+          target: ""
+          fields:
+            record_type: "xray_queue_messages"
+      - add_fields:
+          when:
+            contains:
+              message: "go_routines_total"
+          target: ""
+          fields:
+            record_type: "go_routines"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_data_artifacts_total"
+          target: ""
+          fields:
+            record_type: "jfxr_data_artifacts_total"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_data_components_total"
+          target: ""
+          fields:
+            record_type: "jfxr_data_components_total"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_server_up_time_seconds"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_server_up_time_seconds"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_db_sync_running_total"
+          target: ""
+          fields:
+            record_type: "jfxr_db_sync_running_total"
+      - add_fields:
+          when:
+            contains:
+              message: "app_disk"
+          target: ""
+          fields:
+            record_type: "system_metrics"
+    fields:
+      service_id: "${XRAY_SERVICE_ID}"
+      node_id: "${NODE_ID}"
+      micro_service: "jfxr"
+    fields_under_root: true
+    clean_inactive: 0
+  - type: log
+    enabled: ${METRICS_LOG_ENABLED:false}
+    paths:
+      - ${JF_PRODUCT_HOME}/var/log/xray-persist-metrics.log
+      - ${JF_PRODUCT_HOME}/var/log/xray-indexer-metrics.log
+      - ${JF_PRODUCT_HOME}/var/log/xray-analysis-metrics.log
+    include_lines: ['^db_connection', '^go_routines_total', '^jfxr_performance_scanned_artifacts_total', '^jfxr_performance_scanned_artifacts_duration_seconds', '^jfxr_performance_indexed_artifacts_total', '^jfxr_performance_indexed_artifacts_duration_seconds', '^jfxr_performance_downloaded_artifacts_bytes', '^jfxr_performance_downloaded_artifacts_duration_seconds', '^app_disk']
+    processors:
+      - dissect:
+          tokenizer: "%{metric_name} %{metric_value} %{timestamp}"
+          target_prefix: ""
+      - add_fields:
+          when.contains.log.file.path: "persist"
+          target: ""
+          fields:
+            micro_service: "jfxps"
+            record_type: "xray_db_connections"
+      - add_fields:
+          when.contains.log.file.path: "indexer"
+          target: ""
+          fields:
+            micro_service: "jfxid"
+            record_type: "xray_db_connections"
+      - add_fields:
+          when.contains.log.file.path: "analysis"
+          target: ""
+          fields:
+            micro_service: "jfxan"
+            record_type: "xray_db_connections"
+      - add_fields:
+          when:
+            contains:
+              message: "go_routines_total"
+          target: ""
+          fields:
+            record_type: "go_routines"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_scanned_artifacts_total"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_scanned_artifacts_total"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_scanned_artifacts_duration_seconds"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_scanned_artifacts_duration_seconds"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_indexed_artifacts_total"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_indexed_artifacts_total"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_indexed_artifacts_duration_seconds"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_indexed_artifacts_duration_seconds"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_downloaded_artifacts_bytes"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_downloaded_artifacts_bytes"
+      - add_fields:
+          when:
+            contains:
+              message: "jfxr_performance_downloaded_artifacts_duration_seconds"
+          target: ""
+          fields:
+            record_type: "jfxr_performance_downloaded_artifacts_duration_seconds"
+      - add_fields:
+          when:
+            contains:
+              message: "app_disk"
+          target: ""
+          fields:
+            record_type: "system_metrics"
+    fields:
+      service_id: "${XRAY_SERVICE_ID}"
+      node_id: "${NODE_ID}"
+    fields_under_root: true
+    clean_inactive: 0
+setup.template.enabled: false
+setup.ilm.enabled: false
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_URL}"]
+  username: "${ELASTICSEARCH_USERNAME}"
+  password: "${ELASTICSEARCH_PASSWORD}"
+  ssl.verification_mode: ${SSL_VERIFICATION_MODE:none}
+  pipeline: insight_ingest_pipeline
+  indices:
+    - index: "active_jfxr_metrics_data"
+      when.or:
+        - equals:
+            record_type: "xray_db_connections"
+        - equals:
+            record_type: "xray_queue_messages"
+        - equals:
+            record_type: "go_routines"
+        - equals:
+            record_type: "jfxr_data_artifacts_total"
+        - equals:
+            record_type: "jfxr_data_components_total"
+        - equals:
+            record_type: "jfxr_performance_server_up_time_seconds"
+        - equals:
+            record_type: "jfxr_performance_scanned_artifacts_total"
+        - equals:
+            record_type: "jfxr_performance_scanned_artifacts_duration_seconds"
+        - equals:
+            record_type: "jfxr_performance_indexed_artifacts_total"
+        - equals:
+            record_type: "jfxr_performance_indexed_artifacts_duration_seconds"
+        - equals:
+            record_type: "jfxr_performance_downloaded_artifacts_bytes"
+        - equals:
+            record_type: "jfxr_performance_downloaded_artifacts_duration_seconds"
+        - equals:
+            record_type: "jfxr_db_sync_running_total"
+        - equals:
+            record_type: "system_metrics"
+    - index: "active_jfxr_request_data"
+      when.or:
+        - equals:
+            record_type: "jfxr"
+logging.level: ${FILEBEAT_LOG_LEVEL:info}
+logging.to_files: ${FILEBEAT_LOG_TOFILES:false}
+logging.files:
+  path: ${FILEBEAT_LOG_PATH:${JF_PRODUCT_HOME}/var/log}
+  name: filebeat.log
+  keepfiles: ${FILEBEAT_LOG_KEEPFILES:2}
+  permissions: 0644

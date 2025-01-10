@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["colorful-green-circle-with-arrow-svg"],{"21ec":function(r,o,i){"use strict";i.r(o),o["default"]='<symbol viewBox="0 0 32 32" id="colorful/green-circle-with-arrow">    <circle cx="16" cy="16" r="16" fill="#4EBC52"></circle>    <path d="M9 16H23M23 16L16 9M23 16L16 23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>'}}]);
+//# sourceMappingURL=colorful-green-circle-with-arrow-svg.js.map?h=9cc845cebc08e342eb25

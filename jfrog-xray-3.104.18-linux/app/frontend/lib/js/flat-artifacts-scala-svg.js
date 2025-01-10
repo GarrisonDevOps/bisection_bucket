@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["flat-artifacts-scala-svg"],{1598:function(l,a,r){"use strict";r.r(a),a["default"]='<symbol viewBox="0 0 32 32" id="flat/artifacts/scala"><path d="M28 2l-24 5.188v4.813h16.188l-16.188 4v6h16.188l-16.188 2.813v5.188l24-5.188v-4.813h-16.188l16.188-4v-6h-16.188l16.188-2.813z" fill="currentColor"></path></symbol>'}}]);
+//# sourceMappingURL=flat-artifacts-scala-svg.js.map?h=fe29a40dfb14404d5250

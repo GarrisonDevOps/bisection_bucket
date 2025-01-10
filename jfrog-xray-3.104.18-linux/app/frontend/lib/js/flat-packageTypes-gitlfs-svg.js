@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["flat-packageTypes-gitlfs-svg"],{"079a":function(l,o,r){"use strict";r.r(o),o["default"]='<symbol viewBox="0 0 32 32" id="flat/packageTypes/gitlfs"><path d="M24.375 7.375l-12.375 7.813v4.813l-4-1.813v-5l12.813-7.813-4.813-2.75-14 8v10.75l14 8 14-8v-10.75z" fill="currentColor"></path></symbol>'}}]);
+//# sourceMappingURL=flat-packageTypes-gitlfs-svg.js.map?h=3b6c56ffe221b4fdc8e8

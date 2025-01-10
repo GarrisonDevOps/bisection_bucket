@@ -1,0 +1,17 @@
+[Unit]
+Description=JFrog Xray service
+After=network.target
+
+[Service]
+Type=forking
+GuessMainPID=no
+Restart=always
+RestartSec=120
+TimeoutStartSec=300
+PIDFile=/var/run/xray.pid
+ExecStart=__JF_PRODUCT_HOME__/app/bin/xrayManage.sh start
+ExecStop=__JF_PRODUCT_HOME__/app/bin/xrayManage.sh stop
+
+[Install]
+WantedBy=multi-user.target
+Alias=xray.service

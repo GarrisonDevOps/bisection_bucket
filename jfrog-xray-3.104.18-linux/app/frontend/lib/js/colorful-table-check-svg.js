@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["colorful-table-check-svg"],{"56c6":function(o,l,i){"use strict";i.r(l),l["default"]='<symbol viewBox="0 0 100 100" id="colorful/table/check">    <circle cx="50" cy="50" r="50" fill="#40BE46" fill-opacity="0.1"></circle>    <polyline points="20 55 40 75 76 28" fill="none" stroke="#40BE46" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></polyline></symbol>'}}]);
+//# sourceMappingURL=colorful-table-check-svg.js.map?h=22cf398e5edeaead74b0

@@ -1,0 +1,11 @@
+#!/bin/bash
+##########################################################################################################################
+#
+#   NOTE : THIS FILE SHOULD NOT BE EDITED, any modifications should come from <JF_PRODUCT_HOME>/var/etc/system.yaml
+#
+##########################################################################################################################
+
+export JF_PRODUCT_HOME=${JF_PRODUCT_HOME:-/opt/jfrog/xray}
+
+export XRAYDIST=standalone
+

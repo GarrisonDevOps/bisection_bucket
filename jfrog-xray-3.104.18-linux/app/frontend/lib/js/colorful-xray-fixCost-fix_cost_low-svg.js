@@ -1,0 +1,2 @@
+(window["@jfrog/ui-platform-microfrontend-xray"]=window["@jfrog/ui-platform-microfrontend-xray"]||[]).push([["colorful-xray-fixCost-fix_cost_low-svg"],{a2f9:function(c,r,o){"use strict";o.r(r),r["default"]='<symbol viewBox="0 0 21 5" id="colorful/xray/fixCost/fix_cost_low"><circle cx="2.5" cy="2.5" r="2.5" fill="#556274"></circle><circle cx="10.5" cy="2.5" r="2.5" fill="#F1F3F8"></circle><circle cx="18.5" cy="2.5" r="2.5" fill="#F1F3F8"></circle></symbol>'}}]);
+//# sourceMappingURL=colorful-xray-fixCost-fix_cost_low-svg.js.map?h=242b03281a41d600eea7
