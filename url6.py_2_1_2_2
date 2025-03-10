@@ -1,0 +1,6 @@
+        return url
+
+    def __str__(self):
+        return self.url
+
+

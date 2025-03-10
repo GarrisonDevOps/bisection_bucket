@@ -1,0 +1,17 @@
+SCHEME_RE = re.compile(r"^(?:[a-zA-Z][a-zA-Z0-9+-]*:|/)")
+URI_RE = re.compile(
+    r"^(?:([a-zA-Z][a-zA-Z0-9+.-]*):)?"
+    r"(?://([^\\/?#]*))?"
+    r"([^?#]*)"
+    r"(?:\?([^#]*))?"
+    r"(?:#(.*))?$",
+    re.UNICODE | re.DOTALL,
+)
+
+IPV4_PAT = r"(?:[0-9]{1,3}\.){3}[0-9]{1,3}"
+HEX_PAT = "[0-9A-Fa-f]{1,4}"
+LS32_PAT = "(?:{hex}:{hex}|{ipv4})".format(hex=HEX_PAT, ipv4=IPV4_PAT)
+_subs = {"hex": HEX_PAT, "ls32": LS32_PAT}
+_variations = [
+    #                            6( h16 ":" ) ls32
+    "(?:%(hex)s:){6}%(ls32)s",

@@ -1,0 +1,6 @@
+
+    except (ValueError, AttributeError):
+        return six.raise_from(LocationParseError(source_url), None)
+
+    # For the sake of backwards compatibility we put empty
+    # string values for path if there are any defined values

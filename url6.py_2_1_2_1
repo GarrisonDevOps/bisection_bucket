@@ -1,0 +1,6 @@
+            url += path
+        if query is not None:
+            url += u"?" + query
+        if fragment is not None:
+            url += u"#" + fragment
+

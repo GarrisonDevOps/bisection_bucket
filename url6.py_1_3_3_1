@@ -1,0 +1,5 @@
+    @property
+    def url(self):
+        """
+        Convert self into a url
+

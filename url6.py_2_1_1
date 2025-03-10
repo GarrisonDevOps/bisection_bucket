@@ -1,0 +1,17 @@
+            >>> Url('http', 'username:password', 'host.com', 80,
+            ... '/path', 'query', 'fragment').url
+            'http://username:password@host.com:80/path?query#fragment'
+        """
+        scheme, auth, host, port, path, query, fragment = self
+        url = u""
+
+        # We use "is not None" we want things to happen with empty strings (or 0 port)
+        if scheme is not None:
+            url += scheme + u"://"
+        if auth is not None:
+            url += auth + u"@"
+        if host is not None:
+            url += host
+        if port is not None:
+            url += u":" + str(port)
+        if path is not None:

@@ -1,0 +1,15 @@
+    path, query = TARGET_RE.match(target).groups()
+    target = _encode_invalid_chars(path, PATH_CHARS)
+    query = _encode_invalid_chars(query, QUERY_CHARS)
+    if query is not None:
+        target += "?" + query
+    return target
+
+
+def parse_url(url):
+    """
+    Given a url, return a parsed :class:`.Url` namedtuple. Best-effort is
+    performed to parse incomplete urls. Fields not provided will be None.
+    This parser is RFC 3986 and RFC 6874 compliant.
+
+    The parser logic and helper functions are based heavily on

@@ -1,0 +1,5 @@
+QUERY_CHARS = FRAGMENT_CHARS = PATH_CHARS | {"?"}
+
+
+class Url(namedtuple("Url", url_attrs)):
+    """

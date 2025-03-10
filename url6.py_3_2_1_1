@@ -1,0 +1,6 @@
+    work done in the ``rfc3986`` module.
+
+    :param str url: URL to parse into a :class:`.Url` namedtuple.
+
+    Partly backwards-compatible with :mod:`urlparse`.
+

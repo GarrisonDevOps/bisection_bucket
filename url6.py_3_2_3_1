@@ -1,0 +1,5 @@
+            if auth and normalize_uri:
+                auth = _encode_invalid_chars(auth, USERINFO_CHARS)
+            if port == "":
+                port = None
+        else:

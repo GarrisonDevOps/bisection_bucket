@@ -1,0 +1,5 @@
+
+    Scales linearly with number of delims. Not ideal for large number of delims.
+    """
+    min_idx = None
+    min_delim = None

@@ -1,0 +1,5 @@
+        if host is not None:
+            url += host
+        if port is not None:
+            url += u":" + str(port)
+        if path is not None:

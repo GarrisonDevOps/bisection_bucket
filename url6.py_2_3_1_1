@@ -1,0 +1,6 @@
+def _remove_path_dot_segments(path):
+    # See http://tools.ietf.org/html/rfc3986#section-5.2.4 for pseudo-code
+    segments = path.split("/")  # Turn the path into a list of segments
+    output = []  # Initialize the variable to use to store output
+
+    for segment in segments:

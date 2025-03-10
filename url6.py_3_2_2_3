@@ -1,0 +1,5 @@
+
+        if authority:
+            auth, _, host_port = authority.rpartition("@")
+            auth = auth or None
+            host, port = _HOST_PORT_RE.match(host_port).groups()

@@ -1,0 +1,6 @@
+
+    # If the path starts with '/' and the output is empty or the first string
+    # is non-empty
+    if path.startswith("/") and (not output or output[0]):
+        output.insert(0, "")
+

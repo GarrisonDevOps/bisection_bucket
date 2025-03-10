@@ -1,0 +1,5 @@
+NORMALIZABLE_SCHEMES = ("http", "https", None)
+
+# Almost all of these patterns were derived from the
+# 'rfc3986' module: https://github.com/python-hyper/rfc3986
+PERCENT_RE = re.compile(r"%[a-fA-F0-9]{2}")

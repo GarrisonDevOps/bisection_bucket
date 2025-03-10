@@ -1,0 +1,5 @@
+                if match:
+                    start, end = match.span(1)
+                    zone_id = host[start:end]
+
+                    if zone_id.startswith("%25") and zone_id != "%25":

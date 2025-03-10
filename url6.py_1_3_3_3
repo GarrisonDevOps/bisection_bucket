@@ -1,0 +1,5 @@
+        Example: ::
+
+            >>> U = parse_url('http://google.com/mail/')
+            >>> U.url
+            'http://google.com/mail/'

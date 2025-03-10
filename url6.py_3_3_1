@@ -1,0 +1,16 @@
+            path = _remove_path_dot_segments(path)
+            path = _encode_invalid_chars(path, PATH_CHARS)
+        if normalize_uri and query:
+            query = _encode_invalid_chars(query, QUERY_CHARS)
+        if normalize_uri and fragment:
+            fragment = _encode_invalid_chars(fragment, FRAGMENT_CHARS)
+
+    except (ValueError, AttributeError):
+        return six.raise_from(LocationParseError(source_url), None)
+
+    # For the sake of backwards compatibility we put empty
+    # string values for path if there are any defined values
+    # beyond the path in the URL.
+    # TODO: Remove this when we break backwards compatibility.
+    if not path:
+        if query is not None or fragment is not None:

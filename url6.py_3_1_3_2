@@ -1,0 +1,5 @@
+    return target
+
+
+def parse_url(url):
+    """
