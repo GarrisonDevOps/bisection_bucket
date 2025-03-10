@@ -1,0 +1,54 @@
+            port = int(port)
+            if not (0 <= port <= 65535):
+                raise LocationParseError(url)
+
+        host = _normalize_host(host, scheme)
+
+        if normalize_uri and path:
+            path = _remove_path_dot_segments(path)
+            path = _encode_invalid_chars(path, PATH_CHARS)
+        if normalize_uri and query:
+            query = _encode_invalid_chars(query, QUERY_CHARS)
+        if normalize_uri and fragment:
+            fragment = _encode_invalid_chars(fragment, FRAGMENT_CHARS)
+
+    except (ValueError, AttributeError):
+        return six.raise_from(LocationParseError(source_url), None)
+
+    # For the sake of backwards compatibility we put empty
+    # string values for path if there are any defined values
+    # beyond the path in the URL.
+    # TODO: Remove this when we break backwards compatibility.
+    if not path:
+        if query is not None or fragment is not None:
+            path = ""
+        else:
+            path = None
+
+    # Ensure that each part of the URL is a `str` for
+    # backwards compatibility.
+    if isinstance(url, six.text_type):
+        ensure_func = six.ensure_text
+    else:
+        ensure_func = six.ensure_str
+
+    def ensure_type(x):
+        return x if x is None else ensure_func(x)
+
+    return Url(
+        scheme=ensure_type(scheme),
+        auth=ensure_type(auth),
+        host=ensure_type(host),
+        port=port,
+        path=ensure_type(path),
+        query=ensure_type(query),
+        fragment=ensure_type(fragment),
+    )
+
+
+def get_host(url):
+    """
+    Deprecated. Use :func:`parse_url` instead.
+    """
+    p = parse_url(url)
+    return p.scheme or "http", p.hostname, p.port
