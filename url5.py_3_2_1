@@ -1,0 +1,17 @@
+    work done in the ``rfc3986`` module.
+
+    :param str url: URL to parse into a :class:`.Url` namedtuple.
+
+    Partly backwards-compatible with :mod:`urlparse`.
+
+    Example::
+
+        >>> parse_url('http://google.com/mail/')
+        Url(scheme='http', host='google.com', port=None, path='/mail/', ...)
+        >>> parse_url('google.com:80')
+        Url(scheme=None, host='google.com', port=80, path=None, ...)
+        >>> parse_url('/foo?bar')
+        Url(scheme=None, host=None, port=None, path='/foo', query='bar', ...)
+    """
+    if not url:
+        # Empty

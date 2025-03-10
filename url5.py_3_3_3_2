@@ -1,0 +1,5 @@
+        fragment=ensure_type(fragment),
+    )
+
+
+def get_host(url):

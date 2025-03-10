@@ -1,0 +1,6 @@
+    REG_NAME_PAT,
+    IPV4_PAT,
+    IPV6_ADDRZ_PAT,
+)
+_HOST_PORT_RE = re.compile(_HOST_PORT_PAT, re.UNICODE | re.DOTALL)
+

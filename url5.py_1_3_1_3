@@ -1,0 +1,4 @@
+        """For backwards-compatibility with urlparse. We're nice like that."""
+        return self.host
+
+    @property

@@ -1,0 +1,6 @@
+            >>> Url('http', 'username:password', 'host.com', 80,
+            ... '/path', 'query', 'fragment').url
+            'http://username:password@host.com:80/path?query#fragment'
+        """
+        scheme, auth, host, port, path, query, fragment = self
+        url = u""

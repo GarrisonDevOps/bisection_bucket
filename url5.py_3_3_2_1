@@ -1,0 +1,6 @@
+            path = ""
+        else:
+            path = None
+
+    # Ensure that each part of the URL is a `str` for
+    # backwards compatibility.

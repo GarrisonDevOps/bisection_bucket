@@ -1,0 +1,4 @@
+        # In this case segment == '..', if we can, we should pop the last
+        # element
+        elif output:
+            output.pop()

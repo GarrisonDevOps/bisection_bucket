@@ -1,0 +1,17 @@
+            url += path
+        if query is not None:
+            url += u"?" + query
+        if fragment is not None:
+            url += u"#" + fragment
+
+        return url
+
+    def __str__(self):
+        return self.url
+
+
+def split_first(s, delims):
+    """
+    .. deprecated:: 1.25
+
+    Given a string and an iterable of delimiters, split on the first found

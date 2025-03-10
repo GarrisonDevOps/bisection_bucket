@@ -1,0 +1,6 @@
+    onto an already percent-encoded component.
+    """
+    if component is None:
+        return component
+
+    component = six.ensure_text(component)

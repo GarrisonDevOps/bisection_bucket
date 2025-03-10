@@ -1,0 +1,5 @@
+
+        >>> split_first('foo/bar?baz', '?/=')
+        ('foo', 'bar?baz', '/')
+        >>> split_first('foo/bar?baz', '123')
+        ('foo/bar?baz', '', None)

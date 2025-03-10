@@ -1,0 +1,5 @@
+        if (is_percent_encoded and byte == b"%") or (
+            byte_ord < 128 and byte.decode() in allowed_chars
+        ):
+            encoded_component += byte
+            continue

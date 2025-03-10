@@ -1,0 +1,6 @@
+    if isinstance(url, six.text_type):
+        ensure_func = six.ensure_text
+    else:
+        ensure_func = six.ensure_str
+
+    def ensure_type(x):

@@ -1,0 +1,5 @@
+    )
+
+    uri_bytes = component.encode("utf-8", "surrogatepass")
+    is_percent_encoded = percent_encodings == uri_bytes.count(b"%")
+    encoded_component = bytearray()

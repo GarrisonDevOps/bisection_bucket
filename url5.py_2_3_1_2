@@ -1,0 +1,6 @@
+        # '.' is the current directory, so ignore it, it is superfluous
+        if segment == ".":
+            continue
+        # Anything other than '..', should be appended to the output
+        elif segment != "..":
+            output.append(segment)

@@ -1,0 +1,6 @@
+            from pipenv.patched.pip._vendor import idna
+        except ImportError:
+            six.raise_from(
+                LocationParseError("Unable to parse URL without the 'idna' module"),
+                None,
+            )

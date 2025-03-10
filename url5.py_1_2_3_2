@@ -1,0 +1,5 @@
+    __slots__ = ()
+
+    def __new__(
+        cls,
+        scheme=None,

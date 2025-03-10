@@ -1,0 +1,17 @@
+                        zone_id = zone_id[3:]
+                    else:
+                        zone_id = zone_id[1:]
+                    zone_id = "%" + _encode_invalid_chars(zone_id, UNRESERVED_CHARS)
+                    return host[:start].lower() + zone_id + host[end:]
+                else:
+                    return host.lower()
+            elif not IPV4_RE.match(host):
+                return six.ensure_str(
+                    b".".join([_idna_encode(label) for label in host.split(".")])
+                )
+    return host
+
+
+def _idna_encode(name):
+    if name and any(ord(x) >= 128 for x in name):
+        try:

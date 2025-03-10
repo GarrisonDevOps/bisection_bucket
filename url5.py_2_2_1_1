@@ -1,0 +1,6 @@
+    for d in delims:
+        idx = s.find(d)
+        if idx < 0:
+            continue
+
+        if min_idx is None or idx < min_idx:

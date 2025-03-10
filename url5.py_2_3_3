@@ -1,0 +1,15 @@
+        if isinstance(host, six.binary_type):
+            host = six.ensure_str(host)
+
+        if scheme in NORMALIZABLE_SCHEMES:
+            is_ipv6 = IPV6_ADDRZ_RE.match(host)
+            if is_ipv6:
+                # IPv6 hosts of the form 'a::b%zone' are encoded in a URL as
+                # such per RFC 6874: 'a::b%25zone'. Unquote the ZoneID
+                # separator as necessary to return a valid RFC 4007 scoped IP.
+                match = ZONE_ID_RE.search(host)
+                if match:
+                    start, end = match.span(1)
+                    zone_id = host[start:end]
+
+                    if zone_id.startswith("%25") and zone_id != "%25":

@@ -1,0 +1,4 @@
+        if self.port:
+            return "%s:%d" % (self.host, self.port)
+        return self.host
+

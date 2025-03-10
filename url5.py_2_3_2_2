@@ -1,0 +1,6 @@
+    # If the path starts with '/.' or '/..' ensure we add one more empty
+    # string to add a trailing '/'
+    if path.endswith(("/.", "/..")):
+        output.append("")
+
+    return "/".join(output)

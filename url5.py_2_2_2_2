@@ -1,0 +1,6 @@
+
+    # Normalize existing percent-encoded bytes.
+    # Try to see if the component we're encoding is already percent-encoded
+    # so we can skip all '%' characters but still encode all others.
+    component, percent_encodings = PERCENT_RE.subn(
+        lambda match: match.group(0).upper(), component

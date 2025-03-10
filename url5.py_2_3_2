@@ -1,0 +1,16 @@
+
+    # If the path starts with '/' and the output is empty or the first string
+    # is non-empty
+    if path.startswith("/") and (not output or output[0]):
+        output.insert(0, "")
+
+    # If the path starts with '/.' or '/..' ensure we add one more empty
+    # string to add a trailing '/'
+    if path.endswith(("/.", "/..")):
+        output.append("")
+
+    return "/".join(output)
+
+
+def _normalize_host(host, scheme):
+    if host:

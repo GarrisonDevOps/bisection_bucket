@@ -1,0 +1,5 @@
+    return name.lower().encode("ascii")
+
+
+def _encode_target(target):
+    """Percent-encodes a request target so that there are no invalid characters"""

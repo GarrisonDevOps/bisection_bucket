@@ -1,0 +1,5 @@
+
+
+def _idna_encode(name):
+    if name and any(ord(x) >= 128 for x in name):
+        try:

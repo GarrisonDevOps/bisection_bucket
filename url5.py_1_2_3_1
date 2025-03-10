@@ -1,0 +1,5 @@
+    Data structure for representing an HTTP URL. Used as a return value for
+    :func:`parse_url`. Both the scheme and host are normalized as they are
+    both case-insensitive according to RFC 3986.
+    """
+

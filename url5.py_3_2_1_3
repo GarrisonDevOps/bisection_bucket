@@ -1,0 +1,5 @@
+        >>> parse_url('/foo?bar')
+        Url(scheme=None, host=None, port=None, path='/foo', query='bar', ...)
+    """
+    if not url:
+        # Empty

@@ -1,0 +1,5 @@
+        auth=None,
+        host=None,
+        port=None,
+        path=None,
+        query=None,

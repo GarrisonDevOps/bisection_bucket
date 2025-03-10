@@ -1,0 +1,16 @@
+            path = ""
+        else:
+            path = None
+
+    # Ensure that each part of the URL is a `str` for
+    # backwards compatibility.
+    if isinstance(url, six.text_type):
+        ensure_func = six.ensure_text
+    else:
+        ensure_func = six.ensure_str
+
+    def ensure_type(x):
+        return x if x is None else ensure_func(x)
+
+    return Url(
+        scheme=ensure_type(scheme),

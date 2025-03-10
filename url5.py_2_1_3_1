@@ -1,0 +1,5 @@
+    delimiter. Return two split parts and the matched delimiter.
+
+    If not found, then the first part is the full input string.
+
+    Example::

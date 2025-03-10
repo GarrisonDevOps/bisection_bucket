@@ -1,0 +1,6 @@
+
+        return uri
+
+    @property
+    def netloc(self):
+        """Network location including host and port"""

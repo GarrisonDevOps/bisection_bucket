@@ -1,0 +1,5 @@
+        encoded_component.extend(b"%" + (hex(byte_ord)[2:].encode().zfill(2).upper()))
+
+    return encoded_component.decode(encoding)
+
+
