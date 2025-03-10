@@ -1,0 +1,27 @@
+    output = []  # Initialize the variable to use to store output
+
+    for segment in segments:
+        # '.' is the current directory, so ignore it, it is superfluous
+        if segment == ".":
+            continue
+        # Anything other than '..', should be appended to the output
+        elif segment != "..":
+            output.append(segment)
+        # In this case segment == '..', if we can, we should pop the last
+        # element
+        elif output:
+            output.pop()
+
+    # If the path starts with '/' and the output is empty or the first string
+    # is non-empty
+    if path.startswith("/") and (not output or output[0]):
+        output.insert(0, "")
+
+    # If the path starts with '/.' or '/..' ensure we add one more empty
+    # string to add a trailing '/'
+    if path.endswith(("/.", "/..")):
+        output.append("")
+
+    return "/".join(output)
+
+

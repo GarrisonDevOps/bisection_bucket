@@ -1,0 +1,28 @@
+    def hostname(self):
+        """For backwards-compatibility with urlparse. We're nice like that."""
+        return self.host
+
+    @property
+    def request_uri(self):
+        """Absolute path including the query string."""
+        uri = self.path or "/"
+
+        if self.query is not None:
+            uri += "?" + self.query
+
+        return uri
+
+    @property
+    def netloc(self):
+        """Network location including host and port"""
+        if self.port:
+            return "%s:%d" % (self.host, self.port)
+        return self.host
+
+    @property
+    def url(self):
+        """
+        Convert self into a url
+
+        This function should more or less round-trip with :func:`.parse_url`. The
+        returned url may not be exactly the same as the url inputted to

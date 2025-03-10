@@ -1,0 +1,55 @@
+    # Normalize existing percent-encoded bytes.
+    # Try to see if the component we're encoding is already percent-encoded
+    # so we can skip all '%' characters but still encode all others.
+    component, percent_encodings = PERCENT_RE.subn(
+        lambda match: match.group(0).upper(), component
+    )
+
+    uri_bytes = component.encode("utf-8", "surrogatepass")
+    is_percent_encoded = percent_encodings == uri_bytes.count(b"%")
+    encoded_component = bytearray()
+
+    for i in range(0, len(uri_bytes)):
+        # Will return a single character bytestring on both Python 2 & 3
+        byte = uri_bytes[i : i + 1]
+        byte_ord = ord(byte)
+        if (is_percent_encoded and byte == b"%") or (
+            byte_ord < 128 and byte.decode() in allowed_chars
+        ):
+            encoded_component += byte
+            continue
+        encoded_component.extend(b"%" + (hex(byte_ord)[2:].encode().zfill(2).upper()))
+
+    return encoded_component.decode(encoding)
+
+
+def _remove_path_dot_segments(path):
+    # See http://tools.ietf.org/html/rfc3986#section-5.2.4 for pseudo-code
+    segments = path.split("/")  # Turn the path into a list of segments
+    output = []  # Initialize the variable to use to store output
+
+    for segment in segments:
+        # '.' is the current directory, so ignore it, it is superfluous
+        if segment == ".":
+            continue
+        # Anything other than '..', should be appended to the output
+        elif segment != "..":
+            output.append(segment)
+        # In this case segment == '..', if we can, we should pop the last
+        # element
+        elif output:
+            output.pop()
+
+    # If the path starts with '/' and the output is empty or the first string
+    # is non-empty
+    if path.startswith("/") and (not output or output[0]):
+        output.insert(0, "")
+
+    # If the path starts with '/.' or '/..' ensure we add one more empty
+    # string to add a trailing '/'
+    if path.endswith(("/.", "/..")):
+        output.append("")
+
+    return "/".join(output)
+
+
