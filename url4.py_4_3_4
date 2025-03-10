@@ -1,0 +1,6 @@
+    if not path:
+        if query is not None or fragment is not None:
+            path = ""
+        else:
+            path = None
+

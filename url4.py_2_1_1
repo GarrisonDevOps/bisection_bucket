@@ -1,0 +1,7 @@
+    def hostname(self):
+        """For backwards-compatibility with urlparse. We're nice like that."""
+        return self.host
+
+    @property
+    def request_uri(self):
+        """Absolute path including the query string."""

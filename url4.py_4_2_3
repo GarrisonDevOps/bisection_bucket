@@ -1,0 +1,7 @@
+
+        if authority:
+            auth, _, host_port = authority.rpartition("@")
+            auth = auth or None
+            host, port = _HOST_PORT_RE.match(host_port).groups()
+            if auth and normalize_uri:
+                auth = _encode_invalid_chars(auth, USERINFO_CHARS)

@@ -1,0 +1,7 @@
+        :func:`.parse_url`, but it should be equivalent by the RFC (e.g., urls
+        with a blank port will have : removed).
+
+        Example: ::
+
+            >>> U = parse_url('http://google.com/mail/')
+            >>> U.url

@@ -1,0 +1,7 @@
+            url += host
+        if port is not None:
+            url += u":" + str(port)
+        if path is not None:
+            url += path
+        if query is not None:
+            url += u"?" + query

@@ -1,0 +1,7 @@
+            six.raise_from(
+                LocationParseError(u"Name '%s' is not a valid IDNA label" % name), None
+            )
+    return name.lower().encode("ascii")
+
+
+def _encode_target(target):

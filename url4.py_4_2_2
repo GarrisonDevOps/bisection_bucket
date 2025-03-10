@@ -1,0 +1,7 @@
+
+    try:
+        scheme, authority, path, query, fragment = URI_RE.match(url).groups()
+        normalize_uri = scheme is None or scheme.lower() in NORMALIZABLE_SCHEMES
+
+        if scheme:
+            scheme = scheme.lower()

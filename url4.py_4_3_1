@@ -1,0 +1,7 @@
+            port = int(port)
+            if not (0 <= port <= 65535):
+                raise LocationParseError(url)
+
+        host = _normalize_host(host, scheme)
+
+        if normalize_uri and path:

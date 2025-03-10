@@ -1,0 +1,7 @@
+
+
+def _encode_invalid_chars(component, allowed_chars, encoding="utf-8"):
+    """Percent-encodes a URI component without reapplying
+    onto an already percent-encoded component.
+    """
+    if component is None:

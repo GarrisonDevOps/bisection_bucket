@@ -1,0 +1,7 @@
+    @property
+    def netloc(self):
+        """Network location including host and port"""
+        if self.port:
+            return "%s:%d" % (self.host, self.port)
+        return self.host
+

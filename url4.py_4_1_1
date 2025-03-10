@@ -1,0 +1,7 @@
+    if query is not None:
+        target += "?" + query
+    return target
+
+
+def parse_url(url):
+    """

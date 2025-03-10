@@ -1,0 +1,7 @@
+PATH_CHARS = USERINFO_CHARS | {"@", "/"}
+QUERY_CHARS = FRAGMENT_CHARS = PATH_CHARS | {"?"}
+
+
+class Url(namedtuple("Url", url_attrs)):
+    """
+    Data structure for representing an HTTP URL. Used as a return value for

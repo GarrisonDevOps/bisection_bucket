@@ -1,0 +1,7 @@
+    :func:`parse_url`. Both the scheme and host are normalized as they are
+    both case-insensitive according to RFC 3986.
+    """
+
+    __slots__ = ()
+
+    def __new__(

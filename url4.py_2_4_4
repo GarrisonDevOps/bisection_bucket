@@ -1,0 +1,4 @@
+        return component
+
+    component = six.ensure_text(component)
+

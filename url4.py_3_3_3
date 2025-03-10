@@ -1,0 +1,7 @@
+
+                    if zone_id.startswith("%25") and zone_id != "%25":
+                        zone_id = zone_id[3:]
+                    else:
+                        zone_id = zone_id[1:]
+                    zone_id = "%" + _encode_invalid_chars(zone_id, UNRESERVED_CHARS)
+                    return host[:start].lower() + zone_id + host[end:]
