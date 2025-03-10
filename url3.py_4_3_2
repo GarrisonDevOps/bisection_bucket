@@ -1,0 +1,7 @@
+            path = _remove_path_dot_segments(path)
+            path = _encode_invalid_chars(path, PATH_CHARS)
+        if normalize_uri and query:
+            query = _encode_invalid_chars(query, QUERY_CHARS)
+        if normalize_uri and fragment:
+            fragment = _encode_invalid_chars(fragment, FRAGMENT_CHARS)
+

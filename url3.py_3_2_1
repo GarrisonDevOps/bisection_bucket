@@ -1,0 +1,7 @@
+    output = []  # Initialize the variable to use to store output
+
+    for segment in segments:
+        # '.' is the current directory, so ignore it, it is superfluous
+        if segment == ".":
+            continue
+        # Anything other than '..', should be appended to the output

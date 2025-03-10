@@ -1,0 +1,6 @@
+        Url(scheme='http', host='google.com', port=None, path='/mail/', ...)
+        >>> parse_url('google.com:80')
+        Url(scheme=None, host='google.com', port=80, path=None, ...)
+        >>> parse_url('/foo?bar')
+        Url(scheme=None, host=None, port=None, path='/foo', query='bar', ...)
+    """

@@ -1,0 +1,7 @@
+    def ensure_type(x):
+        return x if x is None else ensure_func(x)
+
+    return Url(
+        scheme=ensure_type(scheme),
+        auth=ensure_type(auth),
+        host=ensure_type(host),

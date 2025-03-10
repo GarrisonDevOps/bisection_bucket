@@ -1,0 +1,7 @@
+    if not url:
+        # Empty
+        return Url()
+
+    source_url = url
+    if not SCHEME_RE.search(url):
+        url = "//" + url

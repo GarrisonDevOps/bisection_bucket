@@ -1,0 +1,7 @@
+    :param str url: URL to parse into a :class:`.Url` namedtuple.
+
+    Partly backwards-compatible with :mod:`urlparse`.
+
+    Example::
+
+        >>> parse_url('http://google.com/mail/')

@@ -1,0 +1,7 @@
+
+
+def split_first(s, delims):
+    """
+    .. deprecated:: 1.25
+
+    Given a string and an iterable of delimiters, split on the first found

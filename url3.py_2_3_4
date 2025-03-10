@@ -1,0 +1,7 @@
+        ('foo', 'bar?baz', '/')
+        >>> split_first('foo/bar?baz', '123')
+        ('foo/bar?baz', '', None)
+
+    Scales linearly with number of delims. Not ideal for large number of delims.
+    """
+    min_idx = None

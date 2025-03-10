@@ -1,0 +1,7 @@
+    @property
+    def url(self):
+        """
+        Convert self into a url
+
+        This function should more or less round-trip with :func:`.parse_url`. The
+        returned url may not be exactly the same as the url inputted to

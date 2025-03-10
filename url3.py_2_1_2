@@ -1,0 +1,7 @@
+        uri = self.path or "/"
+
+        if self.query is not None:
+            uri += "?" + self.query
+
+        return uri
+

@@ -1,0 +1,7 @@
+    # Ensure that each part of the URL is a `str` for
+    # backwards compatibility.
+    if isinstance(url, six.text_type):
+        ensure_func = six.ensure_text
+    else:
+        ensure_func = six.ensure_str
+

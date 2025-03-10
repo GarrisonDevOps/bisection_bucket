@@ -1,0 +1,7 @@
+        fragment=None,
+    ):
+        if path and not path.startswith("/"):
+            path = "/" + path
+        if scheme is not None:
+            scheme = scheme.lower()
+        return super(Url, cls).__new__(

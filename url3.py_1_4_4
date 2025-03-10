@@ -1,0 +1,4 @@
+            cls, scheme, auth, host, port, path, query, fragment
+        )
+
+    @property

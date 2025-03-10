@@ -1,0 +1,27 @@
+    # Ensure that each part of the URL is a `str` for
+    # backwards compatibility.
+    if isinstance(url, six.text_type):
+        ensure_func = six.ensure_text
+    else:
+        ensure_func = six.ensure_str
+
+    def ensure_type(x):
+        return x if x is None else ensure_func(x)
+
+    return Url(
+        scheme=ensure_type(scheme),
+        auth=ensure_type(auth),
+        host=ensure_type(host),
+        port=port,
+        path=ensure_type(path),
+        query=ensure_type(query),
+        fragment=ensure_type(fragment),
+    )
+
+
+def get_host(url):
+    """
+    Deprecated. Use :func:`parse_url` instead.
+    """
+    p = parse_url(url)
+    return p.scheme or "http", p.hostname, p.port

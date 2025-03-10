@@ -1,0 +1,4 @@
+    """Percent-encodes a request target so that there are no invalid characters"""
+    path, query = TARGET_RE.match(target).groups()
+    target = _encode_invalid_chars(path, PATH_CHARS)
+    query = _encode_invalid_chars(query, QUERY_CHARS)

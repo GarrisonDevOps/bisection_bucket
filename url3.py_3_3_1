@@ -1,0 +1,7 @@
+    if host:
+        if isinstance(host, six.binary_type):
+            host = six.ensure_str(host)
+
+        if scheme in NORMALIZABLE_SCHEMES:
+            is_ipv6 = IPV6_ADDRZ_RE.match(host)
+            if is_ipv6:

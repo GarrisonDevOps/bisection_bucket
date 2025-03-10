@@ -1,0 +1,7 @@
+        if fragment is not None:
+            url += u"#" + fragment
+
+        return url
+
+    def __str__(self):
+        return self.url

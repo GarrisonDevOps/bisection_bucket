@@ -1,0 +1,7 @@
+                else:
+                    return host.lower()
+            elif not IPV4_RE.match(host):
+                return six.ensure_str(
+                    b".".join([_idna_encode(label) for label in host.split(".")])
+                )
+    return host

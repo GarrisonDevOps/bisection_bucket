@@ -1,0 +1,7 @@
+    if path.endswith(("/.", "/..")):
+        output.append("")
+
+    return "/".join(output)
+
+
+def _normalize_host(host, scheme):
