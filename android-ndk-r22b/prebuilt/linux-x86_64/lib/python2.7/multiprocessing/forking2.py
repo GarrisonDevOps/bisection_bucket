@@ -1,25 +1,3 @@
-    class Popen(object):
-        '''
-        Start a subprocess to run the code of a process object
-        '''
-        _tls = thread._local()
-
-        def __init__(self, process_obj):
-            # create pipe for communication with child
-            rfd, wfd = os.pipe()
-
-            # get handle for read end of the pipe and make it inheritable
-            rhandle = duplicate(msvcrt.get_osfhandle(rfd), inheritable=True)
-            os.close(rfd)
-
-            # start process
-            cmd = get_command_line() + [rhandle]
-            cmd = ' '.join('"%s"' % x for x in cmd)
-            hp, ht, pid, tid = _subprocess.CreateProcess(
-                _python_exe, cmd, None, None, 1, 0, None, None, None
-                )
-            ht.Close()
-            close(rhandle)
 
             # set attributes of self
             self.pid = pid
