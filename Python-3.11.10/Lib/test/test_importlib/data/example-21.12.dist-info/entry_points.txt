@@ -1,0 +1,4 @@
+[console_scripts]
+Example = example:main
+example = example:main
+
