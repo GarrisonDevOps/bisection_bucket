@@ -1,0 +1,8 @@
+lxml.html.\_difflib module
+==========================
+
+.. automodule:: lxml.html._difflib
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

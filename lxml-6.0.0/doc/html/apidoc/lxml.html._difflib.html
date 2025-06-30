@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lxml.html._difflib module &mdash; lxml  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lxml.html._setmixin module" href="lxml.html._setmixin.html" />
+    <link rel="prev" title="lxml.html._diffcommand module" href="lxml.html._diffcommand.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lxml
+              <img src="_static/python-xml.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="lxml.html">lxml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="lxml.html.html">lxml.html package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.ElementSoup.html">lxml.html.ElementSoup module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html._diffcommand.html">lxml.html._diffcommand module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">lxml.html._difflib module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html._setmixin.html">lxml.html._setmixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.builder.html">lxml.html.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.clean.html">lxml.html.clean module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.defs.html">lxml.html.defs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.diff.html">lxml.html.diff module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.formfill.html">lxml.html.formfill module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.html5parser.html">lxml.html.html5parser module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lxml.html.soupparser.html">lxml.html.soupparser module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.isoschematron.html">lxml.isoschematron package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.ElementInclude.html">lxml.ElementInclude module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml._elementpath.html">lxml._elementpath module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.builder.html">lxml.builder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.cssselect.html">lxml.cssselect module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.doctestcompare.html">lxml.doctestcompare module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.etree.html">lxml.etree module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.objectify.html">lxml.objectify module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lxml.sax.html">lxml.sax module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lxml</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="lxml.html">lxml package</a></li>
+          <li class="breadcrumb-item"><a href="lxml.html.html">lxml.html package</a></li>
+      <li class="breadcrumb-item active">lxml.html._difflib module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/lxml.html._difflib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lxml.html._difflib">
+<span id="lxml-html-difflib-module"></span><h1>lxml.html._difflib module<a class="headerlink" href="#module-lxml.html._difflib" title="Link to this heading"></a></h1>
+<p>Module difflib – helpers for computing deltas between objects.</p>
+<dl class="simple">
+<dt>Function get_close_matches(word, possibilities, n=3, cutoff=0.6):</dt><dd><p>Use SequenceMatcher to return list of the best “good enough” matches.</p>
+</dd>
+<dt>Function context_diff(a, b):</dt><dd><p>For two lists of strings, return a delta in context diff format.</p>
+</dd>
+<dt>Function ndiff(a, b):</dt><dd><p>Return a delta: the difference between <cite>a</cite> and <cite>b</cite> (lists of strings).</p>
+</dd>
+<dt>Function restore(delta, which):</dt><dd><p>Return one of the two sequences that generated an ndiff delta.</p>
+</dd>
+<dt>Function unified_diff(a, b):</dt><dd><p>For two lists of strings, return a delta in unified diff format.</p>
+</dd>
+<dt>Class SequenceMatcher:</dt><dd><p>A flexible class for comparing pairs of sequences of any type.</p>
+</dd>
+<dt>Class Differ:</dt><dd><p>For producing human-readable deltas from sequences of lines of text.</p>
+</dd>
+<dt>Class HtmlDiff:</dt><dd><p>For producing HTML side by side comparison with change highlights.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">Differ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">linejunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Differ is a class for comparing sequences of lines of text, and
+producing human-readable differences or deltas.  Differ uses
+SequenceMatcher both to compare sequences of lines, and to compare
+sequences of characters within similar (near-matching) lines.</p>
+<p>Each line of a Differ delta begins with a two-letter code:</p>
+<blockquote>
+<div><p>‘- ‘    line unique to sequence 1
+‘+ ‘    line unique to sequence 2
+‘  ‘    line common to both sequences
+‘? ‘    line not present in either input sequence</p>
+</div></blockquote>
+<p>Lines beginning with ‘? ‘ attempt to guide the eye to intraline
+differences, and were not present in either input sequence.  These lines
+can be confusing if the sequences contain tab characters.</p>
+<p>Note that Differ makes no claim to produce a <em>minimal</em> diff.  To the
+contrary, minimal diffs are often counter-intuitive, because they synch
+up anywhere possible, sometimes accidental matches 100 pages apart.
+Restricting synch points to contiguous matches preserves some notion of
+locality, at the occasional cost of producing a longer diff.</p>
+<p>Example: Comparing two texts.</p>
+<p>First we set up the texts, sequences of individual single-line strings
+ending with newlines (such sequences can also be obtained from the
+<cite>readlines()</cite> method of file-like objects):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text1</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;  1. Beautiful is better than ugly.</span>
+<span class="gp">... </span><span class="s1">  2. Explicit is better than implicit.</span>
+<span class="gp">... </span><span class="s1">  3. Simple is better than complex.</span>
+<span class="gp">... </span><span class="s1">  4. Complex is better than complicated.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">text1</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text1</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;\n&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text2</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;  1. Beautiful is better than ugly.</span>
+<span class="gp">... </span><span class="s1">  3.   Simple is better than complex.</span>
+<span class="gp">... </span><span class="s1">  4. Complicated is better than complex.</span>
+<span class="gp">... </span><span class="s1">  5. Flat is better than nested.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next we instantiate a Differ object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Differ</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note that when instantiating a Differ object we may pass functions to
+filter out line and character ‘junk’.  See Differ.__init__ for details.</p>
+<p>Finally, we compare the two:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">text1</span><span class="p">,</span> <span class="n">text2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>‘result’ is a list of strings, so let’s pretty-print it:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span> <span class="k">as</span> <span class="n">_pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_pprint</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">[&#39;    1. Beautiful is better than ugly.\n&#39;,</span>
+<span class="go"> &#39;-   2. Explicit is better than implicit.\n&#39;,</span>
+<span class="go"> &#39;-   3. Simple is better than complex.\n&#39;,</span>
+<span class="go"> &#39;+   3.   Simple is better than complex.\n&#39;,</span>
+<span class="go"> &#39;?     ++\n&#39;,</span>
+<span class="go"> &#39;-   4. Complex is better than complicated.\n&#39;,</span>
+<span class="go"> &#39;?            ^                     ---- ^\n&#39;,</span>
+<span class="go"> &#39;+   4. Complicated is better than complex.\n&#39;,</span>
+<span class="go"> &#39;?           ++++ ^                      ^\n&#39;,</span>
+<span class="go"> &#39;+   5. Flat is better than nested.\n&#39;]</span>
+</pre></div>
+</div>
+<p>As a single multi-line string it looks like this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">    1. Beautiful is better than ugly.</span>
+<span class="go">-   2. Explicit is better than implicit.</span>
+<span class="go">-   3. Simple is better than complex.</span>
+<span class="go">+   3.   Simple is better than complex.</span>
+<span class="go">?     ++</span>
+<span class="go">-   4. Complex is better than complicated.</span>
+<span class="go">?            ^                     ---- ^</span>
+<span class="go">+   4. Complicated is better than complex.</span>
+<span class="go">?           ++++ ^                      ^</span>
+<span class="go">+   5. Flat is better than nested.</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ._dump">
+<span class="sig-name descname"><span class="pre">_dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ._dump" title="Link to this definition"></a></dt>
+<dd><p>Generate comparison results for a same-tagged range.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ._fancy_helper">
+<span class="sig-name descname"><span class="pre">_fancy_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ahi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bhi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ._fancy_helper" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ._fancy_replace">
+<span class="sig-name descname"><span class="pre">_fancy_replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ahi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bhi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ._fancy_replace" title="Link to this definition"></a></dt>
+<dd><p>When replacing one block of lines with another, search the blocks
+for <em>similar</em> lines; the best-matching pair (if any) is used as a
+synch point, and intraline difference marking is done on the
+similar pair. Lots of work, but often worth it.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Differ</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">_fancy_replace</span><span class="p">([</span><span class="s1">&#39;abcDefghiJkl</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="p">[</span><span class="s1">&#39;abcdefGhijkl</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">- abcDefghiJkl</span>
+<span class="go">?    ^  ^  ^</span>
+<span class="go">+ abcdefGhijkl</span>
+<span class="go">?    ^  ^  ^</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ._plain_replace">
+<span class="sig-name descname"><span class="pre">_plain_replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ahi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bhi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ._plain_replace" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ._qformat">
+<span class="sig-name descname"><span class="pre">_qformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">btags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ._qformat" title="Link to this definition"></a></dt>
+<dd><p>Format “?” output and deal with tabs.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Differ</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">_qformat</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">abcDefghiJkl</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">abcdefGhijkl</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">&#39;  ^ ^  ^      &#39;</span><span class="p">,</span> <span class="s1">&#39;  ^ ^  ^      &#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">&#39;- \tabcDefghiJkl\n&#39;</span>
+<span class="go">&#39;? \t ^ ^  ^\n&#39;</span>
+<span class="go">&#39;+ \tabcdefGhijkl\n&#39;</span>
+<span class="go">&#39;? \t ^ ^  ^\n&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.Differ.compare">
+<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.Differ.compare" title="Link to this definition"></a></dt>
+<dd><p>Compare two sequences of lines; generate the resulting delta.</p>
+<p>Each sequence must contain individual single-line strings ending with
+newlines. Such sequences can be obtained from the <cite>readlines()</cite> method
+of file-like objects.  The delta generated also consists of newline-
+terminated strings, ready to be printed as-is via the writelines()
+method of a file-like object.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Differ</span><span class="p">()</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="s1">&#39;one</span><span class="se">\n</span><span class="s1">two</span><span class="se">\n</span><span class="s1">three</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>                               <span class="s1">&#39;ore</span><span class="se">\n</span><span class="s1">tree</span><span class="se">\n</span><span class="s1">emu</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">))),</span>
+<span class="gp">... </span>      <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">- one</span>
+<span class="go">?  ^</span>
+<span class="go">+ ore</span>
+<span class="go">?  ^</span>
+<span class="go">- two</span>
+<span class="go">- three</span>
+<span class="go">?  -</span>
+<span class="go">+ tree</span>
+<span class="go">+ emu</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">HtmlDiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabsize=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapcolumn=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linejunk=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk=&lt;cyfunction</span> <span class="pre">IS_CHARACTER_JUNK&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>For producing HTML side by side comparison with change highlights.</p>
+<p>This class can be used to create an HTML table (or a complete HTML file
+containing the table) showing a side by side, line by line comparison
+of text with inter-line and intra-line change highlights.  The table can
+be generated in either full or contextual difference mode.</p>
+<p>The following methods are provided for HTML generation:</p>
+<p>make_table – generates HTML for a single side by side table
+make_file – generates complete HTML file with a single side by side table</p>
+<p>See Doc/includes/diff.py for an example usage of this class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._collect_lines">
+<span class="sig-name descname"><span class="pre">_collect_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._collect_lines" title="Link to this definition"></a></dt>
+<dd><p>Collects mdiff output into separate lists</p>
+<p>Before storing the mdiff from/to data into a list, it is converted
+into a single line of text with HTML markup.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._convert_flags">
+<span class="sig-name descname"><span class="pre">_convert_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flaglist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numlines</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._convert_flags" title="Link to this definition"></a></dt>
+<dd><p>Makes list of “next” links</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._format_line">
+<span class="sig-name descname"><span class="pre">_format_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linenum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._format_line" title="Link to this definition"></a></dt>
+<dd><p>Returns HTML markup of “from” / “to” text lines</p>
+<p>side – 0 or 1 indicating “from” or “to” text
+flag – indicates if difference on line
+linenum – line number (used for line number column)
+text – line text to be marked up</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._line_wrapper">
+<span class="sig-name descname"><span class="pre">_line_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._line_wrapper" title="Link to this definition"></a></dt>
+<dd><p>Returns iterator that splits (wraps) mdiff text lines</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._make_prefix">
+<span class="sig-name descname"><span class="pre">_make_prefix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._make_prefix" title="Link to this definition"></a></dt>
+<dd><p>Create unique anchor prefixes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._split_line">
+<span class="sig-name descname"><span class="pre">_split_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._split_line" title="Link to this definition"></a></dt>
+<dd><p>Builds list of text lines by splitting text lines at wrap point</p>
+<p>This function will determine if the input text line needs to be
+wrapped (split) into separate lines.  If so, the first wrap point
+will be determined and the first line appended to the output
+text line list.  This function is used recursively to handle
+the second part of the split line to further split it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._tab_newline_replace">
+<span class="sig-name descname"><span class="pre">_tab_newline_replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolines</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._tab_newline_replace" title="Link to this definition"></a></dt>
+<dd><p>Returns from/to line lists with tabs expanded and newlines removed.</p>
+<p>Instead of tab characters being replaced by the number of spaces
+needed to fill in to the next tab stop, this function will fill
+the space with tab characters.  This is done so that the difference
+algorithms can identify changes in a file when tabs are replaced by
+spaces and vice versa.  At the end of the HTML generation, the tab
+characters will be replaced with a nonbreakable space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff.make_file">
+<span class="sig-name descname"><span class="pre">make_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromdesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">todesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">charset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff.make_file" title="Link to this definition"></a></dt>
+<dd><p>Returns HTML file of side by side comparison with change highlights</p>
+<p>Arguments:
+fromlines – list of “from” lines
+tolines – list of “to” lines
+fromdesc – “from” file column header string
+todesc – “to” file column header string
+context – set to True for contextual differences (defaults to False</p>
+<blockquote>
+<div><p>which shows full differences).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>numlines – number of context lines.  When context is set True,</dt><dd><p>controls number of lines displayed before and after the change.
+When context is False, controls the number of lines to place
+the “next” link anchors before the next change (so click of
+“next” link jumps to just before the change).</p>
+</dd>
+</dl>
+<p>charset – charset of the HTML document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff.make_table">
+<span class="sig-name descname"><span class="pre">make_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromdesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">todesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.HtmlDiff.make_table" title="Link to this definition"></a></dt>
+<dd><p>Returns HTML table of side by side comparison with change highlights</p>
+<p>Arguments:
+fromlines – list of “from” lines
+tolines – list of “to” lines
+fromdesc – “from” file column header string
+todesc – “to” file column header string
+context – set to True for contextual differences (defaults to False</p>
+<blockquote>
+<div><p>which shows full differences).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>numlines – number of context lines.  When context is set True,</dt><dd><p>controls number of lines displayed before and after the change.
+When context is False, controls the number of lines to place
+the “next” link anchors before the next change (so click of
+“next” link jumps to just before the change).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._default_prefix">
+<span class="sig-name descname"><span class="pre">_default_prefix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._default_prefix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._file_template">
+<span class="sig-name descname"><span class="pre">_file_template</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n&lt;!DOCTYPE</span> <span class="pre">html&gt;\n&lt;html</span> <span class="pre">lang=&quot;en&quot;&gt;\n&lt;head&gt;\n</span>&#160;&#160;&#160; <span class="pre">&lt;meta</span> <span class="pre">charset=&quot;%(charset)s&quot;&gt;\n</span>&#160;&#160;&#160; <span class="pre">&lt;meta</span> <span class="pre">name=&quot;viewport&quot;</span> <span class="pre">content=&quot;width=device-width,</span> <span class="pre">initial-scale=1&quot;&gt;\n</span>&#160;&#160;&#160; <span class="pre">&lt;title&gt;Diff</span> <span class="pre">comparison&lt;/title&gt;\n</span>&#160;&#160;&#160; <span class="pre">&lt;style&gt;%(styles)s\n</span>&#160;&#160;&#160; <span class="pre">&lt;/style&gt;\n&lt;/head&gt;\n\n&lt;body&gt;\n</span>&#160;&#160;&#160; <span class="pre">%(table)s%(legend)s\n&lt;/body&gt;\n\n&lt;/html&gt;'</span></em><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._file_template" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._legend">
+<span class="sig-name descname"><span class="pre">_legend</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">&lt;table</span> <span class="pre">class=&quot;diff&quot;</span> <span class="pre">summary=&quot;Legends&quot;&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;</span> <span class="pre">&lt;th</span> <span class="pre">colspan=&quot;2&quot;&gt;</span> <span class="pre">Legends</span> <span class="pre">&lt;/th&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;</span> <span class="pre">&lt;td&gt;</span> <span class="pre">&lt;table</span> <span class="pre">border=&quot;&quot;</span> <span class="pre">summary=&quot;Colors&quot;&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;th&gt;</span> <span class="pre">Colors</span> <span class="pre">&lt;/th&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;td</span> <span class="pre">class=&quot;diff_add&quot;&gt;&amp;nbsp;Added&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;td</span> <span class="pre">class=&quot;diff_chg&quot;&gt;Changed&lt;/td&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;td</span> <span class="pre">class=&quot;diff_sub&quot;&gt;Deleted&lt;/td&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;/table&gt;&lt;/td&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;td&gt;</span> <span class="pre">&lt;table</span> <span class="pre">border=&quot;&quot;</span> <span class="pre">summary=&quot;Links&quot;&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;th</span> <span class="pre">colspan=&quot;2&quot;&gt;</span> <span class="pre">Links</span> <span class="pre">&lt;/th&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;td&gt;(f)irst</span> <span class="pre">change&lt;/td&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;td&gt;(n)ext</span> <span class="pre">change&lt;/td&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tr&gt;&lt;td&gt;(t)op&lt;/td&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;/table&gt;&lt;/td&gt;</span> <span class="pre">&lt;/tr&gt;\n</span>&#160;&#160;&#160; <span class="pre">&lt;/table&gt;'</span></em><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._legend" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._styles">
+<span class="sig-name descname"><span class="pre">_styles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">:root</span> <span class="pre">{color-scheme:</span> <span class="pre">light</span> <span class="pre">dark}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">table.diff</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">font-family:</span> <span class="pre">Menlo,</span> <span class="pre">Consolas,</span> <span class="pre">Monaco,</span> <span class="pre">Liberation</span> <span class="pre">Mono,</span> <span class="pre">Lucida</span> <span class="pre">Console,</span> <span class="pre">monospace;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">border:</span> <span class="pre">medium;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_header</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">background-color:</span> <span class="pre">#e0e0e0;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">font-weight:</span> <span class="pre">bold;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">td.diff_header</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">text-align:</span> <span class="pre">right;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">padding:</span> <span class="pre">0</span> <span class="pre">8px;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_next</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">background-color:</span> <span class="pre">#c0c0c0;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">padding:</span> <span class="pre">4px</span> <span class="pre">0;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_add</span> <span class="pre">{background-color:palegreen}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_chg</span> <span class="pre">{background-color:#ffff77}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_sub</span> <span class="pre">{background-color:#ffaaaa}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">table.diff[summary=&quot;Legends&quot;]</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">margin-top:</span> <span class="pre">20px;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">border:</span> <span class="pre">1px</span> <span class="pre">solid</span> <span class="pre">#ccc;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">table.diff[summary=&quot;Legends&quot;]</span> <span class="pre">th</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">background-color:</span> <span class="pre">#e0e0e0;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">padding:</span> <span class="pre">4px</span> <span class="pre">8px;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">table.diff[summary=&quot;Legends&quot;]</span> <span class="pre">td</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">padding:</span> <span class="pre">4px</span> <span class="pre">8px;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&#64;media</span> <span class="pre">(prefers-color-scheme:</span> <span class="pre">dark)</span> <span class="pre">{\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_header</span> <span class="pre">{background-color:#666}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_next</span> <span class="pre">{background-color:#393939}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_add</span> <span class="pre">{background-color:darkgreen}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_chg</span> <span class="pre">{background-color:#847415}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.diff_sub</span> <span class="pre">{background-color:darkred}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">table.diff[summary=&quot;Legends&quot;]</span> <span class="pre">{border-color:#555}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">table.diff[summary=&quot;Legends&quot;]</span> <span class="pre">th{background-color:#666}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}'</span></em><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._styles" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.HtmlDiff._table_template">
+<span class="sig-name descname"><span class="pre">_table_template</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">&lt;table</span> <span class="pre">class=&quot;diff&quot;</span> <span class="pre">id=&quot;difflib_chg_%(prefix)s_top&quot;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">cellspacing=&quot;0&quot;</span> <span class="pre">cellpadding=&quot;0&quot;</span> <span class="pre">rules=&quot;groups&quot;</span> <span class="pre">&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;colgroup&gt;&lt;/colgroup&gt;</span> <span class="pre">&lt;colgroup&gt;&lt;/colgroup&gt;</span> <span class="pre">&lt;colgroup&gt;&lt;/colgroup&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;colgroup&gt;&lt;/colgroup&gt;</span> <span class="pre">&lt;colgroup&gt;&lt;/colgroup&gt;</span> <span class="pre">&lt;colgroup&gt;&lt;/colgroup&gt;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">%(header_row)s\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;tbody&gt;\n%(data_rows)s</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;/tbody&gt;\n</span>&#160;&#160;&#160; <span class="pre">&lt;/table&gt;'</span></em><a class="headerlink" href="#lxml.html._difflib.HtmlDiff._table_template" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">SequenceMatcher</span></span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>SequenceMatcher is a flexible class for comparing pairs of sequences of
+any type, so long as the sequence elements are hashable.  The basic
+algorithm predates, and is a little fancier than, an algorithm
+published in the late 1980’s by Ratcliff and Obershelp under the
+hyperbolic name “gestalt pattern matching”.  The basic idea is to find
+the longest contiguous matching subsequence that contains no “junk”
+elements (R-O doesn’t address junk).  The same idea is then applied
+recursively to the pieces of the sequences to the left and to the right
+of the matching subsequence.  This does not yield minimal edit
+sequences, but does tend to yield matches that “look right” to people.</p>
+<p>SequenceMatcher tries to compute a “human-friendly diff” between two
+sequences.  Unlike e.g. UNIX(tm) diff, the fundamental notion is the
+longest <em>contiguous</em> &amp; junk-free matching subsequence.  That’s what
+catches peoples’ eyes.  The Windows(tm) windiff has another interesting
+notion, pairing up elements that appear uniquely in each sequence.
+That, and the method here, appear to yield more intuitive difference
+reports than does diff.  This method appears to be the least vulnerable
+to syncing up on blocks of “junk lines”, though (like blank lines in
+ordinary text files, or maybe “&lt;P&gt;” lines in HTML files).  That may be
+because this is the only method of the 3 that has a <em>concept</em> of
+“junk” &lt;wink&gt;.</p>
+<p>Example, comparing two strings, and considering blanks to be “junk”:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="s2">&quot;private Thread currentThread;&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="s2">&quot;private volatile Thread currentThread;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>.ratio() returns a float in [0, 1], measuring the “similarity” of the
+sequences.  As a rule of thumb, a .ratio() value over 0.6 means the
+sequences are close matches:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">(),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">0.866</span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>If you’re only interested in where the sequences match,
+.get_matching_blocks() is handy:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_matching_blocks</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[</span><span class="si">%d</span><span class="s2">] and b[</span><span class="si">%d</span><span class="s2">] match for </span><span class="si">%d</span><span class="s2"> elements&quot;</span> <span class="o">%</span> <span class="n">block</span><span class="p">)</span>
+<span class="go">a[0] and b[0] match for 8 elements</span>
+<span class="go">a[8] and b[17] match for 21 elements</span>
+<span class="go">a[29] and b[38] match for 0 elements</span>
+</pre></div>
+</div>
+<p>Note that the last tuple returned by .get_matching_blocks() is always a
+dummy, (len(a), len(b), 0), and this is the only case in which the last
+tuple element (number of elements matched) is 0.</p>
+<p>If you want to know how to change the first sequence into the second,
+use .get_opcodes():</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">opcode</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get_opcodes</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%6s</span><span class="s2"> a[</span><span class="si">%d</span><span class="s2">:</span><span class="si">%d</span><span class="s2">] b[</span><span class="si">%d</span><span class="s2">:</span><span class="si">%d</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">opcode</span><span class="p">)</span>
+<span class="go"> equal a[0:8] b[0:8]</span>
+<span class="go">insert a[8:8] b[8:17]</span>
+<span class="go"> equal a[8:29] b[17:38]</span>
+</pre></div>
+</div>
+<p>See the Differ class for a fancy human-friendly file differencer, which
+uses SequenceMatcher both to compare sequences of lines, and to compare
+sequences of characters within similar (near-matching) lines.</p>
+<p>See also function get_close_matches() in this module, which shows how
+simple code building on SequenceMatcher can be used to do useful work.</p>
+<p>Timing:  Basic R-O is cubic time worst case and quadratic time expected
+case.  SequenceMatcher is quadratic time for the worst case and has
+expected-case behavior dependent in a complicated way on how many
+elements the sequences have in common; best case time is linear.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.__chain_b">
+<span class="sig-name descname"><span class="pre">__chain_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.__chain_b" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.get_grouped_opcodes">
+<span class="sig-name descname"><span class="pre">get_grouped_opcodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.get_grouped_opcodes" title="Link to this definition"></a></dt>
+<dd><p>Isolate change clusters by eliminating ranges with no changes.</p>
+<p>Return a generator of groups with up to n lines of context.
+Each group is in the same format as returned by get_opcodes().</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">40</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i&#39;</span><span class="p">]</span>     <span class="c1"># Make an insertion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;x&#39;</span>       <span class="c1"># Make a replacement</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>      <span class="c1"># Make a deletion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">30</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;y&#39;</span>       <span class="c1"># Make another replacement</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">get_grouped_opcodes</span><span class="p">()))</span>
+<span class="go">[[(&#39;equal&#39;, 5, 8, 5, 8), (&#39;insert&#39;, 8, 8, 8, 9), (&#39;equal&#39;, 8, 11, 9, 12)],</span>
+<span class="go"> [(&#39;equal&#39;, 16, 19, 17, 20),</span>
+<span class="go">  (&#39;replace&#39;, 19, 20, 20, 21),</span>
+<span class="go">  (&#39;equal&#39;, 20, 22, 21, 23),</span>
+<span class="go">  (&#39;delete&#39;, 22, 27, 23, 23),</span>
+<span class="go">  (&#39;equal&#39;, 27, 30, 23, 26)],</span>
+<span class="go"> [(&#39;equal&#39;, 31, 34, 27, 30),</span>
+<span class="go">  (&#39;replace&#39;, 34, 35, 30, 31),</span>
+<span class="go">  (&#39;equal&#39;, 35, 38, 31, 34)]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.ratio">
+<span class="sig-name descname"><span class="pre">ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.ratio" title="Link to this definition"></a></dt>
+<dd><p>Return a measure of the sequences’ similarity (float in [0,1]).</p>
+<p>Where T is the total number of elements in both sequences, and
+M is the number of matches, this is 2.0*M / T.
+Note that this is 1 if the sequences are identical, and 0 if
+they have nothing in common.</p>
+<p>.ratio() is expensive to compute if you haven’t already computed
+.get_matching_blocks() or .get_opcodes(), in which case you may
+want to try .quick_ratio() or .real_quick_ratio() first to get an
+upper bound.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;bcde&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">quick_ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">real_quick_ratio</span><span class="p">()</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.set_seq1">
+<span class="sig-name descname"><span class="pre">set_seq1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.set_seq1" title="Link to this definition"></a></dt>
+<dd><p>Set the first sequence to be compared.</p>
+<p>The second sequence to be compared is not changed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;bcde&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">set_seq1</span><span class="p">(</span><span class="s2">&quot;bcde&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>SequenceMatcher computes and caches detailed information about the
+second sequence, so if you want to compare one sequence S against
+many sequences, use .set_seq2(S) once and call .set_seq1(x)
+repeatedly for each of the other sequences.</p>
+<p>See also set_seqs() and set_seq2().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.set_seq2">
+<span class="sig-name descname"><span class="pre">set_seq2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.set_seq2" title="Link to this definition"></a></dt>
+<dd><p>Set the second sequence to be compared.</p>
+<p>The first sequence to be compared is not changed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;bcde&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">set_seq2</span><span class="p">(</span><span class="s2">&quot;abcd&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>SequenceMatcher computes and caches detailed information about the
+second sequence, so if you want to compare one sequence S against
+many sequences, use .set_seq2(S) once and call .set_seq1(x)
+repeatedly for each of the other sequences.</p>
+<p>See also set_seqs() and set_seq1().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.set_seqs">
+<span class="sig-name descname"><span class="pre">set_seqs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.set_seqs" title="Link to this definition"></a></dt>
+<dd><p>Set the two sequences to be compared.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">set_seqs</span><span class="p">(</span><span class="s2">&quot;abcd&quot;</span><span class="p">,</span> <span class="s2">&quot;bcde&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+<span class="go">0.75</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.a">
+<span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.a" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lxml.html._difflib.SequenceMatcher.b">
+<span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#lxml.html._difflib.SequenceMatcher.b" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.IS_CHARACTER_JUNK">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">IS_CHARACTER_JUNK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">\t'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.IS_CHARACTER_JUNK" title="Link to this definition"></a></dt>
+<dd><p>Return True for ignorable character: iff <cite>ch</cite> is a space or tab.</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">IS_CHARACTER_JUNK</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IS_CHARACTER_JUNK</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IS_CHARACTER_JUNK</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IS_CHARACTER_JUNK</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.IS_LINE_JUNK">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">IS_LINE_JUNK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.IS_LINE_JUNK" title="Link to this definition"></a></dt>
+<dd><p>Return True for ignorable line: if <cite>line</cite> is blank or contains a single ‘#’.</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">IS_LINE_JUNK</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IS_LINE_JUNK</span><span class="p">(</span><span class="s1">&#39;  #   </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IS_LINE_JUNK</span><span class="p">(</span><span class="s1">&#39;hello</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.__pyx_unpickle_SequenceMatcher">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">__pyx_unpickle_SequenceMatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__pyx_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__pyx_checksum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__pyx_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.__pyx_unpickle_SequenceMatcher" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib._check_types">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">_check_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib._check_types" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib._format_range_context">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">_format_range_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib._format_range_context" title="Link to this definition"></a></dt>
+<dd><p>Convert range to the “ed” format</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib._format_range_unified">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">_format_range_unified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib._format_range_unified" title="Link to this definition"></a></dt>
+<dd><p>Convert range to the “ed” format</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib._keep_original_ws">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">_keep_original_ws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib._keep_original_ws" title="Link to this definition"></a></dt>
+<dd><p>Replace whitespace with the original whitespace characters in <cite>s</cite></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib._mdiff">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">_mdiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fromlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linejunk=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk=&lt;cyfunction</span> <span class="pre">IS_CHARACTER_JUNK&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib._mdiff" title="Link to this definition"></a></dt>
+<dd><p>Returns generator yielding marked up from/to side by side differences.</p>
+<p>Arguments:
+fromlines – list of text lines to compared to tolines
+tolines – list of text lines to be compared to fromlines
+context – number of context lines to display on each side of difference,</p>
+<blockquote>
+<div><p>if None, all from/to text lines will be generated.</p>
+</div></blockquote>
+<p>linejunk – passed on to ndiff (see ndiff documentation)
+charjunk – passed on to ndiff (see ndiff documentation)</p>
+<p>This function returns an iterator which returns a tuple:
+(from line tuple, to line tuple, boolean flag)</p>
+<dl>
+<dt>from/to line tuple – (line num, line text)</dt><dd><p>line num – integer or None (to indicate a context separation)
+line text – original line text with following markers inserted:</p>
+<blockquote>
+<div><p>‘0+’ – marks start of added text
+‘0-’ – marks start of deleted text
+‘0^’ – marks start of changed text
+‘1’ – marks end of added/deleted/changed text</p>
+</div></blockquote>
+</dd>
+<dt>boolean flag – None indicates context separation, True indicates</dt><dd><p>either “from” or “to” line contains a change, otherwise False.</p>
+</dd>
+</dl>
+<p>This function/iterator was originally developed to generate side by side
+file difference for making HTML pages (see HtmlDiff class for example
+usage).</p>
+<p>Note, this function utilizes the ndiff function to generate the side by
+side difference markup.  Optional ndiff arguments may be passed to this
+function and they in turn will be passed to ndiff.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.context_diff">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">context_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineterm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.context_diff" title="Link to this definition"></a></dt>
+<dd><p>Compare two sequences of lines; generate the delta as a context diff.</p>
+<p>Context diffs are a compact way of showing line changes and a few
+lines of context.  The number of context lines is set by ‘n’ which
+defaults to three.</p>
+<p>By default, the diff control lines (those with <a href="#id1"><span class="problematic" id="id2">**</span></a>* or —) are
+created with a trailing newline.  This is helpful so that inputs
+created from file.readlines() result in diffs that are suitable for
+file.writelines() since both the inputs and outputs have trailing
+newlines.</p>
+<p>For inputs that do not have trailing newlines, set the lineterm
+argument to “” so that the output will be uniformly newline free.</p>
+<p>The context diff format normally has a header for filenames and
+modification times.  Any or all of these may be specified using
+strings for ‘fromfile’, ‘tofile’, ‘fromfiledate’, and ‘tofiledate’.
+The modification times are normally expressed in the ISO 8601 format.
+If not specified, the strings default to blanks.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context_diff</span><span class="p">(</span><span class="s1">&#39;one</span><span class="se">\n</span><span class="s1">two</span><span class="se">\n</span><span class="s1">three</span><span class="se">\n</span><span class="s1">four</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>      <span class="s1">&#39;zero</span><span class="se">\n</span><span class="s1">one</span><span class="se">\n</span><span class="s1">tree</span><span class="se">\n</span><span class="s1">four</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span> <span class="s1">&#39;Original&#39;</span><span class="p">,</span> <span class="s1">&#39;Current&#39;</span><span class="p">)),</span>
+<span class="gp">... </span>      <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">*** Original</span>
+<span class="go">--- Current</span>
+<span class="go">***************</span>
+<span class="go">*** 1,4 ****</span>
+<span class="go">  one</span>
+<span class="go">! two</span>
+<span class="go">! three</span>
+<span class="go">  four</span>
+<span class="go">--- 1,4 ----</span>
+<span class="go">+ zero</span>
+<span class="go">  one</span>
+<span class="go">! tree</span>
+<span class="go">  four</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.diff_bytes">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">diff_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineterm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.diff_bytes" title="Link to this definition"></a></dt>
+<dd><p>Compare <cite>a</cite> and <cite>b</cite>, two sequences of lines represented as bytes rather
+than str. This is a wrapper for <cite>dfunc</cite>, which is typically either
+unified_diff() or context_diff(). Inputs are losslessly converted to
+strings so that <cite>dfunc</cite> only has to worry about strings, and encoded
+back to bytes on return. This is necessary to compare files with
+unknown or inconsistent encoding. All other inputs (except <cite>n</cite>) must be
+bytes rather than str.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.get_close_matches">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">get_close_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possibilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.get_close_matches" title="Link to this definition"></a></dt>
+<dd><p>Use SequenceMatcher to return list of the best “good enough” matches.</p>
+<p>word is a sequence for which close matches are desired (typically a
+string).</p>
+<p>possibilities is a list of sequences against which to match word
+(typically a list of strings).</p>
+<p>Optional arg n (default 3) is the maximum number of close matches to
+return.  n must be &gt; 0.</p>
+<p>Optional arg cutoff (default 0.6) is a float in [0, 1].  Possibilities
+that don’t score at least that similar to word are ignored.</p>
+<p>The best (no more than n) matches among the possibilities are returned
+in a list, sorted by similarity score, most similar first.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s2">&quot;appel&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;ape&quot;</span><span class="p">,</span> <span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;peach&quot;</span><span class="p">,</span> <span class="s2">&quot;puppy&quot;</span><span class="p">])</span>
+<span class="go">[&#39;apple&#39;, &#39;ape&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">keyword</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_keyword</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s2">&quot;wheel&quot;</span><span class="p">,</span> <span class="n">_keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+<span class="go">[&#39;while&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s2">&quot;Apple&quot;</span><span class="p">,</span> <span class="n">_keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_close_matches</span><span class="p">(</span><span class="s2">&quot;accept&quot;</span><span class="p">,</span> <span class="n">_keyword</span><span class="o">.</span><span class="n">kwlist</span><span class="p">)</span>
+<span class="go">[&#39;except&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.ndiff">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">ndiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linejunk=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charjunk=&lt;cyfunction</span> <span class="pre">IS_CHARACTER_JUNK&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.ndiff" title="Link to this definition"></a></dt>
+<dd><p>Compare <cite>a</cite> and <cite>b</cite> (lists of strings); return a <cite>Differ</cite>-style delta.</p>
+<p>Optional keyword parameters <cite>linejunk</cite> and <cite>charjunk</cite> are for filter
+functions, or can be None:</p>
+<ul class="simple">
+<li><p>linejunk: A function that should accept a single string argument and
+return true iff the string is junk.  The default is None, and is
+recommended; the underlying SequenceMatcher class has an adaptive
+notion of “noise” lines.</p></li>
+<li><p>charjunk: A function that accepts a character (string of length
+1), and returns true iff the character is junk. The default is
+the module-level function IS_CHARACTER_JUNK, which filters out
+whitespace characters (a blank or tab; note: it’s a bad idea to
+include newline in this!).</p></li>
+</ul>
+<p>Tools/scripts/ndiff.py is a command-line front-end to this function.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="n">ndiff</span><span class="p">(</span><span class="s1">&#39;one</span><span class="se">\n</span><span class="s1">two</span><span class="se">\n</span><span class="s1">three</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>             <span class="s1">&#39;ore</span><span class="se">\n</span><span class="s1">tree</span><span class="se">\n</span><span class="s1">emu</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">- one</span>
+<span class="go">?  ^</span>
+<span class="go">+ ore</span>
+<span class="go">?  ^</span>
+<span class="go">- two</span>
+<span class="go">- three</span>
+<span class="go">?  -</span>
+<span class="go">+ tree</span>
+<span class="go">+ emu</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.restore">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">restore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">which</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.restore" title="Link to this definition"></a></dt>
+<dd><p>Generate one of the two sequences that generated a delta.</p>
+<p>Given a <cite>delta</cite> produced by <cite>Differ.compare()</cite> or <cite>ndiff()</cite>, extract
+lines originating from file 1 or 2 (parameter <cite>which</cite>), stripping off line
+prefixes.</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="n">ndiff</span><span class="p">(</span><span class="s1">&#39;one</span><span class="se">\n</span><span class="s1">two</span><span class="se">\n</span><span class="s1">three</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>             <span class="s1">&#39;ore</span><span class="se">\n</span><span class="s1">tree</span><span class="se">\n</span><span class="s1">emu</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">restore</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">one</span>
+<span class="go">two</span>
+<span class="go">three</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">restore</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="go">ore</span>
+<span class="go">tree</span>
+<span class="go">emu</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lxml.html._difflib.unified_diff">
+<span class="sig-prename descclassname"><span class="pre">lxml.html._difflib.</span></span><span class="sig-name descname"><span class="pre">unified_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromfiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofiledate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lineterm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lxml.html._difflib.unified_diff" title="Link to this definition"></a></dt>
+<dd><p>Compare two sequences of lines; generate the delta as a unified diff.</p>
+<p>Unified diffs are a compact way of showing line changes and a few
+lines of context.  The number of context lines is set by ‘n’ which
+defaults to three.</p>
+<p>By default, the diff control lines (those with —, +++, or &#64;&#64;) are
+created with a trailing newline.  This is helpful so that inputs
+created from file.readlines() result in diffs that are suitable for
+file.writelines() since both the inputs and outputs have trailing
+newlines.</p>
+<p>For inputs that do not have trailing newlines, set the lineterm
+argument to “” so that the output will be uniformly newline free.</p>
+<p>The unidiff format normally has a header for filenames and modification
+times.  Any or all of these may be specified using strings for
+‘fromfile’, ‘tofile’, ‘fromfiledate’, and ‘tofiledate’.
+The modification times are normally expressed in the ISO 8601 format.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unified_diff</span><span class="p">(</span><span class="s1">&#39;one two three four&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="s1">&#39;zero one tree four&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="s1">&#39;Original&#39;</span><span class="p">,</span> <span class="s1">&#39;Current&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s1">&#39;2005-01-26 23:30:50&#39;</span><span class="p">,</span> <span class="s1">&#39;2010-04-02 10:20:52&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">lineterm</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<span class="go">--- Original        2005-01-26 23:30:50</span>
+<span class="go">+++ Current         2010-04-02 10:20:52</span>
+<span class="go">@@ -1,4 +1,4 @@</span>
+<span class="go">+zero</span>
+<span class="go"> one</span>
+<span class="go">-two</span>
+<span class="go">-three</span>
+<span class="go">+tree</span>
+<span class="go"> four</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lxml.html._diffcommand.html" class="btn btn-neutral float-left" title="lxml.html._diffcommand module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lxml.html._setmixin.html" class="btn btn-neutral float-right" title="lxml.html._setmixin module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, lxml dev team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
