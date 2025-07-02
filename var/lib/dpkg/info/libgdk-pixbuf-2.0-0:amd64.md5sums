@@ -1,0 +1,17 @@
+bb3a9cbf014a5711be815a136c8b9c96  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ani.so
+c54d4cc81567328c6fe6df5ae4a5fde4  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-bmp.so
+2a6a6bf85c22311bbed1a2e14f1b3628  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so
+88478298c28ebefafe9cf63413f5a194  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-icns.so
+3d76567740c4ea2655dfa403962d07c0  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ico.so
+2a5fe31f430469bf72a94ade336d380b  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pnm.so
+a9fe3eb2a5b7492e79034a9ba2481004  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-qtif.so
+c54327d0ee96faa0dddd7192e0fce169  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tga.so
+689f73be31fdcaf9d1ddcfd1dea8e7a6  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tiff.so
+cac567aaebd7a456dc55cb4c8d851bee  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xbm.so
+b2cd3b13b48e2633e1d37d6f320e238a  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xpm.so
+6172b369634fffc02c7b035334f589f2  usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders
+d8446fb20dce7822532b0eed4f49516d  usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.4200.10
+980cdc8d8b18ccefd4e0766669517c7a  usr/share/doc/libgdk-pixbuf-2.0-0/NEWS.gz
+2e2d394ee287f816cb337360a82affa1  usr/share/doc/libgdk-pixbuf-2.0-0/README.md
+5e3804a47f00b627358ab535363ed92b  usr/share/doc/libgdk-pixbuf-2.0-0/changelog.Debian.gz
+9276a9cc55c32b8c333ef1ed1966aa56  usr/share/doc/libgdk-pixbuf-2.0-0/copyright
