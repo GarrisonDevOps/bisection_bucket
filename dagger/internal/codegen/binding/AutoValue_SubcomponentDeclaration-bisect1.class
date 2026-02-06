@@ -75,3 +75,16 @@ abstract class $AutoValue_SubcomponentDeclaration extends SubcomponentDeclaratio
          return this.bindingElement.equals(that.bindingElement()) && this.contributingModule.equals(that.contributingModule()) && this.key.equals(that.key()) && this.subcomponentType.equals(that.subcomponentType()) && this.moduleAnnotation.equals(that.moduleAnnotation());
       }
    }
+
+   public int hashCode() {
+      int h$ = 1;
+      int h$ = h$ * 1000003;
+      h$ ^= this.bindingElement.hashCode();
+      h$ *= 1000003;
+      h$ ^= this.contributingModule.hashCode();
+      h$ *= 1000003;
+      h$ ^= this.key.hashCode();
+      h$ *= 1000003;
+      h$ ^= this.subcomponentType.hashCode();
+      h$ *= 1000003;
+      h$ ^= this.moduleAnnotation.hashCode();
