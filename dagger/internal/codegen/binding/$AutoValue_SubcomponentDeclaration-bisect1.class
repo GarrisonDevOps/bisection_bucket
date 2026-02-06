@@ -1,0 +1,66 @@
+    package dagger.internal.codegen.binding;
+
+import dagger.internal.codegen.base.ModuleAnnotation;
+import dagger.internal.codegen.model.Key;
+import dagger.spi.internal.shaded.androidx.room.compiler.processing.XElement;
+import dagger.spi.internal.shaded.androidx.room.compiler.processing.XTypeElement;
+import java.util.Optional;
+
+abstract class $AutoValue_SubcomponentDeclaration extends SubcomponentDeclaration {
+   private final Optional<XElement> bindingElement;
+   private final Optional<XTypeElement> contributingModule;
+   private final Key key;
+   private final XTypeElement subcomponentType;
+   private final ModuleAnnotation moduleAnnotation;
+
+   $AutoValue_SubcomponentDeclaration(Optional<XElement> bindingElement, Optional<XTypeElement> contributingModule, Key key, XTypeElement subcomponentType, ModuleAnnotation moduleAnnotation) {
+      if (bindingElement == null) {
+         throw new NullPointerException("Null bindingElement");
+      } else {
+         this.bindingElement = bindingElement;
+         if (contributingModule == null) {
+            throw new NullPointerException("Null contributingModule");
+         } else {
+            this.contributingModule = contributingModule;
+            if (key == null) {
+               throw new NullPointerException("Null key");
+            } else {
+               this.key = key;
+               if (subcomponentType == null) {
+                  throw new NullPointerException("Null subcomponentType");
+               } else {
+                  this.subcomponentType = subcomponentType;
+                  if (moduleAnnotation == null) {
+                     throw new NullPointerException("Null moduleAnnotation");
+                  } else {
+                     this.moduleAnnotation = moduleAnnotation;
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   public Optional<XElement> bindingElement() {
+      return this.bindingElement;
+   }
+
+   public Optional<XTypeElement> contributingModule() {
+      return this.contributingModule;
+   }
+
+   public Key key() {
+      return this.key;
+   }
+
+   XTypeElement subcomponentType() {
+      return this.subcomponentType;
+   }
+
+   public ModuleAnnotation moduleAnnotation() {
+      return this.moduleAnnotation;
+   }
+
+   public String toString() {
+      return "SubcomponentDeclaration{bindingElement=" + this.bindingElement + ", contributingModule=" + this.contributingModule + ", key=" + this.key + ", subcomponentType=" + this.subcomponentType + ", moduleAnnotation=" + this.moduleAnnotation + "}";
+   }
