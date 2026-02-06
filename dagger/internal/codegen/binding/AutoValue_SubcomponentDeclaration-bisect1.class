@@ -88,3 +88,5 @@ abstract class $AutoValue_SubcomponentDeclaration extends SubcomponentDeclaratio
       h$ ^= this.subcomponentType.hashCode();
       h$ *= 1000003;
       h$ ^= this.moduleAnnotation.hashCode();
+      return h$;
+   }
