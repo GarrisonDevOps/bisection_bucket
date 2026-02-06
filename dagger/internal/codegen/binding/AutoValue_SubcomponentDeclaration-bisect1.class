@@ -90,3 +90,4 @@ abstract class $AutoValue_SubcomponentDeclaration extends SubcomponentDeclaratio
       h$ ^= this.moduleAnnotation.hashCode();
       return h$;
    }
+}
