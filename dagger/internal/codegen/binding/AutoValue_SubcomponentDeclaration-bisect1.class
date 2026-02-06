@@ -64,3 +64,14 @@ abstract class $AutoValue_SubcomponentDeclaration extends SubcomponentDeclaratio
    public String toString() {
       return "SubcomponentDeclaration{bindingElement=" + this.bindingElement + ", contributingModule=" + this.contributingModule + ", key=" + this.key + ", subcomponentType=" + this.subcomponentType + ", moduleAnnotation=" + this.moduleAnnotation + "}";
    }
+
+   public boolean equals(Object o) {
+      if (o == this) {
+         return true;
+      } else if (!(o instanceof SubcomponentDeclaration)) {
+         return false;
+      } else {
+         SubcomponentDeclaration that = (SubcomponentDeclaration)o;
+         return this.bindingElement.equals(that.bindingElement()) && this.contributingModule.equals(that.contributingModule()) && this.key.equals(that.key()) && this.subcomponentType.equals(that.subcomponentType()) && this.moduleAnnotation.equals(that.moduleAnnotation());
+      }
+   }
