@@ -1,0 +1,6 @@
+4243cc4008436304ea330ccae60c781f  usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.23.0.0
+95ce803461b6781c95bafed697c85e15  usr/lib/x86_64-linux-gnu/libIlmImfUtil-2_2.so.23.0.0
+926e98d0f83d21f70a291f7c8e7a11c4  usr/share/doc/libopenexr23/changelog.Debian.gz
+9cad3b8b4d832fd461ad13311f6ffcfd  usr/share/doc/libopenexr23/changelog.gz
+f4eb5c3bc20c32706ed178d954205481  usr/share/doc/libopenexr23/copyright
+6fe663b90cd1bcec1d7910699f11b9fd  usr/share/lintian/overrides/libopenexr23

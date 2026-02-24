@@ -1,0 +1,24 @@
+# these four variables are present in almost every .pc file
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${prefix}/lib/x86_64-linux-gnu
+includedir=${prefix}/include/mariadb
+# its common to want to know where to install it.
+plugindir=${prefix}/lib/x86_64-linux-gnu/mariadb19/plugin
+# Below are rarely present or not at all, but we export them regardless
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+scriptdir=${prefix}/bin
+docdir=${prefix}/share/doc
+mandir=${prefix}/share/man
+sharedir=${prefix}/share
+mysqlsharedir=${prefix}/share/mysql
+mysqltestdir=${prefix}/share/mysql/mysql-test
+socket=/var/run/mysqld/mysqld.sock
+
+Name: MariaDB
+Description: MariaDB: a very fast and robust SQL database server
+URL: http://mariadb.org
+Version: 10.3.38
+Libs: -L${libdir} -lmariadb -pthread -ldl -lm -lpthread -lgnutls -lz
+Cflags: -I${includedir} 
