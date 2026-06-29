@@ -1,0 +1,62 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  # prettier-ignore
+  group: >-
+    ${{ github.workflow }}-
+    ${{ github.ref_type }}-
+    ${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: tests / ${{ matrix.os }} / ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}-latest
+
+    strategy:
+      matrix:
+        os: [Windows, Ubuntu, MacOS]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        include:
+          # Only run PyPy jobs, on Ubuntu.
+          - os: Ubuntu
+            python-version: pypy-3.7
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Get Python to test against
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Setup pip's cache
+      - name: Save date (for cache)
+        id: date
+        run: echo "::set-output name=date::$(date +%F)"
+      - name: Save pip cache dir
+        id: pip-cache-dir
+        run: echo "::set-output name=dir::$(pip cache dir)"
+      - name: pip cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pip-cache-dir.outputs.dir }}
+          key: pip-v1-${{ runner.os }}-${{ steps.date.outputs.date }}
+          restore-keys: pip-v1-${{ runner.os }}
+
+      - run: pip install nox
+
+      # prettier-ignore
+      - run: >
+          nox
+          -s test-${{ matrix.python-version }}
+          doctest-${{ matrix.python-version }}
+          --error-on-missing-interpreters
+        if: matrix.python-version != 'pypy-3.7'
+
+      - run: nox --error-on-missing-interpreters -s test-pypy3 doctest-pypy3
+        if: matrix.python-version == 'pypy-3.7'
