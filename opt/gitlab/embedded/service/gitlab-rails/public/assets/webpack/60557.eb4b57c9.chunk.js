@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[60557],{324604(a,b,c){c.r(b),c.d(b,{default:()=>e});let d={name:"HeaderMergeTrainsLink",components:{GlLink:c(332378).A},inject:["mergeTrainsAvailable","mergeTrainsPath","canReadMergeTrain"]},e=(0,c(681299).A)(d,function(){var a=this._self._c;return this.mergeTrainsAvailable&&this.canReadMergeTrain?a("gl-link",{attrs:{href:this.mergeTrainsPath}},[this._v("\n  "+this._s(this.s__("Pipelines|View merge train details"))+"\n")]):this._e()},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=60557.eb4b57c9.chunk.js.map

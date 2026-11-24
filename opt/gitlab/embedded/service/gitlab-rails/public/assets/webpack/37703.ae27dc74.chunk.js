@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[37703],{837946(a,b,c){c.r(b),c.d(b,{default:()=>e});let d={name:"ReportTypeCommit",components:{GlLink:c(332378).A},inject:["commitPathTemplate"],props:{value:{type:String,required:!0}},computed:{commitPath(){return this.commitPathTemplate.replace(/\$COMMIT_SHA/g,this.value)}}},e=(0,c(681299).A)(d,function(){return(0,this._self._c)("gl-link",{attrs:{href:this.commitPath}},[this._v(this._s(this.value))])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=37703.ae27dc74.chunk.js.map

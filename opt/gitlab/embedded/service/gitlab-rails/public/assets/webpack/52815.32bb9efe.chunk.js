@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[52815],{990610(a,b,c){c.r(b),c.d(b,{default:()=>d});let d=(0,c(681299).A)({name:"ImageViewer",props:{blob:{type:Object,required:!0}},data(){return{url:this.blob.externalStorageUrl||this.blob.rawPath,alt:this.blob.name}}},function(){var a=this._self._c;return a("div",{staticClass:"gl-bg-strong gl-p-7 gl-text-center"},[a("img",{staticClass:"gl-max-w-full",attrs:{src:this.url,alt:this.alt,"data-testid":"image"}})])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=52815.32bb9efe.chunk.js.map

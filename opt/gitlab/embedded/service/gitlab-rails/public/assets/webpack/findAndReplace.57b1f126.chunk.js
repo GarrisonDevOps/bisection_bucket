@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[78516],{202944(a,b,c){c.r(b);var d=c(479434),e=c.n(d);gon.features?.findAndReplace&&e()(document).on("markdown-editor:find-and-replace",(a,b)=>{let c=e()(b.target);c.is("textarea.markdown-area")&&(e()(document).triggerHandler("markdown-editor:find-and-replace:show",[c.closest("form")]),b.preventDefault())})}}]);
+//# sourceMappingURL=findAndReplace.57b1f126.chunk.js.map

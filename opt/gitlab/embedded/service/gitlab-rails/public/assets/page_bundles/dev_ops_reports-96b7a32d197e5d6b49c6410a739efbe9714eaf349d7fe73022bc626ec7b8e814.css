@@ -1,0 +1,1 @@
+@container panel (width >= 768px){.actions-cell{width:1.5rem}}@container panel (width < 992px){.actions-cell div{width:100% !important;text-align:center !important}.header-cell div{width:100% !important;text-align:left !important;padding:0 !important}.actions-cell::before,.header-cell::before{display:none}.da-table-mobile-header::before{color:#8a8888}}

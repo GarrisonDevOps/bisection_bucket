@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[35861],{477588(a,b,c){c.r(b),c.d(b,{default:()=>d});let d=(0,c(681299).A)({name:"ReportTypeValue",inheritAttrs:!1,props:{value:{type:[String,Number,Boolean],required:!0}}},function(){return(0,this._self._c)("span",[this._v(this._s(this.value))])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=35861.e879efaf.chunk.js.map

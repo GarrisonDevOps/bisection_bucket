@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[98066],{423977(a,b,c){var d=c(825759);let e=d.S1.r({format:{}},[2,[7,"/"],[2,[6,"admin"],[2,[7,"/"],[2,[6,"gitlab_credits_dashboard"],[1,[2,[8,"."],[3,"format"]]]]]]]),f=d.S1.r({format:{}},[2,[7,"/"],[2,[6,"admin"],[2,[7,"/"],[2,[6,"gitlab_credits_dashboard"],[2,[7,"/"],[2,[6,"credit_caps"],[1,[2,[8,"."],[3,"format"]]]]]]]]]);c.d(b,{},{Q0:f,c7:e})}}]);
+//# sourceMappingURL=98066.c1913d84.chunk.js.map

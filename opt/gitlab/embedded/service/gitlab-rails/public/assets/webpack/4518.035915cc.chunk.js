@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[4518],{206565(a,b,c){c.r(b),c.d(b,{default:()=>g});var d=c(219459),e=c(931089);let f={name:"ReportTypeUrl",components:{GlLink:d.A,GlFriendlyWrap:e.A},inheritAttrs:!1,props:{href:{type:String,required:!0}},wrapSymbols:["/","?","&","="]},g=(0,c(681299).A)(f,function(){var a=this._self._c;return a("gl-link",{attrs:{href:this.href}},[a("gl-friendly-wrap",{attrs:{text:this.href,symbols:this.$options.wrapSymbols}})],1)},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=4518.035915cc.chunk.js.map

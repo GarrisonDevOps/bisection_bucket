@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[94318],{579709(a,b,c){c.r(b),c.d(b,{default:()=>e});var d=c(973114);let e=(0,c(681299).A)({name:"FormatTime",props:{timestamp:{type:String,required:!1,default:""}},computed:{formattedTime(){return this.timestamp?d.ys.asDate.format((0,d.Nq)(this.timestamp)):""}}},function(){return(0,this._self._c)("span",[this._v(this._s(this.formattedTime))])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=94318.268a77a7.chunk.js.map

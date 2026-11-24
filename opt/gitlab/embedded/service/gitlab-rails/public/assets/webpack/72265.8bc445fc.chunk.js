@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[72265],{488912(a,b,c){c.r(b),c.d(b,{default:()=>d});let d=(0,c(681299).A)({name:"AudioViewer",props:{blob:{type:Object,required:!0}},data(){return{src:this.blob.rawPath}}},function(){var a=this._self._c;return a("div",{staticClass:"gl-p-7 gl-text-center"},[a("audio",{attrs:{src:this.src,controls:"","data-testid":"audio"}})])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=72265.8bc445fc.chunk.js.map

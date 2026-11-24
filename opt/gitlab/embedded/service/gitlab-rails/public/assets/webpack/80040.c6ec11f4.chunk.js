@@ -1,0 +1,1 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[80040],{912603(a,b,c){var d=c(822108);c(857485),c.d(b,{createArchitectureServices:()=>d.S})}}]);

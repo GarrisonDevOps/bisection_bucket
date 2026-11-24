@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[38454],{448693(a,b,c){c.r(b),c.d(b,{default:()=>d});let d=(0,c(681299).A)({name:"FormatText",props:{value:{type:[String,Number],required:!0},bold:{type:Boolean,required:!1,default:!1}}},function(){return(0,this._self._c)("span",{class:{"gl-font-bold":this.bold}},[this._v(this._s(this.value))])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=38454.cb7ce6ba.chunk.js.map

@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[69198],{300797(a,b,c){c.r(b),c.d(b,{default:()=>e});let d={name:"ReportTypeCode",components:{CodeBlock:c(442462).A},props:{value:{type:String,required:!0}}},e=(0,c(681299).A)(d,function(){return(0,this._self._c)("code-block",{staticClass:"!gl-mb-0",attrs:{code:this.value}})},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=69198.6a794c40.chunk.js.map

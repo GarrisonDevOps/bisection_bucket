@@ -1,0 +1,1 @@
+.import-table-bar{top:calc(calc(var(--header-height) + calc(var(--system-header-height) + var(--performance-bar-height))) + var(--top-bar-height))}.import-table thead{top:calc(calc(calc(var(--header-height) + calc(var(--system-header-height) + var(--performance-bar-height))) + var(--top-bar-height)) + calc(2.75rem - 1px))}

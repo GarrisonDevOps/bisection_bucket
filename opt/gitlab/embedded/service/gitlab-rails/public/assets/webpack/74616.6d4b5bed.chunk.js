@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[74616],{642189(a,b,c){var d=c(839149),e=c(94563),f=c(624731);c.d(b,{},{default:a=>{let b=document.getElementById("js-code-navigation");if(!b)return null;let c=(0,f.A)();return c.dispatch("setInitialData",a),(0,d.U)({el:b,store:c,component:e.A})}})}}]);
+//# sourceMappingURL=74616.6d4b5bed.chunk.js.map

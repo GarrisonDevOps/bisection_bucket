@@ -1,0 +1,482 @@
+{
+  "iconCount": 119,
+  "spriteSize": 239729,
+  "icons": [
+    {
+      "name": "add-user-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "catalog-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "chart-bar-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "chat-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "cloud-check-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "cloud-tanuki-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "cloud-user-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "commit-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "devops-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "email-verification-md",
+      "svg_size": 144
+    },
+    {
+      "name": "email-verification-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "empty-todos-all-done-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-todos-md",
+      "svg_size": 144
+    },
+    {
+      "name": "merge-requests-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "milestone-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "package-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "pipeline-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "project-create-from-template-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "project-create-new-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "project-import-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "purchase-success-md",
+      "svg_size": 144
+    },
+    {
+      "name": "rocket-launch-md",
+      "svg_size": 144
+    },
+    {
+      "name": "scan-alert-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "schedule-md",
+      "svg_size": 144
+    },
+    {
+      "name": "search-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "secure-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "service-desk-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "subgroup-create-new-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "success-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "tanuki-ai-md",
+      "svg_size": 144
+    },
+    {
+      "name": "tanuki-ai-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "train-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "variables-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "wiki-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "empty-access-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-access-token-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-activity-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-admin-apps-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-agent-sessions-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-ai-catalog-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-artifacts-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-artifacts-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "empty-catalog-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-chart-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-cloud-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-commit-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-dashboard-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-devops-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-embed-panel-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-environment-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-epic-add-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-epic-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-feature-flag-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-friends-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-geo-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-groups-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-issues-add-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-issues-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-canceled-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-failed-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-manual-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-not-triggered-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-pending-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-scheduled-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-job-skipped-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-key-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-labels-add-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-labels-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-labels-starred-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-merge-requests-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-milestone-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-organizations-add-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-organizations-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-package-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-piechart-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-pipeline-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-private-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-projects-deleted-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-projects-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-projects-starred-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-radar-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-scan-alert-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-schedule-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-search-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-secrets-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-secure-add-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-secure-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-service-desk-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-session-inbox-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-snippets-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-subgroup-add-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-subgroup-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-train-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-user-alert-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-user-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-user-settings-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-variables-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-wiki-md",
+      "svg_size": 144
+    },
+    {
+      "name": "empty-workspaces-md",
+      "svg_size": 144
+    },
+    {
+      "name": "error-403-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-404-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-409-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-422-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-429-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-500-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-502-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "error-503-lg",
+      "svg_size": 288
+    },
+    {
+      "name": "status-alert-md",
+      "svg_size": 144
+    },
+    {
+      "name": "status-alert-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "status-fail-md",
+      "svg_size": 144
+    },
+    {
+      "name": "status-fail-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "status-new-md",
+      "svg_size": 144
+    },
+    {
+      "name": "status-new-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "status-nothing-md",
+      "svg_size": 144
+    },
+    {
+      "name": "status-nothing-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "status-settings-md",
+      "svg_size": 144
+    },
+    {
+      "name": "status-settings-sm",
+      "svg_size": 72
+    },
+    {
+      "name": "status-success-md",
+      "svg_size": 144
+    },
+    {
+      "name": "status-success-sm",
+      "svg_size": 72
+    }
+  ]
+}

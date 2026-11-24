@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="content-security-policy"
+      content="script-src 'self' 'sha256-C5NYHanFzD/3S/E+C9Ga8zzHxTUaR7hyCqrbSjck17w=' 'wasm-unsafe-eval'; worker-src blob:"
+    />
+    <link
+      data-name="vs/workbench/workbench.web.main"
+      rel="stylesheet"
+      href="../vscode/out/vs/workbench/workbench.web.main.css"
+    />
+    <script type="module">
+      import { main } from '../main.js';
+
+      main();
+    </script>
+  </head>
+</html>

@@ -1,0 +1,1 @@
+@container panel (width < 576px){.clusters-container .nav-controls{width:100%;order:-1}.clusters-container .nav-controls .gl-dropdown,.clusters-container .nav-controls .split-content-button{width:100%}}@container panel (width >= 576px){.cluster-card-item{padding-top:.25rem;min-height:372px}}

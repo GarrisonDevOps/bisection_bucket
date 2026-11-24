@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[61873],{778824(a,b,c){c.r(b),c.d(b,{default:()=>e});let d={name:"MilestoneLink",components:{GlLink:c(332378).A},props:{title:{type:String,required:!0},webPath:{type:String,required:!0}}},e=(0,c(681299).A)(d,function(){return(0,this._self._c)("gl-link",{attrs:{href:this.webPath,target:"_blank",variant:"meta"}},[this._v(this._s(this.title))])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=61873.de8680c9.chunk.js.map

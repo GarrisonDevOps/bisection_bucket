@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[91572],{469727(a,b,c){c.r(b),c.d(b,{default:()=>e});let d={name:"RunnerDashboardLink",components:{GlButton:c(995092).A},inject:{runnerDashboardPath:{default:null}}},e=(0,c(681299).A)(d,function(){var a=this._self._c;return this.runnerDashboardPath?a("gl-button",{staticClass:"gl-mr-2",attrs:{variant:"link",href:this.runnerDashboardPath}},[this._v("\n  "+this._s(this.s__("Runners|Fleet dashboard"))+"\n")]):this._e()},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=91572.707c3f77.chunk.js.map
