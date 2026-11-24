@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e # fail on errors
+
+# Redirect stderr -> stdout
+exec 2>&1
+<%= render("mount_point_check.erb", cookbook: 'package') %>
+
+cd <%= node['gitlab_pages']['dir'] %>
+
+<% headers = [ node['gitlab_pages']['headers'] ].flatten.compact  %>
+
+exec chpst -e <%= @options[:env_dir] %> \
+    /opt/gitlab/embedded/bin/gitlab-pages \
+    -config="<%= node['gitlab_pages']['dir'] %>/gitlab-pages-config" \

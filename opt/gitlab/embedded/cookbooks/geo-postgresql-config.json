@@ -1,0 +1,6 @@
+{
+  "run_list": [
+      "recipe[gitlab-ee::config]",
+      "recipe[gitlab-ee::geo-postgresql]"
+  ]
+}

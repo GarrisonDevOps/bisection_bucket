@@ -1,0 +1,62 @@
+production:
+  <%- if @redis_extra_config_command -%>
+  config_command: "<%= @redis_extra_config_command %>"
+  <%- end -%>
+  <% if !@redis_enable_client %>
+  id:
+  <% end %>
+  <% if @redis_connect_timeout %>
+  connect_timeout: <%= @redis_connect_timeout %>
+  <% end %>
+  <% if @redis_read_timeout %>
+  read_timeout: <%= @redis_read_timeout %>
+  <% end %>
+  <% if @redis_write_timeout %>
+  write_timeout: <%= @redis_write_timeout %>
+  <% end %>
+  <% if defined?(@cluster_nodes) && !@cluster_nodes.empty? %>
+  <%- if @cluster_username %>username: <%= @cluster_username %><% end %>
+  <%- if @cluster_password %>password: <%= @cluster_password %><% end %>
+  cluster:
+    <% @cluster_nodes.each do |node| %>
+    -
+      host: <%= node['host'] %>
+      port: <%= node['port'] %>
+    <% end %>
+  <% else %>
+  url: <%= @redis_url %>
+  secret_file: <%= @redis_encrypted_settings_file %>
+  <%- if @redis_credentials_provider && !@redis_credentials_provider.empty? %>
+  <%- if @redis_username %>username: <%= @redis_username %><% end %>
+  credentials_provider:
+    provider: <%= @redis_credentials_provider['provider'] || 'azure' %>
+    <%- if @redis_credentials_provider['resource'] %>resource: <%= @redis_credentials_provider['resource'] %><% end %>
+  <%- end %>
+  <%- if @redis_ssl %>
+  <%# For redis-rb v5+, if Sentinel is enabled the ssl flag is needed because rediss:// is ignored in URL (see https://github.com/redis-rb/redis-client/pull/277). %>
+  ssl: true
+  ssl_params:
+    <%- if @redis_tls_ca_cert_dir %>ca_path: "<%= @redis_tls_ca_cert_dir %>"<% end %>
+    <%- if @redis_tls_ca_cert_file %>ca_file: "<%= @redis_tls_ca_cert_file %>"<% end %>
+    <%- if @redis_tls_client_cert_file %>cert_file: "<%= @redis_tls_client_cert_file %>"<% end %>
+    <%- if @redis_tls_client_key_file %>key_file: "<%= @redis_tls_client_key_file %>"<% end %>
+  <% end %>
+  <% unless @redis_sentinels.empty? %>
+  <%- if @redis_sentinels_password %>
+  sentinel_password: "<%= @redis_sentinels_password %>"
+  <%- end -%>
+  sentinels:
+    <% @redis_sentinels.each do |sentinel| %>
+    -
+      host: <%= sentinel['host'] %>
+      port: <%= sentinel['port'] %>
+      <%- if @redis_sentinels_ssl %>
+      ssl: true
+      ssl_params:
+        <%- if @redis_sentinels_tls_ca_cert_file %>ca_file: "<%= @redis_sentinels_tls_ca_cert_file %>"<% end %>
+        <%- if @redis_sentinels_tls_client_cert_file %>cert: "<%= @redis_sentinels_tls_client_cert_file %>"<% end %>
+        <%- if @redis_sentinels_tls_client_key_file %>key: "<%= @redis_sentinels_tls_client_key_file %>"<% end %>
+      <%- end -%>
+    <% end %>
+  <% end %>
+  <% end %>

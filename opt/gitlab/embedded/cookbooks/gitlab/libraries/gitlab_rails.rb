@@ -1,0 +1,735 @@
+# Copyright:: Copyright (c) 2016 GitLab Inc.
+# License:: Apache License, Version 2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+require_relative '../../nginx/libraries/nginx'
+require_relative '../../gitaly/libraries/gitaly.rb'
+require_relative '../../package/libraries/settings_dsl.rb'
+require_relative '../../package/libraries/helpers/redis_helper/gitlab_rails'
+require_relative '../../package/libraries/helpers/fips_helper'
+
+module GitlabRails
+  ALLOWED_DATABASES = %w[main ci geo embedding sec].freeze
+  MAIN_DATABASES = %w[main geo].freeze
+  SHARED_DATABASE_ATTRIBUTES = %w[db_host db_port db_database].freeze
+
+  class << self
+    def parse_variables
+      parse_database_adapter
+      parse_database_settings
+      parse_databases
+      translate_rails_nginx_settings
+      parse_external_url
+      parse_directories
+      parse_gitlab_trusted_proxies
+      parse_incoming_email_logfile
+      parse_service_desk_email_logfile
+      parse_maximum_request_duration
+      parse_redis_settings
+      parse_redis_extra_config_command
+      parse_registry_postgresql_settings
+      parse_smtp_settings
+      validate_smtp_settings!
+      validate_ssh_settings!
+      validate_mobile_push_settings!
+      validate_object_store_allowed_download_modes!
+      parse_nginx_settings
+    end
+
+    def parse_directories
+      parse_runtime_dir
+      parse_shared_dir
+      parse_artifacts_dir
+      parse_external_diffs_dir
+      parse_lfs_objects_dir
+      parse_uploads_dir
+      parse_packages_dir
+      parse_dependency_proxy_dir
+      parse_terraform_state_dir
+      parse_ci_secure_files_dir
+      parse_agent_plan_content_dir
+      parse_ci_catalog_bundles_dir
+      parse_encrypted_settings_path
+      parse_pages_dir
+    end
+
+    def transform_secrets
+      # Transform legacy key names to new key names
+      Gitlab['gitlab_rails']['db_key_base'] ||= Gitlab['gitlab_ci']['db_key_base'] # Changed in 8.11
+      Gitlab['gitlab_rails']['secret_key_base'] ||= Gitlab['gitlab_ci']['db_key_base'] # Changed in 8.11
+      Gitlab['gitlab_rails']['otp_key_base'] ||= Gitlab['gitlab_rails']['secret_token']
+      Gitlab['gitlab_rails']['openid_connect_signing_key'] ||= Gitlab['gitlab_rails']['jws_private_key'] # Changed in 10.1
+
+      # Environment variable gets priority over gitlab.rb setting
+      Gitlab['gitlab_rails']['initial_root_password'] = ENV['GITLAB_ROOT_PASSWORD'] || Gitlab['gitlab_rails']['initial_root_password']
+    end
+
+    def parse_secrets # rubocop:disable Metrics/AbcSize
+      transform_secrets
+
+      # Note: If you add another secret to generate here make sure it gets written to disk in SecretsHelper.write_to_gitlab_secrets
+      Gitlab['gitlab_rails']['db_key_base'] ||= SecretsHelper.generate_hex(64)
+      Gitlab['gitlab_rails']['secret_key_base'] ||= SecretsHelper.generate_hex(64)
+      Gitlab['gitlab_rails']['otp_key_base'] ||= SecretsHelper.generate_hex(64)
+      Gitlab['gitlab_rails']['encrypted_settings_key_base'] ||= SecretsHelper.generate_hex(64)
+      Gitlab['gitlab_rails']['openid_connect_signing_key'] ||= SecretsHelper.generate_rsa(4096).to_pem
+      parse_orbit_secret
+      parse_service_ping_secret
+
+      # 1. We set the following two keys as an array to support keys rotation.
+      #    The last key in the array is always used to encrypt data:
+      #    https://github.com/rails/rails/blob/v7.0.8.4/activerecord/lib/active_record/encryption/key_provider.rb#L21
+      #    while all the keys are used (in the order they're defined) to decrypt data:
+      #    https://github.com/rails/rails/blob/v7.0.8.4/activerecord/lib/active_record/encryption/cipher.rb#L26.
+      #    This allows to rotate keys by adding a new key as the last key, and start a re-encryption process that
+      #    runs in the background: https://gitlab.com/gitlab-org/gitlab/-/issues/494976
+      # 2. We use the same method and length as Rails' defaults:
+      #    https://github.com/rails/rails/blob/v7.0.8.4/activerecord/lib/active_record/railties/databases.rake#L537-L540
+      Gitlab['gitlab_rails']['active_record_encryption_primary_key'] ||= [SecretsHelper.generate_alphanumeric(32)]
+      Gitlab['gitlab_rails']['active_record_encryption_deterministic_key'] ||= [SecretsHelper.generate_alphanumeric(32)]
+      Gitlab['gitlab_rails']['active_record_encryption_key_derivation_salt'] ||= SecretsHelper.generate_alphanumeric(32)
+
+      if FipsHelper.fips_ubuntu_22_or_newer?
+        Gitlab['gitlab_rails']['signed_cookie_salt'] ||= SecretsHelper.generate_alphanumeric(32)
+        Gitlab['gitlab_rails']['authenticated_encrypted_cookie_salt'] ||= SecretsHelper.generate_alphanumeric(32)
+        Gitlab['gitlab_rails']['gitaly_token'] ||= SecretsHelper.generate_alphanumeric(32)
+      end
+
+      return unless Gitlab['gitlab_rails']['initial_root_password'].nil?
+
+      Gitlab['gitlab_rails']['initial_root_password'] = SecretsHelper.generate_base64(32)
+      Gitlab['gitlab_rails']['store_initial_root_password'] = true if Gitlab['gitlab_rails']['store_initial_root_password'].nil?
+    end
+
+    def parse_orbit_secret
+      return unless Gitlab['gitlab_rails']['orbit_enabled']
+
+      Gitlab['gitlab_rails']['orbit_secret'] ||= SecretsHelper.generate_base64(32)
+    end
+
+    def parse_service_ping_secret
+      Gitlab['gitlab_rails']['service_ping_secret'] ||= SecretsHelper.generate_base64(32)
+    end
+
+    def validate_secrets
+      transform_secrets
+
+      # Blow up when the existing configuration is ambiguous, so we don't accidentally throw away important secrets
+      ci_db_key_base = Gitlab['gitlab_ci']['db_key_base']
+      rails_db_key_base = Gitlab['gitlab_rails']['db_key_base']
+
+      if ci_db_key_base && rails_db_key_base && ci_db_key_base != rails_db_key_base
+        message = [
+          "The value of Gitlab['gitlab_ci']['db_key_base'] (#{ci_db_key_base}) does not match the value of Gitlab['gitlab_rails']['db_key_base'] (#{rails_db_key_base}).",
+          "Please back up both secrets, set Gitlab['gitlab_rails']['db_key_base'] to the value of Gitlab['gitlab_ci']['db_key_base'], and try again.",
+          "For more information, see <https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/update/README.md#migrating-legacy-secrets>"
+        ]
+
+        raise message.join("\n\n")
+      end
+
+      raise 'initial_root_password: Length is too short, minimum is 8 characters' if Gitlab['gitlab_rails']['initial_root_password'] && Gitlab['gitlab_rails']['initial_root_password'].length < 8
+
+      validate_orbit_secret
+      validate_service_ping_secret
+    end
+
+    def validate_orbit_secret
+      return unless Gitlab['gitlab_rails']['orbit_secret']
+
+      begin
+        orbit_secret = Base64.strict_decode64(Gitlab['gitlab_rails']['orbit_secret'])
+      rescue ArgumentError
+        raise "gitlab_rails['orbit_secret'] must be a valid base64-encoded string of exactly 32 bytes"
+      end
+
+      raise "gitlab_rails['orbit_secret'] should be exactly 32 bytes" if orbit_secret.length != 32
+    end
+
+    def validate_service_ping_secret
+      return unless Gitlab['gitlab_rails']['service_ping_secret']
+
+      begin
+        secret = Base64.strict_decode64(Gitlab['gitlab_rails']['service_ping_secret'])
+      rescue ArgumentError
+        raise "gitlab_rails['service_ping_secret'] must be a valid base64-encoded string of exactly 32 bytes"
+      end
+
+      raise "gitlab_rails['service_ping_secret'] should be exactly 32 bytes" if secret.length != 32
+    end
+
+    def parse_external_url # rubocop:disable Metrics/AbcSize
+      return unless Gitlab['external_url']
+
+      uri = URI(Gitlab['external_url'].to_s)
+
+      raise "GitLab external URL must include a schema and FQDN, e.g. http://gitlab.example.com/" unless uri.host
+
+      Gitlab['gitlab_rails']['gitlab_url'] = uri.to_s.chomp("/")
+
+      Gitlab['user']['git_user_email'] ||= "gitlab@#{uri.host}"
+      Gitlab['gitlab_rails']['gitlab_host'] = uri.host
+      Gitlab['gitlab_rails']['gitlab_email_from'] ||= "gitlab@#{uri.host}"
+
+      parse_proxy_headers_default_args = [
+        Gitlab['gitlab_rails']['nginx'],
+        Gitlab['node']['gitlab']['gitlab_rails']['nginx'],
+        Gitlab['node'].default['gitlab']['gitlab_rails']['nginx']
+      ]
+
+      case uri.scheme
+      when "http"
+        Gitlab['gitlab_rails']['gitlab_https'] = false
+        Gitlab['gitlab_rails']['nginx']['proxy_set_headers'] = Nginx.parse_proxy_headers(*parse_proxy_headers_default_args, false)
+      when "https"
+        Gitlab['gitlab_rails']['gitlab_https'] = true
+        Gitlab['gitlab_rails']['nginx']['ssl_certificate'] ||= "/etc/gitlab/ssl/#{uri.host}.crt"
+        Gitlab['gitlab_rails']['nginx']['ssl_certificate_key'] ||= "/etc/gitlab/ssl/#{uri.host}.key"
+        Gitlab['gitlab_rails']['nginx']['proxy_set_headers'] = Nginx.parse_proxy_headers(*parse_proxy_headers_default_args, true)
+      else
+        raise "Unsupported external URL scheme: #{uri.scheme}"
+      end
+
+      unless ["", "/"].include?(uri.path)
+        relative_url = uri.path.chomp("/")
+        Gitlab['gitlab_rails']['gitlab_relative_url'] ||= relative_url
+        Gitlab[WebServerHelper.service_name]['relative_url'] ||= relative_url
+        Gitlab['gitlab_workhorse']['relative_url'] ||= relative_url
+      end
+
+      Gitlab['gitlab_rails']['gitlab_port'] = uri.port
+    end
+
+    def parse_database_adapter
+      # TODO: Remove in GitLab 13
+
+      adapter = Gitlab['gitlab_rails']['db_adapter']
+      error_message = <<~MSG
+          PostgreSQL is the only supported DBMS starting from GitLab 12.1 and you are using #{adapter}.
+          Please refer https://docs.gitlab.com/omnibus/update/convert_to_omnibus.html#upgrading-from-non-omnibus-mysql-to-an-omnibus-installation-version-68
+          to migrate to a PostgreSQL based installation.
+      MSG
+      raise error_message if adapter && adapter != 'postgresql'
+    end
+
+    def parse_database_settings
+      [
+        [%w(gitlab_rails db_username), %w(postgresql sql_user)],
+        [%w(gitlab_rails db_host), %w(postgresql listen_address)],
+        [%w(gitlab_rails db_port), %w(postgresql port)],
+      ].each do |left, right|
+        next unless Gitlab[left.first][left.last].nil?
+
+        better_value_from_gitlab_rb = Gitlab[right.first][right.last]
+        default_from_attributes = Gitlab['node']['gitlab'][SettingsDSL::Utils.node_attribute_key(left.first)][left.last]
+        Gitlab[left.first][left.last] = better_value_from_gitlab_rb || default_from_attributes
+      end
+
+      # Postgres allow multiple listen addresses, comma-separated values
+      # In case of multi listen_address, will use the first address from list
+      db_host = Gitlab['gitlab_rails']['db_host']
+      if db_host&.include?(',')
+        Gitlab['gitlab_rails']['db_host'] = db_host.split(',')[0]
+        warning = [
+          "Received gitlab_rails['db_host'] value was: #{db_host.to_json}.",
+          "First listen_address '#{Gitlab['gitlab_rails']['db_host']}' will be used."
+        ].join("\n  ")
+        warn(warning)
+      end
+
+      # In case no other setting was provided for db_host, we use the socket
+      # directory
+      Gitlab['gitlab_rails']['db_host'] ||= Gitlab['postgresql']['dir'] || Gitlab['node']['postgresql']['dir']
+    end
+
+    def database_attributes
+      Gitlab['node']['gitlab']['gitlab_rails'].keys.select { |k| k.start_with?('db_') }
+    end
+
+    def generate_main_database
+      # If user hasn't specified a main database, for now, we will use the top
+      # level `db_*` keys to populate one. In the future, when we are confident
+      # in decomposition, we can deprecate top level `gitlab_rails['db_*']`
+      # keys and ask users to explicitly set
+      # `gitlab_rails['databases']['main']['db_*']` settings instead.
+      Gitlab['gitlab_rails']['databases'] ||= {}
+      Gitlab['gitlab_rails']['databases']['main'] ||= { 'enable' => true }
+
+      # Set default value for attributes of main database based on top level
+      # `gitlab_rails['db_*']` settings.
+      database_attributes.each do |attribute|
+        next unless Gitlab['gitlab_rails']['databases']['main'][attribute].nil?
+
+        Gitlab['gitlab_rails']['databases']['main'][attribute] =
+          [Gitlab['gitlab_rails'][attribute], Gitlab['node']['gitlab']['gitlab_rails'][attribute]].compact.first
+      end
+    end
+
+    def default_ci_connection_to_main
+      # If there's an explicit configuration to disable the ci connection or
+      # have a different config for ci we should respect that.
+      Gitlab['gitlab_rails']['databases']['ci'] ||= { 'enable' => true }
+    end
+
+    def parse_databases
+      # TODO: Remove when we want to deprecate top level `gitlab_rails['db_*']`
+      # settings
+      generate_main_database
+
+      default_ci_connection_to_main
+      # Weed out the databases that are either not allowed or not enabled explicitly (except for main and geo)
+      Gitlab['gitlab_rails']['databases'].to_h.each do |database, settings|
+        if !MAIN_DATABASES.include?(database) && settings['enable'] != true
+          Gitlab['gitlab_rails']['databases'].delete(database)
+          next
+        end
+
+        unless ALLOWED_DATABASES.include?(database)
+          Gitlab['gitlab_rails']['databases'].delete(database)
+          LoggingHelper.warning("Additional database `#{database}` not supported in Rails application. It will be ignored.")
+        end
+      end
+
+      # Set default value of settings for other databases based on values used in `main` database.
+      Gitlab['gitlab_rails']['databases'].each_key do |database|
+        next if MAIN_DATABASES.include?(database)
+
+        database_attributes.each do |attribute|
+          next unless Gitlab['gitlab_rails']['databases'][database][attribute].nil?
+
+          Gitlab['gitlab_rails']['databases'][database][attribute] = Gitlab['gitlab_rails']['databases']['main'][attribute]
+        end
+
+        # If additional database shares attributes with main
+        # it should be skipped from database_tasks (running migrations)
+        database_same_as_main = SHARED_DATABASE_ATTRIBUTES.all? { |attribute| Gitlab['gitlab_rails']['databases'][database][attribute] == Gitlab['gitlab_rails']['databases']['main'][attribute] }
+        Gitlab['gitlab_rails']['databases'][database]['db_database_tasks'] = false if database_same_as_main
+      end
+    end
+
+    def parse_runtime_dir
+      if Gitlab['node']['filesystem'].nil?
+        Chef::Log.warn 'No filesystem variables in Ohai, disabling runtime_dir'
+        Gitlab['runtime_dir'] = nil
+        return
+      end
+
+      return if Gitlab['runtime_dir']
+
+      search_dirs = ['/run', '/dev/shm']
+
+      search_dirs.each do |run_dir|
+        fs = Gitlab['node']['filesystem']['by_mountpoint'][run_dir]
+
+        if fs && fs['fs_type'] == 'tmpfs'
+          Gitlab['runtime_dir'] = run_dir
+          break
+        end
+      end
+
+      Chef::Log.warn "Could not find a tmpfs in #{search_dirs}" if Gitlab['runtime_dir'].nil?
+
+      Gitlab['runtime_dir']
+    end
+
+    def parse_shared_dir
+      Gitlab['gitlab_rails']['shared_path'] ||= Gitlab['node']['gitlab']['gitlab_rails']['shared_path']
+    end
+
+    def parse_artifacts_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['artifacts_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'artifacts')
+    end
+
+    def parse_external_diffs_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['external_diffs_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'external-diffs')
+    end
+
+    def parse_lfs_objects_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['lfs_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'lfs-objects')
+    end
+
+    def parse_uploads_dir
+      Gitlab['gitlab_rails']['uploads_storage_path'] ||= public_path
+    end
+
+    def parse_packages_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['packages_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'packages')
+    end
+
+    def parse_dependency_proxy_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['dependency_proxy_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'dependency_proxy')
+    end
+
+    def parse_terraform_state_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['terraform_state_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'terraform_state')
+    end
+
+    def parse_ci_secure_files_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['ci_secure_files_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'ci_secure_files')
+    end
+
+    def parse_agent_plan_content_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['agent_plan_content_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'agent_plan_content')
+    end
+
+    def parse_ci_catalog_bundles_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['ci_catalog_bundles_storage_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'ci_catalog_bundles')
+    end
+
+    def parse_encrypted_settings_path
+      # This requires the parse_shared_dir to be executed before
+      encrypted_settings_path = Gitlab['gitlab_rails']['encrypted_settings_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'encrypted_settings')
+
+      RedisHelper::GitlabRails::REDIS_INSTANCES.each do |instance|
+        Gitlab['gitlab_rails']["redis_#{instance}_encrypted_settings_file"] ||= Gitlab['gitlab_rails']['redis_encrypted_settings_file'] || File.join(encrypted_settings_path, "redis.#{instance}.yml.enc")
+      end
+
+      # NOTE: The default value of `redis_encrypted_settings_file` should be
+      # set only after the instance-specific ones are handled, or this default
+      # value will get used for the instance-specific settings.
+      Gitlab['gitlab_rails']['redis_encrypted_settings_file'] ||= File.join(encrypted_settings_path, 'redis.yml.enc')
+    end
+
+    def parse_redis_settings
+      Gitlab['gitlab_rails']['redis_sentinel_master'] ||= Gitlab['redis']['master_name'] || Gitlab[:node]['redis']['master_name']
+      Gitlab['gitlab_rails']['redis_sentinel_master_ip'] ||= Gitlab['redis']['master_ip'] || Gitlab[:node]['redis']['master_ip']
+      Gitlab['gitlab_rails']['redis_sentinel_master_port'] ||= Gitlab['redis']['master_port'] || Gitlab[:node]['redis']['master_port']
+      Gitlab['gitlab_rails']['redis_password'] ||= Gitlab['redis']['master_password'] || Gitlab[:node]['redis']['master_password']
+    end
+
+    def parse_redis_extra_config_command
+      RedisHelper::GitlabRails::REDIS_INSTANCES.each do |instance|
+        Gitlab['gitlab_rails']["redis_#{instance}_extra_config_command"] ||= Gitlab['gitlab_rails']['redis_extra_config_command']
+      end
+    end
+
+    def parse_registry_postgresql_settings
+      Gitlab['registry'] ||= {}
+      registry_db_config = Gitlab['registry']['database'] || {}
+      registry_node_db_config = Gitlab['node']['registry']['database']
+      rails_node_db_config = Gitlab['node']['gitlab']['gitlab_rails']['backup_registry']['database_connection']
+      Gitlab['gitlab_rails'] ||= {}
+      Gitlab['gitlab_rails']['backup_registry'] ||= {}
+      Gitlab['gitlab_rails']['backup_registry']['database_connection'] ||= {}
+      rails_db_config = Gitlab['gitlab_rails']['backup_registry']['database_connection']
+
+      %w[host port dbname sslmode sslcert sslkey sslrootcert].each do |key|
+        rails_db_config[key] = registry_db_config[key] || rails_db_config[key] || registry_node_db_config[key] || rails_node_db_config[key]
+      end
+
+      # Registry.parse_database_configuration (which computes registry database host
+      # from PostgreSQL settings) runs after GitlabRails (priority 19 vs 15), so we
+      # must apply the same fallback logic here.
+      rails_db_config['host'] ||=
+        Gitlab['postgresql']['listen_address'] ||
+        Gitlab['node']['postgresql']['listen_address'] ||
+        Gitlab['postgresql']['dir'] ||
+        Gitlab['node']['postgresql']['dir']
+    end
+
+    def parse_pages_dir
+      # This requires the parse_shared_dir to be executed before
+      Gitlab['gitlab_rails']['pages_path'] ||= File.join(Gitlab['gitlab_rails']['shared_path'], 'pages')
+      Gitlab['gitlab_rails']['pages_local_store_path'] ||= Gitlab['gitlab_rails']['pages_path']
+    end
+
+    def parse_gitlab_trusted_proxies
+      Gitlab['gitlab_rails']['nginx']['real_ip_trusted_addresses'] ||= Gitlab['node']['gitlab']['gitlab_rails']['nginx']['real_ip_trusted_addresses']
+      Gitlab['gitlab_rails']['trusted_proxies'] = Gitlab['gitlab_rails']['nginx']['real_ip_trusted_addresses'] if Gitlab['gitlab_rails']['trusted_proxies'].nil?
+    end
+
+    def parse_incoming_email_logfile
+      log_directory = Gitlab['mailroom']['log_directory'] || Gitlab[:node]['gitlab']['mailroom']['log_directory']
+      return unless log_directory
+
+      Gitlab['gitlab_rails']['incoming_email_log_file'] ||= File.join(log_directory, 'mail_room_json.log')
+    end
+
+    def parse_service_desk_email_logfile
+      log_directory = Gitlab['mailroom']['log_directory'] || Gitlab[:node]['gitlab']['mailroom']['log_directory']
+      return unless log_directory
+
+      Gitlab['gitlab_rails']['service_desk_email_log_file'] ||= File.join(log_directory, 'mail_room_json.log')
+    end
+
+    def parse_maximum_request_duration
+      Gitlab['gitlab_rails']['max_request_duration_seconds'] ||= (worker_timeout * 0.95).ceil
+
+      return if Gitlab['gitlab_rails']['max_request_duration_seconds'] < worker_timeout
+
+      raise "The maximum request duration needs to be smaller than the worker timeout (#{worker_timeout}s)"
+    end
+
+    def parse_smtp_settings
+      SmtpHelper.parse_smtp_authentication!(Gitlab['gitlab_rails'])
+    end
+
+    def validate_smtp_settings!
+      SmtpHelper.validate_smtp_settings!(Gitlab['gitlab_rails'])
+    end
+
+    def validate_ssh_settings!
+      host = Gitlab['gitlab_rails']['gitlab_ssh_host']
+
+      return unless host
+
+      URI::Generic.build(scheme: 'ssh', host: host)
+    rescue URI::InvalidComponentError
+      msg = <<~MSG
+gitlab_rails['gitlab_ssh_host'] is set to #{host}, but it must only contain a valid hostname.
+
+If you wish to use a custom SSH port (such as 2222), in /etc/gitlab/gitlab.rb set the hostname and port separately:
+
+gitlab_rails['gitlab_ssh_host'] = 'gitlab.example.com'
+gitlab_rails['gitlab_shell_ssh_port'] = 2222
+      MSG
+      raise msg
+    end
+
+    def validate_mobile_push_settings!
+      settings = Gitlab['gitlab_rails']
+      required = %w[mobile_push_apns_auth_key_path mobile_push_apns_key_id mobile_push_apns_team_id]
+      keys = required + %w[mobile_push_apns_topic]
+
+      # Reject non-String values outright: a coerced value would render into
+      # gitlab.yml, where the application's delivery-time rescue swallows the
+      # resulting failure on every push. Reconfigure is the last point where
+      # the misconfiguration can fail loudly with its cause named.
+      invalid = keys.reject { |key| settings[key].nil? || settings[key].is_a?(String) }
+
+      if invalid.any?
+        message = invalid.map { |key| "gitlab_rails['#{key}'] (#{settings[key].class})" }.join(', ')
+
+        raise "Mobile push notification settings must be strings. Not a string: #{message}."
+      end
+
+      # Normalize before validating: blank values collapse to a stripped
+      # String or nil, written back so gitlab.yml never renders a value the
+      # application's presence gate would silently reject (a blank topic
+      # would otherwise override the application-side default).
+      values = keys.to_h do |key|
+        value = settings[key].to_s.strip
+        settings[key] = value.empty? ? nil : value
+        [key, value]
+      end
+
+      return if values.each_value.all?(&:empty?)
+
+      missing = required.select { |key| values[key].empty? }
+
+      if missing.any?
+        message = missing.map { |key| "gitlab_rails['#{key}']" }.join(', ')
+
+        raise "Mobile push notifications require gitlab_rails['mobile_push_apns_auth_key_path'], " \
+              "gitlab_rails['mobile_push_apns_key_id'] and gitlab_rails['mobile_push_apns_team_id'] " \
+              "to all be set. Missing: #{message}."
+      end
+
+      auth_key_path = values['mobile_push_apns_auth_key_path']
+
+      return if File.file?(auth_key_path)
+
+      LoggingHelper.warning("gitlab_rails['mobile_push_apns_auth_key_path'] is set to '#{auth_key_path}', " \
+                            'but no file exists at that path. APNs delivery will fail until the key is placed ' \
+                            'there and is readable by the git user.')
+    end
+
+    ALLOWED_DOWNLOAD_MODES = %w[proxy direct].freeze
+    OBJECT_STORE_ALLOWED_DOWNLOAD_MODES_KEYS = %w[
+      artifacts_object_store_allowed_download_modes
+      external_diffs_object_store_allowed_download_modes
+      lfs_object_store_allowed_download_modes
+      uploads_object_store_allowed_download_modes
+      packages_object_store_allowed_download_modes
+      dependency_proxy_object_store_allowed_download_modes
+      terraform_state_object_store_allowed_download_modes
+      pages_object_store_allowed_download_modes
+      ci_secure_files_object_store_allowed_download_modes
+      agent_plan_content_object_store_allowed_download_modes
+      ci_catalog_bundles_object_store_allowed_download_modes
+    ].freeze
+
+    def validate_object_store_allowed_download_modes!
+      settings = Gitlab['gitlab_rails']
+
+      configured = OBJECT_STORE_ALLOWED_DOWNLOAD_MODES_KEYS.map do |key|
+        ["gitlab_rails['#{key}']", settings[key], settings[key.sub('_allowed_download_modes', '_proxy_download')]]
+      end
+      configured << [
+        "gitlab_rails['object_store']['allowed_download_modes']",
+        settings.dig('object_store', 'allowed_download_modes'),
+        settings.dig('object_store', 'proxy_download')
+      ]
+
+      invalid = configured.to_h { |key, modes, _proxy_download| [key, modes] }
+      invalid.select! { |_key, modes| modes && !(Array(modes) - ALLOWED_DOWNLOAD_MODES).empty? }
+
+      unless invalid.empty?
+        message = invalid.map { |key, modes| "#{key} (#{modes.inspect})" }.join(', ')
+
+        raise "allowed_download_modes contains invalid mode(s). Valid modes are: #{ALLOWED_DOWNLOAD_MODES.join(', ')}. " \
+              "Check the following object storage configuration(s): #{message}"
+      end
+
+      missing = configured.filter_map do |key, modes, proxy_download|
+        next if modes.nil?
+
+        required_mode = proxy_download ? 'proxy' : 'direct'
+        [key, required_mode] unless Array(modes).include?(required_mode)
+      end
+
+      return if missing.empty?
+
+      message = missing.map { |key, mode| "#{key} must include #{mode.inspect}" }.join(', ')
+      raise "allowed_download_modes must include the mode implied by proxy_download. Check the following object storage configuration(s): #{message}"
+    end
+
+    # Returns variables hash for connection template
+    def registry_connection_variables
+      db = Gitlab['node'].dig('gitlab', 'gitlab_rails', 'backup_registry', 'database_connection') || {}
+      {
+        database_host: db['host'],
+        database_port: db['port'],
+        database_name: db['dbname'],
+        database_sslmode: db['sslmode'],
+        database_sslcert: db['sslcert'],
+        database_sslkey: db['sslkey'],
+        database_sslrootcert: db['sslrootcert']
+      }
+    end
+
+    # Returns variables hash for backup user template
+    def backup_user_variables
+      {
+        username: Gitlab['node']['gitlab']['gitlab_rails']['backup_registry_user'],
+        password: Gitlab['node']['gitlab']['gitlab_rails']['backup_registry_password']
+      }
+    end
+
+    # Returns variables hash for restore user template
+    def restore_user_variables
+      {
+        username: Gitlab['node']['gitlab']['gitlab_rails']['restore_registry_user'],
+        password: Gitlab['node']['gitlab']['gitlab_rails']['restore_registry_password']
+      }
+    end
+
+    # Returns the NATS settings hash for the gitlab.yml template, with
+    # unset optional keys removed so that only explicitly configured values
+    # are rendered. When `servers` is empty the block is omitted entirely
+    # and Rails falls back to the Sidekiq delivery path.
+    def nats_settings
+      config = Gitlab['node']['gitlab']['gitlab_rails']['nats'].to_h
+      servers = Array(config['servers'])
+      return {} if servers.empty?
+
+      settings = { 'servers' => servers }
+      settings['connect_timeout'] = config['connect_timeout'] unless config['connect_timeout'].nil?
+      settings['stream_replicas'] = config['stream_replicas'] unless config['stream_replicas'].nil?
+
+      tls = config['tls'].to_h.compact
+      settings['tls'] = tls unless tls.empty?
+
+      settings
+    end
+
+    def artifact_registry_settings
+      config = Gitlab['node']['gitlab']['gitlab_rails']['artifact_registry'].to_h
+      api_url = config['api_url']
+      return {} if api_url.to_s.empty?
+
+      settings = { 'api_url' => api_url }
+
+      secret_file = config['service_token_file']
+      settings['service_token'] = { 'secret_file' => secret_file } unless secret_file.to_s.empty?
+
+      settings
+    end
+
+    def public_path
+      "#{Gitlab['node']['package']['install-dir']}/embedded/service/gitlab-rails/public"
+    end
+
+    def worker_timeout
+      service = WebServerHelper.service_name
+      user_config = Gitlab[service]
+      service_config = Gitlab['node']['gitlab'][service]
+      (user_config['worker_timeout'] || service_config['worker_timeout']).to_i
+    end
+
+    def translate_rails_nginx_settings
+      # If nginx was enabled as part of default services or application role,
+      # copy that to the rails configuration also.
+      if Gitlab['gitlab_rails']['nginx']['enable'].nil?
+        Gitlab['gitlab_rails']['nginx']['enable'] = Gitlab['nginx']['enable'].nil? ? Gitlab[:node].default['nginx']['enable'] : Gitlab['nginx']['enable']
+      end
+
+      translate_server_settings
+      translate_client_settings
+
+      # Translate settings that were originally under nginx['*'] but was
+      # essentially for just the rails nginx configuration.
+      %w[custom_error_pages default_server_enabled].each do |key|
+        next if Gitlab['nginx'][key].nil?
+
+        LoggingHelper.deprecation("nginx['#{key}'] has been deprecated. Please use gitlab_rails['nginx']['#{key}'] instead.")
+        Gitlab['gitlab_rails']['nginx'][key] = Gitlab['nginx'][key] if Gitlab['gitlab_rails']['nginx'][key].nil?
+      end
+    end
+
+    def translate_server_settings
+      # Translate settings that were originally under nginx['*'] but were
+      # essentially used for
+      # 1. nginx.conf
+      # 2. Rails nginx configuration
+      # 3. Other service nginx configuration
+      # Because the top level usage is still valid, there won't be any deprecation messages.
+      OmnibusGitlab::NginxHelper.new(Gitlab[:node]).shared_default_values.each_key do |key|
+        next if Gitlab['nginx'][key].nil?
+
+        Gitlab['gitlab_rails']['nginx'][key] = Gitlab['nginx'][key] if Gitlab['gitlab_rails']['nginx'][key].nil?
+      end
+    end
+
+    def translate_client_settings
+      # Translate settings that were originally under nginx['*'] but were
+      # essentially used for
+      # 1. Rails nginx configuration
+      # 2. Other service nginx configuration
+      # However, in this library, we care about their usage in Rails nginx configuration.
+      # Hence, the deprecation message suggests to use `gitlab_rails['nginx']` instead.
+      OmnibusGitlab::NginxHelper.new(Gitlab[:node]).client_default_values.each_key do |key|
+        next if Gitlab['nginx'][key].nil?
+
+        LoggingHelper.deprecation("nginx['#{key}'] has been deprecated. Please use gitlab_rails['nginx']['#{key}'] instead.")
+        Gitlab['gitlab_rails']['nginx'][key] = Gitlab['nginx'][key] if Gitlab['gitlab_rails']['nginx'][key].nil?
+      end
+    end
+
+    def parse_nginx_settings
+      Gitlab['gitlab_rails']['nginx']['listen_port'] ||= Gitlab['gitlab_rails']['gitlab_port'] || Gitlab['node']['gitlab']['gitlab_rails']['gitlab_port']
+      Gitlab['gitlab_rails']['nginx']['real_ip_header'] ||= 'proxy_protocol' if Gitlab['gitlab_rails']['nginx']['proxy_protocol']
+    end
+  end
+end

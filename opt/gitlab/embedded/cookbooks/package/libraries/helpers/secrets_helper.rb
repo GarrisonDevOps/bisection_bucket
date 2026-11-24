@@ -1,0 +1,153 @@
+require 'openssl'
+
+class SecretsHelper
+  SECRETS_FILE = '/etc/gitlab/gitlab-secrets.json'.freeze
+  SECRETS_FILE_CHEF_ATTR = '_gitlab_secrets_file_path'.freeze
+  SKIP_GENERATE_SECRETS_CHEF_ATTR = '_skip_generate_secrets'.freeze
+
+  def self.generate_hex(chars)
+    SecureRandom.hex(chars)
+  end
+
+  def self.generate_base64(bytes)
+    SecureRandom.base64(bytes)
+  end
+
+  def self.generate_urlsafe_base64(bytes = 32)
+    SecureRandom.urlsafe_base64(bytes)
+  end
+
+  def self.generate_alphanumeric(chars)
+    SecureRandom.alphanumeric(chars)
+  end
+
+  def self.generate_rsa(bits)
+    OpenSSL::PKey::RSA.new(bits)
+  end
+
+  def self.generate_x509(subject:, validity:, key:)
+    cert = OpenSSL::X509::Certificate.new
+    cert.subject = cert.issuer = OpenSSL::X509::Name.parse(subject)
+    cert.not_before = Time.now
+    cert.not_after = (DateTime.now + validity).to_time
+    cert.public_key = key.public_key
+    cert.serial = 0x0
+    cert.version = 2
+    cert.sign(key, OpenSSL::Digest.new('SHA256'))
+
+    cert
+  end
+
+  def self.generate_keypair(bits:, subject:, validity:)
+    key = generate_rsa(bits)
+    cert = generate_x509(subject: subject, validity: validity, key: key)
+
+    [key, cert]
+  end
+
+  # Load the secrets from disk
+  #
+  # @return [Hash]  empty if no secrets
+  def self.load_gitlab_secrets(path = SecretsHelper::SECRETS_FILE)
+    existing_secrets = {}
+
+    existing_secrets = Chef::JSONCompat.from_json(File.read(path)) if File.exist?(path)
+
+    existing_secrets
+  end
+
+  # Reads the secrets into the Gitlab config singleton
+  def self.read_gitlab_secrets(path = SecretsHelper::SECRETS_FILE)
+    existing_secrets = load_gitlab_secrets(path)
+
+    existing_secrets.each do |k, v|
+      if Gitlab[k]
+        v.each do |pk, p|
+          # Note: Specifying a secret in gitlab.rb will take precedence over "gitlab-secrets.json"
+          if p.is_a?(Hash)
+            Gitlab[k][pk] = p.merge(Gitlab[k][pk] || {})
+          else
+            Gitlab[k][pk] ||= p
+          end
+        end
+      else
+        warn("Ignoring section #{k} in #{path}, does not exist in gitlab.rb")
+      end
+    end
+  end
+
+  def self.gather_gitlab_secrets # rubocop:disable Metrics/AbcSize
+    {
+      'gitlab_workhorse' => {
+        'secret_token' => Gitlab['gitlab_workhorse']['secret_token'],
+      },
+      'gitlab_shell' => {
+        'secret_token' => Gitlab['gitlab_shell']['secret_token'],
+      },
+      'gitlab_rails' => {
+        'secret_key_base' => Gitlab['gitlab_rails']['secret_key_base'],
+        'db_key_base' => Gitlab['gitlab_rails']['db_key_base'],
+        'otp_key_base' => Gitlab['gitlab_rails']['otp_key_base'],
+        'encrypted_settings_key_base' => Gitlab['gitlab_rails']['encrypted_settings_key_base'],
+        'openid_connect_signing_key' => Gitlab['gitlab_rails']['openid_connect_signing_key'],
+        'active_record_encryption_primary_key' => Gitlab['gitlab_rails']['active_record_encryption_primary_key'],
+        'active_record_encryption_deterministic_key' => Gitlab['gitlab_rails']['active_record_encryption_deterministic_key'],
+        'active_record_encryption_key_derivation_salt' => Gitlab['gitlab_rails']['active_record_encryption_key_derivation_salt'],
+        'signed_cookie_salt' => Gitlab['gitlab_rails']['signed_cookie_salt'],
+        'authenticated_encrypted_cookie_salt' => Gitlab['gitlab_rails']['authenticated_encrypted_cookie_salt'],
+        'gitaly_token' => Gitlab['gitlab_rails']['gitaly_token'],
+        'orbit_secret' => Gitlab['gitlab_rails']['orbit_secret'],
+        'service_ping_secret' => Gitlab['gitlab_rails']['service_ping_secret'],
+      },
+      'gitlab_pages' => {
+        'gitlab_secret' => Gitlab['gitlab_pages']['gitlab_secret'],
+        'gitlab_id' => Gitlab['gitlab_pages']['gitlab_id'],
+        'auth_secret' => Gitlab['gitlab_pages']['auth_secret'],
+        'api_secret_key' => Gitlab['gitlab_pages']['api_secret_key'],
+        'register_as_oauth_app' => Gitlab['gitlab_pages']['register_as_oauth_app']
+      },
+      'gitlab_kas' => {
+        'api_secret_key' => Gitlab['gitlab_kas']['api_secret_key'],
+        'private_api_secret_key' => Gitlab['gitlab_kas']['private_api_secret_key'],
+        'websocket_token_secret_key' => Gitlab['gitlab_kas']['websocket_token_secret_key']
+      },
+      'registry' => {
+        'http_secret' => Gitlab['registry']['http_secret'],
+        'internal_certificate' => Gitlab['registry']['internal_certificate'],
+        'internal_key' => Gitlab['registry']['internal_key']
+      },
+      'letsencrypt' => {
+        'auto_enabled' => Gitlab['letsencrypt']['auto_enabled']
+      },
+      'postgresql' => {
+        'internal_certificate' => Gitlab['postgresql']['internal_certificate'],
+        'internal_key' => Gitlab['postgresql']['internal_key']
+      },
+      'mailroom' => {
+        'incoming_email_auth_token' => Gitlab['mailroom']['incoming_email_auth_token'],
+        'service_desk_email_auth_token' => Gitlab['mailroom']['service_desk_email_auth_token'],
+      },
+      'gitaly' => {
+        'gitlab_secret' => Gitlab['gitaly']['gitlab_secret'],
+        'configuration' => {
+          'auth' => {
+            'token' => Gitlab['gitaly'].dig('configuration', 'auth', 'token'),
+          }
+        }
+      }
+    }
+  end
+
+  def self.write_to_gitlab_secrets(path = SECRETS_FILE)
+    secret_tokens = gather_gitlab_secrets
+
+    if File.directory?(File.dirname(path))
+      File.open(path, 'w', 0600) do |f|
+        f.puts(Chef::JSONCompat.to_json_pretty(secret_tokens))
+        f.chmod(0600)
+      end
+    end
+
+    nil
+  end
+end

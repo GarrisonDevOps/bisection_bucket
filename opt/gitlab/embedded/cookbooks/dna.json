@@ -1,0 +1,6 @@
+{
+  "run_list": [ "recipe[gitlab-base]" ],
+  "package": {
+    "public_attributes": true
+  }
+}

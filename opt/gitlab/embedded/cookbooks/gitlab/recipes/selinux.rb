@@ -1,0 +1,124 @@
+#
+# Copyright:: Copyright (c) 2014 GitLab Inc.
+# License:: Apache License, Version 2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+SELINUX_OPERATION_RETRIES = 3
+SELINUX_OPERATION_RETRY_DELAY = 5
+
+if SELinuxDistroHelper.selinux_supported?
+  ssh_keygen_module = 'gitlab-7.2.0-ssh-keygen'
+  authorized_keys_module = 'gitlab-10.5.0-ssh-authorized-keys'
+  gitlab_shell_module = 'gitlab-13.5.0-gitlab-shell'
+  sshd_session_module = 'gitlab-19.4.0-sshd-session'
+  gitlab_unified_module = 'gitlab'
+  selinux_policy_dir = '/opt/gitlab/embedded/selinux'
+
+  if SELinuxHelper.use_unified_policy?(node)
+    # Reinstall when the installed module differs from the shipped .pp so that
+    # upgraded hosts pick up policy changes. A name-only guard would leave them
+    # running a stale module.
+    execute "semodule -i /opt/gitlab/embedded/selinux/#{gitlab_unified_module}.pp" do
+      not_if "getenforce | grep Disabled"
+      not_if { SELinuxHelper.module_installed_and_current?(gitlab_unified_module, "#{selinux_policy_dir}/#{gitlab_unified_module}.pp") }
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -r #{ssh_keygen_module}" do
+      not_if "getenforce | grep Disabled"
+      only_if "semodule -l | grep -E '^#{ssh_keygen_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -r #{authorized_keys_module}" do
+      not_if "getenforce | grep Disabled"
+      only_if "semodule -l | grep -E '^#{authorized_keys_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -r #{gitlab_shell_module}" do
+      not_if "getenforce | grep Disabled"
+      only_if "semodule -l | grep -E '^#{gitlab_shell_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -r #{sshd_session_module}" do
+      not_if "getenforce | grep Disabled"
+      only_if "semodule -l | grep -E '^#{sshd_session_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+  else
+    execute "semodule -i /opt/gitlab/embedded/selinux/#{ssh_keygen_module}.pp" do
+      not_if "getenforce | grep Disabled"
+      not_if "semodule -l | grep -E '^#{ssh_keygen_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    # Reinstall when the installed module differs from the shipped .pp so that
+    # upgraded hosts pick up policy changes. A name-only guard would leave them
+    # running a stale module.
+    execute "semodule -i /opt/gitlab/embedded/selinux/#{authorized_keys_module}.pp" do
+      not_if "getenforce | grep Disabled"
+      not_if { SELinuxHelper.module_installed_and_current?(authorized_keys_module, "#{selinux_policy_dir}/#{authorized_keys_module}.pp") }
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -i /opt/gitlab/embedded/selinux/#{gitlab_shell_module}.pp" do
+      not_if "getenforce | grep Disabled"
+      not_if "semodule -l | grep -E '^#{gitlab_shell_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -i /opt/gitlab/embedded/selinux/#{sshd_session_module}.pp" do
+      not_if "getenforce | grep Disabled"
+      not_if "semodule -l | grep -E '^#{sshd_session_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+
+    execute "semodule -r #{gitlab_unified_module}" do
+      not_if "getenforce | grep Disabled"
+      only_if "semodule -l | grep -E '^#{gitlab_unified_module}([[:space:]]|$)'"
+      retries SELINUX_OPERATION_RETRIES
+      retry_delay SELINUX_OPERATION_RETRY_DELAY
+    end
+  end
+end
+
+# If SELinux is enabled, make sure that OpenSSH thinks the .ssh directory and authorized_keys file of the
+# git_user is valid.
+bash "Set proper security context on ssh files for selinux" do
+  code lazy { SELinuxHelper.commands(node) }
+  only_if { SELinuxHelper.enabled? && !SELinuxHelper.context_set?(node) }
+  not_if { !node['gitlab']['gitlab_rails']['enable'] }
+  action :nothing
+  retries SELINUX_OPERATION_RETRIES
+  retry_delay SELINUX_OPERATION_RETRY_DELAY
+end
+
+# Ensure selinux context is set at the end of the run, even if no files changed
+ruby_block "Check SELinux setup" do
+  block { true }
+  only_if { SELinuxHelper.enabled? && !SELinuxHelper.context_set?(node) }
+  notifies :run, 'bash[Set proper security context on ssh files for selinux]', :delayed
+end

@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e # fail on errors
+
+# Redirect stderr -> stdout
+exec 2>&1
+
+cd <%= @options[:dir] %>
+
+exec chpst -P -e <%= @options[:env_dir] %> \
+-U <%= @options[:user] %>:<%= @options[:groupname] %> \
+-u <%= @options[:user] %>:<%= @options[:groupname] %> \
+<%= @options[:binary_path] %> \
+  agent \
+  -config-file <%= @options[:config_file] %> \
+  -config-dir <%= @options[:config_dir] %> \
+  <% unless @options[:custom_config_dir].nil? -%>
+  -config-dir <%= @options[:custom_config_dir] %> \
+  <% end -%>
+  -data-dir <%= @options[:data_dir] %>

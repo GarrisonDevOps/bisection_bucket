@@ -1,0 +1,89 @@
+####
+# GitLab Kubernetes Agent Server
+####
+default['gitlab_kas']['enable'] = false
+default['gitlab_kas']['agent_configuration_poll_period'] = 300
+default['gitlab_kas']['agent_info_cache_ttl'] = 300
+default['gitlab_kas']['agent_info_cache_error_ttl'] = 60
+default['gitlab_kas']['gitlab_address'] = ''
+default['gitlab_kas']['gitlab_external_url'] = nil
+default['gitlab_kas']['api_secret_key'] = nil
+default['gitlab_kas']['listen_address'] = 'localhost:8150'
+default['gitlab_kas']['listen_network'] = 'tcp'
+default['gitlab_kas']['listen_websocket'] = true
+default['gitlab_kas']['certificate_file'] = nil
+default['gitlab_kas']['key_file'] = nil
+default['gitlab_kas']['observability_listen_address'] = 'localhost:8151'
+default['gitlab_kas']['observability_listen_network'] = 'tcp'
+default['gitlab_kas']['internal_api_listen_address'] = 'localhost:8153'
+default['gitlab_kas']['internal_api_listen_network'] = 'tcp'
+default['gitlab_kas']['internal_api_certificate_file'] = nil
+default['gitlab_kas']['internal_api_key_file'] = nil
+default['gitlab_kas']['kubernetes_api_listen_address'] = 'localhost:8154'
+default['gitlab_kas']['kubernetes_api_certificate_file'] = nil
+default['gitlab_kas']['kubernetes_api_key_file'] = nil
+default['gitlab_kas']['websocket_token_secret_key'] = nil
+default['gitlab_kas']['private_api_secret_key'] = nil
+default['gitlab_kas']['private_api_listen_address'] = 'localhost:8155'
+default['gitlab_kas']['private_api_listen_network'] = 'tcp'
+default['gitlab_kas']['private_api_certificate_file'] = nil
+default['gitlab_kas']['private_api_key_file'] = nil
+default['gitlab_kas']['workspaces']['enabled'] = false
+default['gitlab_kas']['metrics_usage_reporting_period'] = 60
+default['gitlab_kas']['sentry_dsn'] = nil
+default['gitlab_kas']['sentry_environment'] = nil
+default['gitlab_kas']['log_level'] = 'info'
+default['gitlab_kas']['grpc_log_level'] = 'error'
+default['gitlab_kas']['dir'] = '/var/opt/gitlab/gitlab-kas'
+default['gitlab_kas']['log_directory'] = '/var/log/gitlab/gitlab-kas'
+default['gitlab_kas']['env_directory'] = '/opt/gitlab/etc/gitlab-kas/env'
+default['gitlab_kas']['env'] = {
+  'SSL_CERT_DIR' => "#{node['package']['install-dir']}/embedded/ssl/certs/",
+  'GODEBUG' => "tlsmlkem=0",
+}
+
+# Defaults of the following settings are computed from `gitlab_rails`, and are
+# set in the library. If a new key is added here that needs to be computed from
+# the Rails counterpart, make sure it is added to the list in the library too
+default['gitlab_kas']['redis_socket'] = nil
+default['gitlab_kas']['redis_host'] = nil
+default['gitlab_kas']['redis_port'] = nil
+default['gitlab_kas']['redis_username'] = nil
+default['gitlab_kas']['redis_password'] = nil
+default['gitlab_kas']['redis_sentinels'] = []
+default['gitlab_kas']['redis_sentinels_master_name'] = nil
+default['gitlab_kas']['redis_sentinels_password'] = nil
+default['gitlab_kas']['redis_sentinels_ssl'] = nil
+default['gitlab_kas']['redis_sentinels_tls_ca_cert_file'] = nil
+default['gitlab_kas']['redis_sentinels_tls_client_cert_file'] = nil
+default['gitlab_kas']['redis_sentinels_tls_client_key_file'] = nil
+default['gitlab_kas']['redis_ssl'] = nil
+default['gitlab_kas']['redis_tls_ca_cert_file'] = nil
+default['gitlab_kas']['redis_tls_client_cert_file'] = nil
+default['gitlab_kas']['redis_tls_client_key_file'] = nil
+
+default['gitlab_kas']['extra_config_command'] = nil
+
+####
+# GitLab KAS NGINX
+####
+default['gitlab_kas']['nginx'] = OmnibusGitlab::NginxHelper.new(node).default_values.dup
+default['gitlab_kas']['nginx']['enable'] = false
+default['gitlab_kas']['nginx']['https'] = false
+default['gitlab_kas']['nginx']['port'] = 80
+default['gitlab_kas']['nginx']['host'] = "kas.gitlab.example.com"
+default['gitlab_kas']['nginx']['proxy_set_headers'] = {
+  "Host" => "$http_host",
+  "Upgrade" => "$http_upgrade",
+  "Connection" => "$connection_upgrade",
+  "X-Real-IP" => "$remote_addr",
+  "X-Forwarded-For" => "$remote_addr",
+  "X-Forwarded-Proto" => "$scheme",
+  "X-Forwarded-Scheme" => "$scheme",
+  "X-Scheme" => "$scheme",
+  "X-Original-Forwarded-For" => "$http_x_forwarded_for"
+}
+default['gitlab_kas']['nginx']['k8s_proxy_connect_timeout'] = "5"
+default['gitlab_kas']['nginx']['k8s_proxy_send_timeout'] = "60"
+default['gitlab_kas']['nginx']['k8s_proxy_read_timeout'] = "7200"
+default['gitlab_kas']['nginx']['k8s_proxy_max_temp_file_size'] = "1024m"

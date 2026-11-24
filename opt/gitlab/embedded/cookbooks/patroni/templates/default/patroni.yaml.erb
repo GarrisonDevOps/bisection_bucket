@@ -1,0 +1,76 @@
+name: <%= @name %>
+scope: <%= @scope %>
+log:
+  level: <%= @log_level.upcase %>
+consul:
+<% @consul.each do |name, value| %>
+  <%= name %>: <%= value %>
+<% end %>
+postgresql:
+  bin_dir: <%= "#{node['package']['install-dir']}/embedded/bin" %>
+  data_dir: <%= File.join(@postgresql_defaults['dir'], 'data') %>
+  config_dir: <%= File.join(@postgresql_defaults['dir'], 'data') %>
+  listen: "<%= "#{@postgresql_defaults['listen_address']}:#{@postgresql_defaults['port']}" %>"
+  connect_address: "<%= "#{@connect_address}:#{@postgresql_defaults['connect_port']}" %>"
+  use_unix_socket: true
+  parameters:
+    unix_socket_directories: <%= @postgresql_defaults['unix_socket_directory'] %>
+  authentication:
+    superuser:
+      username: <%= account_helper.postgresql_user %>
+<% if @postgresql_defaults['sql_superuser_password'] %>
+      password: <%= @postgresql_defaults['sql_superuser_password'].to_json %>
+<% end %>
+    replication:
+      username: <%= @postgresql_defaults['sql_replication_user'] %>
+<% if @replication_password %>
+      password: <%= "#{@replication_password}" %>
+<% end %>
+  basebackup:
+    - no-password
+  remove_data_directory_on_rewind_failure: <%= @remove_data_directory_on_rewind_failure %>
+  remove_data_directory_on_diverged_timelines: <%= @remove_data_directory_on_diverged_timelines %>
+  <% unless @recovery_conf.empty? %>
+  recovery_conf: <%= @recovery_conf.to_json %>
+  <% end %>
+  <% unless @callbacks.empty? %>
+  callbacks: <%= @callbacks.to_json %>
+  <% end %>
+bootstrap:
+  dcs: <%= patroni_helper.dynamic_settings(pg_helper).to_json %>
+  method: gitlab_ctl
+  gitlab_ctl:
+    command: /opt/gitlab/bin/gitlab-ctl patroni bootstrap --srcdir=<%= File.join(@dir, 'data') %>
+restapi:
+  listen: "<%= "#{@listen_address}:#{@port}" %>"
+  connect_address: "<%= "#{@connect_address}:#{@connect_port}" %>"
+  <% if @username %>
+  authentication:
+    username: <%= @username %>
+    password: <%= "#{@password}" %>
+  <% end %>
+  <% unless @allowlist.nil? || @allowlist.empty? %>
+  allowlist:
+  <% @allowlist.each do |cidr| %>
+    - "<%= cidr %>"
+  <% end %>
+  <% end %>
+  allowlist_include_members: <%= @allowlist_include_members %>
+<% if patroni_helper.use_tls? %>
+  <%= "certfile: #{@tls_certificate_file}" if @tls_certificate_file %>
+  <%= "keyfile: #{@tls_key_file}" if @tls_key_file %>
+  <%= "keyfile_password: #{@tls_key_password}" if @tls_key_password %>
+  <%= "cafile: #{@tls_ca_file}" if @tls_ca_file %>
+  <%= "ciphers: #{@tls_ciphers}" if @tls_ciphers %>
+  <%= "verify_client: #{@tls_client_mode}" if @tls_client_mode %>
+<% end %>
+<% if patroni_helper.verify_client? %>
+ctl:
+  insecure: false
+  <%= "certfile: #{@tls_client_certificate_file}" if @tls_client_certificate_file %>
+  <%= "keyfile: #{@tls_client_key_file}" if @tls_client_key_file %>
+  <%= "cafile: #{@tls_ca_file}" if @tls_ca_file %>
+<% end %>
+<% unless @tags.empty? %>
+tags: <%= @tags.to_json %>
+<% end %>

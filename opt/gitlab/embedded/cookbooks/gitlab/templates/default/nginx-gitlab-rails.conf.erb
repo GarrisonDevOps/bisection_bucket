@@ -1,0 +1,258 @@
+# This file is managed by gitlab-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/gitlab/gitlab.rb
+# and run `sudo gitlab-ctl reconfigure`.
+
+## GitLab
+## Modified from https://gitlab.com/gitlab-org/gitlab-foss/blob/master/lib/support/nginx/gitlab-ssl & https://gitlab.com/gitlab-org/gitlab-foss/blob/master/lib/support/nginx/gitlab
+##
+## Lines starting with two hashes (##) are comments with information.
+## Lines starting with one hash (#) are configuration parameters that can be uncommented.
+##
+##################################
+##        CHUNKED TRANSFER      ##
+##################################
+##
+## It is a known issue that Git-over-HTTP requires chunked transfer encoding [0]
+## which is not supported by Nginx < 1.3.9 [1]. As a result, pushing a large object
+## with Git (i.e. a single large file) can lead to a 411 error. In theory you can get
+## around this by tweaking this configuration file and either:
+## - installing an old version of Nginx with the chunkin module [2] compiled in, or
+## - using a newer version of Nginx.
+##
+## At the time of writing we do not know if either of these theoretical solutions works.
+## As a workaround users can use Git over SSH to push large files.
+##
+## [0] https://git.kernel.org/cgit/git/git.git/tree/Documentation/technical/http-protocol.txt#n99
+## [1] https://github.com/agentzh/chunkin-nginx-module#status
+## [2] https://github.com/agentzh/chunkin-nginx-module
+##
+###################################
+##         configuration         ##
+###################################
+
+<% if @https && @redirect_http_to_https %>
+## Redirects all HTTP traffic to the HTTPS host
+server { ## HTTPS redirect server
+<% @listen_addresses.each do |listen_address| %>
+  listen <%= listen_address %>:<%= @redirect_http_to_https_port %><% if @default_server_enabled %> default_server<% end %><% if @proxy_protocol %> proxy_protocol<% end %>;
+<% end %>
+
+  server_name <%= @fqdn %>;
+  server_tokens off; ## Don't show the nginx version number, a security best practice
+
+  <% if @letsencrypt_enable %>
+  location /.well-known/acme-challenge/ {
+    root <%= @dir %>/www/;
+  }
+  <% end %>
+
+  location / {
+    return 301 https://<%= @fqdn %>:<%= @port %>$request_uri;
+  }
+
+  # Pass headers because we are serving monitoring endpoints directly without
+  # redirection
+  <% @proxy_set_headers.each do |header| %>
+  <% next if header[1].nil? || header[1].empty? %>
+  proxy_set_header <%= header[0] %> <%= header[1] %>;
+  <% end %>
+
+  # health checks configuration
+  include <%= @gitlab_health_conf %>;
+
+  access_log  <%= @log_directory %>/gitlab_access.log gitlab_access;
+  error_log   <%= @log_directory %>/gitlab_error.log <%= @error_log_level%>;
+} ## end HTTPS redirect server
+<% end %>
+
+server { ## HTTPS server
+<% @listen_addresses.each do |listen_address| %>
+  listen <%= listen_address %>:<%= @listen_port %><% if @default_server_enabled %> default_server<% end %><% if @proxy_protocol %> proxy_protocol<% end %><% if @https %> ssl<% end %>;
+
+  <% if @kerberos_enabled && @kerberos_use_dedicated_port %>
+  listen <%= listen_address %>:<%= @kerberos_port %><% if @default_server_enabled %> default_server<% end %><% if @kerberos_https %> ssl<% end %>;
+  <% end %>
+
+<% end %>
+  server_name <%= @fqdn %>;
+  server_tokens off; ## Don't show the nginx version number, a security best practice
+
+  ## Increase this if you want to upload large attachments
+  ## Or if you want to accept large git objects over http
+  client_max_body_size <%= @client_max_body_size %>;
+
+<% if @https %>
+  <% if @http2_enabled %>
+  http2 on;
+  <% end %>
+  ## Strong SSL Security
+  ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
+  ssl_certificate <%= @ssl_certificate %>;
+  ssl_certificate_key <%= @ssl_certificate_key %>;
+  <% if @ssl_client_certificate %>
+  ssl_client_certificate <%= @ssl_client_certificate%>;
+  <% end %>
+  <% if @ssl_verify_client %>
+  ssl_verify_client <%= @ssl_verify_client%>;
+  ssl_verify_depth <%= @ssl_verify_depth%>;
+  <% end %>
+
+  # GitLab needs backwards compatible ciphers to retain compatibility with Java IDEs
+  ssl_ciphers '<%= @ssl_ciphers %>';
+  ssl_protocols  <%= @ssl_protocols %>;
+  ssl_prefer_server_ciphers <%= @ssl_prefer_server_ciphers %>;
+  ssl_session_cache  <%= @ssl_session_cache %>;
+  ssl_session_tickets <%= @ssl_session_tickets %>;
+  ssl_session_timeout  <%= @ssl_session_timeout %>;
+
+  <% if @ssl_dhparam %>
+  ssl_dhparam <%= @ssl_dhparam %>;
+  <% end %>
+
+  <% if @ssl_ecdh_curve %>
+  ssl_ecdh_curve <%= @ssl_ecdh_curve %>;
+  <% end %>
+
+  <% Array(@ssl_conf_command).each do |command| %>
+  ssl_conf_command <%= command %>;
+  <% end %>
+
+  <% if @ssl_password_file %>
+  ssl_password_file '<%= @ssl_password_file %>';
+  <% end %>
+<% end %>
+
+  ## Real IP Module Config
+  ## http://nginx.org/en/docs/http/ngx_http_realip_module.html
+  <% if @real_ip_header %>
+  real_ip_header <%= @real_ip_header %>;
+  <% end %>
+  <% if @real_ip_recursive %>
+  real_ip_recursive <%= @real_ip_recursive %>;
+  <% end %>
+  <% @real_ip_trusted_addresses.each do |trusted_address| %>
+  set_real_ip_from <%= trusted_address %>;
+  <% end %>
+
+  ## HSTS Config
+  ## https://www.nginx.com/blog/http-strict-transport-security-hsts-and-nginx/
+  <% unless @hsts_max_age.nil? || @hsts_max_age <= 0 %>
+  add_header Strict-Transport-Security "max-age=<%= @hsts_max_age -%>
+<% if @hsts_include_subdomains %>; includeSubdomains<% end %>" always;
+  <% end %>
+
+  <% if @referrer_policy %>
+  # Rails sets a default policy of strict-origin-when-cross-origin, so
+  # hide that and just send the one we've configured for nginx
+  proxy_hide_header Referrer-Policy;
+  add_header Referrer-Policy <%= @referrer_policy %>;
+  <% end %>
+
+  ## Individual nginx logs for this GitLab vhost
+  access_log  <%= @log_directory %>/gitlab_access.log gitlab_access;
+  error_log   <%= @log_directory %>/gitlab_error.log <%= @error_log_level%>;
+
+  if ($http_host = "") {
+    <% default_host = Nginx.generate_host_header(@fqdn, @port, @https) %>
+    set $http_host_with_default "<%= default_host %>";
+  }
+
+  if ($http_host != "") {
+    set $http_host_with_default $http_host;
+  }
+
+  gzip <%= @gzip %>;
+  <% if @gzip_enabled %>
+  gzip_static on;
+  gzip_comp_level <%= @gzip_comp_level %>;
+  gzip_http_version <%= @gzip_http_version %>;
+  gzip_vary on;
+  gzip_disable "msie6";
+  gzip_min_length 250;
+  gzip_proxied <%= @gzip_proxied %>;
+  gzip_types <%= @gzip_types.join(' ') %>;
+  <% end %>
+
+  ## https://github.com/gitlabhq/gitlabhq/issues/694
+  ## Some requests take more than 30 seconds.
+  proxy_read_timeout      <%= @proxy_read_timeout %>;
+  proxy_connect_timeout   <%= @proxy_connect_timeout %>;
+  proxy_redirect          off;
+  <% if @custom_error_pages %>
+  proxy_intercept_errors on;
+  <% end %>
+  proxy_http_version 1.1;
+
+  <% @proxy_set_headers.each do |header| %>
+  <% next if header[1].nil? || header[1].empty? %>
+  proxy_set_header <%= header[0] %> <%= header[1] %>;
+  <% end %>
+
+  location ~ (<%= @request_buffering_off_path_regex %>) {
+    proxy_cache off;
+    proxy_pass http://gitlab-workhorse;
+    proxy_request_buffering off;
+  }
+
+  location ~ <%= "^#{@api_path}/v\\d" %> {
+    proxy_cache off;
+    proxy_pass http://gitlab-workhorse;
+    proxy_intercept_errors off;
+    <% if @proxy_custom_buffer_size -%>
+    proxy_buffers 8 <%= @proxy_custom_buffer_size %>;
+    proxy_buffer_size <%= @proxy_custom_buffer_size %>;
+    <% end -%>
+  }
+
+  <% if node['gitlab_kas']['enable'] -%>
+  location = <%= File.join(@path, '-/kubernetes-agent/') %> {
+    proxy_pass <%= node['gitlab_kas']['upstream_http_scheme'] %>://<%= node['gitlab_kas']['listen_address'] %>/;
+    proxy_intercept_errors off;
+  }
+
+  location <%= File.join(@path, 'gitlab.agent.') %> {
+    grpc_pass <%= node['gitlab_kas']['upstream_grpc_scheme'] %>://<%= node['gitlab_kas']['listen_address'] %>;
+    proxy_intercept_errors off;
+  }
+
+  location <%= File.join(@path, '-/kubernetes-agent/k8s-proxy/') %> {
+    proxy_pass <%= node['gitlab_kas']['upstream_http_scheme'] %>://<%= node['gitlab_kas']['kubernetes_api_listen_address'] %>/;
+    proxy_buffering off;
+    proxy_intercept_errors off;
+  }
+  <% end -%>
+
+  # health checks configuration
+  include <%= @gitlab_health_conf %>;
+
+  <% if @letsencrypt_enable %>
+  location /.well-known/acme-challenge/ {
+    root <%= @dir %>/www/;
+  }
+  <% end %>
+
+  location <%= @path %> {
+    proxy_cache off;
+    proxy_pass  http://gitlab-workhorse;
+    <% if @proxy_custom_buffer_size -%>
+    proxy_buffers 8 <%= @proxy_custom_buffer_size %>;
+    proxy_buffer_size <%= @proxy_custom_buffer_size %>;
+    <% end -%>
+  }
+
+  location <%= File.join(@path, 'assets') %> {
+    proxy_cache <%= @proxy_cache %>;
+    proxy_pass  http://gitlab-workhorse;
+  }
+
+  <% errors = Nginx.parse_error_pages %>
+  <% errors.each do |err, location| %>
+  error_page <%= err %> /<%= location %>;
+  <% end %>
+  location ~ ^/(<%= errors.keys.join('|') %>)(-custom)?\.html$ {
+    root <%= GitlabRails.public_path %>;
+    internal;
+  }
+
+  <%= @custom_gitlab_server_config %>
+} ## end HTTPS server

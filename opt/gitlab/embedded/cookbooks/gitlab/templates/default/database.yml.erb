@@ -1,0 +1,48 @@
+# This file is managed by gitlab-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/gitlab/gitlab.rb
+# and run `sudo gitlab-ctl reconfigure`.
+
+production:
+<% if !@db_extra_config_command.nil? -%>
+  config_command: <%= quote(@db_extra_config_command) %>
+<% end -%>
+  <% # database.yml must always have `main` first, sort it to the front %>
+  <% @databases.sort_by { |name, config| name == "main" ? 0 : 1 }.each do |database, attributes| %>
+  <%= database %>:
+    adapter: <%= attributes['db_adapter'] %>
+    encoding: <%= attributes['db_encoding'] %>
+    collation: <%= attributes['db_collation'] %>
+    database: <%= attributes['db_database'] %>
+    <% if attributes.key?('db_migrations_paths') %>
+    migrations_paths: <%= quote(attributes['db_migrations_paths']) %>
+    <% end %>
+    <% if attributes.key?('db_schema_migrations_path') %>
+    schema_migrations_path: <%= quote(attributes['db_schema_migrations_path']) %>
+    <% end %>
+    username: <%= quote(attributes['db_username']) %>
+    password: <%= quote(attributes['db_password']) %>
+    host: <%= quote(attributes['db_host']) %>
+    port: <%= attributes['db_port'] %>
+    socket: <%= quote(attributes['db_socket']) %>
+    sslmode: <%= quote(attributes['db_sslmode']) %>
+    sslcompression: <%= attributes['db_sslcompression'] %>
+    sslrootcert: <%= quote(attributes['db_sslrootcert']) || quote(attributes['db_sslca']) %>
+    sslca: <%= quote(attributes['db_sslca']) || quote(attributes['db_sslrootcert']) %>
+    <% if !attributes['db_sslcert'].nil? && !attributes['db_sslkey'].nil? %>
+    sslcert: <%= quote(attributes['db_sslcert']) %>
+    sslkey: <%= quote(attributes['db_sslkey']) %>
+    <% end %>
+    load_balancing: <%= attributes['db_load_balancing'].to_json %>
+    prepared_statements: <%= attributes['db_prepared_statements'] %>
+    database_tasks: <%= attributes['db_database_tasks'] %>
+    statement_limit: <%= attributes['db_statements_limit'] %>
+    connect_timeout: <%= attributes['db_connect_timeout'] %>
+    keepalives: <%= attributes['db_keepalives'] %>
+    keepalives_idle: <%= attributes['db_keepalives_idle'] %>
+    keepalives_interval: <%= attributes['db_keepalives_interval'] %>
+    keepalives_count: <%= attributes['db_keepalives_count'] %>
+    tcp_user_timeout: <%= attributes['db_tcp_user_timeout'] %>
+    application_name: <%= quote(attributes['db_application_name']) %>
+    variables:
+      statement_timeout: <%= attributes['db_statement_timeout'] %>
+  <% end %>

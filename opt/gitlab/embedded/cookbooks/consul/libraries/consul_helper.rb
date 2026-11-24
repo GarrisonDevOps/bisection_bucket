@@ -1,0 +1,288 @@
+require 'timeout'
+
+class ConsulHelper
+  attr_reader :node, :default_configuration, :default_server_configuration
+
+  # List of existing services that we provide configuration for consul monitoring
+  #
+  # When adding a new service to consul, add to the constant below and make sure you
+  # provide an `enable_service_#{service_name}` and `disable_service_#{service_name}` recipe
+  SERVICES = %w(postgresql).freeze
+
+  # This version should be keep in sync with consul versions in
+  # software/consul.rb and consul_download.rb.
+  SUPPORTED_MINOR = '2.1.0'.freeze
+
+  def initialize(node)
+    @node = node
+    @default_configuration = {
+      'client_addr' => nil,
+      'datacenter' => 'gitlab_consul',
+      'disable_update_check' => true,
+      'enable_script_checks' => false,
+      'enable_local_script_checks' => true,
+      'node_name' => node['consul']['node_name'] || node['fqdn'],
+      'rejoin_after_leave' => true,
+      'server' => false,
+    }
+    .merge(encryption_configuration)
+    .merge(ports_configuration)
+    .merge(tls_configuration)
+
+    @default_server_configuration = {
+      'bootstrap_expect' => 3
+    }
+    @default_server_configuration['server_rejoin_age_max'] = node['consul']['server_rejoin_age_max'] unless node['consul']['server_rejoin_age_max'].nil?
+  end
+
+  def server?
+    !!node['consul']['configuration']['server']
+  end
+
+  def use_tls?
+    node['consul']['use_tls']
+  end
+
+  def tls_configuration
+    return {} unless use_tls?
+
+    verify_incoming = node['consul']['tls_verify_client']
+
+    tls_cfg = {
+      'tls' => {
+        'defaults' => {
+          'ca_file' => node['consul']['tls_ca_file'],
+          'cert_file' => node['consul']['tls_certificate_file'],
+          'key_file' => node['consul']['tls_key_file'],
+          'verify_outgoing' => true,
+          'verify_incoming' => verify_incoming.nil? ? server? : verify_incoming
+        }.compact
+      }
+    }
+    tls_cfg['ports'] = { 'https': api_port('https') }
+
+    tls_cfg
+  end
+
+  def final_config
+    config = Chef::Mixin::DeepMerge.merge(
+      default_configuration,
+      node['consul']['configuration']
+    ).select { |k, v| !v.nil? }
+    if server?
+      return Chef::Mixin::DeepMerge.merge(
+        default_server_configuration, config
+      )
+    end
+
+    config
+  end
+
+  def configuration
+    final_config.to_json
+  end
+
+  def use_encryption?
+    encryption_key = node['consul']['encryption_key']
+
+    !encryption_key.nil? && !encryption_key.empty?
+  end
+
+  def encryption_configuration
+    return {} unless use_encryption?
+
+    {
+      'encrypt' => node['consul']['encryption_key'],
+      'encrypt_verify_incoming' => node['consul']['encryption_verify_incoming'],
+      'encrypt_verify_outgoing' => node['consul']['encryption_verify_outgoing']
+    }.compact
+  end
+
+  def ports_configuration
+    http_port = node['consul']['http_port']
+    https_port = node['consul']['https_port']
+
+    ports = {}
+
+    ports['http'] = http_port unless http_port.nil?
+    ports['https'] = https_port unless https_port.nil?
+
+    { 'ports' => ports }
+  end
+
+  def api_url(scheme: nil)
+    scheme ||= use_tls? || api_port('http').negative? ? 'https' : 'http'
+
+    "#{scheme}://#{api_address(scheme)}:#{api_port(scheme)}"
+  end
+
+  def api_port(scheme)
+    default_port = { 'http' => 8500, 'https' => 8501 }
+
+    config = Chef::Mixin::DeepMerge.merge(
+      ports_configuration,
+      node['consul']['configuration'])
+
+    config.dig('ports', scheme) || default_port[scheme]
+  end
+
+  def api_address(scheme)
+    default_address = 'localhost'
+    config_address = node.dig('consul', 'configuration', 'addresses', scheme) || node.dig('consul', 'configuration', 'client_addr')
+
+    config_address.nil? || IPAddr.new(config_address).to_i.zero? ? default_address : config_address
+  rescue IPAddr::InvalidAddressError
+    # Have a best try when config address is invalid IP, such as a list of addresses
+    default_address
+  end
+
+  def postgresql_service_config
+    return node['consul']['service_config']['postgresql'] || {} unless node['consul']['service_config'].nil?
+
+    ha_solution = postgresql_ha_solution
+
+    {
+      'service' => {
+        'name' => node['consul']['internal']['postgresql_service_name'],
+        'address' => '',
+        'port' => node['postgresql']['port'],
+        'check' => {
+          'id': "service:#{node['consul']['internal']['postgresql_service_name']}",
+          'interval' => node['consul']['internal']['postgresql_service_check_interval'],
+          'status': node['consul']['internal']['postgresql_service_check_status'],
+          'args': node['consul']['internal']["postgresql_service_check_args_#{ha_solution}"]
+        }
+      }
+    }
+  end
+
+  def postgresql_ha_solution
+    return 'patroni_standby_cluster' if node['patroni'].key?('standby_cluster') && node['patroni']['standby_cluster']['enable']
+
+    'patroni'
+  end
+
+  # Return a list of enabled services
+  #
+  # @return [Array] list of enabled services
+  def enabled_services
+    node['consul']['services']
+  end
+
+  # Return a list of disabled services
+  #
+  # The list is generated by intersecting the existing services with the list of enabled
+  #
+  # @return [Array] list of services that are disabled
+  def disabled_services
+    SERVICES - node['consul']['services']
+  end
+
+  def installed_version
+    return unless OmnibusHelper.new(@node).service_up?('consul')
+
+    command = "#{@node['consul']['binary_path']} version"
+    command_output = VersionHelper.version(command)
+    raise "Execution of the command `#{command}` failed" unless command_output
+
+    version_match = command_output.match(/Consul v(?<consul_version>\d*\.\d*\.\d*)/)
+    raise "Execution of the command `#{command}` generated unexpected output `#{command_output.strip}`" unless version_match
+
+    version_match['consul_version']
+  end
+
+  def running_version
+    return unless OmnibusHelper.new(@node).service_up?('consul')
+
+    response_code, response_body = get_api('/v1/agent/self')
+    info = response_code == '200' ? JSON.parse(response_body, symbolize_names: true) : {}
+
+    info[:Config][:Version] unless info.empty?
+  end
+
+  def installed_is_supported?
+    installed = installed_version
+    return true if installed.nil?
+
+    major_installed, minor_installed = installed.split('.')[0..1]
+    major_supported, minor_supported = SUPPORTED_MINOR.split('.')
+
+    major_installed == major_supported && minor_installed == minor_supported
+  end
+
+  private
+
+  def verify_incoming?
+    final_config['tls']['defaults']['verify_incoming']
+  end
+
+  def can_access_api_over_https?
+    # If daemon isn't listening over HTTPS, no point in proceeding. Just use
+    # HTTP.
+    return false unless use_tls?
+
+    # If incoming requests aren't verified, we can access API over HTTPS
+    # without client certificates.
+    return true unless verify_incoming?
+
+    # If incoming connections are verified, we need a certificate/key to use as
+    # "client" certificate/key while accessing API. Let's use the ones
+    # specified as server certificate/key for this purpose.
+    File.exist?(final_config['tls']['defaults']['cert_file'].to_s) && File.exist?(final_config['tls']['defaults']['key_file'].to_s)
+  end
+
+  def get_tls_args
+    args = { use_ssl: true }
+
+    return args unless verify_incoming?
+
+    args[:cert] = OpenSSL::X509::Certificate.new(File.read(final_config['tls']['defaults']['cert_file']))
+    args[:key] = OpenSSL::PKey.read(File.read(final_config['tls']['defaults']['key_file']))
+
+    args
+  end
+
+  def get_api(endpoint, header = nil)
+    if can_access_api_over_https?
+      uri = URI(api_url(scheme: 'https'))
+      args = get_tls_args
+    else
+      uri = URI(api_url(scheme: 'http'))
+      args = {}
+    end
+
+    begin
+      fetch_response(uri, endpoint, args, header)
+    rescue Timeout::Error => e
+      # If we were already using HTTP, there is nothing more we can do.
+      # Fail hard.
+      raise Timeout::Error, e.message if uri.scheme == "http"
+
+      # We were trying HTTPS but, it wasn't available. Maybe HTTPS was enabled
+      # in this reconfigure run, and won't be active till user restarts Consul,
+      # and thus Consul is still running over HTTP only. Try accessing API over
+      # HTTP.
+      uri = URI(api_url(scheme: 'http'))
+      args = {}
+
+      fetch_response(uri, endpoint, args, header)
+    end
+  end
+
+  def fetch_response(uri, endpoint, args, header = nil)
+    Timeout.timeout(30, Timeout::Error, "Timed out waiting for Consul to start") do
+      loop do
+        Net::HTTP.start(uri.host, uri.port, **args) do |http|
+          http.request_get(endpoint, header) do |response|
+            return response.code, response.body
+          end
+        end
+      rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+        sleep 1
+        next
+      else
+        break
+      end
+    end
+  end
+end

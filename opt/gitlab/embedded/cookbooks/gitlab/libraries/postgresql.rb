@@ -1,0 +1,127 @@
+#
+# Copyright:: Copyright (c) 2016 GitLab Inc.
+# License:: Apache License, Version 2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+module Postgresql
+  class << self
+    def parse_variables
+      parse_connect_port
+      parse_registry_postgresql_settings
+      parse_wal_keep_size
+
+      ComponentDatabaseRegistry.parse_variables
+    end
+
+    def parse_secrets
+      gitlab_postgresql_crt, gitlab_postgresql_key = generate_postgresql_keypair
+      Gitlab['postgresql']['internal_certificate'] ||= gitlab_postgresql_crt
+      Gitlab['postgresql']['internal_key'] ||= gitlab_postgresql_key
+    end
+
+    def parse_wal_keep_size
+      wal_segment_size = 16
+      wal_keep_segments = Gitlab['postgresql']['wal_keep_segments'] || Gitlab['node']['postgresql']['wal_keep_segments']
+      wal_keep_size = Gitlab['postgresql']['wal_keep_size'] || Gitlab['node']['postgresql']['wal_keep_size']
+
+      Gitlab['postgresql']['wal_keep_size'] = if wal_keep_size.nil?
+                                                wal_keep_segments.to_i * wal_segment_size
+                                              else
+                                                wal_keep_size
+                                              end
+    end
+
+    def parse_registry_postgresql_settings
+      Gitlab['postgresql']['registry'] ||= {}
+
+      Gitlab['registry'] ||= {}
+      registry_db_config = Gitlab['registry']['database'] || {}
+      registry_node_db_config = Gitlab['node']['registry']['database']
+      merge_registry_db_config(registry_db_config, registry_node_db_config)
+      process_registry_main_user(registry_db_config, registry_node_db_config)
+
+      rails_config = Gitlab['gitlab_rails'] || {}
+      rails_node_config = Gitlab['node']['gitlab']['gitlab_rails']
+      Gitlab['postgresql'] ||= {}
+      psql_config = Gitlab['postgresql']['registry'] || {}
+      psql_node_config = Gitlab['node']['postgresql']['registry']
+      process_registry_backup_user(rails_config, rails_node_config, psql_config, psql_node_config)
+      process_registry_restore_user(rails_config, rails_node_config, psql_config, psql_node_config)
+    end
+
+    def parse_connect_port
+      Gitlab['postgresql']['connect_port'] ||= Gitlab['postgresql']['port'] || Gitlab['node']['postgresql']['port']
+    end
+
+    def postgresql_managed?
+      Services.enabled?('postgresql')
+    end
+
+    def generate_postgresql_keypair
+      key, cert = SecretsHelper.generate_keypair(
+        bits: 4096,
+        subject: "/C=USA/O=GitLab/OU=Database/CN=PostgreSQL",
+        validity: 365 * 10 # ten years from now
+      )
+
+      [cert.to_pem, key.to_pem]
+    end
+
+    private
+
+    def convert_password_to_md5(password, username)
+      return nil if password.nil?
+
+      Digest::MD5.hexdigest(password + username.to_s)
+    end
+
+    def merge_registry_db_config(registry_db_config, node_db_config)
+      %w[dbname user port sslmode].each do |key|
+        Gitlab['postgresql']['registry'][key] ||= registry_db_config[key] || node_db_config[key]
+      end
+    end
+
+    def process_registry_main_user(registry_db_config, node_db_config)
+      return if Gitlab['postgresql']['registry']['password'] || !registry_db_config['password']
+
+      username = registry_db_config['user'] || node_db_config['user']
+      Gitlab['postgresql']['registry']['password'] = convert_password_to_md5(registry_db_config['password'], username)
+    end
+
+    def process_registry_backup_user(rails_config, rails_node_config, psql_config, psql_node_config)
+      username = rails_config['backup_registry_user']
+      username ||= psql_config['database_backup_username']
+      username ||= rails_node_config['backup_registry_user']
+      username ||= psql_node_config['database_backup_username']
+      password = rails_config['backup_registry_password']
+      password ||= psql_config['database_backup_password']
+
+      Gitlab['postgresql']['registry']['database_backup_username'] = username
+      Gitlab['postgresql']['registry']['database_backup_password'] = convert_password_to_md5(password, username)
+    end
+
+    def process_registry_restore_user(rails_config, rails_node_config, psql_config, psql_node_config)
+      username = rails_config['restore_registry_user']
+      username ||= psql_config['database_restore_username']
+      username ||= rails_node_config['restore_registry_user']
+      username ||= psql_node_config['database_restore_username']
+      password = rails_config['restore_registry_password']
+      password ||= psql_config['database_restore_password']
+
+      Gitlab['postgresql']['registry']['database_restore_username'] = username
+      Gitlab['postgresql']['registry']['database_restore_password'] = convert_password_to_md5(password, username)
+    end
+  end
+end

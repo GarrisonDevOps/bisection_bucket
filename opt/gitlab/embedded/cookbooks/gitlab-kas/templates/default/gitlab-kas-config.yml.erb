@@ -1,0 +1,130 @@
+agent:
+  listen:
+    address: <%= @listen_address %>
+    network: <%= @listen_network %>
+    websocket: <%= @listen_websocket %>
+    <%- if @certificate_file and @key_file %>
+    certificate_file: <%= @certificate_file %>
+    key_file: <%= @key_file %>
+    <%- end %>
+  configuration:
+    poll_period: <%= @agent_configuration_poll_period %>s
+  kubernetes_api:
+    listen:
+      address: <%= @kubernetes_api_listen_address %>
+      <%- if @kubernetes_api_certificate_file and @kubernetes_api_key_file %>
+      certificate_file: <%= @kubernetes_api_certificate_file %>
+      key_file: <%= @kubernetes_api_key_file %>
+      <%- end %>
+    url_path_prefix: /
+    websocket_token_secret_file: <%= @websocket_token_secret_file %>
+  info_cache_ttl: <%= @agent_info_cache_ttl %>s
+  info_cache_error_ttl: <%= @agent_info_cache_error_ttl %>s
+gitlab:
+  address: <%= @gitlab_address %>
+  external_url: <%= @gitlab_external_url %>
+  authentication_secret_file: <%= @authentication_secret_file %>
+observability:
+  listen:
+    address: <%= @observability_listen_address %>
+    network: <%=  @observability_listen_network %>
+  usage_reporting_period: <%= @metrics_usage_reporting_period %>s
+  <%- if @sentry_dsn -%>
+  sentry:
+    dsn: <%= @sentry_dsn %>
+    <%- if @sentry_environment -%>
+    environment: <%= @sentry_environment %>
+    <%- end %>
+  <%- end %>
+  logging:
+    level: <%= @log_level %>
+    grpc_level: <%= @grpc_log_level %>
+redis:
+  network: <%= @redis_network %>
+  tls:
+    enabled: <%= @redis_ssl %>
+    <%- if @redis_ssl %>
+    <%- if @redis_tls_ca_cert_file %>
+    ca_certificate_file: "<%= @redis_tls_ca_cert_file %>"
+    <% end %>
+    <%- if @redis_tls_client_cert_file %>
+    certificate_file: "<%= @redis_tls_client_cert_file %>"
+    <% end %>
+    <%- if @redis_tls_client_key_file %>
+    key_file: "<%= @redis_tls_client_key_file %>"
+    <% end %>
+    <% end %>
+  <%- if @redis_username %>
+  username: <%= @redis_username %>
+  <%- end %>
+  <%- if @redis_password_file && !@redis_credentials_provider %>
+  password_file: <%= @redis_password_file %>
+  <%- end %>
+  <%- if @redis_sentinels.empty? %>
+  server:
+    address: '<%= @redis_address %>'
+    <%- if @redis_credentials_provider %>
+    credentials_provider:
+      azure:
+        auth_type: <%= @redis_credentials_provider['auth_type'] %>
+        <%- if @redis_credentials_provider['object_id'] && !@redis_credentials_provider['object_id'].to_s.empty? %>
+        object_id: <%= @redis_credentials_provider['object_id'] %>
+        <%- end %>
+        scope: <%= @redis_credentials_provider['scope'] %>
+    <%- end %>
+  <%- else %>
+  sentinel:
+    master_name: <%= @redis_sentinels_master_name %>
+    addresses:
+    <%- @redis_sentinels.each do |sentinel| %>
+      - '<%= sentinel['host'] %>:<%= sentinel['port'] || @redis_default_port %>'
+    <%- end %>
+    <%- if @redis_sentinels_password_file %>
+    sentinel_password_file: <%= @redis_sentinels_password_file %>
+    <%- end %>
+    <%- if @redis_sentinels_ssl %>
+    tls:
+      enabled: true
+      <%- if @redis_sentinels_tls_ca_cert_file %>
+      ca_certificate_file: "<%= @redis_sentinels_tls_ca_cert_file %>"
+      <%- end %>
+      <%- if @redis_sentinels_tls_client_cert_file %>
+      certificate_file: "<%= @redis_sentinels_tls_client_cert_file %>"
+      <%- end %>
+      <%- if @redis_sentinels_tls_client_key_file %>
+      key_file: "<%= @redis_sentinels_tls_client_key_file %>"
+      <%- end %>
+    <%- end %>
+  <%- end %>
+api:
+  listen:
+    network: <%= @internal_api_listen_network %>
+    address: <%= @internal_api_listen_address %>
+    authentication_secret_file: <%= @authentication_secret_file %>
+    <%- if @internal_api_certificate_file and @internal_api_key_file %>
+    certificate_file: <%= @internal_api_certificate_file %>
+    key_file: <%= @internal_api_key_file %>
+    <%- end %>
+private_api:
+  listen:
+    network: <%= @private_api_listen_network %>
+    address: <%= @private_api_listen_address %>
+    authentication_secret_file: <%= @private_api_authentication_secret_file %>
+    <%- if @private_api_certificate_file and @private_api_key_file %>
+    certificate_file: <%= @private_api_certificate_file %>
+    key_file: <%= @private_api_key_file %>
+    <%- end %>
+
+workspaces:
+  enabled: <%= @workspaces['enabled'] %>
+  <%- if @workspaces['listen'] %>
+  listen:
+    network: <%= @workspaces['listen']['network'] %>
+    address: <%= @workspaces['listen']['address'] %>
+    listen_grace_period: <%= @workspaces['listen']['listen_grace_period'] %>
+    shutdown_grace_period: <%= @workspaces['listen']['shutdown_grace_period'] %>
+  <%- end %>
+config:
+  <%- if @extra_config_command %>
+  command: "<%= @extra_config_command %>"
+  <%- end %>

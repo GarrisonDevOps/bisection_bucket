@@ -1,0 +1,4 @@
+<% pgb_helper.pg_auth_users.each do |user, settings| %>
+<% auth_type = settings['auth_type'] || @auth_type %>
+"<%= user %>" "<%= pgb_helper.pg_auth_type_prefix(auth_type) %><%= settings['password'] %>"
+<% end %>

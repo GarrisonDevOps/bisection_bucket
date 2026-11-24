@@ -1,0 +1,208 @@
+pages-domain=<%= @domain %>
+pages-root=<%= @pages_root %>
+api-secret-key=<%= @api_secret_key_path %>
+<%- if @access_control -%>
+<%- if @gitlab_id -%>
+auth-client-id=<%= @gitlab_id %>
+<%- end -%>
+<%- if @auth_redirect_uri -%>
+auth-redirect-uri=<%= @auth_redirect_uri %>
+<%- end -%>
+<%- if @gitlab_secret -%>
+auth-client-secret=<%= @gitlab_secret %>
+<%- end -%>
+<%- if @auth_secret -%>
+auth-secret=<%= @auth_secret %>
+<%- end -%>
+<%- if @auth_scope -%>
+auth-scope=<%= @auth_scope %>
+<%- end -%>
+<%- if @auth_timeout -%>
+auth-timeout=<%= @auth_timeout %>
+<%- end -%>
+<%- if @auth_cookie_session_timeout -%>
+auth-cookie-session-timeout=<%= @auth_cookie_session_timeout %>
+<%- end -%>
+<%- end -%>
+<%- if @zip_cache_expiration -%>
+zip-cache-expiration=<%= @zip_cache_expiration %>
+<%- end -%>
+<%- if @zip_cache_cleanup-%>
+zip-cache-cleanup=<%= @zip_cache_cleanup %>
+<%- end -%>
+<%- if @zip_cache_refresh-%>
+zip-cache-refresh=<%= @zip_cache_refresh %>
+<%- end -%>
+<%- if @zip_open_timeout-%>
+zip-open-timeout=<%= @zip_open_timeout %>
+<%- end -%>
+<%- if @zip_http_client_timeout-%>
+zip-http-client-timeout=<%= @zip_http_client_timeout %>
+<%- end -%>
+<%- if @listen_proxy-%>
+listen-proxy=<%= @listen_proxy %>
+<%- end -%>
+<%- if @metrics_address-%>
+metrics-address=<%= @metrics_address %>
+<%- end -%>
+<%- if @status_uri -%>
+pages-status=<%= @status_uri %>
+<%- end -%>
+<%- if @max_connections -%>
+max-conns=<%= @max_connections %>
+<%- end -%>
+<%- if @max_uri_length -%>
+max-uri-length=<%= @max_uri_length %>
+<%- end -%>
+<%- if @propagate_correlation_id -%>
+propagate-correlation-id=<%= @propagate_correlation_id %>
+<%- end -%>
+<%- if @log_format -%>
+log-format=<%= @log_format %>
+<%- end -%>
+<%- if @log_verbose -%>
+log-verbose
+<%- end -%>
+<%- if @sentry_enabled -%>
+<%-   if @sentry_dsn-%>
+sentry-dsn=<%= @sentry_dsn %>
+<%-   end -%>
+<%-   if @sentry_environment-%>
+sentry-environment=<%= @sentry_environment %>
+<%-   end -%>
+<%- end -%>
+<%- if @redirect_http-%>
+redirect-http=<%= @redirect_http %>
+<%- end -%>
+<%- if @use_http2-%>
+use-http2=<%= @use_http2 %>
+<%- end -%>
+<%- if @artifacts_server -%>
+<%-   if @artifacts_server_url-%>
+artifacts-server=<%= @artifacts_server_url %>
+<%-   end -%>
+<%-   if @artifacts_server_timeout -%>
+artifacts-server-timeout=<%= @artifacts_server_timeout %>
+<%-   end -%>
+<%- end -%>
+<%- if @gitlab_server -%>
+gitlab-server=<%= @gitlab_server %>
+<%- end -%>
+<%- if @internal_gitlab_server -%>
+internal-gitlab-server=<%= @internal_gitlab_server %>
+<%- end -%>
+<%- if @insecure_ciphers -%>
+insecure-ciphers
+<%- end -%>
+<%- if @tls_min_version -%>
+tls-min-version=<%= @tls_min_version %>
+<%- end -%>
+<%- if @tls_max_version-%>
+tls-max-version=<%= @tls_max_version %>
+<%- end -%>
+<%- if @server_shutdown_timeout -%>
+server-shutdown-timeout=<%= @server_shutdown_timeout %>
+<%- end -%>
+<%- if @gitlab_client_http_timeout -%>
+gitlab-client-http-timeout=<%= @gitlab_client_http_timeout %>
+<%- end -%>
+<%- if @gitlab_client_jwt_expiry -%>
+gitlab-client-jwt-expiry=<%= @gitlab_client_jwt_expiry %>
+<%- end -%>
+<%- unless @pages_external_http.empty? -%>
+listen-http=<%= @pages_external_http.join(',') %>
+<%- end -%>
+<%- unless @pages_external_https.empty? -%>
+listen-https=<%= @pages_external_https.join(',') %>
+<%- end -%>
+<%- unless @pages_external_https_proxyv2.empty? -%>
+listen-https-proxyv2=<%= @pages_external_https_proxyv2.join(',') %>
+<%- end -%>
+<%- unless @pages_external_https.empty? && @pages_external_https_proxyv2.empty? -%>
+root-cert=<%= @cert %>
+root-key=<%= @cert_key %>
+<%- end -%>
+<%- if @gitlab_cache_expiry -%>
+gitlab-cache-expiry=<%= @gitlab_cache_expiry %>
+<%- end -%>
+<%- if @gitlab_cache_refresh -%>
+gitlab-cache-refresh=<%= @gitlab_cache_refresh %>
+<%- end -%>
+<%- if @gitlab_cache_cleanup -%>
+gitlab-cache-cleanup=<%= @gitlab_cache_cleanup %>
+<%- end -%>
+<%- if @gitlab_retrieval_timeout -%>
+gitlab-retrieval-timeout=<%= @gitlab_retrieval_timeout %>
+<%- end -%>
+<%- if @gitlab_retrieval_interval -%>
+gitlab-retrieval-timeout=<%= @gitlab_retrieval_interval %>
+<%- end -%>
+<%- if @gitlab_retrieval_retries -%>
+gitlab-retrieval-retries=<%= @gitlab_retrieval_retries %>
+<%- end -%>
+<%- unless @enable_disk.nil? -%>
+enable-disk=<%= @enable_disk %>
+<%- end -%>
+<%- if @rate_limit_source_ip -%>
+rate-limit-source-ip=<%= @rate_limit_source_ip %>
+<%-end -%>
+<%- if @rate_limit_source_ip_burst -%>
+rate-limit-source-ip-burst=<%= @rate_limit_source_ip_burst %>
+<%-end -%>
+<%- if @rate_limit_domain -%>
+rate-limit-domain=<%= @rate_limit_domain %>
+<%-end -%>
+<%- if @rate_limit_domain_burst -%>
+rate-limit-domain-burst=<%= @rate_limit_domain_burst %>
+<%-end -%>
+<%- if @rate_limit_tls_source_ip -%>
+rate-limit-tls-source-ip=<%= @rate_limit_tls_source_ip %>
+<%-end -%>
+<%- if @rate_limit_tls_source_ip_burst -%>
+rate-limit-tls-source-ip-burst=<%= @rate_limit_tls_source_ip_burst %>
+<%-end -%>
+<%- if @rate_limit_tls_domain -%>
+rate-limit-tls-domain=<%= @rate_limit_tls_domain %>
+<%-end -%>
+<%- if @rate_limit_tls_domain_burst -%>
+rate-limit-tls-domain-burst=<%= @rate_limit_tls_domain_burst %>
+<%-end -%>
+<%- unless @rate_limit_subnets_allow_list.empty? -%>
+rate-limit-subnets-allow-list=<%= @rate_limit_subnets_allow_list.join(',') %>
+<%- end -%>
+<%- if @server_read_timeout -%>
+server-read-timeout=<%= @server_read_timeout %>
+<%-end -%>
+<%- if @server_read_header_timeout -%>
+server-read-header-timeout=<%= @server_read_header_timeout %>
+<%-end -%>
+<%- if @server_write_timeout -%>
+server-write-timeout=<%= @server_write_timeout %>
+<%-end -%>
+<%- if @server_keep_alive -%>
+server-keep-alive=<%= @server_keep_alive %>
+<%-end -%>
+<%- if @redirects_max_config_size -%>
+redirects-max-config-size=<%= @redirects_max_config_size %>
+<%-end -%>
+<%- if @redirects_max_path_segments -%>
+redirects-max-path-segments=<%= @redirects_max_path_segments %>
+<%-end -%>
+<%- if @redirects_max_rule_count -%>
+redirects-max-rule-count=<%= @redirects_max_rule_count %>
+<%-end -%>
+<%- if @headers -%>
+header=<%= @headers.join(';;') %>
+<%-end -%>
+<%- if @namespace_in_path -%>
+namespace-in-path=<%= @namespace_in_path %>
+<%-end -%>
+<%- if @client_cert -%>
+client-cert=<%= @client_cert %>
+<%-end -%>
+<%- if @client_key -%>
+client-key=<%= @client_key %>
+<%-end -%>
+<%- if @client_ca_certs -%>
+client-ca-certs=<%= @client_ca_certs %>
+<%-end -%>

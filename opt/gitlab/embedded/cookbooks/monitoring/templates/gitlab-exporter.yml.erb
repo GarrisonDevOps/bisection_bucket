@@ -1,0 +1,146 @@
+db_common: &db_common
+  methods:
+    - probe_db
+  opts:
+    connection_string: <%= @connection_string %>
+
+# Web server config
+server:
+  listen_address: <%= node['monitoring']['gitlab_exporter']['listen_address'] %>
+  listen_port: <%= node['monitoring']['gitlab_exporter']['listen_port'] %>
+  name: <%= node['monitoring']['gitlab_exporter']['server_name'] %>
+  <% if node['monitoring']['gitlab_exporter']['tls_enabled'] == true %>
+  tls_enabled: true
+    <% if node['monitoring']['gitlab_exporter']['tls_cert_path'] %>
+  tls_cert_path: <%= node['monitoring']['gitlab_exporter']['tls_cert_path'] %>
+    <% end %>
+    <% if node['monitoring']['gitlab_exporter']['tls_key_path'] %>
+  tls_key_path: <%= node['monitoring']['gitlab_exporter']['tls_key_path'] %>
+    <% end %>
+  <% end %>
+
+# Probes config
+probes:
+<% if node['gitlab']['gitlab_rails']['db_adapter'] == 'postgresql' -%>
+  # We can group multiple probes under a single endpoint by setting the `multiple` key to `true`, followed
+  # by probe definitions as usual.
+  database:
+    multiple: true
+    ci_builds:
+      class_name: Database::CiBuildsProber
+      <<: *db_common
+    tuple_stats:
+      class_name: Database::TuplesProber
+      <<: *db_common
+    rows_count:
+      class_name: Database::RowCountProber
+      <<: *db_common
+  <%- if @probe_geo %>
+    geo_node_status:
+      class_name: Database::GeoNodeStatusProber
+      <<: *db_common
+  <%- end %>
+  database_bloat:
+    class_name: Database::BloatProber
+    <<: *db_common
+<% end -%>
+
+  ruby: &ruby
+    methods:
+      - probe_gc
+    opts:
+      quantiles: false
+
+<% if @probe_sidekiq %>
+  sidekiq: &sidekiq
+    methods:
+      - probe_stats
+      - probe_queues
+      - probe_workers
+      - probe_retries
+    opts:
+      redis_url: "<%= @redis_url %>"
+      redis_enable_client: <%= @redis_enable_client %>
+      <%- if @redis_ssl_params %>
+      redis_ssl_params:
+        <%- if @redis_ssl_params[:ca_file] %>
+        ca_file: "<%= @redis_ssl_params[:ca_file] %>"
+        <%- end %>
+        <%- if @redis_ssl_params[:cert] %>
+        cert: "<%= @redis_ssl_params[:cert] %>"
+        <%- end %>
+        <%- if @redis_ssl_params[:key] %>
+        key: "<%= @redis_ssl_params[:key] %>"
+        <%- end %>
+      <%- end %>
+      <%- if @redis_sentinels && !@redis_sentinels.empty? %>
+      redis_sentinels:
+        <%- @redis_sentinels.each do |sentinel| %>
+        - host: <%= sentinel['host'] %>
+          port: <%= sentinel['port'] %>
+          <%- if @redis_sentinels_ssl %>
+          ssl: true
+          ssl_params:
+            <%- if @redis_sentinels_tls_ca_cert_file %>
+            ca_file: "<%= @redis_sentinels_tls_ca_cert_file %>"
+            <%- end %>
+            <%- if @redis_sentinels_tls_client_cert_file %>
+            cert: "<%= @redis_sentinels_tls_client_cert_file %>"
+            <%- end %>
+            <%- if @redis_sentinels_tls_client_key_file %>
+            key: "<%= @redis_sentinels_tls_client_key_file %>"
+            <%- end %>
+          <%- end %>
+        <%- end %>
+      <%- if @redis_sentinels_password %>
+      redis_sentinel_password: "<%= @redis_sentinels_password %>"
+      <%- end -%>
+      <%- end %>
+<% end %>
+
+<% if @probe_elasticsearch && @elasticsearch_url %>
+  elasticsearch: &elasticsearch
+    methods:
+      - probe_migrations
+    opts:
+      - url: "<%= @elasticsearch_url %>"
+    <% if @elasticsearch_authorization %>
+        options:
+          headers:
+            Authorization: <%= @elasticsearch_authorization %>
+    <% end %>
+<% end %>
+
+  metrics:
+    multiple: true
+    ruby:
+      <<: *ruby
+<% if @probe_sidekiq %>
+    sidekiq:
+      <<: *sidekiq
+<% end %>
+
+<% if @probe_elasticsearch && @elasticsearch_url %>
+    elasticsearch:
+      <<: *elasticsearch
+<% end %>
+
+<% if node['gitlab']['gitlab_rails']['db_adapter'] == 'postgresql' -%>
+    ci_builds:
+      class_name: Database::CiBuildsProber
+      <<: *db_common
+    tuple_stats:
+      class_name: Database::TuplesProber
+      <<: *db_common
+    rows_count:
+      class_name: Database::RowCountProber
+      <<: *db_common
+    pg_sequences:
+      class_name: Database::PgSequencesProber
+      <<: *db_common
+  <%- if @probe_geo %>
+    geo_node_status:
+      class_name: Database::GeoNodeStatusProber
+      <<: *db_common
+  <%- end %>
+<% end -%>

@@ -1,0 +1,400 @@
+# This is a base class to be inherited by PG Helpers
+require 'shellwords'
+require_relative '../../../package/libraries/helpers/base_helper'
+require_relative '../pg_version'
+
+class BasePgHelper < BaseHelper
+  include ShellOutHelper
+
+  attr_reader :node
+  attr_reader :built_connection_info
+
+  ConnectionInfo = Struct.new(:dbname, :dbhost, :port, :pguser)
+
+  PG_HASH_PATTERN ||= /\{(.*)\}/.freeze
+  PG_HASH_PAIR_SEPARATOR ||= ','.freeze
+  PG_HASH_PAIR_ESCAPED_PATTERN ||= /^"|"$/.freeze
+  PG_HASH_KEY_VALUE_SEPARATOR ||= '='.freeze
+  PG_ESCAPED_DOUBLE_QUOTE_PATTERN ||= /\\"/.freeze
+  PG_ESCAPED_BACKSLASH_PATTERN ||= /\\{2}/.freeze
+
+  def is_running?
+    omnibus_helper = OmnibusHelper.new(node)
+    omnibus_helper.service_up?(service_name)
+  end
+
+  def is_ready?
+    status = PgStatusHelper.new(connection_info, node)
+
+    status.ready?
+  end
+
+  def connection_info
+    raise NotImplementedError
+  end
+
+  def build_connection_info(dbname, dbhost, port, pguser)
+    @built_connection_info ||= ConnectionInfo.new(dbname, dbhost, port, pguser)
+  end
+
+  def is_managed_and_offline?
+    OmnibusHelper.new(node).is_managed_and_offline?(service_name)
+  end
+
+  def database_exists?(db_name)
+    psql_cmd(["-d 'template1'",
+              "-c 'select datname from pg_database' -A",
+              "| grep -x #{db_name}"])
+  end
+
+  def database_empty?(db_name)
+    psql_cmd(["-d '#{db_name}'",
+              "-c '\\dt' -A",
+              "| grep -x 'No relations found.'"])
+  end
+
+  def extension_exists?(extension_name)
+    psql_cmd(["-d 'template1'",
+              "-c 'select name from pg_available_extensions' -A",
+              "| grep -x #{extension_name}"])
+  end
+
+  def extension_enabled?(extension_name, db_name)
+    psql_cmd(["-d '#{db_name}'",
+              "-c 'select extname from pg_extension' -A",
+              "| grep -x #{extension_name}"])
+  end
+
+  def extension_can_be_enabled?(extension_name, db_name)
+    is_running? &&
+      !is_standby? &&
+      extension_exists?(extension_name) &&
+      database_exists?(db_name) &&
+      !extension_enabled?(extension_name, db_name)
+  end
+
+  def user_exists?(db_user)
+    psql_cmd(["-d 'template1'",
+              "-c 'select usename from pg_user' -A",
+              "|grep -x #{db_user}"])
+  end
+
+  # Unlike user_exists?, this matches roles regardless of the LOGIN
+  # attribute. pg_user only lists roles that can log in, so NOLOGIN
+  # permission roles must be looked up in pg_roles. The role name is
+  # shell-escaped (and -F keeps grep from treating it as a regexp) so
+  # names with unusual characters are matched literally and safely.
+  def role_exists?(role)
+    psql_cmd(["-d 'template1'",
+              "-c 'select rolname from pg_roles' -A",
+              "|grep -xF -- #{Shellwords.escape(role)}"])
+  end
+
+  def user_options(db_user)
+    query = "SELECT usecreatedb, usesuper, userepl, usebypassrls FROM pg_shadow WHERE usename='#{db_user}'"
+    values = do_shell_out(
+      %(/opt/gitlab/bin/#{service_cmd} -d template1 -c "#{query}" -tA)
+    ).stdout.chomp.split('|').map { |v| v == 't' }
+    options = %w(CREATEDB SUPERUSER REPLICATION BYPASSRLS)
+    Hash[options.zip(values)]
+  end
+
+  def user_options_set?(db_user, options)
+    active_options = user_options(db_user)
+    options.map(&:upcase).each do |option|
+      if option =~ /^NO(.*)/
+        return false if active_options[Regexp.last_match(1)]
+      else
+        return false unless active_options[option]
+      end
+    end
+    true
+  end
+
+  # Check if database schema exists for specified database
+  #
+  # @param [Object] schema_name database schema name
+  # @param [Object] db_name database name
+  def schema_exists?(schema_name, db_name)
+    psql_cmd(["-d '#{db_name}'",
+              "-c 'select schema_name from information_schema.schemata' -A",
+              "| grep -x #{schema_name}"])
+  end
+
+  # Check if database user is owner of specified schema
+  #
+  # You need to check if schema exists before running this
+  #
+  # @param [String] schema_name database schema name
+  # @param [String] db_name database name
+  # @param [String] owner the database user to be checked as owner
+  # @return [Boolean] whether specified database user is the owner
+  def schema_owner?(schema_name, db_name, owner)
+    psql_cmd(["-d '#{db_name}'",
+              %(-c "select schema_owner from information_schema.schemata where schema_name='#{schema_name}'" -A),
+              "| grep -x #{owner}"])
+  end
+
+  # Used to compare schema with foreign schema, to determine if foreign tables
+  # need to be refreshed
+  def retrieve_schema_tables(schema_name, db_name)
+    sql = <<~SQL
+        SELECT table_name, column_name, data_type
+          FROM information_schema.columns
+         WHERE table_catalog = '#{db_name}'
+           AND table_schema = '#{schema_name}'
+           AND table_name NOT LIKE 'pg_%'
+      ORDER BY table_name, column_name, data_type
+    SQL
+
+    psql_query(db_name, sql)
+  end
+
+  def user_hashed_password(db_user)
+    db_user_safe = db_user.scan(/[a-z_][a-z0-9_-]*[$]?/).first
+    psql_query('template1', "SELECT passwd FROM pg_shadow WHERE usename='#{db_user_safe}'")
+  end
+
+  def user_password_match?(db_user, db_pass)
+    if db_pass.nil? || /^md5.{32}$/.match(db_pass)
+      # if the password is in the MD5 hashed format or is empty, do a simple compare
+      db_pass.to_s == user_hashed_password(db_user)
+    else
+      # if password is in plain-text, convert to MD5 format before doing comparison
+      hashed = Digest::MD5.hexdigest("#{db_pass}#{db_user}")
+      "md5#{hashed}" == user_hashed_password(db_user)
+    end
+  end
+
+  # Parses hash type content from PostgreSQL and return a ruby hash
+  #
+  # @param [String] raw_content from command-line output
+  # @return [Hash] hash with key and values from parsed content
+  def parse_pghash(raw_content)
+    parse_pghash_pairs(raw_content).each_with_object({}) do |pair, hash|
+      key, value = parse_pghash_key_value(pair)
+      hash[key.to_sym] = value
+    end
+  end
+
+  def node_attributes
+    node_attribute_key = SettingsDSL::Utils.node_attribute_key(service_name)
+    return node['gitlab'][node_attribute_key] if node['gitlab'].key?(node_attribute_key)
+
+    node[node_attribute_key]
+  end
+
+  def is_standby?
+    %w(recovery.signal standby.signal).each do |standby_file|
+      return true if ::File.exist?(::File.join(node_attributes['dir'], 'data', standby_file))
+    end
+    false
+  end
+
+  alias_method :replica?, :is_standby?
+
+  def is_offline_or_readonly?
+    !is_running? || is_standby?
+  end
+
+  # Returns an array of function names for the given database
+  #
+  # Uses the  `\df` PostgreSQL command to generate a list of functions and their
+  # attributes, then cuts out only the function names.
+  #
+  # @param database [String] the name of the database
+  # @return [Array] the list of functions associated with the database
+  def list_functions(database)
+    do_shell_out(
+      %(/opt/gitlab/bin/#{service_cmd} -d #{database} -c '\\df' -tA -F, | cut -d, -f2)
+    ).stdout.split("\n")
+  end
+
+  def has_function?(database, function)
+    list_functions(database).include?(function)
+  end
+
+  def function_owner(database, function)
+    psql_query(
+      database,
+      "SELECT pg_catalog.pg_get_userbyid(proowner) FROM pg_proc WHERE proname='#{function}';"
+    )
+  end
+
+  def bootstrapped?
+    node_attribute_key = SettingsDSL::Utils.node_attribute_key(service_name)
+
+    # As part of https://gitlab.com/gitlab-org/omnibus-gitlab/issues/2078 services are
+    # being split to their own dedicated cookbooks, and attributes are being moved from
+    # node['gitlab'][service_name] to node[service_name]. Until they've been moved, we
+    # need to check both.
+
+    return File.exist?(File.join(node['gitlab'][node_attribute_key]['dir'], 'data', 'PG_VERSION')) if node['gitlab'].key?(node_attribute_key)
+
+    File.exist?(File.join(node[node_attribute_key]['dir'], 'data', 'PG_VERSION'))
+  end
+
+  def psql_cmd(cmd_list)
+    cmd = ["/opt/gitlab/bin/#{service_cmd}", cmd_list.join(' ')].join(' ')
+    success?(cmd)
+  end
+
+  # Return the results of a psql query
+  # - db_name: Name of the database to query
+  # - query: SQL query to run
+  def psql_query(db_name, query)
+    psql_query_raw(db_name, query).stdout.chomp
+  end
+
+  # Get the Mixlib::Shellout object containing the command results.
+  # Allows for more fine grained error handling
+  # - db_name: Name of the database to query
+  # - query: SQL query to run
+  def psql_query_raw(db_name, query)
+    do_shell_out(
+      %(/opt/gitlab/bin/#{service_cmd} -d '#{db_name}' -c "#{query}" -tA)
+    )
+  end
+
+  def pending_restart_settings
+    # pg_settings.setting is the active value, still in effect until PostgreSQL
+    # restarts. pg_file_settings.setting is the pending value the operator wrote
+    # to a configuration file. Surface both so the operator can see what changes.
+    #
+    # LEFT JOIN so a parameter that is pending_restart with no config-file row
+    # (for example after ALTER SYSTEM RESET) is still reported; its pending value
+    # comes back empty and means "resets to default".
+    #
+    # pg_file_settings can list a parameter more than once. PostgreSQL applies
+    # the row with the highest seqno, so DISTINCT ON keeps that row. NULLS LAST
+    # keeps a real file row over the LEFT JOIN's NULL row when both would sort.
+    query = <<~SQL.tr("\n", ' ').strip
+      SELECT DISTINCT ON (s.name) s.name, s.setting AS active, f.setting AS pending
+      FROM pg_settings s LEFT JOIN pg_file_settings f USING (name)
+      WHERE s.pending_restart ORDER BY s.name, f.seqno DESC NULLS LAST;
+    SQL
+    result = psql_query_raw('template1', query)
+
+    return [] unless result.exitstatus&.zero?
+
+    result.stdout.lines.filter_map do |line|
+      name, active, pending_value = line.chomp.split('|', 3)
+      next if name.to_s.empty?
+
+      # split('|', 3) yields nil for the pending field on a "name|active|" line
+      # (empty pg_file_settings.setting), so normalise nil to an empty string.
+      [name, active, pending_value.to_s]
+    end
+  rescue StandardError => e
+    Chef::Log.debug("Unable to query PostgreSQL pending restart settings: #{e.message}")
+    []
+  end
+
+  def version
+    PGVersion.parse(VersionHelper.version('/opt/gitlab/embedded/bin/psql --version').split.last)
+  end
+
+  def running_version
+    PGVersion.parse(psql_query('template1', 'SHOW SERVER_VERSION'))
+  end
+
+  def database_version
+    node_attribute_key = SettingsDSL::Utils.node_attribute_key(service_name)
+
+    # As part of https://gitlab.com/gitlab-org/omnibus-gitlab/issues/2078 services are
+    # being split to their own dedicated cookbooks, and attributes are being moved from
+    # node['gitlab'][service_name] to node[service_name]. Until they've been moved, we
+    # need to check both.
+
+    version_file = node['gitlab'].key?(node_attribute_key) ? "#{@node['gitlab'][node_attribute_key]['dir']}/data/PG_VERSION" : "#{@node[node_attribute_key]['dir']}/data/PG_VERSION"
+    PGVersion.new(File.read(version_file).chomp) if File.exist?(version_file)
+  end
+
+  def pg_shadow_lookup
+    <<-EOF
+    CREATE OR REPLACE FUNCTION public.pg_shadow_lookup(in i_username text, out username text, out password text) RETURNS record AS $$
+    BEGIN
+        SELECT usename, passwd FROM pg_catalog.pg_shadow
+        WHERE usename = i_username INTO username, password;
+        RETURN;
+    END;
+    $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+    REVOKE ALL ON FUNCTION public.pg_shadow_lookup(text) FROM public, pgbouncer;
+    GRANT EXECUTE ON FUNCTION public.pg_shadow_lookup(text) TO pgbouncer;
+    EOF
+  end
+
+  def service_name
+    raise NotImplementedError
+  end
+
+  def service_cmd
+    raise NotImplementedError
+  end
+
+  def delegate_service_name
+    'patroni'
+  end
+
+  def delegated?
+    # When Patroni is enabled, the configuration of PostgreSQL instance must be delegated to it.
+    # PostgreSQL cookbook skips some of the steps that are must be done either during or after
+    # Patroni bootstraping.
+    node['patroni']['enable']
+  end
+
+  def config_dir
+    ::File.join(node['patroni']['enable'] ? node['patroni']['dir'] : node['postgresql']['dir'], 'data')
+  end
+
+  def postgresql_config
+    ::File.join(config_dir, "postgresql#{node['patroni']['enable'] ? '.base' : ''}.conf")
+  end
+
+  def postgresql_runtime_config
+    ::File.join(config_dir, 'runtime.conf')
+  end
+
+  def pg_hba_config
+    ::File.join(config_dir, 'pg_hba.conf')
+  end
+
+  def pg_ident_config
+    ::File.join(config_dir, 'pg_ident.conf')
+  end
+
+  def geo_config
+    ::File.join(config_dir, 'gitlab-geo.conf')
+  end
+
+  def ssl_cert_file
+    ::File.absolute_path(node['postgresql']['ssl_cert_file'], config_dir)
+  end
+
+  def ssl_key_file
+    ::File.absolute_path(node['postgresql']['ssl_key_file'], config_dir)
+  end
+
+  def postgresql_install_dir
+    ::File.join(node['package']['install-dir'], 'embedded/postgresql')
+  end
+
+  private
+
+  def stringify_hash_values(options)
+    options.each_with_object({}) { |(k, v), hash| hash[k] = v.to_s }
+  end
+
+  def parse_pghash_pairs(raw_content)
+    raw_content.gsub(PG_HASH_PATTERN) { Regexp.last_match(1) }
+               .split(PG_HASH_PAIR_SEPARATOR)
+  end
+
+  def parse_pghash_key_value(pair)
+    pair.gsub(PG_HASH_PAIR_ESCAPED_PATTERN, '')
+        .gsub(PG_ESCAPED_DOUBLE_QUOTE_PATTERN, '"')
+        .gsub(PG_ESCAPED_BACKSLASH_PATTERN, '')
+        .split(PG_HASH_KEY_VALUE_SEPARATOR)
+  end
+end

@@ -1,0 +1,1373 @@
+# This file is managed by gitlab-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/gitlab/gitlab.rb
+# and run `sudo gitlab-ctl reconfigure`.
+
+production: &base
+  #
+  # 1. GitLab app settings
+  # ==========================
+
+  ## GitLab settings
+  gitlab:
+    ## Web server settings (note: host is the FQDN, do not include http://)
+    host: <%= @gitlab_host %>
+    port: <%= @gitlab_port %>
+    https: <%= @gitlab_https %>
+
+    <%- unless @cdn_host.nil? %>
+    ## Rails asset/CDN host
+    cdn_host: <%= @cdn_host %>
+    <% end %>
+
+    # The maximum time puma can spend on the request. This needs to be smaller than the worker timeout.
+    # Default is 95% of the worker timeout
+    max_request_duration_seconds: <%= @max_request_duration_seconds %>
+
+    # Uncommment this line below if your ssh host is different from HTTP/HTTPS one
+    # (you'd obviously need to replace ssh.host_example.com with your own host).
+    # Otherwise, ssh host will be set to the `host:` value above
+    ssh_host: <%= @gitlab_ssh_host %>
+
+    # If your ssh user differs from the system user, you need to specify it here
+    # Set it to an empty string to omit the username from any ssh url altogether
+    ssh_user: <%= quote(@gitlab_ssh_user) %>
+
+    # WARNING: See config/application.rb under "Relative url support" for the list of
+    # other files that need to be changed for relative url support
+    relative_url_root: <%= @gitlab_relative_url %>
+
+    # ActionCable allowed request origins
+    # Customize if you browse your GitLab application through multiple URLs
+    # If you have GitLab Geo enabled, then add the external URLs of every site:
+    action_cable_allowed_origins:
+    <% @action_cable_allowed_origins&.each do |entry| %>
+      - <%= quote(entry) %>
+    <% end %>
+
+    # Trusted Proxies
+    # Customize if you have GitLab behind a reverse proxy which is running on a different machine.
+    # Add the IP address for your reverse proxy to the list, otherwise users will appear signed in from that address.
+    trusted_proxies:
+<% @trusted_proxies.each do |proxy| %>
+      - <%= proxy %>
+<% end %>
+
+    <%- if @content_security_policy -%>
+    # Content Security Policy
+    # See:
+    # * https://guides.rubyonrails.org/security.html#content-security-policy
+    # * https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP
+    content_security_policy: <%= @content_security_policy.to_json %>
+    <%- end -%>
+
+    <%- unless @allowed_hosts.empty? %>
+    allowed_hosts: <%= @allowed_hosts.to_json %>
+    <% end %>
+
+    # Uncomment and customize if you can't use the default user to run GitLab (default: 'git')
+    user: <%= node['gitlab']['user']['username'] %>
+
+    ## Date & Time settings
+    time_zone: <%= quote(@time_zone) %>
+
+    ## Email settings
+    # Uncomment and set to false if you need to disable email sending from GitLab (default: true)
+    email_enabled: <%= @gitlab_email_enabled %>
+    # Email address used in the "From" field in mails sent by GitLab
+    email_from: <%= @gitlab_email_from %>
+    email_display_name: <%= @gitlab_email_display_name %>
+    email_reply_to: <%= @gitlab_email_reply_to %>
+    email_subject_suffix: <%= @gitlab_email_subject_suffix %>
+    # Email SMIME signing settings
+    email_smime:
+      enabled: <%= @gitlab_email_smime_enabled %>
+      key_file: <%= @gitlab_email_smime_key_file %>
+      cert_file: <%= @gitlab_email_smime_cert_file %>
+      ca_certs_file: <%= @gitlab_email_smime_ca_certs_file %>
+
+    # Email server smtp settings are in [a separate file](initializers/smtp_settings.rb.sample).
+
+    ## User settings
+    username_changing_enabled: <%= @gitlab_username_changing_enabled %> # default: true - User can change her username/namespace
+    ## Default theme
+    ##   1 - Graphite
+    ##   2 - Charcoal
+    ##   3 - Green
+    ##   4 - Gray
+    ##   5 - Violet
+    ##   6 - Blue
+    default_theme: <%= @gitlab_default_theme %> # default: 2
+
+    ## Color Modes
+    ##   1 - light mode
+    ##   2 - dark mode
+    ##   3 - auto (system)
+    default_color_mode: <%= @gitlab_default_color_mode %> # default: 1
+
+    <% unless @custom_html_header_tags.nil? %>
+    ## Custom html header tags
+    # In some cases some custom header tags are needed
+    # e.g., to add the EU cookie consent
+    # custom_html_header_tags: |
+    #  <script src="https://example.com/cookie-consent.js"></script>
+    #  <link rel="stylesheet" href="https://example.com/cookie-consent.css"/>
+    custom_html_header_tags: <%= quote(@custom_html_header_tags) %>
+    <% end %>
+
+    ## Automatic issue closing
+    # If a commit message matches this regular expression, all issues referenced from the matched text will be closed.
+    # This happens when the commit is pushed or merged into the default branch of a project.
+    # When not specified the default issue_closing_pattern as specified below will be used.
+    # Tip: you can test your closing pattern at http://rubular.com
+    issue_closing_pattern: <%= quote(@gitlab_issue_closing_pattern) %>
+
+    ## Default project features settings
+    default_projects_features:
+      issues: <%= @gitlab_default_projects_features_issues %>
+      merge_requests: <%= @gitlab_default_projects_features_merge_requests %>
+      wiki: <%= @gitlab_default_projects_features_wiki %>
+      snippets: <%= @gitlab_default_projects_features_snippets %>
+      builds: <%= @gitlab_default_projects_features_builds %>
+      container_registry: <%= @gitlab_default_projects_features_container_registry %>
+
+    ## Webhook settings
+    # Number of seconds to wait for HTTP response after sending webhook HTTP POST request (default: 10)
+    webhook_timeout: <%= @webhook_timeout %>
+
+    ## HTTP client settings
+    http_client: <%= @http_client.to_json %>
+
+    ### GraphQL Settings
+    # Tells the rails application how long it has to complete a GraphQL request.
+    # We suggest this value to be higher than the database timeout value
+    # and lower than the worker timeout set in puma. (default: 30)
+    graphql_timeout: <%= @graphql_timeout %>
+
+    ## Repository downloads directory
+    # When a user clicks e.g. 'Download zip' on a project, a temporary zip file is created in the following directory.
+    # The default is 'tmp/repositories' relative to the root of the Rails app.
+    repository_downloads_path: <%= @gitlab_repository_downloads_path %>
+
+    ## Impersonation settings
+    impersonation_enabled: <%= @impersonation_enabled %>
+
+    ## Disable jQuery and CSS animations
+    disable_animations: <%= @disable_animations %>
+
+    ## Application settings cache expiry in seconds. (default: 60)
+    application_settings_cache_seconds: <%= @application_settings_cache_seconds %>
+
+    usage_ping_enabled: <%= @usage_ping_enabled %>
+
+    ## Print initial root password to stdout during initialization
+    display_initial_root_password: <%= @display_initial_root_password %>
+
+    ## Enable or disable product usage data in the GitLab instance.
+    initial_gitlab_product_usage_data: <%= @initial_gitlab_product_usage_data %>
+
+    ## Session cookie settings
+    signed_cookie_salt: <%= quote(@signed_cookie_salt) %>
+    authenticated_encrypted_cookie_salt: <%= quote(@authenticated_encrypted_cookie_salt) %>
+
+  # Allows delivery of emails using Microsoft Graph API with OAuth 2.0 client credentials flow.
+  microsoft_graph_mailer:
+    enabled: <%= @microsoft_graph_mailer_enabled %>
+    # The unique identifier for the user. To use Microsoft Graph on behalf of the user.
+    user_id: <%= @microsoft_graph_mailer_user_id %>
+    # The directory tenant the application plans to operate against, in GUID or domain-name format.
+    tenant: <%= @microsoft_graph_mailer_tenant %>
+    # The application ID that's assigned to your app. You can find this information in the portal where you registered your app.
+    client_id: <%= @microsoft_graph_mailer_client_id %>
+    # The client secret that you generated for your app in the app registration portal.
+    client_secret: <%= quote(@microsoft_graph_mailer_client_secret) %>
+    # Defaults to "https://login.microsoftonline.com".
+    azure_ad_endpoint: <%= @microsoft_graph_mailer_azure_ad_endpoint %>
+    # Defaults to "https://graph.microsoft.com".
+    graph_endpoint: <%= @microsoft_graph_mailer_graph_endpoint %>
+
+  # Allows delivery of emails using the Amazon SES API.
+  # To authenticate via an IAM role, provide the role_arn. Credentials are obtained via STS.
+  # To authenticate via static keys, provide the access_key_id and secret_access_key.
+  # When all of them are omitted, it falls back to Aws::CredentialProviderChain which checks credentials
+  # listed in https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/credential-providers.html#credchain
+  amazon_ses_mailer:
+    enabled: <%= @amazon_ses_mailer_enabled %>
+    region: <%= quote(@amazon_ses_mailer_region) %>
+    role_arn: <%= quote(@amazon_ses_mailer_role_arn) %>
+    access_key_id: <%= quote(@amazon_ses_mailer_access_key_id) %>
+    secret_access_key: <%= quote(@amazon_ses_mailer_secret_access_key) %>
+
+  # Mobile push notifications via the Apple Push Notification service (APNs),
+  # using Apple provider token (p8) authentication. Delivery is skipped when
+  # no key is configured.
+  mobile_push:
+    apns:
+      # Path to the APNs provider token signing key (.p8) from your Apple Developer account.
+      auth_key_path: <%= quote(@mobile_push_apns_auth_key_path) %>
+      # The 10-character identifier of the signing key.
+      key_id: <%= quote(@mobile_push_apns_key_id) %>
+      # The Apple Developer team identifier.
+      team_id: <%= quote(@mobile_push_apns_team_id) %>
+      # apns-topic sent for subscriptions that don't carry a bundle identifier.
+      # Defaults to "com.gitlab-mobile.app" when unset.
+      topic: <%= quote(@mobile_push_apns_topic) %>
+
+  ## Reply by email
+  # Allow users to comment on issues and merge requests by replying to notification emails.
+  # For documentation on how to set this up, see https://docs.gitlab.com/ee/administration/reply_by_email.html
+  incoming_email:
+    enabled: <%= @incoming_email_enabled %>
+
+    # The email address including the `%{key}` placeholder that will be replaced to reference the item being replied to.
+    # The placeholder can be omitted but if present, it must appear in the "user" part of the address (before the `@`).
+    address: <%= quote(@incoming_email_address) %>
+
+    # Email account username
+    # With third party providers, this is usually the full email address.
+    # With self-hosted email servers, this is usually the user part of the email address.
+    user: <%= quote(@incoming_email_email) %>
+    # Email account password
+    password: <%= quote(@incoming_email_password) %>
+
+    # IMAP server host
+    host: <%= quote(@incoming_email_host) %>
+    # IMAP server port
+    port: <%= @incoming_email_port %>
+    # Whether the IMAP server uses SSL
+    ssl: <%= @incoming_email_ssl %>
+    # Whether the IMAP server uses StartTLS
+    start_tls: <%= @incoming_email_start_tls %>
+
+    # Inbox configuration (for Microsoft Graph)
+    inbox_method: <%= @incoming_email_inbox_method %>
+    <%- if @incoming_email_inbox_options %>
+    inbox_options: <%= @incoming_email_inbox_options.to_json %>
+    <%- end %>
+
+    # The mailbox where incoming mail will end up. Usually "inbox".
+    mailbox: <%= quote(@incoming_email_mailbox_name) %>
+    # The IDLE command timeout.
+    idle_timeout: <%= @incoming_email_idle_timeout %>
+    # file path of internal `mail_room` JSON logs
+    log_path: <%= @incoming_email_log_file %>
+
+    # If you are using Microsoft Graph instead of IMAP, set this to false to retain
+    # messages in the inbox since deleted messages are auto-expunged after some time.
+    delete_after_delivery: <%= @incoming_email_delete_after_delivery %>
+
+    # Whether to expunge (permanently remove) messages from the mailbox when they are marked as deleted after delivery
+    # Only applies to IMAP. Microsoft Graph will auto-expunge any deleted messages.
+    expunge_deleted: <%= @incoming_email_expunge_deleted %>
+
+    # How mailroom delivers email content to Rails. There are two methods at the moment:
+    # - sidekiq: mailroom pushes the email content to Sidekiq's Sidekiq
+    # directly. This job is then picked up by Sidekiq.
+    # - webhook: mailroom triggers a HTTP POST request to Rails web server. The
+    # content is embedded into the request body.
+    # Default is webhook.
+    delivery_method: <%= @incoming_email_delivery_method %>
+
+    <% if @incoming_email_delivery_method == "webhook" %>
+    # When the delivery method is webhook, those configs tell the url that
+    # mailroom can contact to. Note that the combined url must not end with "/".
+    # At the moment, the webhook delivery method doesn't support HTTP/HTTPs via
+    # UNIX socket.
+    gitlab_url: <%= @mailroom_internal_api_url %>
+
+    # When the delivery method is webhook, this config is the file that
+    # contains the shared secret key for verifying access for mailroom's
+    # incoming_email.
+    secret_file: .gitlab_incoming_email_secret
+    <% end %>
+
+  <%- if @object_store['enabled'] -%>
+  ## Consolidated object store config
+  # This uses a single credential for object storage with multiple buckets.
+  # It also enables Workhorse to upload files directly with its own S3 client
+  # instead of using pre-signed URLs.
+  #
+  # This will only take effect if the object_store sections are not defined
+  # within the types (e.g. artifacts.object_store, lfs.object_store, etc.).
+  object_store:
+     enabled: <%= @object_store['enabled'] %>
+     proxy_download: <%= @object_store['proxy_download'] %>
+     <%- if @object_store['allowed_download_modes'] -%>
+     allowed_download_modes: <%= @object_store['allowed_download_modes'].to_json %>
+     <%- end -%>
+     connection: <%= @object_store['connection'].to_json %>
+     storage_options: <%= @object_store['storage_options'].to_json %>
+     objects: <%= @object_store['objects'].to_json %>
+  <%- end -%>
+
+  ## Service desk email
+  # Allow users to use a separate service desk address
+  # For documentation on how to set this up, see https://docs.gitlab.com/ee/user/project/service_desk.html
+  service_desk_email:
+    enabled: <%= @service_desk_email_enabled %>
+
+    # The email address including the `%{key}` placeholder that will be replaced to reference the item being replied to.
+    # The placeholder can be omitted but if present, it must appear in the "user" part of the address (before the `@`).
+    address: <%= quote(@service_desk_email_address) %>
+
+    # Email account username
+    # With third party providers, this is usually the full email address.
+    # With self-hosted email servers, this is usually the user part of the email address.
+    user: <%= quote(@service_desk_email_email) %>
+    # Email account password
+    password: <%= quote(@service_desk_email_password) %>
+
+    # IMAP server host
+    host: <%= quote(@service_desk_email_host) %>
+    # IMAP server port
+    port: <%= @service_desk_email_port %>
+    # Whether the IMAP server uses SSL
+    ssl: <%= @service_desk_email_ssl %>
+    # Whether the IMAP server uses StartTLS
+    start_tls: <%= @service_desk_email_start_tls %>
+
+    # Inbox configuration (for Microsoft Graph)
+    inbox_method: <%= @service_desk_email_inbox_method %>
+    <%- if @service_desk_email_inbox_options %>
+    inbox_options: <%= @service_desk_email_inbox_options.to_json %>
+    <%- end %>
+
+    # The mailbox where incoming mail will end up. Usually "inbox".
+    mailbox: <%= quote(@service_desk_email_mailbox_name) %>
+    # The IDLE command timeout.
+    idle_timeout: <%= @service_desk_email_idle_timeout %>
+    # file path of internal `mail_room` JSON logs
+    log_path: <%= @service_desk_email_log_file %>
+
+    # How mailroom delivers email content to Rails. There are two methods at the moment:
+    # - sidekiq: mailroom pushes the email content to Sidekiq's Sidekiq
+    # directly. This job is then picked up by Sidekiq.
+    # - webhook: mailroom triggers a HTTP POST request to Rails web server. The
+    # content is embedded into the request body.
+    # Default is webhook.
+    delivery_method: <%= @service_desk_email_delivery_method %>
+
+    <% if @service_desk_email_delivery_method == "webhook" %>
+    # When the delivery method is webhook, those configs tell the url that
+    # mailroom can contact to. Note that the combined url must not end with "/".
+    # At the moment, the webhook delivery method doesn't support HTTP/HTTPs via
+    # UNIX socket.
+    gitlab_url: <%= @mailroom_internal_api_url %>
+
+    # When the delivery method is webhook, this config is the file that
+    # contains the shared secret key for verifying access for mailroom's
+    # service_desk_email.
+    secret_file: .gitlab_service_desk_email_secret
+    <% end %>
+
+  ## Build Artifacts
+  artifacts:
+    enabled: <%= @artifacts_enabled %>
+    # The location where Build Artifacts are stored (default: shared/artifacts).
+    path: <%= @artifacts_path %>
+    object_store:
+      enabled: <%= @artifacts_object_store_enabled %>
+      proxy_download: <%= @artifacts_object_store_proxy_download %>
+      <%- if @artifacts_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @artifacts_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@artifacts_object_store_remote_directory) %>
+      connection: <%= @artifacts_object_store_connection.to_json %>
+
+  ## External merge request diffs
+  external_diffs:
+    enabled: <%= @external_diffs_enabled %>
+    <%- if @external_diffs_when -%>
+    # Diffs may be `always` external (the default), or they can be made external
+    # after they have become `outdated` (i.e., the MR is closed or a new version
+    # has been pushed).
+    when: <%= @external_diffs_when %>
+    <%- end -%>
+    # The location where merge request diffs are stored (default: shared/external-diffs).
+    storage_path: <%= @external_diffs_storage_path %>
+    object_store:
+      enabled: <%= @external_diffs_object_store_enabled %>
+      proxy_download: <%= @external_diffs_object_store_proxy_download %>
+      <%- if @external_diffs_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @external_diffs_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@external_diffs_object_store_remote_directory) %>
+      connection: <%= @external_diffs_object_store_connection.to_json %>
+
+  ## Git LFS
+  lfs:
+    enabled: <%= @lfs_enabled %>
+    # The location where LFS objects are stored (default: shared/lfs-objects).
+    storage_path: <%= @lfs_storage_path %>
+    object_store:
+      enabled: <%= @lfs_object_store_enabled %>
+      proxy_download: <%= @lfs_object_store_proxy_download %>
+      <%- if @lfs_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @lfs_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@lfs_object_store_remote_directory) %>
+      connection: <%= @lfs_object_store_connection.to_json %>
+
+  ## Uploads
+  uploads:
+    # The location where uploads objects are stored (default: public/).
+    storage_path: <%= @uploads_storage_path %>
+    <% unless @uploads_base_dir.nil? %>
+    base_dir: <%= @uploads_base_dir %>
+    <% end %>
+    object_store:
+      enabled: <%= @uploads_object_store_enabled %>
+      proxy_download: <%= @uploads_object_store_proxy_download %>
+      <%- if @uploads_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @uploads_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@uploads_object_store_remote_directory) %>
+      connection: <%= @uploads_object_store_connection.to_json %>
+
+  ## Packages
+  packages:
+    enabled: <%= @packages_enabled %>
+    # The location where build packages are stored (default: shared/packages).
+    storage_path: <%= @packages_storage_path %>
+    object_store:
+      enabled: <%= @packages_object_store_enabled %>
+      proxy_download: <%= @packages_object_store_proxy_download %>
+      <%- if @packages_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @packages_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@packages_object_store_remote_directory) %>
+      connection: <%= @packages_object_store_connection.to_json %>
+
+  ## Dependency proxy (EE only)
+  dependency_proxy:
+    enabled: <%= @dependency_proxy_enabled %>
+    # The location where dependency_proxy blobs are stored (default: shared/dependency_proxy).
+    storage_path: <%= @dependency_proxy_storage_path %>
+    object_store:
+      enabled: <%= @dependency_proxy_object_store_enabled %>
+      proxy_download: <%= @dependency_proxy_object_store_proxy_download %>
+      <%- if @dependency_proxy_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @dependency_proxy_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@dependency_proxy_object_store_remote_directory) %>
+      connection: <%= @dependency_proxy_object_store_connection.to_json %>
+
+  ## Terraform state
+  terraform_state:
+    enabled: <%= @terraform_state_enabled %>
+    # The location where terraform state files are stored (default: shared/terraform_state).
+    storage_path: <%= @terraform_state_storage_path %>
+    object_store:
+      enabled: <%= @terraform_state_object_store_enabled %>
+      <%- if @terraform_state_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @terraform_state_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@terraform_state_object_store_remote_directory) %>
+      connection: <%= @terraform_state_object_store_connection.to_json %>
+
+  ## CI Secure Files
+  ci_secure_files:
+    enabled: <%= @ci_secure_files_enabled %>
+    # The location where ci secure files are stored (default: shared/ci_secure_files).
+    storage_path: <%= @ci_secure_files_storage_path %>
+    object_store:
+      enabled: <%= @ci_secure_files_object_store_enabled %>
+      <%- if @ci_secure_files_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @ci_secure_files_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@ci_secure_files_object_store_remote_directory) %>
+      connection: <%= @ci_secure_files_object_store_connection.to_json %>
+
+  ## Agent Plan Content
+  agent_plan_content:
+    enabled: <%= @agent_plan_content_enabled %>
+    # The location where agent plan content is stored (default: shared/agent_plan_content).
+    storage_path: <%= @agent_plan_content_storage_path %>
+    object_store:
+      enabled: <%= @agent_plan_content_object_store_enabled %>
+      <%- if @agent_plan_content_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @agent_plan_content_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@agent_plan_content_object_store_remote_directory) %>
+      connection: <%= @agent_plan_content_object_store_connection.to_json %>
+
+  ## CI Catalog Bundles
+  ci_catalog_bundles:
+    enabled: <%= @ci_catalog_bundles_enabled %>
+    # The location where CI catalog component bundles are stored (default: shared/ci_catalog_bundles).
+    storage_path: <%= @ci_catalog_bundles_storage_path %>
+    object_store:
+      enabled: <%= @ci_catalog_bundles_object_store_enabled %>
+      <%- if @ci_catalog_bundles_object_store_allowed_download_modes -%>
+      allowed_download_modes: <%= @ci_catalog_bundles_object_store_allowed_download_modes.to_json %>
+      <%- end -%>
+      remote_directory: <%= quote(@ci_catalog_bundles_object_store_remote_directory) %>
+      connection: <%= @ci_catalog_bundles_object_store_connection.to_json %>
+
+  ## Container Registry
+  registry:
+    enabled: <%= @registry_enabled %>
+    host: <%= @registry_host %>
+    port: <%= @registry_port %>
+    api_url: <%= @registry_api_url %> # internal address to the registry, will be used by GitLab to directly communicate with API
+    path: <%= @registry_path %>
+    key: <%= @registry_key_path %>
+    issuer: <%= @registry_issuer %>
+    notification_secret: <%= quote(@registry_notification_secret) %>
+
+  <%- if @cell['enabled'] -%>
+  ## Cells
+  cell:
+    enabled: true
+    id: <%= @cell['id'] %>
+    database:
+      skip_sequence_alteration: <%= @cell['database']['skip_sequence_alteration'] %>
+    topology_service_client:
+      address: <%= quote(@cell['topology_service_client']['address']) %>
+      ca_file: <%= quote(@cell['topology_service_client']['ca_file']) %>
+      certificate_file: <%= quote(@cell['topology_service_client']['certificate_file']) %>
+      private_key_file: <%= quote(@cell['topology_service_client']['private_key_file']) %>
+
+  <%- end -%>
+  <%- unless @nats_settings.empty? -%>
+  ## NATS (audit event streaming)
+  nats: <%= @nats_settings.to_json %>
+
+  <%- end -%>
+  ## Kubernetes Agent Server
+  gitlab_kas:
+    enabled: <%= @gitlab_kas_enabled %>
+    internal_url: <%= @gitlab_kas_internal_url %>
+    external_url: <%= @gitlab_kas_external_url %>
+    external_k8s_proxy_url: <%= @gitlab_kas_external_k8s_proxy_url %>
+
+  ## Orbit / Knowledge Graph
+  knowledge_graph:
+    enabled: <%= @orbit_enabled %>
+    grpc_endpoint: <%= quote(@orbit_grpc_endpoint) %>
+
+  <%- unless @artifact_registry_settings.empty? -%>
+  ## Artifact Registry (runs as a separate service; hybrid deployments only)
+  artifact_registry: <%= @artifact_registry_settings.to_json %>
+
+  <%- end -%>
+  ## Error Reporting and Logging with Sentry
+  sentry:
+    enabled: <%= @sentry_enabled %>
+    dsn: <%= @sentry_dsn %>
+    clientside_dsn: <%= @sentry_clientside_dsn %>
+    environment: <%= @sentry_environment %> # e.g. development, staging, production
+
+  ## Mattermost (external)
+  mattermost:
+    enabled: <%= @mattermost_enabled %>
+    host: <%= @mattermost_host %>
+
+  ## GitLab Pages
+  pages:
+    enabled: <%= @pages_enabled %>
+    access_control: <%= @pages_access_control %>
+    path: <%= @pages_path %>
+    host: <%= @pages_host %>
+    port: <%= @pages_port %>
+    https: <%= @pages_https %>
+    external_http: <%= !@pages_external_http.empty? %>
+    external_https: <%= !@pages_external_https.empty? || !@pages_external_https_proxyv2.empty? %>
+    artifacts_server: <%= @pages_artifacts_server %>
+    object_store:
+      enabled: <%= @pages_object_store_enabled %>
+      remote_directory: <%= quote(@pages_object_store_remote_directory) %>
+      connection: <%= @pages_object_store_connection.to_json %>
+    local_store:
+      enabled: <%= @pages_local_store_enabled %>
+      path: <%= @pages_local_store_path %>
+    namespace_in_path: <%= @pages_namespace_in_path %>
+
+  ## Gravatar
+  ## For Libravatar see: https://docs.gitlab.com/ee/customization/libravatar.html
+  gravatar:
+    # gravatar urls: possible placeholders: %{hash} %{size} %{email}
+    plain_url: <%= quote(@gravatar_plain_url) %>     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
+    ssl_url:   <%= quote(@gravatar_ssl_url) %>    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
+
+  ## Sidekiq
+  sidekiq:
+    log_format: <%= @sidekiq['log_format'] %>
+    <% unless @sidekiq['routing_rules'].empty? %>
+    routing_rules:
+      <% @sidekiq['routing_rules'].each do |query, queue, shard_instance| %>
+        <% if shard_instance.nil? %>
+      - [<%= quote(query) %>, <%= queue.nil? ? 'null' : quote(queue) %>]
+        <% else %>
+      - [<%= quote(query) %>, <%= queue.nil? ? 'null' : quote(queue) %>, <%= quote(shard_instance) %>]
+        <% end %>
+      <% end %>
+    <% end %>
+
+  ## Auxiliary jobs
+  # Periodically executed jobs, to self-heal GitLab, do external synchronizations, etc.
+  # Please read here for more information: https://github.com/ondrejbartas/sidekiq-cron#adding-cron-job
+  cron_jobs:
+    # Flag stuck CI builds as failed
+    <% unless @stuck_ci_jobs_worker_cron.nil? %>
+    stuck_ci_jobs_worker:
+      cron: "<%= @stuck_ci_jobs_worker_cron %>"
+    <% end %>
+
+    # Remove expired build artifacts
+    <% unless @expire_build_artifacts_worker_cron.nil? %>
+    expire_build_artifacts_worker:
+      cron: "<%= @expire_build_artifacts_worker_cron %>"
+    <% end %>
+
+    # Stop expired environments
+    <% unless @environments_auto_stop_cron_worker_cron.nil? %>
+    environments_auto_stop_cron_worker:
+      cron: "<%= @environments_auto_stop_cron_worker_cron %>"
+    <% end %>
+
+    # Schedule pipelines in the near future
+    <% unless @pipeline_schedule_worker_cron.nil? %>
+    pipeline_schedule_worker:
+      cron: "<%= @pipeline_schedule_worker_cron %>"
+    <% end %>
+
+    # Periodically run 'git fsck' on all repositories. If started more than
+    # once per hour you will have concurrent 'git fsck' jobs.
+    <% unless @repository_check_worker_cron.nil? %>
+    repository_check_worker:
+      cron: "<%= @repository_check_worker_cron %>"
+    <% end %>
+
+    # Send admin emails once a week
+    <% unless @admin_email_worker_cron.nil? %>
+    admin_email_worker:
+      cron: "<%= @admin_email_worker_cron %>"
+    <% end %>
+
+    # Send emails about personal tokens about to expired
+    <% unless @personal_access_tokens_expiring_worker_cron.nil? %>
+    personal_access_tokens_expiring_worker:
+      cron: "<%= @personal_access_tokens_expiring_worker_cron %>"
+    <% end %>
+
+    # Send emails about personal tokens that have expired
+    <% unless @personal_access_tokens_expired_notification_worker_cron.nil? %>
+    personal_access_tokens_expired_notification_worker:
+      cron: "<%= @personal_access_tokens_expired_notification_worker_cron %>"
+    <% end %>
+
+    # Remove outdated repository archives
+    <% unless @repository_archive_cache_worker_cron.nil? %>
+    repository_archive_cache_worker:
+      cron: "<%=  @repository_archive_cache_worker_cron %>"
+    <% end %>
+
+    # Archive live traces which have not been archived yet
+    <% unless @ci_archive_traces_cron_worker_cron.nil? %>
+    ci_archive_traces_cron_worker:
+      cron: "<%= @ci_archive_traces_cron_worker_cron %>"
+    <% end %>
+
+    # Verify custom GitLab Pages domains
+    <% unless @pages_domain_verification_cron_worker.nil? %>
+    pages_domain_verification_cron_worker:
+      cron: "<%= @pages_domain_verification_cron_worker %>"
+    <% end %>
+
+    # Obtain and renew SSL certificates for pages domain through Let's Encrypt
+    <% unless @pages_domain_ssl_renewal_cron_worker.nil? %>
+    pages_domain_ssl_renewal_cron_worker:
+      cron: "<%= @pages_domain_ssl_renewal_cron_worker %>"
+    <% end %>
+
+    # Removes unverified pages domains
+    <% unless @pages_domain_removal_cron_worker.nil? %>
+    pages_domain_removal_cron_worker:
+      cron: "<%= @pages_domain_removal_cron_worker %>"
+    <% end %>
+
+    # Remove unaccepted member invitations
+    <% unless @remove_unaccepted_member_invites_cron_worker.nil? %>
+    remove_unaccepted_member_invites_worker:
+      cron: "<%= @remove_unaccepted_member_invites_cron_worker %>"
+    <% end %>
+
+    # Periodically migrate diffs from the database to external storage
+    <% unless @schedule_migrate_external_diffs_worker_cron.nil? %>
+    schedule_migrate_external_diffs_worker:
+      cron: "<%= @schedule_migrate_external_diffs_worker_cron %>"
+    <% end %>
+
+    # Update CI Platform Metrics daily
+    <% unless @ci_platform_metrics_update_cron_worker.nil? %>
+    ci_platform_metrics_update_cron_worker:
+      cron: "<%= @ci_platform_metrics_update_cron_worker %>"
+    <% end %>
+
+    # Send emails about ssh keys that have expired
+    <% unless @ssh_keys_expired_notification_worker_cron.nil? %>
+    ssh_keys_expired_notification_worker:
+      cron: "<%= @ssh_keys_expired_notification_worker_cron %>"
+    <% end %>
+
+    # Send emails about ssh keys that are expiring soon
+    <% unless @ssh_keys_expiring_soon_notification_worker_cron.nil? %>
+    ssh_keys_expiring_soon_notification_worker:
+      cron: "<%= @ssh_keys_expiring_soon_notification_worker_cron %>"
+    <% end %>
+
+    # Orphaned record cleanup with the loose foreign key feature
+    <% unless @loose_foreign_keys_cleanup_worker_cron.nil? %>
+    loose_foreign_keys_cleanup_worker:
+      cron: "<%= @loose_foreign_keys_cleanup_worker_cron %>"
+    <% end %>
+
+    # Remove stale import/export project archives
+    <% unless @import_export_project_cleanup_worker_cron.nil? %>
+    import_export_project_cleanup_worker:
+      cron: "<%= @import_export_project_cleanup_worker_cron %>"
+    <% end %>
+
+    # Periodically update ci_runner_versions table with up-to-date versions and status
+    <% unless @ci_runner_versions_reconciliation_worker_cron.nil? %>
+    ci_runner_versions_reconciliation_worker:
+      cron: "<%= @ci_runner_versions_reconciliation_worker_cron %>"
+    <% end %>
+
+    # Periodically clean up stale ci_runner_machines records
+    <% unless @ci_runners_stale_machines_cleanup_worker_cron.nil? %>
+    ci_runners_stale_machines_cleanup_worker:
+      cron: "<%= @ci_runners_stale_machines_cleanup_worker_cron %>"
+    <% end %>
+
+    # Periodically process catalog resource sync events
+    <% unless @ci_catalog_resources_process_sync_events_worker_cron.nil? %>
+    ci_catalog_resources_process_sync_events_worker:
+      cron: "<%= @ci_catalog_resources_process_sync_events_worker_cron %>"
+    <% end %>
+
+    # Periodically sync finished pipelines from p_ci_finished_pipeline_ch_sync_events to ClickHouse
+    <% unless @ci_click_house_finished_pipelines_sync_worker_cron.nil? %>
+    ci_click_house_finished_pipelines_sync_worker:
+      cron: "<%= @ci_click_house_finished_pipelines_sync_worker_cron %>"
+      <% unless @ci_click_house_finished_pipelines_sync_worker_args.nil? %>
+      args: <%= @ci_click_house_finished_pipelines_sync_worker_args %>
+      <% end %>
+    <% end %>
+
+    ##
+    # GitLab EE only jobs:
+
+    # Snapshot Devops Adoption statistics
+    <% unless @analytics_devops_adoption_create_all_snapshots_worker.nil? %>
+    analytics_devops_adoption_create_all_snapshots_worker:
+      cron: "<%= @analytics_devops_adoption_create_all_snapshots_worker %>"
+    <% end %>
+
+    # Snapshot active users statistics
+    <% unless @historical_data_worker_cron.nil? %>
+    historical_data_worker:
+      cron: "<%= @historical_data_worker_cron %>"
+    <% end %>
+
+    # In addition to refreshing users when they log in,
+    # periodically refresh LDAP users membership.
+    # NOTE: This will only take effect if LDAP is enabled
+    <% unless @ldap_sync_worker_cron.nil? %>
+    ldap_sync_worker:
+      cron: "<%= @ldap_sync_worker_cron %>"
+    <% end %>
+
+    # GitLab LDAP group sync worker
+    # NOTE: This will only take effect if LDAP is enabled
+    <% unless @ldap_group_sync_worker_cron.nil? %>
+    ldap_group_sync_worker:
+      cron: "<%= @ldap_group_sync_worker_cron %>"
+    <% end %>
+
+    # GitLab Geo prune event log worker
+    # NOTE: This will only take effect if Geo is enabled (primary node only)
+    <% unless @geo_prune_event_log_worker_cron.nil? %>
+    geo_prune_event_log_worker:
+      cron: "<%= @geo_prune_event_log_worker_cron %>"
+    <% end %>
+
+    # GitLab Geo registry backfill worker
+    # NOTE: This will only take effect if Geo is enabled (secondary nodes only)
+    <% unless @geo_secondary_registry_consistency_worker.nil? %>
+    geo_secondary_registry_consistency_worker:
+      cron: "<%= @geo_secondary_registry_consistency_worker %>"
+    <% end %>
+
+    # GitLab Geo Secondary Usage Data worker
+    # NOTE: This will only take effect if Geo and Usage Data are enabled (secondary nodes only)
+    <% unless @geo_secondary_usage_data_cron_worker.nil? %>
+    geo_secondary_usage_data_cron_worker:
+      cron: "<%= @geo_secondary_usage_data_cron_worker %>"
+    <% end %>
+
+    # GitLab Geo metrics update worker worker
+    # NOTE: This will only take effect if Geo is enabled
+    <% unless @geo_metrics_update_worker_cron.nil? %>
+    geo_metrics_update_worker:
+      cron: "<%= @geo_metrics_update_worker_cron %>"
+    <% end %>
+
+    # GitLab Geo migrated local files clean up worker
+    # NOTE: This will only take effect if Geo is enabled (secondary nodes only)
+    <% unless @geo_migrated_local_files_clean_up_worker_cron.nil? %>
+    <% LoggingHelper.deprecation "gitlab_rails['geo_migrated_local_files_clean_up_worker_cron'] options is deprecated and will be removed in Gitlab 14.0." %>
+    geo_migrated_local_files_clean_up_worker:
+      cron: "<%= @geo_migrated_local_files_clean_up_worker_cron %>"
+    <% end %>
+
+    <% unless @elastic_index_bulk_cron.nil? %>
+    search_elastic_index_bulk_cron_worker:
+      cron: "<%= @elastic_index_bulk_cron %>"
+    <% end %>
+
+    # Worker for triggering counter jobs for usage trends
+    <% unless @analytics_usage_trends_count_job_trigger_worker_cron.nil? %>
+    analytics_usage_trends_count_job_trigger_worker:
+      cron: "<%= @analytics_usage_trends_count_job_trigger_worker_cron %>"
+    <% end %>
+
+    # Worker for triggering member invitation reminder emails
+    <% unless @member_invitation_reminder_emails_worker_cron.nil? %>
+    member_invitation_reminder_emails_worker:
+      cron: "<%= @member_invitation_reminder_emails_worker_cron %>"
+    <% end %>
+
+    # Worker for the scheduled user status cleanup
+    <% unless @user_status_cleanup_batch_worker_cron.nil? %>
+    user_status_cleanup_batch_worker:
+      cron: "<%= @user_status_cleanup_batch_worker_cron %>"
+    <% end %>
+
+    # Worker for triggering in-product marketing emails
+    <% unless @namespaces_in_product_marketing_emails_worker_cron.nil? %>
+    namespaces_in_product_marketing_emails_worker:
+      cron: "<%= @namespaces_in_product_marketing_emails_worker_cron %>"
+    <% end %>
+
+    # Worker for pruning stale group runners on opted-in namespaces
+    <% unless @ci_runners_stale_group_runners_prune_worker_cron.nil? %>
+    ci_runners_stale_group_runners_prune_worker_cron:
+      cron: "<%= @ci_runners_stale_group_runners_prune_worker_cron %>"
+    <% end %>
+
+    # Periodically sync finished builds from p_ci_finished_build_ch_sync_events to ClickHouse
+    <% unless @click_house_ci_finished_builds_sync_worker_cron.nil? %>
+    click_house_ci_finished_builds_sync_worker:
+      cron: "<%= @click_house_ci_finished_builds_sync_worker_cron %>"
+      <% unless @click_house_ci_finished_builds_sync_worker_args.nil? %>
+      args: <%= @click_house_ci_finished_builds_sync_worker_args %>
+      <% end %>
+    <% end %>
+
+  ## Geo
+  # NOTE: These settings will only take effect if Geo is enabled
+  geo:
+    # This is an optional identifier which Geo nodes can use to identify themselves.
+    # For example, if external_url is the same for two secondaries, you must specify
+    # a unique Geo node name for those secondaries.
+    #
+    # If it is blank, it defaults to external_url.
+    node_name: <%= @geo_node_name %>
+
+    registry_replication:
+      enabled: <%= @geo_registry_replication_enabled %>
+      primary_api_url: <%= @geo_registry_replication_primary_api_url %> # internal address to the primary registry, will be used by GitLab to directly communicate with primary registry API
+
+  ## Feature Flag https://docs.gitlab.com/ee/user/project/operations/feature_flags.html
+  feature_flags:
+    unleash:
+      enabled: <%= @feature_flags_unleash_enabled %>
+      <% if @feature_flags_unleash_enabled %>
+      url: <%= @feature_flags_unleash_url %>
+      app_name: <%= @feature_flags_unleash_app_name %> # Environment name of your GitLab instance
+      instance_id: <%= quote(@feature_flags_unleash_instance_id) %>
+      <% end %>
+
+  #
+  # 2. GitLab CI settings
+  # ==========================
+
+  gitlab_ci:
+    # Default project notifications settings:
+    #
+    # Send emails only on broken builds (default: true)
+    all_broken_builds: <%= @gitlab_ci_all_broken_builds %>
+    #
+    # Add pusher to recipients list (default: false)
+    add_pusher: <%= @gitlab_ci_add_pusher || @gitlab_ci_add_committer %>
+
+    # The location where build traces are stored (default: builds/). Relative paths are relative to Rails.root
+    builds_path: <%= @builds_directory %>
+
+  #
+  # 3. Auth settings
+  # ==========================
+
+  ## LDAP settings
+  # You can inspect a sample of the LDAP users with login access by running:
+  #   bundle exec rake gitlab:ldap:check RAILS_ENV=production
+  ldap:
+    enabled: <%= @ldap_enabled %>
+    sync_time: <%= @ldap_sync_time %>
+    prevent_ldap_sign_in: <%= @prevent_ldap_sign_in %>
+  <% if @ldap_servers.any? %>
+    servers:
+    <% @ldap_servers.each do |provider_id, settings| %>
+      <%= provider_id %>: <%= settings.to_json %>
+    <% end %>
+  <% else %>
+    host: <%= quote(@ldap_host) %>
+    port: <%= @ldap_port %>
+    uid: <%= quote(@ldap_uid) %>
+    method: <%= quote(@ldap_method) %> # "tls" or "ssl" or "plain"
+    bind_dn: <%= quote(@ldap_bind_dn) %>
+    password: <%= quote(@ldap_password) %>
+    active_directory: <%= @ldap_active_directory %>
+    allow_username_or_email_login: <%= @ldap_allow_username_or_email_login %>
+    lowercase_usernames: <%= @ldap_lowercase_usernames %>
+    base: <%= quote(@ldap_base) %>
+    user_filter: <%= quote(@ldap_user_filter) %>
+
+    ## EE only
+    group_base: <%= quote(@ldap_group_base) %>
+    admin_group: <%= quote(@ldap_admin_group) %>
+    smartcard_ad_cert_field: <%= quote(@ldap_smartcard_ad_cert_field) %>
+    smartcard_ad_cert_format: <%= quote(@ldap_smartcard_ad_cert_format) %>
+    sync_ssh_keys: <%= quote(@ldap_sync_ssh_keys) %>
+    sync_time: <%= @ldap_sync_time %>
+  <% end %>
+
+  ## Smartcard authentication settings
+  smartcard:
+    # Allow smartcard authentication
+    enabled: <%= @smartcard_enabled %>
+
+    # Path to a file containing a CA certificate
+    ca_file: <%= quote(@smartcard_ca_file) %>
+
+    # Host and port where the client side certificate is requested by the
+    # webserver (NGINX/Apache)
+    client_certificate_required_host: <%= @smartcard_client_certificate_required_host %>
+    client_certificate_required_port: <%= @smartcard_client_certificate_required_port %>
+
+    # Browser session with smartcard sign-in is required for Git access
+    required_for_git_access: <%= @smartcard_required_for_git_access %>
+
+    # SAN extensions to match users with certificates
+    san_extensions: <%= @smartcard_san_extensions %>
+
+  ## Kerberos settings
+  kerberos:
+    # Allow the HTTP Negotiate authentication method for Git clients
+    enabled: <%= @kerberos_enabled %>
+
+    # Kerberos 5 keytab file. The keytab file must be readable by the GitLab user,
+    # and should be different from other keytabs in the system.
+    # (default: use default keytab from Krb5 config)
+    keytab: <%= @kerberos_keytab %>
+
+    # The Kerberos service name to be used by GitLab.
+    # (default: accept any service name in keytab file)
+    service_principal_name: <%= @kerberos_service_principal_name %>
+
+    # Kerberos realms/domains that are allowed to automatically link LDAP identities.
+    # By default, GitLab accepts a realm that matches the domain derived from the
+    # LDAP `base` DN. For example, `ou=users,dc=example,dc=com` would allow users
+    # with a realm matching `example.com`.
+    simple_ldap_linking_allowed_realms: <%= @kerberos_simple_ldap_linking_allowed_realms.to_json %>
+
+    # Dedicated port: Git before 2.4 does not fall back to Basic authentication if Negotiate fails.
+    # To support both Basic and Negotiate methods with older versions of Git, configure
+    # nginx to proxy GitLab on an extra port (e.g. 8443) and uncomment the following lines
+    # to dedicate this port to Kerberos authentication. (default: false)
+    use_dedicated_port: <%= @kerberos_use_dedicated_port %>
+    port: <%= @kerberos_port %>
+    https: <%= @kerberos_https %>
+
+
+  ## OmniAuth settings
+  omniauth:
+    # Allow login via Twitter, Google, etc. using OmniAuth providers
+    enabled: <%= @omniauth_enabled %>
+
+    # Uncomment this to automatically sign in with a specific omniauth provider's without
+    # showing GitLab's sign-in page (default: show the GitLab sign-in page)
+    auto_sign_in_with_provider: <%= @omniauth_auto_sign_in_with_provider %>
+
+    # Sync user's email address from the specified Omniauth provider every time the user logs
+    # in (default: nil). And consequently make this field read-only.
+    <% unless @omniauth_sync_email_from_provider.nil? %>
+    sync_email_from_provider: <%= @omniauth_sync_email_from_provider.inspect %>
+    <% end %>
+
+    # Sync user's profile from the specified Omniauth providers every time the user logs in (default: empty).
+    # Define the allowed providers using an array, e.g. ["cas3", "saml", "twitter"],
+    # or as true/false to allow all providers or none.
+    # sync_profile_from_provider: []
+    <% if @omniauth_sync_profile_from_provider %>
+    sync_profile_from_provider: <%= @omniauth_sync_profile_from_provider.to_json %>
+    <% end %>
+
+    # Select which info to sync from the providers above. (default: email).
+    # Define the synced profile info using an array. Available options are "name", "email" and "location"
+    # e.g. ["name", "email", "location"] or as true to sync all available.
+    # This consequently will make the selected attributes read-only.
+    # sync_profile_attributes: true
+    <% if @omniauth_sync_profile_attributes %>
+    sync_profile_attributes: <%= @omniauth_sync_profile_attributes.to_json %>
+    <% end %>
+
+    # CAUTION!
+    # This allows users to login without having a user account first. Define the allowed
+    # providers using an array, e.g. ["saml", "twitter"]
+    # User accounts will be created automatically when authentication was successful.
+    allow_single_sign_on: <%= @omniauth_allow_single_sign_on.to_json %>
+
+    # Locks down those users until they have been cleared by the admin (default: true).
+    block_auto_created_users: <%= @omniauth_block_auto_created_users %>
+    # Look up new users in LDAP servers. If a match is found (same uid), automatically
+    # link the omniauth identity with the LDAP account. (default: false)
+    auto_link_ldap_user: <%= @omniauth_auto_link_ldap_user %>
+
+    # Allow users with existing accounts to login and auto link their account via SAML
+    # login, without having to do a manual login first and manually add SAML
+    # (default: false)
+    auto_link_saml_user: <%= @omniauth_auto_link_saml_user.to_json %>
+
+    # Allow users with existing accounts to sign in and auto link their account via OmniAuth
+    # login, without having to do a manual login first and manually add OmniAuth. Links on email.
+    # Define the allowed providers using an array, e.g. ["saml", "twitter"], or as true/false to
+    # allow all providers or none.
+    # (default: false)
+    auto_link_user: <%= @omniauth_auto_link_user.to_json %>
+
+    # Set different Omniauth providers as external so that all users creating accounts
+    # via these providers will not be able to have access to internal projects. You
+    # will need to use the full name of the provider, like `google_oauth2` for Google.
+    # Refer to the examples below for the full names of the supported providers.
+    # (default: [])
+    external_providers: <%= @omniauth_external_providers.to_json %>
+
+    # CAUTION!
+    # This allows users to login with the specified providers without two factor. Define the allowed providers
+    # using an array, e.g. ["twitter", 'google_oauth2'], or as true/false to allow all providers or none.
+    # This option should only be configured for providers which already have two factor.
+    # (default: false)
+    allow_bypass_two_factor:  <%= @omniauth_allow_bypass_two_factor.to_json %>
+
+    ## Auth providers
+    # Uncomment the following lines and fill in the data of the auth provider you want to use
+    # If your favorite auth provider is not listed you can use others:
+    # see https://github.com/gitlabhq/gitlab-public-wiki/wiki/Custom-omniauth-provider-configurations
+    # The 'app_id' and 'app_secret' parameters are always passed as the first two
+    # arguments, followed by optional 'args' which can be either a hash or an array.
+    # Documentation for this is available at https://docs.gitlab.com/ee/integration/omniauth.html
+    providers:
+      # - { name: 'google_oauth2', app_id: 'YOUR APP ID',
+      #     app_secret: 'YOUR APP SECRET',
+      #     args: { access_type: 'offline', approval_prompt: '' } }
+      # - { name: 'twitter', app_id: 'YOUR APP ID',
+      #     app_secret: 'YOUR APP SECRET'}
+      # - { name: 'github', app_id: 'YOUR APP ID',
+      #     app_secret: 'YOUR APP SECRET',
+      #     args: { scope: 'user:email' } }
+<% @omniauth_providers.each do |provider| %>
+      - <%= provider.to_json %>
+<% end %>
+
+    ## cas3-specific settings, specifically session_duration:
+<% if @omniauth_cas3_session_duration %>
+    cas3:
+      session_duration: <%= @omniauth_cas3_session_duration %>
+<% end %>
+
+    ## max SAML message size setting. Will be useful in case received SAML message is too big.
+<% if @omniauth_saml_message_max_byte_size %>
+    saml_message_max_byte_size: <%= @omniauth_saml_message_max_byte_size %>
+<% end %>
+
+  # FortiAuthenticator settings
+  forti_authenticator:
+    # Allow using FortiAuthenticator as OTP provider
+    enabled: <%= @forti_authenticator_enabled %>
+
+    <% if @forti_authenticator_enabled %>
+    # Host and port of FortiAuthenticator instance
+    host: <%= @forti_authenticator_host %>
+    port: <%= @forti_authenticator_port %>
+
+    # Username for accessing FortiAuthenticator API
+    username: <%= quote(@forti_authenticator_username) %>
+
+    # Access token for FortiAuthenticator API
+    access_token: <%= quote(@forti_authenticator_access_token) %>
+    <% end %>
+
+  # FortiToken Cloud settings
+  forti_token_cloud:
+    # Allow using FortiToken Cloud as OTP provider
+    enabled: <%= @forti_token_cloud_enabled %>
+
+    <% if @forti_token_cloud_enabled %>
+    # Client ID and Secret to access FortiToken Cloud API
+    client_id: <%= quote(@forti_token_cloud_client_id) %>
+    client_secret: <%= quote(@forti_token_cloud_client_secret) %>
+    <% end %>
+
+  # DuoAuth settings
+  duo_auth:
+    # Allow using DuoAuth as OTP provider
+    enabled: <%= @duo_auth_enabled %>
+
+    <% if @duo_auth_enabled %>
+    # Hostname integration_key and secret key of duo_auth instance
+    hostname: <%= @duo_auth_hostname %>
+    integration_key: <%= quote(@duo_auth_integration_key) %>
+    secret_key: <%= quote(@duo_auth_secret_key) %>
+    <% end %>
+
+  # Shared file storage settings
+  shared:
+    path: <%= @shared_path %>
+
+  # Encrypted Settings configuration
+  encrypted_settings:
+    path: <%= @encrypted_settings_path %>
+
+  # Gitaly settings
+  # This setting controls whether GitLab uses Gitaly
+  # Eventually Gitaly use will become mandatory and
+  # this option will disappear.
+  gitaly:
+    client_path: /opt/gitlab/embedded/bin
+    client_max_attempts: <%= @gitaly_max_attempts %>
+    client_max_backoff: <%= quote(@gitaly_max_backoff) %>
+    token: <%= @gitaly_token.to_s.to_json %>
+
+
+  #
+  # 4. Advanced settings
+  # ==========================
+
+  ## Repositories settings
+  repositories:
+    # Paths where repositories can be stored. Give the canonicalized absolute pathname.
+    # NOTE: REPOS PATHS MUST NOT CONTAIN ANY SYMLINK!!!
+    storages: <%= JSON.dump(@repositories_storages) %>
+
+  ## Backup settings
+  backup:
+    path: "<%= @backup_path %>"   # Relative paths are relative to Rails.root (default: tmp/backups/)
+    gitaly_backup_path: <%= quote(@backup_gitaly_backup_path) %> # Path of the gitaly-backup binary (default: searches $PATH)
+    archive_permissions: <%= @backup_archive_permissions %> # Permissions for the resulting backup.tar file (default: 0600)
+    keep_time: <%= @backup_keep_time %>   # default: 0 (forever) (in seconds)
+    pg_schema: <%= @backup_pg_schema %>   # default: nil, it means that all schemas will be backed up
+    upload:
+      # Fog storage connection settings, see http://fog.io/storage/ .
+      connection: <%= @backup_upload_connection.to_json if @backup_upload_connection %>
+      # The remote 'directory' to store your backups. For S3, this would be the bucket name.
+      remote_directory: <%= quote(@backup_upload_remote_directory) %>
+      multipart_chunk_size: <%= @backup_multipart_chunk_size %>
+      encryption: <%= @backup_encryption %>
+      encryption_key: <%= quote(@backup_encryption_key) %>
+      storage_options: <%= @backup_upload_storage_options.to_json %>
+      storage_class: <%= @backup_storage_class %>
+
+  ## GitLab Shell settings
+  gitlab_shell:
+    path: <%= @gitlab_shell_path %>
+    hooks_path: <%= @gitlab_shell_hooks_path %>
+    authorized_keys_file: <%= @gitlab_shell_authorized_keys_file %>
+
+    # Git over HTTP
+    upload_pack: <%= @gitlab_shell_upload_pack %>
+    receive_pack: <%= @gitlab_shell_receive_pack %>
+
+    # If you use non-standard ssh port you need to specify it
+    ssh_port: <%= @gitlab_shell_ssh_port %>
+
+    # Git import/fetch timeout
+    git_timeout: <%= @gitlab_shell_git_timeout %>
+
+  ## Git settings
+  # CAUTION!
+  # Use the default values unless you really know what you are doing
+  git:
+    bin_path: <%= @git_bin_path %>
+
+  monitoring:
+    # IP whitelist controlling access to monitoring endpoints
+    ip_whitelist:
+<% @monitoring_whitelist.each do |entry| %>
+      - "<%= entry %>"
+<% end %>
+    # Sidekiq exporter is a webserver built in to Sidekiq to expose Prometheus metrics
+    sidekiq_exporter:
+      enabled: <%= @sidekiq['metrics_enabled'] %>
+      log_enabled: <%= @sidekiq['exporter_log_enabled'] %>
+      tls_enabled: <%= @sidekiq['exporter_tls_enabled'] %>
+      tls_cert_path: <%= @sidekiq['exporter_tls_cert_path'] %>
+      tls_key_path: <%= @sidekiq['exporter_tls_key_path'] %>
+      address: <%= @sidekiq['listen_address'] %>
+      port: <%= @sidekiq['listen_port'] %>
+
+    # Sidekiq health checks is a webserver built in to Sidekiq to serve health checks for the workers
+    sidekiq_health_checks:
+      enabled: <%=  @sidekiq['health_checks_enabled'] %>
+      address: <%= @sidekiq['health_checks_listen_address'] %>
+      port: <%= @sidekiq['health_checks_listen_port'] %>
+
+    # Web exporter is webserver built in to Unicorn/Puma to expose Prometheus metrics
+    web_exporter:
+      enabled: <%= @puma['exporter_enabled'] %>
+      address: <%= @puma['exporter_address'] %>
+      port: <%= @puma['exporter_port'] %>
+      tls_enabled: <%= @puma['exporter_tls_enabled'] %>
+      tls_cert_path: <%= @puma['exporter_tls_cert_path'] %>
+      tls_key_path: <%= @puma['exporter_tls_key_path'] %>
+
+  shutdown:
+    blackout_seconds: <%= @shutdown_blackout_seconds %>
+
+  ## Prometheus settings
+  # Do not modify these settings here. They should be modified in /etc/gitlab/gitlab.rb
+  # if you installed GitLab via Omnibus.
+  # If you installed from source, you need to install and configure Prometheus
+  # yourself, and then update the values here.
+  # https://docs.gitlab.com/ee/administration/monitoring/prometheus/
+  prometheus:
+    enabled: <%= @prometheus_available %>
+    server_address: "<%= @prometheus_server_address %>"
+
+  ## Consul settings
+  consul:
+    api_url: "<%= @consul_api_url %>"
+
+  <%- if @oidc_provider_openid_id_token_expire_in_seconds -%>
+  ## OIDC settings
+  oidc_provider:
+    # Configure a custom duration for ID Tokens.
+    # By default, GitLab ID tokens expire after 120 seconds.
+    openid_id_token_expire_in_seconds: <%= @oidc_provider_openid_id_token_expire_in_seconds %>
+  <%- end -%>
+
+  <%- if @ci_id_tokens_issuer_url -%>
+  ## CI ID Tokens settings
+  ci_id_tokens:
+    # Configure a custom issuer URL for CI ID Tokens.
+    # By default, GitLab instance URL is used.
+    issuer_url: <%= @ci_id_tokens_issuer_url %>
+  <%- end -%>
+
+  <%- if @openbao && @openbao['url'] -%>
+  openbao: <%= @openbao.to_json %>
+  <%- end -%>
+
+  #
+  # 5. Extra customization
+  # ==========================
+
+  extra:
+    <% if @extra_google_analytics_id %>
+    ## Google analytics. Uncomment if you want it
+    google_analytics_id: <%= quote(@extra_google_analytics_id) %>
+    <% end %>
+
+    <% if @extra_google_tag_manager_id %>
+    ## Google tag manager. Include your google_tag_manager_id to enable
+    google_tag_manager_id: <%= quote(@extra_google_tag_manager_id) %>
+    <% end %>
+
+    <% if @extra_one_trust_id %>
+    ## OneTrust
+    one_trust_id: <%= quote(@extra_one_trust_id) %>
+    <% end %>
+
+    <% if @extra_google_tag_manager_nonce_id %>
+    ## Google tag mananger included with a nonce.
+    google_tag_manager_nonce_id: <%= quote(@extra_google_tag_manager_nonce_id) %>
+    <% end %>
+
+    <% if @extra_bizible %>
+    ## Bizible
+    bizible: <%= @extra_bizible %>
+    <% end %>
+
+    <% if @extra_matomo_url %>
+    ## matomo analytics.
+    matomo_url: <%= quote(@extra_matomo_url) %>
+    matomo_site_id: <%= quote(@extra_matomo_site_id) %>
+    matomo_disable_cookies: <%= @extra_matomo_disable_cookies %>
+    <% end %>
+
+    <% if @extra_maximum_text_highlight_size_kilobytes %>
+    ## Maximum file size for syntax highlighting
+    ## https://docs.gitlab.com/ee/user/project/highlighting.html
+    maximum_text_highlight_size_kilobytes: <%= @extra_maximum_text_highlight_size_kilobytes %>
+    <% end %>
+
+  rack_attack:
+    git_basic_auth: <%= @rack_attack_git_basic_auth.to_json if @rack_attack_git_basic_auth %>
+
+
+<% if @has_jh_cookbook %>
+  #
+  # 6. JH only settings
+  # ==========================
+<%= render 'gitlab.yml.jh-partial.erb', :cookbook => 'gitlab-jh' %>
+<% end %>
+
+development:
+  <<: *base
+
+test:
+  <<: *base
+  gravatar:
+    enabled: true
+  gitlab:
+    host: localhost
+    port: 80
+
+    # When you run tests we clone and setup gitlab-shell
+    # In order to setup it correctly you need to specify
+    # your system username you use to run GitLab
+    # user: YOUR_USERNAME
+  repositories:
+    storages:
+      default: { "path": "tmp/tests/repositories/" }
+  gitlab_shell:
+    path: tmp/tests/gitlab-shell/
+    hooks_path: tmp/tests/gitlab-shell/hooks/
+  issues_tracker:
+    redmine:
+      title: "Redmine"
+      project_url: "http://redmine/projects/:issues_tracker_id"
+      issues_url: "http://redmine/:project_id/:issues_tracker_id/:id"
+      new_issue_url: "http://redmine/projects/:issues_tracker_id/issues/new"
+    jira:
+      title: "JIRA"
+      url: https://samplecompany.example.net
+      project_key: PROJECT
+  ldap:
+    enabled: false
+    servers:
+      main:
+        label: ldap
+        host: 127.0.0.1
+        port: 3890
+        uid: 'uid'
+        method: 'plain' # "tls" or "ssl" or "plain"
+        base: 'dc=example,dc=com'
+        user_filter: ''
+        group_base: 'ou=groups,dc=example,dc=com'
+        admin_group: ''
+        sync_ssh_keys: false
+
+staging:
+  <<: *base
