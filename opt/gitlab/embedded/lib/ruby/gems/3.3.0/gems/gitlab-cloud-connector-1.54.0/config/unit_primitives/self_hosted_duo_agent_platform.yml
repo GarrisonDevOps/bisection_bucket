@@ -1,0 +1,10 @@
+---
+name: self_hosted_duo_agent_platform
+description: >
+  Use GitLab Duo Self-Hosted to integrate your own large language models (LLMs) with GitLab Duo features and control your data privacy and security.
+group: group::custom models
+feature_category: custom_models
+backend_services:
+  - ai_gateway
+add_ons:
+  - self_hosted_dap

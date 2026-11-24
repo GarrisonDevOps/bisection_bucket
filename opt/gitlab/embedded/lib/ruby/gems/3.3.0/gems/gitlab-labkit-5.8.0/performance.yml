@@ -1,0 +1,70 @@
+# Performance contract for labkit-ruby
+# https://handbook.gitlab.com/handbook/engineering/testing/performance-contracts/
+#
+# This file is the single entry point for performance contract tooling.
+# Customize the sections relevant to your service and remove the rest.
+# Schema reference: https://handbook.gitlab.com/handbook/engineering/testing/performance-contracts/#schema-definition
+
+version: "1.0"
+service:
+  name: "labkit-ruby"
+  description: "Performance contract for labkit-ruby"
+
+# ---------------------------------------------------------------------------
+# Frontend / UI contracts (SiteSpeed)
+# Uncomment and configure if this service has a frontend component.
+# Budget files live in the sitespeed-measurement-setup submodule.
+# ---------------------------------------------------------------------------
+# frontend:
+#   enabled: true
+#   budgets:
+#     production: testrunner/sitespeed-measurement-setup/performance/budgets/environments/production.json
+#     staging:    testrunner/sitespeed-measurement-setup/performance/budgets/environments/staging.json
+#     mr:         testrunner/sitespeed-measurement-setup/performance/budgets/environments/mr.json
+#   teams:
+#     labkit-ruby:
+#       url_dir: testrunner/sitespeed-measurement-setup/gitlab/desktop/urls
+#       budget:  testrunner/sitespeed-measurement-setup/performance/budgets/teams/labkit-ruby.json
+#   default_budget: mr
+
+# ---------------------------------------------------------------------------
+# Backend / Service contracts (k6 / CPT)
+# Define endpoint categories with latency and error-rate targets.
+# Choose a tier as a starting point, then tune from baseline data.
+#
+# Tier 1 (fast reads):  p95=100ms,  p99=250ms,  error_rate=0.001
+# Tier 2 (std reads):   p95=500ms,  p99=1000ms, error_rate=0.005
+# Tier 3 (writes):      p95=1500ms, p99=3000ms, error_rate=0.01
+# Tier 4 (git ops):     p95=5000ms, p99=10000ms,error_rate=0.001
+# ---------------------------------------------------------------------------
+# endpoints:
+#   fast_reads:
+#     description: >
+#       Single item lookup by ID. Simulates one indexed DB read.
+#     routes:
+#       - "GET /api/v1/items/{id}"
+#     metrics:
+#       latency_p95_ms: 100
+#       latency_p99_ms: 250
+#       error_rate_threshold: 0.001
+
+# ---------------------------------------------------------------------------
+# Resource budgets (informational; enforcement planned for a future iteration)
+# ---------------------------------------------------------------------------
+# resources:
+#   memory_limit_mb: 256
+#   cpu_limit_cores: 0.5
+#   connection_pool_max: 10
+
+# ---------------------------------------------------------------------------
+# SLI mapping -- links contract endpoints to Prometheus metrics emitted by
+# LabKit v2. Fill in once your service is instrumented.
+# ---------------------------------------------------------------------------
+# sli_mapping:
+#   metrics_namespace: gitlab
+#   component: labkit-ruby
+#   fast_reads:
+#     requests_total_metric: gitlab_http_requests_total
+#     duration_metric: gitlab_http_request_duration_seconds
+#     endpoint_id_label: "GET /api/v1/items/{id}"
+#     feature_category_label: labkit_ruby

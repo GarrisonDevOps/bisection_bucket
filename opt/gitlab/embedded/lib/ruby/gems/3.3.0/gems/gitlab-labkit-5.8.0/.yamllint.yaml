@@ -1,0 +1,11 @@
+# See https://yamllint.readthedocs.io/en/stable/configuration.html#extending-the-default-configuration
+# for configuration documentation
+extends: default
+
+ignore: |
+  .copier-*.yml
+
+rules:
+  document-start: disable
+  line-length: disable
+  indentation: enable

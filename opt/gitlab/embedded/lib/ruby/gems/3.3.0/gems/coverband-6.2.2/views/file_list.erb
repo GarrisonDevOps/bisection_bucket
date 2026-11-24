@@ -1,0 +1,65 @@
+<div class="file_list_container" id="<%= title_id %>">
+  <% unless options[:skip_nav] %>
+    <h2>
+      <span class="group_name"><%= title %></span>
+      <% unless page %>
+        (<span class="covered_percent"><span class="<%= coverage_css_class(source_files.covered_percent) %>"><%= source_files.covered_percent.round(2) %>%</span></span>
+        covered at
+        <span class="covered_strength">
+          <span class="<%= strength_css_class(source_files.covered_strength) %>">
+            <%= source_files.covered_strength.round(2) %>
+          </span>
+        </span> hits/line)
+      <% end %>
+    </h2>
+  <% end %>
+  <a name="<%= title_id %>"></a>
+  <div>
+    <% unless page %>
+      <b><%= source_files.length %></b> files in total.
+      <b><%= source_files.lines_of_code %></b> relevant lines.
+      <span class="green"><b><%= source_files.covered_lines %></b> lines covered</span> and
+      <span class="red"><b><%= source_files.missed_lines %></b> lines missed </span>
+    <% end %>
+  </div>
+  <table class="file_list <%= page ? "unsorted" : "sorted" %>" data-coverageurl="<%= base_path %>">
+    <thead>
+      <tr>
+        <th title="The source file name">File</th>
+        <th title="Percentage of relevant lines covered (load & runtime)">% covered</th>
+        <th title="Runtime Percentage of relevant lines covered">% runtime</th>
+        <th title="The total line number count for the file">Lines</th>
+        <th title="Line number count excluding comments, whitespace, etc...">Relevant Lines</th>
+        <th title="The number of lines covered (load & runtime)">Lines covered</th>
+        <th title="The number of lines covered (runtime only)">Lines runtime</th>
+        <th title="Lines not covered (load & runtime)">Lines missed</th>
+        <th title="Avg hits per line in file (load & runtime)">Avg. Hits / Line</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% unless page %>
+        <% source_files.each do |source_file| %>
+          <tr>
+            <% source_class = source_file.never_loaded ? 'strong red' : 'strong'%>
+            <td class="<%= source_class %>">
+              <%= link_to_source_file(source_file) %>
+            </td>
+            <td class="<%= coverage_css_class(source_file.covered_percent) %> strong"><%= source_file.covered_percent.round(2).to_s %> %</td>
+            <% runtime_percentage = result.runtime_relevant_coverage(source_file) %>
+            <td class="<%= "#{coverage_css_class(runtime_percentage)}" %> strong">
+              <%= "#{runtime_percentage || '0'} %" %>
+            </td>
+            <td><%= source_file.lines.count %></td>
+            <td><%= source_file.covered_lines.count + source_file.missed_lines.count %></td>
+            <td><%= source_file.covered_lines.count %></td>
+            <td>
+              <%= result.file_with_type(source_file, Coverband::RUNTIME_TYPE)&.covered_lines_count || 0 %>
+            </td>
+            <td><%= source_file.missed_lines.count %></td>
+            <td><%= source_file.covered_strength %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

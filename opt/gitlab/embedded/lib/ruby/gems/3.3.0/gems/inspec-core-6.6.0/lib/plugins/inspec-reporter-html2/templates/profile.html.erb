@@ -1,0 +1,24 @@
+<div class="profile <%= profile.parent_profile ? "child-profile hidden" : "" %>" id="profile-<%= profile.name %>">
+  <% display_name = profile.title || profile.name %>
+  <h2 class="profile_title">Profile <%= display_name %> (<%= profile.name %>)</h2>
+
+  <table class="profile-metadata info" id="profile-metadata-<%= profile.name %>">
+  <caption>Profile Information Table</caption>
+    <tr class="profile-version"><th>Version:</th><td><%= profile.version %></td></tr>
+    <% if profile.summary %>
+    <tr class="profile-summary"><th>Summary:</th><td><%= profile.summary %></td></tr>
+    <% end %>
+    <% if profile.status != "loaded" %>
+    <tr class="profile-status"><th>Status:</th><td><%= profile.status %></td></tr>
+    <% end %>
+    <% if profile.status_message && !profile.status_message.empty? %>
+    <tr class="profile-status-message"><th>Status Message:</th><td><%= profile.status_message %></td></tr>
+    <% end %>
+  </table>
+
+  <% if profile.status == "loaded" %>
+    <% profile.controls.each do |control| %>
+      <%= ERB.new(File.read(template_path + "/control.html.erb"), eoutvar: "_ctl").result(binding)  %>
+    <% end %>
+  <% end %>
+</div>

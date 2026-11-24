@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+class Acme::Client::Resources::Challenges::Base
+  attr_reader :status, :url, :token, :error, :validated, :retry_after, :retry_after_time
+
+  def initialize(client, **arguments)
+    @client = client
+    assign_attributes(**arguments)
+  end
+
+  def challenge_type
+    self.class::CHALLENGE_TYPE
+  end
+
+  def key_authorization
+    "#{token}.#{@client.jwk.thumbprint}"
+  end
+
+  def reload
+    assign_attributes(**@client.challenge(url: url).to_h)
+    true
+  end
+
+  def request_validation
+    assign_attributes(**send_challenge_validation(
+      url: url
+    ))
+    true
+  end
+
+  def typed_error
+    return nil unless error
+
+    problem = Acme::Client::Problem.from(error)
+    error_type = problem&.type
+    error_detail = problem&.detail || 'Unknown error'
+    error_class = Acme::Client::Error::ACME_ERRORS.fetch(error_type, Acme::Client::Error)
+    error_class.new(error_detail, problem: problem)
+  end
+
+  def to_h
+    { status: status, url: url, token: token, error: error, validated: validated, retry_after: retry_after }
+  end
+
+  private
+
+  def send_challenge_validation(url:)
+    @client.request_challenge_validation(
+      url: url
+    ).to_h
+  end
+
+  def assign_attributes(status:, url:, token:, error: nil, validated: nil, retry_after: nil)
+    @status = status
+    @url = url
+    @token = token
+    @error = error
+    @validated = validated
+    @retry_after = retry_after
+    @retry_after_time = Acme::Client::Util.parse_retry_after(retry_after)
+  end
+end

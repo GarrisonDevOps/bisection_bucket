@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gitlab.com/gitlab-org/ruby/gems/labkit-ruby/-/raw/master/config/user_experience_slis/schema.json",
+  "title": "User Experience SLI Definition",
+  "description": "Schema for GitLab User Experience SLI files",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable description of the user experience"
+    },
+    "feature_category": {
+      "type": "string",
+      "description": "GitLab feature category this experience belongs to",
+      "$ref": "https://gitlab.com/gitlab-org/gitlab/-/raw/master/config/feature_categories/schema.json"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "sync_fast",
+        "sync_slow",
+        "async_fast",
+        "async_slow",
+        "custom"
+      ],
+      "description": "Urgency level for this user experience"
+    },
+    "apdex_threshold_s": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 600,
+      "description": "Custom Apdex threshold duration in seconds. Required when urgency is custom."
+    }
+  },
+  "required": [
+    "description",
+    "feature_category",
+    "urgency"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "urgency": {
+            "const": "custom"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "apdex_threshold_s"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "apdex_threshold_s"
+          ]
+        }
+      }
+    }
+  ]
+}

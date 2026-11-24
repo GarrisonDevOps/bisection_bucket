@@ -1,0 +1,10 @@
+---
+name: agent_quick_actions
+description: 'Quick actions for agent.'
+group: group::duo_chat
+feature_category: duo_chat
+backend_services:
+  - ai_gateway_agent
+  - duo_workflow_service
+license_types:
+  - ultimate

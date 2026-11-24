@@ -1,0 +1,165 @@
+# frozen_string_literal: true
+
+Gitlab::Experiment.configure do |config|
+  # Prefix all experiment names with a given string value.
+  # Use `nil` for no prefix.
+  config.name_prefix = nil
+
+  # The logger can be used to log various details of the experiments.
+  config.logger = Logger.new($stdout)
+
+  # The base class that should be instantiated for basic experiments.
+  # It should be a string, so we can constantize it later.
+  config.base_class = 'ApplicationExperiment'
+
+  # Require experiments to be defined in a class, with variants registered.
+  # This will disallow any anonymous experiments that are run inline
+  # without previously defining a class.
+  config.strict_registration = false
+
+  # The caching layer is expected to match the Rails.cache interface.
+  # If no cache is provided some rollout strategies may behave differently.
+  # Use `nil` for no caching.
+  config.cache = nil
+
+  # The domain to use on cookies.
+  #
+  # When not set, it uses the current host. If you want to provide specific
+  # hosts, you use `:all`, or provide an array.
+  #
+  # Examples:
+  #   nil, :all, or ['www.gitlab.com', '.gitlab.com']
+  config.cookie_domain = :all
+
+  # Mark experiment cookies as secure (HTTPS only).
+  #
+  # When set to true, cookies will have the secure flag set, meaning they
+  # will only be sent over HTTPS connections. Defaults to true.
+  #
+  # Set to false in development/test environments if needed:
+  #   config.secure_cookie = Rails.env.production?
+
+  # The default rollout strategy.
+  #
+  # The recommended default rollout strategy when not using caching would
+  # be `Gitlab::Experiment::Rollout::Percent` as that will consistently
+  # assign the same variant with or without caching.
+  #
+  # Gitlab::Experiment::Rollout::Base can be inherited to implement your
+  # own rollout strategies.
+  #
+  # Each experiment can specify its own rollout strategy:
+  #
+  # class ExampleExperiment < ApplicationExperiment
+  #   default_rollout :random # :percent, :round_robin, or MyCustomRollout
+  # end
+  #
+  # Included rollout strategies:
+  #   :percent (recommended), :round_robin, or :random
+  config.default_rollout = :percent
+
+  # Secret seed used in generating context keys.
+  #
+  # You'll typically want to use an environment variable or secret value
+  # for this.
+  #
+  # Consider not using one that's shared with other systems, like Rails'
+  # SECRET_KEY_BASE for instance. Generate a new secret and utilize that
+  # instead.
+  config.context_key_secret = nil
+
+  # Bit length used by SHA2 in generating context keys.
+  #
+  # Using a higher bit length would require more computation time.
+  #
+  # Valid bit lengths:
+  #   256, 384, or 512
+  config.context_key_bit_length = 256
+
+  # The default base path that the middleware (or rails engine) will be
+  # mounted. The middleware enables an instrumentation url, that's similar
+  # to links that can be instrumented in email campaigns.
+  #
+  # Use `nil` if you don't want to mount the middleware.
+  #
+  # Examples:
+  #   '/-/experiment', '/redirect', nil
+  config.mount_at = '/experiment'
+
+  # When using the middleware, links can be instrumented and redirected
+  # elsewhere. This can be exploited to make a harmful url look innocuous
+  # or that it's a valid url on your domain. To avoid this, you can provide
+  # your own logic for what urls will be considered valid and redirected
+  # to.
+  #
+  # Expected to return a boolean value.
+  config.redirect_url_validator = lambda do |_redirect_url|
+    true
+  end
+
+  # Tracking behavior can be implemented to link an event to an experiment.
+  #
+  # This block is executed within the scope of the experiment and so can
+  # access experiment methods, like `name`, `context`, and `signature`.
+  config.tracking_behavior = lambda do |event, args|
+    # An example of using a generic logger to track events:
+    config.logger.info "Gitlab::Experiment[#{name}] #{event}: #{args.merge(signature: signature)}"
+
+    # Using something like snowplow to track events (in gitlab):
+    #
+    # Gitlab::Tracking.event(name, event, **args.merge(
+    #   context: (args[:context] || []) << SnowplowTracker::SelfDescribingJson.new(
+    #     'iglu:com.gitlab/gitlab_experiment/jsonschema/0-2-0', signature
+    #   )
+    # ))
+  end
+
+  # Logic designed to respond when a given experiment is nested within
+  # another experiment. This can be useful to identify overlaps and when a
+  # code path leads to an experiment being nested within another.
+  #
+  # Reporting complexity can arise when one experiment changes rollout, and
+  # a downstream experiment is impacted by that.
+  #
+  # The base_class or a custom experiment can provide a `nest_experiment`
+  # method that implements its own logic that may allow certain experiments
+  # to be nested within it.
+  #
+  # This block is executed within the scope of the experiment and so can
+  # access experiment methods, like `name`, `context`, and `signature`.
+  #
+  # The default exception will include the where the experiment calls were
+  # initiated on, so for instance:
+  #
+  # Gitlab::Experiment::NestingError: unable to nest level2 within level1:
+  #   level1 initiated by file_name.rb:2
+  #   level2 initiated by file_name.rb:3
+  config.nested_behavior = lambda do |nested_experiment|
+    raise Gitlab::Experiment::NestingError.new(experiment: self, nested_experiment: nested_experiment)
+  end
+
+  # Called at the end of every experiment run, with the result.
+  #
+  # You may want to track that you've assigned a variant to a given
+  # context, or push the experiment into the client or publish results
+  # elsewhere like into redis.
+  #
+  # This block is executed within the scope of the experiment and so can
+  # access experiment methods, like `name`, `context`, and `signature`.
+  config.publishing_behavior = lambda do |result|
+    # Track the event using our own configured tracking logic.
+    track(:assignment)
+
+    # Log using our logging system, so the result (which can be large) can
+    # be reviewed later if we want to.
+    #
+    # Lograge::Event.log(experiment: name, result: result, signature: signature)
+
+    # Experiments that have been run during the request lifecycle can be
+    # pushed to the client layer by injecting the published experiments
+    # into javascript in a layout or view using something like:
+    #
+    # = javascript_tag(nonce: content_security_policy_nonce) do
+    #   window.experiments = #{raw Gitlab::Experiment.published_experiments.to_json};
+  end
+end

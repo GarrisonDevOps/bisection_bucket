@@ -1,0 +1,15 @@
+---
+name: self_hosted_models
+description: >
+  To maintain full control over your data privacy, security, and the deployment of large language models (LLMs) in your own infrastructure, use GitLab Duo Self-Hosted
+  By deploying GitLab Duo Self-Hosted, you can manage the entire lifecycle of requests made to LLM backends for GitLab Duo features, 
+  ensuring that all requests stay in your enterprise network, and avoiding external dependencies.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::custom models
+feature_category: custom_models
+documentation_url: https://docs.gitlab.com/administration/gitlab_duo_self_hosted/
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

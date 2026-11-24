@@ -1,0 +1,5 @@
+require_relative 'identity/base_client'
+require_relative 'identity/credentials'
+require_relative 'identity/default_credentials'
+require_relative 'identity/managed_identity_client'
+require_relative 'identity/workflow_identity_client'

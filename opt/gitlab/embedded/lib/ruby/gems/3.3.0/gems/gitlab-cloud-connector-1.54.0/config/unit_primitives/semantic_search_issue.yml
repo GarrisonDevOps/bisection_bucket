@@ -1,0 +1,14 @@
+---
+name: semantic_search_issue
+description: >
+    Performs semantic search on GitLab work items for a given query.
+    This unit primitive serves two purposes:
+    1. System requests (majority): Used to populate a vector store for search functionality. These requests do not have an associated user or namespace IDs.
+    2. User requests (minority): Generated when a work item search is performed using the Global Search feature for enabled projects. These requests include user and namespace IDs.
+group: group::global search
+feature_category: global_search
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

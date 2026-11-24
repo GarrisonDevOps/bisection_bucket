@@ -1,0 +1,17 @@
+[settings]
+legacy_version_file = false
+# Install precompiled Ruby instead of building from source. The from-source
+# build compiles a vendored OpenSSL (ruby-build's `needs_openssl` check fails
+# because CI images ship the OpenSSL runtime but no dev headers/pkg-config),
+# and that compile is slow and fails in CI. Precompiled Ruby bundles its own
+# OpenSSL and sidesteps it. This becomes mise's default in 2026.8.0.
+ruby.compile = false
+
+# Disable sending anonymous download statistics to mise-versions.jdx.dev.
+use_versions_host_track = false
+
+[tools]
+# Please continue to use `.tool-versions` to specify tool versions, rather than adding them directly here.
+
+[plugins]
+# Use this section to configure the source of any custom mise/asdf plugin

@@ -1,0 +1,13 @@
+---
+name: summarize_new_merge_request
+description: Summarizes the changes for a new merge request based on the diff.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::code review
+feature_category: code_review_workflow
+documentation_url: https://docs.gitlab.com/ee/user/gitlab_duo/#merge-request-summary
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

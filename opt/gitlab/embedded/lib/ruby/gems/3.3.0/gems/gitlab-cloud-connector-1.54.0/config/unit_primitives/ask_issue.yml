@@ -1,0 +1,14 @@
+---
+name: ask_issue
+description: Ask questions about GitLab issues.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::duo_chat
+feature_category: duo_chat
+documentation_url: https://docs.gitlab.com/ee/user/gitlab_duo_chat/examples.html#ask-about-a-specific-issue
+introduced_by_url: https://gitlab.com/gitlab-org/customers-gitlab-com/-/merge_requests/10890/diffs
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

@@ -1,0 +1,11 @@
+---
+name: include_os_information_context
+description: Include context about the operating system.
+group: group::duo_workflow
+feature_category: duo_workflow
+documentation_url: ""
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+deprecated_by_url: "https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/193"
+deprecation_message: "Replaced by 'include_agent_user_environment_context', a more flexible context definition."

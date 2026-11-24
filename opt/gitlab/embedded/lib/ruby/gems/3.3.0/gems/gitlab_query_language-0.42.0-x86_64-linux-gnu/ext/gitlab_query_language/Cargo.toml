@@ -1,0 +1,13 @@
+[package]
+name = "gitlab_query_language"
+version = "0.1.0"
+edition = "2021"
+authors = ["Himanshu Kapoor<hkapoor@gitlab.com>", "Daniele Rossetti <drossetti@gitlab.com>"]
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = { version = "0.6.2" }
+glql = { git = "https://gitlab.com/gitlab-org/glql.git", tag = "v0.42.0" }

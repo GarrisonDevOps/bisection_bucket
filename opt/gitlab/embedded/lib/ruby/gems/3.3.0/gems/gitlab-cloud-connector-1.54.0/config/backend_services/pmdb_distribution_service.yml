@@ -1,0 +1,5 @@
+---
+name: pmdb_distribution_service
+project_url: https://gitlab.com/gitlab-org/security-products/license-db/pmdb-distribution-service
+group: group::composition analysis
+jwt_aud: gitlab-pmdb-distribution-service

@@ -1,0 +1,4 @@
+# CODEOWNERS is used to lookup assignees for
+# Renovate Bot dependency change Merge Requests.
+# https://docs.renovatebot.com/configuration-options/#assigneesfromcodeowners
+* @ayufan @hmerscher @e_forbes @M_Alvarez @mwoolf @sankalp_gl @hardikgala @nindurkar @ashs2

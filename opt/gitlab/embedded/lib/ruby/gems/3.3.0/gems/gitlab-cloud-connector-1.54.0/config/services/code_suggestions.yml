@@ -1,0 +1,5 @@
+---
+name: code_suggestions
+unit_primitives:
+  - complete_code
+  - generate_code

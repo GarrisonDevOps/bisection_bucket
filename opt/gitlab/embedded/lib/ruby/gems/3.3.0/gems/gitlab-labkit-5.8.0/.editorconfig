@@ -1,0 +1,32 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[.copier-*.yml]
+insert_final_newline = unset
+indent_size = unset
+charset = unset
+end_of_line = unset
+indent_style = unset
+trim_trailing_whitespace = unset
+
+[*.md]
+indent_size = unset
+
+[{Makefile,**.mk}]
+# Use tabs for indentation (Makefiles require tabs)
+indent_style = tab
+
+[*.rego]
+indent_style = tab

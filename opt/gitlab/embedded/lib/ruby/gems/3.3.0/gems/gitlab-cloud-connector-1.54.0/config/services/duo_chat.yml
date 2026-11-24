@@ -1,0 +1,28 @@
+---
+name: duo_chat
+basic_unit_primitive: duo_chat
+unit_primitives:
+  - ask_build
+  - ask_commit
+  - ask_epic
+  - ask_issue
+  - ask_merge_request
+  - ask_work_item
+  - codebase_search
+  - documentation_search
+  - duo_chat
+  - explain_code
+  - fix_code
+  - include_dependency_context
+  - include_file_context
+  - include_issue_context
+  - include_local_git_context
+  - include_merge_request_context
+  - include_snippet_context
+  - include_terminal_context
+  - include_repository_context
+  - include_directory_context
+  - include_os_information_context
+  - include_agent_user_environment_context
+  - refactor_code
+  - write_tests

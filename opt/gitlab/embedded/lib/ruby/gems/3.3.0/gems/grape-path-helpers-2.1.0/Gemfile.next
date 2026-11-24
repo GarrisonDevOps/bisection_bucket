@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+gemspec
+
+# `.next` mirrors the convention used in gitlab-org/gitlab: this Gemfile
+# tracks the version of Grape we're moving towards (3.x) while the root
+# `Gemfile` stays pinned to the version currently in production (2.4).
+gem 'grape', '~> 3.0'

@@ -1,0 +1,17 @@
+# Root Cargo.toml - Defines the workspace
+[workspace]
+members = ["ext/*"]
+resolver = "2"
+
+[workspace.package]
+version = "2.2.0"
+edition = "2024"
+
+# Shared dependencies for all crates
+[workspace.dependencies]
+magnus = { version = "0.9.0", features = ["rb-sys"] }
+rb-sys = "0.9.128"
+prost = "0.14"
+glaz-module = { git = "https://gitlab.com/gitlab-org/auth/glaz.git", rev = "432611dc73b9a98cf0a2557225155c768b9a14ea" }
+glaz-roles = { git = "https://gitlab.com/gitlab-org/auth/glaz.git", rev = "432611dc73b9a98cf0a2557225155c768b9a14ea" }
+glaz-proto = { git = "https://gitlab.com/gitlab-org/auth/glaz.git", rev = "432611dc73b9a98cf0a2557225155c768b9a14ea" }

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "gitlab/security_report_schemas"
+require "gitlab/security_report_schemas/cli/validator"
+
+Gitlab::SecurityReportSchemas::CLI::Validator.new(ARGV.dup).run

@@ -1,0 +1,5 @@
+---
+name: ai_gateway
+project_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist
+group: group::ai framework
+jwt_aud: gitlab-ai-gateway

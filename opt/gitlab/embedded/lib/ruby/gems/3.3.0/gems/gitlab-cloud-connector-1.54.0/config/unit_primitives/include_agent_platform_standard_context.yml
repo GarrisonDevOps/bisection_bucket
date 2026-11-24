@@ -1,0 +1,8 @@
+---
+name: include_agent_platform_standard_context
+description: Include standard context for Duo Agent Platform.
+group: group::duo_workflow
+feature_category: duo_workflow
+documentation_url: "https://gitlab.com/gitlab-org/gitlab/-/issues/574990"
+backend_services:
+  - duo_workflow_service

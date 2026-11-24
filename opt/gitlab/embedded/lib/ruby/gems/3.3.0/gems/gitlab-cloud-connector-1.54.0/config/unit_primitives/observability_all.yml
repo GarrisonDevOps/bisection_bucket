@@ -1,0 +1,7 @@
+---
+name: observability_all
+description: Observability unit primitive.
+group: group::platform insights
+feature_category: observability
+backend_services:
+  - observability

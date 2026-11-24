@@ -1,0 +1,3 @@
+align_chained_calls true
+parens_in_def :dynamic
+trailing_commas true

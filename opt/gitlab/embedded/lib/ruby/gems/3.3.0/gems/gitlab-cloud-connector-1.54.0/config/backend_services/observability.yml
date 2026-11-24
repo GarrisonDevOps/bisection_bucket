@@ -1,0 +1,5 @@
+---
+name: observability
+project_url: https://gitlab.com/gitlab-org/opstrace/opstrace
+group: group:observability
+jwt_aud: gitlab-observability-backend

@@ -1,0 +1,14 @@
+---
+name: troubleshoot_job
+description: Troubleshoot why a GitLab CI job failed and suggest a fix for it.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::pipeline execution
+feature_category: continuous_integration
+documentation_url: https://docs.gitlab.com/ee/user/gitlab_duo/#root-cause-analysis
+introduced_by_url: https://gitlab.com/gitlab-org/customers-gitlab-com/-/merge_requests/10457
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

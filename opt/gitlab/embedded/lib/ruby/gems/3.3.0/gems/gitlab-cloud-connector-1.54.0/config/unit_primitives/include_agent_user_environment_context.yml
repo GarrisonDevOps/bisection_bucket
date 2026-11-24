@@ -1,0 +1,8 @@
+---
+name: include_agent_user_environment_context
+description: Include context about the user's environment.
+group: group::duo_workflow
+feature_category: duo_workflow
+documentation_url: "https://gitlab.com/gitlab-org/duo-workflow/duo-workflow-executor/-/issues/74"
+backend_services:
+  - duo_workflow_service

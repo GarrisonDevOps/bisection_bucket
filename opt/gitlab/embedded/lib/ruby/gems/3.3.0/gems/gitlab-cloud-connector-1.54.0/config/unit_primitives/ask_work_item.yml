@@ -1,0 +1,12 @@
+---
+name: ask_work_item
+description: Ask questions about GitLab work items.
+group: group::duo_chat
+feature_category: duo_chat
+documentation_url: https://docs.gitlab.com/user/gitlab_duo_chat/examples/#ask-about-a-specific-work-item
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

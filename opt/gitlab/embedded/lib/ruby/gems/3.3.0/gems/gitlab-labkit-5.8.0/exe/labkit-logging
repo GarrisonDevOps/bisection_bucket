@@ -1,0 +1,200 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'net/http'
+require 'uri'
+require 'json'
+require 'yaml'
+require 'set'
+require 'labkit/fields'
+require 'labkit/logging/field_validator/config'
+
+module Labkit
+  module Logging
+    module FieldValidator
+      class CLI
+        THREAD_POOL_SIZE = 10
+        DETECTED_OFFENSE_PREFIX = 'LABKIT_LOGGING_OFFENSE'
+
+        def run(args)
+          case args.shift
+          when 'init' then init_todo_file
+          when 'fetch' then fetch(args)
+          else puts "Usage: labkit-logging <init|fetch> [options]\n\n  init   Initialize .labkit_logging_todo.yml\n  fetch  Fetch offenses: labkit-logging fetch <project> <pipeline_id>"
+          end
+        end
+
+        def init_todo_file
+          Config.init_file!
+          warn "Created #{Config.file_name} with skip_ci_failure enabled.\n\nNext steps:\n1. Commit this file\n2. Push and let CI run\n3. Run: labkit-logging fetch <project> <pipeline_id>"
+        end
+
+        private
+
+        def fetch(args)
+          @project = args[0]
+          @pipeline = args[1]
+          abort "Usage: labkit-logging fetch <project> <pipeline_id>" unless @project && @pipeline&.match?(/^\d+$/)
+          abort "GITLAB_TOKEN environment variable is required" unless token
+
+          warn "Fetching offenses from pipeline #{@pipeline}..."
+          validate_pipeline!
+          jobs = fetch_jobs
+
+          detected = process_jobs(jobs)
+          new_off, removed_off = compute_diff(detected)
+
+          if new_off.empty? && removed_off.empty?
+            warn "\nNo changes detected."
+            return
+          end
+
+          save_results(new_off, removed_off)
+        end
+
+        def validate_pipeline!
+          resp = api_get("/projects/#{enc(@project)}/pipelines/#{@pipeline}")
+          abort "Pipeline not found" unless resp.is_a?(Net::HTTPSuccess)
+          status = JSON.parse(resp.body)['status']
+          abort "Pipeline still running" if status == 'running'
+          abort "Pipeline status: #{status}" unless %w[success failed].include?(status)
+        end
+
+        def fetch_jobs
+          jobs = []
+          page = 1
+          loop do
+            resp = api_get("/projects/#{enc(@project)}/pipelines/#{@pipeline}/jobs?per_page=100&page=#{page}")
+            abort "Failed to fetch jobs" unless resp.is_a?(Net::HTTPSuccess)
+            batch = JSON.parse(resp.body)
+            break if batch.empty?
+
+            jobs.concat(batch)
+            page += 1
+          end
+          jobs
+        end
+
+        def process_jobs(jobs)
+          detected = []
+          mutex = Mutex.new
+          queue = Queue.new
+          jobs.each { |j| queue << j }
+          total = jobs.size
+          done = 0
+
+          threads = Array.new(THREAD_POOL_SIZE) do
+            Thread.new do
+              loop do
+                job = begin
+                  queue.pop(true)
+                rescue StandardError
+                  nil
+                end
+                break unless job
+
+                begin
+                  resp = api_get("/projects/#{enc(@project)}/jobs/#{job['id']}/trace")
+                  if resp.is_a?(Net::HTTPSuccess)
+                    offenses = parse_log(resp.body)
+                    mutex.synchronize { detected.concat(offenses) }
+                  end
+                rescue StandardError => e
+                  mutex.synchronize { warn "\nWarning: #{job['name']}: #{e.message}" }
+                ensure
+                  mutex.synchronize do
+                    done += 1
+                    $stderr.print "\rProcessing jobs: #{done}/#{total}"
+                  end
+                end
+              end
+            end
+          end
+          threads.each(&:join)
+          warn ""
+
+          dedupe(detected)
+        end
+
+        def parse_log(log)
+          offenses = []
+          log.each_line do |line|
+            clean = line.gsub(/\e\[[0-9;]*[a-zA-Z]/, '').strip
+            next unless clean.include?(DETECTED_OFFENSE_PREFIX)
+
+            idx = clean.index(DETECTED_OFFENSE_PREFIX)
+            next unless idx
+
+            json = clean[(idx + DETECTED_OFFENSE_PREFIX.length)..].sub(/^[:\s]+/, '')
+            offense = begin
+              JSON.parse(json)
+            rescue StandardError
+              nil
+            end
+            offenses << offense if offense
+          end
+          offenses
+        end
+
+        def compute_diff(detected)
+          baseline = Config.load.fetch('offenses', [])
+
+          baseline_keys = baseline.to_set { |o| [o['callsite'], o['deprecated_field'], o['logger_class']] }
+          detected_keys = detected.to_set { |o| [o['callsite'], o['deprecated_field'], o['logger_class']] }
+
+          new_offenses = detected.reject do |o|
+            key = [o['callsite'], o['deprecated_field'], o['logger_class']]
+            baseline_keys.include?(key)
+          end
+
+          removed_offenses = baseline.select do |o|
+            key = [o['callsite'], o['deprecated_field'], o['logger_class']]
+            !detected_keys.include?(key) # rubocop:disable Rails/NegateInclude -- Set has no exclude? method
+          end
+
+          [new_offenses, removed_offenses]
+        end
+
+        def dedupe(offenses)
+          offenses.uniq { |o| [o['callsite'], o['deprecated_field'], o['logger_class']] }
+        end
+
+        def save_results(new_off, removed_off)
+          skip_removed = Config.load.fetch('skip_ci_failure', false)
+          updated = Config.update!(new_off, removed_off)
+          warn "\n✓ Added #{new_off.size} new offenses" if new_off.any?
+          warn "✓ Removed #{removed_off.size} fixed offenses" if removed_off.any?
+          warn "✓ Removed skip_ci_failure flag" if skip_removed
+          warn "✓ Total: #{updated.size} offenses\n\nCommit the updated #{Config.file_name} file."
+        end
+
+        def api_get(path)
+          uri = URI.parse("#{api_url}#{path}")
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = uri.scheme == 'https'
+          http.open_timeout = 10
+          http.read_timeout = 30
+          req = Net::HTTP::Get.new(uri.request_uri)
+          req['PRIVATE-TOKEN'] = token
+          resp = http.request(req)
+          abort "Unauthorized: check that your GitLab token is valid and has access to this project" if resp.is_a?(Net::HTTPUnauthorized) || resp.is_a?(Net::HTTPForbidden)
+          resp
+        end
+
+        def token
+          ENV['GITLAB_API_PRIVATE_TOKEN'] || ENV['GITLAB_TOKEN'] || ENV.fetch('CI_JOB_TOKEN', nil)
+        end
+
+        def api_url
+          ENV['GITLAB_API_ENDPOINT'] || ENV['CI_API_V4_URL'] || 'https://gitlab.com/api/v4'
+        end
+
+        def enc(str)
+          URI.encode_www_form_component(str.to_s)
+        end
+      end
+    end
+  end
+end
+
+Labkit::Logging::FieldValidator::CLI.new.run(ARGV)

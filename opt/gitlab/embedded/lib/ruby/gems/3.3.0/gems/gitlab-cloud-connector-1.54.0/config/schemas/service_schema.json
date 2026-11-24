@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "description": "This is the legacy format for the service object that is being deprecated. Consider transitioning to the new format.",
+  "required": ["name"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$",
+      "description": "The unique name of the service, consisting of lowercase alphanumeric characters and underscores."
+    },
+    "basic_unit_primitive": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$",
+      "description": "The basic unit primitive identifier."
+    },
+    "gitlab_realm": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["gitlab-com", "self-managed"]
+      },
+      "description": "An array of unit primitives associated with the service."
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief description of the service."
+    },
+    "unit_primitives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An array of unit primitives associated with the service."
+    }
+  },
+  "additionalProperties": false
+}

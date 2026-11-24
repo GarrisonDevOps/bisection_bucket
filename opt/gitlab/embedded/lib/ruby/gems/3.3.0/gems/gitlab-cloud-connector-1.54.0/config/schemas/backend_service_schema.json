@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "required": ["name", "project_url", "jwt_aud"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*"
+    },
+    "description": {
+      "type": "string"
+    },
+    "project_url": {
+      "type": "string",
+      "format": "url"
+    },
+    "group": {
+      "type": "string"
+    },
+    "jwt_aud": {
+      "type": "string",
+      "pattern": "^gitlab-[a-z0-9]+(-[a-z0-9]+)*$"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,14 @@
+---
+name: write_tests
+description: Write tests for the selected code.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::duo_chat
+feature_category: duo_chat
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap
+  - duo_core

@@ -1,0 +1,5 @@
+---
+name: security_gateway
+project_url: https://gitlab.com/gitlab-org/secure/sast-scanner-service
+group: group::static analysis
+jwt_aud: gitlab-security-gateway

@@ -1,0 +1,36 @@
+# frozen_string_literal: true
+
+module Licensee
+  module Matchers
+    # Base class for matchers that identify a license from a ProjectFile.
+    class Matcher
+      attr_reader :file
+
+      include Licensee::HashHelper
+
+      HASH_METHODS = %i[name confidence].freeze
+
+      def initialize(file)
+        @file = file
+      end
+
+      def name
+        @name ||= self.class.to_s.split('::').last.downcase.to_sym
+      end
+
+      def match
+        raise NotImplementedError, "#{self.class}#match is not implemented"
+      end
+
+      def confidence
+        raise NotImplementedError, "#{self.class}#confidence is not implemented"
+      end
+
+      private
+
+      def potential_matches
+        @potential_matches ||= Licensee.licenses(hidden: true, pseudo: false)
+      end
+    end
+  end
+end

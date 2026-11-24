@@ -1,0 +1,13 @@
+---
+name: include_directory_context
+description: Include context retrieved from the directory in the prompt.
+group: group::duo_chat
+feature_category: duo_chat
+documentation_url: "" # To be added: https://gitlab.com/gitlab-org/gitlab/-/issues/537573
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap

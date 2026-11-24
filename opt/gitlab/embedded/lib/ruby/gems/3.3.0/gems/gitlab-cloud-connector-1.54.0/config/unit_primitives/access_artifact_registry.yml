@@ -1,0 +1,9 @@
+---
+name: access_artifact_registry
+description: Grants service-level access to the Artifact Registry.
+group: group::container registry
+feature_category: artifact_registry
+backend_services:
+  - artifact_registry
+add_ons:
+  - gitlab_credits

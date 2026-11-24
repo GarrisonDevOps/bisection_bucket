@@ -1,0 +1,5 @@
+---
+name: ai_gateway_agent
+project_url: unknown
+group: group::ai framework
+jwt_aud: gitlab-ai-gateway-agent

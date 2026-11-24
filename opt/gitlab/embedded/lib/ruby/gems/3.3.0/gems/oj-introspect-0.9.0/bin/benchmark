@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "oj/introspect"
+require "json"
+require "benchmark/ips"
+
+TEST_JSON = File.read("./spec/fixtures/vulnerabilities.json")
+
+INTROSPECT_PARSER = Oj::Parser.introspect
+FILTERED_INTROSPECT_PARSER = Oj::Introspect.new(filter: "remediations")
+USUAL_PARSER = Oj::Parser.usual
+
+Benchmark.ips do |b|
+  b.report("Introspect") do
+    INTROSPECT_PARSER.parse(TEST_JSON)
+  end
+
+  b.report("Filtered introspect") do
+    FILTERED_INTROSPECT_PARSER.parse(TEST_JSON)
+  end
+
+  b.report("Oj usual") do
+    USUAL_PARSER.parse(TEST_JSON)
+  end
+
+  b.report("stdlib") do
+    JSON.parse(TEST_JSON)
+  end
+
+  b.compare!
+end

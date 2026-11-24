@@ -1,0 +1,14 @@
+---
+name: generate_issue_description
+description: Generate an issue description.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::project management
+feature_category: team_planning
+documentation_url: https://docs.gitlab.com/ee/user/gitlab_duo/#issue-description-generation
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap
+alias_names:
+  - generate_description

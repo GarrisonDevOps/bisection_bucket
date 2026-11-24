@@ -1,0 +1,19 @@
+---
+name: generate_embeddings_codebase
+description: >
+    Generates embeddings for Chat with Codebase feature.
+    This unit primitive serves two purposes:
+    1. System requests (majority): Used to populate a vector store for search functionality. These requests do not have an associated user.
+    2. User requests (minority): Generated when Chat with Codebase feature is used. These requests include user.
+group: group::code suggestions
+feature_category: code_suggestions
+unit_primitive_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/538567
+introduced_by_url: https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/146
+cut_off_date: 2024-02-15T00:00:00+00:00
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_core
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap

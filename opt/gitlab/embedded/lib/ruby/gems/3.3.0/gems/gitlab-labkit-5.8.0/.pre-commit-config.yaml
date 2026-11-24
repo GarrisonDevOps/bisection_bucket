@@ -1,0 +1,39 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+---
+# Use exclude to exclude specific files
+# exclude: '^fixtures/'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0  # renovate:managed
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: check-json
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: pretty-format-json
+        args: [--autofix, --no-sort-keys]
+
+  # pre-commit tasks from common-ci-tasks
+  # Documentation available at
+  # https://gitlab.com/gitlab-com/gl-infra/common-ci-tasks/-/blob/main/docs/pre-commit.md
+  - repo: https://gitlab.com/gitlab-com/gl-infra/common-ci-tasks
+    rev: v5.46  # renovate:managed
+
+    hooks:
+      - id: shellcheck  # Run shellcheck for changed Shell files
+      - id: shfmt  # Run shellcheck for changed Shell files
+      - id: update-asdf-version-variables  # Update .gitlab-ci-asdf-versions.yml if .tool-versions has changed
+
+      # - id: gitlint  # Checks your git commit messages for style
+      - id: gitleaks  #  Detect hardcoded secrets using Gitleaks
+      - id: editorconfig  # Validate text files against .editorconfig
+      - id: yamllint  # Validate YAML files using yamllint
+      - id: ensure-claude-md

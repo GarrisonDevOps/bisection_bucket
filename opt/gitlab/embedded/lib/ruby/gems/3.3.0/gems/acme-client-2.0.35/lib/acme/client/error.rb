@@ -1,0 +1,136 @@
+require 'acme/client/problem'
+
+class Acme::Client::Error < StandardError
+  attr_reader :retry_after, :retry_after_time, :subproblems, :acme_error_body, :problem
+
+  Subproblem = Struct.new(:type, :detail, :identifier, keyword_init: true) do
+    def to_h
+      { type: type, detail: detail, identifier: identifier }
+    end
+  end
+
+  def initialize(message = nil, retry_after: nil, acme_error_body: nil, subproblems: nil, problem: nil)
+    super(message)
+    @retry_after_time = Acme::Client::Util.parse_retry_after(retry_after)
+    @retry_after = @retry_after_time ? [(@retry_after_time - Time.now).ceil, 0].max : nil
+    @problem = Acme::Client::Problem.from(problem || acme_error_body)
+    @acme_error_body = acme_error_body || @problem&.to_h
+    @subproblems = parse_subproblems(subproblems || @problem&.raw_subproblems)
+  end
+
+  private
+
+  def parse_subproblems(raw)
+    return [] if raw.nil? || !raw.is_a?(Array)
+
+    raw.map do |sp|
+      Subproblem.new(
+        type: sp['type'],
+        detail: sp['detail'],
+        identifier: sp['identifier']
+      )
+    end
+  end
+
+  public
+
+  def type
+    problem&.type
+  end
+
+  def code
+    problem&.code
+  end
+
+  def detail
+    problem&.detail || message
+  end
+
+  def status
+    problem&.status
+  end
+
+  def identifier
+    problem&.identifier
+  end
+
+  class Timeout < Acme::Client::Error; end
+
+  class ClientError < Acme::Client::Error; end
+  class InvalidDirectory < ClientError; end
+  class UnsupportedOperation < ClientError; end
+  class UnsupportedChallengeType < ClientError; end
+  class NotFound < ClientError; end
+  class CertificateNotReady < ClientError; end
+  class ForcedChainNotFound < ClientError; end
+  class OrderNotReady < ClientError; end
+  class OrderUrlNil < ClientError; end
+
+  class ServerError < Acme::Client::Error; end
+  class AlreadyReplaced < ServerError; end
+  class AlreadyRevoked < ServerError; end
+  class BadCSR < ServerError; end
+  class BadNonce < ServerError; end
+  class BadPublicKey < ServerError; end
+  class BadSignatureAlgorithm < ServerError; end
+  class InvalidContact < ServerError; end
+  class UnsupportedContact < ServerError; end
+  class ExternalAccountRequired < ServerError; end
+  class AccountDoesNotExist < ServerError; end
+  class Malformed < ServerError; end
+  class RateLimited < ServerError; end
+  class RejectedIdentifier < ServerError; end
+  class ServerInternal < ServerError; end
+  class Unauthorized < ServerError; end
+  class UnsupportedIdentifier < ServerError; end
+  class UserActionRequired < ServerError; end
+  class BadRevocationReason < ServerError; end
+  class Caa < ServerError; end
+  class Compound < ServerError; end
+  class Dns < ServerError; end
+  class Connection < ServerError; end
+  class Tls < ServerError; end
+  class IncorrectResponse < ServerError; end
+  class AutoRenewalCanceled < ServerError; end
+  class AutoRenewalExpired < ServerError; end
+  class AutoRenewalCancellationInvalid < ServerError; end
+  class AutoRenewalRevocationNotSupported < ServerError; end
+  class UnknownDelegation < ServerError; end
+  class OnionCAARequired < ServerError; end
+  class BadAttestationStatement < ServerError; end
+
+  ACME_ERRORS = {
+    'urn:ietf:params:acme:error:alreadyReplaced' => AlreadyReplaced,
+    'urn:ietf:params:acme:error:alreadyRevoked' => AlreadyRevoked,
+    'urn:ietf:params:acme:error:badCSR' => BadCSR,
+    'urn:ietf:params:acme:error:badNonce' => BadNonce,
+    'urn:ietf:params:acme:error:badPublicKey' => BadPublicKey,
+    'urn:ietf:params:acme:error:badSignatureAlgorithm' => BadSignatureAlgorithm,
+    'urn:ietf:params:acme:error:invalidContact' => InvalidContact,
+    'urn:ietf:params:acme:error:unsupportedContact' => UnsupportedContact,
+    'urn:ietf:params:acme:error:externalAccountRequired' => ExternalAccountRequired,
+    'urn:ietf:params:acme:error:accountDoesNotExist' => AccountDoesNotExist,
+    'urn:ietf:params:acme:error:malformed' => Malformed,
+    'urn:ietf:params:acme:error:orderNotReady' => OrderNotReady,
+    'urn:ietf:params:acme:error:rateLimited' => RateLimited,
+    'urn:ietf:params:acme:error:rejectedIdentifier' => RejectedIdentifier,
+    'urn:ietf:params:acme:error:serverInternal' => ServerInternal,
+    'urn:ietf:params:acme:error:unauthorized' => Unauthorized,
+    'urn:ietf:params:acme:error:unsupportedIdentifier' => UnsupportedIdentifier,
+    'urn:ietf:params:acme:error:userActionRequired' => UserActionRequired,
+    'urn:ietf:params:acme:error:badRevocationReason' => BadRevocationReason,
+    'urn:ietf:params:acme:error:caa' => Caa,
+    'urn:ietf:params:acme:error:compound' => Compound,
+    'urn:ietf:params:acme:error:dns' => Dns,
+    'urn:ietf:params:acme:error:connection' => Connection,
+    'urn:ietf:params:acme:error:tls' => Tls,
+    'urn:ietf:params:acme:error:incorrectResponse' => IncorrectResponse,
+    'urn:ietf:params:acme:error:autoRenewalCanceled' => AutoRenewalCanceled,
+    'urn:ietf:params:acme:error:autoRenewalExpired' => AutoRenewalExpired,
+    'urn:ietf:params:acme:error:autoRenewalCancellationInvalid' => AutoRenewalCancellationInvalid,
+    'urn:ietf:params:acme:error:autoRenewalRevocationNotSupported' => AutoRenewalRevocationNotSupported,
+    'urn:ietf:params:acme:error:unknownDelegation' => UnknownDelegation,
+    'urn:ietf:params:acme:error:onionCAARequired' => OnionCAARequired,
+    'urn:ietf:params:acme:error:badAttestationStatement' => BadAttestationStatement,
+  }
+end

@@ -1,0 +1,27 @@
+[package]
+name = "gitlab-glfm-markdown"
+version = "0.0.48"
+edition = "2021"
+authors = ["digitalmoksha <bwalker@gitlab.com>", "Asherah Connor <aconnor@gitlab.com>"]
+description = "GitLab Flavored Markdown parser and formatter. 100% CommonMark-compatible."
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[[bin]]
+name = "gitlab-glfm-markdown"
+required-features = ["cli"]
+
+[dependencies]
+clap = { version = "=4.4.18", optional = true, features = ["derive", "string"] }
+comrak = { version = "0.59.0", default-features = false, features = ["shortcodes"] }
+magnus = "0.8.2"
+rb-sys = { version = "0.9.124", default-features = false, features = ["stable-api-compiled-fallback"] }
+regex = "1.11.1"
+lazy_static = "1.5.0"
+serde_magnus = "0.10.0"
+serde = { version = "1.0.219", features = ["serde_derive"] }
+
+[features]
+cli = ["clap", "comrak/syntect-onig"]

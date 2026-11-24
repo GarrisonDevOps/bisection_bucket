@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "required": [
+    "name",
+    "description",
+    "group",
+    "feature_category",
+    "backend_services"
+  ],
+  "properties": {
+    "add_ons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "alias_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "backend_services": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cut_off_date": {
+      "description": "After this date, unit primitive has no free access",
+      "type": "time", "format": "date-time"
+    },
+    "deprecated_by_url": {
+      "description": "URL of merge request where the unit primitive was deprecated",
+      "type": "string"
+    },
+    "deprecation_message": {
+      "description": "Message explaining why the unit primitive is deprecated and any additional context",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the unit primitive",
+      "type": "string"
+    },
+    "documentation_url": {
+      "description": "URL of documentation for introduced Unit Primitive",
+      "type": "string"
+    },
+    "feature_category": {
+      "description": "The feature category that introduced the unit primitive",
+      "type": "string"
+    },
+    "group": {
+      "description": "The group that introduced the unit primitive, e.g. \"group::duo chat\"",
+      "type": "string"
+    },
+    "introduced_by_url": {
+      "description": "URL of merge request introducing the Unit Primitive",
+      "type": "string"
+    },
+    "license_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "milestone": {
+      "description": "Milestone in which the Unit Primitive was introduced",
+      "type": "string"
+    },
+    "min_gitlab_version": {
+      "description": "Minimum gitlab version required to use this Unit Primitive",
+      "type": "string",
+      "pattern": "\\A(\\d+\\.\\d+)"
+    },
+    "min_gitlab_version_for_free_access": {
+      "description": "Minimum gitlab version required to use this Unit Primitive while it has free access",
+      "type": "string",
+      "pattern": "\\A(\\d+\\.\\d+)"
+    },
+    "name": {
+      "description": "Name of the unit primitive",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "unit_primitive_issue_url": {
+      "description": "Url of original unit primitive issue",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

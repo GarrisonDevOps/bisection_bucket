@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=./schema.json
+description: "Creating a new merge request in a project"
+feature_category: "source_code_management"
+urgency: "sync_fast"

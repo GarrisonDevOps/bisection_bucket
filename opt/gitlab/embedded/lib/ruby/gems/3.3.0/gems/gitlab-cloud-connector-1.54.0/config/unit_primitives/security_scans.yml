@@ -1,0 +1,7 @@
+---
+name: security_scans
+description: Used to check your source code for known vulnerabilities.
+group: group::static analysis
+feature_category: static_application_security_testing
+backend_services:
+  - security_gateway

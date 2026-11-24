@@ -1,0 +1,166 @@
+db_common: &db_common
+  methods:
+    - probe_db
+  opts: &db_common_opts
+    connection_string: dbname=gitlabhq_development user=postgres
+
+# Web server config
+server:
+  listen_address: 0.0.0.0
+  listen_port: 9168
+  # Maximum amount of memory to use in megabytes, after which the process is killed
+  memory_threshold: 1024
+  # TLS settings
+  tls_enabled: false
+  tls_cert_path: /tmp/server.crt
+  tls_key_path: /tmp/server.key
+
+# Probes config
+probes:
+  # Each key corresponds to an endpoint, so here metrics are available at http://localhost:9168/git.
+  # The server will search for a prober using the format `KeyProber`, so here it will be `GitProber`.
+  # If there's no prober matching the format above, `class_name` key should be provided (see `git_process` below).
+  git:
+    # Methods to call on the prober
+    methods:
+      - probe_pull
+      - probe_push
+    # Options to pass to the prober class initializer
+    opts:
+      source: /home/git/repo
+
+  git_process: &git_process
+    class_name: GitProcessProber # `class_name` is redundant here
+    methods:
+    - probe_git
+    opts:
+      quantiles: true
+
+  database_bloat:
+    class_name: Database::BloatProber
+    <<: *db_common
+
+  pg_sequences:
+    class_name: Database::PgSequencesProber
+    <<: *db_common
+
+  # We can group multiple probes under a single endpoint by setting the `multiple` key to `true`, followed
+  # by probe definitions as usual.
+  database:
+    multiple: true
+    ci_builds:
+      class_name: Database::CiBuildsProber
+      <<: *db_common
+      opts:
+        <<: *db_common_opts
+        created_builds_counting_disabled: true
+        unarchived_traces_offset_minutes: 1440
+    tuple_stats:
+      class_name: Database::TuplesProber
+      <<: *db_common
+    rows_count:
+      class_name: Database::RowCountProber
+      <<: *db_common
+      opts:
+        <<: *db_common_opts
+        selected_queries:
+        - soft_deleted_projects
+        - orphaned_projects
+        - uploads
+        - users
+        - projects
+        - groups
+    remote_mirrors:
+      class_name: Database::RemoteMirrorsProber
+      <<: *db_common
+      opts:
+        <<: *db_common_opts
+        project_ids:
+        - 1
+    geo_node_status:
+      class_name: Database::GeoNodeStatusProber
+      <<: *db_common
+    zoekt:
+      class_name: Database::ZoektProber
+      <<: *db_common
+
+  process: &process
+    methods:
+      - probe_stat
+      - probe_count
+    opts:
+      - pid_or_pattern: "sidekiq .* \\[.*?\\]"
+        name: sidekiq
+      - pid_or_pattern: "git-upload-pack --stateless-rpc"
+        name: git_upload_pack
+        quantiles: true
+
+  sidekiq: &sidekiq
+    methods:
+      - probe_stats
+      - probe_queues
+      - probe_workers
+      - probe_retries
+    opts:
+      redis_url: "redis://localhost:6379"
+      # Uncomment if username or password is not part of the redis_url specified above
+      # redis_username: 'redis-username'
+      # redis_password: 'redis-password'
+      redis_enable_client: true
+      # Uncomment if Redis Sentinels are needed
+      # redis_sentinels:
+      #   - host: 'localhost'
+      #     port: 26380
+      #   - host: 'localhost'
+      #     port: 26381
+      # redis_sentinel_username: 'redis-sentinel-username'
+      # redis_sentinel_password: 'redis-sentinel-password'
+      # Uncomment if SSL parameters are needed
+      # redis_ssl_params:
+      #   ca_file: '/path/to/ca.crt'
+      #   cert: '/path/to/client.crt'
+      #   key: '/path/to/client.key'
+
+  ruby: &ruby
+    class_name: RubyProber
+    methods:
+    - probe_gc
+    opts:
+      quantiles: false
+
+
+  # Uncomment below to add GitLab specific Elasticsearch metrics.
+  #
+  # To support multiple authorization types, opts are passed to a Faraday connection object.
+  # See: https://www.rubydoc.info/github/lostisland/faraday/Faraday%2FConnection:initialize
+  #
+  # elasticsearch: &elasticsearch
+  #   methods:
+  #     - probe_migrations
+  #
+  #   opts:
+  #     - url: http://localhost:9200
+  #       options:
+  #         headers:
+  #           Authorization: "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=="
+
+  metrics:
+    multiple: true
+    git_process:
+      <<: *git_process
+    process:
+      <<: *process
+    ruby:
+      <<: *ruby
+    sidekiq:
+      <<: *sidekiq
+    ci_builds:
+      class_name: Database::CiBuildsProber
+      <<: *db_common
+    tuple_stats:
+      class_name: Database::TuplesProber
+      <<: *db_common
+    rows_count:
+      class_name: Database::RowCountProber
+      <<: *db_common
+

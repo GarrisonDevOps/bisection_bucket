@@ -1,0 +1,13 @@
+---
+name: measure_comment_temperature
+description: Measure the temperature of a comment.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::ai framework
+feature_category: ai_abstraction_layer
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/174067
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap
+  - duo_pro

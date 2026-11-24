@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'app_store_connect'
+require 'rake'
+
+load './lib/tasks/console.rake'
+
+Rake::Task['console'].execute

@@ -1,0 +1,5 @@
+---
+name: duo_workflow_service
+project_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist
+group: group::duo workflow
+jwt_aud: gitlab-duo-workflow-service

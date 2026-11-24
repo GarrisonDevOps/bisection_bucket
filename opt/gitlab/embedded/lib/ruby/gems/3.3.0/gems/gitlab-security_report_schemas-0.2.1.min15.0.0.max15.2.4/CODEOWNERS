@@ -1,0 +1,7 @@
+# default to maintainers
+[Maintainers]
+* @gitlab-org/maintainers/security-report-schemas @minac
+
+# Specific reviewers
+[Reviewers]
+*.rb @gitlab-org/maintainers/security-report-schemas @gitlab-org/govern/threat-insights-backend-team

@@ -1,0 +1,23 @@
+compiling yajl.c
+compiling yajl_alloc.c
+compiling yajl_buf.c
+compiling yajl_encode.c
+compiling yajl_gen.c
+compiling yajl_lex.c
+compiling yajl_parser.c
+compiling yajl_tree.c
+compiling yajl_version.c
+yajl_parser.c: In function 'yajl_do_parse':
+yajl_parser.c:334:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  334 |                     if (yajl_bs_current(hand->stateStack) ==
+      |                        ^
+yajl_parser.c:347:17: note: here
+  347 |                 case yajl_tok_colon:
+      |                 ^~~~
+yajl_parser.c:405:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  405 |                     if (yajl_bs_current(hand->stateStack) ==
+      |                        ^
+yajl_parser.c:414:17: note: here
+  414 |                 default:
+      |                 ^~~~~~~
+linking shared-object libyajl.so

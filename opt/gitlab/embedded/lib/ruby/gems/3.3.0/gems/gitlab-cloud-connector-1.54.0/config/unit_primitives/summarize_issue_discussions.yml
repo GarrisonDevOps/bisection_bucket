@@ -1,0 +1,13 @@
+---
+name: summarize_issue_discussions
+description: Summarize discussions of the issue from the comments.
+group: group::code review
+feature_category: code_review_workflow
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap
+deprecated_by_url: https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/185
+deprecation_message: This feature is no longer used and will be removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197660.

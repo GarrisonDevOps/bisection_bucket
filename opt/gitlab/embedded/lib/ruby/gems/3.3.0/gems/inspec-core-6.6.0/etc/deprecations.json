@@ -1,0 +1,130 @@
+{
+  "file_version": "1.0.0",
+  "unknown_group_action": "ignore",
+  "groups": {
+    "attrs_value_replaces_default": {
+      "action": "warn",
+      "prefix": "The 'default' option for inputs is being replaced by 'value' - please use it instead."
+    },
+    "attrs_dsl": {
+      "action": "ignore",
+      "comment": "See #3853",
+      "prefix": "The 'attribute' DSL keyword is being replaced by 'input' - please use it instead."
+    },
+    "attrs_rename_in_metadata": {
+      "action": "ignore",
+      "comment": "See 3854",
+      "prefix": "Inputs should be specified by using the 'inputs' key in profile metadata, not 'attributes'."
+    },
+    "aws_resources_in_resource_pack": {
+      "comment": "Deprecated in InSpec 5",
+      "action": "exit",
+      "prefix": "AWS resources in core InSpec are deprecated and have been removed in InSpec 5. They are now part of a resource pack. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
+    },
+    "azure_resources_in_resource_pack": {
+      "comment": "Deprecated in InSpec 5",
+      "action": "exit",
+      "prefix": "Azure resources in core InSpec are deprecated and have been removed in InSpec 5. They are now part of a resource pack. Please update your profiles to depend on git@github.com:inspec/inspec-azure.git ."
+    },
+    "cli_option_json_config": {
+      "action": "ignore",
+      "prefix": "The --json-config option is being replaced by the --config option.",
+      "comment": "See #3661"
+    },
+    "file_resource_be_mounted_matchers": {
+      "action": "fail_control",
+      "suffix": "This will not be supported in InSpec 4.0."
+    },
+    "host_resource_proto_usage": {
+      "action": "fail_control",
+      "suffix": "This will not be supported in InSpec 4.0."
+    },
+    "inspec_ui_methods": {
+      "action": "ignore",
+      "suffix": "Please call `cli.ui` directly",
+      "comment": "See #3715"
+    },
+    "mssql_session_pass_option": {
+      "action": "exit",
+      "suffix": "This will not be supported in InSpec 4.0."
+    },
+    "oracledb_session_pass_option": {
+      "action": "exit",
+      "suffix": "This is not supported in InSpec 4.0."
+    },
+    "property_filesystem_size": {
+      "action": "warn",
+      "comment": "See #3778"
+    },
+    "property_processes_list": {
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
+    },
+    "properties_shadow": {
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
+    },
+    "rename_attributes_to_inputs": {
+      "action": "warn",
+      "prefix": "InSpec Attributes are being renamed to InSpec Inputs to avoid confusion with Chef Attributes.",
+      "comment": "See #3802"
+    },
+    "resource_apache": {
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0."
+    },
+    "resource_iis_website": {
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
+      "comment": "Needed for ServerSpec compatibility"
+    },
+    "resource_linux_kernel_parameter": {
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
+      "comment": "Needed for ServerSpec compatibility"
+    },
+    "resource_script": {
+      "action": "exit",
+      "suffix": "This resource will be removed in InSpec 4.0"
+    },
+    "resource_user_serverspec_compat": {
+      "action": "fail_control"
+    },
+    "resource_windows_registry_key": {
+      "action": "exit",
+      "suffix": "This resource was removed in InSpec 4.0.",
+      "comment": "Needed for ServerSpec compatibility"
+    },
+    "serverspec_compatibility": {
+      "action": "warn",
+      "suffix": "This is only allowed for compatibility with ServerSpec"
+    },
+    "supports_syntax": {
+      "action": "warn"
+    },
+    "mount_parser_serverspec_compat": {
+      "action": "fail_control"
+    },
+    "wmi_non_hash_usage": {
+      "action": "fail_control",
+      "suffix": "This property was removed in InSpec 4.0."
+    },
+    "object_classes": {
+      "action": "warn",
+      "suffix": "These classes will be removed in InSpec 5.0."
+    },
+    "cli_option_hook":{
+      "action": "warn",
+      "prefix": "The --hook option is being replaced by the --activator option.",
+      "suffix": "This options will be removed in InSpec 4.0."
+    },
+    "cli_option_target_id":{
+      "action": "warn",
+      "prefix": "The --target-id option is deprecated in InSpec 5. Its value will be ignored."
+    },
+    "renamed_to_inspec_export":{
+      "action": "ignore",
+      "prefix": "The `inspec json` command is deprecated in InSpec 5 and replaced with `inspec export` command."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+---
+name: ai_gateway_model_provider_proxy
+description: Use AI Gateway as a proxy to model providers.
+cut_off_date: 2025-08-25T00:00:00+00:00
+group: group::ai_framework
+feature_category: duo_agent_platform
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap
+  - duo_core
+  - gitlab_credits

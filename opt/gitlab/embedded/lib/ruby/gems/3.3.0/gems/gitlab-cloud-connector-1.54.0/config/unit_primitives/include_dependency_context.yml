@@ -1,0 +1,14 @@
+---
+name: include_dependency_context
+description: Include dependency context in the prompt.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::duo_chat
+feature_category: duo_chat
+unit_primitive_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/491740
+introduced_by_url: https://gitlab.com/gitlab-org/customers-gitlab-com/-/merge_requests/11140
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap

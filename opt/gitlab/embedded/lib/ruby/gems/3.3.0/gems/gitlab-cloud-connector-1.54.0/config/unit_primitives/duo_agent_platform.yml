@@ -1,0 +1,16 @@
+---
+name: duo_agent_platform
+description: Automate tasks and help increase productivity in your development workflow by using GitLab Duo Agent Platform.
+cut_off_date: 2025-07-03T00:00:00+00:00
+group: group::duo workflow
+feature_category: duo_workflow
+documentation_url: https://docs.gitlab.com/user/duo_agent_platform/
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap
+  - duo_core
+  - gitlab_credits

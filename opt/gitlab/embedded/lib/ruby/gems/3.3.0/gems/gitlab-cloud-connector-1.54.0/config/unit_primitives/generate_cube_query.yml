@@ -1,0 +1,13 @@
+---
+name: generate_cube_query
+description: Convert plain text questions about event data in to a structured query in JSON format.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::platform insights
+feature_category: product_analytics_visualization
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_enterprise
+  - self_hosted_dap
+deprecated_by_url: https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/185
+deprecation_message: This feature was never fully rolled out and is being removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196263.

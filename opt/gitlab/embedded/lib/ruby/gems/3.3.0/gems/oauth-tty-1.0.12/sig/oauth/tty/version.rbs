@@ -1,0 +1,8 @@
+module OAuth
+  module TTY
+    module Version
+      VERSION: String
+    end
+    VERSION: String
+  end
+end

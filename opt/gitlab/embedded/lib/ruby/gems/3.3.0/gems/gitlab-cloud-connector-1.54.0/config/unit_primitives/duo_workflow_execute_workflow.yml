@@ -1,0 +1,10 @@
+---
+name: duo_workflow_execute_workflow
+description: Automate tasks and help increase productivity in your development workflow by using GitLab Duo Workflow.
+group: group::duo workflow
+feature_category: duo_workflow
+documentation_url: https://docs.gitlab.com/ee/user/gitlab_duo/#gitlab-duo-workflow
+introduced_by_url: https://gitlab.com/gitlab-org/customers-gitlab-com/-/merge_requests/10734
+unit_primitive_issue_url: https://gitlab.com/gitlab-org/duo-workflow/duo-workflow-service/-/issues/17
+backend_services:
+  - duo_workflow_service

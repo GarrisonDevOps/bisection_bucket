@@ -1,0 +1,3 @@
+*.cps linguist-detectable=false
+benchmarks/* linguist-detectable=false
+spec/* linguist-detectable=false

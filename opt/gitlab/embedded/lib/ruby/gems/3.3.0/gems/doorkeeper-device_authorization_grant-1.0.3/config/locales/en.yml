@@ -1,0 +1,22 @@
+en:
+  activerecord:
+    errors:
+      models:
+        doorkeeper/device_authorization_grant/device_grant:
+          attributes:
+            scopes:
+              not_match_configured: "doesn't match configured on the server."
+  doorkeeper:
+    device_authorization_grant:
+      device_authorizations:
+        index:
+          title: 'Authorize device'
+          user_code: 'User code'
+          authorize: 'Authorize'
+          cancel: 'Cancel'
+    flash:
+      device_codes:
+        authorize:
+          invalid_user_code: 'The user code is invalid'
+          expired_user_code: 'The user code is expired'
+          success: 'Device successfully authorized'

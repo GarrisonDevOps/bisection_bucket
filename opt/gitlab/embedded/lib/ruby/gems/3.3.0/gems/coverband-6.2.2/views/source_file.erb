@@ -1,0 +1,56 @@
+<div class="source_table" id="<%= id source_file %>">
+  <div class="header">
+    <h3><%= shortened_filename source_file %></h3>
+    <h4>
+      <span class="<%= coverage_css_class(source_file.covered_percent) %>">
+        <%= source_file.covered_percent.round(2).to_s %> %
+      </span>
+      covered,
+
+      <span class="<%= coverage_css_class(source_file.covered_percent) %>">
+        <%= result.runtime_relevant_coverage(source_file) %> %
+      </span>
+      runtime covered
+
+      <% if Coverband.configuration.web_enable_clear %>
+        <%= button("#{base_path}clear_file?filename=#{source_file.relative_path}", 'clear file coverage') %> &nbsp;
+      <% end %>
+
+      <% if source_file.never_loaded %>
+        <br/>
+        <span class="red">
+          <strong>This file was never loaded during app runtime or loading (or was loaded before Coverband loaded)!</strong>
+        </span>
+      <% end %>
+    </h4>
+    <div>
+      <b><%= source_file.lines_of_code %></b> relevant lines.
+      <b><%= result.runtime_relavent_lines(source_file) %></b> runtime relevant lines.
+      <span class="green"><b><%= source_file.covered_lines.count %></b> lines covered</span> and
+      <span class="<%= missed_lines_css_class(source_file.missed_lines.count) %>"><b><%= source_file.missed_lines.count %></b> lines missed.</span>
+    </div>
+    <div>
+      Coverage first seen: <%= source_file.first_updated_at %>, last activity recorded:
+      <%= source_file.last_updated_at %>
+    </div>
+  </div>
+
+  <pre>
+    <ol>
+      <% source_file.lines.each_with_index do |line, index| %>
+        <li class="<%= line.status %>" data-hits="<%= line.coverage ? line.coverage : '' %>" data-linenumber="<%= line.number %>">
+          <% if line.covered? %><span class="hits">
+            load:
+            <%= result.file_with_type(source_file, Coverband::EAGER_TYPE)&.line_coverage(index) || 0 %>,
+            runtime:
+            <%= result.file_with_type(source_file, Coverband::RUNTIME_TYPE)&.line_coverage(index) || 0 %>
+            all: <%= line.coverage %>
+            last posted: <%= timeago(result.file_with_type(source_file, Coverband::RUNTIME_TYPE)&.line_coverage_posted(index), "-") %>
+          </span><% end %>
+          <% if line.skipped? %><span class="hits">skipped</span><% end %>
+          <code class="ruby"><%= CGI.escapeHTML(line.src.chomp) %></code>
+        </li>
+      <% end %>
+    </ol>
+  </pre>
+</div>

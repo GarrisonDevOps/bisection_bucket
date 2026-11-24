@@ -1,0 +1,12 @@
+---
+name: amazon_q_integration
+description: 'Amazon Q Integration.'
+group: group::duo_chat
+feature_category: duo_chat
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+license_types:
+  - ultimate
+add_ons:
+  - duo_amazon_q

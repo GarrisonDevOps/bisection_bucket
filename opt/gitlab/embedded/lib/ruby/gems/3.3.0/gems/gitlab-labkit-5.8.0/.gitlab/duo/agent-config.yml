@@ -1,0 +1,33 @@
+# GitLab Duo Agent Platform execution config.
+# https://docs.gitlab.com/user/duo_agent_platform/flows/execution/
+#
+# Runs flows for this project inside our own duo-workflow-sandbox image (which
+# ships mise), pre-installs the repo's mise toolset, and caches it between runs.
+# NOTE: this file is only read from the default branch.
+image: registry.gitlab.com/gitlab-com/gl-infra/common-ci-tasks-images/duo-workflow-sandbox:latest
+
+setup_script:
+  # duo-workflow-setup (baked into the image) exports some variables as
+  # `export KEY=VALUE` lines on stdout, which we `eval` into the flow's shell.
+  - eval "$(/usr/local/bin/duo-workflow-setup)"
+
+cache:
+  # Re-use installed tools and primed pre-commit hooks as long as the version
+  # pins / hook config are unchanged.
+  key:
+    files:
+      - .tool-versions
+      - .mise.toml
+      - .pre-commit-config.yaml
+  paths:
+    - .cache/mise/data
+    - .cache/mise/cache
+    - .cache/pre-commit
+
+network_policy:
+  # Allow the Sandbox Runtime's recommended allowlist (GitLab, package
+  # registries, etc.) so flows can reach the services they normally need.
+  include_recommended_allowed: true
+  # Additional domains flows are allowed to reach.
+  allowed_domains:
+    - api.osv.dev

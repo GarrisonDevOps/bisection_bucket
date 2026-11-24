@@ -1,0 +1,17 @@
+---
+name: codebase_search
+description: Perform semantic search on a GitLab repository for a given query.
+cut_off_date: 2024-10-17T00:00:00+00:00
+group: group::code creation
+feature_category: duo_chat
+documentation_url: "" # To be added: https://gitlab.com/gitlab-org/gitlab/-/issues/537573
+milestone: "18.1"
+introduced_by_url: "https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/149"
+unit_primitive_issue_url: https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/issues/72
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap
+  - duo_amazon_q

@@ -1,0 +1,16 @@
+---
+name: feature_discovery_search
+description: Search and surface relevant GitLab features.
+cut_off_date: 2026-06-23T00:00:00+00:00
+group: group::activation
+feature_category: activation
+unit_primitive_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603089
+introduced_by_url: https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/250
+backend_services:
+  - ai_gateway
+add_ons:
+  - duo_core
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap
+  - gitlab_credits

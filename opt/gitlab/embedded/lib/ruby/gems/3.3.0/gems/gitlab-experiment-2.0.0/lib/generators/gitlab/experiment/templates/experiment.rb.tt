@@ -1,0 +1,81 @@
+# frozen_string_literal: true
+
+<% if namespaced? -%>
+require_dependency "<%= namespaced_path %>/application_experiment"
+
+<% end -%>
+<% module_namespacing do -%>
+class <%= class_name %>Experiment < ApplicationExperiment
+  # Describe your experiment:
+  #
+  # The variant behaviors defined here will be called whenever the experiment
+  # is run unless overrides are provided.
+
+<% variants.each do |variant| -%>
+<% if %w[control candidate].include?(variant) -%>
+  <%= variant %> { }
+<% else -%>
+  variant(:<%= variant %>) { }
+<% end -%>
+<% end -%>
+
+<% unless options[:skip_comments] -%>
+  # You can register a `control`, `candidate`, or by naming variants directly.
+  # All of these can be registered using blocks, or by specifying a method.
+  #
+  # Here's some ways you might want to register your control logic:
+  #
+  #control { 'class level control' } # yield this block
+  #control :custom_control # call a private method
+  #control # call the private `control_behavior` method
+  #
+  # You can register candidate logic in the same way:
+  #
+  #candidate { 'class level candidate' } # yield this block
+  #candidate :custom_candidate # call a private method
+  #candidate # call the private `candidate_behavior` method
+  #
+  # For named variants it's the same, but a variant name must be provided:
+  #
+  #variant(:example) { 'class level example variant' }
+  #variant(:example) :example_variant
+  #variant(:example) # call the private `example_behavior` method
+  #
+  # Advanced customization:
+  #
+  # Some additional tools are provided to exclude and segment contexts. To
+  # exclude a given context, you can provide rules. For example, we could
+  # exclude all old accounts and all users with a specific first name.
+  #
+  #exclude :old_account?, ->{ context.user.first_name == 'Richard' }
+  #
+  # Segmentation allows for logic to be used to determine which variant a
+  # context will be assigned. Let's say you want to put all old accounts into a
+  # specific variant, and all users with a specific first name in another:
+  #
+  #segment :old_account?, variant: :variant_two
+  #segment(variant: :variant_one) { context.actor.first_name == 'Richard' }
+  #
+  # Utilizing your experiment:
+  #
+  # Once you've defined your experiment, you can run it elsewhere. You'll want
+  # to specify a context (you can read more about context here), and overrides
+  # for any or all of the variants you've registered in your experiment above.
+  #
+  # Here's an example of running the experiment that's sticky to current_user,
+  # with an override for our class level candidate logic:
+  #
+  #   experiment(:<%= file_name %>, user: current_user) do |e|
+  #     e.candidate { 'override <%= class_name %>Experiment behavior' }
+  #   end
+  #
+  # If you want to publish the experiment to the client without running any
+  # code paths on the server, you can simply call publish instead of passing an
+  # experimental block:
+  #
+  #   experiment(:<%= file_name %>, project: project).publish
+  #
+
+<% end -%>
+end
+<% end -%>

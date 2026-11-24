@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "oj/introspect"
+
+TEST_JSON = '{ "foo": "bar" }'
+
+puts Oj::Parser.introspect.parse(TEST_JSON)

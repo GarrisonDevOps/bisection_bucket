@@ -1,0 +1,13 @@
+---
+name: include_user_rule_context
+description: Include user-defined rules and instructions in the conversation context.
+group: group::duo_chat
+feature_category: duo_chat
+introduced_by_url: https://gitlab.com/gitlab-org/cloud-connector/gitlab-cloud-connector/-/merge_requests/167
+backend_services:
+  - ai_gateway
+  - duo_workflow_service
+add_ons:
+  - duo_pro
+  - duo_enterprise
+  - self_hosted_dap

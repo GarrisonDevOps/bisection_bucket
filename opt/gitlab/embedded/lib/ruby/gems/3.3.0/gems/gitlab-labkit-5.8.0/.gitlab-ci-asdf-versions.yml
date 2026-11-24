@@ -1,0 +1,5 @@
+# DO NOT MANUALLY EDIT; Run ./scripts/update-asdf-version-variables.sh to update this
+variables:
+    GL_ASDF_RUBY_VERSION: "4.0.7"
+    GL_ASDF_SHELLCHECK_VERSION: "0.11"
+    GL_ASDF_SHFMT_VERSION: "3.14"

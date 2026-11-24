@@ -1,0 +1,7 @@
+---
+name: vertex_ai_proxy
+unit_primitives:
+  - generate_commit_message
+  - generate_embeddings_codebase
+  - glab_ask_git_command
+  - semantic_search_issue

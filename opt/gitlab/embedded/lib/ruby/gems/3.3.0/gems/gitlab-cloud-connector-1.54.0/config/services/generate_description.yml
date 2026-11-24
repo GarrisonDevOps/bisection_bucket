@@ -1,0 +1,4 @@
+---
+name: generate_description
+unit_primitives:
+  - generate_issue_description

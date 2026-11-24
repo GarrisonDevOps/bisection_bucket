@@ -1,0 +1,6 @@
+---
+name: agent_quick_actions
+gitlab_realm:
+  - self-managed
+unit_primitives:
+  - agent_quick_actions

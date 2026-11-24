@@ -1,0 +1,17 @@
+Description:
+    Stubs out a new experiment and its variants. Pass the experiment name,
+    either CamelCased or under_scored, and a list of variants as arguments.
+
+    To create an experiment within a module, specify the experiment name as a
+    path like 'parent_module/experiment_name'.
+
+    This generates an experiment class in app/experiments and invokes feature
+    flag, and test framework generators.
+
+Example:
+    `rails generate gitlab:experiment NullHypothesis control candidate alt_variant`
+
+    NullHypothesis experiment with default variants.
+        Experiment:   app/experiments/null_hypothesis_experiment.rb
+        Feature Flag: config/feature_flags/experiment/null_hypothesis.yaml
+        Test:         test/experiments/null_hypothesis_experiment_test.rb

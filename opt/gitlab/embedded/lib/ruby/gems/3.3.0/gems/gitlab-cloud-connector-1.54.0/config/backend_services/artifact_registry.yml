@@ -1,0 +1,5 @@
+---
+name: artifact_registry
+project_url: https://gitlab.com/gitlab-org/ops/artifact-registry
+group: group::container registry
+jwt_aud: gitlab-artifact-registry

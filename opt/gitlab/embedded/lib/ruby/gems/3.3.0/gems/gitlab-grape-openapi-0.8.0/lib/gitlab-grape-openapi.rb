@@ -1,0 +1,84 @@
+# frozen_string_literal: true
+
+require "json"
+
+require_relative "gitlab/grape_openapi/version"
+require_relative "gitlab/grape_openapi/grape_compat"
+require_relative "gitlab/grape_openapi/configuration"
+require_relative "gitlab/grape_openapi/generator"
+require_relative "gitlab/grape_openapi/schema_registry"
+require_relative "gitlab/grape_openapi/request_body_registry"
+require_relative "gitlab/grape_openapi/operation_id_registry"
+require_relative "gitlab/grape_openapi/tag_registry"
+require_relative "gitlab/grape_openapi/normalized_path"
+
+# Concerns
+require_relative "gitlab/grape_openapi/concerns/serializable"
+require_relative "gitlab/grape_openapi/concerns/constraint_applier"
+require_relative "gitlab/grape_openapi/concerns/limit_resolver"
+require_relative "gitlab/grape_openapi/concerns/fail_fast_annotatable"
+require_relative "gitlab/grape_openapi/concerns/regex_converter"
+require_relative "gitlab/grape_openapi/concerns/nullability"
+
+# Serializers
+require_relative "gitlab/grape_openapi/serializers/time"
+
+# Converters
+require_relative "gitlab/grape_openapi/converters/coercer_resolver"
+require_relative "gitlab/grape_openapi/converters/cross_field_validation_resolver"
+require_relative "gitlab/grape_openapi/converters/entity_converter"
+require_relative "gitlab/grape_openapi/converters/media_type_resolver"
+require_relative "gitlab/grape_openapi/converters/type_resolver"
+require_relative "gitlab/grape_openapi/converters/tag_converter"
+require_relative "gitlab/grape_openapi/converters/operation_converter"
+require_relative "gitlab/grape_openapi/converters/path_converter"
+require_relative "gitlab/grape_openapi/converters/parameter_converter"
+require_relative "gitlab/grape_openapi/converters/response_converter"
+require_relative "gitlab/grape_openapi/converters/request_body_converter"
+
+# Models
+require_relative "gitlab/grape_openapi/models/request_body/parameter_schema"
+require_relative "gitlab/grape_openapi/models/request_body/parameters"
+require_relative "gitlab/grape_openapi/models/schema"
+require_relative "gitlab/grape_openapi/models/tag"
+require_relative "gitlab/grape_openapi/models/server_variable"
+require_relative "gitlab/grape_openapi/models/server"
+require_relative "gitlab/grape_openapi/models/operation"
+require_relative "gitlab/grape_openapi/models/path_item"
+require_relative "gitlab/grape_openapi/models/response"
+require_relative "gitlab/grape_openapi/models/security_scheme"
+require_relative "gitlab/grape_openapi/models/info"
+require_relative "gitlab/grape_openapi/models/parameter"
+
+module Gitlab
+  module GrapeOpenapi
+    GenerationError = Class.new(StandardError)
+
+    # Raised when `config.info` is missing a title or version.
+    ConfigurationError = Class.new(GenerationError)
+
+    # Raised when a route declares more than one optional path segment
+    # containing a named parameter (e.g. `/foo(/:a)/bar(/:b)`).
+    MultipleOptionalSegmentsError = Class.new(GenerationError)
+
+    # Raised when a schema file named by a `success` declaration cannot be
+    # found, parsed or registered.
+    SchemaFileError = Class.new(GenerationError)
+
+    class << self
+      attr_writer :configuration
+
+      def configuration
+        @configuration ||= Configuration.new
+      end
+
+      def configure
+        yield(configuration)
+      end
+
+      def generate(options = {})
+        Generator.new(options).generate
+      end
+    end
+  end
+end

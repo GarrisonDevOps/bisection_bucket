@@ -1,0 +1,9 @@
+---
+name: anthropic_proxy
+unit_primitives:
+  - generate_commit_message
+  - generate_issue_description
+  - resolve_vulnerability
+  - review_merge_request
+  - summarize_issue_discussions
+  - description_composer

@@ -1,0 +1,16 @@
+[package]
+name = "glaz"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+name = "glaz"
+crate-type = ["cdylib"]
+
+[dependencies]
+glaz-module = { workspace = true }
+glaz-proto = { workspace = true }
+glaz-roles = { workspace = true }
+magnus = { workspace = true }
+prost = { workspace = true }
+rb-sys = { workspace = true }

@@ -1,0 +1,44 @@
+---
+name: self_hosted_models
+gitlab_realm:
+  - gitlab-com
+unit_primitives:
+  - ask_build
+  - ask_commit
+  - ask_epic
+  - ask_issue
+  - ask_merge_request
+  - ask_work_item
+  - codebase_search
+  - complete_code
+  - generate_code
+  - documentation_search
+  - duo_chat
+  - explain_code
+  - fix_code
+  - include_dependency_context
+  - include_file_context
+  - include_issue_context
+  - include_local_git_context
+  - include_merge_request_context
+  - include_snippet_context
+  - include_terminal_context
+  - include_repository_context
+  - include_directory_context
+  - include_os_information_context
+  - include_agent_user_environment_context
+  - include_agent_platform_standard_context
+  - refactor_code
+  - write_tests
+  - troubleshoot_job
+  - summarize_comments
+  - generate_commit_message
+  - summarize_new_merge_request
+  - explain_vulnerability
+  - resolve_vulnerability
+  - generate_issue_description
+  - summarize_review
+  - glab_ask_git_command
+  - review_merge_request
+  - duo_workflow_execute_workflow
+  - duo_agent_platform
