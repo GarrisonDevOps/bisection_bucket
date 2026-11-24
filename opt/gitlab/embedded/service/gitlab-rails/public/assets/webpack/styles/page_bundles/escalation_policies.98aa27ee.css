@@ -1,0 +1,2 @@
+.escalation-policy-modal{width:640px}.rule-close-icon{right:1rem}.right-arrow{height:1px}.right-arrow-head{border-width:0 1px 1px 0;border-color:var(--gray-900,#28272d);top:-2px;left:calc(100% - 5px);transform:rotate(-45deg)}@container panel (width<992px){.escalation-rule-row{flex-wrap:wrap}}@container panel (width>=992px){.rule-condition{flex-shrink:0;flex-basis:25%}}@container panel (width<992px){.rule-condition{width:100%}}.escalation-email-user-dropdown .show.dropdown .dropdown-menu{max-height:300px}
+/*# sourceMappingURL=escalation_policies.98aa27ee.css.map*/

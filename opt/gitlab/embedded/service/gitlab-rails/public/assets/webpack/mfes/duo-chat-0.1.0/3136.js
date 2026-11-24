@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[3136],{34787(a,e,s){function t(a){return{name:"Julia REPL",contains:[{className:"meta.prompt",begin:/^julia>/,relevance:10,starts:{end:/^(?![ ]{6})/,subLanguage:"julia"}}],aliases:["jldoctest"]}}s.r(e),s.d(e,{default:()=>t})}}]);

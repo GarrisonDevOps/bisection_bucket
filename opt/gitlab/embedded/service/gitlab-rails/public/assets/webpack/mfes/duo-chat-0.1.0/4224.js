@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[4224],{37267(_,t,l){l.d(t,{APOLLO_CLIENT_KEY:()=>a});let a="duoChatApolloClient"}}]);

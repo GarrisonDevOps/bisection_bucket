@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[1860],{713344(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Julia REPL",contains:[{className:"meta.prompt",begin:/^julia>/,relevance:10,starts:{end:/^(?![ ]{6})/,subLanguage:"julia"}}],aliases:["jldoctest"]}}})}}]);
+//# sourceMappingURL=hl-julia-repl.aa5070c3.chunk.js.map

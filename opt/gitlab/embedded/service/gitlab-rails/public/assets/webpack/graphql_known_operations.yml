@@ -1,0 +1,5850 @@
+abortK8sPodLogsStream:
+  feature_category: continuous_delivery
+  urgency: default
+action:
+  feature_category: continuous_delivery
+  urgency: default
+activateArtifactRegistry:
+  feature_category: artifact_registry
+  urgency: default
+activateSubscription:
+  feature_category: null
+  urgency: default
+activeBoardItemEE:
+  feature_category: portfolio_management
+  urgency: default
+activeDesignDiscussion:
+  feature_category: null
+  urgency: default
+ActiveGroupId:
+  feature_category: security_asset_inventories
+  urgency: default
+activeGroupsAndProjects:
+  feature_category: null
+  urgency: default
+addAdminVariable:
+  feature_category: null
+  urgency: default
+addCorpus:
+  feature_category: null
+  urgency: default
+addDataToTerraformState:
+  feature_category: null
+  urgency: default
+AddEventTypesToGroupDestination:
+  feature_category: audit_events
+  urgency: default
+AddEventTypesToInstanceDestination:
+  feature_category: audit_events
+  urgency: default
+addGroupVariable:
+  feature_category: null
+  urgency: default
+addItems:
+  feature_category: null
+  urgency: default
+addLinkedItems:
+  feature_category: portfolio_management
+  urgency: default
+AddNamespaceFiltersToGroupDestination:
+  feature_category: audit_events
+  urgency: default
+AddNamespaceFiltersToInstanceDestination:
+  feature_category: audit_events
+  urgency: default
+addPipelineSubscription:
+  feature_category: null
+  urgency: default
+addProjectToSecurityDashboard:
+  feature_category: null
+  urgency: default
+addProjectVariable:
+  feature_category: null
+  urgency: default
+addReviewerPermissions:
+  feature_category: code_review_workflow
+  urgency: default
+adminGroupCountsQuery:
+  feature_category: null
+  urgency: default
+adminGroupsQuery:
+  feature_category: null
+  urgency: default
+adminMemberRole:
+  feature_category: null
+  urgency: default
+adminMemberRolePermissions:
+  feature_category: null
+  urgency: default
+adminMemberRoles:
+  feature_category: null
+  urgency: default
+adminRolesLdapSync:
+  feature_category: null
+  urgency: default
+agentImages:
+  feature_category: null
+  urgency: default
+agentWorkspaces:
+  feature_category: null
+  urgency: default
+AiAction:
+  feature_category: null
+  urgency: default
+aiAgentPlatformFlowMetricsQuery:
+  feature_category: null
+  urgency: default
+aiAgentPlatformFlowsUsageByUserQuery:
+  feature_category: value_stream_management
+  urgency: default
+aiCatalogAgent:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogAgentReferences:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogAvailableProjects:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogBuiltInTools:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogConfiguredItems:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogCustomAndFoundationalItems:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogFlow:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogItems:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogItemStar:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogMcpServer:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogMcpServerCreate:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogMcpServers:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogMcpServerUpdate:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogMcpTools:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogProjects:
+  feature_category: ai_catalog_curation
+  urgency: default
+aiCatalogProjectsMaintainer:
+  feature_category: workflow_catalog
+  urgency: default
+aiCatalogSkill:
+  feature_category: ai_catalog_creation
+  urgency: default
+aiCatalogSkillContent:
+  feature_category: ai_catalog_creation
+  urgency: default
+aiCompletionResponse:
+  feature_category: null
+  urgency: default
+aiCompletionResponseStream:
+  feature_category: null
+  urgency: default
+aiDomainSettingsInstanceUpdate:
+  feature_category: ai_abstraction_layer
+  urgency: default
+aiDomainSettingsNamespaceUpdate:
+  feature_category: ai_abstraction_layer
+  urgency: default
+aiFeatureSettingModelAllowlistUpdate:
+  feature_category: self-hosted_models
+  urgency: default
+aiFoundationalChatAgent:
+  feature_category: workflow_catalog
+  urgency: default
+aiMetricsQuery:
+  feature_category: null
+  urgency: default
+aiModelSelectionNamespaceModelAllowlistUpdate:
+  feature_category: self-hosted_models
+  urgency: default
+aiResolveVulnerability:
+  feature_category: null
+  urgency: default
+aiSuggestedReviewersUpdated:
+  feature_category: code_review_workflow
+  urgency: default
+alertAssignees:
+  feature_category: null
+  urgency: default
+alertDetailsAssignees:
+  feature_category: null
+  urgency: default
+alertSetAssignees:
+  feature_category: null
+  urgency: default
+alertsHelpUrl:
+  feature_category: null
+  urgency: default
+alertTodoCreate:
+  feature_category: null
+  urgency: default
+allReleases:
+  feature_category: null
+  urgency: default
+analyticsGetGroupProjects:
+  feature_category: null
+  urgency: default
+apiFuzzingCiConfiguration:
+  feature_category: null
+  urgency: default
+approvalRules:
+  feature_category: null
+  urgency: default
+approvalRulesApprovalStateUpdatedEE:
+  feature_category: null
+  urgency: default
+approvalSummary:
+  feature_category: code_review_workflow
+  urgency: default
+approvalSummarySubscription:
+  feature_category: code_review_workflow
+  urgency: default
+approveAllPendingMembers:
+  feature_category: null
+  urgency: default
+approvedByEE:
+  feature_category: null
+  urgency: default
+approveDeployment:
+  feature_category: continuous_delivery
+  urgency: default
+approvePendingMember:
+  feature_category: null
+  urgency: default
+archiveDesign:
+  feature_category: null
+  urgency: default
+assigneeOrReviewer:
+  feature_category: code_review_workflow
+  urgency: default
+assigneeOrReviewerCount:
+  feature_category: code_review_workflow
+  urgency: default
+AutoCommitMessagePreference:
+  feature_category: wiki
+  urgency: default
+autoMergeEnabledEE:
+  feature_category: code_review_workflow
+  urgency: default
+autoMergeFailedQuery:
+  feature_category: code_review_workflow
+  urgency: default
+AutoRemediationProfileAttach:
+  feature_category: software_composition_analysis
+  urgency: default
+AvailableSecurityScanProfiles:
+  feature_category: security_testing_configuration
+  urgency: default
+awardAchievement:
+  feature_category: null
+  urgency: default
+blockingMergeRequestsStatusSubscription:
+  feature_category: code_review_workflow
+  urgency: default
+BoardCurrentIteration:
+  feature_category: portfolio_management
+  urgency: default
+BoardEE:
+  feature_category: portfolio_management
+  urgency: default
+boardEpicSetSubscription:
+  feature_category: null
+  urgency: default
+boardInheritedIterations:
+  feature_category: team_planning
+  urgency: default
+boardInheritedMilestones:
+  feature_category: team_planning
+  urgency: default
+boardInheritedParent:
+  feature_category: team_planning
+  urgency: default
+BoardLabels:
+  feature_category: portfolio_management
+  urgency: default
+BoardListCount:
+  feature_category: portfolio_management
+  urgency: default
+BoardListCountEE:
+  feature_category: team_planning
+  urgency: default
+boardListEpics:
+  feature_category: portfolio_management
+  urgency: default
+BoardListsEE:
+  feature_category: planning_views
+  urgency: default
+boardListUpdateLimitMetrics:
+  feature_category: portfolio_management
+  urgency: default
+boardsAppError:
+  feature_category: portfolio_management
+  urgency: default
+boardsGetGroupProjects:
+  feature_category: portfolio_management
+  urgency: default
+branchRuleDelete:
+  feature_category: null
+  urgency: default
+bulkDestroyJobArtifacts:
+  feature_category: null
+  urgency: default
+bulkEnableDevopsAdoptionNamespaces:
+  feature_category: null
+  urgency: default
+bulkGrantArtifactRegistryRepositoryRoles:
+  feature_category: artifact_registry
+  urgency: default
+bulkImportSourceGroups:
+  feature_category: null
+  urgency: default
+bulkResolveTodos:
+  feature_category: null
+  urgency: default
+bulkRunnerDelete:
+  feature_category: null
+  urgency: default
+bulkSnoozeTodos:
+  feature_category: null
+  urgency: default
+bulkUnsnoozeTodos:
+  feature_category: null
+  urgency: default
+bulkUpdateSecurityAttributes:
+  feature_category: null
+  urgency: default
+BurnupTimesSeriesIterationData:
+  feature_category: null
+  urgency: default
+BurnupTimesSeriesMilestoneData:
+  feature_category: null
+  urgency: default
+bypassSecurityPolicyExceptionViolations:
+  feature_category: null
+  urgency: default
+bypassSecurityPolicyViolations:
+  feature_category: null
+  urgency: default
+cancelAutoStop:
+  feature_category: continuous_delivery
+  urgency: default
+cancelJob:
+  feature_category: null
+  urgency: default
+cancelPipeline:
+  feature_category: null
+  urgency: default
+cancelPipelineMiniGraphJob:
+  feature_category: null
+  urgency: default
+cancelPipelineMutation:
+  feature_category: null
+  urgency: default
+cancelReassignment:
+  feature_category: null
+  urgency: default
+cancelVulnerabilityWorkflow:
+  feature_category: vulnerability_management
+  urgency: default
+CanCreatePersonalSnippet:
+  feature_category: null
+  urgency: default
+CanCreateProjectSnippet:
+  feature_category: null
+  urgency: default
+canReadGroupRunnerCloudProvisioningInfo:
+  feature_category: null
+  urgency: default
+canReadProjectRunnerCloudProvisioningInfo:
+  feature_category: null
+  urgency: default
+catalogReleases:
+  feature_category: null
+  urgency: default
+catalogResourcesCreate:
+  feature_category: pipeline_composition
+  urgency: default
+catalogResourcesDestroy:
+  feature_category: pipeline_composition
+  urgency: default
+cdApplication:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationDeploymentFlow:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationDeployments:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationFlow:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationFlowDefinitionCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationLinkCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationLinkDelete:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationLinks:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationLinkUpdate:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationName:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationReleases:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplications:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationServices:
+  feature_category: continuous_delivery
+  urgency: default
+cdApplicationServiceVersions:
+  feature_category: continuous_delivery
+  urgency: default
+cdAvailableAgents:
+  feature_category: continuous_delivery
+  urgency: default
+cdDeploymentUpdated:
+  feature_category: continuous_delivery
+  urgency: default
+cdEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+cdEnvironmentCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdEnvironmentName:
+  feature_category: continuous_delivery
+  urgency: default
+cdEnvironments:
+  feature_category: continuous_delivery
+  urgency: default
+cdEnvironmentTiers:
+  feature_category: continuous_delivery
+  urgency: default
+cdRolloutApprovalGates:
+  feature_category: continuous_delivery
+  urgency: default
+cdRolloutCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdRolloutFlow:
+  feature_category: continuous_delivery
+  urgency: default
+cdRolloutGateResolve:
+  feature_category: continuous_delivery
+  urgency: default
+cdRolloutGateUpdated:
+  feature_category: continuous_delivery
+  urgency: default
+cdRolloutStepUpdated:
+  feature_category: continuous_delivery
+  urgency: default
+cdService:
+  feature_category: continuous_delivery
+  urgency: default
+cdServiceUpdated:
+  feature_category: continuous_delivery
+  urgency: default
+cdVersionCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdVersionSet:
+  feature_category: continuous_delivery
+  urgency: default
+cdVersionSetCreate:
+  feature_category: continuous_delivery
+  urgency: default
+cdVersionSetUpdated:
+  feature_category: continuous_delivery
+  urgency: default
+changeLifecycle:
+  feature_category: team_planning
+  urgency: default
+chat:
+  feature_category: null
+  urgency: default
+chatWithNamespace:
+  feature_category: null
+  urgency: default
+ciConfigVariables:
+  feature_category: null
+  urgency: default
+CiLint:
+  feature_category: null
+  urgency: default
+ciPipelineCreationInputs:
+  feature_category: null
+  urgency: default
+ciPipelineCreationRequestsUpdated:
+  feature_category: null
+  urgency: default
+clearArtifactRegistryRepositoryCache:
+  feature_category: artifact_registry
+  urgency: default
+clearRunnerCache:
+  feature_category: null
+  urgency: default
+clusterAgents:
+  feature_category: null
+  urgency: default
+codeSuggestionsAcceptanceByIdeQuery:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+codeSuggestionsAcceptanceByLanguageQuery:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+commitCIFile:
+  feature_category: null
+  urgency: default
+CommitContainingBranches:
+  feature_category: null
+  urgency: default
+CommitContainingTags:
+  feature_category: null
+  urgency: default
+commitPipelineStatusesUpdated:
+  feature_category: continuous_integration
+  urgency: default
+commitPopover:
+  feature_category: source_code_management
+  urgency: default
+CommitReferences:
+  feature_category: null
+  urgency: default
+complianceFrameworkNameCheck:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworkPolicies:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworksGroupList:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworksGroupProjects:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworksInNamespace:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworksProjectList:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworksWithControls:
+  feature_category: compliance_management
+  urgency: default
+complianceFrameworkTemplates:
+  feature_category: compliance_management
+  urgency: default
+complianceRequirementControls:
+  feature_category: compliance_management
+  urgency: default
+complianceRequirementsControls:
+  feature_category: compliance_management
+  urgency: default
+complianceViolationNoteCreated:
+  feature_category: compliance_management
+  urgency: default
+complianceViolationNoteDeleted:
+  feature_category: compliance_management
+  urgency: default
+complianceViolationNoteUpdated:
+  feature_category: compliance_management
+  urgency: default
+configureContainerScanning:
+  feature_category: null
+  urgency: default
+configureDependencyScanning:
+  feature_category: null
+  urgency: default
+configureSast:
+  feature_category: null
+  urgency: default
+configureSastIac:
+  feature_category: null
+  urgency: default
+configureSecretDetection:
+  feature_category: null
+  urgency: default
+confirmDisable:
+  feature_category: continuous_delivery
+  urgency: default
+confirmRemoveKey:
+  feature_category: continuous_delivery
+  urgency: default
+contacts:
+  feature_category: null
+  urgency: default
+contactsCountByState:
+  feature_category: null
+  urgency: default
+containerUpstreamCacheDelete:
+  feature_category: virtual_registry
+  urgency: default
+containerUpstreamCreate:
+  feature_category: virtual_registry
+  urgency: default
+containerUpstreamTest:
+  feature_category: virtual_registry
+  urgency: default
+containerUpstreamUpdate:
+  feature_category: virtual_registry
+  urgency: default
+containerVirtualRegistryCacheDelete:
+  feature_category: virtual_registry
+  urgency: default
+containerVirtualRegistryUpdate:
+  feature_category: virtual_registry
+  urgency: default
+containerVirtualRegistryUpstreamCreate:
+  feature_category: virtual_registry
+  urgency: default
+containerVirtualRegistryUpstreamDelete:
+  feature_category: virtual_registry
+  urgency: default
+contributorCountQuery:
+  feature_category: null
+  urgency: default
+CorpusCreate:
+  feature_category: null
+  urgency: default
+Countries:
+  feature_category: null
+  urgency: default
+createAchievement:
+  feature_category: null
+  urgency: default
+createAdminMemberRole:
+  feature_category: null
+  urgency: default
+createAiCatalogAgent:
+  feature_category: workflow_catalog
+  urgency: default
+createAiCatalogFlow:
+  feature_category: workflow_catalog
+  urgency: default
+createAiCatalogItemConsumer:
+  feature_category: ai_catalog_curation
+  urgency: default
+createAiCatalogItemConsumerBulk:
+  feature_category: ai_catalog_curation
+  urgency: default
+createAiCatalogThirdPartyFlow:
+  feature_category: workflow_catalog
+  urgency: default
+createAiDuoWorkflow:
+  feature_category: null
+  urgency: default
+createAiFlowTrigger:
+  feature_category: dap_triggers
+  urgency: default
+createAlertIssue:
+  feature_category: null
+  urgency: default
+createArtifactRegistryRepository:
+  feature_category: artifact_registry
+  urgency: default
+createBoard:
+  feature_category: portfolio_management
+  urgency: default
+createBoardList:
+  feature_category: portfolio_management
+  urgency: default
+createBoardListEE:
+  feature_category: portfolio_management
+  urgency: default
+createBranch:
+  feature_category: null
+  urgency: default
+createBranchRule:
+  feature_category: null
+  urgency: default
+createClusterAgentEE:
+  feature_category: null
+  urgency: default
+createClusterAgentMapping:
+  feature_category: null
+  urgency: default
+createClusterAgentToken:
+  feature_category: null
+  urgency: default
+CreateCommit:
+  feature_category: null
+  urgency: default
+createComplianceFramework:
+  feature_category: null
+  urgency: default
+createComplianceFrameworkFromTemplate:
+  feature_category: compliance_management
+  urgency: default
+createComplianceRequirement:
+  feature_category: compliance_management
+  urgency: default
+createComplianceViolationNote:
+  feature_category: compliance_management
+  urgency: default
+createContact:
+  feature_category: null
+  urgency: default
+createContainerProtectionRepositoryRule:
+  feature_category: null
+  urgency: default
+createContainerProtectionTagRule:
+  feature_category: null
+  urgency: default
+createContainerRegistry:
+  feature_category: virtual_registry
+  urgency: default
+createCustomEmoji:
+  feature_category: code_review_workflow
+  urgency: default
+createCustomerRelationsOrganization:
+  feature_category: null
+  urgency: default
+createCustomField:
+  feature_category: team_planning
+  urgency: default
+createEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+CreateEpic:
+  feature_category: portfolio_management
+  urgency: default
+createEpicBoard:
+  feature_category: portfolio_management
+  urgency: default
+CreateEpicBoardList:
+  feature_category: portfolio_management
+  urgency: default
+createFunctionalVerificationWorkflow:
+  feature_category: duo_agent_platform
+  urgency: default
+createGranularPersonalAccessToken:
+  feature_category: null
+  urgency: default
+createGroupSecret:
+  feature_category: secrets_management
+  urgency: default
+createGroupSecretsPermission:
+  feature_category: secrets_management
+  urgency: default
+createHttpIntegrationEE:
+  feature_category: null
+  urgency: default
+createImageWorkItemDiffNote:
+  feature_category: null
+  urgency: default
+CreateIssuableResourceLink:
+  feature_category: null
+  urgency: default
+CreateIssue:
+  feature_category: portfolio_management
+  urgency: default
+createIteration2:
+  feature_category: team_planning
+  urgency: default
+createIterationCadence:
+  feature_category: team_planning
+  urgency: default
+createLabel:
+  feature_category: null
+  urgency: default
+createMemberRole:
+  feature_category: null
+  urgency: default
+createMergeRequest:
+  feature_category: null
+  urgency: default
+createMergeRequestWorkItemRelation:
+  feature_category: portfolio_management
+  urgency: default
+createModel:
+  feature_category: null
+  urgency: default
+createModelVersion:
+  feature_category: null
+  urgency: default
+createNewAgentToken:
+  feature_category: null
+  urgency: default
+createNewComplianceFramework:
+  feature_category: compliance_management
+  urgency: default
+createOrganizationClusterAgentMapping:
+  feature_category: null
+  urgency: default
+createPackagesProtectionRule:
+  feature_category: null
+  urgency: default
+createPipelineSchedule:
+  feature_category: null
+  urgency: default
+createPolicyProjectAsync:
+  feature_category: security_policy_management
+  urgency: default
+createProjectSecret:
+  feature_category: secrets_management
+  urgency: default
+createRelease:
+  feature_category: null
+  urgency: default
+createReleaseAssetLink:
+  feature_category: null
+  urgency: default
+createRequirement:
+  feature_category: null
+  urgency: default
+createSecretsPermission:
+  feature_category: secrets_management
+  urgency: default
+createSecurityAttributes:
+  feature_category: null
+  urgency: default
+createSecurityCategory:
+  feature_category: null
+  urgency: default
+createSelfHostedModel:
+  feature_category: null
+  urgency: default
+CreateSnippet:
+  feature_category: null
+  urgency: default
+createStatusCheck:
+  feature_category: null
+  urgency: default
+createTestCase:
+  feature_category: null
+  urgency: default
+CreateTimelineEvent:
+  feature_category: null
+  urgency: default
+createTimelog:
+  feature_category: null
+  urgency: default
+createValueStream:
+  feature_category: null
+  urgency: default
+createWikiPageNote:
+  feature_category: null
+  urgency: default
+createWorkItem:
+  feature_category: team_planning
+  urgency: default
+createWorkItemDesignNote:
+  feature_category: null
+  urgency: default
+createWorkItemFeatures:
+  feature_category: team_planning
+  urgency: default
+createWorkItemNote:
+  feature_category: team_planning
+  urgency: default
+createWorkItemType:
+  feature_category: team_planning
+  urgency: default
+currentIntegration:
+  feature_category: null
+  urgency: default
+currentUser:
+  feature_category: user_profile
+  urgency: default
+CurrentUserFrecentGroups:
+  feature_category: null
+  urgency: default
+CurrentUserFrecentGroupsWithDashboards:
+  feature_category: null
+  urgency: default
+CurrentUserFrecentProjects:
+  feature_category: null
+  urgency: default
+CurrentUserFrecentProjectsWithDashboards:
+  feature_category: null
+  urgency: default
+currentUserMergeRequestUpdatedSubscription:
+  feature_category: code_review_workflow
+  urgency: default
+currentUserNamespace:
+  feature_category: null
+  urgency: default
+customEmojiPermissions:
+  feature_category: code_review_workflow
+  urgency: default
+customFieldArchive:
+  feature_category: team_planning
+  urgency: default
+customFieldSelectOptions:
+  feature_category: team_planning
+  urgency: default
+customFieldUnarchive:
+  feature_category: team_planning
+  urgency: default
+DastFailedSiteValidations:
+  feature_category: null
+  urgency: default
+dastProfileCreate:
+  feature_category: null
+  urgency: default
+dastProfileDelete:
+  feature_category: null
+  urgency: default
+dastProfileRun:
+  feature_category: null
+  urgency: default
+dastProfileUpdate:
+  feature_category: null
+  urgency: default
+dastScannerProfileCreate:
+  feature_category: null
+  urgency: default
+dastScannerProfileDelete:
+  feature_category: null
+  urgency: default
+DastScannerProfiles:
+  feature_category: null
+  urgency: default
+dastScannerProfileUpdate:
+  feature_category: null
+  urgency: default
+dastSiteProfileCreate:
+  feature_category: null
+  urgency: default
+dastSiteProfileDelete:
+  feature_category: null
+  urgency: default
+DastSiteProfiles:
+  feature_category: null
+  urgency: default
+dastSiteProfileUpdate:
+  feature_category: null
+  urgency: default
+dastSiteTokenCreate:
+  feature_category: null
+  urgency: default
+dastSiteValidationCreate:
+  feature_category: null
+  urgency: default
+dastSiteValidationRevoke:
+  feature_category: null
+  urgency: default
+deleteAchievement:
+  feature_category: user_profile
+  urgency: default
+deleteAdminMemberRole:
+  feature_category: null
+  urgency: default
+deleteAdminVariable:
+  feature_category: null
+  urgency: default
+deleteAiCatalogAgent:
+  feature_category: workflow_catalog
+  urgency: default
+deleteAiCatalogFlow:
+  feature_category: workflow_catalog
+  urgency: default
+deleteAiCatalogItemConsumer:
+  feature_category: ai_catalog_curation
+  urgency: default
+deleteAiCatalogThirdPartyFlow:
+  feature_category: workflow_catalog
+  urgency: default
+deleteAiFlowTrigger:
+  feature_category: dap_triggers
+  urgency: default
+deleteArtifactRegistryArtifact:
+  feature_category: artifact_registry
+  urgency: default
+deleteArtifactRegistryManifest:
+  feature_category: artifact_registry
+  urgency: default
+deleteArtifactRegistryRepository:
+  feature_category: artifact_registry
+  urgency: default
+deleteArtifactRegistryVersion:
+  feature_category: artifact_registry
+  urgency: default
+deleteBranchRuleSquashOption:
+  feature_category: null
+  urgency: default
+deleteCar:
+  feature_category: null
+  urgency: default
+deleteClusterAgent:
+  feature_category: null
+  urgency: default
+deleteClusterAgentMapping:
+  feature_category: null
+  urgency: default
+deleteComplianceFramework:
+  feature_category: compliance_management
+  urgency: default
+deleteComplianceRequirement:
+  feature_category: compliance_management
+  urgency: default
+deleteContainerCacheEntry:
+  feature_category: virtual_registry
+  urgency: default
+deleteContainerProtectionRepositoryRule:
+  feature_category: null
+  urgency: default
+deleteContainerProtectionTagRule:
+  feature_category: null
+  urgency: default
+deleteContainerRegistry:
+  feature_category: virtual_registry
+  urgency: default
+deleteContainerUpstream:
+  feature_category: virtual_registry
+  urgency: default
+deleteConversationThread:
+  feature_category: null
+  urgency: default
+deleteCorpus:
+  feature_category: null
+  urgency: default
+deleteCustomDashboard:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+deleteCustomEmoji:
+  feature_category: code_review_workflow
+  urgency: default
+deleteDuoWorkflowsWorkflow:
+  feature_category: null
+  urgency: default
+deleteEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+DeleteEventTypesFromGroupDestination:
+  feature_category: audit_events
+  urgency: default
+deleteGroupDestination:
+  feature_category: audit_events
+  urgency: default
+deleteGroupNamespaceFiltersFromDestination:
+  feature_category: audit_events
+  urgency: default
+deleteGroupSavedReply:
+  feature_category: null
+  urgency: default
+deleteGroupSecret:
+  feature_category: secrets_management
+  urgency: default
+deleteGroupSecretsPermission:
+  feature_category: secrets_management
+  urgency: default
+deleteGroupVariable:
+  feature_category: null
+  urgency: default
+deleteInstanceDestination:
+  feature_category: audit_events
+  urgency: default
+DeleteInstanceEventTypeFiltersFromDestination:
+  feature_category: audit_events
+  urgency: default
+deleteInstanceNamespaceFiltersFromDestination:
+  feature_category: audit_events
+  urgency: default
+DeleteIssuableResourceLink:
+  feature_category: null
+  urgency: default
+deleteIteration:
+  feature_category: team_planning
+  urgency: default
+deleteKubernetesPod:
+  feature_category: continuous_delivery
+  urgency: default
+deleteMemberRole:
+  feature_category: null
+  urgency: default
+deleteModel:
+  feature_category: null
+  urgency: default
+deleteModelVersion:
+  feature_category: null
+  urgency: default
+deleteOrganizationClusterAgentMapping:
+  feature_category: null
+  urgency: default
+deletePackagesProtectionRule:
+  feature_category: null
+  urgency: default
+DeletePagesDeployment:
+  feature_category: null
+  urgency: default
+deletePermanentlyState:
+  feature_category: infrastructure_as_code
+  urgency: default
+deletePipeline:
+  feature_category: null
+  urgency: default
+deletePipelineSchedule:
+  feature_category: null
+  urgency: default
+deletePipelineSubscription:
+  feature_category: null
+  urgency: default
+deleteProjectFromSecurityDashboard:
+  feature_category: null
+  urgency: default
+deleteProjectSavedReply:
+  feature_category: null
+  urgency: default
+deleteProjectSecret:
+  feature_category: secrets_management
+  urgency: default
+deleteProjectVariable:
+  feature_category: null
+  urgency: default
+deleteRelease:
+  feature_category: null
+  urgency: default
+deleteReleaseAssetLink:
+  feature_category: null
+  urgency: default
+deleteSavedReply:
+  feature_category: null
+  urgency: default
+deleteSecretsPermission:
+  feature_category: secrets_management
+  urgency: default
+deleteSecurityAttribute:
+  feature_category: null
+  urgency: default
+deleteSecurityCategory:
+  feature_category: null
+  urgency: default
+deleteSelfHostedModel:
+  feature_category: null
+  urgency: default
+deleteSkillFiles:
+  feature_category: compliance_management
+  urgency: default
+deleteSkillRemovalBranch:
+  feature_category: compliance_management
+  urgency: default
+DeleteSnippet:
+  feature_category: null
+  urgency: default
+deleteStatusCheck:
+  feature_category: null
+  urgency: default
+deleteTimelog:
+  feature_category: null
+  urgency: default
+deleteUserCallout:
+  feature_category: navigation
+  urgency: default
+deleteWikiPageNote:
+  feature_category: null
+  urgency: default
+deleteWorkItem:
+  feature_category: team_planning
+  urgency: default
+deleteWorkItemNote:
+  feature_category: team_planning
+  urgency: default
+dependenciesGetGroupProjects:
+  feature_category: null
+  urgency: default
+deploy:
+  feature_category: continuous_delivery
+  urgency: default
+designNoteWorkItemToggleAwardEmoji:
+  feature_category: null
+  urgency: default
+destroyArtifact:
+  feature_category: null
+  urgency: default
+destroyBoard:
+  feature_category: portfolio_management
+  urgency: default
+DestroyBoardList:
+  feature_category: portfolio_management
+  urgency: default
+destroyComplianceViolationNote:
+  feature_category: compliance_management
+  urgency: default
+destroyContainerRepository:
+  feature_category: null
+  urgency: default
+destroyContainerRepositoryTags:
+  feature_category: null
+  urgency: default
+destroyEpicBoard:
+  feature_category: portfolio_management
+  urgency: default
+DestroyEpicBoardList:
+  feature_category: portfolio_management
+  urgency: default
+DestroyEscalationPolicy:
+  feature_category: null
+  urgency: default
+destroyHttpIntegration:
+  feature_category: null
+  urgency: default
+destroyIterationCadence:
+  feature_category: team_planning
+  urgency: default
+destroyMergeRequestWorkItemRelation:
+  feature_category: team_planning
+  urgency: default
+destroyPackageFiles:
+  feature_category: package_registry
+  urgency: default
+destroyPackages:
+  feature_category: package_registry
+  urgency: default
+DestroyTimelineEvent:
+  feature_category: null
+  urgency: default
+destroyWorkItemDesignNote:
+  feature_category: null
+  urgency: default
+devfileValidate:
+  feature_category: null
+  urgency: default
+devopsAdoptionEnabledNamespaces:
+  feature_category: null
+  urgency: default
+devopsAdoptionOverviewChart:
+  feature_category: null
+  urgency: default
+diffGeneratedSubscription:
+  feature_category: null
+  urgency: default
+disableArtifactRegistry:
+  feature_category: artifact_registry
+  urgency: default
+disableDevopsAdoptionNamespace:
+  feature_category: null
+  urgency: default
+disableKey:
+  feature_category: continuous_delivery
+  urgency: default
+discardChanges:
+  feature_category: null
+  urgency: default
+discoverFluxHelmReleasesQuery:
+  feature_category: continuous_delivery
+  urgency: default
+discoverFluxKustomizationsQuery:
+  feature_category: continuous_delivery
+  urgency: default
+dismissFinding:
+  feature_category: null
+  urgency: default
+DismissPipelineGraphCallout:
+  feature_category: null
+  urgency: default
+dismissUserCallout:
+  feature_category: null
+  urgency: default
+dismissUserGroupCallout:
+  feature_category: null
+  urgency: default
+dissociateArtifactRegistryUpstreamRepository:
+  feature_category: artifact_registry
+  urgency: default
+divergedFromUpstream:
+  feature_category: source_code_management
+  urgency: default
+doraMetricsByProjectQuery:
+  feature_category: null
+  urgency: default
+doraMetricsQuery:
+  feature_category: null
+  urgency: default
+downstreamPipelineStatusUpdated:
+  feature_category: continuous_integration
+  urgency: default
+duoAgentPlatformAgentFlowsUsersCountQuery:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+duoAgentPlatformChatsQuery:
+  feature_category: value_stream_management
+  urgency: default
+duoAgentSessionsOnWorkItemUpdated:
+  feature_category: duo_agent_platform
+  urgency: default
+duoChatAvailable:
+  feature_category: duo_agent_platform
+  urgency: default
+duoClearNamespaceAvailability:
+  feature_category: ai_abstraction_layer
+  urgency: default
+duoFeatureUsageQuery:
+  feature_category: value_stream_management
+  urgency: default
+duoPipelinesRateQuery:
+  feature_category: value_stream_management
+  urgency: default
+duoPowerUsersCountQuery:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+duoSetNamespaceAvailability:
+  feature_category: ai_abstraction_layer
+  urgency: default
+duoUsedCountQuery:
+  feature_category: value_stream_management
+  urgency: default
+duoUserFeedback:
+  feature_category: null
+  urgency: default
+editBrachRuleEE:
+  feature_category: null
+  urgency: default
+editModel:
+  feature_category: null
+  urgency: default
+editModelVersion:
+  feature_category: null
+  urgency: default
+editNamespaceJobTokenScope:
+  feature_category: null
+  urgency: default
+enableArtifactRegistry:
+  feature_category: artifact_registry
+  urgency: default
+enabledScans:
+  feature_category: vulnerability_management
+  urgency: default
+enableGroupSecretManager:
+  feature_category: secrets_management
+  urgency: default
+enableInstanceSecretsManagerAddOn:
+  feature_category: secrets_management
+  urgency: default
+enableKey:
+  feature_category: continuous_delivery
+  urgency: default
+enableSecretManager:
+  feature_category: secrets_management
+  urgency: default
+enableSecretsManagerAddOn:
+  feature_category: secrets_management
+  urgency: default
+enrollInstanceSecretsManager:
+  feature_category: secrets_management
+  urgency: default
+enrollNamespaceSecretsManager:
+  feature_category: secrets_management
+  urgency: default
+environment:
+  feature_category: continuous_delivery
+  urgency: default
+environmentToChangeCanary:
+  feature_category: continuous_delivery
+  urgency: default
+environmentToDelete:
+  feature_category: continuous_delivery
+  urgency: default
+environmentToRollback:
+  feature_category: continuous_delivery
+  urgency: default
+environmentToStop:
+  feature_category: continuous_delivery
+  urgency: default
+EpicBoard:
+  feature_category: portfolio_management
+  urgency: default
+EpicBoardListEE:
+  feature_category: portfolio_management
+  urgency: default
+epicBoardListEpicsWithColor:
+  feature_category: planning_views
+  urgency: default
+EpicBoards:
+  feature_category: portfolio_management
+  urgency: default
+epicChildEpics:
+  feature_category: portfolio_management
+  urgency: default
+epicConfidential:
+  feature_category: null
+  urgency: default
+epicDueDate:
+  feature_category: null
+  urgency: default
+epicLabels:
+  feature_category: null
+  urgency: default
+EpicMoveList:
+  feature_category: portfolio_management
+  urgency: default
+epicParticipants:
+  feature_category: null
+  urgency: default
+epicReference:
+  feature_category: null
+  urgency: default
+epicStartDate:
+  feature_category: null
+  urgency: default
+epicSubscribed:
+  feature_category: null
+  urgency: default
+epicTodos:
+  feature_category: null
+  urgency: default
+errorDetails:
+  feature_category: null
+  urgency: default
+escalationPolicyCreate:
+  feature_category: null
+  urgency: default
+escalationPolicyUpdate:
+  feature_category: null
+  urgency: default
+escalationStatusQuery:
+  feature_category: null
+  urgency: default
+exploreGroups:
+  feature_category: groups_and_projects
+  urgency: default
+exploreProjects:
+  feature_category: groups_and_projects
+  urgency: default
+exportProjectMergeRequestsCsvEE:
+  feature_category: code_review_workflow
+  urgency: default
+exportRequirements:
+  feature_category: null
+  urgency: default
+failedControls:
+  feature_category: compliance_management
+  urgency: default
+failedRequirements:
+  feature_category: compliance_management
+  urgency: default
+fetchDeployment:
+  feature_category: continuous_delivery
+  urgency: default
+fetchEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+fetchRelatedMergeRequests:
+  feature_category: team_planning
+  urgency: default
+FindingReportsComparer:
+  feature_category: vulnerability_management
+  urgency: default
+finishedPipelinesUsingDapQuery:
+  feature_category: value_stream_management
+  urgency: default
+flowMetricsCommitsQuery:
+  feature_category: null
+  urgency: default
+flowMetricsQuery:
+  feature_category: null
+  urgency: default
+fossFlowMetricsQuery:
+  feature_category: null
+  urgency: default
+frameworkCoverage:
+  feature_category: compliance_management
+  urgency: default
+frameworksNeedsAttention:
+  feature_category: compliance_management
+  urgency: default
+getAccessTokenPermissions:
+  feature_category: system_access
+  urgency: default
+getAchievement:
+  feature_category: user_profile
+  urgency: default
+getActiveMergeTrains:
+  feature_category: null
+  urgency: default
+getAddOnEligibleUsers:
+  feature_category: null
+  urgency: default
+getAddOnPurchases:
+  feature_category: null
+  urgency: default
+getAdminProjectCounts:
+  feature_category: null
+  urgency: default
+getAdminProjects:
+  feature_category: null
+  urgency: default
+getAdminRoles:
+  feature_category: null
+  urgency: default
+getAgentActivityEvents:
+  feature_category: null
+  urgency: default
+getAgentArtifacts:
+  feature_category: ai_agents
+  urgency: default
+getAgentArtifactsAiGovernanceSessions:
+  feature_category: ai_agents
+  urgency: default
+getAgentArtifactsAiGovernanceSessionsFiltered:
+  feature_category: ai_agents
+  urgency: default
+getAgentArtifactsProjects:
+  feature_category: ai_agents
+  urgency: default
+getAgentFlow:
+  feature_category: duo_agent_platform
+  urgency: default
+getAgentFlowConfig:
+  feature_category: null
+  urgency: default
+getAgentFlowLinkedItems:
+  feature_category: duo_agent_platform
+  urgency: default
+getAgentFlowMessages:
+  feature_category: duo_agent_platform
+  urgency: default
+getAgentFlows:
+  feature_category: duo_agent_platform
+  urgency: default
+getAgentFlowSource:
+  feature_category: duo_agent_platform
+  urgency: default
+getAgentPlatformCreditsSyncedAt:
+  feature_category: value_stream_management
+  urgency: default
+getAgents:
+  feature_category: null
+  urgency: default
+getAgentsEE:
+  feature_category: null
+  urgency: default
+getAgentSession:
+  feature_category: source_code_management
+  urgency: default
+getAgentSessionLinks:
+  feature_category: source_code_management
+  urgency: default
+getAgentSessionLocation:
+  feature_category: duo_agent_platform
+  urgency: default
+getAgentsWithMappingStatus:
+  feature_category: null
+  urgency: default
+getAggregatePipelineAnalytics:
+  feature_category: null
+  urgency: default
+getAiAgentIdentities:
+  feature_category: compliance_management
+  urgency: default
+getAiChatAvailableModels:
+  feature_category: null
+  urgency: default
+getAiChatContextPresets:
+  feature_category: null
+  urgency: default
+getAiConversationThreads:
+  feature_category: null
+  urgency: default
+getAiDomainSettings:
+  feature_category: ai_abstraction_layer
+  urgency: default
+getAiFeatureSetting:
+  feature_category: null
+  urgency: default
+getAiFlowTriggerRunStats:
+  feature_category: dap_triggers
+  urgency: default
+getAiFlowTriggers:
+  feature_category: dap_triggers
+  urgency: default
+getAiGovernanceMetrics:
+  feature_category: compliance_management
+  urgency: default
+getAiGovernanceSessionDistribution:
+  feature_category: compliance_management
+  urgency: default
+getAiGovernanceSessions:
+  feature_category: compliance_management
+  urgency: default
+getAiGovernanceToolCalls:
+  feature_category: compliance_management
+  urgency: default
+getAiGovernanceToolCallsByRisk:
+  feature_category: compliance_management
+  urgency: default
+getAiMessagesWithThread:
+  feature_category: null
+  urgency: default
+getAiNamespaceFeatureSettings:
+  feature_category: null
+  urgency: default
+GetAiPanelInfoToggleStates:
+  feature_category: duo_agent_platform
+  urgency: default
+getAiPanelIsMaximized:
+  feature_category: duo_agent_platform
+  urgency: default
+getAiSlashCommands:
+  feature_category: null
+  urgency: default
+getAiToolRules:
+  feature_category: compliance_management
+  urgency: default
+getAlert:
+  feature_category: null
+  urgency: default
+getAlerts:
+  feature_category: null
+  urgency: default
+getAlertsCount:
+  feature_category: null
+  urgency: default
+getAllCusomizableDashboards:
+  feature_category: null
+  urgency: default
+getAllJobs:
+  feature_category: null
+  urgency: default
+getAllJobsCount:
+  feature_category: null
+  urgency: default
+getAllowedParentTypes:
+  feature_category: portfolio_management
+  urgency: default
+getAllowedWorkItemChildTypes:
+  feature_category: portfolio_management
+  urgency: default
+getAllowedWorkItemParentTypes:
+  feature_category: portfolio_management
+  urgency: default
+getAllPipelinesCount:
+  feature_category: null
+  urgency: default
+getAllRunnersCountEE:
+  feature_category: null
+  urgency: default
+getAllRunnersEE:
+  feature_category: null
+  urgency: default
+getAllStatuses:
+  feature_category: portfolio_management
+  urgency: default
+getAnalyticsDashboardDuoAgentPlatformGroups:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getAnalyticsDashboardDuoAgentPlatformTopLevelGroups:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getAnalyticsDashboardFrecentGroups:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getAnalyticsDashboardScopeNamespace:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getAnalyticsDashboardSubgroupProjects:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getAnalyticsDashboardTopLevelGroups:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getApplicationInfo:
+  feature_category: null
+  urgency: default
+getAppStatus:
+  feature_category: null
+  urgency: default
+getArchives:
+  feature_category: null
+  urgency: default
+getArtifactDetails:
+  feature_category: null
+  urgency: default
+getArtifactRegistry:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryArtifactManifests:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryArtifactVersions:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryManifest:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryManifestReferrers:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryNamespaceStatistics:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryOrganizationMembers:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryPermissions:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositories:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepository:
+  feature_category: null
+  urgency: default
+getArtifactRegistryRepositoryArtifact:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryByName:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryDetail:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryImages:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryPackages:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryPermissions:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryRoleAssignments:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryStatistics:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryRepositoryUpstreamRepositories:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryUpstreamRepositoryCandidates:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryVersion:
+  feature_category: artifact_registry
+  urgency: default
+getArtifactRegistryVersionFiles:
+  feature_category: artifact_registry
+  urgency: default
+getArtifacts:
+  feature_category: null
+  urgency: default
+getAsyncSuperSidebarData:
+  feature_category: navigation
+  urgency: default
+getAuthLogs:
+  feature_category: null
+  urgency: default
+getAutomationRecentRuns:
+  feature_category: dap_triggers
+  urgency: default
+getAutomationRunStats:
+  feature_category: dap_triggers
+  urgency: default
+getAutomations:
+  feature_category: dap_triggers
+  urgency: default
+getAutomationsCount:
+  feature_category: dap_triggers
+  urgency: default
+getAvailableBranches:
+  feature_category: null
+  urgency: default
+getAvailableBulkEditWidgets:
+  feature_category: portfolio_management
+  urgency: default
+getAvailableDeployKeys:
+  feature_category: null
+  urgency: default
+getBillableMemberDetailsQuery:
+  feature_category: null
+  urgency: default
+getBillableMembersCount:
+  feature_category: null
+  urgency: default
+getBillableMembersQuery:
+  feature_category: null
+  urgency: default
+getBillableUsersCount:
+  feature_category: null
+  urgency: default
+getBlameData:
+  feature_category: null
+  urgency: default
+getBlobAuxiliaryViewer:
+  feature_category: source_code_management
+  urgency: default
+getBlobContent:
+  feature_category: null
+  urgency: default
+getBlobControls:
+  feature_category: null
+  urgency: default
+getBlobDuoWorkflowInfo:
+  feature_category: null
+  urgency: default
+getBlobEdit:
+  feature_category: source_code_management
+  urgency: default
+getBlobInfo:
+  feature_category: source_code_management
+  urgency: default
+getBlobSearchCountQuery:
+  feature_category: null
+  urgency: default
+getBlobSearchQuery:
+  feature_category: null
+  urgency: default
+getBlockingMergeRequests:
+  feature_category: code_review_workflow
+  urgency: default
+getBoardNamespace:
+  feature_category: portfolio_management
+  urgency: default
+getBoardWorkItemsEE:
+  feature_category: portfolio_management
+  urgency: default
+getBranches:
+  feature_category: null
+  urgency: default
+getBranchesOptions:
+  feature_category: fleet_visibility
+  urgency: default
+getBranchMergeRequest:
+  feature_category: source_code_management
+  urgency: default
+getBranchRulesDetailsEE:
+  feature_category: null
+  urgency: default
+getBranchRulesEE:
+  feature_category: null
+  urgency: default
+getBranchRulesSquashOptions:
+  feature_category: null
+  urgency: default
+getBuildArtifactsSize:
+  feature_category: null
+  urgency: default
+getCancelableJobsCount:
+  feature_category: null
+  urgency: default
+getCatalogConsumerItems:
+  feature_category: duo_agent_platform
+  urgency: default
+getCatalogResourceComponentNames:
+  feature_category: pipeline_composition
+  urgency: default
+getCatalogResources:
+  feature_category: pipeline_composition
+  urgency: default
+getCatalogResourcesCount:
+  feature_category: pipeline_composition
+  urgency: default
+getCatalogResourceUsage:
+  feature_category: pipeline_composition
+  urgency: default
+getCatalogResourceUsagePermissions:
+  feature_category: pipeline_composition
+  urgency: default
+getCheckedRunnerIds:
+  feature_category: null
+  urgency: default
+getCiCatalogBundledResources:
+  feature_category: pipeline_composition
+  urgency: default
+getCiCatalogResourceComponents:
+  feature_category: pipeline_composition
+  urgency: default
+getCiCatalogResourceReadme:
+  feature_category: pipeline_composition
+  urgency: default
+getCiCatalogResourceSharedData:
+  feature_category: pipeline_composition
+  urgency: default
+getCiCatalogResourceUsage:
+  feature_category: pipeline_composition
+  urgency: default
+getCiCatalogResourceVersions:
+  feature_category: pipeline_composition
+  urgency: default
+getCiCatalogSettings:
+  feature_category: pipeline_composition
+  urgency: default
+getCiJobTokenPermissions:
+  feature_category: null
+  urgency: default
+getCiJobTokenScopeAllowlist:
+  feature_category: null
+  urgency: default
+getCloudConnectorHealthStatus:
+  feature_category: null
+  urgency: default
+getClusterAgent:
+  feature_category: null
+  urgency: default
+getCodeOwnersInfo:
+  feature_category: null
+  urgency: default
+getCodeQualityViolations:
+  feature_category: null
+  urgency: default
+getCommitDetails:
+  feature_category: null
+  urgency: default
+getCommitList:
+  feature_category: source_code_management
+  urgency: default
+getCommitListBranchNames:
+  feature_category: source_code_management
+  urgency: default
+getCommitPipelines:
+  feature_category: continuous_integration
+  urgency: default
+getCompletedMergeTrains:
+  feature_category: null
+  urgency: default
+getComplianceFramework:
+  feature_category: null
+  urgency: default
+getComplianceFrameworksCompactQuery:
+  feature_category: compliance_management
+  urgency: default
+getComplianceFrameworksForDropdown:
+  feature_category: security_policy_management
+  urgency: default
+getComplianceFrameworkWithPolicies:
+  feature_category: compliance_management
+  urgency: default
+getComplianceViolation:
+  feature_category: compliance_management
+  urgency: default
+getComplianceViolationsGroup:
+  feature_category: compliance_management
+  urgency: default
+getComplianceViolationsProject:
+  feature_category: compliance_management
+  urgency: default
+getConfiguredAgents:
+  feature_category: null
+  urgency: default
+getConfiguredFlows:
+  feature_category: null
+  urgency: default
+getConfiguredFlowsForChat:
+  feature_category: duo_agent_platform
+  urgency: default
+getConnectedAgents:
+  feature_category: compliance_management
+  urgency: default
+getContainerRepositoriesDetails:
+  feature_category: container_registry
+  urgency: default
+getContainerRepositoryDetails:
+  feature_category: container_registry
+  urgency: default
+getContainerRepositoryMetadata:
+  feature_category: container_registry
+  urgency: default
+getContainerRepositoryTags:
+  feature_category: container_registry
+  urgency: default
+getContainerUpstream:
+  feature_category: virtual_registry
+  urgency: default
+getContainerUpstreamCacheEntriesCount:
+  feature_category: virtual_registry
+  urgency: default
+getContainerUpstreamRegistries:
+  feature_category: virtual_registry
+  urgency: default
+getContainerUpstreams:
+  feature_category: virtual_registry
+  urgency: default
+getContainerUpstreamsCount:
+  feature_category: virtual_registry
+  urgency: default
+getContainerUpstreamsSelect:
+  feature_category: virtual_registry
+  urgency: default
+getContainerUpstreamSummary:
+  feature_category: virtual_registry
+  urgency: default
+getContainerVirtualRegistries:
+  feature_category: virtual_registry
+  urgency: default
+getContainerVirtualRegistryUpstreams:
+  feature_category: virtual_registry
+  urgency: default
+getContributionsData:
+  feature_category: null
+  urgency: default
+getCorpuses:
+  feature_category: null
+  urgency: default
+getCount:
+  feature_category: null
+  urgency: default
+getCountUpstreamCacheEntries:
+  feature_category: virtual_registry
+  urgency: default
+getCreditCaps:
+  feature_category: consumables_cost_management
+  urgency: default
+getCurrentBranch:
+  feature_category: null
+  urgency: default
+getCurrentDeployKeyPage:
+  feature_category: continuous_delivery
+  urgency: default
+getCurrentLicense:
+  feature_category: null
+  urgency: default
+getCurrentPage:
+  feature_category: pipeline_composition
+  urgency: default
+getCurrentScope:
+  feature_category: continuous_delivery
+  urgency: default
+getCurrentUserMergeRequestDashboardPreferences:
+  feature_category: code_review_workflow
+  urgency: default
+getCurrentUserOrganizations:
+  feature_category: null
+  urgency: default
+getCustomEmoji:
+  feature_category: code_review_workflow
+  urgency: default
+getCustomEmojis:
+  feature_category: code_review_workflow
+  urgency: default
+getCustomizableDashboard:
+  feature_category: null
+  urgency: default
+getCustomStageLabels:
+  feature_category: null
+  urgency: default
+getDashboard:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getDashboardConfiguredAgents:
+  feature_category: ai_catalog_curation
+  urgency: default
+getDashboardIssuesCountEE:
+  feature_category: portfolio_management
+  urgency: default
+getDashboardIssuesEE:
+  feature_category: portfolio_management
+  urgency: default
+getDashboardMergeRequestsApprovals:
+  feature_category: code_review_workflow
+  urgency: default
+getDashboardMergeRequestsCount:
+  feature_category: code_review_workflow
+  urgency: default
+getDashboardMergeRequestsEE:
+  feature_category: code_review_workflow
+  urgency: default
+getDashboards:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getDashboardV1GroupDependencyFirewallRuleActivity:
+  feature_category: dependency_firewall
+  urgency: default
+getDashboardV1ProjectDependencyFirewallRuleActivity:
+  feature_category: dependency_firewall
+  urgency: default
+getDedicatedInstanceRunnerFilters:
+  feature_category: null
+  urgency: default
+getDedicatedInstanceUsageByMonth:
+  feature_category: null
+  urgency: default
+getDedicatedInstanceUsageByYear:
+  feature_category: null
+  urgency: default
+getDefaultProjects:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getDependencyBumpBreakingChangesAvailable:
+  feature_category: continuous_integration
+  urgency: default
+getDependencyLocations:
+  feature_category: dependency_management
+  urgency: default
+getDependencyPaths:
+  feature_category: null
+  urgency: default
+getDependencyProxyDetails:
+  feature_category: null
+  urgency: default
+getDependencyProxyPackagesSettings:
+  feature_category: null
+  urgency: default
+getDependencyTrackedRefs:
+  feature_category: dependency_management
+  urgency: default
+getDependencyVulnerabilities:
+  feature_category: null
+  urgency: default
+getDeployKeys:
+  feature_category: continuous_delivery
+  urgency: default
+getDescendantGroups:
+  feature_category: security_policy_management
+  urgency: default
+getDesignDetails:
+  feature_category: null
+  urgency: default
+getDeveloperActivity:
+  feature_category: compliance_management
+  urgency: default
+getDotDevfileFolderQuery:
+  feature_category: null
+  urgency: default
+getDotDevfileYamlQuery:
+  feature_category: null
+  urgency: default
+getDownstreamPipelineJobs:
+  feature_category: continuous_integration
+  urgency: default
+getDownstreamSubscriptions:
+  feature_category: null
+  urgency: default
+getDuoAgentSessionsOnMergeRequest:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoAgentSessionsOnPipeline:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoAgentSessionsOnWorkItem:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoAvailabilityNamespaces:
+  feature_category: ai_abstraction_layer
+  urgency: default
+getDuoDefaultNamespaceCandidates:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoFeatureRetentionMetrics:
+  feature_category: value_stream_management
+  urgency: default
+getDuoGroupMcpServerNames:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoGroupWorkflowRunnerAvailable:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoMcpServerNames:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoSettings:
+  feature_category: self-hosted_models
+  urgency: default
+getDuoWorkflowRunnerAvailable:
+  feature_category: duo_agent_platform
+  urgency: default
+getDuoWorkflowStatusCheck:
+  feature_category: duo_agent_platform
+  urgency: default
+getEECostFactoredProjectStorageStatistics:
+  feature_category: consumables_cost_management
+  urgency: default
+getEEProjectStorageStatistics:
+  feature_category: consumables_cost_management
+  urgency: default
+getEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+getEnvironmentApp:
+  feature_category: continuous_delivery
+  urgency: default
+getEnvironmentClusterAgent:
+  feature_category: continuous_delivery
+  urgency: default
+getEnvironmentDetails:
+  feature_category: continuous_delivery
+  urgency: default
+getEnvironmentFolder:
+  feature_category: continuous_delivery
+  urgency: default
+getEnvironmentFreezes:
+  feature_category: continuous_delivery
+  urgency: default
+getEscalationPolicies:
+  feature_category: null
+  urgency: default
+getExperiments:
+  feature_category: null
+  urgency: default
+getFailedJobs:
+  feature_category: continuous_integration
+  urgency: default
+getFile:
+  feature_category: security_policy_management
+  urgency: default
+GetFileMetadata:
+  feature_category: null
+  urgency: default
+getFirstChatThread:
+  feature_category: duo_agent_platform
+  urgency: default
+getFixPipelineWorkflows:
+  feature_category: continuous_integration
+  urgency: default
+getFlowStatus:
+  feature_category: null
+  urgency: default
+getFlowTypes:
+  feature_category: duo_agent_platform
+  urgency: default
+getFluxHelmReleaseQuery:
+  feature_category: continuous_delivery
+  urgency: default
+getFluxHelmReleasesQuery:
+  feature_category: continuous_delivery
+  urgency: default
+getFluxKustomizationQuery:
+  feature_category: continuous_delivery
+  urgency: default
+getFluxKustomizationsQuery:
+  feature_category: continuous_delivery
+  urgency: default
+getForkDetails:
+  feature_category: null
+  urgency: default
+getFoundationalChatAgents:
+  feature_category: null
+  urgency: default
+getFunctionalVerificationStatus:
+  feature_category: duo_agent_platform
+  urgency: default
+getFutureLicenseHistory:
+  feature_category: null
+  urgency: default
+getGitlabCreditsStatus:
+  feature_category: duo_agent_platform
+  urgency: default
+getGitlabSubscription:
+  feature_category: null
+  urgency: default
+getGroupAchievements:
+  feature_category: null
+  urgency: default
+getGroupAiDomainSettings:
+  feature_category: ai_abstraction_layer
+  urgency: default
+getGroupAiGovernanceSessionAuditEvents:
+  feature_category: ai_agents
+  urgency: default
+getGroupAiGovernanceSessionLinks:
+  feature_category: ai_agents
+  urgency: default
+getGroupComponents:
+  feature_category: null
+  urgency: default
+getGroupComponentVersions:
+  feature_category: null
+  urgency: default
+getGroupCounts:
+  feature_category: null
+  urgency: default
+getGroupDataTransferEgress:
+  feature_category: consumables_cost_management
+  urgency: default
+getGroupDependencies:
+  feature_category: null
+  urgency: default
+getGroupDependencyFirewallRuleActivity:
+  feature_category: dependency_firewall
+  urgency: default
+getGroupEnvironments:
+  feature_category: null
+  urgency: default
+getGroupMergeRequestsApprovalsEE:
+  feature_category: code_review_workflow
+  urgency: default
+getGroupMergeRequestsCountEE:
+  feature_category: code_review_workflow
+  urgency: default
+getGroupMergeRequestsEE:
+  feature_category: code_review_workflow
+  urgency: default
+getGroupMostActiveRunnersEE:
+  feature_category: null
+  urgency: default
+getGroupNamesByIds:
+  feature_category: pipeline_composition
+  urgency: default
+getGroupOrProject:
+  feature_category: null
+  urgency: default
+getGroupOrProjectEE:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getGroupPackageSettings:
+  feature_category: package_registry
+  urgency: default
+getGroupPackagesSettings:
+  feature_category: null
+  urgency: default
+getGroupPendingMemberApprovals:
+  feature_category: null
+  urgency: default
+getGroupPolicyEvaluations:
+  feature_category: security_policy_management
+  urgency: default
+getGroupPolicyEvaluationsCount:
+  feature_category: security_policy_management
+  urgency: default
+getGroupPolicyStoreCatalogs:
+  feature_category: security_policy_management
+  urgency: default
+getGroupPolicyStorePolicies:
+  feature_category: security_policy_management
+  urgency: default
+getGroupProjects:
+  feature_category: security_policy_management
+  urgency: default
+getGroupProjectsCount:
+  feature_category: security_policy_management
+  urgency: default
+getGroupRoles:
+  feature_category: null
+  urgency: default
+getGroupRunnersCountEE:
+  feature_category: null
+  urgency: default
+getGroupRunnersEE:
+  feature_category: null
+  urgency: default
+getGroupRunnersEnabled:
+  feature_category: null
+  urgency: default
+getGroupRunnerTags:
+  feature_category: null
+  urgency: default
+getGroups:
+  feature_category: null
+  urgency: default
+getGroupSavedReply:
+  feature_category: null
+  urgency: default
+getGroupsByIds:
+  feature_category: security_policy_management
+  urgency: default
+getGroupSecretDetails:
+  feature_category: secrets_management
+  urgency: default
+getGroupSecretManagerStatus:
+  feature_category: secrets_management
+  urgency: default
+getGroupSecrets:
+  feature_category: secrets_management
+  urgency: default
+getGroupSecretsCount:
+  feature_category: secrets_management
+  urgency: default
+getGroupSecretsNeedingRotation:
+  feature_category: secrets_management
+  urgency: default
+getGroupSessionAuditEvents:
+  feature_category: ai_agents
+  urgency: default
+getGroupTestCoverage:
+  feature_category: null
+  urgency: default
+getGroupVariables:
+  feature_category: null
+  urgency: default
+getGroupVirtualRegistriesSetting:
+  feature_category: null
+  urgency: default
+getHttpIntegration:
+  feature_category: null
+  urgency: default
+getIncidents:
+  feature_category: null
+  urgency: default
+getIncidentsCountByStatus:
+  feature_category: null
+  urgency: default
+getIncidentState:
+  feature_category: null
+  urgency: default
+getInheritedCiVariables:
+  feature_category: null
+  urgency: default
+getInstanceCounts:
+  feature_category: null
+  urgency: default
+getInstanceNamespaceFilters:
+  feature_category: audit_events
+  urgency: default
+getInstanceRoles:
+  feature_category: null
+  urgency: default
+getInstanceSecretsManagerEnrollment:
+  feature_category: secrets_management
+  urgency: default
+getInstanceSecretsManagerEntitlement:
+  feature_category: secrets_management
+  urgency: default
+getIntegrations:
+  feature_category: null
+  urgency: default
+getInviteModalGroupMemberRoles:
+  feature_category: null
+  urgency: default
+GetIssuableResourceLinks:
+  feature_category: null
+  urgency: default
+getIssuesAnalyticsTableData:
+  feature_category: null
+  urgency: default
+getIssuesListDetails:
+  feature_category: portfolio_management
+  urgency: default
+getJiraImportDetails:
+  feature_category: null
+  urgency: default
+getJiraUserMapping:
+  feature_category: null
+  urgency: default
+getJob:
+  feature_category: null
+  urgency: default
+getJobAnalytics:
+  feature_category: fleet_visibility
+  urgency: default
+getJobArtifacts:
+  feature_category: null
+  urgency: default
+getJobDetails:
+  feature_category: security_testing_configuration
+  urgency: default
+getJobInputs:
+  feature_category: pipeline_composition
+  urgency: default
+getJobs:
+  feature_category: null
+  urgency: default
+getJobsCount:
+  feature_category: null
+  urgency: default
+getK8sConnectionStatus:
+  feature_category: continuous_delivery
+  urgency: default
+getK8sDashboardCronJobs:
+  feature_category: null
+  urgency: default
+getK8sDashboardDaemonSets:
+  feature_category: null
+  urgency: default
+getK8sDashboardDeployments:
+  feature_category: null
+  urgency: default
+getK8sDashboardJobs:
+  feature_category: null
+  urgency: default
+getK8sDashboardPods:
+  feature_category: null
+  urgency: default
+getK8sDashboardReplicaSets:
+  feature_category: null
+  urgency: default
+getK8sDashboardServices:
+  feature_category: null
+  urgency: default
+getK8sDashboardStatefulSets:
+  feature_category: null
+  urgency: default
+getK8sDeployments:
+  feature_category: continuous_delivery
+  urgency: default
+getK8sEvents:
+  feature_category: continuous_delivery
+  urgency: default
+getK8sLogs:
+  feature_category: continuous_delivery
+  urgency: default
+getK8sNamespaces:
+  feature_category: continuous_delivery
+  urgency: default
+getK8sPods:
+  feature_category: continuous_delivery
+  urgency: default
+getK8sServices:
+  feature_category: continuous_delivery
+  urgency: default
+getKeepLatestArtifactProjectSetting:
+  feature_category: null
+  urgency: default
+getLastCommitBranchQuery:
+  feature_category: null
+  urgency: default
+getLatestCommitSha:
+  feature_category: null
+  urgency: default
+getLogsRelatedIssues:
+  feature_category: null
+  urgency: default
+getManifestDetails:
+  feature_category: container_registry
+  urgency: default
+getManualVariables:
+  feature_category: null
+  urgency: default
+getMavenUpstreamCacheEntries:
+  feature_category: null
+  urgency: default
+getMavenUpstreamCacheEntriesCount:
+  feature_category: null
+  urgency: default
+getMavenUpstreams:
+  feature_category: null
+  urgency: default
+getMavenUpstreamsCount:
+  feature_category: null
+  urgency: default
+getMavenUpstreamsSelect:
+  feature_category: virtual_registry
+  urgency: default
+getMavenUpstreamSummary:
+  feature_category: virtual_registry
+  urgency: default
+getMavenVirtualRegistries:
+  feature_category: virtual_registry
+  urgency: default
+getMavenVirtualRegistry:
+  feature_category: virtual_registry
+  urgency: default
+getMavenVirtualRegistryUpstreams:
+  feature_category: virtual_registry
+  urgency: default
+getMcpServer:
+  feature_category: compliance_management
+  urgency: default
+getMcpServers:
+  feature_category: compliance_management
+  urgency: default
+getMergeRequestMergeSource:
+  feature_category: code_review_workflow
+  urgency: default
+getMergeRequestPipelines:
+  feature_category: null
+  urgency: default
+getMergeRequestRiskAssessment:
+  feature_category: dap_code_review
+  urgency: default
+getMergeRequestSinglePipeline:
+  feature_category: continuous_integration
+  urgency: default
+getMergeRequestState:
+  feature_category: null
+  urgency: default
+getMetricsRelatedIssues:
+  feature_category: null
+  urgency: default
+getModel:
+  feature_category: null
+  urgency: default
+getModelCandidates:
+  feature_category: null
+  urgency: default
+getModels:
+  feature_category: null
+  urgency: default
+getModelVersion:
+  feature_category: null
+  urgency: default
+getModelVersions:
+  feature_category: null
+  urgency: default
+getMoreUniqueUsers:
+  feature_category: null
+  urgency: default
+getMostActiveRunnersEE:
+  feature_category: null
+  urgency: default
+getMrAssignees:
+  feature_category: null
+  urgency: default
+getMrParticipants:
+  feature_category: null
+  urgency: default
+getMrSastReport:
+  feature_category: vulnerability_management
+  urgency: default
+getNamespaceCiMinutesUsage:
+  feature_category: null
+  urgency: default
+getNamespaceFilters:
+  feature_category: audit_events
+  urgency: default
+getNamespaceGroups:
+  feature_category: security_policy_management
+  urgency: default
+getNamespaceLifecycles:
+  feature_category: team_planning
+  urgency: default
+GetNamespacePagesDeployments:
+  feature_category: null
+  urgency: default
+getNamespaceProjects:
+  feature_category: null
+  urgency: default
+getNamespaces:
+  feature_category: duo_agent_platform
+  urgency: default
+getNamespaceStorageStatisticsEE:
+  feature_category: consumables_cost_management
+  urgency: default
+getOncallSchedules:
+  feature_category: null
+  urgency: default
+getOncallSchedulesWithRotations:
+  feature_category: null
+  urgency: default
+getOpenbaoHealth:
+  feature_category: secrets_management
+  urgency: default
+getOpenMrCountForBlobPath:
+  feature_category: null
+  urgency: default
+getOpenMrsForBlobPath:
+  feature_category: null
+  urgency: default
+getOrbitAdminExcludedGroups:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitAdminGroups:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitAdminInstanceAccess:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitAdminServiceStatus:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitDashboardGroups:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitGroupLastIndexed:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitGroupSettings:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitGroupStatusGroups:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitGroupStatusIndexing:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitItemCounts:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitLastIndexed:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitOffOwnedGroups:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitOwnedTrials:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitQueryTemplates:
+  feature_category: knowledge_graph
+  urgency: default
+getOrbitSchema:
+  feature_category: knowledge_graph
+  urgency: default
+GetOrbitUserPreference:
+  feature_category: duo_agent_platform
+  urgency: default
+getOrganization:
+  feature_category: null
+  urgency: default
+getOrganizationAccessArtifactRegistry:
+  feature_category: organization
+  urgency: default
+getOrganizationAccessResourceMemberCounts:
+  feature_category: organization
+  urgency: default
+getOrganizationAccessResourceMembers:
+  feature_category: organization
+  urgency: default
+getOrganizationAccessResourceSummary:
+  feature_category: organization
+  urgency: default
+getOrganizationGroups:
+  feature_category: null
+  urgency: default
+getOrganizationProjects:
+  feature_category: null
+  urgency: default
+getOrganizations:
+  feature_category: null
+  urgency: default
+getOrganizationUsers:
+  feature_category: null
+  urgency: default
+getOrganizationUsersIsLastOwner:
+  feature_category: null
+  urgency: default
+getOrganizationUsersMembershipCountsQuery:
+  feature_category: organization
+  urgency: default
+getPackageDetails:
+  feature_category: package_registry
+  urgency: default
+getPackageErrorsCount:
+  feature_category: package_registry
+  urgency: default
+getPackageFiles:
+  feature_category: package_registry
+  urgency: default
+getPackageMetadata:
+  feature_category: package_registry
+  urgency: default
+getPackagePipelines:
+  feature_category: package_registry
+  urgency: default
+getPackages:
+  feature_category: package_registry
+  urgency: default
+getPackagesCount:
+  feature_category: package_registry
+  urgency: default
+getPackageVersions:
+  feature_category: package_registry
+  urgency: default
+getPageInfo:
+  feature_category: null
+  urgency: default
+getPaginatedTree:
+  feature_category: source_code_management
+  urgency: default
+GetPanelTitle:
+  feature_category: duo_agent_platform
+  urgency: default
+getParent:
+  feature_category: null
+  urgency: default
+getPastLicenseHistory:
+  feature_category: null
+  urgency: default
+getPermalinkPath:
+  feature_category: source_code_management
+  urgency: default
+getPermissions:
+  feature_category: null
+  urgency: default
+getPipelineActions:
+  feature_category: null
+  urgency: default
+getPipelineAnalytics:
+  feature_category: fleet_visibility
+  urgency: default
+getPipelineCountByStatus:
+  feature_category: fleet_visibility
+  urgency: default
+getPipelineCreationRequests:
+  feature_category: null
+  urgency: default
+getPipelineDetails:
+  feature_category: continuous_integration
+  urgency: low
+getPipelineEtag:
+  feature_category: null
+  urgency: default
+getPipelineFailedJobs:
+  feature_category: null
+  urgency: default
+getPipelineFailedJobsCount:
+  feature_category: null
+  urgency: default
+getPipelineHeaderData:
+  feature_category: continuous_integration
+  urgency: default
+getPipelineIid:
+  feature_category: pipeline_composition
+  urgency: default
+getPipelineJobs:
+  feature_category: null
+  urgency: default
+getPipelineNeeds:
+  feature_category: null
+  urgency: default
+getPipelinePermissions:
+  feature_category: continuous_integration
+  urgency: default
+getPipelines:
+  feature_category: continuous_integration
+  urgency: default
+getPipelineSchedulesQuery:
+  feature_category: null
+  urgency: default
+getPipelinesDownstream:
+  feature_category: continuous_integration
+  urgency: default
+getPipelineStageJobs:
+  feature_category: continuous_integration
+  urgency: default
+getPipelineSummary:
+  feature_category: null
+  urgency: default
+getPipelineVariablesDefaultRoleGroupSetting:
+  feature_category: null
+  urgency: default
+getPipelineVariablesMinimumOverrideRoleProjectSetting:
+  feature_category: null
+  urgency: default
+getPolicyEvaluations:
+  feature_category: security_policy_management
+  urgency: default
+getPolicyEvaluationsCount:
+  feature_category: security_policy_management
+  urgency: default
+getPolicyStoreCatalogs:
+  feature_category: security_policy_management
+  urgency: default
+getPolicyStoreOrganizationProjects:
+  feature_category: security_policy_management
+  urgency: default
+getPolicyStorePolicies:
+  feature_category: security_policy_management
+  urgency: default
+getPolicyViolations:
+  feature_category: null
+  urgency: default
+getProject:
+  feature_category: null
+  urgency: default
+getProjectAgentArtifacts:
+  feature_category: ai_agents
+  urgency: default
+getProjectAgentArtifactsAiGovernanceSessions:
+  feature_category: ai_agents
+  urgency: default
+getProjectAgentArtifactsAiGovernanceSessionsFiltered:
+  feature_category: ai_agents
+  urgency: default
+getProjectAiGovernanceSessionAuditEvents:
+  feature_category: ai_agents
+  urgency: default
+getProjectAiGovernanceSessionLinks:
+  feature_category: ai_agents
+  urgency: default
+getProjectAiGovernanceSessions:
+  feature_category: compliance_management
+  urgency: default
+getProjectAssignableRunners:
+  feature_category: null
+  urgency: default
+getProjectBranches:
+  feature_category: secrets_management
+  urgency: default
+getProjectByPath:
+  feature_category: groups_and_projects
+  urgency: default
+getProjectComponents:
+  feature_category: null
+  urgency: default
+getProjectComponentVersions:
+  feature_category: null
+  urgency: default
+getProjectContainerProtectionRepositoryRules:
+  feature_category: null
+  urgency: default
+getProjectContainerProtectionTagRules:
+  feature_category: null
+  urgency: default
+getProjectContainerRepositories:
+  feature_category: null
+  urgency: default
+getProjectContainerScanning:
+  feature_category: null
+  urgency: default
+getProjectCounts:
+  feature_category: null
+  urgency: default
+getProjectDataTransferEgress:
+  feature_category: consumables_cost_management
+  urgency: default
+getProjectDependencies:
+  feature_category: null
+  urgency: default
+getProjectDependencyFirewallRuleActivity:
+  feature_category: dependency_firewall
+  urgency: default
+getProjectDetails:
+  feature_category: null
+  urgency: default
+getProjectEnvironments:
+  feature_category: null
+  urgency: default
+getProjectExpirationPolicy:
+  feature_category: null
+  urgency: default
+getProjectExpirationPolicyEnabled:
+  feature_category: null
+  urgency: default
+getProjectExposure:
+  feature_category: compliance_management
+  urgency: default
+getProjectId:
+  feature_category: security_policy_management
+  urgency: default
+getProjectInfoEE:
+  feature_category: source_code_management
+  urgency: default
+getProjectListStorageStatisticsEE:
+  feature_category: consumables_cost_management
+  urgency: default
+getProjectMemberRoles:
+  feature_category: source_code_management
+  urgency: default
+getProjectMergeRequestsApprovalsEE:
+  feature_category: code_review_workflow
+  urgency: default
+getProjectMergeRequestsCountEE:
+  feature_category: code_review_workflow
+  urgency: default
+getProjectMergeRequestsEE:
+  feature_category: code_review_workflow
+  urgency: default
+getProjectMergeRequestsEnabled:
+  feature_category: security_testing_configuration
+  urgency: default
+getProjectPackageProtectionRules:
+  feature_category: null
+  urgency: default
+getProjectPackagesCleanupPolicy:
+  feature_category: null
+  urgency: default
+GetProjectPagesDeployments:
+  feature_category: null
+  urgency: default
+getProjectPath:
+  feature_category: null
+  urgency: default
+getProjectPendingMemberApprovals:
+  feature_category: null
+  urgency: default
+getProjectPipelineStatistics:
+  feature_category: fleet_visibility
+  urgency: default
+getProjectPolicyStorePolicies:
+  feature_category: security_policy_management
+  urgency: default
+getProjectQuality:
+  feature_category: null
+  urgency: default
+getProjectRootRef:
+  feature_category: team_planning
+  urgency: default
+getProjectRunners:
+  feature_category: null
+  urgency: default
+getProjectRunnerTags:
+  feature_category: null
+  urgency: default
+getProjectSavedReply:
+  feature_category: null
+  urgency: default
+getProjectsCiMinutesUsage:
+  feature_category: null
+  urgency: default
+getProjectsDetails:
+  feature_category: null
+  urgency: default
+getProjectSecretManagerStatus:
+  feature_category: secrets_management
+  urgency: default
+getProjectSecrets:
+  feature_category: secrets_management
+  urgency: default
+getProjectSecretsCount:
+  feature_category: secrets_management
+  urgency: default
+getProjectSecretsNeedingRotation:
+  feature_category: secrets_management
+  urgency: default
+getProjectSecurityAttributes:
+  feature_category: null
+  urgency: default
+getProjectSecurityConfiguration:
+  feature_category: security_testing_configuration
+  urgency: default
+getProjectServiceAccountRoles:
+  feature_category: duo_agent_platform
+  urgency: default
+getProjectSessionAuditEvents:
+  feature_category: ai_agents
+  urgency: default
+getProjectShortPath:
+  feature_category: null
+  urgency: default
+getProjectsTestCoverage:
+  feature_category: null
+  urgency: default
+getProjectVariables:
+  feature_category: null
+  urgency: default
+getReadme:
+  feature_category: null
+  urgency: default
+getReadyToMergeStatus:
+  feature_category: code_review_workflow
+  urgency: default
+getReconciliationStatus:
+  feature_category: null
+  urgency: default
+getRef:
+  feature_category: null
+  urgency: default
+getRuleContent:
+  feature_category: chat_engine
+  urgency: default
+getRunner:
+  feature_category: null
+  urgency: default
+getRunnerFailedJobsEE:
+  feature_category: null
+  urgency: default
+getRunnerForm:
+  feature_category: null
+  urgency: default
+getRunnerForRegistration:
+  feature_category: runner_core
+  urgency: default
+getRunnerJobs:
+  feature_category: null
+  urgency: default
+getRunnerPlatforms:
+  feature_category: null
+  urgency: default
+getRunnerProjects:
+  feature_category: null
+  urgency: default
+getRunnerTags:
+  feature_category: null
+  urgency: default
+getRunnerUsage:
+  feature_category: null
+  urgency: default
+getRunnerUsageByProject:
+  feature_category: null
+  urgency: default
+getSavedRepliesEE:
+  feature_category: null
+  urgency: default
+getSavedReply:
+  feature_category: null
+  urgency: default
+getSecretDetails:
+  feature_category: secrets_management
+  urgency: default
+getSecretsManagerEntitlement:
+  feature_category: secrets_management
+  urgency: default
+getSecurityAttributes:
+  feature_category: null
+  urgency: default
+getSecurityCategoriesAndAttributes:
+  feature_category: null
+  urgency: default
+getSecurityPolicyProject:
+  feature_category: security_policy_management
+  urgency: default
+getSecurityReportFinding:
+  feature_category: null
+  urgency: default
+getSecurityTrackedRefs:
+  feature_category: null
+  urgency: default
+getSecurityTrainingProviders:
+  feature_category: null
+  urgency: default
+getSecurityTrainingUrls:
+  feature_category: null
+  urgency: default
+getSelfHostedModelById:
+  feature_category: null
+  urgency: default
+getSelfHostedModels:
+  feature_category: null
+  urgency: default
+getSelfManagedAddOnEligibleUsers:
+  feature_category: null
+  urgency: default
+getSessionProjects:
+  feature_category: duo_agent_platform
+  urgency: default
+getSharedAgentsEE:
+  feature_category: null
+  urgency: default
+getShiftsForRotations:
+  feature_category: null
+  urgency: default
+getSinglePipeline:
+  feature_category: continuous_integration
+  urgency: default
+getSkillFiles:
+  feature_category: compliance_management
+  urgency: default
+getSkillguardSkill:
+  feature_category: compliance_management
+  urgency: default
+getSkillguardSummary:
+  feature_category: compliance_management
+  urgency: default
+getSlaDueAt:
+  feature_category: null
+  urgency: default
+GetSnippetQuery:
+  feature_category: null
+  urgency: default
+getSourcePersonalAccessToken:
+  feature_category: permissions
+  urgency: default
+getSpdxLicenses:
+  feature_category: dependency_management
+  urgency: default
+getSppEligibleProjects:
+  feature_category: security_policy_management
+  urgency: default
+getSppLinkedGroups:
+  feature_category: security_policy_management
+  urgency: default
+getSppLinkedGroupsProjects:
+  feature_category: security_policy_management
+  urgency: default
+getSppLinkedPGroupsChildrenProjects:
+  feature_category: security_policy_management
+  urgency: default
+getSppLinkedProjectsGroups:
+  feature_category: security_policy_management
+  urgency: default
+getStateEE:
+  feature_category: code_review_workflow
+  urgency: default
+getStates:
+  feature_category: null
+  urgency: default
+getStateSubscriptionEE:
+  feature_category: code_review_workflow
+  urgency: default
+getSubGroups:
+  feature_category: portfolio_management
+  urgency: default
+getSubscriptionCreditsUsageOverview:
+  feature_category: consumables_cost_management
+  urgency: default
+getSubscriptionData:
+  feature_category: null
+  urgency: default
+getSubscriptionNonBillableUsage:
+  feature_category: consumables_cost_management
+  urgency: default
+getSubscriptionPermissionsData:
+  feature_category: null
+  urgency: default
+getSystemDashboard:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+getTagPlatformDetails:
+  feature_category: container_registry
+  urgency: default
+getTargetedMessageData:
+  feature_category: null
+  urgency: default
+getTasksByTypeLabels:
+  feature_category: null
+  urgency: default
+getTemplate:
+  feature_category: null
+  urgency: default
+getTemporaryExtensionData:
+  feature_category: null
+  urgency: default
+getThroughputChartData:
+  feature_category: code_review_workflow
+  urgency: default
+getThroughputTableData:
+  feature_category: code_review_workflow
+  urgency: default
+GetTimelineEvents:
+  feature_category: null
+  urgency: default
+getTitleSubscription:
+  feature_category: code_review_workflow
+  urgency: default
+getTraceRelatedIssues:
+  feature_category: null
+  urgency: default
+getTreeList:
+  feature_category: null
+  urgency: default
+getTrialUsage:
+  feature_category: subscription_management
+  urgency: default
+getTrialUsersUsage:
+  feature_category: subscription_management
+  urgency: default
+getTypesInOrganization:
+  feature_category: team_planning
+  urgency: default
+getUploadState:
+  feature_category: null
+  urgency: default
+getUpstreamRegistries:
+  feature_category: null
+  urgency: default
+getUpstreamSubscriptions:
+  feature_category: null
+  urgency: default
+getUsageOverview:
+  feature_category: null
+  urgency: default
+getUser:
+  feature_category: null
+  urgency: default
+getUserAchievements:
+  feature_category: null
+  urgency: default
+getUserAgentFlowInbox:
+  feature_category: duo_agent_platform
+  urgency: default
+getUserAgentFlows:
+  feature_category: duo_agent_platform
+  urgency: default
+getUserAiUserMetrics:
+  feature_category: null
+  urgency: default
+getUserAuthorizedAgents:
+  feature_category: continuous_delivery
+  urgency: default
+getUserBillingPeriodUsage:
+  feature_category: consumables_cost_management
+  urgency: default
+getUserCreditsUsage:
+  feature_category: consumables_cost_management
+  urgency: default
+getUserGitpodInfo:
+  feature_category: null
+  urgency: default
+getUserGroupCallouts:
+  feature_category: null
+  urgency: default
+getUserGroupsAndProjects:
+  feature_category: null
+  urgency: default
+getUserNonBillableUsage:
+  feature_category: consumables_cost_management
+  urgency: default
+getUserOrganizations:
+  feature_category: null
+  urgency: default
+getUserOverrides:
+  feature_category: consumables_cost_management
+  urgency: default
+getUserPersonalAccessTokens:
+  feature_category: null
+  urgency: default
+getUserPersonalAccessTokenStatistics:
+  feature_category: null
+  urgency: default
+getUsersByUserIdsOrUsernames:
+  feature_category: null
+  urgency: default
+getUsersCount:
+  feature_category: null
+  urgency: default
+getUsersMembershipCountsQuery:
+  feature_category: null
+  urgency: default
+getUsersQueuedForLicenseSeat:
+  feature_category: null
+  urgency: default
+getUserSubscriptionUsage:
+  feature_category: consumables_cost_management
+  urgency: default
+getUserSubscriptionUsageEvents:
+  feature_category: consumables_cost_management
+  urgency: default
+getUserWorkflows:
+  feature_category: duo_agent_platform
+  urgency: default
+getUserWorkItemsPreferences:
+  feature_category: team_planning
+  urgency: default
+getValueStream:
+  feature_category: null
+  urgency: default
+getValueStreamStageAverageDurations:
+  feature_category: null
+  urgency: default
+getVariables:
+  feature_category: null
+  urgency: default
+getVerificationFeatureSettings:
+  feature_category: ai_abstraction_layer
+  urgency: default
+getVirtualRegistriesCleanupPolicyDetails:
+  feature_category: null
+  urgency: default
+getVirtualRegistriesCleanupPolicyStatus:
+  feature_category: null
+  urgency: default
+getVirtualRegistriesCounts:
+  feature_category: virtual_registry
+  urgency: default
+getVirtualRegistryContainer:
+  feature_category: virtual_registry
+  urgency: default
+getVulnerabilityBlobInfo:
+  feature_category: null
+  urgency: default
+getVulnerabilityExternalIssues:
+  feature_category: null
+  urgency: default
+getWebBasedCommitSigning:
+  feature_category: source_code_management
+  urgency: default
+getWorkflowBranches:
+  feature_category: duo_agent_platform
+  urgency: default
+getWorkflowLatestCheckpoint:
+  feature_category: null
+  urgency: default
+getWorkflowLatestTodo:
+  feature_category: duo_agent_platform
+  urgency: default
+getWorkflowMessageLineage:
+  feature_category: duo_agent_platform
+  urgency: default
+getWorkflowPermissions:
+  feature_category: duo_agent_platform
+  urgency: default
+getWorkflowsByIds:
+  feature_category: duo_agent_platform
+  urgency: default
+getWorkflowStatus:
+  feature_category: duo_agent_platform
+  urgency: default
+getWorkItemDesignList:
+  feature_category: design_management
+  urgency: default
+getWorkItemNotificationsById:
+  feature_category: team_planning
+  urgency: default
+getWorkItemsAiSessions:
+  feature_category: portfolio_management
+  urgency: default
+getWorkItemsByReferences:
+  feature_category: team_planning
+  urgency: default
+getWorkItemsCountOnlyEE:
+  feature_category: portfolio_management
+  urgency: default
+getWorkItemsFullEE:
+  feature_category: portfolio_management
+  urgency: default
+getWorkItemsRestEE:
+  feature_category: portfolio_management
+  urgency: default
+getWorkItemsSlimEE:
+  feature_category: portfolio_management
+  urgency: default
+getWorkspacesNamespaceClusterAgents:
+  feature_category: null
+  urgency: default
+getWorkspacesOrganizationClusterAgents:
+  feature_category: null
+  urgency: default
+getWorkspaceState:
+  feature_category: null
+  urgency: default
+getWritableForks:
+  feature_category: null
+  urgency: default
+getYourWorkProjects:
+  feature_category: null
+  urgency: default
+getYourWorkUserProjects:
+  feature_category: null
+  urgency: default
+goBack:
+  feature_category: null
+  urgency: default
+goFirstStep:
+  feature_category: null
+  urgency: default
+goForward:
+  feature_category: null
+  urgency: default
+governPolicyCreate:
+  feature_category: security_policy_management
+  urgency: default
+governPolicyDelete:
+  feature_category: security_policy_management
+  urgency: default
+governPolicyUpdate:
+  feature_category: security_policy_management
+  urgency: default
+group_boards:
+  feature_category: portfolio_management
+  urgency: default
+group_recent_boards:
+  feature_category: portfolio_management
+  urgency: default
+groupAiCatalogItems:
+  feature_category: ai_catalog_curation
+  urgency: default
+groupAnalyzerStatuses:
+  feature_category: security_testing_configuration
+  urgency: default
+groupAuditEventStreamingDestinationsCreate:
+  feature_category: audit_events
+  urgency: default
+groupAuditEventStreamingDestinationsUpdate:
+  feature_category: audit_events
+  urgency: default
+GroupAvailableSecurityScanProfiles:
+  feature_category: security_testing_configuration
+  urgency: default
+GroupAvatarAndParent:
+  feature_category: null
+  urgency: default
+GroupBoard:
+  feature_category: portfolio_management
+  urgency: default
+GroupBoardMilestones:
+  feature_category: portfolio_management
+  urgency: default
+groupComplianceRequirementsStatuses:
+  feature_category: compliance_management
+  urgency: default
+groupComplianceViolations:
+  feature_category: compliance_management
+  urgency: default
+groupCustomField:
+  feature_category: team_planning
+  urgency: default
+groupCustomFields:
+  feature_category: team_planning
+  urgency: default
+groupCustomRoles:
+  feature_category: security_policy_management
+  urgency: default
+groupDestinations:
+  feature_category: audit_events
+  urgency: default
+groupDoraPerformanceScoreCountsQuery:
+  feature_category: null
+  urgency: default
+groupIdentifiers:
+  feature_category: null
+  urgency: default
+groupIterationCadences:
+  feature_category: team_planning
+  urgency: default
+groupIterations:
+  feature_category: team_planning
+  urgency: default
+groupLabels:
+  feature_category: null
+  urgency: default
+groupMembersExport:
+  feature_category: null
+  urgency: default
+groupMilestones:
+  feature_category: null
+  urgency: default
+groupMilestonesEE:
+  feature_category: portfolio_management
+  urgency: default
+groupMttrOverTime:
+  feature_category: vulnerability_management
+  urgency: default
+groupNonEnterpriseMembers:
+  feature_category: importers
+  urgency: default
+groupPolicyTestRuns:
+  feature_category: security_policy_management
+  urgency: default
+groupProjects:
+  feature_category: null
+  urgency: default
+GroupReleaseStats:
+  feature_category: groups_and_projects
+  urgency: default
+groupRunnersWaitTimesEE:
+  feature_category: null
+  urgency: default
+groupRunnerWaitTimeHistory:
+  feature_category: null
+  urgency: default
+groups:
+  feature_category: organization
+  urgency: default
+groupsAutocomplete:
+  feature_category: null
+  urgency: default
+groupSavedReplies:
+  feature_category: null
+  urgency: default
+groupSavedReplyCreate:
+  feature_category: null
+  urgency: default
+groupSavedReplyUpdate:
+  feature_category: null
+  urgency: default
+GroupScannerDetailsProjects:
+  feature_category: security_testing_configuration
+  urgency: default
+groupSecretPermissions:
+  feature_category: secrets_management
+  urgency: default
+groupSecurityPolicies:
+  feature_category: security_policy_management
+  urgency: default
+groupSecurityPolicyDetails:
+  feature_category: security_policy_management
+  urgency: default
+groupSecurityPostureCounters:
+  feature_category: security_testing_configuration
+  urgency: default
+groupStaleRunnerPruning:
+  feature_category: null
+  urgency: default
+groupSuggestions:
+  feature_category: security_policy_management
+  urgency: default
+GroupToolCoverage:
+  feature_category: security_testing_configuration
+  urgency: default
+groupTotalRiskScore:
+  feature_category: vulnerability_management
+  urgency: default
+GroupTriageAndRemediationFlowStatuses:
+  feature_category: security_testing_configuration
+  urgency: default
+groupUpdate:
+  feature_category: null
+  urgency: default
+groupUsersSearch:
+  feature_category: null
+  urgency: default
+groupVulnerabilities:
+  feature_category: null
+  urgency: default
+groupVulnerabilitiesByAge:
+  feature_category: vulnerability_management
+  urgency: default
+groupVulnerabilitiesByIdentifier:
+  feature_category: vulnerability_management
+  urgency: default
+groupVulnerabilitiesOverTime:
+  feature_category: null
+  urgency: default
+groupVulnerabilitiesPerSeverity:
+  feature_category: null
+  urgency: default
+groupVulnerabilityGrades:
+  feature_category: null
+  urgency: default
+groupVulnerabilityHistory:
+  feature_category: null
+  urgency: default
+groupVulnerabilityResolutionFunnel:
+  feature_category: vulnerability_management
+  urgency: default
+groupWorkItems:
+  feature_category: team_planning
+  urgency: default
+groupWorkItemTypesForSelect:
+  feature_category: team_planning
+  urgency: default
+groupWorkspacePermissions:
+  feature_category: team_planning
+  urgency: default
+hasWorkItems:
+  feature_category: portfolio_management
+  urgency: default
+HomepageMergeRequestsWidget:
+  feature_category: code_review_workflow
+  urgency: default
+homepageTodosWidgetCounts:
+  feature_category: notifications
+  urgency: default
+importGroups:
+  feature_category: null
+  urgency: default
+importSourceUsers:
+  feature_category: null
+  urgency: default
+inboundAddGroupOrProjectCIJobTokenScope:
+  feature_category: null
+  urgency: default
+inboundGetCIJobTokenScope:
+  feature_category: null
+  urgency: default
+inboundRemoveGroupCIJobTokenScope:
+  feature_category: null
+  urgency: default
+inboundRemoveProjectCIJobTokenScope:
+  feature_category: null
+  urgency: default
+inboundUpdateCIJobTokenScope:
+  feature_category: null
+  urgency: default
+initiateJiraImport:
+  feature_category: null
+  urgency: default
+instanceAuditEventStreamingDestinationsCreate:
+  feature_category: audit_events
+  urgency: default
+instanceAuditEventStreamingDestinationsUpdate:
+  feature_category: audit_events
+  urgency: default
+instanceDestinations:
+  feature_category: audit_events
+  urgency: default
+instanceProjects:
+  feature_category: null
+  urgency: default
+instanceVulnerabilities:
+  feature_category: null
+  urgency: default
+instanceVulnerabilityGrades:
+  feature_category: null
+  urgency: default
+instanceVulnerabilityHistory:
+  feature_category: null
+  urgency: default
+integrationExclusion:
+  feature_category: null
+  urgency: default
+integrationExclusionCreate:
+  feature_category: null
+  urgency: default
+integrationExclusionDelete:
+  feature_category: null
+  urgency: default
+internalPipelineCreate:
+  feature_category: null
+  urgency: default
+isEnvironmentStopping:
+  feature_category: continuous_delivery
+  urgency: default
+isExpandedHierarchyTreeChild:
+  feature_category: portfolio_management
+  urgency: default
+isLastDeployment:
+  feature_category: continuous_delivery
+  urgency: default
+isShowingLabels:
+  feature_category: null
+  urgency: default
+issuableAssigneesUpdated:
+  feature_category: null
+  urgency: default
+issuableDatesUpdated:
+  feature_category: null
+  urgency: default
+issuableDetailsEE:
+  feature_category: team_planning
+  urgency: default
+issuableEpicUpdated:
+  feature_category: null
+  urgency: default
+issuableLabelsUpdatedEE:
+  feature_category: null
+  urgency: default
+issuableTodoCreate:
+  feature_category: null
+  urgency: default
+issuableTodoMarkDone:
+  feature_category: null
+  urgency: default
+issuableTodosMarkAllDone:
+  feature_category: team_planning
+  urgency: default
+issuableTodoUpdated:
+  feature_category: null
+  urgency: default
+issuableWeightUpdated:
+  feature_category: null
+  urgency: default
+issueAssignees:
+  feature_category: null
+  urgency: default
+issueCommentTodos:
+  feature_category: notifications
+  urgency: default
+issueConfidential:
+  feature_category: null
+  urgency: default
+issueCrmContacts:
+  feature_category: null
+  urgency: default
+issueCrmContactsUpdated:
+  feature_category: null
+  urgency: default
+issueDueDate:
+  feature_category: null
+  urgency: default
+issueEpics:
+  feature_category: null
+  urgency: default
+issueEscalationPolicy:
+  feature_category: null
+  urgency: default
+issueEscalationPolicyMutation:
+  feature_category: null
+  urgency: default
+issueHealthStatus:
+  feature_category: null
+  urgency: default
+issueIterationsAliased:
+  feature_category: null
+  urgency: default
+issueIterationsAliasedProject:
+  feature_category: team_planning
+  urgency: default
+issueLabels:
+  feature_category: team_planning
+  urgency: default
+issueMoveList:
+  feature_category: portfolio_management
+  urgency: default
+issueMoveListEE:
+  feature_category: portfolio_management
+  urgency: default
+issueParents:
+  feature_category: null
+  urgency: default
+issueParticipants:
+  feature_category: null
+  urgency: default
+issueReference:
+  feature_category: null
+  urgency: default
+issueSetAssignees:
+  feature_category: null
+  urgency: default
+issueSetLabels:
+  feature_category: portfolio_management
+  urgency: default
+issueSetTimeEstimate:
+  feature_category: null
+  urgency: default
+issueSetWeight:
+  feature_category: null
+  urgency: default
+issueState:
+  feature_category: team_planning
+  urgency: default
+issueSubscribed:
+  feature_category: null
+  urgency: default
+issueSuggestion:
+  feature_category: team_planning
+  urgency: default
+issueTimeTracking:
+  feature_category: null
+  urgency: default
+issueTimeTrackingReport:
+  feature_category: null
+  urgency: default
+issueTodos:
+  feature_category: null
+  urgency: default
+issueWeight:
+  feature_category: null
+  urgency: default
+iteration:
+  feature_category: null
+  urgency: default
+Iteration:
+  feature_category: team_planning
+  urgency: default
+IterationCadence:
+  feature_category: team_planning
+  urgency: default
+IterationIssues:
+  feature_category: team_planning
+  urgency: default
+IterationIssuesSummary:
+  feature_category: null
+  urgency: default
+IterationIssuesWithLabelFilter:
+  feature_category: team_planning
+  urgency: default
+Iterations:
+  feature_category: team_planning
+  urgency: default
+jiraGetProjects:
+  feature_category: null
+  urgency: default
+jiraIssues:
+  feature_category: null
+  urgency: default
+jiraSearchProjectMembers:
+  feature_category: null
+  urgency: default
+jobDetailsStageJobsUpdated:
+  feature_category: continuous_integration
+  urgency: default
+jobProcessed:
+  feature_category: null
+  urgency: default
+jobStatusUpdated:
+  feature_category: null
+  urgency: default
+k8sPodLogsWatcherQuery:
+  feature_category: continuous_delivery
+  urgency: default
+keepAllAsPlaceholder:
+  feature_category: null
+  urgency: default
+keepAsPlaceholder:
+  feature_category: null
+  urgency: default
+ldapAdminRoleLinkCreate:
+  feature_category: null
+  urgency: default
+ldapAdminRoleLinkDestroy:
+  feature_category: null
+  urgency: default
+ldapAdminRoleLinks:
+  feature_category: null
+  urgency: default
+LifecycleCreate:
+  feature_category: team_planning
+  urgency: default
+LifecycleRemove:
+  feature_category: team_planning
+  urgency: default
+LifecycleUpdate:
+  feature_category: team_planning
+  urgency: default
+linkProjectComplianceViolationIssue:
+  feature_category: compliance_management
+  urgency: default
+linkSecurityPolicyProject:
+  feature_category: security_policy_management
+  urgency: default
+linkSkillRemoval:
+  feature_category: compliance_management
+  urgency: default
+ListIssues:
+  feature_category: portfolio_management
+  urgency: default
+localRoadmapSettings:
+  feature_category: portfolio_management
+  urgency: default
+lockState:
+  feature_category: null
+  urgency: default
+mappedAgents:
+  feature_category: null
+  urgency: default
+markAsDone:
+  feature_category: null
+  urgency: default
+markAsPending:
+  feature_category: null
+  urgency: default
+markTestCaseTodoDone:
+  feature_category: null
+  urgency: default
+mavenUpstreamCreate:
+  feature_category: virtual_registry
+  urgency: default
+memberRole:
+  feature_category: null
+  urgency: default
+memberRolePermissions:
+  feature_category: null
+  urgency: default
+mergeChecks:
+  feature_category: null
+  urgency: default
+mergeRequest:
+  feature_category: null
+  urgency: default
+mergeRequestApprovalStateUpdatedEE:
+  feature_category: null
+  urgency: default
+mergeRequestCommentTodos:
+  feature_category: notifications
+  urgency: default
+mergeRequestDiffStats:
+  feature_category: code_review_workflow
+  urgency: default
+mergeRequestEventTypeQuery:
+  feature_category: null
+  urgency: default
+mergeRequestId:
+  feature_category: null
+  urgency: default
+mergeRequestLabels:
+  feature_category: null
+  urgency: default
+mergeRequestMilestone:
+  feature_category: null
+  urgency: default
+mergeRequestPrepared:
+  feature_category: null
+  urgency: default
+mergeRequestReference:
+  feature_category: null
+  urgency: default
+mergeRequestRelatedWorkItems:
+  feature_category: portfolio_management
+  urgency: default
+mergeRequestRequestRereviewWithDepth:
+  feature_category: code_review_workflow
+  urgency: default
+mergeRequestReviewers:
+  feature_category: null
+  urgency: default
+mergeRequestReviewersUpdated:
+  feature_category: null
+  urgency: default
+mergeRequests:
+  feature_category: null
+  urgency: default
+mergeRequestSetAssignees:
+  feature_category: null
+  urgency: default
+mergeRequestSetLabels:
+  feature_category: null
+  urgency: default
+mergeRequestSetMilestone:
+  feature_category: null
+  urgency: default
+mergeRequestSetSubscription:
+  feature_category: null
+  urgency: default
+mergeRequestSetTimeEstimate:
+  feature_category: null
+  urgency: default
+mergeRequestStack:
+  feature_category: code_review_workflow
+  urgency: default
+mergeRequestsThroughputClickhouse:
+  feature_category: value_stream_management
+  urgency: default
+mergeRequestSubscribed:
+  feature_category: null
+  urgency: default
+mergeRequestTimeTracking:
+  feature_category: null
+  urgency: default
+mergeRequestTodos:
+  feature_category: null
+  urgency: default
+mergeTime:
+  feature_category: code_review_workflow
+  urgency: default
+mergeWidget:
+  feature_category: code_review_workflow
+  urgency: default
+mergeWidgetSubscription:
+  feature_category: code_review_workflow
+  urgency: default
+milestone:
+  feature_category: null
+  urgency: default
+missingBranchQuery:
+  feature_category: code_review_workflow
+  urgency: default
+moveIssue:
+  feature_category: null
+  urgency: default
+moveTestCase:
+  feature_category: null
+  urgency: default
+mrAiOverview:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewCreateNote:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewDiscussions:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewLabels:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewMergeStatus:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewMetadata:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewMilestone:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewReviewers:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewSetAutoMerge:
+  feature_category: code_review_workflow
+  urgency: default
+mrAiOverviewToggleResolve:
+  feature_category: code_review_workflow
+  urgency: default
+mrPipelineCreationRequestUpdated:
+  feature_category: continuous_integration
+  urgency: default
+mrPipelineStatusUpdated:
+  feature_category: continuous_integration
+  urgency: default
+mrPipelineUpdated:
+  feature_category: continuous_integration
+  urgency: default
+mrTimeTrackingReport:
+  feature_category: null
+  urgency: default
+mrUserPermission:
+  feature_category: code_review_workflow
+  urgency: default
+namespaceCustomFieldNames:
+  feature_category: null
+  urgency: default
+namespaceDefaultLifecycleTemplate:
+  feature_category: team_planning
+  urgency: default
+namespaceGroupsForLinksWidget:
+  feature_category: team_planning
+  urgency: default
+namespaceGsmEnrollment:
+  feature_category: secrets_management
+  urgency: default
+namespaceMcpServers:
+  feature_category: workflow_catalog
+  urgency: default
+namespaceMergeRequestsEnabled:
+  feature_category: team_planning
+  urgency: default
+namespaceMetadata:
+  feature_category: team_planning
+  urgency: default
+namespacePaths:
+  feature_category: team_planning
+  urgency: default
+namespacePolicies:
+  feature_category: compliance_management
+  urgency: default
+namespaceProjectsForLinksWidget:
+  feature_category: team_planning
+  urgency: default
+namespacePurchaseEligibility:
+  feature_category: subscription_management
+  urgency: default
+NamespaceRegenerateNewWorkItemEmailAddress:
+  feature_category: portfolio_management
+  urgency: default
+namespaceSavedView:
+  feature_category: portfolio_management
+  urgency: default
+namespaceWorkItem:
+  feature_category: team_planning
+  urgency: default
+namespaceWorkItemChanges:
+  feature_category: portfolio_management
+  urgency: default
+namespaceWorkItemSettings:
+  feature_category: team_planning
+  urgency: default
+namespaceWorkItemTypes:
+  feature_category: team_planning
+  urgency: default
+newRotation:
+  feature_category: null
+  urgency: default
+noteForTooltip:
+  feature_category: null
+  urgency: default
+oauthApplicationGroupHierarchySearch:
+  feature_category: system_access
+  urgency: default
+offlineTransferSourceOwnedGroups:
+  feature_category: importers
+  urgency: default
+oncallRotationDestroy:
+  feature_category: null
+  urgency: default
+oncallScheduleCreate:
+  feature_category: null
+  urgency: default
+oncallScheduleDestroy:
+  feature_category: null
+  urgency: default
+oncallScheduleUpdate:
+  feature_category: null
+  urgency: default
+onDemandScanCounts:
+  feature_category: null
+  urgency: default
+onDemandScans:
+  feature_category: null
+  urgency: default
+oneRelease:
+  feature_category: null
+  urgency: default
+oneReleaseForEditing:
+  feature_category: null
+  urgency: default
+openChildItemCount:
+  feature_category: portfolio_management
+  urgency: default
+orbitExcludedGroupCreate:
+  feature_category: knowledge_graph
+  urgency: default
+orbitExcludedGroupDestroy:
+  feature_category: knowledge_graph
+  urgency: default
+orbitInstanceStartTrial:
+  feature_category: knowledge_graph
+  urgency: default
+orbitStartTrial:
+  feature_category: knowledge_graph
+  urgency: default
+orbitUpdate:
+  feature_category: knowledge_graph
+  urgency: default
+organizationCreate:
+  feature_category: null
+  urgency: default
+organizationMttrOverTime:
+  feature_category: vulnerability_management
+  urgency: default
+organizationProjects:
+  feature_category: vulnerability_management
+  urgency: default
+organizations:
+  feature_category: null
+  urgency: default
+organizationsCountByState:
+  feature_category: null
+  urgency: default
+organizationTotalRiskScore:
+  feature_category: vulnerability_management
+  urgency: default
+organizationUpdate:
+  feature_category: null
+  urgency: default
+organizationUserCreate:
+  feature_category: organization
+  urgency: default
+organizationUserDelete:
+  feature_category: organization
+  urgency: default
+organizationUserUpdate:
+  feature_category: null
+  urgency: default
+organizationVulnerabilitiesByAge:
+  feature_category: vulnerability_management
+  urgency: default
+organizationVulnerabilitiesByIdentifier:
+  feature_category: vulnerability_management
+  urgency: default
+organizationVulnerabilitiesOverTime:
+  feature_category: vulnerability_management
+  urgency: default
+organizationVulnerabilitiesPerSeverity:
+  feature_category: vulnerability_management
+  urgency: default
+organizationVulnerabilityResolutionFunnel:
+  feature_category: vulnerability_management
+  urgency: default
+organizationWorkItemSettings:
+  feature_category: team_planning
+  urgency: default
+organizationWorkItemTypes:
+  feature_category: team_planning
+  urgency: default
+organizationWorkspacesClusterAgents:
+  feature_category: null
+  urgency: default
+pagesMarkOnboardingComplete:
+  feature_category: null
+  urgency: default
+parentWorkItems:
+  feature_category: portfolio_management
+  urgency: default
+parsePayloadFields:
+  feature_category: null
+  urgency: default
+pathLastCommit:
+  feature_category: source_code_management
+  urgency: default
+pending_todos_count:
+  feature_category: null
+  urgency: default
+pendingMembersQuery:
+  feature_category: null
+  urgency: default
+pipelineFindings:
+  feature_category: null
+  urgency: default
+pipelineHeaderStatusUpdatedSubscription:
+  feature_category: null
+  urgency: default
+pipelineScheduleStatusUpdated:
+  feature_category: null
+  urgency: default
+pipelineSecuritySummary:
+  feature_category: null
+  urgency: default
+pipelineStatusesUpdated:
+  feature_category: null
+  urgency: default
+pipelineStatusUpdatedSubscription:
+  feature_category: null
+  urgency: default
+playJob:
+  feature_category: null
+  urgency: default
+playJobWithInputs:
+  feature_category: pipeline_composition
+  urgency: default
+playPipelineMiniGraphJob:
+  feature_category: null
+  urgency: default
+playPipelineSchedule:
+  feature_category: null
+  urgency: default
+pollInterval:
+  feature_category: continuous_delivery
+  urgency: default
+processUserBillablePromotionRequest:
+  feature_category: null
+  urgency: default
+project:
+  feature_category: null
+  urgency: default
+project_boards:
+  feature_category: portfolio_management
+  urgency: default
+project_recent_boards:
+  feature_category: portfolio_management
+  urgency: default
+projectAiCatalogItems:
+  feature_category: ai_catalog_curation
+  urgency: default
+projectAiCatalogTabItems:
+  feature_category: ai_catalog_curation
+  urgency: default
+projectAutocompleteUsersSearchWithMRPermissions:
+  feature_category: null
+  urgency: default
+projectAutocompleteUsersSearchWithMRPermissionsEE:
+  feature_category: null
+  urgency: default
+ProjectAutoRemediationProfile:
+  feature_category: software_composition_analysis
+  urgency: default
+ProjectBoard:
+  feature_category: portfolio_management
+  urgency: default
+ProjectBoardMilestones:
+  feature_category: portfolio_management
+  urgency: default
+projectComplianceFrameworks:
+  feature_category: null
+  urgency: default
+projectComplianceRequirementsStatuses:
+  feature_category: compliance_management
+  urgency: default
+projectCustomRoles:
+  feature_category: security_policy_management
+  urgency: default
+projectEscalationPolicies:
+  feature_category: null
+  urgency: default
+projectGenerateDescriptionPermissions:
+  feature_category: team_planning
+  urgency: default
+projectIdentifiers:
+  feature_category: null
+  urgency: default
+projectImages:
+  feature_category: null
+  urgency: default
+projectIssueEpic:
+  feature_category: null
+  urgency: default
+projectIssueEpicMutation:
+  feature_category: null
+  urgency: default
+projectIssueIteration:
+  feature_category: null
+  urgency: default
+projectIssueIterationMutation:
+  feature_category: null
+  urgency: default
+projectIssueMilestone:
+  feature_category: null
+  urgency: default
+projectIssueMilestoneMutation:
+  feature_category: null
+  urgency: default
+projectIssues:
+  feature_category: null
+  urgency: default
+projectIssueSetSubscription:
+  feature_category: null
+  urgency: default
+projectIssueUpdateParent:
+  feature_category: null
+  urgency: default
+projectIterationCadences:
+  feature_category: team_planning
+  urgency: default
+projectLabels:
+  feature_category: null
+  urgency: default
+projectMcpServers:
+  feature_category: workflow_catalog
+  urgency: default
+projectMilestones:
+  feature_category: null
+  urgency: default
+projectMttrOverTime:
+  feature_category: vulnerability_management
+  urgency: default
+projectPolicyTestRuns:
+  feature_category: security_policy_management
+  urgency: default
+projectRequirements:
+  feature_category: null
+  urgency: default
+projectRequirementsEE:
+  feature_category: null
+  urgency: default
+projectsAutocomplete:
+  feature_category: runner_core
+  urgency: default
+projectSavedReplies:
+  feature_category: null
+  urgency: default
+projectSavedReplyCreate:
+  feature_category: null
+  urgency: default
+projectSavedReplyUpdate:
+  feature_category: null
+  urgency: default
+ProjectsByScannerStatus:
+  feature_category: security_testing_configuration
+  urgency: default
+projectSecretCreateFromLeakedToken:
+  feature_category: secrets_management
+  urgency: default
+projectSecurityExclusionCreate:
+  feature_category: null
+  urgency: default
+ProjectSecurityExclusionDelete:
+  feature_category: null
+  urgency: default
+ProjectSecurityExclusions:
+  feature_category: null
+  urgency: default
+projectSecurityExclusionUpdate:
+  feature_category: null
+  urgency: default
+projectSecurityPolicies:
+  feature_category: security_policy_management
+  urgency: default
+projectSecurityPolicyDetails:
+  feature_category: security_policy_management
+  urgency: default
+ProjectSecurityScanProfiles:
+  feature_category: security_testing_configuration
+  urgency: default
+projectServiceAccounts:
+  feature_category: duo_agent_platform
+  urgency: default
+projectsInGroupWithComplianceFramework:
+  feature_category: compliance_management
+  urgency: default
+ProjectsSecurityDetails:
+  feature_category: security_asset_inventories
+  urgency: default
+projectSuggestions:
+  feature_category: security_policy_management
+  urgency: default
+projectTestCase:
+  feature_category: null
+  urgency: default
+projectTestCaseTaskList:
+  feature_category: null
+  urgency: default
+projectTotalRiskScore:
+  feature_category: vulnerability_management
+  urgency: default
+projectUpdateComplianceFrameworks:
+  feature_category: compliance_management
+  urgency: default
+projectVulnerabilities:
+  feature_category: null
+  urgency: default
+projectVulnerabilitiesByAge:
+  feature_category: vulnerability_management
+  urgency: default
+projectVulnerabilitiesByIdentifier:
+  feature_category: vulnerability_management
+  urgency: default
+projectVulnerabilitiesCount:
+  feature_category: null
+  urgency: default
+projectVulnerabilitiesOverTime:
+  feature_category: null
+  urgency: default
+projectVulnerabilitiesPerSeverity:
+  feature_category: null
+  urgency: default
+projectVulnerabilityResolutionFunnel:
+  feature_category: vulnerability_management
+  urgency: default
+projectWorkItemAwardEmojis:
+  feature_category: team_planning
+  urgency: default
+projectWorkItems:
+  feature_category: team_planning
+  urgency: default
+promoteModelVersion:
+  feature_category: null
+  urgency: default
+PromoteTimelineEvent:
+  feature_category: null
+  urgency: default
+promoteToEpic:
+  feature_category: portfolio_management
+  urgency: default
+protectableBranches:
+  feature_category: null
+  urgency: default
+provisionGkeRunnerGroup:
+  feature_category: null
+  urgency: default
+provisionGkeRunnerProject:
+  feature_category: null
+  urgency: default
+provisionGoogleCloudRunnerGroup:
+  feature_category: null
+  urgency: default
+provisionGoogleCloudRunnerProject:
+  feature_category: null
+  urgency: default
+reassignedSourceUsers:
+  feature_category: importers
+  urgency: default
+reassignPlaceholder:
+  feature_category: null
+  urgency: default
+rebaseQueryEE:
+  feature_category: code_review_workflow
+  urgency: default
+RecentlyViewedItemsEE:
+  feature_category: null
+  urgency: default
+recentlyViewedWorkItems:
+  feature_category: portfolio_management
+  urgency: default
+reconnectToCluster:
+  feature_category: continuous_delivery
+  urgency: default
+refreshFindingTokenStatus:
+  feature_category: null
+  urgency: default
+refreshInstanceSecretsManagerEntitlement:
+  feature_category: secrets_management
+  urgency: default
+refreshSecretsManagerEntitlement:
+  feature_category: secrets_management
+  urgency: default
+refreshSecurityFindingTokenStatus:
+  feature_category: null
+  urgency: default
+relatedMergeRequest:
+  feature_category: continuous_integration
+  urgency: default
+relatedRelease:
+  feature_category: continuous_delivery
+  urgency: default
+removeBlobs:
+  feature_category: null
+  urgency: default
+removeChangeRequestMutation:
+  feature_category: null
+  urgency: default
+removeLinkedItems:
+  feature_category: portfolio_management
+  urgency: default
+removeOrganizationUser:
+  feature_category: organization
+  urgency: default
+removeState:
+  feature_category: null
+  urgency: default
+removeToolbarItems:
+  feature_category: null
+  urgency: default
+replaceText:
+  feature_category: null
+  urgency: default
+replicableTypeBulkUpdate:
+  feature_category: null
+  urgency: default
+replicableTypeUpdate:
+  feature_category: null
+  urgency: default
+repoAnalyticsGetGroupProjects:
+  feature_category: null
+  urgency: default
+reportAiCatalogItem:
+  feature_category: ai_catalog_curation
+  urgency: default
+requestedChanges:
+  feature_category: null
+  urgency: default
+requestingReview:
+  feature_category: code_review_workflow
+  urgency: default
+requestingReviewAuthorOrAssignee:
+  feature_category: code_review_workflow
+  urgency: default
+requestingReviewAuthorOrAssigneeCount:
+  feature_category: code_review_workflow
+  urgency: default
+requestingReviewCount:
+  feature_category: code_review_workflow
+  urgency: default
+resendNotification:
+  feature_category: null
+  urgency: default
+resetCorpus:
+  feature_category: null
+  urgency: default
+resetHistory:
+  feature_category: null
+  urgency: default
+resetHttpIntegrationToken:
+  feature_category: null
+  urgency: default
+RestorePagesDeployment:
+  feature_category: null
+  urgency: default
+restoreState:
+  feature_category: infrastructure_as_code
+  urgency: default
+retryFailedJob:
+  feature_category: null
+  urgency: default
+retryJob:
+  feature_category: null
+  urgency: default
+retryJobWithVariables:
+  feature_category: null
+  urgency: default
+retryMrFailedJob:
+  feature_category: null
+  urgency: default
+retryPipeline:
+  feature_category: null
+  urgency: default
+retryPipelineMiniGraphJob:
+  feature_category: null
+  urgency: default
+retryPipelineMutation:
+  feature_category: null
+  urgency: default
+revertFindingToDetected:
+  feature_category: null
+  urgency: default
+reviewDrawer:
+  feature_category: code_review_workflow
+  urgency: default
+reviewRequests:
+  feature_category: code_review_workflow
+  urgency: default
+reviewRequestsCount:
+  feature_category: code_review_workflow
+  urgency: default
+revokeAgentToken:
+  feature_category: null
+  urgency: default
+revokeArtifactRegistryRepositoryRole:
+  feature_category: artifact_registry
+  urgency: default
+revokePersonalAccessToken:
+  feature_category: system_access
+  urgency: default
+revokeSourceUserReassignment:
+  feature_category: importers
+  urgency: default
+roadmapGroupEpicsWithColor:
+  feature_category: portfolio_management
+  urgency: default
+rollbackEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+rotatePersonalAccessToken:
+  feature_category: system_access
+  urgency: default
+runnerAssignToProject:
+  feature_category: null
+  urgency: default
+runnerBulkPause:
+  feature_category: null
+  urgency: default
+runnerCreate:
+  feature_category: null
+  urgency: default
+runnerDelete:
+  feature_category: null
+  urgency: default
+runnerJobCount:
+  feature_category: null
+  urgency: default
+runnerSetupInstructions:
+  feature_category: null
+  urgency: default
+runnersExportUsage:
+  feature_category: null
+  urgency: default
+runnersJobsQueueDurationEE:
+  feature_category: null
+  urgency: default
+runnersRegistrationTokenReset:
+  feature_category: null
+  urgency: default
+runnersWaitTimesEE:
+  feature_category: null
+  urgency: default
+runnerTogglePaused:
+  feature_category: null
+  urgency: default
+runnerUnassignFromProject:
+  feature_category: null
+  urgency: default
+runnerUpdate:
+  feature_category: null
+  urgency: default
+runnerWaitTimeHistory:
+  feature_category: null
+  urgency: default
+safeDisablePipelineVariables:
+  feature_category: null
+  urgency: default
+sastCiConfiguration:
+  feature_category: null
+  urgency: default
+savedReplies:
+  feature_category: null
+  urgency: default
+savedReplyCreate:
+  feature_category: null
+  urgency: default
+savedReplyUpdate:
+  feature_category: null
+  urgency: default
+SavedScans:
+  feature_category: null
+  urgency: default
+savedViews:
+  feature_category: portfolio_management
+  urgency: default
+scanProfileStatuses:
+  feature_category: security_testing_configuration
+  urgency: default
+ScheduledDastProfiles:
+  feature_category: null
+  urgency: default
+searchAllUsers:
+  feature_category: null
+  urgency: default
+searchAllUsersPaginated:
+  feature_category: null
+  urgency: default
+searchAnalyticsDashboardNamespacesGlobal:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+searchBranchesQuery:
+  feature_category: null
+  urgency: default
+searchCrmContacts:
+  feature_category: null
+  urgency: default
+searchCrmOrganizations:
+  feature_category: null
+  urgency: default
+searchEpics:
+  feature_category: null
+  urgency: default
+searchForkableNamespaces:
+  feature_category: null
+  urgency: default
+searchGroups:
+  feature_category: null
+  urgency: default
+searchGroupsWhereUserCanCreateSubgroups:
+  feature_category: null
+  urgency: default
+searchGroupsWithDashboards:
+  feature_category: null
+  urgency: default
+searchIterationCadences:
+  feature_category: null
+  urgency: default
+searchIterations:
+  feature_category: portfolio_management
+  urgency: default
+searchLabels:
+  feature_category: portfolio_management
+  urgency: default
+searchLabelsQuery:
+  feature_category: null
+  urgency: default
+searchMilestones:
+  feature_category: null
+  urgency: default
+searchModels:
+  feature_category: null
+  urgency: default
+searchNamespacesWhereUserCanCreateProjects:
+  feature_category: null
+  urgency: default
+searchNamespacesWhereUserCanImportProjects:
+  feature_category: null
+  urgency: default
+searchOrganizationProjectsWithIssuesEnabled:
+  feature_category: portfolio_management
+  urgency: default
+searchProjectMembers:
+  feature_category: null
+  urgency: default
+searchProjectNameAvailability:
+  feature_category: null
+  urgency: default
+searchProjects:
+  feature_category: portfolio_management
+  urgency: default
+searchProjectsWithDashboards:
+  feature_category: null
+  urgency: default
+searchProjectTopics:
+  feature_category: null
+  urgency: default
+searchRemoteDevelopmentProjects:
+  feature_category: null
+  urgency: default
+searchTodosGroups:
+  feature_category: null
+  urgency: default
+searchTodosProjects:
+  feature_category: null
+  urgency: default
+searchUserGroupsAndProjects:
+  feature_category: null
+  urgency: default
+searchUserProjectsToMove:
+  feature_category: team_planning
+  urgency: default
+searchUserProjectsWithIssuesEnabled:
+  feature_category: null
+  urgency: default
+searchUserProjectsWithMergeRequestsEnabled:
+  feature_category: null
+  urgency: default
+secretPermissions:
+  feature_category: secrets_management
+  urgency: default
+securityDashboardCreateNote:
+  feature_category: null
+  urgency: default
+securityDashboardDestroyNote:
+  feature_category: null
+  urgency: default
+securityDashboardUpdateNote:
+  feature_category: null
+  urgency: default
+securityFindingCreateIssue:
+  feature_category: null
+  urgency: default
+securityFindingCreateMergeRequest:
+  feature_category: null
+  urgency: default
+securityFindingCreateVulnerability:
+  feature_category: null
+  urgency: default
+securityFindingJiraIssueCreate:
+  feature_category: null
+  urgency: default
+securityFindingJiraIssueFormUrlCreate:
+  feature_category: null
+  urgency: default
+securityGetProjects:
+  feature_category: null
+  urgency: default
+SecurityInventoryProjectScanProfiles:
+  feature_category: security_asset_inventories
+  urgency: default
+securityPolicyProjectUnassign:
+  feature_category: security_policy_management
+  urgency: default
+securityPolicyScheduleTestRunUpdated:
+  feature_category: security_policy_management
+  urgency: default
+securityRefsTrack:
+  feature_category: vulnerability_management
+  urgency: default
+securityRefsUntrack:
+  feature_category: vulnerability_management
+  urgency: default
+securityReportsDownloadPaths:
+  feature_category: null
+  urgency: default
+SecurityScanProfile:
+  feature_category: security_testing_configuration
+  urgency: default
+SecurityScanProfileAttach:
+  feature_category: security_testing_configuration
+  urgency: default
+SecurityScanProfileCreate:
+  feature_category: security_testing_configuration
+  urgency: default
+SecurityScanProfileDelete:
+  feature_category: security_testing_configuration
+  urgency: default
+SecurityScanProfileDetach:
+  feature_category: security_testing_configuration
+  urgency: default
+SecurityScanProfileUpdate:
+  feature_category: security_testing_configuration
+  urgency: default
+securityTrackedRefs:
+  feature_category: vulnerability_management
+  urgency: default
+serviceAccountProjectMemberships:
+  feature_category: ai_catalog_curation
+  urgency: default
+serviceDeskEnabled:
+  feature_category: team_planning
+  urgency: default
+setActiveBoardItemEE:
+  feature_category: portfolio_management
+  urgency: default
+setCachedPayload:
+  feature_category: null
+  urgency: default
+SetContainerScanningForRegistry:
+  feature_category: null
+  urgency: default
+SetCvsForContainerScanning:
+  feature_category: software_composition_analysis
+  urgency: default
+SetCvsForDependencyScanning:
+  feature_category: software_composition_analysis
+  urgency: default
+SetEnvironmentToChangeCanary:
+  feature_category: continuous_delivery
+  urgency: default
+SetEnvironmentToDelete:
+  feature_category: continuous_delivery
+  urgency: default
+SetEnvironmentToRollback:
+  feature_category: continuous_delivery
+  urgency: default
+SetEnvironmentToStop:
+  feature_category: continuous_delivery
+  urgency: default
+setError:
+  feature_category: portfolio_management
+  urgency: default
+setFormTouched:
+  feature_category: null
+  urgency: default
+setGroupRunnersEnabled:
+  feature_category: null
+  urgency: default
+setGroupStaleRunnerPruning:
+  feature_category: null
+  urgency: default
+setIsShowingLabels:
+  feature_category: null
+  urgency: default
+SetLicenseConfigurationSource:
+  feature_category: null
+  urgency: default
+SetLicenseScanningForCyclonedx:
+  feature_category: software_composition_analysis
+  urgency: default
+setMcpServerBlock:
+  feature_category: compliance_management
+  urgency: default
+setResetAndClose:
+  feature_category: null
+  urgency: default
+setReviewers:
+  feature_category: code_review_workflow
+  urgency: default
+SetSecretPushProtection:
+  feature_category: null
+  urgency: default
+setSortPreference:
+  feature_category: portfolio_management
+  urgency: default
+setStarStatus:
+  feature_category: null
+  urgency: default
+SetValidityChecks:
+  feature_category: null
+  urgency: default
+sharedData:
+  feature_category: null
+  urgency: default
+sharedGroupsQuery:
+  feature_category: null
+  urgency: default
+sharedProjectsQuery:
+  feature_category: null
+  urgency: default
+snakeCaseNote:
+  feature_category: team_planning
+  urgency: default
+SnippetBlobContent:
+  feature_category: null
+  urgency: default
+snoozeTodo:
+  feature_category: null
+  urgency: default
+soloOwnedGroups:
+  feature_category: organization
+  urgency: default
+SortWikiDiscussion:
+  feature_category: null
+  urgency: default
+spepTestRun:
+  feature_category: security_policy_management
+  urgency: default
+stageJobsUpdated:
+  feature_category: continuous_integration
+  urgency: default
+startInstanceSecretsManagerTrial:
+  feature_category: secrets_management
+  urgency: default
+startSecretsManagerTrial:
+  feature_category: secrets_management
+  urgency: default
+startVulnerabilityWorkflow:
+  feature_category: vulnerability_management
+  urgency: default
+States:
+  feature_category: null
+  urgency: default
+stopEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+Subgroups:
+  feature_category: null
+  urgency: default
+SubgroupsSecurityDetails:
+  feature_category: security_asset_inventories
+  urgency: default
+subscribeToSavedView:
+  feature_category: portfolio_management
+  urgency: default
+suggestedReviewers:
+  feature_category: code_review_workflow
+  urgency: default
+summarizeReview:
+  feature_category: null
+  urgency: default
+syncFork:
+  feature_category: null
+  urgency: default
+takeOwnership:
+  feature_category: null
+  urgency: default
+testArtifactRegistryRepositoryConnection:
+  feature_category: artifact_registry
+  urgency: default
+testArtifactRegistryUpstreamConnection:
+  feature_category: artifact_registry
+  urgency: default
+testCaseConfidential:
+  feature_category: null
+  urgency: default
+testSelfHostedModelConnection:
+  feature_category: null
+  urgency: default
+timelineWidth:
+  feature_category: null
+  urgency: default
+timeTrackingReport:
+  feature_category: null
+  urgency: default
+titleRegex:
+  feature_category: code_review_workflow
+  urgency: default
+todoMarkDone:
+  feature_category: null
+  urgency: default
+todos:
+  feature_category: null
+  urgency: default
+toggleComplianceViolationNoteAwardEmoji:
+  feature_category: compliance_management
+  urgency: default
+toggleDraftStatus:
+  feature_category: null
+  urgency: default
+toggleEpicListCollapsed:
+  feature_category: portfolio_management
+  urgency: default
+toggleHierarchyTreeChild:
+  feature_category: portfolio_management
+  urgency: default
+toggleListCollapsed:
+  feature_category: portfolio_management
+  urgency: default
+toggleLock:
+  feature_category: null
+  urgency: default
+toggleModal:
+  feature_category: null
+  urgency: default
+toggleResolveWorkItemDesignDiscussion:
+  feature_category: null
+  urgency: default
+toggleWikiNoteResolveDiscussion:
+  feature_category: null
+  urgency: default
+toggleWorkItemNoteResolveDiscussion:
+  feature_category: team_planning
+  urgency: default
+toggleWorkItemTypeAvailability:
+  feature_category: team_planning
+  urgency: default
+ToolbarItems:
+  feature_category: null
+  urgency: default
+transferGroupsAndConfirmOrganization:
+  feature_category: organization
+  urgency: default
+undoKeepAsPlaceholder:
+  feature_category: null
+  urgency: default
+undoMarkAllAsDone:
+  feature_category: null
+  urgency: default
+unenrollInstanceSecretsManager:
+  feature_category: secrets_management
+  urgency: default
+unenrollNamespaceSecretsManager:
+  feature_category: secrets_management
+  urgency: default
+unlinkProjectComplianceViolationIssue:
+  feature_category: compliance_management
+  urgency: default
+unlockState:
+  feature_category: null
+  urgency: default
+unscheduleJob:
+  feature_category: null
+  urgency: default
+unschedulePipelineMiniGraphJob:
+  feature_category: null
+  urgency: default
+unSnoozeTodo:
+  feature_category: null
+  urgency: default
+updateAchievement:
+  feature_category: user_profile
+  urgency: default
+updateActiveDesignDiscussion:
+  feature_category: null
+  urgency: default
+updateAdminMemberRole:
+  feature_category: null
+  urgency: default
+updateAdminVariable:
+  feature_category: null
+  urgency: default
+updateAiCatalogAgent:
+  feature_category: workflow_catalog
+  urgency: default
+updateAiCatalogFlow:
+  feature_category: workflow_catalog
+  urgency: default
+updateAiCatalogItemConsumer:
+  feature_category: ai_catalog_curation
+  urgency: default
+updateAiCatalogThirdPartyFlow:
+  feature_category: workflow_catalog
+  urgency: default
+updateAiFeatureSetting:
+  feature_category: null
+  urgency: default
+updateAiFlowTrigger:
+  feature_category: dap_triggers
+  urgency: default
+updateAiNamespaceFeatureSettings:
+  feature_category: null
+  urgency: default
+updateAiToolRule:
+  feature_category: compliance_management
+  urgency: default
+updateAlertStatus:
+  feature_category: null
+  urgency: default
+updateAppStatus:
+  feature_category: null
+  urgency: default
+updateArtifactRegistryRepository:
+  feature_category: artifact_registry
+  urgency: default
+updateAutoCommitMessagePreference:
+  feature_category: wiki
+  urgency: default
+UpdateBoard:
+  feature_category: portfolio_management
+  urgency: default
+updateBoardEpicUserPreferences:
+  feature_category: portfolio_management
+  urgency: default
+UpdateBoardList:
+  feature_category: portfolio_management
+  urgency: default
+updateBoardWorkItem:
+  feature_category: portfolio_management
+  urgency: default
+updateBranchRuleSquashOption:
+  feature_category: null
+  urgency: default
+updateCanaryIngress:
+  feature_category: continuous_delivery
+  urgency: default
+updateCiJobTokenPermissions:
+  feature_category: null
+  urgency: default
+updateComplianceFramework:
+  feature_category: compliance_management
+  urgency: default
+updateComplianceRequirement:
+  feature_category: compliance_management
+  urgency: default
+updateComplianceViolationNote:
+  feature_category: compliance_management
+  urgency: default
+updateContact:
+  feature_category: null
+  urgency: default
+updateContainerProtectionRepositoryRule:
+  feature_category: null
+  urgency: default
+updateContainerProtectionTagRule:
+  feature_category: null
+  urgency: default
+updateContainerRegistryUpstream:
+  feature_category: virtual_registry
+  urgency: default
+updateContainerTagsExpirationPolicy:
+  feature_category: null
+  urgency: default
+updateCurrentBranch:
+  feature_category: null
+  urgency: default
+updateCurrentDeployKeyPage:
+  feature_category: continuous_delivery
+  urgency: default
+updateCurrentHttpIntegration:
+  feature_category: null
+  urgency: default
+updateCurrentPage:
+  feature_category: pipeline_composition
+  urgency: default
+updateCurrentScope:
+  feature_category: continuous_delivery
+  urgency: default
+updateCustomDashboard:
+  feature_category: custom_dashboards_foundation
+  urgency: default
+updateCustomerRelationsOrganization:
+  feature_category: null
+  urgency: default
+updateCustomField:
+  feature_category: team_planning
+  urgency: default
+updateDependencyProxyImageTtlGroupPolicy:
+  feature_category: null
+  urgency: default
+updateDependencyProxyPackagesSettings:
+  feature_category: null
+  urgency: default
+updateDependencyProxySettings:
+  feature_category: null
+  urgency: default
+updateDockerHubCredentials:
+  feature_category: null
+  urgency: default
+updateDuoDefaultNamespace:
+  feature_category: duo_agent_platform
+  urgency: default
+updateDuoSettings:
+  feature_category: null
+  urgency: default
+updateDuoWorkflowWebSearch:
+  feature_category: duo_agent_platform
+  urgency: default
+updateEmojiSkinTone:
+  feature_category: team_planning
+  urgency: default
+updateEnvironment:
+  feature_category: continuous_delivery
+  urgency: default
+updateEpicBoard:
+  feature_category: portfolio_management
+  urgency: default
+UpdateEpicBoardList:
+  feature_category: portfolio_management
+  urgency: default
+updateEpicDueDate:
+  feature_category: null
+  urgency: default
+updateEpicLabels:
+  feature_category: null
+  urgency: default
+updateEpicStartDate:
+  feature_category: null
+  urgency: default
+updateEscalationStatus:
+  feature_category: null
+  urgency: default
+updateFluxResource:
+  feature_category: continuous_delivery
+  urgency: default
+updateGroupSecret:
+  feature_category: secrets_management
+  urgency: default
+updateGroupVariable:
+  feature_category: null
+  urgency: default
+UpdateGroupWebBasedCommitSigning:
+  feature_category: source_code_management
+  urgency: default
+updateHttpIntegrationEE:
+  feature_category: null
+  urgency: default
+updateImportStatus:
+  feature_category: null
+  urgency: default
+updateIssuableConfidential:
+  feature_category: null
+  urgency: default
+updateIssuableSeverity:
+  feature_category: null
+  urgency: default
+updateIssue:
+  feature_category: team_planning
+  urgency: default
+updateIssueConfidential:
+  feature_category: null
+  urgency: default
+updateIssueDueDate:
+  feature_category: null
+  urgency: default
+updateIssueHealthStatus:
+  feature_category: null
+  urgency: default
+updateIssueLocked:
+  feature_category: null
+  urgency: default
+updateIssueState:
+  feature_category: team_planning
+  urgency: default
+updateItem:
+  feature_category: null
+  urgency: default
+updateIteration:
+  feature_category: team_planning
+  urgency: default
+updateIterationCadence:
+  feature_category: team_planning
+  urgency: default
+updateKeepLatestArtifactProjectSetting:
+  feature_category: null
+  urgency: default
+updateLabel:
+  feature_category: null
+  urgency: default
+updateLastCommitBranch:
+  feature_category: null
+  urgency: default
+updateLocalRoadmapSettings:
+  feature_category: portfolio_management
+  urgency: default
+updateMemberRole:
+  feature_category: null
+  urgency: default
+updateMergeRequest:
+  feature_category: null
+  urgency: default
+updateMergeRequestLocked:
+  feature_category: null
+  urgency: default
+updateNamespacePackageSettings:
+  feature_category: null
+  urgency: default
+updateNewWorkItem:
+  feature_category: team_planning
+  urgency: default
+UpdateOrbitUserPreference:
+  feature_category: duo_agent_platform
+  urgency: default
+updatePackagesCleanupPolicy:
+  feature_category: null
+  urgency: default
+updatePackagesProtectionRule:
+  feature_category: null
+  urgency: default
+updatePipelineEtag:
+  feature_category: null
+  urgency: default
+updatePipelineSchedule:
+  feature_category: null
+  urgency: default
+updatePipelineTrigger:
+  feature_category: null
+  urgency: default
+updatePipelineVariablesDefaultRoleGroupSetting:
+  feature_category: null
+  urgency: default
+updatePipelineVariablesMinimumOverrideRoleProjectSetting:
+  feature_category: null
+  urgency: default
+updatePolicy:
+  feature_category: security_policy_management
+  urgency: default
+updatePreferences:
+  feature_category: code_review_workflow
+  urgency: default
+updateProgress:
+  feature_category: null
+  urgency: default
+UpdateProjectAttributesMutation:
+  feature_category: null
+  urgency: default
+updateProjectComplianceViolation:
+  feature_category: compliance_management
+  urgency: default
+updateProjectSecret:
+  feature_category: secrets_management
+  urgency: default
+updateProjectVariable:
+  feature_category: null
+  urgency: default
+updateProjectWebBasedCommitSigning:
+  feature_category: source_code_management
+  urgency: default
+updateRelease:
+  feature_category: null
+  urgency: default
+updateRequirement:
+  feature_category: null
+  urgency: default
+updateRotation:
+  feature_category: null
+  urgency: default
+updateSecurityAttribute:
+  feature_category: null
+  urgency: default
+updateSecurityCategory:
+  feature_category: null
+  urgency: default
+updateSecurityTraining:
+  feature_category: null
+  urgency: default
+updateSelfHostedModel:
+  feature_category: null
+  urgency: default
+updateSidebarNavigationMode:
+  feature_category: navigation
+  urgency: default
+UpdateSnippet:
+  feature_category: null
+  urgency: default
+updateStatusCheck:
+  feature_category: null
+  urgency: default
+updateTestCase:
+  feature_category: null
+  urgency: default
+updateTestCaseConfidential:
+  feature_category: null
+  urgency: default
+updateTestCaseLabels:
+  feature_category: null
+  urgency: default
+UpdateTimelineEvent:
+  feature_category: null
+  urgency: default
+updateTimelineWidth:
+  feature_category: null
+  urgency: default
+updateValueStream:
+  feature_category: null
+  urgency: default
+updateVirtualRegistriesSetting:
+  feature_category: null
+  urgency: default
+updateWikiPageNote:
+  feature_category: null
+  urgency: default
+updateWorkItemAgentPlan:
+  feature_category: team_planning
+  urgency: default
+updateWorkItemAwardEmojiWidget:
+  feature_category: team_planning
+  urgency: default
+updateWorkItemDesignDescriptionMutation:
+  feature_category: null
+  urgency: default
+updateWorkItemDesignNote:
+  feature_category: null
+  urgency: default
+updateWorkItemListUserPreference:
+  feature_category: portfolio_management
+  urgency: default
+updateWorkItemNote:
+  feature_category: team_planning
+  urgency: default
+updateWorkItemsDisplaySettings:
+  feature_category: team_planning
+  urgency: default
+updateWorkItemTimeTracking:
+  feature_category: team_planning
+  urgency: default
+updateWorkItemType:
+  feature_category: team_planning
+  urgency: default
+uploadComplete:
+  feature_category: null
+  urgency: default
+uploadCorpus:
+  feature_category: null
+  urgency: default
+uploadError:
+  feature_category: null
+  urgency: default
+uploadWorkItemDesign:
+  feature_category: null
+  urgency: default
+upsertFlatUserCap:
+  feature_category: consumables_cost_management
+  urgency: default
+upsertUserBudgetCapOverrides:
+  feature_category: consumables_cost_management
+  urgency: default
+upsertVirtualRegistriesCleanupPolicy:
+  feature_category: virtual_registry
+  urgency: default
+userAddOnAssignmentBulkCreate:
+  feature_category: null
+  urgency: default
+userAddOnAssignmentBulkRemove:
+  feature_category: null
+  urgency: default
+userAddOnAssignmentCreate:
+  feature_category: null
+  urgency: default
+userAddOnAssignmentRemove:
+  feature_category: null
+  urgency: default
+userPreferencesUpdate:
+  feature_category: null
+  urgency: default
+userPreferencesUpdateMutation:
+  feature_category: null
+  urgency: default
+userProjects:
+  feature_category: navigation
+  urgency: default
+usersAutocomplete:
+  feature_category: null
+  urgency: default
+UserStatus:
+  feature_category: null
+  urgency: default
+userWorkspacesList:
+  feature_category: workspaces
+  urgency: default
+userWorkspacesTabList:
+  feature_category: workspaces
+  urgency: default
+validateCodeownerFile:
+  feature_category: null
+  urgency: default
+violationsGroupProjects:
+  feature_category: compliance_management
+  urgency: default
+vulnerabilitiesCreateIssue:
+  feature_category: null
+  urgency: default
+vulnerabilitiesDismiss:
+  feature_category: null
+  urgency: default
+vulnerabilitiesQuery:
+  feature_category: null
+  urgency: default
+vulnerabilitiesSeverityOverride:
+  feature_category: null
+  urgency: default
+vulnerabilityAutoRemediation:
+  feature_category: software_composition_analysis
+  urgency: default
+vulnerabilityConfirm:
+  feature_category: null
+  urgency: default
+VulnerabilityContextAnalysisLastRun:
+  feature_category: duo_agent_platform
+  urgency: default
+vulnerabilityCreate:
+  feature_category: null
+  urgency: default
+vulnerabilityDiscussions:
+  feature_category: null
+  urgency: default
+vulnerabilityDismiss:
+  feature_category: null
+  urgency: default
+vulnerabilityDismissFalsePositiveFlag:
+  feature_category: null
+  urgency: default
+vulnerabilityExternalIssueLinkCreate:
+  feature_category: null
+  urgency: default
+vulnerabilityFindingDueDateSet:
+  feature_category: vulnerability_management
+  urgency: default
+vulnerabilityGetGroupProjects:
+  feature_category: null
+  urgency: default
+vulnerabilityIssueLinkCreate:
+  feature_category: null
+  urgency: default
+vulnerabilityResolve:
+  feature_category: null
+  urgency: default
+vulnerabilityRevertToDetected:
+  feature_category: null
+  urgency: default
+vulnerabilitySeveritiesCount:
+  feature_category: vulnerability_management
+  urgency: default
+vulnerabilityWorkflowExecution:
+  feature_category: vulnerability_management
+  urgency: default
+WikiDiscussionSortOrder:
+  feature_category: null
+  urgency: default
+wikiNoteToggleAwardEmoji:
+  feature_category: null
+  urgency: default
+wikiPageQuery:
+  feature_category: null
+  urgency: default
+WikiPageSubscribe:
+  feature_category: null
+  urgency: default
+wikiPageToggleAwardEmoji:
+  feature_category: wiki
+  urgency: default
+workflowActivityUpdated:
+  feature_category: duo_agent_platform
+  urgency: default
+workflowStatusUpdated:
+  feature_category: duo_agent_platform
+  urgency: default
+workInProgress:
+  feature_category: code_review_workflow
+  urgency: default
+workItemAgentPlan:
+  feature_category: team_planning
+  urgency: default
+workItemAgentPlanContent:
+  feature_category: team_planning
+  urgency: default
+workItemAgentPlanReadinessFeedback:
+  feature_category: team_planning
+  urgency: default
+workItemAgentPlanUpdated:
+  feature_category: team_planning
+  urgency: default
+workItemAgentPresence:
+  feature_category: duo_agent_platform
+  urgency: default
+workItemAncestorsQuery:
+  feature_category: portfolio_management
+  urgency: default
+workItemAncestorsUpdated:
+  feature_category: portfolio_management
+  urgency: default
+workItemBulkMove:
+  feature_category: portfolio_management
+  urgency: default
+workItemBulkUpdate:
+  feature_category: portfolio_management
+  urgency: default
+workItemById:
+  feature_category: team_planning
+  urgency: default
+workItemCommentTodos:
+  feature_category: notifications
+  urgency: default
+workItemConvert:
+  feature_category: team_planning
+  urgency: default
+workItemCrmContacts:
+  feature_category: team_planning
+  urgency: default
+workItemCurrentUserTodos:
+  feature_category: team_planning
+  urgency: default
+workItemCurrentUserTodosUpdated:
+  feature_category: team_planning
+  urgency: default
+workItemDecisionArchive:
+  feature_category: team_planning
+  urgency: default
+workItemDecisionCreate:
+  feature_category: team_planning
+  urgency: default
+workItemDecisionResolve:
+  feature_category: team_planning
+  urgency: default
+workItemDecisions:
+  feature_category: team_planning
+  urgency: default
+workItemDecisionUpdate:
+  feature_category: team_planning
+  urgency: default
+workItemDescriptionTemplate:
+  feature_category: team_planning
+  urgency: default
+workItemDescriptionTemplatesList:
+  feature_category: team_planning
+  urgency: default
+workItemDescriptionVersionDetails:
+  feature_category: team_planning
+  urgency: default
+WorkItemDesignManagementMove:
+  feature_category: null
+  urgency: default
+workItemDevelopment:
+  feature_category: team_planning
+  urgency: default
+workItemDevelopmentUpdated:
+  feature_category: team_planning
+  urgency: default
+workItemEditMetadata:
+  feature_category: portfolio_management
+  urgency: default
+workItemEmailParticipantsByIid:
+  feature_category: team_planning
+  urgency: default
+workItemEnableAiPlanning:
+  feature_category: team_planning
+  urgency: default
+workItemErrorTracking:
+  feature_category: team_planning
+  urgency: default
+workItemGenerateWorkplan:
+  feature_category: team_planning
+  urgency: default
+workItemHierarchyAddChildren:
+  feature_category: portfolio_management
+  urgency: default
+workItemLinkedItems:
+  feature_category: team_planning
+  urgency: default
+workItemLinkedItemsSlim:
+  feature_category: portfolio_management
+  urgency: default
+workItemLinkedResources:
+  feature_category: team_planning
+  urgency: default
+workItemLinkedResourcesUpdated:
+  feature_category: team_planning
+  urgency: default
+workItemMetadataEE:
+  feature_category: team_planning
+  urgency: default
+workItemMove:
+  feature_category: team_planning
+  urgency: default
+workItemMoveTargets:
+  feature_category: team_planning
+  urgency: default
+workItemNote:
+  feature_category: team_planning
+  urgency: default
+workItemNoteAddAwardEmoji:
+  feature_category: team_planning
+  urgency: default
+workItemNoteCreated:
+  feature_category: team_planning
+  urgency: default
+workItemNoteDeleted:
+  feature_category: team_planning
+  urgency: default
+workItemNoteRemoveAwardEmoji:
+  feature_category: team_planning
+  urgency: default
+workItemNotesByIid:
+  feature_category: team_planning
+  urgency: default
+workItemNoteUpdated:
+  feature_category: team_planning
+  urgency: default
+workItemParentUpdated:
+  feature_category: null
+  urgency: default
+workItemParticipants:
+  feature_category: team_planning
+  urgency: default
+workItemPopoverEE:
+  feature_category: null
+  urgency: default
+workItemRelatedItem:
+  feature_category: portfolio_management
+  urgency: default
+workItemRepositionImageDiffNote:
+  feature_category: null
+  urgency: default
+workItemRequester:
+  feature_category: team_planning
+  urgency: default
+workItemResumeWorkplan:
+  feature_category: team_planning
+  urgency: default
+workItemSavedViewCreate:
+  feature_category: portfolio_management
+  urgency: default
+workItemSavedViewDelete:
+  feature_category: portfolio_management
+  urgency: default
+workItemSavedViewReorder:
+  feature_category: portfolio_management
+  urgency: default
+workItemSavedViewUnsubscribe:
+  feature_category: portfolio_management
+  urgency: default
+workItemSavedViewUpdate:
+  feature_category: portfolio_management
+  urgency: default
+workItemSavedViewUpdated:
+  feature_category: portfolio_management
+  urgency: default
+WorkItemsCsvExport:
+  feature_category: portfolio_management
+  urgency: default
+WorkItemsCsvImport:
+  feature_category: portfolio_management
+  urgency: default
+workItemSettingsUpdate:
+  feature_category: team_planning
+  urgency: default
+workItemsReorder:
+  feature_category: portfolio_management
+  urgency: default
+workItemSubscribe:
+  feature_category: team_planning
+  urgency: default
+workItemTimeTracking:
+  feature_category: team_planning
+  urgency: default
+workItemTodoCreate:
+  feature_category: team_planning
+  urgency: default
+workItemTreeQuery:
+  feature_category: team_planning
+  urgency: default
+workItemTypeIconDefinitions:
+  feature_category: team_planning
+  urgency: default
+workItemTypesConfiguration:
+  feature_category: team_planning
+  urgency: default
+workItemUpdate:
+  feature_category: team_planning
+  urgency: default
+workItemUpdateCrmContacts:
+  feature_category: team_planning
+  urgency: default
+workItemUpdateCurrentUserTodos:
+  feature_category: team_planning
+  urgency: default
+workItemUpdateCustomFields:
+  feature_category: team_planning
+  urgency: default
+workItemUpdated:
+  feature_category: team_planning
+  urgency: default
+workItemUpdateParent:
+  feature_category: portfolio_management
+  urgency: default
+workItemVulnerabilities:
+  feature_category: team_planning
+  urgency: default
+workplanFlowAvailability:
+  feature_category: team_planning
+  urgency: default
+workspaceAutocompleteUsersSearch:
+  feature_category: user_profile
+  urgency: default
+workspaceCreate:
+  feature_category: null
+  urgency: default
+workspacePermissions:
+  feature_category: team_planning
+  urgency: default
+workspaceUpdate:
+  feature_category: null
+  urgency: default
+yourWorkGroups:
+  feature_category: groups_and_projects
+  urgency: default
+zentaoIssues:
+  feature_category: null
+  urgency: default

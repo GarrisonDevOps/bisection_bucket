@@ -1,0 +1,304 @@
+// Package config provides configuration management for gitlab-shell.
+// It handles loading and parsing of YAML configuration files and provides
+// access to HTTP clients and other shared resources.
+package config
+
+import (
+	"fmt"
+	"net/url"
+	"os"
+	"path"
+	"path/filepath"
+	"sync"
+	"time"
+
+	"gopkg.in/yaml.v3"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitaly"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/metrics"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/topology"
+)
+
+const (
+	configFile            = "config.yml"
+	defaultSecretFileName = ".gitlab_shell_secret" //nolint:gosec // Not actual credentials, just field name
+)
+
+// YamlDuration is a custom duration type that can unmarshal from both
+// integer seconds and standard duration strings in YAML.
+type YamlDuration time.Duration
+
+// GSSAPIConfig contains GSSAPI/Kerberos authentication settings for SSH.
+type GSSAPIConfig struct {
+	Enabled              bool   `yaml:"enabled,omitempty"`
+	Keytab               string `yaml:"keytab,omitempty"`
+	ServicePrincipalName string `yaml:"service_principal_name,omitempty"`
+	LibPath              string
+}
+
+// ServerConfig contains SSH server configuration options.
+type ServerConfig struct {
+	Listen                  string       `yaml:"listen,omitempty"`
+	ProxyProtocol           bool         `yaml:"proxy_protocol,omitempty"`
+	ProxyPolicy             string       `yaml:"proxy_policy,omitempty"`
+	ProxyAllowed            []string     `yaml:"proxy_allowed,omitempty"`
+	WebListen               string       `yaml:"web_listen,omitempty"`
+	ConcurrentSessionsLimit int64        `yaml:"concurrent_sessions_limit,omitempty"`
+	ClientAliveInterval     YamlDuration `yaml:"client_alive_interval,omitempty"`
+	GracePeriod             YamlDuration `yaml:"grace_period"`
+	ProxyHeaderTimeout      YamlDuration `yaml:"proxy_header_timeout"`
+	LoginGraceTime          YamlDuration `yaml:"login_grace_time"`
+	ReadinessProbe          string       `yaml:"readiness_probe"`
+	LivenessProbe           string       `yaml:"liveness_probe"`
+	HostKeyFiles            []string     `yaml:"host_key_files,omitempty"`
+	HostCertFiles           []string     `yaml:"host_cert_files,omitempty"`
+	TrustedUserCAKeys       []string     `yaml:"trusted_user_ca_keys,omitempty"`
+	MACs                    []string     `yaml:"macs"`
+	KexAlgorithms           []string     `yaml:"kex_algorithms"`
+	PublicKeyAlgorithms     []string     `yaml:"public_key_algorithms"`
+	Ciphers                 []string     `yaml:"ciphers"`
+	GSSAPI                  GSSAPIConfig `yaml:"gssapi,omitempty"`
+}
+
+// HTTPSettingsConfig are HTTP related settings
+type HTTPSettingsConfig struct {
+	User               string `yaml:"user"`
+	Password           string `yaml:"password"`
+	ReadTimeoutSeconds uint64 `yaml:"read_timeout"`
+	CaFile             string `yaml:"ca_file"`
+	CaPath             string `yaml:"ca_path"`
+}
+
+// LFSConfig contains Git LFS protocol settings.
+type LFSConfig struct {
+	PureSSHProtocol bool `yaml:"pure_ssh_protocol"`
+}
+
+// PATConfig contains Personal Access Token authentication settings.
+type PATConfig struct {
+	Enabled       bool     `yaml:"enabled,omitempty"`
+	AllowedScopes []string `yaml:"allowed_scopes,omitempty"`
+}
+
+// Config represents the main gitlab-shell configuration.
+type Config struct {
+	User                  string `yaml:"user,omitempty"`
+	RootDir               string
+	LogFile               string `yaml:"log_file,omitempty"`
+	LogFormat             string `yaml:"log_format,omitempty"`
+	LogLevel              string `yaml:"log_level,omitempty"`
+	GitlabURL             string `yaml:"gitlab_url"`
+	GitlabRelativeURLRoot string `yaml:"gitlab_relative_url_root"`
+	GitlabTracing         string `yaml:"gitlab_tracing"`
+	// SecretFilePath is only for parsing. Application code should always use Secret.
+	SecretFilePath string             `yaml:"secret_file"`
+	Secret         string             `yaml:"secret"`
+	SslCertDir     string             `yaml:"ssl_cert_dir"`
+	HTTPSettings   HTTPSettingsConfig `yaml:"http_settings"`
+	Server         ServerConfig       `yaml:"sshd"`
+	LFSConfig      LFSConfig          `yaml:"lfs"`
+	PATConfig      PATConfig          `yaml:"pat"`
+
+	// TopologyService contains Topology Service client configuration for Cells routing.
+	TopologyService topology.Config `yaml:"topology_service"`
+
+	// TopologyClient is the Topology Service gRPC client for Cells routing.
+	// It is nil when the Topology Service is disabled.
+	TopologyClient *topology.Client
+
+	httpClient     *client.HTTPClient
+	httpClientErr  error
+	httpClientOnce sync.Once
+
+	GitalyClient gitaly.Client
+}
+
+// The defaults to apply before parsing the config file(s).
+var (
+	DefaultConfig = Config{
+		LogFile:   "gitlab-shell.log",
+		LogFormat: "json",
+		LogLevel:  "info",
+		Server:    DefaultServerConfig,
+		User:      "git",
+		PATConfig: DefaultPATConfig,
+	}
+
+	DefaultServerConfig = ServerConfig{
+		Listen:                  "[::]:22",
+		WebListen:               "localhost:9122",
+		ConcurrentSessionsLimit: 10,
+		GracePeriod:             YamlDuration(10 * time.Second),
+		ClientAliveInterval:     YamlDuration(15 * time.Second),
+		ProxyHeaderTimeout:      YamlDuration(500 * time.Millisecond),
+		LoginGraceTime:          YamlDuration(60 * time.Second),
+		ReadinessProbe:          "/start",
+		LivenessProbe:           "/health",
+		HostKeyFiles: []string{
+			"/run/secrets/ssh-hostkeys/ssh_host_rsa_key",
+			"/run/secrets/ssh-hostkeys/ssh_host_ecdsa_key",
+			"/run/secrets/ssh-hostkeys/ssh_host_ed25519_key",
+		},
+	}
+
+	DefaultPATConfig = PATConfig{
+		Enabled: true,
+	}
+)
+
+// UnmarshalYAML implements custom YAML unmarshaling for YamlDuration,
+// accepting both integer seconds and duration strings.
+func (d *YamlDuration) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var intDuration int
+	if err := unmarshal(&intDuration); err != nil {
+		return unmarshal((*time.Duration)(d))
+	}
+
+	*d = YamlDuration(time.Duration(intDuration) * time.Second)
+
+	return nil
+}
+
+// ApplyGlobalState applies configuration settings that affect global process state,
+// such as environment variables.
+func (c *Config) ApplyGlobalState() {
+	if c.SslCertDir != "" {
+		_ = os.Setenv("SSL_CERT_DIR", c.SslCertDir)
+	}
+}
+
+// HTTPClient creates a new instance of *client.HTTPClient
+func (c *Config) HTTPClient() (*client.HTTPClient, error) {
+	c.httpClientOnce.Do(func() {
+		client, err := client.NewHTTPClientWithOpts(
+			c.GitlabURL,
+			c.GitlabRelativeURLRoot,
+			c.HTTPSettings.CaFile,
+			c.HTTPSettings.CaPath,
+			c.HTTPSettings.ReadTimeoutSeconds,
+			nil,
+		)
+		if err != nil {
+			c.httpClientErr = err
+			return
+		}
+
+		tr := client.RetryableHTTP.HTTPClient.Transport
+		client.RetryableHTTP.HTTPClient.Transport = metrics.NewRoundTripper(tr)
+
+		c.httpClient = client
+	})
+
+	return c.httpClient, c.httpClientErr
+}
+
+// NewTopologyResolver creates a topology.Resolver from this config's
+// TopologyClient and cell endpoint configuration. This centralizes Resolver
+// construction so callers cannot accidentally forget the cell endpoint config.
+func (c *Config) NewTopologyResolver() *topology.Resolver {
+	return topology.NewResolver(c.TopologyClient, c.TopologyService.CellEndpoint)
+}
+
+// Close releases resources owned by the Config, such as the Topology Service
+// gRPC client. It is safe to call Close on a zero-value or partially
+// initialized Config. Callers should defer Close() after loading the config.
+func (c *Config) Close() error {
+	if c.TopologyClient != nil {
+		return c.TopologyClient.Close()
+	}
+	return nil
+}
+
+// NewFromDirExternal returns a new config from a given root dir. It also applies defaults appropriate for
+// gitlab-shell running in an external SSH server.
+func NewFromDirExternal(dir string) (*Config, error) {
+	cfg, err := newFromFile(filepath.Join(dir, configFile))
+	if err != nil {
+		return nil, err
+	}
+
+	cfg.ApplyGlobalState()
+
+	return cfg, nil
+}
+
+// NewFromDir returns a new config given a root directory. It looks for the config file name in the
+// given directory and reads the config from it. It doesn't apply any defaults. New code should prefer
+// this over NewFromDirIntegrated and apply the right default via one of the Apply... functions.
+func NewFromDir(dir string) (*Config, error) {
+	return newFromFile(filepath.Join(dir, configFile))
+}
+
+// newFromFile reads a new Config instance from the given file path. It doesn't apply any defaults.
+func newFromFile(path string) (*Config, error) {
+	cfg := &Config{
+		LogFile:   DefaultConfig.LogFile,
+		LogFormat: DefaultConfig.LogFormat,
+		LogLevel:  DefaultConfig.LogLevel,
+		Server:    DefaultConfig.Server,
+		User:      DefaultConfig.User,
+		PATConfig: DefaultConfig.PATConfig,
+	}
+	cfg.RootDir = filepath.Dir(path)
+
+	configBytes, err := os.ReadFile(path) //nolint:gosec // File path is from trusted config directory
+	if err != nil {
+		return nil, err
+	}
+
+	if err := yaml.Unmarshal(configBytes, cfg); err != nil {
+		return nil, err
+	}
+
+	if cfg.GitlabURL != "" {
+		// This is only done for historic reasons, don't implement it for new config sources.
+		unescapedURL, err := url.PathUnescape(cfg.GitlabURL)
+		if err != nil {
+			return nil, err
+		}
+
+		cfg.GitlabURL = unescapedURL
+	}
+
+	if err := parseSecret(cfg); err != nil {
+		return nil, err
+	}
+
+	if len(cfg.LogFile) > 0 && cfg.LogFile[0] != '/' && cfg.RootDir != "" {
+		cfg.LogFile = filepath.Join(cfg.RootDir, cfg.LogFile)
+	}
+
+	if err := cfg.TopologyService.Validate(); err != nil {
+		return nil, fmt.Errorf("invalid topology_service config: %w", err)
+	}
+
+	if cfg.TopologyService.Enabled {
+		cfg.TopologyClient = topology.NewClient(&cfg.TopologyService)
+	}
+
+	return cfg, nil
+}
+
+func parseSecret(cfg *Config) error {
+	// The secret was parsed from yaml no need to read another file
+	if cfg.Secret != "" {
+		return nil
+	}
+
+	if cfg.SecretFilePath == "" {
+		cfg.SecretFilePath = defaultSecretFileName
+	}
+
+	if !filepath.IsAbs(cfg.SecretFilePath) {
+		cfg.SecretFilePath = path.Join(cfg.RootDir, cfg.SecretFilePath)
+	}
+
+	secretFileContent, err := os.ReadFile(cfg.SecretFilePath)
+	if err != nil {
+		return err
+	}
+	cfg.Secret = string(secretFileContent)
+
+	return nil
+}

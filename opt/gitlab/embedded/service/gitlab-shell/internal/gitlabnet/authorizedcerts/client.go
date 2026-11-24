@@ -1,0 +1,99 @@
+// Package authorizedcerts implements functions for authorizing users with ssh certificates
+package authorizedcerts
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"net/http"
+	"net/netip"
+	"net/url"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/topology"
+)
+
+const (
+	authorizedCertsPath = "/authorized_certs"
+)
+
+// Client wraps a gitlab client and its associated config
+type Client struct {
+	config   *config.Config
+	client   *client.GitlabNetClient
+	resolver *topology.Resolver
+}
+
+// Response contains the json response from authorized_certs
+type Response struct {
+	Username  string `json:"username"`
+	Namespace string `json:"namespace"`
+	Instance  bool   `json:"instance"`
+}
+
+// NewClient instantiates a Client with config
+func NewClient(config *config.Config) (*Client, error) {
+	client, err := gitlabnet.GetClient(config)
+	if err != nil {
+		return nil, fmt.Errorf("error creating http client: %v", err)
+	}
+
+	return &Client{
+		config:   config,
+		client:   client,
+		resolver: config.NewTopologyResolver(),
+	}, nil
+}
+
+// GetByKey makes a request to authorized_certs for the namespace configured with a cert that matches fingerprint.
+func (c *Client) GetByKey(ctx context.Context, userID, fingerprint, remoteAddr string) (*Response, error) {
+	path, err := pathWithKey(userID, fingerprint, remoteAddr)
+	if err != nil {
+		return nil, err
+	}
+
+	// The fingerprint here is the signing CA's SHA256 hash (without the
+	// "SHA256:" prefix), used as the SSHFingerprintClaim to identify which cell
+	// holds certificates signed by this CA.
+	routed := c.resolver.ClientForSSHFingerprint(ctx, c.client, fingerprint)
+	response, err := routed.Client.Get(client.WithoutRetryOnTooManyRequests(ctx), path)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		_ = response.Body.Close()
+	}()
+
+	parsedResponse := &Response{}
+	if err := gitlabnet.ParseJSON(response, parsedResponse); err != nil {
+		return nil, err
+	}
+
+	return parsedResponse, nil
+}
+
+// IsRateLimited reports whether err contains a rate-limit response from the API.
+func IsRateLimited(err error) bool {
+	var apiErr *client.APIError
+	return errors.As(err, &apiErr) && apiErr.StatusCode == http.StatusTooManyRequests
+}
+
+func pathWithKey(userID, fingerprint, remoteAddr string) (string, error) {
+	u, err := url.Parse(authorizedCertsPath)
+	if err != nil {
+		return "", err
+	}
+
+	params := u.Query()
+	params.Set("key", fingerprint)
+	params.Set("user_identifier", userID)
+	ip := gitlabnet.ParseIP(remoteAddr)
+	if _, err := netip.ParseAddr(ip); err == nil {
+		params.Set("check_ip", ip)
+	}
+	u.RawQuery = params.Encode()
+
+	return u.String(), nil
+}

@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[3334],{7589(t,e,a){a.d(e,{default:()=>s});let s={project:{t:0,b:{t:2,i:[{t:3}],s:"Proyekto"}},sentry:{t:0,b:{t:2,i:[{t:3}],s:"Sentry"}},gqlName:{t:0,b:{t:2,i:[{t:3}],s:"Pangalanan"}},roleUser:{t:0,b:{t:2,i:[{t:3}],s:"Ikaw"}}}}}]);

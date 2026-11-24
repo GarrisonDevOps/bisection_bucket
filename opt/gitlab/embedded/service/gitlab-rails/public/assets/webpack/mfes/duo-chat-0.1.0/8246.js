@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[8246],{853(t,s,e){e.d(s,{default:()=>i});let i={project:{t:0,b:{t:2,i:[{t:3}],s:"專案"}},sentry:{t:0,b:{t:2,i:[{t:3}],s:"Sentry"}},gqlName:{t:0,b:{t:2,i:[{t:3}],s:"名稱"}},Assign:{t:0,b:{t:2,i:[{t:3}],s:"指派"}},"Merge request":{t:0,b:{t:2,i:[{t:3}],s:"合併請求"}}}}}]);

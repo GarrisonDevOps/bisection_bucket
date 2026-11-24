@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[32750],{823446(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"FIX",contains:[{begin:/[^\u2401\u0001]+/,end:/[\u2401\u0001]/,excludeEnd:!0,returnBegin:!0,returnEnd:!1,contains:[{begin:/([^\u2401\u0001=]+)/,end:/=([^\u2401\u0001=]+)/,returnEnd:!0,returnBegin:!1,className:"attr"},{begin:/=/,end:/([\u2401\u0001])/,excludeEnd:!0,excludeBegin:!0,className:"string"}]}],case_insensitive:!0}}})}}]);
+//# sourceMappingURL=hl-fix.3cacd99a.chunk.js.map

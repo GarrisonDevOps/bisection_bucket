@@ -1,0 +1,65 @@
+{
+  "name": "gitlab-vscode-theme",
+  "displayName": "GitLab Theme for Visual Studio Code",
+  "description": "The GitLab Theme for Visual Studio Code brings the sleek and professional look of GitLab to your coding environment.",
+  "version": "0.0.1",
+  "publisher": "GitLab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/gitlab-org/gitlab-web-ide/-/tree/main/packages/vscode-extension-gitlab-vscode-theme"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/gitlab-org/gitlab-web-ide/-/issues"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "color-theme",
+    "gitlab",
+    "light",
+    "dark"
+  ],
+  "scripts": {
+    "package": "yarn dlx @vscode/vsce@^3.1.1 package --no-dependencies",
+    "build:font": "yarn dlx webfont@11.2.26 ./fonts/icons/*.svg"
+  },
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#171321",
+    "theme": "dark"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "GitLab Dark Midnight",
+        "uiTheme": "vs-dark",
+        "path": "./themes/GitLab_Dark_Midnight-color-theme.json"
+      },
+      {
+        "label": "GitLab Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/GitLab_Dark-color-theme.json"
+      },
+      {
+        "label": "GitLab Light",
+        "uiTheme": "vs",
+        "path": "./themes/GitLab_Light-color-theme.json"
+      }
+    ],
+    "icons": {
+      "gitlab-tanuki": {
+        "description": "GitLab Mono Tanuki",
+        "default": {
+          "fontPath": "fonts/gitlab_webide.woff",
+          "fontCharacter": "\\eA01"
+        }
+      }
+    }
+  }
+}

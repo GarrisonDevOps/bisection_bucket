@@ -1,0 +1,90 @@
+// Package gitauditevent handles Git audit events for GitLab.
+package gitauditevent
+
+import (
+	"context"
+	"fmt"
+
+	pb "gitlab.com/gitlab-org/gitaly/v18/proto/go/gitalypb"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet"
+)
+
+const uri = "/api/v4/internal/shellhorse/git_audit_event"
+
+// Client handles communication with the GitLab audit event API.
+type Client struct {
+	config *config.Config
+	client *client.GitlabNetClient
+}
+
+// NewClient creates a new Client for sending audit events.
+func NewClient(config *config.Config) (*Client, error) {
+	client, err := gitlabnet.GetClient(config)
+	if err != nil {
+		return nil, fmt.Errorf("error creating http client: %w", err)
+	}
+
+	return &Client{config: config, client: client}, nil
+}
+
+// Request represents the data for a Git audit event.
+type Request struct {
+	Action        commandargs.CommandType           `json:"action"`
+	Protocol      string                            `json:"protocol"`
+	Repo          string                            `json:"gl_repository"`
+	Username      string                            `json:"username"`
+	KeyID         int                               `json:"key_id,omitempty"`
+	PackfileStats *pb.PackfileNegotiationStatistics `json:"packfile_stats,omitempty"`
+	CheckIP       string                            `json:"check_ip,omitempty"`
+	Changes       string                            `json:"changes"`
+	NamespacePath string                            `json:"namespace_path,omitempty"`
+
+	CAFingerprint          string `json:"ca_fingerprint,omitempty"`
+	CertificateIdentity    string `json:"certificate_identity,omitempty"`
+	CertificateTrustSource string `json:"certificate_trust_source,omitempty"`
+}
+
+// AuditParams contains parameters for sending an audit event.
+type AuditParams struct {
+	Username      string
+	KeyID         int
+	Repo          string
+	PackfileStats *pb.PackfileNegotiationStatistics
+	CellAddress   string
+}
+
+// Audit sends an audit event to the GitLab API.
+func (c *Client) Audit(ctx context.Context, params AuditParams, args *commandargs.Shell) error {
+	request := &Request{
+		Action:        args.CommandType,
+		Repo:          params.Repo,
+		Protocol:      "ssh",
+		Username:      params.Username,
+		KeyID:         params.KeyID,
+		PackfileStats: params.PackfileStats,
+		CheckIP:       args.CheckIP(),
+		Changes:       "_any",
+		NamespacePath: args.Env.NamespacePath,
+	}
+	if cert := args.Certificate; cert != nil {
+		request.CAFingerprint = cert.CAFingerprint
+		request.CertificateIdentity = cert.Identity
+		request.CertificateTrustSource = cert.TrustSource
+	}
+
+	httpClient := c.client
+	if params.CellAddress != "" {
+		httpClient = httpClient.WithHost(params.CellAddress)
+	}
+
+	response, err := httpClient.Post(ctx, uri, request)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close() //nolint:errcheck
+
+	return nil
+}

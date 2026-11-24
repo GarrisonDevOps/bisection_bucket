@@ -1,0 +1,4 @@
+opt/gitlab/embedded/bin/praefect filter=lfs diff=lfs merge=lfs -text
+opt/gitlab/embedded/bin/gitlab-kas filter=lfs diff=lfs merge=lfs -text
+opt/gitlab/embedded/bin/gitaly filter=lfs diff=lfs merge=lfs -text
+opt/gitlab/embedded/bin/consul filter=lfs diff=lfs merge=lfs -text

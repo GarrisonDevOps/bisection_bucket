@@ -1,0 +1,89 @@
+// Package discover provides functionality for discovering GitLab users
+package discover
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"net/url"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/topology"
+)
+
+// Client represents a client for discovering GitLab users
+type Client struct {
+	config   *config.Config
+	client   *client.GitlabNetClient
+	resolver *topology.Resolver
+}
+
+// Response represents the response structure for user discovery
+type Response struct {
+	UserID   int64  `json:"id"`
+	Name     string `json:"name"`
+	Username string `json:"username"`
+}
+
+// NewClient creates a new instance of the user discovery client
+func NewClient(config *config.Config) (*Client, error) {
+	client, err := gitlabnet.GetClient(config)
+	if err != nil {
+		return nil, fmt.Errorf("error creating http client: %v", err)
+	}
+
+	return &Client{
+		config:   config,
+		client:   client,
+		resolver: config.NewTopologyResolver(),
+	}, nil
+}
+
+// GetByCommandArgs retrieves user information based on command arguments
+func (c *Client) GetByCommandArgs(ctx context.Context, args *commandargs.Shell) (*Response, error) {
+	params := url.Values{}
+	switch {
+	case args.GitlabUsername != "":
+		params.Add("username", args.GitlabUsername)
+	case args.GitlabKeyID != "":
+		params.Add("key_id", args.GitlabKeyID)
+	case args.GitlabKrb5Principal != "":
+		params.Add("krb5principal", args.GitlabKrb5Principal)
+	default:
+		// No 'who' information was provided. Keep this message stable: it is shown to users
+		// and asserted in tests.
+		return nil, fmt.Errorf("who='' is invalid")
+	}
+
+	return c.getResponse(ctx, params, args.UserArgs())
+}
+
+func (c *Client) getResponse(ctx context.Context, params url.Values, userArgs topology.UserArgs) (*Response, error) {
+	path := "/discover?" + params.Encode()
+
+	routed := c.resolver.ClientForUserArgs(ctx, c.client, userArgs)
+	response, err := routed.Client.Get(ctx, path)
+	if err != nil {
+		return nil, err
+	}
+	defer func() { _ = response.Body.Close() }()
+
+	return parse(response)
+}
+
+func parse(hr *http.Response) (*Response, error) {
+	response := &Response{}
+	if err := gitlabnet.ParseJSON(hr, response); err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+// IsAnonymous checks if the user is anonymous
+func (r *Response) IsAnonymous() bool {
+	return r.UserID < 1
+}

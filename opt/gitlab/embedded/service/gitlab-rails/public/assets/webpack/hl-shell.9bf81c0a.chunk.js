@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[86863],{552267(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Shell Session",aliases:["console","shellsession"],contains:[{className:"meta.prompt",begin:/^\s{0,3}[./~\w\d[\]()@-]*[>%$#][ ]?/,starts:{end:/[^\\](?=\s*$)/,subLanguage:"bash"}}]}}})}}]);
+//# sourceMappingURL=hl-shell.9bf81c0a.chunk.js.map

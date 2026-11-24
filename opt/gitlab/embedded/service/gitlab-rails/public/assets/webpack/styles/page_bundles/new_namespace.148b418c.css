@@ -1,0 +1,2 @@
+.new-namespace-panel-illustration{width:215px}.new-namespace-panel-wrapper{width:50%}@container panel (width<1200px){.new-namespace-panel-wrapper{width:100%}}.new-namespace-panel:hover{background-color:var(--gl-background-color-subtle)}.new-namespace-panel{color:var(--purple-700,#5b46b8);text-align:center;min-height:240px}@container panel (width>=992px){.new-namespace-panel{text-align:left}}
+/*# sourceMappingURL=new_namespace.148b418c.css.map*/

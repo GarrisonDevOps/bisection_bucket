@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[39032],{719556(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"PHP template",subLanguage:"xml",contains:[{begin:/<\?(php|=)?/,end:/\?>/,subLanguage:"php",contains:[{begin:"/\\*",end:"\\*/",skip:!0},{begin:'b"',end:'"',skip:!0},{begin:"b'",end:"'",skip:!0},a.inherit(a.APOS_STRING_MODE,{illegal:null,className:null,contains:null,skip:!0}),a.inherit(a.QUOTE_STRING_MODE,{illegal:null,className:null,contains:null,skip:!0})]}]}}})}}]);
+//# sourceMappingURL=hl-php-template.1b66724e.chunk.js.map

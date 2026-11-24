@@ -1,0 +1,262 @@
+package githttp
+
+import (
+	"bufio"
+	"bytes"
+	"context"
+	"errors"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"net/url"
+	"path"
+
+	"gitlab.com/gitlab-org/labkit/v2/log"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/readwriter"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/accessverifier"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/git"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/pktline"
+)
+
+// signShellJWT is a variable so tests can observe when tokens are signed.
+var signShellJWT = client.SignShellJWT
+
+// CellsPullCommand handles git pull (upload-pack) via SSH-over-HTTP for Cells
+// routing. When the Topology Service routes to a different Cell, Gitaly is not
+// directly reachable, so it proxies SSH pack data through the Cell's Workhorse
+// via POST /{repo}.git/ssh-upload-pack.
+type CellsPullCommand struct {
+	Config     *config.Config
+	ReadWriter *readwriter.ReadWriter
+	Args       *commandargs.Shell
+	Response   *accessverifier.Response
+}
+
+// Execute runs a Cells SSH-over-HTTP upload-pack request. Upload-pack is
+// client-speaks-first, so pull can use a single request.
+func (c *CellsPullCommand) Execute(ctx context.Context) error {
+	log.FromContext(ctx).InfoContext(ctx, "Cells: using SSH-over-HTTP upload-pack",
+		slog.String("cell_address", c.Response.CellAddress))
+
+	gitClient, err := buildCellsGitClient(c.Config, c.Response, c.Args)
+	if err != nil {
+		return err
+	}
+
+	if err := pipeRequest(ctx, c.ReadWriter, readUploadPackRequest, gitClient.SSHUploadPack); err != nil {
+		return withCellsContext("upload-pack", err)
+	}
+
+	return nil
+}
+
+// NewCellsPullCommand builds a Cells SSH-over-HTTP upload-pack command.
+func NewCellsPullCommand(cfg *config.Config, rw *readwriter.ReadWriter, args *commandargs.Shell, resp *accessverifier.Response) *CellsPullCommand {
+	return &CellsPullCommand{
+		Config:     cfg,
+		ReadWriter: rw,
+		Args:       args,
+		Response:   resp,
+	}
+}
+
+// CellsPushCommand handles git push (receive-pack) via SSH-over-HTTP for Cells
+// routing. When the Topology Service routes to a different Cell, Gitaly is not
+// directly reachable, so it proxies SSH pack data through the Cell's Workhorse
+// via POST /{repo}.git/ssh-receive-pack.
+type CellsPushCommand struct {
+	Config     *config.Config
+	ReadWriter *readwriter.ReadWriter
+	Args       *commandargs.Shell
+	Response   *accessverifier.Response
+}
+
+// Execute runs a Cells SSH-over-HTTP receive-pack request. Receive-pack is
+// server-speaks-first, so push must advertise before waiting for SSH input.
+func (c *CellsPushCommand) Execute(ctx context.Context) error {
+	log.FromContext(ctx).InfoContext(ctx, "Cells: using SSH-over-HTTP receive-pack",
+		slog.String("cell_address", c.Response.CellAddress))
+
+	gitClient, err := buildCellsGitClient(c.Config, c.Response, c.Args)
+	if err != nil {
+		return err
+	}
+
+	if advertisementErr := c.forwardAdvertisement(ctx, gitClient); advertisementErr != nil {
+		return withCellsContext("receive-pack advertisement", advertisementErr)
+	}
+
+	return c.forwardPush(ctx, gitClient)
+}
+
+func (c *CellsPushCommand) forwardPush(ctx context.Context, gitClient *git.Client) error {
+	clientInput, err := c.waitForPushInput(ctx)
+	if err != nil {
+		return err
+	}
+	if clientInput == nil {
+		return nil
+	}
+
+	return c.forwardReceivePack(ctx, gitClient, clientInput)
+}
+
+func (c *CellsPushCommand) waitForPushInput(ctx context.Context) (*bufio.Reader, error) {
+	clientInput := bufio.NewReader(c.ReadWriter.In)
+	// Open the streaming request once the client begins sending. The Cell's
+	// receive-pack validates command and pack framing.
+	_, err := clientInput.Peek(1)
+	if err == nil {
+		return clientInput, nil
+	}
+	if ctx.Err() != nil {
+		return nil, ctx.Err()
+	}
+	if errors.Is(err, io.EOF) {
+		return nil, nil
+	}
+
+	return nil, fmt.Errorf("cells routing: waiting for receive-pack input: %w", err)
+}
+
+func (c *CellsPushCommand) forwardReceivePack(ctx context.Context, gitClient *git.Client, clientInput io.Reader) error {
+	// Feed the push through a replayable body so a pooled connection lost
+	// before the Cell handled the request is retried instead of failing the
+	// push. Pushes beyond the replay limit stream as before, without retry.
+	body, reader := startReplayBody(clientInput, copyRequestBody)
+	defer body.Abort()
+
+	response, err := gitClient.SSHReceivePack(ctx, reader)
+	if err != nil {
+		return withCellsContext("receive-pack response", err)
+	}
+	defer response.Body.Close() //nolint:errcheck
+
+	if err := copyAdvertisement(io.Discard, response.Body); err != nil {
+		return fmt.Errorf("cells routing: receive-pack response advertisement: %w", err)
+	}
+
+	if _, err := io.Copy(c.ReadWriter.Out, response.Body); err != nil {
+		return fmt.Errorf("cells routing: receive-pack response: %w", err)
+	}
+
+	return nil
+}
+
+func (c *CellsPushCommand) forwardAdvertisement(ctx context.Context, gitClient *git.Client) error {
+	// A 0000 body makes command-less receive-pack exit cleanly after advertising;
+	// an empty body appends fatal output and Internal Server Error instead.
+	response, err := gitClient.SSHReceivePack(ctx, bytes.NewReader(pktline.PktFlush()))
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close() //nolint:errcheck
+
+	return copyAdvertisement(c.ReadWriter.Out, response.Body)
+}
+
+// copyAdvertisement leaves response bytes after the terminating flush unread.
+func copyAdvertisement(w io.Writer, r io.Reader) error {
+	for {
+		packet, err := pktline.ReadPacket(r)
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				return fmt.Errorf("advertisement ended before flush: %w", err)
+			}
+
+			return err
+		}
+
+		if _, err := w.Write(packet); err != nil {
+			return err
+		}
+
+		if pktline.IsFlush(packet) {
+			return nil
+		}
+	}
+}
+
+// NewCellsPushCommand builds a Cells SSH-over-HTTP receive-pack command.
+func NewCellsPushCommand(cfg *config.Config, rw *readwriter.ReadWriter, args *commandargs.Shell, resp *accessverifier.Response) *CellsPushCommand {
+	return &CellsPushCommand{
+		Config:     cfg,
+		ReadWriter: rw,
+		Args:       args,
+		Response:   resp,
+	}
+}
+
+// withCellsContext adds routing context to Shell-side failures. A
+// *client.APIError carries the Cell's user-facing message, which is shown
+// verbatim to match the non-Cells path.
+func withCellsContext(op string, err error) error {
+	var apiErr *client.APIError
+	if errors.As(err, &apiErr) {
+		return err
+	}
+
+	return fmt.Errorf("cells routing: %s: %w", op, err)
+}
+
+func buildCellsGitClient(
+	cfg *config.Config,
+	response *accessverifier.Response,
+	args *commandargs.Shell,
+) (*git.Client, error) {
+	repoPath := response.Gitaly.Repo.GetGlProjectPath()
+	if repoPath == "" {
+		return nil, fmt.Errorf("cells routing: missing gl_project_path in /allowed response")
+	}
+
+	base, err := url.Parse(response.CellAddress)
+	if err != nil || base.Scheme == "" || base.Host == "" {
+		return nil, fmt.Errorf("cells routing: invalid cell address %q: missing URL scheme", response.CellAddress)
+	}
+	base.Path = path.Join(base.Path, repoPath+".git")
+	repoURL := base.String()
+
+	headers := map[string]string{}
+	if args.Env.GitProtocolVersion != "" {
+		headers[gitProtocolHeader] = args.Env.GitProtocolVersion
+	}
+
+	actor := shellJWTActor(response, args)
+
+	// The Shell JWT lives for one minute, but a push's second request can start
+	// minutes later (e.g. after an LFS pre-push upload), so sign per request.
+	prepareRequest := func(request *http.Request) error {
+		shellJWT, err := signShellJWT(cfg.Secret, actor)
+		if err != nil {
+			return fmt.Errorf("generating Shell JWT: %w", err)
+		}
+
+		request.Header.Set(client.ShellAPIRequestHeader, shellJWT)
+		return nil
+	}
+
+	return &git.Client{URL: repoURL, Headers: headers, PrepareRequest: prepareRequest}, nil
+}
+
+// shellJWTActor builds the Shell JWT actor for a Cell request. gl_id stays
+// the user so Cells that don't read key claims keep working; gl_key_id and
+// gl_key_type let the Cell check deploy-key access; check_ip must match the
+// IP sent to /allowed, since the Cell otherwise sees the egress IP.
+// namespace_path must equal the namespace_path sent to /allowed, from the SSH
+// certificate match, so the Cell's allowed_access_namespace? check passes for
+// certificate users in groups that enforce SSH certificates. It is omitted for
+// instance-wide certificates and plain keys.
+func shellJWTActor(response *accessverifier.Response, args *commandargs.Shell) client.ShellActor {
+	return client.ShellActor{
+		GlID:          response.UserID,
+		GlKeyID:       response.KeyID,
+		GlKeyType:     response.KeyType,
+		CheckIP:       args.CheckIP(),
+		NamespacePath: args.Env.NamespacePath,
+	}
+}

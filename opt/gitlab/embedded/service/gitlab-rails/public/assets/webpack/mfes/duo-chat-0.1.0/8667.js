@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[8667],{25782(a,t,s){function e(a){return{name:"Node REPL",contains:[{className:"meta.prompt",starts:{end:/ |$/,starts:{end:"$",subLanguage:"javascript"}},variants:[{begin:/^>(?=[ ]|$)/},{begin:/^\.\.\.(?=[ ]|$)/}]}]}}s.r(t),s.d(t,{default:()=>e})}}]);

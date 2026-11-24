@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# fe-test-janitor
+#
+# Walk a directory (or single file) of RSpec feature specs and classify every
+# example as `migrate`, `reframe`, `partial`, or `keep` using static signal analysis.
+#
+# Usage:
+#   tooling/bin/fe_test_janitor <directory_or_file>
+#
+# Examples:
+#   tooling/bin/fe_test_janitor spec/features/work_items/
+#   tooling/bin/fe_test_janitor spec/features/work_items/detail/work_item_detail_spec.rb
+
+require_relative '../lib/tooling/fe_test_janitor'
+
+path = ARGV[0]
+
+if path.nil? || path.strip.empty?
+  warn "Usage: #{File.basename($PROGRAM_NAME)} <directory_or_spec_file>"
+  warn ""
+  warn "Examples:"
+  warn "  tooling/bin/fe_test_janitor spec/features/work_items/"
+  warn "  tooling/bin/fe_test_janitor spec/features/work_items/detail/work_item_detail_spec.rb"
+  exit 1
+end
+
+unless File.exist?(path)
+  warn "Error: path does not exist: #{path}"
+  exit 1
+end
+
+begin
+  Tooling::FeTestJanitor.run(path)
+rescue ArgumentError, Tooling::FeTestJanitor::ExampleParser::ParseError => e
+  warn "Error: #{e.message}"
+  exit 1
+end

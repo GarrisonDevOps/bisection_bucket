@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[27407],{835375(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Dockerfile",aliases:["docker"],case_insensitive:!0,keywords:["from","maintainer","expose","env","arg","user","onbuild","stopsignal"],contains:[a.HASH_COMMENT_MODE,a.APOS_STRING_MODE,a.QUOTE_STRING_MODE,a.NUMBER_MODE,{beginKeywords:"run cmd entrypoint volume add copy workdir label healthcheck shell",starts:{end:/[^\\]$/,subLanguage:"bash"}}],illegal:"</"}}})}}]);
+//# sourceMappingURL=hl-dockerfile.ce2bb450.chunk.js.map

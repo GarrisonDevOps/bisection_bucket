@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[42543],{249395(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Backus–Naur Form",contains:[{className:"attribute",begin:/</,end:/>/},{begin:/::=/,end:/$/,contains:[{begin:/</,end:/>/},a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,a.APOS_STRING_MODE,a.QUOTE_STRING_MODE]}]}}})}}]);
+//# sourceMappingURL=hl-bnf.897a9dc8.chunk.js.map

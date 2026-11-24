@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# The artifact collectors have no bundle installed, so this only loads the simplecov
+# gem. The merged coverage is written unfiltered, because filtering needs the source
+# files: rspec:coverage still applies every filter when it collates.
+
+require 'etc'
+require 'fileutils'
+require 'json'
+require 'simplecov'
+
+module PremergeSimplecov
+  def self.run(output_name, root: Dir.pwd)
+    files = Dir.glob(File.join(root, 'coverage', '*', '.resultset.json'))
+    return puts("Found #{files.size} resultset(s), nothing to pre-merge") if files.size < 2
+
+    command_names, coverage =
+      SimpleCov::ParallelResultMerger.absorb_results(files, processes: Etc.nprocessors, ignore_timeout: true) ||
+      SimpleCov::ResultMerger.absorb_results(files, ignore_timeout: true)
+
+    path = File.join(root, 'coverage', output_name, '.resultset.json')
+    FileUtils.mkdir_p(File.dirname(path))
+    name = command_names.reject(&:empty?).uniq.sort.join(', ')
+    File.write("#{path}.tmp", JSON.dump(name => { 'coverage' => coverage, 'timestamp' => Time.now.to_f }))
+    File.rename("#{path}.tmp", path)
+    (files.map { |file| File.dirname(file) } - [File.dirname(path)]).each { |dir| FileUtils.rm_rf(dir) }
+
+    puts "Pre-merged #{files.size} resultsets into #{path}"
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  begin
+    PremergeSimplecov.run(ARGV.fetch(0))
+  rescue StandardError => e
+    warn "Could not pre-merge the resultsets, keeping them as they are: #{e.class}: #{e.message}"
+  end
+end

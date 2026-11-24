@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[85512],{730992(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Test Anything Protocol",case_insensitive:!0,contains:[a.HASH_COMMENT_MODE,{className:"meta",variants:[{begin:"^TAP version (\\d+)$"},{begin:"^1\\.\\.(\\d+)$"}]},{begin:/---$/,end:"\\.\\.\\.$",subLanguage:"yaml",relevance:0},{className:"number",begin:" (\\d+) "},{className:"symbol",variants:[{begin:"^ok"},{begin:"^not ok"}]}]}}})}}]);
+//# sourceMappingURL=hl-tap.2554325e.chunk.js.map

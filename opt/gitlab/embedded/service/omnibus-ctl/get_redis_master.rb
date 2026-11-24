@@ -1,0 +1,79 @@
+#
+# Copyright:: Copyright (c) 2019 GitLab Inc.
+# License:: Apache License, Version 2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+require "gitlab_ctl/util"
+
+add_command 'get-redis-master', 'Get connection details to Redis master', 2 do |cmd_name|
+  node_attributes = GitlabCtl::Util.get_node_attributes
+  # Earlier, the attribute was named `gitlab-rails`, but it in 16.0, was
+  # changed to `gitlab_rails`. Hence we try both.
+  redis_sentinels = node_attributes.dig('gitlab', 'gitlab_rails', 'redis_sentinels') || node_attributes.dig('gitlab', 'gitlab-rails', 'redis_sentinels')
+  redis_master_name = node_attributes['redis']['master_name']
+  redis_ssl = node_attributes.dig('gitlab', 'gitlab_rails', 'redis_ssl')
+
+  master_host = nil
+  master_port = nil
+
+  if redis_sentinels.empty?
+    log "No Redis Sentinels defined in /etc/gitlab/gitlab.rb. Exiting."
+    Kernel.exit 0
+  end
+
+  unless redis_master_name
+    log "No Redis master name defined in /etc/gitlab/gitlab.rb. Exiting."
+    Kernel.exit 0
+  end
+
+  # Attempt to cycle through each sentinel and get the master information.
+  # Break out of the loop on first positive hit.
+  redis_sentinels.each do |sentinel|
+    host = sentinel['host']
+    port = sentinel['port']
+
+    if redis_ssl
+      tls_arg = '--tls'
+
+      tls_settings = {
+        cacert: node_attributes.dig('gitlab', 'gitlab_rails', 'redis_tls_ca_cert_file'),
+        cacertdir: node_attributes.dig('gitlab', 'gitlab_rails', 'redis_tls_ca_cert_dir'),
+        cert: node_attributes.dig('gitlab', 'gitlab_rails', 'redis_tls_client_cert_file'),
+        key: node_attributes.dig('gitlab', 'gitlab_rails', 'redis_tls_client_key_file')
+      }
+
+      tls_settings.each do |key, value|
+        tls_arg += " --#{key} #{value}" if value
+      end
+    else
+      tls_arg = ''
+    end
+
+    command = "/opt/gitlab/embedded/bin/redis-cli -h #{host} -p #{port} #{tls_arg} SENTINEL get-master-addr-by-name #{redis_master_name}"
+    output = GitlabCtl::Util.get_command_output(command).strip
+    master_host, master_port = output.split("\n")
+    break
+  rescue GitlabCtl::Errors::ExecutionError
+    log "Error fetching Redis master information from sentinel running at `#{host}:#{port}`. Trying a different sentinel node."
+    next
+  end
+
+  if master_host.nil? || master_port.nil?
+    log "Failed to fetch Redis master host and port."
+    Kernel.exit 1
+  end
+
+  log "Redis master found at host #{master_host} listening on port #{master_port}"
+end

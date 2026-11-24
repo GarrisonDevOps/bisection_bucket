@@ -1,0 +1,72 @@
+// Package discover implements the "discover" command for fetching user info and displaying a welcome message.
+package discover
+
+import (
+	"context"
+	"fmt"
+	"log/slog"
+	"strconv"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/readwriter"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/discover"
+	"gitlab.com/gitlab-org/labkit/v2/log"
+)
+
+const anonymousUsername = "Anonymous"
+
+// Command struct encapsulates the necessary components for executing the Discover command.
+type Command struct {
+	Config     *config.Config
+	Args       *commandargs.Shell
+	ReadWriter *readwriter.ReadWriter
+}
+
+// Execute runs the discover command, fetching and displaying user information.
+func (c *Command) Execute(ctx context.Context) (context.Context, error) {
+	ctx = log.AppendFields(ctx, c.identityAttrs()...)
+
+	response, err := c.getUserInfo(ctx)
+	if err != nil {
+		return ctx, fmt.Errorf("Failed to get username: %v", err) //nolint:staticcheck // message is customer facing
+	}
+
+	logData := command.LogData{}
+	if response.IsAnonymous() {
+		logData.Username = anonymousUsername
+		_, _ = fmt.Fprintf(c.ReadWriter.Out, "Welcome to GitLab, %s!\n", anonymousUsername)
+	} else {
+		logData.Username = response.Username
+		_, _ = fmt.Fprintf(c.ReadWriter.Out, "Welcome to GitLab, @%s!\n", response.Username)
+	}
+
+	ctxWithLogData := context.WithValue(ctx, command.LogDataKey, logData)
+
+	return ctxWithLogData, nil
+}
+
+func (c *Command) identityAttrs() []any {
+	var attrs []any
+	if c.Args.GitlabUsername != "" {
+		attrs = append(attrs, log.GitLabUserName(c.Args.GitlabUsername))
+	}
+	if keyID, err := strconv.Atoi(c.Args.GitlabKeyID); err == nil {
+		attrs = append(attrs, slog.Int("gl_key_id", keyID))
+	}
+	if c.Args.GitlabKrb5Principal != "" {
+		attrs = append(attrs, slog.String("krb5_principal", c.Args.GitlabKrb5Principal))
+	}
+
+	return attrs
+}
+
+func (c *Command) getUserInfo(ctx context.Context) (*discover.Response, error) {
+	client, err := discover.NewClient(c.Config)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.GetByCommandArgs(ctx, c.Args)
+}

@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[41872],{296990(a,b,c){c.r(b),c.d(b,{},{default:a=>({name:"codeowners",case_insensitive:!0,contains:[{scope:"number",begin:"\\[\\d+\\]",end:"(?=\\s|$)"},{scope:"regexp",begin:"^\\^|\\*"},{scope:"attr",begin:"^\\s*(?![#^*[])\\S|(?<=\\*)\\S*",end:"(?=\\s|$)",contains:[{scope:"regexp",begin:"\\*"}]},{scope:"keyword",begin:"\\[(?!\\d+\\])[^\\]]+\\]"},{scope:"variable",begin:"\\S*@.*$"},a.HASH_COMMENT_MODE]})})}}]);
+//# sourceMappingURL=hl-codeowners.0b90b305.chunk.js.map

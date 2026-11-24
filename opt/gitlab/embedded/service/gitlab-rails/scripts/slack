@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# This is based on https://gitlab.com/gitlab-org/gitlab-qa/-/blob/master/bin/slack
+#
+# Sends Slack notification MSG with the CI_SLACK_BOT_TOKEN bot token when it is
+# set, otherwise to CI_SLACK_WEBHOOK_URL (one of the two needs to be set).
+# ICON_EMOJI needs to be set to an icon emoji name (without the `:` around it).
+# CHANNEL is a channel name (without the `#`) or a channel ID such as
+# C0123456789. An ID keeps working when the channel is renamed.
+#
+# Uses only the standard library, so it runs on a plain Ruby image.
+
+require 'json'
+require 'net/http'
+require 'uri'
+
+class SlackNotifier
+  # Slack channel IDs are uppercase letters and digits starting with C or G.
+  # Channel names are lowercase, so they never match and get the `#` prefix.
+  CHANNEL_ID = /\A[CG][A-Z0-9]{8,}\z/
+  POST_MESSAGE_URL = 'https://slack.com/api/chat.postMessage'
+
+  def self.target(channel)
+    CHANNEL_ID.match?(channel) ? channel : "##{channel}"
+  end
+
+  def initialize(args, webhook_url:, bot_token: nil, output: $stdout)
+    @channel, @message, @icon_emoji, @username = args
+    @webhook_url = webhook_url
+    @bot_token = bot_token
+    @output = output
+  end
+
+  # Returns zero even when Slack rejects the post, so a Slack problem does not
+  # fail the job that reports through it.
+  def execute
+    if [@channel, @message, @icon_emoji, @username].any? { |value| value.to_s.empty? } || !credential?
+      @output.puts "Missing argument(s) - Use: #{$PROGRAM_NAME} channel message icon_emoji username"
+      @output.puts 'and set CI_SLACK_BOT_TOKEN (or CI_SLACK_WEBHOOK_URL) environment variable.'
+      return 0
+    end
+
+    @bot_token.to_s.empty? ? post_to_webhook : post_with_token
+
+    0
+  end
+
+  private
+
+  def credential?
+    !(@bot_token.to_s.empty? && @webhook_url.to_s.empty?)
+  end
+
+  def post_to_webhook
+    response = Net::HTTP.post_form(URI(@webhook_url), 'payload' => JSON.generate(payload))
+    @output.print response.body
+  end
+
+  # chat.postMessage answers HTTP 200 with {"ok":false,...} on errors, so the body decides.
+  def post_with_token
+    response = Net::HTTP.post(
+      URI(POST_MESSAGE_URL),
+      URI.encode_www_form(payload),
+      'Authorization' => "Bearer #{@bot_token}",
+      'Content-Type' => 'application/x-www-form-urlencoded'
+    )
+
+    return if accepted?(response.body)
+
+    @output.puts "Slack did not accept the message (HTTP #{response.code}): #{response.body}"
+  end
+
+  def accepted?(body)
+    parsed = JSON.parse(body.to_s)
+    parsed.is_a?(Hash) && parsed['ok'] == true
+  rescue JSON::ParserError
+    false
+  end
+
+  def payload
+    {
+      channel: self.class.target(@channel),
+      username: @username,
+      text: @message,
+      icon_emoji: ":#{@icon_emoji}:"
+    }
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  exit SlackNotifier.new(
+    ARGV, webhook_url: ENV['CI_SLACK_WEBHOOK_URL'], bot_token: ENV['CI_SLACK_BOT_TOKEN']
+  ).execute
+end

@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[57186],{878454(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"LDIF",contains:[{className:"attribute",match:"^dn(?=:)",relevance:10},{className:"attribute",match:"^\\w+(?=:)"},{className:"literal",match:"^-"},a.HASH_COMMENT_MODE]}}})}}]);
+//# sourceMappingURL=hl-ldif.28b92c95.chunk.js.map

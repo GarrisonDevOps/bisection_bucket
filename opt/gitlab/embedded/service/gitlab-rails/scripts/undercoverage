@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'undercover'
+
+module Undercover
+  class Changeset
+    # Rugged merge_base complains when graft/shallow
+    # (https://github.com/libgit2/rugged/issues/846)
+    #
+    # So we assume we provide the merge-base ourself. Modified from
+    # https://github.com/grodowski/undercover/blob/32e62f66682ee566032b5970437ed2934ef29701/lib/undercover/changeset.rb#L74-L78
+    def compare_base_obj
+      return unless compare_base
+
+      repo.lookup(compare_base.to_s)
+    end
+  end
+end
+
+compare_base = ARGV[0]
+compare_base ||= IO.popen(%w[git merge-base origin/master HEAD]) { |p| p.read.chomp }
+coverage_file_path = 'coverage/coverage.json'
+
+# By default undercover includes Ruby related files and only excludes common paths
+# like test, spec, *_spec.rb
+exclude_file_globs = Undercover::Options::DEFAULT_FILE_EXCLUDE_GLOBS.dup
+
+# We need to exclude more folders:
+# EE/JH and domain counterparts for default globs. Domain roots are literal because undercover's
+# `*` also matches `/`, so `domains/*/config/*` would match any nested config/ directory.
+extension_prefixes = %w[jh/ ee/] + Dir.glob('domains/*/').flat_map { |root| [root, "#{root}ee/"] }
+extension_globs = Undercover::Options::DEFAULT_FILE_EXCLUDE_GLOBS.flat_map do |glob|
+  extension_prefixes.map { |prefix| "#{prefix}#{glob}" } unless glob.start_with?('*')
+end.compact
+
+exclude_file_globs.concat extension_globs
+
+# These have own specs
+exclude_file_globs.concat %w[qa/* gems/* vendor/*]
+
+args = %W[-c #{compare_base} -s #{coverage_file_path} --exclude-files #{exclude_file_globs.join(',')} --no-hint]
+
+# CI checks out the commit without local changes. Comparing commits avoids diffing
+# the working tree, which reads every file in the checkout.
+args << '--commits-only' if ENV['CI']
+
+result = if File.exist?(coverage_file_path)
+           Undercover::CLI.run(args)
+         else
+           warn "#{coverage_file_path} doesn't exist"
+           0
+         end
+
+exit result

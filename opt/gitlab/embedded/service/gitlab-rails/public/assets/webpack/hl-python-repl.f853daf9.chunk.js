@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[41273],{450345(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{aliases:["pycon"],contains:[{className:"meta.prompt",starts:{end:/ |$/,starts:{end:"$",subLanguage:"python"}},variants:[{begin:/^>>>(?=[ ]|$)/},{begin:/^\.\.\.(?=[ ]|$)/}]}]}}})}}]);
+//# sourceMappingURL=hl-python-repl.f853daf9.chunk.js.map

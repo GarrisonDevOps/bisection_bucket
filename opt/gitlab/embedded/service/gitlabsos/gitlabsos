@@ -1,0 +1,970 @@
+#!/opt/gitlab/embedded/bin/ruby
+# Authors: gitlab.com/cody
+# This script provides a unified method of gathering system information and
+# GitLab application information.
+
+require 'json'
+require 'tmpdir'
+require 'tempfile'
+require 'fileutils'
+require 'open3'
+require 'logger'
+require 'optparse'
+require 'pathname'
+require 'date'
+require 'base64'
+
+# allows logging to stdout and a log file
+# https://stackoverflow.com/a/6407200
+class MultiIO
+  def initialize(*targets)
+    @targets = targets
+  end
+
+  def write(*args)
+    @targets.each { |t| t.write(*args) }
+  end
+
+  def close
+    @targets.each(&:close)
+  end
+end
+
+module GitLabSOS
+  # If you intend to add a large file to this list, you'll need to change the
+  # file.read call to something that streams rather than slurps
+  module Files
+    def list_files
+      [
+        { source: '/opt/gitlab/version-manifest.json', destination: './opt/gitlab/version-manifest.json' },
+        { source: '/opt/gitlab/version-manifest.txt', destination: './opt/gitlab/version-manifest.txt' },
+        { source: '/var/log/messages', destination: './var/log/messages' },
+        { source: '/var/log/syslog', destination: './var/log/syslog' },
+        { source: '/var/log/mail.log', destination: './var/log/mail.log' },
+        { source: '/proc/mounts', destination: 'mount' },
+        { source: '/proc/meminfo', destination: 'meminfo' },
+        { source: '/proc/cpuinfo', destination: 'cpuinfo' },
+        { source: '/etc/selinux/config', destination: './etc/selinux/config' },
+        { source: '/proc/sys/kernel/tainted', destination: 'tainted' },
+        { source: '/etc/os-release', destination: './etc/os-release' },
+        { source: '/etc/fstab', destination: './etc/fstab' },
+        { source: '/etc/security/limits.conf', destination: './etc/security/limits.conf' },
+        { source: '/proc/sys/vm/swappiness', destination: 'running_swappiness' },
+        { source: '/proc/pressure/io', destination: 'pressure_io.txt' },
+        { source: '/proc/pressure/memory', destination: 'pressure_mem.txt' },
+        { source: '/proc/pressure/cpu', destination: 'pressure_cpu.txt' },
+        { source: '/etc/ssh/sshd_config', destination: './etc/sshd_config' }
+      ]
+    end
+
+    def run_files
+      list_files.each do |file_info|
+        dest = File.join(tmp_dir, file_info[:destination])
+        logger.debug "processing #{file_info[:source]}.."
+        result = begin
+          # this works better than FileUtils.cp for stuff like /proc/mounts
+          `tail -c #{options[:max_file_size]} #{file_info[:source]}`
+        rescue Errno::ENOENT => e
+          # file doesn't exist
+          e.message
+        end
+        FileUtils.mkdir_p(File.dirname(dest))
+        logger.debug "writing #{result.bytesize} bytes to #{dest}"
+        File.write(dest, result)
+      end
+    end
+
+    def run_gitlab_rb
+      return unless options[:grab_config]
+      # don't run if __dir__ can't be resolved (i.e. downloaded via curl)
+      return unless __dir__
+      return unless File.file?('/etc/gitlab/gitlab.rb')
+
+      sanitizer = File.join(__dir__, 'sanitizer/sanitizer.rb')
+      if File.file?(sanitizer)
+        logger.info 'Sanitizer module found. GitLab configuration files will be collected.'
+        logger.info 'A copy will be printed on the screen for you to review.'
+        require_relative 'sanitizer/sanitizer'
+      else
+        logger.info 'Sanitizer not found. `gitlab.rb` file will not be collected'
+        return
+      end
+
+      dest_dir = File.join(tmp_dir, 'etc/gitlab/')
+      FileUtils.mkdir_p(dest_dir)
+
+      confs = Dir.glob(File.join('/etc/gitlab/', '*.rb'))
+      confs.each do |conf|
+        dest = File.join(dest_dir, File.basename(conf))
+        logger.info "Sanitizing #{conf} file"
+        output = Sanitizer.run!(conf)
+        File.write(dest, output)
+
+        # We use 'puts' to show the sanitized gitlab.rb file without
+        # logging it in gitlabsos.log
+        puts ''
+        puts "===================== Sanitized #{conf} ====================="
+        puts 'PLEASE CAREFULLY REVIEW THIS FILE FOR ANY SENSITIVE INFO'
+        puts 'THE BELOW INFO WILL BE INCLUDED (SANITIZED) IN YOUR GITLABSOS ARCHIVE'
+        puts '====================================================================='
+        puts File.read(dest)
+        puts '====================================================================='
+        puts 'NOTICE: You can skip this with --skip-config'
+        puts '====================================================================='
+        puts ''
+      end
+    end
+
+    # Paths to files / output name
+    def faststats_logs
+      [
+        {
+          output: 'gitaly',
+          path: File.join(gitaly_log_directory, 'current')
+        },
+        {
+          output: 'sidekiq',
+          path: File.join(sidekiq_log_directory, 'current')
+        },
+        {
+          output: 'production',
+          path: File.join(rails_log_directory, 'production_json.log')
+        },
+        {
+          output: 'api',
+          path: File.join(rails_log_directory, 'api_json.log')
+        }
+      ]
+    end
+
+    def gitaly_log_directory
+      path_components = %w[gitaly configuration logging dir]
+      log_directory_for(path_components)
+    end
+
+    def sidekiq_log_directory
+      path_components = %w[gitlab sidekiq log_directory]
+      log_directory_for(path_components)
+    end
+
+    def rails_log_directory
+      path_components = %w[gitlab gitlab_rails log_directory]
+      log_directory_for(path_components)
+    end
+
+    def log_directory_for(path_components)
+      config.dig('normal', *path_components) || config.dig('default', *path_components)
+    end
+
+    # Output into faststats sub directory
+    def run_faststats
+      return unless options[:faststats]
+      # don't run if __dir__ can't be resolved (i.e. downloaded via curl)
+      return unless __dir__
+
+      faststats = File.join(__dir__, 'bin/fast-stats')
+      if File.file?(faststats)
+        logger.info 'fast-stats module found. Log stats will be collected.'
+      else
+        logger.info 'fast-stats not found. Log stats will not be collected'
+        return
+      end
+
+      unless config_normal_or_default
+        logger.info 'could not determine log directories. stats will not be collected.'
+        return
+      end
+
+      logger.info 'Collecting fast-stats'
+
+      # Loop through and collect files
+      faststats_logs.each do |log|
+        # Compile output path
+        output_file = File.join(tmp_dir, "fast-stats/#{log[:output]}")
+
+        # Create Directory
+        FileUtils.mkdir_p(File.dirname(output_file))
+
+        save_command_output(output_file, "#{faststats} -v #{log[:path]}")
+      end
+      # Done!
+    end
+
+    def config_normal_or_default
+      config['normal'] || config['default']
+    end
+
+    def geo_node?
+      roles = config_normal_or_default['roles']
+      roles['geo_primary']['enable'].eql?(true) || roles['geo_secondary']['enable'].eql?(true)
+    rescue StandardError
+      logger.info 'Could not determine Geo status. Geo details will not be collected.'
+      false
+    end
+  end
+
+  module Commands
+    # Add commands to this list that could help collect useful information
+    # cmd is the command that you want to run, including its options
+    # result_path is the filename for the output of the cmd that you want to run.
+
+    def list_long_commands
+      [
+        { cmd: 'iostat -xz 1 10', result_path: 'iostat' },
+        { cmd: 'iotop -aoPqt -b -d 1 -n 10', result_path: 'iotop' },
+        { cmd: 'mpstat -P ALL 1 10', result_path: 'mpstat' },
+        { cmd: 'nfsiostat 1 10', result_path: 'nfsiostat' },
+        { cmd: 'pidstat -l 1 15', result_path: 'pidstat' },
+        { cmd: 'sar -n DEV 1 10', result_path: 'sar_dev' },
+        { cmd: 'sar -n TCP,ETCP 1 10', result_path: 'sar_tcp' },
+        { cmd: 'vmstat -w 1 10', result_path: 'vmstat' }
+      ]
+    end
+
+    def list_quick_commands
+      [
+        { cmd: 'date', result_path: 'date' },
+        { cmd: 'df -hT', result_path: 'df_hT' },
+        { cmd: 'df -iT', result_path: 'df_inodes' },
+        { cmd: 'dmesg -T', result_path: 'dmesg' },
+        { cmd: 'du -b /var/log/btmp | cut -f 1', result_path: 'btmp_size' },
+        { cmd: 'free -m', result_path: 'free_m' },
+        { cmd: 'getenforce', result_path: 'getenforce' },
+        { cmd: 'gitlab-ctl status', result_path: 'gitlab_status' },
+        { cmd: 'hostname --fqdn', result_path: 'hostname' },
+        { cmd: 'id -u', result_path: 'user_uid' },
+        { cmd: 'ifconfig', result_path: 'ifconfig' },
+        { cmd: 'ip address', result_path: 'ip_address' },
+        { cmd: 'lsblk', result_path: 'lsblk' },
+        { cmd: 'lscpu', result_path: 'lscpu' },
+        { cmd: 'md5sum /etc/gitlab/gitlab-secrets.json', result_path: 'secrets_md5sum' },
+        { cmd: 'netstat -i', result_path: 'netstat_i' },
+        { cmd: 'netstat -txnpl', result_path: 'netstat' },
+        { cmd: 'nfsstat -v', result_path: 'nfsstat' },
+        { cmd: 'ntpq -pn', result_path: 'ntpq' },
+        { cmd: 'ps -eo user,pid,%cpu,%mem,vsz,rss,stat,start,time,wchan:24,command', result_path: 'ps' },
+        { cmd: 'sestatus', result_path: 'sestatus' },
+        { cmd: 'sha256sum /etc/gitlab/gitlab-secrets.json', result_path: 'secrets_sha256sum' },
+        { cmd: 'ss -paxioe', result_path: 'sockstat' },
+        { cmd: 'su - git -c "ulimit -a"', result_path: 'ulimit' },
+        { cmd: 'sysctl -a', result_path: 'sysctl_a' },
+        { cmd: 'systemctl --no-pager status gitlab-runsvdir', result_path: 'gitlab_system_status' },
+        { cmd: 'systemctl list-unit-files', result_path: 'systemctl_unit_files' },
+        { cmd: 'systemd-detect-virt', result_path: 'systemd_detect_virt' },
+        { cmd: 'timedatectl', result_path: 'timedatectl' },
+        { cmd: 'top -c -b -n 1 -o %CPU -w 512', result_path: 'top_cpu' },
+        { cmd: 'top -c -b -n 1 -o RES -w 512', result_path: 'top_res' },
+        { cmd: 'uname -a', result_path: 'uname' },
+        { cmd: 'uptime', result_path: 'uptime' }
+      ] + database_diagnostic_quick_commands
+    end
+
+    def database_diagnostic_quick_commands # rubocop:disable Metrics/MethodLength
+      [
+        { cmd: 'gitlab-psql -c "SELECT relname, last_analyze, last_autoanalyze
+                              FROM pg_stat_user_tables WHERE last_analyze IS NULL AND last_autoanalyze IS NULL;"',
+          result_path: 'non_analyzed_tables' },
+        # Combined collation readout and mismatch detection
+        { cmd: 'gitlab-psql -c "SELECT \'FULL COLLATION READOUT\' AS report_type;
+              SELECT
+                collname AS collation_name,
+                collprovider AS provider,
+                collversion AS stored_version,
+                pg_collation_actual_version(oid) AS actual_version
+              FROM pg_collation
+              WHERE collprovider IN (\'c\', \'d\')
+              ORDER BY collname;
+
+              SELECT \'----------------------------------------\' AS separator;
+              SELECT \'COLLATION MISMATCHES\' AS report_type;
+
+              SELECT
+                collname AS collation_name,
+                collprovider AS provider,
+                collversion AS stored_version,
+                pg_collation_actual_version(oid) AS actual_version
+              FROM pg_collation
+              WHERE collprovider IN (\'c\', \'d\')
+                AND (collversion IS DISTINCT FROM pg_collation_actual_version(oid))
+              ORDER BY collname;"',
+          result_path: 'collation_diagnostics' },
+        # 'p_ci_build_tags' table for newer GitLab versions, may not exist in older GitLab versions
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM
+            (SELECT tag_id, build_id, partition_id, COUNT(*)
+             FROM p_ci_build_tags
+             GROUP BY tag_id, build_id, partition_id
+             HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'p_ci_build_tags_duplicates' },
+        # 'taggings' table for older GitLab version, may not exist in newer GitLab versions
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM
+            (SELECT tag_id, taggable_id, taggable_type, context, tagger_id, tagger_type, COUNT(*)
+             FROM taggings
+             GROUP BY tag_id, taggable_id, taggable_type, context, tagger_id, tagger_type
+             HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'taggings_duplicates' },
+        { cmd: 'gitlab-psql -c "
+             -- index_merge_request_diff_commit_users_on_name_and_email
+            SELECT CASE WHEN EXISTS (
+              SELECT 1 FROM (
+                SELECT name, email, COUNT(*)
+                FROM merge_request_diff_commit_users
+                WHERE name IS NOT NULL AND email IS NOT NULL
+                GROUP BY name, email
+                HAVING COUNT(*) > 1
+                LIMIT 1
+              ) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'merge_request_diff_commit_users_name_email_duplicates' },
+        { cmd: 'gitlab-psql -c "
+            -- index_merge_request_diff_commit_users_on_org_id_name_email
+            SELECT CASE WHEN EXISTS (
+              SELECT 1 FROM (
+                SELECT organization_id, name, email, COUNT(*)
+                FROM merge_request_diff_commit_users
+                WHERE organization_id IS NOT NULL AND name IS NOT NULL AND email IS NOT NULL
+                GROUP BY organization_id, name, email
+                HAVING COUNT(*) > 1
+                LIMIT 1
+              ) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'merge_request_diff_commit_users_org_duplicates' },
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM (SELECT organization_id, name FROM topics
+              WHERE organization_id IS NOT NULL AND name IS NOT NULL
+              GROUP BY organization_id, name HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'topics_index_duplicates' },
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM (SELECT project_id, ref_path FROM ci_refs
+              WHERE project_id IS NOT NULL AND ref_path IS NOT NULL
+              GROUP BY project_id, ref_path HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'ci_refs_index_duplicates' },
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM (SELECT project_id, key FROM ci_resource_groups
+              WHERE project_id IS NOT NULL AND key IS NOT NULL
+              GROUP BY project_id, key HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'ci_resource_groups_index_duplicates' },
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM (SELECT project_id, name FROM environments
+              WHERE project_id IS NOT NULL AND name IS NOT NULL
+              GROUP BY project_id, name HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'environments_index_duplicates' },
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM (SELECT name, purl_type, component_type, organization_id FROM sbom_components
+              WHERE name IS NOT NULL AND purl_type IS NOT NULL
+              AND component_type IS NOT NULL AND organization_id IS NOT NULL
+              GROUP BY name, purl_type, component_type, organization_id HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'sbom_components_index_duplicates' },
+        { cmd: 'gitlab-psql -c "SELECT CASE WHEN EXISTS (
+            SELECT 1 FROM (SELECT name FROM tags
+              WHERE name IS NOT NULL
+              GROUP BY name HAVING COUNT(*) > 1 LIMIT 1) AS dups
+            ) THEN \'true\' ELSE \'false\' END AS duplicates_exist;"',
+          result_path: 'tags_index_duplicates' },
+        { cmd: "echo 'file_name | duplicate_exists';
+                echo '----------|------------------';
+                for f in #{tmp_dir}/*_duplicates; do
+                  file=$(basename \"$f\");
+                  result=$(grep -o 'true\\|false' \"$f\" 2>/dev/null | head -1 || echo 'error');
+                  echo \"$file | $result\";
+                done",
+          result_path: 'spot_checks_summary' }
+      ]
+    end
+
+    def list_geo_commands
+      [
+        ['geo:status', 'gitlab_geo_status'],
+        ['db:migrate:status:geo', 'gitlab_geo_migrations'],
+        ['gitlab:geo:check', 'gitlab_geo_check']
+      ]
+    end
+
+    def list_patroni_commands
+      [
+        { cmd: 'gitlab-ctl patroni members', result_path: 'patroni_members' }
+      ]
+    end
+
+    def list_praefect_commands
+      [
+        { cmd: 'gitlab-ctl praefect check', result_path: 'praefect_check' }
+      ]
+    end
+
+    def list_gitaly_commands
+      [
+        {
+          cmd: '/opt/gitlab/embedded/bin/gitaly check /var/opt/gitlab/gitaly/config.toml',
+          result_path: 'gitaly_internal_api_check'
+        }
+      ]
+    end
+
+    def run_commands
+      logger.info 'Collecting diagnostics. This will probably take a few minutes..'
+      batch_size = 4
+
+      # Run long-running commands
+      long_commands = list_long_commands
+      long_commands.each do |cmd_info|
+        fork do
+          dest = File.join(tmp_dir, cmd_info[:result_path])
+          cmd = "#{cmd_info[:cmd]} | tail -c #{options[:max_file_size]}"
+          save_command_output(dest, cmd)
+        end
+      end
+
+      # Get quick commands and add specific service commands if available
+      quick_commands = list_quick_commands
+      quick_commands.concat(list_patroni_commands) if service_enabled?('patroni')
+      quick_commands.concat(list_praefect_commands) if service_enabled?('praefect')
+      quick_commands.concat(list_gitaly_commands) if service_enabled?('gitaly')
+
+      # Run quick commands in batches
+      quick_commands.each_slice(batch_size) do |batch|
+        pids = []
+        batch.each do |cmd_info|
+          pids << fork do
+            dest = File.join(tmp_dir, cmd_info[:result_path])
+            cmd = "#{cmd_info[:cmd]} | tail -c #{options[:max_file_size]}"
+            save_command_output(dest, cmd)
+          end
+        end
+        pids.each { |pid| Process.waitpid(pid) }
+      end
+
+      # Wait for all commands to finish
+      Process.waitall
+    end
+
+    # The ActiveRecord schema dump can run on any Rails node. `gitlab-psql` only works
+    # on the node that runs PostgreSQL.
+    def run_activerecord_schema_dump
+      return unless service_enabled?('puma') || service_enabled?('sidekiq')
+
+      logger.info 'Dumping ActiveRecord database schema...'
+
+      # gitlab-rails runner doesn't have access to write to the SOS temp directory
+      temp_schema_file = File.join(@temp_dir, "ar_schema_dump_#{Time.now.to_i}.rb")
+      dest = File.join(tmp_dir, 'ar_schema_dump_result')
+
+      # Create a temporary script for gitlab-rails runner
+      temp_script = Tempfile.new('ar_schema_dump_script', @temp_dir)
+
+      script_content = <<~RUBY
+        f = File.open('#{temp_schema_file}', 'w')
+
+        if Gem::Version.new(Rails::VERSION::STRING) >= Gem::Version.new('7.2.0')
+          ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection_pool, f)
+        else
+          ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, f)
+        end
+      RUBY
+
+      temp_script.write(script_content)
+      temp_script.close
+      File.chmod(0o644, temp_script.path)
+
+      command = %(gitlab-rails runner #{temp_script.path})
+      system(command)
+      temp_script.unlink
+
+      if File.exist?(temp_schema_file)
+        FileUtils.mv(temp_schema_file, dest)
+      else
+        logger.error "Failed to create schema dump at #{temp_schema_file}"
+      end
+    end
+
+    def run_schema_dump
+      # As this is behind a flag, it wasn't integrated into list_commands and run_commands
+      logger.info 'Dumping database schema...'
+
+      dest = File.join(tmp_dir, 'schema_dump_result')
+      cmd = 'gitlab-psql -P pager=off  -c "\dS *"'
+      save_command_output(dest, cmd)
+    end
+
+    def run_rake_commands
+      # Only run rake tasks on nodes with puma
+      return unless service_enabled?('puma')
+
+      logger.info 'Running rake commands...'
+      # First element in nested array  = Name of the rake task to run
+      # Second element in nested array = Filename for the output of the rake task
+      tasks = [
+        ['db:migrate:status', 'gitlab_migrations'],
+        ['gitlab:elastic:info', 'elastic_info'],
+        ['gitlab:zoekt:info', 'zoekt_info'],
+        ['gitlab:orbit:info', 'orbit_info'],
+        ['gitlab:license:info', 'license_info'],
+        ['gitlab:gitaly:check', 'gitaly_check']
+      ]
+
+      tasks.concat(list_geo_commands) if geo_node?
+
+      # Build Rails runner script based on Rake tasks above.
+      # Output should be a string of different Rails commands delimited by semi-colon.
+      script = tasks.map.with_index do |(task, _), i|
+        concat_each_task(i, task)
+      end.join('; ')
+
+      cmd = %(gitlab-rails runner "Rails.application.load_tasks; #{script}")
+      output = `#{cmd}`
+
+      tasks.each_with_index do |(_, filename), i|
+        content = output[/TASK_#{i}\n(.*?)END_TASK_#{i}/m, 1]
+        File.write(File.join(tmp_dir, filename), content.to_s.strip) if content
+      end
+    end
+
+    def run_rpm_verify
+      logger.info 'Running RPM verification check...'
+
+      cmd = %(rpm -vV gitlab-ee)
+      output = `#{cmd}`
+      File.write(File.join(tmp_dir, 'rpm_verify'), output.to_s.strip) if output
+    end
+
+    private
+
+    def concat_each_task(index, task)
+      [
+        "puts 'TASK_#{index}'",
+        'begin',
+        "Rake::Task['#{task}'].invoke",
+        'rescue SystemExit',
+        'rescue StandardError => e',
+        'puts e.message',
+        'ensure',
+        "puts 'END_TASK_#{index}'",
+        'end'
+      ].join('; ')
+    end
+
+    def save_command_output(dest, cmd)
+      logger.debug "exec: #{cmd}"
+      result = begin
+        out, err, _status = Open3.capture3(cmd)
+        out + err
+      end
+      result = yield(result) if block_given?
+      File.write(dest, result)
+    end
+  end
+
+  module LogDirectories
+    ALWAYS_INCLUDE_FILENAME_REGEX = /gitlab-rails-db-migrate.*\.gz/.freeze
+
+    def run_log_dirs
+      logger.info 'Getting GitLab logs..'
+      logger.debug 'determining log directories..'
+
+      # Ensure empty array if gitlab config file couldn't found or read
+      log_dirs = config.key?('normal') ? deep_fetch(config['normal'], 'log_directory') : []
+      log_dirs << '/var/log/gitlab'
+      logger.debug "using #{log_dirs}"
+
+      log_dirs.uniq.each do |log_dir|
+        unless Dir.exist?(log_dir)
+          logger.warn "log directory '#{log_dir}' does not exist or is not a directory"
+          next
+        end
+
+        logger.debug "searching #{log_dir} for log files.."
+
+        save_files(log_dir)
+      end
+    end
+
+    def process_log(log)
+      begin # rubocop:disable Style/RedundantBegin -- To maintain compatibility with Ruby < 2.5
+        logger.debug "processing log - #{log}.."
+        if log.to_s.end_with?('.gz', '.s')
+          content = File.read(log)
+        else
+          content = `tail -c #{options[:max_file_size]} #{log}`
+          content = content.lines.drop(1).join unless content.lines.count < 2
+        end
+        FileUtils.mkdir_p(File.dirname(File.join(tmp_dir, log)))
+        logger.debug "writing #{content.bytesize} bytes to #{File.join(tmp_dir, log)}"
+        File.write(File.join(tmp_dir, log), content)
+      rescue StandardError => e
+        logger.error "could not process log - #{log}"
+        logger.error e.message
+      end
+    end
+
+    def find_files(paths)
+      # rubocop:disable Style/MultilineBlockChain
+      Dir.glob(File.join(paths, '**', '*')).map do |path|
+        path = Pathname.new(path)
+        next unless path.exist?
+        next unless path.file?
+
+        [path]
+      end
+         .reject { |e| e.to_s.empty? }
+         .flatten
+      # rubocop:enable Style/MultilineBlockChain
+    end
+
+    private
+
+    def save_files(log_dir)
+      if options[:before_date] || options[:after_date]
+        logger.info "GitLabSOS will collect logs between #{options[:after_date]} and #{options[:before_date]}"
+
+        find_files(log_dir).select { |log| in_date_range?(log) }.each { |log| process_log(log) }
+      else
+        find_files(log_dir)
+          .select { |log| recent_log_file?(log) || always_included_file?(log) }
+          .each { |log| process_log(log) }
+      end
+    end
+
+    def recent_log_file?(log)
+      log.mtime > Time.now - (60 * 60 * 12) && log.basename.to_s !~ /.*.gz|^@|lock/
+    rescue StandardError
+      false
+    end
+
+    def in_date_range?(log)
+      options[:after_date] <= log.mtime && log.mtime <= options[:before_date]
+    end
+
+    def always_included_file?(log)
+      log.basename.to_s.match?(ALWAYS_INCLUDE_FILENAME_REGEX)
+    end
+  end
+
+  module Options
+    class << self
+      def default_options
+        {
+          dump_schema: true,
+          output_file: File.expand_path("./#{Client::REPORT_NAME}.tar.gz"),
+          logs_only: false,
+          log_level: Logger::INFO,
+          root_check: true,
+          rpm_vv: false,
+          max_file_size: 30 * 1_000_000, # 30MB
+          grab_config: true,
+          faststats: false,
+          nice: 10,
+          rake: true
+        }
+      end
+
+      # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+      def parse(args)
+        options = default_options
+
+        OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength -- Refactoring reduces readability
+          opts.banner = 'Usage: gitlabsos.rb [options]'
+
+          opts.on('-o FILE', '--output-file FILE', 'Write gitlabsos report to FILE') do |file|
+            options[:output_file] = File.expand_path(file)
+          end
+
+          opts.on('--tmp-path PATH', 'Specify directory to write temporary files to') do |path|
+            options[:tmp_path] = File.expand_path(path)
+          end
+
+          opts.on('--after-date DATE', 'Get logs from after a certain date') do |date|
+            raise OptionParser::InvalidOption, '--after-date cannot be used with --days' if options[:days]
+
+            options[:after_date] = Date.parse(date).to_time
+            options[:before_date] ||= Time.now + 600
+          end
+
+          opts.on('--before-date DATE', 'Get logs from before a certain date') do |date|
+            raise OptionParser::InvalidOption, '--before-date cannot be used with --days' if options[:days]
+
+            options[:before_date] = Date.parse(date).to_time
+            options[:after_date] ||= Time.at(0)
+          end
+
+          opts.on('--days DAYS', 'Get logs from the last N days') do |days|
+            if options[:after_date] || options[:before_date]
+              raise OptionParser::InvalidOption, '--days cannot be used with --after-date or --before-date'
+            end
+
+            # Convert 'today' to 1, otherwise parse as integer
+            begin
+              days = days.to_s.downcase == 'today' ? 1 : Integer(days)
+              raise ArgumentError if days < 1
+            rescue ArgumentError
+              raise ArgumentError, 'Days must be a positive integer or "today"'
+            end
+
+            today = Date.today
+            # Start of today (if 1) or N-1 days ago
+            options[:after_date] = days == 1 ? today.to_time : (today - days + 1).to_time
+            # End of today (23:59:59)
+            options[:before_date] = today.to_time + 24 * 60 * 60 - 1
+            options[:days] = days
+          end
+
+          opts.on('--debug', 'Set the log level to debug') do
+            options[:log_level] = Logger::DEBUG
+          end
+
+          opts.on('--skip-root-check', 'Run the script as non-root. Warning: script might fail') do
+            options[:root_check] = false
+          end
+
+          opts.on('--skip-config', 'Don\'t include a sanitized copy of the gitlab.rb configuration file.') do
+            options[:grab_config] = false
+          end
+
+          opts.on('--include-rpm-vv', 'Run \'rpm -vV\' which can result in a large output file (>12MB)') do
+            options[:rpm_vv] = true
+          end
+
+          opts.on('--include-stats', 'Include using fast-stats to collect log statistics.') do
+            options[:faststats] = true
+          end
+
+          opts.on('--skip-schema', 'Don\'t run the slow Postgres schema dump') do
+            options[:dump_schema] = false
+          end
+
+          opts.on('--skip-rake', 'Don\'t run the slow Rake commands') do
+            options[:rake] = false
+          end
+
+          opts.on('--max-file-size MB', 'Set the max file size (in megabytes) for any file in the report') do |mb|
+            options[:max_file_size] = mb.to_i * 1_000_000
+          end
+
+          opts.on('-h', '--help', 'Prints this help') do
+            puts opts
+            exit
+          end
+
+          opts.on('--nice niceness', 'Set CPU priority for archive creation') do |nice|
+            options[:nice] = nice.to_i
+          end
+        end.parse!(args)
+
+        ensure_valid_dates(options)
+        ensure_valid_nice(options)
+
+        options
+      end
+      # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+
+      private
+
+      def ensure_valid_nice(options)
+        # 'nice' can be from -20 (highest priority) to 19 (lowest priority)
+        # to avoid undesired effects the minimum is 0
+        raise 'nice should be from 0 to 19' unless options[:nice].between?(0, 19)
+
+        # setup command prefix (including trailing space)
+        options[:nice_command] = "nice -n #{options[:nice]} "
+
+        options
+      end
+
+      def ensure_valid_dates(options)
+        return if options[:after_date].nil? || options[:before_date].nil?
+
+        raise 'after_date must be before before_date' if options[:after_date] >= options[:before_date]
+      end
+    end
+  end
+
+  module PackageDetection
+    def execution_method_description
+      # Curl/pipe execution - $PROGRAM_NAME is '-' when piped to ruby
+      return 'curl-piped-ruby' if $PROGRAM_NAME == '-'
+
+      # Check if running from GitLab package location
+      return 'packaged' if __dir__.start_with?('/opt/gitlab')
+
+      # Check if running from a git clone (has .git directory)
+      return 'git-cloned' if File.directory?(File.join(__dir__, '.git'))
+
+      # Fallback
+      'user-provided'
+    end
+
+    def check_packaged_gitlabsos
+      return if execution_method_description == 'packaged'
+
+      # Check if packaged version is available
+      packaged_path = `which gitlabsos 2>/dev/null`.strip
+      return if packaged_path.empty?
+
+      puts '====================================================================='
+      puts 'A packaged version of GitLabSOS has been detected on this system.'
+      puts ''
+      puts 'The packaged version of GitLabSOS is recommended because it:'
+      puts '  - Matches your GitLab installation version'
+      puts '  - Includes the sanitizer for gitlab.rb collection'
+      puts '  - Includes fast-stats for log analysis'
+      puts ''
+      puts 'Unless you have been directed to run it this way by the'
+      puts 'GitLab Support Team, note that you can run the packaged'
+      puts "version in the future with: \e[1;33msudo gitlabsos\e[0m"
+      puts ''
+      puts "Continuing with #{execution_method_description} script for now..."
+      puts '====================================================================='
+      puts ''
+    end
+  end
+
+  # This is the first iteration designed to make
+  #   https://gitlab.com/gitlab-com/support/toolbox/gitlabsos/issues/11 and
+  #   https://gitlab.com/gitlab-com/support/toolbox/gitlabsos/issues/7 easier and
+  # any additional options/filter we can think of in the further.
+  class Client
+    attr_accessor :options, :logger, :log_file, :tmp_dir, :config
+
+    include Files
+    include Commands
+    include LogDirectories
+    include PackageDetection
+
+    HOSTNAME = `hostname`.strip
+    VERSION = 1.2
+
+    def initialize(args)
+      @args = args
+      check_packaged_gitlabsos
+      setup_config
+      self.class.const_set('REPORT_NAME',
+                           "gitlabsos.#{HOSTNAME}_#{Time.now.strftime('%Y%m%d-%H%M%S')}_#{services}".freeze)
+      self.options = Options.parse(args)
+      @temp_dir = options[:tmp_path] || ENV['TMP'] || ENV['TMPDIR'] || '/tmp'
+      @temp_filepath = File.join(@temp_dir, REPORT_NAME)
+      setup_logger
+      log_ruby_version
+      log_options
+      root_check
+      run
+    end
+
+    def log_options
+      logger.info options
+    end
+
+    def log_ruby_version
+      logger.info "Ruby: #{RUBY_VERSION} - #{RUBY_PLATFORM}"
+    end
+
+    def setup_config
+      config_file = Dir.glob('/opt/gitlab/embedded/nodes/*.json').max_by { |f| File.mtime(f) }
+
+      # Grab first file
+      self.config = config_file ? JSON.parse(File.read(config_file)) : {}
+    end
+
+    def root_check
+      if options[:root_check]
+        raise 'Script must be run as root' unless Process.uid.zero?
+      else
+        logger.info 'Running as a non-root user can cause issues when trying to collect data'
+      end
+    end
+
+    def create_temp_directory
+      self.tmp_dir = FileUtils.mkdir_p(@temp_filepath).join
+    rescue Errno::ENOENT => e
+      # TODO: Handle error Permission denied.
+      e.message
+    end
+
+    def setup_logger
+      create_temp_directory
+      self.log_file ||= File.open(File.join(@temp_filepath, 'gitlabsos.log'), 'a')
+      self.logger = Logger.new MultiIO.new($stdout, log_file)
+      logger.level = options[:log_level]
+      logger.progname = 'gitlabsos'
+      logger.formatter = proc do |severity, datetime, progname, msg|
+        "[#{datetime.strftime('%Y-%m-%dT%H:%M:%S.%6N')}] #{severity} -- #{progname}: #{msg}\n"
+      end
+    end
+
+    # this method is used to fetch all values out of a hash for any given key
+    # I'm just using it to get custom log directories
+    def deep_fetch(hash, key)
+      hash.values.map do |obj|
+        next if obj.class != Hash
+
+        if obj.key? key
+          obj[key]
+        else
+          deep_fetch(obj, key)
+        end
+      end.flatten.compact
+    end
+
+    def service_enabled?(service_name)
+      @status_output ||= `gitlab-ctl status 2>&1`
+      @status_output.include?("#{service_name}:")
+    end
+
+    # Each service check adds +1 to the complexity, so we easily go above the
+    # configured maximum of 10. Therefore, let's temporarily disable the checks.
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def services
+      services = []
+      services << 'consul' if service_enabled?('consul')
+      services << 'gitaly' if service_enabled?('gitaly')
+      services << 'mattermost' if service_enabled?('mattermost')
+      services << 'nginx' if service_enabled?('nginx')
+      services << 'pages' if service_enabled?('gitlab-pages')
+      services << 'patroni' if service_enabled?('patroni')
+      services << 'praefect' if service_enabled?('praefect')
+      services << 'prometheus' if service_enabled?('prometheus')
+      services << 'psql' if service_enabled?('postgresql')
+      services << 'puma' if service_enabled?('puma')
+      services << 'redis' if service_enabled?('redis')
+      services << 'registry' if service_enabled?('registry')
+      services << 'sidekiq' if service_enabled?('sidekiq')
+      services.join('-')
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    def run
+      logger.info "Starting gitlabsos report, version #{VERSION}"
+      logger.info 'Gathering configuration and system info..'
+
+      run_files
+      run_commands
+      run_log_dirs
+
+      if options[:dump_schema]
+        run_activerecord_schema_dump
+        run_schema_dump
+      end
+
+      run_rake_commands if options[:rake]
+      run_rpm_verify if options[:rpm_vv]
+      run_gitlab_rb
+      run_faststats
+
+      logger.info 'Report finished.'
+      log_file.close
+
+      puts "Saving to: '#{options[:output_file]}'"
+      system(options[:nice_command] + "tar -czf #{options[:output_file]} #{File.basename(@temp_filepath)}",
+             chdir: File.dirname(@temp_filepath))
+      FileUtils.remove_dir(@temp_filepath)
+    end
+  end
+end
+
+GitLabSOS::Client.new(ARGV)

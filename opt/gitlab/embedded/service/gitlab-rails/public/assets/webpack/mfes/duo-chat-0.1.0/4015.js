@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[4015],{11522(t,e,r){r.d(e,{default:()=>s});let s={errorPrefix:{t:0,b:{t:2,i:[{t:3,v:"Грешка: "},{t:4,k:"error"}]}},project:{t:0,b:{t:2,i:[{t:3}],s:"Проект"}},namespace:{t:0,b:{t:2,i:[{t:3}],s:"Именно пространство"}},gqlName:{t:0,b:{t:2,i:[{t:3}],s:"Име"}}}}}]);

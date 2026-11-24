@@ -1,0 +1,97 @@
+<svg width="844" height="751" viewBox="0 0 844 751" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- lights -->
+    <g filter="url(#filter0_f_242_122810)">
+        <g filter="url(#filter1_f_242_122810)">
+            <circle cx="342.5" cy="342.5" r="282.5" fill="url(#paint0_radial_242_122810)"/>
+        </g>
+        <g filter="url(#filter2_f_242_122810)">
+            <circle cx="558.5" cy="280.5" r="180.5" fill="url(#paint1_radial_242_122810)"/>
+        </g>
+        <g filter="url(#filter3_f_242_122810)">
+            <circle cx="407.48" cy="499.922" r="190.231" fill="url(#paint2_radial_242_122810)"/>
+        </g>
+    </g>
+
+    <!-- big figure -->
+    <path d="M181 141H406C506.809 141 557.214 141 595.718 160.619C629.587 177.876 657.124 205.413 674.381 239.282C694 277.786 694 328.191 694 429V611H469C368.191 611 317.786 611 279.282 591.381C245.413 574.124 217.876 546.587 200.619 512.718C181 474.214 181 423.809 181 323V141Z" fill="var(--vscode-sideBar-background, var(--vscode-notebook-editorBackground, #28262B))"/>
+
+    <!-- small figure -->
+    <path d="M274.159 235.912H603.321V457.452C603.321 474.254 603.321 482.655 600.051 489.072C597.175 494.717 592.585 499.306 586.941 502.182C580.523 505.452 572.122 505.452 555.321 505.452H274.159V235.912Z" fill="var(--vscode-notebook-editorBackground, #28262B)"/>
+    <path d="M413.277 235.912H274.159V293.05" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M539.973 235.912H603.321V427.199" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M274.159 319.134V505.452H339.992" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M461.719 505.452H555.321C572.122 505.452 580.523 505.452 586.941 502.182C592.585 499.306 597.175 494.717 600.051 489.072C603.321 482.655 603.321 474.254 603.321 457.452V448.315" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- roadmap -->
+    <path d="M231.685 305.3H522.898C525.668 305.3 527.053 305.3 528.222 305.392C542.944 306.544 554.638 318.238 555.79 332.96C555.881 334.128 555.881 335.513 555.881 338.283V338.283C555.881 341.053 555.881 342.438 555.79 343.606C554.638 358.328 542.944 370.023 528.222 371.175C527.053 371.266 525.668 371.266 522.898 371.266H352.861C349.513 371.266 347.839 371.266 346.428 371.4C332.094 372.756 320.746 384.105 319.389 398.439C319.255 399.849 319.255 401.523 319.255 404.871V404.871C319.255 408.219 319.255 409.893 319.389 411.304C320.746 425.637 332.094 436.986 346.428 438.343C347.839 438.476 349.513 438.476 352.861 438.476H644.694" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M335.403 317.502C342.474 317.502 348.203 311.759 348.203 304.678C348.203 297.597 342.474 291.854 335.403 291.854C328.332 291.854 322.603 297.597 322.603 304.678C322.603 311.759 328.332 317.502 335.403 317.502Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    <path d="M438.5 384.712C445.571 384.712 451.3 378.969 451.3 371.888C451.3 364.808 445.571 359.064 438.5 359.064C431.429 359.064 425.7 364.808 425.7 371.888C425.7 378.969 431.429 384.712 438.5 384.712Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    <path d="M540.355 451.923C547.426 451.923 553.155 446.179 553.155 439.099C553.155 432.018 547.426 426.275 540.355 426.275C533.283 426.275 527.554 432.018 527.554 439.099C527.554 446.179 533.283 451.923 540.355 451.923Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    
+    <!-- bottom circle -->
+    <path d="M400.615 657.287C445.074 657.287 481.111 621.174 481.111 576.631C481.111 532.087 445.074 495.974 400.615 495.974C356.156 495.974 320.119 532.087 320.119 576.631C320.119 621.174 356.156 657.287 400.615 657.287Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    <path d="M401.236 451.923C408.307 451.923 414.036 446.179 414.036 439.099C414.036 432.018 408.307 426.275 401.236 426.275C394.165 426.275 388.436 432.018 388.436 439.099C388.436 446.179 394.165 451.923 401.236 451.923Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    <path d="M388.194 437.854L336.459 527.468" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-miterlimit="10"/>
+    <path d="M462.722 524.979L414.278 437.854" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-miterlimit="10"/>
+    <rect width="58.5379" height="83.2309" rx="8" transform="matrix(0.947902 0.318561 -0.31741 0.948289 397.359 523.999)" fill="#7759C2"/>
+    <rect x="367.078" y="535.558" width="62.1065" height="84.6352" rx="8" fill="#A888F4"/>
+    <path d="M375.976 567.557H420.386" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M375.976 577.977H420.386" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M383.954 559.822C388.033 559.822 391.339 556.51 391.339 552.424C391.339 548.338 388.033 545.025 383.954 545.025C379.875 545.025 376.568 548.338 376.568 552.424C376.568 556.51 379.875 559.822 383.954 559.822Z" fill="#7759C2"/>
+    <path d="M375.976 591.123L378.513 593.664L383.602 588.574" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M375.976 603.331L378.513 605.872L383.602 600.782" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M389.899 591.123H409.345" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M389.899 603.323H415.556" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    
+    <!-- top circle -->
+    <path d="M476.385 247.803C520.844 247.803 556.881 211.689 556.881 167.146C556.881 122.602 520.844 86.4892 476.385 86.4892C431.926 86.4892 395.889 122.602 395.889 167.146C395.889 211.689 431.926 247.803 476.385 247.803Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    <path d="M477.006 317.502C484.077 317.502 489.806 311.759 489.806 304.678C489.806 297.597 484.077 291.854 477.006 291.854C469.935 291.854 464.206 297.597 464.206 304.678C464.206 311.759 469.935 317.502 477.006 317.502Z" fill="var(--vscode-notebook-editorBackground, #28262B)" stroke="var(--vscode-tab-activeForeground)" stroke-width="2"/>
+    <path d="M490.048 305.3L537.995 219.421" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-miterlimit="10"/>
+    <path d="M414.278 218.798L463.666 305.386" stroke="var(--vscode-tab-activeForeground)" stroke-width="2" stroke-miterlimit="10"/>
+    <rect x="444.09" y="126.073" width="80.7385" height="22.4034" rx="4" fill="#10B1B1"/>
+    <rect x="420.489" y="155.944" width="80.7385" height="22.4034" rx="4" fill="#FF9D73"/>
+    <rect x="444.09" y="185.815" width="80.7385" height="22.4034" rx="4" fill="#7759C2"/>
+    
+    <!-- branches -->
+    <path d="M642.641 307.79H593.335C591.094 307.79 589.974 307.79 589.119 308.226C588.366 308.609 587.754 309.221 587.371 309.974C586.935 310.829 586.935 311.949 586.935 314.19V363.621C586.935 365.862 586.935 366.982 587.371 367.837C587.754 368.59 588.366 369.202 589.119 369.585C589.974 370.021 591.094 370.021 593.335 370.021H642.641C644.881 370.021 646.001 370.021 646.857 369.585C647.61 369.202 648.222 368.59 648.605 367.837C649.041 366.982 649.041 365.862 649.041 363.621V314.19C649.041 311.949 649.041 310.829 648.605 309.974C648.222 309.221 647.61 308.609 646.857 308.226C646.001 307.79 644.881 307.79 642.641 307.79Z" fill="#FF9D73"/>
+    <path d="M605.319 332.863C607.926 332.863 610.04 330.745 610.04 328.134C610.04 325.522 607.926 323.404 605.319 323.404C602.712 323.404 600.598 325.522 600.598 328.134C600.598 330.745 602.712 332.863 605.319 332.863ZM605.319 332.863V346.906M605.319 346.906C602.712 346.906 600.598 349.023 600.598 351.635C600.598 354.247 602.712 356.364 605.319 356.364C607.926 356.364 610.04 354.247 610.04 351.635C610.04 349.023 607.926 346.906 605.319 346.906ZM631.357 346.906C628.749 346.906 626.636 349.023 626.636 351.635C626.636 354.247 628.749 356.364 631.357 356.364C633.964 356.364 636.078 354.247 636.078 351.635C636.078 349.023 633.964 346.906 631.357 346.906ZM631.357 346.906L631.357 333.969C631.357 330.747 628.748 328.134 625.531 328.134H617.666M617.666 328.134L624.507 321.481M617.666 328.134L624.507 334.778" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2" stroke-miterlimit="10"/>
+    
+    <!-- approve -->
+    <path d="M287.392 378.734H238.085C235.845 378.734 234.725 378.734 233.869 379.17C233.117 379.553 232.505 380.165 232.121 380.918C231.685 381.773 231.685 382.894 231.685 385.134V434.566C231.685 436.806 231.685 437.926 232.121 438.781C232.505 439.534 233.117 440.146 233.869 440.53C234.725 440.966 235.845 440.966 238.085 440.966H287.392C289.632 440.966 290.752 440.966 291.608 440.53C292.36 440.146 292.972 439.534 293.356 438.781C293.792 437.926 293.792 436.806 293.792 434.566V385.134C293.792 382.894 293.792 381.773 293.356 380.918C292.972 380.165 292.36 379.553 291.608 379.17C290.752 378.734 289.632 378.734 287.392 378.734Z" fill="#10B1B1"/>
+    <path d="M246.591 409.443L258.545 421.418L282.511 397.403" stroke="var(--vscode-notebook-editorBackground, #28262B)" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <defs>
+        <filter id="filter0_f_242_122810" x="0" y="0" width="799" height="750.153" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="30" result="effect1_foregroundBlur_242_122810"/>
+        </filter>
+        <filter id="filter1_f_242_122810" x="30" y="30" width="625" height="625" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="15" result="effect1_foregroundBlur_242_122810"/>
+        </filter>
+        <filter id="filter2_f_242_122810" x="348" y="70" width="421" height="421" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="15" result="effect1_foregroundBlur_242_122810"/>
+        </filter>
+        <filter id="filter3_f_242_122810" x="187.248" y="279.691" width="440.463" height="440.463" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="15" result="effect1_foregroundBlur_242_122810"/>
+        </filter>
+        <radialGradient id="paint0_radial_242_122810" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(342.5 342.5) rotate(89.5818) scale(270.654)">
+            <stop offset="0.354167" stop-color="#7759C2"/>
+            <stop offset="1" stop-color="#7759C2" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="paint1_radial_242_122810" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(558.5 280.5) rotate(89.5818) scale(172.931)">
+            <stop stop-color="#D64028"/>
+            <stop offset="1" stop-color="#D64028" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="paint2_radial_242_122810" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(407.48 499.922) rotate(89.5818) scale(182.255)">
+            <stop offset="0.4375" stop-color="#EF76F1"/>
+            <stop offset="1" stop-color="#EF76F1" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+</svg>

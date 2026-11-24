@@ -1,0 +1,1066 @@
+package sshd
+
+import (
+	"bytes"
+	"context"
+	"crypto/ed25519"
+	"crypto/rand"
+	"crypto/rsa"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log/slog"
+	"net"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"path"
+	"sync"
+	"sync/atomic"
+	"testing"
+	"time"
+
+	"github.com/pires/go-proxyproto"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"golang.org/x/crypto/ssh"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client/testserver"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/gitauditevent"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/testhelper"
+	"gitlab.com/gitlab-org/labkit/correlation"
+	"gitlab.com/gitlab-org/labkit/v2/fields"
+	"gitlab.com/gitlab-org/labkit/v2/log"
+)
+
+const (
+	user              = "git"
+	disallowedProxyIP = "192.168.1.1"
+)
+
+var (
+	correlationID = ""
+	xForwardedFor = ""
+)
+
+func TestListenAndServe(t *testing.T) {
+	s, testRoot := setupServer(t)
+
+	client, err := ssh.Dial("tcp", s.Addr(), clientConfig(t, testRoot))
+	require.NoError(t, err)
+	defer client.Close()
+
+	require.NoError(t, s.Shutdown())
+	verifyStatus(t, s, StatusOnShutdown)
+
+	holdSession(t, client)
+
+	_, err = ssh.Dial("tcp", s.Addr(), clientConfig(t, testRoot))
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "connection refused")
+
+	client.Close()
+
+	verifyStatus(t, s, StatusClosed)
+}
+
+func TestGitAuditEventCertificateMetadata(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	caSigner, caPubKey := createCAKeyPair(t)
+	caFile := path.Join(t.TempDir(), "ca.pub")
+	require.NoError(t, os.WriteFile(caFile, ssh.MarshalAuthorizedKey(caPubKey), 0o600))
+
+	clientKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	require.NoError(t, err)
+	clientSigner, err := ssh.NewSignerFromKey(clientKey)
+	require.NoError(t, err)
+	cert := &ssh.Certificate{
+		CertType:    ssh.UserCert,
+		Key:         clientSigner.PublicKey(),
+		KeyId:       "cert-user",
+		ValidBefore: uint64(time.Now().Add(time.Hour).Unix()),
+	}
+	require.NoError(t, cert.SignCert(rand.Reader, caSigner))
+	certSigner, err := ssh.NewCertSigner(cert, clientSigner)
+	require.NoError(t, err)
+
+	// This CA is not locally trusted, so its certificate resolves through the API.
+	groupCASigner, groupCAPubKey := createCAKeyPair(t)
+	groupCert := &ssh.Certificate{
+		CertType:    ssh.UserCert,
+		Key:         clientSigner.PublicKey(),
+		KeyId:       "cert-user@example.com",
+		ValidBefore: uint64(time.Now().Add(time.Hour).Unix()),
+	}
+	require.NoError(t, groupCert.SignCert(rand.Reader, groupCASigner))
+	groupCertSigner, err := ssh.NewCertSigner(groupCert, clientSigner)
+	require.NoError(t, err)
+
+	gitalyAddress, _ := testserver.StartGitalyServer(t, "unix")
+	auditBodies := make(chan []byte, 1)
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedKeysAPIPath,
+			Handler: func(w http.ResponseWriter, _ *http.Request) {
+				fmt.Fprint(w, `{"id": 1000, "key": "key"}`)
+			},
+		}, {
+			Path: authorizedCertsAPIPath,
+			Handler: func(w http.ResponseWriter, _ *http.Request) {
+				fmt.Fprint(w, `{"success": true, "username": "cert-user", "namespace": "group", "instance": false}`)
+			},
+		}, {
+			Path: "/api/v4/internal/allowed",
+			Handler: func(w http.ResponseWriter, _ *http.Request) {
+				fmt.Fprintf(w, `{"status": true, "gl_id": "user-1", "gl_username": "cert-user", "need_audit": true,
+					"gitaly": {"repository": {"storage_name": "default", "relative_path": "repo.git", "gl_repository": "project-1"},
+					"address": %q, "token": "token"}}`, gitalyAddress)
+			},
+		}, {
+			Path: "/api/v4/internal/shellhorse/git_audit_event",
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				body, readErr := io.ReadAll(r.Body)
+				assert.NoError(t, readErr)
+				auditBodies <- body
+				w.WriteHeader(http.StatusOK)
+			},
+		},
+	}
+
+	cfg := &config.Config{GitlabURL: testserver.StartSocketHTTPServer(t, requests), RootDir: "/tmp", User: user}
+	cfg.Server.Listen = "127.0.0.1:0"
+	cfg.Server.ConcurrentSessionsLimit = 1
+	cfg.Server.HostKeyFiles = []string{path.Join(testRoot, "certs/valid/server.key")}
+	cfg.Server.TrustedUserCAKeys = []string{caFile}
+	cfg.GitalyClient.InitSidechannelRegistry(context.Background())
+
+	s, err := NewServer(cfg)
+	require.NoError(t, err)
+	go func() { s.ListenAndServe(context.Background()) }()
+	t.Cleanup(func() { s.Shutdown() })
+	verifyStatus(t, s, StatusReady)
+
+	testCases := []struct {
+		desc          string
+		signer        ssh.Signer
+		caFingerprint string
+		identity      string
+		trustSource   string
+	}{
+		{
+			desc:          "file certificate authentication",
+			signer:        certSigner,
+			caFingerprint: ssh.FingerprintSHA256(caPubKey),
+			identity:      "cert-user",
+			trustSource:   "file",
+		},
+		{
+			desc:          "group certificate authentication",
+			signer:        groupCertSigner,
+			caFingerprint: ssh.FingerprintSHA256(groupCAPubKey),
+			identity:      "cert-user@example.com",
+			trustSource:   "group",
+		},
+		{desc: "public key authentication", signer: clientSigner},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			clientCfg := clientConfig(t, testRoot)
+			clientCfg.Auth = []ssh.AuthMethod{ssh.PublicKeys(tc.signer)}
+			client, err := ssh.Dial("tcp", s.Addr(), clientCfg)
+			require.NoError(t, err)
+			defer client.Close()
+
+			session, err := client.NewSession()
+			require.NoError(t, err)
+			defer session.Close()
+			session.Stdin = &bytes.Buffer{}
+			require.NoError(t, session.Run("git-receive-pack group/repo"))
+
+			var body []byte
+			select {
+			case body = <-auditBodies:
+			case <-time.After(5 * time.Second):
+				require.FailNow(t, "git audit event was not sent")
+			}
+
+			var request gitauditevent.Request
+			require.NoError(t, json.Unmarshal(body, &request))
+			require.Equal(t, tc.caFingerprint, request.CAFingerprint)
+			require.Equal(t, tc.identity, request.CertificateIdentity)
+			require.Equal(t, tc.trustSource, request.CertificateTrustSource)
+			if tc.trustSource == "" {
+				var payload map[string]any
+				require.NoError(t, json.Unmarshal(body, &payload))
+				require.NotContains(t, payload, "ca_fingerprint")
+				require.NotContains(t, payload, "certificate_identity")
+				require.NotContains(t, payload, "certificate_trust_source")
+			}
+		})
+	}
+}
+
+func TestRateLimitedCertificateSendsBanner(t *testing.T) {
+	caSigner, _ := createCAKeyPair(t)
+	// ed25519 so the client makes a single publickey attempt; RSA certs retry
+	// across hash algorithms and would produce several banners.
+	_, clientKey, err := ed25519.GenerateKey(rand.Reader)
+	require.NoError(t, err)
+	clientSigner, err := ssh.NewSignerFromKey(clientKey)
+	require.NoError(t, err)
+	cert := &ssh.Certificate{
+		CertType:    ssh.UserCert,
+		Key:         clientSigner.PublicKey(),
+		KeyId:       "rate-limited",
+		ValidBefore: uint64(time.Now().Add(time.Hour).Unix()),
+	}
+	require.NoError(t, cert.SignCert(rand.Reader, caSigner))
+	certSigner, err := ssh.NewCertSigner(cert, clientSigner)
+	require.NoError(t, err)
+
+	s, testRoot := setupServerWithContext(context.Background(), t, nil, testserver.TestRequestHandler{
+		Path: authorizedCertsAPIPath,
+		Handler: func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Retry-After", "60")
+			w.WriteHeader(http.StatusTooManyRequests)
+			fmt.Fprint(w, `{"message":{"error":"This endpoint has been requested too many times. Try again later."}}`)
+		},
+	})
+
+	var banners []string
+	clientCfg := clientConfig(t, testRoot)
+	clientCfg.Auth = []ssh.AuthMethod{ssh.PublicKeys(certSigner)}
+	clientCfg.BannerCallback = func(message string) error {
+		banners = append(banners, message)
+		return nil
+	}
+
+	_, err = ssh.Dial("tcp", s.Addr(), clientCfg)
+	require.ErrorContains(t, err, "ssh: handshake failed")
+	require.Equal(t, []string{tooManyRequestsBanner}, banners)
+}
+
+func TestListenAndServe_proxyProtocolEnabled(t *testing.T) {
+	xForwardedFor = localhostIP
+	defer func() {
+		xForwardedFor = "" // Cleanup for other test cases
+	}()
+
+	proxyHeader, err := (&proxyproto.Header{
+		Version:           2,
+		Command:           proxyproto.PROXY,
+		TransportProtocol: proxyproto.TCPv4,
+		SourceAddr: &net.TCPAddr{
+			IP:   net.ParseIP("10.1.1.1"),
+			Port: 1000,
+		},
+		DestinationAddr: &net.TCPAddr{
+			IP:   net.ParseIP("127.0.0.1"),
+			Port: 22,
+		},
+	}).Format()
+	require.NoError(t, err)
+
+	testCases := []struct {
+		desc         string
+		proxyPolicy  string
+		proxyAllowed []string
+		sendHeader   bool
+		isRejected   bool
+	}{
+		{
+			desc:        "USE (default) without a header",
+			proxyPolicy: "",
+			sendHeader:  false,
+			isRejected:  false,
+		},
+		{
+			desc:        "USE (default) with a header",
+			proxyPolicy: "",
+			sendHeader:  true,
+			isRejected:  false,
+		},
+		{
+			desc:        "REQUIRE without a header",
+			proxyPolicy: "require",
+			sendHeader:  false,
+			isRejected:  true,
+		},
+		{
+			desc:        "REQUIRE with a header",
+			proxyPolicy: "require",
+			sendHeader:  true,
+			isRejected:  false,
+		},
+		{
+			desc:        "REJECT without a header",
+			proxyPolicy: "reject",
+			sendHeader:  false,
+			isRejected:  false,
+		},
+		{
+			desc:        "REJECT with a header",
+			proxyPolicy: "reject",
+			sendHeader:  true,
+			isRejected:  true,
+		},
+		{
+			desc:        "IGNORE without a header",
+			proxyPolicy: "ignore",
+			sendHeader:  false,
+			isRejected:  false,
+		},
+		{
+			desc:        "IGNORE with a header",
+			proxyPolicy: "ignore",
+			sendHeader:  true,
+			isRejected:  false,
+		},
+		{
+			desc:         "Allow-listed IP with a header",
+			proxyAllowed: []string{localhostIP},
+			sendHeader:   true,
+			isRejected:   false,
+		},
+		{
+			desc:         "Allow-listed IP overrides REQUIRE without a header",
+			proxyPolicy:  proxyPolicyRequire,
+			proxyAllowed: []string{localhostIP},
+			sendHeader:   false,
+			isRejected:   false,
+		},
+		{
+			desc:         "Allow-listed range with a header",
+			proxyAllowed: []string{"127.0.0.0/24"},
+			sendHeader:   true,
+			isRejected:   false,
+		},
+		{
+			desc:         "Allow-listed range without a header",
+			proxyAllowed: []string{"127.0.0.0/24"},
+			sendHeader:   false,
+			isRejected:   false,
+		},
+		{
+			desc:         "Not allow-listed IP with a header",
+			proxyAllowed: []string{disallowedProxyIP},
+			sendHeader:   true,
+			isRejected:   true,
+		},
+		{
+			desc:         "Not allow-listed IP without a header",
+			proxyAllowed: []string{disallowedProxyIP},
+			sendHeader:   false,
+			isRejected:   false,
+		},
+		{
+			desc:         "Not allow-listed range with a header",
+			proxyAllowed: []string{"192.168.1.0/24"},
+			sendHeader:   true,
+			isRejected:   true,
+		},
+		{
+			desc:         "Not allow-listed range without a header",
+			proxyAllowed: []string{"192.168.1.0/24"},
+			sendHeader:   false,
+			isRejected:   false,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			var header []byte
+			if tc.sendHeader {
+				header = proxyHeader
+			}
+
+			client, err := dialWithProxyHeader(t, config.ServerConfig{
+				ProxyProtocol: true,
+				ProxyPolicy:   tc.proxyPolicy,
+				ProxyAllowed:  tc.proxyAllowed,
+			}, header)
+
+			if tc.isRejected {
+				require.ErrorContains(t, err, "ssh: handshake failed")
+				return
+			}
+
+			require.NoError(t, err)
+			holdSession(t, client)
+		})
+	}
+}
+
+func TestListenAndServe_proxyProtocolV1RawHeader(t *testing.T) {
+	xForwardedFor = localhostIP
+	t.Cleanup(func() { xForwardedFor = "" })
+
+	const ipv4InTCP6Header = "PROXY TCP6 198.51.100.23 203.0.113.5 45678 22\r\n"
+
+	testCases := []struct {
+		desc         string
+		header       string
+		proxyAllowed []string
+		isRejected   bool
+	}{
+		{
+			desc:   "TCP4",
+			header: "PROXY TCP4 10.1.1.1 127.0.0.1 1000 22\r\n",
+		},
+		{
+			desc:   "IPv4 addresses in TCP6",
+			header: ipv4InTCP6Header,
+		},
+		{
+			desc:   "Mixed address families in TCP6",
+			header: "PROXY TCP6 2001:db8::1 203.0.113.5 45678 22\r\n",
+		},
+		{
+			desc:         "Allow-listed peer with IPv4 addresses in TCP6",
+			header:       ipv4InTCP6Header,
+			proxyAllowed: []string{localhostIP},
+		},
+		{
+			desc:         "Unlisted peer with IPv4 addresses in TCP6",
+			header:       ipv4InTCP6Header,
+			proxyAllowed: []string{disallowedProxyIP},
+			isRejected:   true,
+		},
+		{
+			desc:       "Zero-padded port",
+			header:     "PROXY TCP4 10.1.1.1 127.0.0.1 01000 22\r\n",
+			isRejected: true,
+		},
+		{
+			desc:       "Extra token",
+			header:     "PROXY TCP4 10.1.1.1 127.0.0.1 1000 22 extra\r\n",
+			isRejected: true,
+		},
+		{
+			desc:       "Malformed PROXY token",
+			header:     "PROXYjunk TCP4 10.1.1.1 127.0.0.1 1000 22\r\n",
+			isRejected: true,
+		},
+		{
+			desc:       "IPv6 zone ID",
+			header:     "PROXY TCP6 fe80::1%eth0 ::1 1000 22\r\n",
+			isRejected: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			client, err := dialWithProxyHeader(t, config.ServerConfig{
+				ProxyProtocol: true,
+				ProxyAllowed:  tc.proxyAllowed,
+			}, []byte(tc.header))
+			if tc.isRejected {
+				require.ErrorContains(t, err, "ssh: handshake failed")
+				return
+			}
+
+			require.NoError(t, err)
+			holdSession(t, client)
+		})
+	}
+}
+
+func TestProxyPolicyInvalidAllowList(t *testing.T) {
+	for _, tc := range []struct {
+		entry   string
+		wantErr string
+	}{
+		{entry: "not-an-ip", wantErr: "not a valid IP address"},
+		{entry: "10.0.0.0/33", wantErr: "not a valid IP range"},
+	} {
+		t.Run(tc.entry, func(t *testing.T) {
+			s := &Server{Config: &config.Config{Server: config.ServerConfig{ProxyAllowed: []string{tc.entry}}}}
+
+			_, err := s.proxyPolicy()
+
+			require.ErrorContains(t, err, tc.wantErr)
+		})
+	}
+}
+
+func TestCorrelationId(t *testing.T) {
+	s, testRoot := setupServer(t)
+
+	client, err := ssh.Dial("tcp", s.Addr(), clientConfig(t, testRoot))
+	require.NoError(t, err)
+	defer client.Close()
+
+	holdSession(t, client)
+
+	previousCorrelationID := correlationID
+
+	client, err = ssh.Dial("tcp", s.Addr(), clientConfig(t, testRoot))
+	require.NoError(t, err)
+	defer client.Close()
+
+	holdSession(t, client)
+
+	require.NotEqual(t, previousCorrelationID, correlationID)
+}
+
+// syncBuffer is a goroutine-safe wrapper around bytes.Buffer. The sshd
+// package runs live SSH servers in background goroutines during other
+// tests; once slog.Default() is redirected here, those goroutines may
+// write concurrently while this test reads, so all access is mutex-guarded.
+type syncBuffer struct {
+	mu  sync.Mutex
+	buf bytes.Buffer
+}
+
+func (b *syncBuffer) Write(p []byte) (int, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.buf.Write(p)
+}
+
+func (b *syncBuffer) Bytes() []byte {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	// Return a copy so the caller can read it without holding the lock
+	// while concurrent writes continue.
+	return append([]byte(nil), b.buf.Bytes()...)
+}
+
+// TestConnectionLoggerCorrelationIDMatchesContext verifies that the
+// per-connection ctx derivation performed at the top of handleConn keeps the
+// logger's correlation_id field in lockstep with the ctx's correlation value.
+// This is the invariant that keeps log lines emitted during a connection tied
+// to the same correlation_id that outbound HTTP requests propagate via the
+// X-Request-Id header.
+//
+// The test exercises the exact two-step transformation from handleConn:
+//  1. contextWithValues(parent, nconn) — assigns a fresh per-connection
+//     correlation_id to the context
+//  2. log.AppendFields(ctx, remote_addr) — adds the remote_addr field to the
+//     logger
+//
+// A process-level parent context carrying an existing "process" correlation_id
+// in both the correlation value and the logger attr simulates what
+// command.Setup produces at server startup, ensuring the test catches the
+// shadowing failure mode where the logger keeps emitting the parent's
+// correlation_id even after the per-connection ID is assigned.
+func TestConnectionLoggerCorrelationIDMatchesContext(t *testing.T) {
+	buf := &syncBuffer{}
+	originalDefault := slog.Default()
+	slog.SetDefault(slog.New(slog.NewJSONHandler(buf, nil)))
+	t.Cleanup(func() { slog.SetDefault(originalDefault) })
+
+	const processCorrelationID = "process-correlation-id"
+	parent := correlation.ContextWithCorrelation(context.Background(), processCorrelationID)
+	parent = log.WithLogger(parent, slog.Default().With(slog.String(fields.CorrelationID, processCorrelationID)))
+
+	serverEnd, clientEnd := net.Pipe()
+	t.Cleanup(func() { serverEnd.Close(); clientEnd.Close() })
+
+	ctx := contextWithValues(parent, serverEnd)
+	ctx = log.AppendFields(ctx, slog.String("remote_addr", serverEnd.RemoteAddr().String()))
+
+	perConnectionID := correlation.ExtractFromContext(ctx)
+	require.NotEmpty(t, perConnectionID)
+	require.NotEqual(t, processCorrelationID, perConnectionID,
+		"contextWithValues should mint a fresh correlation_id for each connection")
+
+	const marker = "connection log line"
+	log.FromContext(ctx).InfoContext(ctx, marker)
+
+	// Other goroutines in this package (server lifecycle tests, keepalives,
+	// etc.) can land log lines in slog.Default() concurrently, so locate our
+	// line by its message rather than assuming the buffer contains exactly
+	// one record.
+	entry := findJSONLogByMessage(t, buf.Bytes(), marker)
+
+	require.Equal(t, perConnectionID, entry["correlation_id"],
+		"log lines emitted during a connection must carry the per-connection correlation_id that outbound HTTP requests use, not the parent/process one")
+	require.Equal(t, serverEnd.RemoteAddr().String(), entry["remote_addr"])
+}
+
+func findJSONLogByMessage(t *testing.T, output []byte, msg string) map[string]any {
+	t.Helper()
+	for _, line := range bytes.Split(bytes.TrimRight(output, "\n"), []byte("\n")) {
+		if len(line) == 0 {
+			continue
+		}
+		var entry map[string]any
+		require.NoError(t, json.Unmarshal(line, &entry))
+		if entry["msg"] == msg {
+			return entry
+		}
+	}
+	t.Fatalf("no log entry with msg=%q found in:\n%s", msg, output)
+	return nil
+}
+
+// TestAccessFinishLogsCommandLogData runs a Git command over gitlab-sshd and
+// checks that the "access: finish" line logged when the connection ends
+// carries the user and the project the command recorded in its log data,
+// whether the command succeeds or fails after its access check.
+func TestAccessFinishLogsCommandLogData(t *testing.T) {
+	gitalyAddress, _ := testserver.StartGitalyServer(t, "unix")
+
+	testCases := []struct {
+		desc          string
+		gitalyAddress string
+		commandFails  bool
+	}{
+		{
+			desc:          "the command succeeds",
+			gitalyAddress: gitalyAddress,
+		},
+		{
+			desc:          "the command fails after its access check",
+			gitalyAddress: "unix:/nonexistent/gitaly.socket",
+			commandFails:  true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			buf := &syncBuffer{}
+			originalDefault := slog.Default()
+			slog.SetDefault(slog.New(slog.NewJSONHandler(buf, nil)))
+			t.Cleanup(func() { slog.SetDefault(originalDefault) })
+
+			cfg := &config.Config{}
+			cfg.GitalyClient.InitSidechannelRegistry(context.Background())
+			s, testRoot := setupServerWithContext(context.Background(), t, cfg, accessCheckHandler(tc.gitalyAddress))
+
+			client, err := ssh.Dial("tcp", s.Addr(), clientConfig(t, testRoot))
+			require.NoError(t, err)
+			remoteAddr := client.LocalAddr().String()
+
+			session, err := client.NewSession()
+			require.NoError(t, err)
+			session.Stdin = &bytes.Buffer{}
+			err = session.Run("git-receive-pack flightjs/Flight")
+			if tc.commandFails {
+				require.Error(t, err)
+			} else {
+				require.NoError(t, err)
+			}
+			require.NoError(t, client.Close())
+
+			requireAccessFinishLogData(t, buf, remoteAddr)
+		})
+	}
+}
+
+// TestAccessFinishWithConcurrentSessions runs several Git commands at once
+// over one SSH connection, as a client that multiplexes its sessions does,
+// and checks that the "access: finish" line still carries the user and the
+// project. Every session hands its log data back to the connection when it
+// ends, so under the race detector this also checks that they do so safely.
+func TestAccessFinishWithConcurrentSessions(t *testing.T) {
+	const sessions = 10
+
+	buf := &syncBuffer{}
+	originalDefault := slog.Default()
+	slog.SetDefault(slog.New(accessFinishOnlyHandler{slog.NewJSONHandler(buf, nil)}))
+	t.Cleanup(func() { slog.SetDefault(originalDefault) })
+
+	// Each access check waits until every session has asked for one, so the
+	// sessions run and end together. Gitaly is not reachable, so each command
+	// then fails after its access check, with its log data recorded.
+	var arrived atomic.Int32
+	allArrived := make(chan struct{})
+	allowed := accessCheckHandler("unix:/nonexistent/gitaly.socket")
+	answer := allowed.Handler
+	allowed.Handler = func(w http.ResponseWriter, r *http.Request) {
+		if arrived.Add(1) == sessions {
+			close(allArrived)
+		}
+		select {
+		case <-allArrived:
+		case <-time.After(5 * time.Second):
+			// The sessions no longer overlap, so the test could not see a race.
+			t.Errorf("only %d of %d sessions reached the access check", arrived.Load(), sessions)
+		}
+		answer(w, r)
+	}
+
+	cfg := &config.Config{}
+	cfg.Server.ConcurrentSessionsLimit = sessions
+	cfg.GitalyClient.InitSidechannelRegistry(context.Background())
+	s, testRoot := setupServerWithContext(context.Background(), t, cfg, allowed)
+
+	client, err := ssh.Dial("tcp", s.Addr(), clientConfig(t, testRoot))
+	require.NoError(t, err)
+	remoteAddr := client.LocalAddr().String()
+
+	var wg sync.WaitGroup
+	for range sessions {
+		wg.Go(func() {
+			session, sessionErr := client.NewSession()
+			if sessionErr != nil {
+				t.Errorf("opening a session: %v", sessionErr)
+				return
+			}
+			defer session.Close()
+
+			session.Stdin = &bytes.Buffer{}
+			if session.Run("git-receive-pack flightjs/Flight") == nil {
+				t.Error("git-receive-pack succeeded without a Gitaly server")
+			}
+		})
+	}
+	wg.Wait()
+	require.Equal(t, int32(sessions), arrived.Load())
+	require.NoError(t, client.Close())
+
+	requireAccessFinishLogData(t, buf, remoteAddr)
+}
+
+// accessCheckHandler answers /api/v4/internal/allowed for a Git command by
+// alex-doe on flightjs/Flight, whose repository is on the Gitaly server at
+// gitalyAddress.
+func accessCheckHandler(gitalyAddress string) testserver.TestRequestHandler {
+	return testserver.TestRequestHandler{
+		Path: "/api/v4/internal/allowed",
+		Handler: func(w http.ResponseWriter, _ *http.Request) {
+			fmt.Fprintf(w, `{"status": true, "gl_id": "user-1", "gl_username": "alex-doe",
+				"gl_project_id": 1, "gl_root_namespace_id": 2,
+				"gitaly": {"repository": {"storage_name": "default", "relative_path": "repo.git",
+				"gl_repository": "project-1", "gl_project_path": "flightjs/Flight"},
+				"address": %q, "token": "token"}}`, gitalyAddress)
+		},
+	}
+}
+
+// requireAccessFinishLogData waits for the "access: finish" line of the
+// connection from remoteAddr and checks that it carries the user and the
+// project accessCheckHandler answers with.
+func requireAccessFinishLogData(t *testing.T, buf *syncBuffer, remoteAddr string) {
+	t.Helper()
+
+	require.Eventually(t, func() bool {
+		return accessFinishLog(buf.Bytes(), remoteAddr) != nil
+	}, 5*time.Second, 10*time.Millisecond)
+
+	entry := accessFinishLog(buf.Bytes(), remoteAddr)
+	require.Equal(t, "alex-doe", entry["gl_user_name"])
+	require.Equal(t, map[string]any{
+		"project":           "flightjs/Flight",
+		"root_namespace":    "flightjs",
+		"project_id":        float64(1),
+		"root_namespace_id": float64(2),
+	}, entry["meta"])
+}
+
+// accessFinishOnlyHandler passes on the "access: finish" lines only. The JSON
+// handler writes one line at a time, so the sessions logging through it would
+// order what each of them did before, and could hide a race between them from
+// the race detector.
+type accessFinishOnlyHandler struct{ slog.Handler }
+
+func (h accessFinishOnlyHandler) Handle(ctx context.Context, r slog.Record) error {
+	if r.Message != "access: finish" {
+		return nil
+	}
+	return h.Handler.Handle(ctx, r)
+}
+
+func (h accessFinishOnlyHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
+	return accessFinishOnlyHandler{h.Handler.WithAttrs(attrs)}
+}
+
+func (h accessFinishOnlyHandler) WithGroup(name string) slog.Handler {
+	return accessFinishOnlyHandler{h.Handler.WithGroup(name)}
+}
+
+// accessFinishLog returns the "access: finish" entry logged for the connection
+// from remoteAddr, or nil when gitlab-sshd has not logged it yet.
+func accessFinishLog(output []byte, remoteAddr string) map[string]any {
+	for _, line := range bytes.Split(output, []byte("\n")) {
+		var entry map[string]any
+		if json.Unmarshal(line, &entry) != nil {
+			continue
+		}
+		if entry["msg"] == "access: finish" && entry["remote_addr"] == remoteAddr {
+			return entry
+		}
+	}
+	return nil
+}
+
+func TestReadinessProbe(t *testing.T) {
+	s := &Server{Config: &config.Config{Server: config.DefaultServerConfig}}
+
+	require.Equal(t, StatusStarting, s.getStatus())
+
+	mux := s.MonitoringServeMux()
+
+	req := httptest.NewRequest("GET", "/start", nil)
+
+	r := httptest.NewRecorder()
+	mux.ServeHTTP(r, req)
+	res := r.Result()
+	require.Equal(t, 503, res.StatusCode)
+	res.Body.Close()
+
+	s.changeStatus(StatusReady)
+
+	r = httptest.NewRecorder()
+	mux.ServeHTTP(r, req)
+	res = r.Result()
+	require.Equal(t, 200, res.StatusCode)
+	res.Body.Close()
+
+	s.changeStatus(StatusOnShutdown)
+
+	r = httptest.NewRecorder()
+	mux.ServeHTTP(r, req)
+	res = r.Result()
+	require.Equal(t, 503, res.StatusCode)
+	res.Body.Close()
+}
+
+func TestLivenessProbe(t *testing.T) {
+	s := &Server{Config: &config.Config{Server: config.DefaultServerConfig}}
+	mux := s.MonitoringServeMux()
+
+	req := httptest.NewRequest("GET", "/health", nil)
+
+	r := httptest.NewRecorder()
+	mux.ServeHTTP(r, req)
+	res := r.Result()
+	require.Equal(t, 200, res.StatusCode)
+	res.Body.Close()
+}
+
+func TestInvalidClientConfig(t *testing.T) {
+	s, testRoot := setupServer(t)
+
+	cfg := clientConfig(t, testRoot)
+	cfg.User = "unknown"
+	_, err := ssh.Dial("tcp", s.Addr(), cfg)
+	require.Error(t, err)
+}
+
+func TestInvalidServerConfig(t *testing.T) {
+	s := &Server{Config: &config.Config{Server: config.ServerConfig{Listen: "invalid"}}}
+	err := s.ListenAndServe(context.Background())
+
+	require.Error(t, err)
+	require.Equal(t, "failed to listen for connection: listen tcp: address invalid: missing port in address", err.Error())
+	require.NoError(t, s.Shutdown())
+}
+
+func TestClosingHangedConnections(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	s, testRoot := setupServerWithContext(ctx, t, nil)
+
+	unauthenticatedRequestStatus := make(chan string)
+	completed := make(chan bool)
+
+	clientCfg := clientConfig(t, testRoot)
+	clientCfg.HostKeyCallback = func(_ string, _ net.Addr, _ ssh.PublicKey) error {
+		unauthenticatedRequestStatus <- "authentication-started"
+		<-completed // Wait infinitely
+
+		return nil
+	}
+
+	go func() {
+		// Start an SSH connection that never ends
+		ssh.Dial("tcp", s.Addr(), clientCfg)
+	}()
+
+	require.Equal(t, "authentication-started", <-unauthenticatedRequestStatus)
+
+	require.NoError(t, s.Shutdown())
+	cancel()
+	verifyStatus(t, s, StatusClosed)
+}
+
+func TestLoginGraceTime(t *testing.T) {
+	cfg := &config.Config{
+		Server: config.ServerConfig{
+			LoginGraceTime: config.YamlDuration(50 * time.Millisecond),
+		},
+	}
+	s, testRoot := setupServerWithConfig(t, cfg)
+
+	unauthenticatedRequestStatus := make(chan string)
+	completed := make(chan bool)
+
+	clientCfg := clientConfig(t, testRoot)
+	clientCfg.HostKeyCallback = func(_ string, _ net.Addr, _ ssh.PublicKey) error {
+		unauthenticatedRequestStatus <- "authentication-started"
+		<-completed // Wait infinitely
+
+		return nil
+	}
+
+	go func() {
+		// Start an SSH connection that never ends
+		ssh.Dial("tcp", s.Addr(), clientCfg)
+	}()
+
+	require.Equal(t, "authentication-started", <-unauthenticatedRequestStatus)
+
+	// Shutdown the server and verify that it's closed
+	// If LoginGraceTime doesn't work, then the connection that runs infinitely, will stop it from closing.
+	// The close won't happen until the context is canceled like in TestClosingHangedConnections
+	require.NoError(t, s.Shutdown())
+	verifyStatus(t, s, StatusClosed)
+}
+
+func TestExtractMetaDataFromContext(t *testing.T) {
+	username := "alex-doe"
+	rootNameSpace := "flightjs"
+	project := fmt.Sprintf("%s/Flight", rootNameSpace)
+	projectID := 1
+	rootNamespaceID := 2
+	ctx := context.WithValue(context.Background(), command.LogDataKey, command.NewLogData(project, username, projectID, rootNamespaceID))
+
+	data := extractLogDataFromContext(ctx)
+
+	require.Equal(t, command.LogData{Username: username, Meta: command.LogMetadata{Project: project, RootNamespace: rootNameSpace, ProjectID: projectID, RootNamespaceID: rootNamespaceID}}, data)
+}
+
+func TestExtractMetaDataFromContextWithoutMetaData(t *testing.T) {
+	data := extractLogDataFromContext(context.Background())
+
+	require.Equal(t, command.LogData{}, data)
+}
+
+func TestExtractMetaDataFromNilContext(t *testing.T) {
+	var ctx context.Context
+
+	data := extractLogDataFromContext(ctx)
+
+	require.Equal(t, command.LogData{}, data)
+}
+
+func dialWithProxyHeader(t *testing.T, serverCfg config.ServerConfig, header []byte) (*ssh.Client, error) {
+	t.Helper()
+
+	s, testRoot := setupServerWithConfig(t, &config.Config{Server: serverCfg})
+	conn, err := net.Dial("tcp", s.Addr())
+	require.NoError(t, err)
+	t.Cleanup(func() { conn.Close() })
+	require.NoError(t, conn.SetDeadline(time.Now().Add(10*time.Second)))
+
+	_, err = conn.Write(header)
+	require.NoError(t, err)
+
+	sshConn, chans, reqs, err := ssh.NewClientConn(conn, s.Addr(), clientConfig(t, testRoot))
+	if err != nil {
+		return nil, err
+	}
+
+	client := ssh.NewClient(sshConn, chans, reqs)
+	t.Cleanup(func() { client.Close() })
+
+	return client, nil
+}
+
+func setupServer(t *testing.T) (*Server, string) {
+	t.Helper()
+
+	return setupServerWithConfig(t, nil)
+}
+
+func setupServerWithConfig(t *testing.T, cfg *config.Config) (*Server, string) {
+	t.Helper()
+
+	return setupServerWithContext(context.Background(), t, cfg)
+}
+
+func setupServerWithContext(ctx context.Context, t *testing.T, cfg *config.Config, extraRequests ...testserver.TestRequestHandler) (*Server, string) {
+	t.Helper()
+
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedKeysAPIPath,
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				correlationID = r.Header.Get("X-Request-Id")
+
+				assert.NotEmpty(t, correlationID)
+				assert.Equal(t, xForwardedFor, r.Header.Get("X-Forwarded-For"))
+
+				fmt.Fprint(w, `{"id": 1000, "key": "key"}`)
+			},
+		}, {
+			Path: "/api/v4/internal/discover",
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				assert.Equal(t, correlationID, r.Header.Get("X-Request-Id"))
+				assert.Equal(t, xForwardedFor, r.Header.Get("X-Forwarded-For"))
+
+				fmt.Fprint(w, `{"id": 1000, "name": "Test User", "username": "test-user"}`)
+			},
+		},
+	}
+	requests = append(requests, extraRequests...)
+
+	url := testserver.StartSocketHTTPServer(t, requests)
+
+	if cfg == nil {
+		cfg = &config.Config{}
+	}
+
+	// All things that don't need to be configurable in tests yet
+	cfg.GitlabURL = url
+	cfg.RootDir = "/tmp"
+	cfg.User = user
+	cfg.Server.Listen = "127.0.0.1:0"
+	if cfg.Server.ConcurrentSessionsLimit == 0 {
+		cfg.Server.ConcurrentSessionsLimit = 1
+	}
+	cfg.Server.HostKeyFiles = []string{path.Join(testRoot, "certs/valid/server.key")}
+
+	s, err := NewServer(cfg)
+	require.NoError(t, err)
+
+	go func() { s.ListenAndServe(ctx) }()
+	//nolint:godox // NOTE: Changing the below to { require.NoError(t, s.Shutdown()) } results in failed tests
+	t.Cleanup(func() { s.Shutdown() })
+
+	verifyStatus(t, s, StatusReady)
+
+	return s, testRoot
+}
+
+func clientConfig(t *testing.T, testRoot string) *ssh.ClientConfig {
+	keyRaw, _ := os.ReadFile(path.Join(testRoot, "certs/valid/server_authorized_key"))
+	pKey, _, _, _, err := ssh.ParseAuthorizedKey(keyRaw) //nolint:dogsled
+	require.NoError(t, err)
+
+	key, err := os.ReadFile(path.Join(testRoot, "certs/client/key.pem"))
+	require.NoError(t, err)
+	signer, err := ssh.ParsePrivateKey(key)
+	require.NoError(t, err)
+
+	return &ssh.ClientConfig{
+		User: user,
+		Auth: []ssh.AuthMethod{
+			ssh.PublicKeys(signer),
+		},
+		HostKeyCallback: ssh.FixedHostKey(pKey),
+	}
+}
+
+func holdSession(t *testing.T, c *ssh.Client) {
+	session, err := c.NewSession()
+	require.NoError(t, err)
+	defer session.Close()
+
+	output, err := session.Output("discover")
+	require.NoError(t, err)
+	require.Equal(t, "Welcome to GitLab, @test-user!\n", string(output))
+}
+
+func verifyStatus(t *testing.T, s *Server, st status) {
+	require.Eventually(t, func() bool { return s.getStatus() == st }, 2*time.Second, time.Millisecond)
+}

@@ -1,0 +1,554 @@
+// Package sshd implements functionality related to SSH server configuration and handling
+package sshd
+
+import (
+	"context"
+	"encoding/base64"
+	"fmt"
+	"log/slog"
+	"os"
+	"path/filepath"
+	"regexp"
+	"slices"
+	"strconv"
+	"strings"
+	"time"
+
+	"golang.org/x/crypto/ssh"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/authorizedcerts"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/authorizedkeys"
+
+	"gitlab.com/gitlab-org/labkit/v2/fips"
+	"gitlab.com/gitlab-org/labkit/v2/fips/sshalgo"
+	"gitlab.com/gitlab-org/labkit/v2/log"
+)
+
+const (
+	certPermUsername      = "username"
+	certPermNamespace     = "namespace"
+	certPermCAFingerprint = "ca-fingerprint"
+	certPermIdentity      = "certificate-identity"
+	certPermTrustSource   = "certificate-trust-source"
+	tooManyRequestsBanner = "GitLab: Too many SSH certificate authentication attempts. Try again later.\n"
+)
+
+type serverConfig struct {
+	cfg                   *config.Config
+	hostKeys              []ssh.Signer
+	hostKeyToCertMap      map[string]*ssh.Certificate
+	trustedUserCAKeySet   map[string]struct{}
+	authorizedKeysClient  *authorizedkeys.Client
+	authorizedCertsClient *authorizedcerts.Client
+}
+
+func parseHostKeys(keyFiles []string) []ssh.Signer {
+	var hostKeys []ssh.Signer
+
+	for _, filename := range keyFiles {
+		keyRaw, err := os.ReadFile(filepath.Clean(filename))
+		if err != nil {
+			slog.Default().Error("Failed to read host key", slog.String("filename", filename), log.ErrorMessage(err.Error()))
+			continue
+		}
+		key, err := ssh.ParsePrivateKey(keyRaw)
+		if err != nil {
+			slog.Default().Error("Failed to parse host key", slog.String("filename", filename), log.ErrorMessage(err.Error()))
+			continue
+		}
+
+		hostKeys = append(hostKeys, key)
+	}
+
+	return hostKeys
+}
+
+func parseHostCerts(hostKeys []ssh.Signer, certFiles []string) map[string]*ssh.Certificate {
+	keyToCertMap := map[string]*ssh.Certificate{}
+	hostKeyIndex := make(map[string]int)
+
+	for index, hostKey := range hostKeys {
+		hostKeyIndex[string(hostKey.PublicKey().Marshal())] = index
+	}
+
+	for _, filename := range certFiles {
+		keyRaw, err := os.ReadFile(filepath.Clean(filename))
+		ctx := context.Background()
+		ctx = log.WithLogger(ctx, slog.Default().With(slog.String("filename", filename)))
+		if err != nil {
+			log.FromContext(ctx).ErrorContext(ctx, "failed to read host certificate", log.ErrorMessage(err.Error()))
+			continue
+		}
+		publicKey, _, _, _, err := ssh.ParseAuthorizedKey(keyRaw)
+		if err != nil {
+			log.FromContext(ctx).ErrorContext(ctx, "failed to parse host certificate", log.ErrorMessage(err.Error()))
+			continue
+		}
+
+		cert, ok := publicKey.(*ssh.Certificate)
+		if !ok {
+			log.FromContext(ctx).ErrorContext(ctx, "failed to decode host certificate")
+			continue
+		}
+
+		hostRawKey := string(cert.Key.Marshal())
+		index, found := hostKeyIndex[hostRawKey]
+		if found {
+			keyToCertMap[hostRawKey] = cert
+
+			certSigner, err := ssh.NewCertSigner(cert, hostKeys[index])
+			if err != nil {
+				log.FromContext(ctx).ErrorContext(ctx, "the host certificate doesn't match the host private key", log.ErrorMessage(err.Error()))
+				continue
+			}
+
+			hostKeys[index] = certSigner
+		} else {
+			log.FromContext(ctx).ErrorContext(ctx, "no matching private key for certificate")
+		}
+	}
+
+	return keyToCertMap
+}
+
+// parseTrustedUserCAKeys loads trusted user CA public key files.
+// Unlike parseHostKeys, this fails on any error because trusted CA keys are a
+// security trust boundary: a partially loaded set could silently authenticate
+// the wrong users or fail to authenticate expected users.
+func parseTrustedUserCAKeys(caKeyFiles []string) (map[string]struct{}, error) {
+	result := make(map[string]struct{})
+
+	for _, filename := range caKeyFiles {
+		keyRaw, err := os.ReadFile(filepath.Clean(filename))
+		if err != nil {
+			return nil, fmt.Errorf("failed to read trusted user CA key file %q: %w", filename, err)
+		}
+
+		rest := keyRaw
+		keysFromFile := 0
+		for len(rest) > 0 {
+			publicKey, _, _, remaining, err := ssh.ParseAuthorizedKey(rest)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse trusted user CA key in file %q after %d valid key(s): %w", filename, keysFromFile, err)
+			}
+			result[string(publicKey.Marshal())] = struct{}{}
+			keysFromFile++
+			rest = remaining
+		}
+	}
+
+	return result, nil
+}
+
+func newServerConfig(cfg *config.Config) (*serverConfig, error) {
+	authorizedKeysClient, err := authorizedkeys.NewClient(cfg)
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize authorized keys client: %w", err)
+	}
+
+	authorizedCertsClient, err := authorizedcerts.NewClient(cfg)
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize authorized certs client: %w", err)
+	}
+
+	hostKeys := parseHostKeys(cfg.Server.HostKeyFiles)
+	if len(hostKeys) == 0 {
+		return nil, fmt.Errorf("no host keys could be loaded, aborting")
+	}
+
+	hostKeyToCertMap := parseHostCerts(hostKeys, cfg.Server.HostCertFiles)
+
+	if err = validatePublicKeyAlgorithms(cfg.Server.PublicKeyAlgorithms); err != nil {
+		return nil, err
+	}
+
+	trustedUserCAKeySet, err := parseTrustedUserCAKeys(cfg.Server.TrustedUserCAKeys)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load trusted user CA keys: %w", err)
+	}
+	if len(cfg.Server.TrustedUserCAKeys) > 0 && len(trustedUserCAKeySet) == 0 {
+		return nil, fmt.Errorf("trusted_user_ca_keys configured but no valid CA keys were loaded, aborting")
+	}
+	if len(trustedUserCAKeySet) > 0 {
+		slog.Default().Info("Loaded trusted user CA keys for instance-level SSH certificates",
+			slog.Int("count", len(trustedUserCAKeySet)))
+	}
+
+	return &serverConfig{
+		cfg:                   cfg,
+		authorizedKeysClient:  authorizedKeysClient,
+		authorizedCertsClient: authorizedCertsClient,
+		hostKeys:              hostKeys,
+		hostKeyToCertMap:      hostKeyToCertMap,
+		trustedUserCAKeySet:   trustedUserCAKeySet,
+	}, nil
+}
+
+func (s *serverConfig) isLocallyTrustedCA(signingKey ssh.PublicKey) bool {
+	_, ok := s.trustedUserCAKeySet[string(signingKey.Marshal())]
+	return ok
+}
+
+var (
+	validKeyIDPattern       = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9._-]{0,253}[a-zA-Z0-9]$`)
+	consecutiveSpecialChars = regexp.MustCompile(`[._-]{2,}`)
+)
+
+// validateKeyID checks that the certificate KeyId conforms to GitLab's username
+// rules, since it is used directly as the username in API calls and logging.
+func validateKeyID(keyID string) error {
+	if keyID == "" {
+		return fmt.Errorf("certificate has empty KeyId")
+	}
+	if len(keyID) < 2 || len(keyID) > 255 {
+		return fmt.Errorf("certificate KeyId length %d is outside valid range [2, 255]", len(keyID))
+	}
+	if !validKeyIDPattern.MatchString(keyID) {
+		return fmt.Errorf("certificate KeyId does not match GitLab username format")
+	}
+	if consecutiveSpecialChars.MatchString(keyID) {
+		return fmt.Errorf("certificate KeyId contains consecutive special characters")
+	}
+	return nil
+}
+
+func (s *serverConfig) handleUserKey(ctx context.Context, user string, key ssh.PublicKey) (*ssh.Permissions, error) {
+	if user != s.cfg.User {
+		return nil, fmt.Errorf("unknown user")
+	}
+	//nolint:staticcheck // SA1019: Intentionally checking for deprecated DSA to reject it
+	if key.Type() == ssh.KeyAlgoDSA {
+		return nil, fmt.Errorf("DSA is prohibited")
+	}
+
+	res, err := s.authorizedKeysClient.GetByKey(ctx, base64.RawStdEncoding.EncodeToString(key.Marshal()))
+	if err != nil {
+		return nil, err
+	}
+
+	return &ssh.Permissions{
+		// Record the public key used for authentication.
+		Extensions: map[string]string{
+			"key-id": strconv.FormatInt(res.ID, 10),
+		},
+	}, nil
+}
+
+// buildCertPermissions constructs ssh.Permissions for an authenticated certificate.
+// It propagates cert.CriticalOptions so that crypto/ssh can enforce restrictions
+// such as source-address, and rejects connections with unknown critical options.
+func buildCertPermissions(cert *ssh.Certificate, extensions map[string]string) *ssh.Permissions {
+	return &ssh.Permissions{
+		CriticalOptions: cert.CriticalOptions,
+		Extensions:      extensions,
+	}
+}
+
+// validateInstanceKeyID applies the KeyId format rules that an instance-wide
+// grant requires, and logs the rejection. Both a locally trusted CA and an
+// instance-scoped API response resolve KeyId directly to a username, so they
+// hold it to the same standard.
+func validateInstanceKeyID(ctx context.Context, keyID string) error {
+	if err := validateKeyID(keyID); err != nil {
+		log.FromContext(ctx).WarnContext(ctx, "instance-level certificate rejected: invalid KeyId",
+			log.ErrorMessage(err.Error()))
+		return fmt.Errorf("handleUserCertificate: %w", err)
+	}
+
+	return nil
+}
+
+type certificateGrantParams struct {
+	caFingerprint string
+	trustSource   string
+	username      string
+	namespace     string
+	message       string
+}
+
+// grantCertificate logs an authorized certificate and builds its permissions.
+// An empty namespace means instance-wide access: no namespace key is set, which
+// is what downstream reads as an unrestricted grant.
+func grantCertificate(ctx context.Context, cert *ssh.Certificate, params certificateGrantParams) *ssh.Permissions {
+	extensions := map[string]string{
+		certPermUsername:      params.username,
+		certPermCAFingerprint: params.caFingerprint,
+		certPermIdentity:      cert.KeyId,
+		certPermTrustSource:   params.trustSource,
+	}
+
+	scope := "instance"
+	if params.namespace != "" {
+		scope = "group"
+		extensions[certPermNamespace] = params.namespace
+		ctx = log.AppendFields(ctx, slog.String("certificate_namespace", params.namespace))
+	}
+
+	ctx = log.AppendFields(ctx, slog.String("certificate_scope", scope))
+	log.FromContext(ctx).InfoContext(ctx, params.message)
+
+	if addr, ok := cert.CriticalOptions["source-address"]; ok {
+		log.FromContext(ctx).InfoContext(ctx, "certificate authorized with source-address restriction",
+			slog.String("source_address", addr))
+	}
+
+	return buildCertPermissions(cert, extensions)
+}
+
+func (s *serverConfig) handleUserCertificate(ctx context.Context, user, remoteAddr string, cert *ssh.Certificate) (*ssh.Permissions, error) {
+	caFingerprint := ssh.FingerprintSHA256(cert.SignatureKey)
+
+	// Enrich context early so all rejection paths include audit-relevant fields.
+	ctx = log.AppendFields(ctx,
+		slog.String("ssh_user", user),
+		slog.String("public_key_fingerprint", ssh.FingerprintSHA256(cert)),
+		slog.String("signing_ca_fingerprint", caFingerprint),
+		slog.String("certificate_identity", cert.KeyId),
+	)
+
+	if cert.CertType != ssh.UserCert {
+		log.FromContext(ctx).WarnContext(ctx, "certificate rejected: not a user certificate",
+			slog.Int("cert_type", int(cert.CertType)))
+		return nil, fmt.Errorf("handleUserCertificate: cert has type %d", cert.CertType)
+	}
+
+	certChecker := &ssh.CertChecker{}
+	if err := certChecker.CheckCert(user, cert); err != nil {
+		log.FromContext(ctx).WarnContext(ctx, "certificate rejected: validity check failed",
+			log.ErrorMessage(err.Error()))
+		return nil, err
+	}
+
+	if s.isLocallyTrustedCA(cert.SignatureKey) {
+		if err := validateInstanceKeyID(ctx, cert.KeyId); err != nil {
+			return nil, err
+		}
+
+		ctx = log.AppendFields(ctx, slog.String("certificate_username", cert.KeyId))
+
+		return grantCertificate(ctx, cert, certificateGrantParams{
+			caFingerprint: caFingerprint,
+			trustSource:   commandargs.CertificateTrustSourceFile,
+			username:      cert.KeyId,
+			message:       "user certificate is signed by a locally trusted CA (instance-level)",
+		}), nil
+	}
+
+	return s.resolveCertificateViaAPI(ctx, cert, caFingerprint, remoteAddr)
+}
+
+// resolveCertificateViaAPI authenticates a certificate whose signing CA is not
+// locally trusted, by asking the Rails API to resolve the CA fingerprint. The
+// response identifies whether the match was instance-scoped, which grants
+// instance-wide access, or group-scoped, which restricts access to a namespace.
+func (s *serverConfig) resolveCertificateViaAPI(ctx context.Context, cert *ssh.Certificate, caFingerprint, remoteAddr string) (*ssh.Permissions, error) {
+	res, err := s.authorizedCertsClient.GetByKey(ctx, cert.KeyId, strings.TrimPrefix(caFingerprint, "SHA256:"), remoteAddr)
+	if err != nil {
+		if authorizedcerts.IsRateLimited(err) {
+			log.FromContext(ctx).WarnContext(ctx, "certificate lookup rate limited by internal API", log.ErrorMessage(err.Error()))
+
+			return nil, &ssh.BannerError{Err: err, Message: tooManyRequestsBanner}
+		}
+
+		log.FromContext(ctx).WarnContext(ctx, "user certificate is not signed by a trusted key", log.ErrorMessage(err.Error()))
+
+		return nil, err
+	}
+
+	if res.Username == "" {
+		log.FromContext(ctx).WarnContext(ctx, "certificate rejected: response has no username")
+		return nil, fmt.Errorf("handleUserCertificate: response missing username")
+	}
+
+	ctx = log.AppendFields(ctx, slog.String("certificate_username", res.Username))
+
+	if res.Instance {
+		// Rails never sets a namespace on an instance-scoped match, so one
+		// here means the response is inconsistent; reject it rather than
+		// guess which scope was intended.
+		if res.Namespace != "" {
+			log.FromContext(ctx).WarnContext(ctx, "certificate rejected: instance-scoped response has a namespace")
+			return nil, fmt.Errorf("handleUserCertificate: instance-scoped response has unexpected namespace")
+		}
+
+		// Instance-level CAs grant the same instance-wide trust as locally
+		// trusted ones, so hold their KeyId to the same standard. This runs
+		// after the API call, not before it, because the rule applies
+		// only to instance-scoped results and the scope is not known until the
+		// response arrives; group-level resolution does accept an email
+		// identifier, which validateKeyID's pattern rejects. No permissions
+		// have been granted yet, so a malformed KeyId never reaches a session.
+		if err := validateInstanceKeyID(ctx, cert.KeyId); err != nil {
+			return nil, err
+		}
+
+		return grantCertificate(ctx, cert, certificateGrantParams{
+			caFingerprint: caFingerprint,
+			trustSource:   commandargs.CertificateTrustSourceInstance,
+			username:      res.Username,
+			message:       "user certificate is signed by a trusted key (instance-level)",
+		}), nil
+	}
+
+	// A group-scoped match without a namespace would be indistinguishable from
+	// an instance-scoped one downstream, so fail closed rather than widening
+	// the grant to the whole instance.
+	if res.Namespace == "" {
+		log.FromContext(ctx).WarnContext(ctx, "certificate rejected: group-scoped response has no namespace")
+		return nil, fmt.Errorf("handleUserCertificate: group-scoped response missing namespace")
+	}
+
+	return grantCertificate(ctx, cert, certificateGrantParams{
+		caFingerprint: caFingerprint,
+		trustSource:   commandargs.CertificateTrustSourceGroup,
+		username:      res.Username,
+		namespace:     res.Namespace,
+		message:       "user certificate is signed by a trusted key (group-level)",
+	}), nil
+}
+
+// publicKeyCallback returns the SSH PublicKeyCallback. It authenticates the key
+// (or certificate) against the internal API and reports the outcome to the
+// connection's outcome (if non-nil) so the connection-level SLI can be emitted.
+func (s *serverConfig) publicKeyCallback(parentCtx context.Context, outcome *connOutcome) func(ssh.ConnMetadata, ssh.PublicKey) (*ssh.Permissions, error) {
+	return func(conn ssh.ConnMetadata, key ssh.PublicKey) (*ssh.Permissions, error) {
+		ctx, cancel := context.WithTimeout(parentCtx, 10*time.Second)
+		defer cancel()
+		log.FromContext(ctx).InfoContext(ctx, "public key authentication", slog.String("ssh_key_type", key.Type()))
+
+		var perms *ssh.Permissions
+		var err error
+		if cert, ok := key.(*ssh.Certificate); ok {
+			perms, err = s.handleUserCertificate(ctx, conn.User(), conn.RemoteAddr().String(), cert)
+		} else {
+			perms, err = s.handleUserKey(ctx, conn.User(), key)
+		}
+
+		if outcome != nil {
+			outcome.observeAuth(err)
+		}
+
+		return perms, err
+	}
+}
+
+func (s *serverConfig) get(parentCtx context.Context, outcome *connOutcome) *ssh.ServerConfig {
+	var gssapiWithMICConfig *ssh.GSSAPIWithMICConfig
+	if s.cfg.Server.GSSAPI.Enabled {
+		gssAPIServer, _ := NewGSSAPIServer(&s.cfg.Server.GSSAPI)
+
+		if gssAPIServer != nil {
+			gssapiWithMICConfig = &ssh.GSSAPIWithMICConfig{
+				AllowLogin: func(conn ssh.ConnMetadata, srcName string) (*ssh.Permissions, error) {
+					// GSSAPI auth is a genuine auth attempt; record it via
+					// observeAuth so it counts toward the connection SLI
+					// consistently with public-key auth. GSSAPI makes no internal
+					// API call, so a failure here is always client-side; on success
+					// observeAuth(nil) also clears any server-side error left by an
+					// earlier public-key attempt, since the connection ultimately
+					// authenticated.
+					var perms *ssh.Permissions
+					var err error
+					if conn.User() == s.cfg.User {
+						perms = &ssh.Permissions{
+							// Record the Kerberos principal used for authentication.
+							Extensions: map[string]string{
+								"krb5principal": srcName,
+							},
+						}
+					} else {
+						err = fmt.Errorf("unknown user")
+					}
+
+					if outcome != nil {
+						outcome.observeAuth(err)
+					}
+
+					return perms, err
+				},
+				Server: gssAPIServer,
+			}
+		}
+	}
+
+	sshCfg := &ssh.ServerConfig{
+		PublicKeyCallback:   s.publicKeyCallback(parentCtx, outcome),
+		GSSAPIWithMICConfig: gssapiWithMICConfig,
+		ServerVersion:       "SSH-2.0-GitLab-SSHD",
+	}
+
+	// Only set this for FIPS because by default to preserve backwards compatibility
+	// for previous versions that support both secure and insecure defaults.
+	if fips.Enabled() {
+		// This can be dropped once https://github.com/golang-fips/go/issues/316 is supported.
+		// We need to constrain the list of supported algorithms for FIPS because
+		// ED25519 algorithms cause gitlab-sshd to panic.
+		//
+		// Right now we use sshalgo.DefaultAlgorithms() instead of sshalgo.SupportedAlgorithms()
+		// to preserve backwards compatibility with clients that are not configured properly.
+		// As of labkit v2, DefaultAlgorithms() returns a populated, FIPS-filtered
+		// pubkey-auth set (v1 left it empty, so the policy never applied), which
+		// drops the SHA-1 ssh-rsa and ssh-dss signature algorithms. Admins can
+		// further lock down these algorithms by setting `public_key_algorithms`.
+		algorithms := sshalgo.DefaultAlgorithms()
+		sshCfg.PublicKeyAuthAlgorithms = algorithms.PublicKeyAuths
+		sshCfg.Ciphers = algorithms.Ciphers
+		sshCfg.KeyExchanges = algorithms.KeyExchanges
+		sshCfg.MACs = algorithms.MACs
+	}
+
+	s.configureMACs(sshCfg)
+	s.configureKeyExchanges(sshCfg)
+	s.configureCiphers(sshCfg)
+	s.configurePublicKeyAlgorithms(sshCfg)
+
+	for _, key := range s.hostKeys {
+		sshCfg.AddHostKey(key)
+	}
+
+	sshCfg.SetDefaults()
+
+	return sshCfg
+}
+
+// validatePublicKeyAlgorithms rejects unsupported entries at startup. x/crypto only
+// checks PublicKeyAuthAlgorithms in NewServerConn, so a typo would otherwise let the
+// server start and then fail every connection.
+func validatePublicKeyAlgorithms(algorithms []string) error {
+	supported := ssh.SupportedAlgorithms().PublicKeyAuths
+	insecure := ssh.InsecureAlgorithms().PublicKeyAuths
+
+	for _, algo := range algorithms {
+		if !slices.Contains(supported, algo) && !slices.Contains(insecure, algo) {
+			return fmt.Errorf("unsupported public key authentication algorithm in public_key_algorithms: %q", algo)
+		}
+	}
+
+	return nil
+}
+
+func (s *serverConfig) configurePublicKeyAlgorithms(sshCfg *ssh.ServerConfig) {
+	if len(s.cfg.Server.PublicKeyAlgorithms) > 0 {
+		sshCfg.PublicKeyAuthAlgorithms = s.cfg.Server.PublicKeyAlgorithms
+	}
+}
+
+func (s *serverConfig) configureCiphers(sshCfg *ssh.ServerConfig) {
+	if len(s.cfg.Server.Ciphers) > 0 {
+		sshCfg.Ciphers = s.cfg.Server.Ciphers
+	}
+}
+
+func (s *serverConfig) configureKeyExchanges(sshCfg *ssh.ServerConfig) {
+	if len(s.cfg.Server.KexAlgorithms) > 0 {
+		sshCfg.KeyExchanges = s.cfg.Server.KexAlgorithms
+	}
+}
+
+func (s *serverConfig) configureMACs(sshCfg *ssh.ServerConfig) {
+	if len(s.cfg.Server.MACs) > 0 {
+		sshCfg.MACs = s.cfg.Server.MACs
+	}
+}

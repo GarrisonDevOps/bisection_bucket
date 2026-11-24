@@ -1,0 +1,697 @@
+package githttp
+
+import (
+	"bytes"
+	"context"
+	"errors"
+	"fmt"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"strconv"
+	"strings"
+	"testing"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	pb "gitlab.com/gitlab-org/gitaly/v18/proto/go/gitalypb"
+
+	clientpkg "gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/readwriter"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/accessverifier"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/pktline"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/sshenv"
+)
+
+const testSecret = "test-secret-for-cells"
+
+const (
+	testGitProtocolVersion = "version=2"
+	testGitalyToken        = "token"
+	testGlID               = "user-1"
+	testDeployKeyType      = "deploy_key"
+	testUserKeyType        = "key"
+)
+
+const (
+	claimGlID          = "gl_id"
+	claimGlKeyID       = "gl_key_id"
+	claimGlKeyType     = "gl_key_type"
+	claimCheckIP       = "check_ip"
+	claimNamespacePath = "namespace_path"
+)
+
+func TestCellsCommandsExecute(t *testing.T) {
+	responseBody := "cell-response"
+
+	testCases := []struct {
+		desc         string
+		input        string
+		expectedBody string
+		expectedPath string
+	}{
+		{
+			desc:         "protocol v2 fetch gets exactly one trailing flush",
+			input:        fetchV2Request,
+			expectedBody: fetchV2Request,
+			expectedPath: "/group/project.git/ssh-upload-pack",
+		},
+		{
+			desc:         "protocol v2 ls-refs without done forwards through EOF",
+			input:        lsRefsV2Request,
+			expectedBody: lsRefsV2Request,
+			expectedPath: "/group/project.git/ssh-upload-pack",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			cellServer, captured := startCapturingServer(t, responseBody)
+			cfg := cellsTestConfig(t)
+
+			output := &bytes.Buffer{}
+			input := strings.NewReader(tc.input)
+
+			err := NewCellsPullCommand(
+				cfg,
+				&readwriter.ReadWriter{Out: output, In: input},
+				&commandargs.Shell{Env: sshenv.Env{GitProtocolVersion: testGitProtocolVersion}},
+				cellsTestResponse(cellServer.URL),
+			).Execute(context.Background())
+
+			require.NoError(t, err)
+			assert.Equal(t, responseBody, output.String())
+			assert.Equal(t, tc.expectedPath, captured.path)
+			assert.NotEmpty(t, captured.headers.Get(clientpkg.ShellAPIRequestHeader))
+			assert.Equal(t, testGitProtocolVersion, captured.headers.Get(gitProtocolHeader))
+			assert.Equal(t, tc.expectedBody, string(captured.body))
+		})
+	}
+}
+
+func TestCellsPullClosesRequestBodyAfterDone(t *testing.T) {
+	cellServer, captured := startCapturingServer(t, "cell-response")
+	inputReader, inputWriter := io.Pipe()
+	t.Cleanup(func() { inputWriter.Close() })
+
+	command := NewCellsPullCommand(
+		cellsTestConfig(t),
+		&readwriter.ReadWriter{Out: io.Discard, In: inputReader},
+		&commandargs.Shell{Env: sshenv.Env{GitProtocolVersion: testGitProtocolVersion}},
+		cellsTestResponse(cellServer.URL),
+	)
+	result := make(chan error, 1)
+	go func() {
+		result <- command.Execute(context.Background())
+	}()
+
+	request := pktLine("want e56497bb5f03a90a51293fc6d516788730953899\n") + string(pktline.PktDone())
+	_, err := io.WriteString(inputWriter, request)
+	require.NoError(t, err)
+
+	select {
+	case err := <-result:
+		require.NoError(t, err)
+	case <-time.After(time.Second):
+		require.Fail(t, "Cells pull waited for SSH EOF after done")
+	}
+
+	assert.Equal(t, request+string(pktline.PktFlush()), string(captured.body))
+}
+
+func TestCellsPushGatesStreamingOnClientInput(t *testing.T) {
+	advertisement := pktLine("e56497bb5f03a90a51293fc6d516788730953899 refs/heads/main\x00report-status\n") + string(pktline.PktFlush())
+	reportStatus := pktLine("unpack ok\n") + string(pktline.PktFlush())
+	testCases := []struct {
+		desc                   string
+		input                  string
+		responseBodies         []string
+		wantBodies             []string
+		wantOutput             string
+		gateAfterFirstByteRead bool
+	}{
+		{
+			desc:                   "commands and pack",
+			input:                  pktLine("0000000000000000000000000000000000000000 e56497bb5f03a90a51293fc6d516788730953899 refs/heads/main\x00report-status\n") + string(pktline.PktFlush()) + "PACK receive-pack bytes",
+			responseBodies:         []string{advertisement, advertisement + reportStatus},
+			wantBodies:             []string{"0000", pktLine("0000000000000000000000000000000000000000 e56497bb5f03a90a51293fc6d516788730953899 refs/heads/main\x00report-status\n") + string(pktline.PktFlush()) + "PACK receive-pack bytes"},
+			wantOutput:             advertisement + reportStatus,
+			gateAfterFirstByteRead: true,
+		},
+		{
+			desc:           "flush-only push",
+			input:          "0000",
+			responseBodies: []string{advertisement, advertisement + reportStatus},
+			wantBodies:     []string{"0000", "0000"},
+			wantOutput:     advertisement + reportStatus,
+		},
+		{
+			desc:           "client closes after advertisement",
+			responseBodies: []string{advertisement},
+			wantBodies:     []string{"0000"},
+			wantOutput:     advertisement,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			secondRequestStarted := make(chan struct{})
+			cellServer, captured := startCapturingPushCellServer(t, tc.responseBodies, secondRequestStarted)
+			output := newAdvertisementGatedOutput(advertisement)
+			var input io.Reader = &advertisementGatedReader{Reader: strings.NewReader(tc.input), advertisementWritten: output.advertisementWritten}
+			if tc.gateAfterFirstByteRead {
+				input = &firstByteGatedReader{Reader: input, secondRequestStarted: secondRequestStarted}
+			}
+			command := NewCellsPushCommand(
+				cellsTestConfig(t),
+				&readwriter.ReadWriter{Out: output, In: input},
+				&commandargs.Shell{Env: sshenv.Env{GitProtocolVersion: testGitProtocolVersion}},
+				cellsTestResponse(cellServer.URL),
+			)
+			result := make(chan error, 1)
+			go func() { result <- command.Execute(context.Background()) }()
+
+			select {
+			case err := <-result:
+				require.NoError(t, err)
+			case <-time.After(time.Second):
+				require.Fail(t, "Cells push did not complete after the client began sending")
+			}
+
+			require.Len(t, *captured, len(tc.wantBodies))
+			for index, request := range *captured {
+				assert.Equal(t, tc.wantBodies[index], string(request.body))
+				assert.Equal(t, "/group/project.git/ssh-receive-pack", request.path)
+				assert.NotEmpty(t, request.headers.Get(clientpkg.ShellAPIRequestHeader))
+				assert.Equal(t, testGitProtocolVersion, request.headers.Get(gitProtocolHeader))
+			}
+			assert.Equal(t, tc.wantOutput, output.String())
+		})
+	}
+}
+
+func TestCellsPushReturnsContextErrorWhenCancelled(t *testing.T) {
+	advertisement := pktLine("e56497bb5f03a90a51293fc6d516788730953899 refs/heads/main\n") + string(pktline.PktFlush())
+	cellServer, captured := startCapturingPushCellServer(t, []string{advertisement}, nil)
+	output := newAdvertisementGatedOutput(advertisement)
+	inputReader, inputWriter := io.Pipe()
+	t.Cleanup(func() { inputWriter.Close() })
+	command := NewCellsPushCommand(
+		cellsTestConfig(t),
+		&readwriter.ReadWriter{Out: output, In: inputReader},
+		&commandargs.Shell{},
+		cellsTestResponse(cellServer.URL),
+	)
+	ctx, cancel := context.WithCancel(context.Background())
+	result := make(chan error, 1)
+	go func() { result <- command.Execute(ctx) }()
+
+	select {
+	case <-output.advertisementWritten:
+	case <-time.After(time.Second):
+		require.Fail(t, "Cells push did not relay the advertisement")
+	}
+
+	cancel()
+	require.NoError(t, inputWriter.Close())
+
+	select {
+	case err := <-result:
+		require.ErrorIs(t, err, context.Canceled)
+	case <-time.After(time.Second):
+		require.Fail(t, "Cells push did not stop after input closed")
+	}
+	require.Len(t, *captured, 1)
+}
+
+func TestCopyAdvertisement(t *testing.T) {
+	writerError := errors.New("write failed")
+	testCases := []struct {
+		desc          string
+		input         string
+		writer        io.Writer
+		wantOutput    string
+		wantRemaining string
+		wantError     error
+		wantErrorText string
+	}{
+		{desc: "stops at first flush", input: pktLine("refs\n") + "0000", wantOutput: pktLine("refs\n") + "0000"},
+		{desc: "leaves bytes after flush unread", input: pktLine("refs\n") + "0000status", wantOutput: pktLine("refs\n") + "0000", wantRemaining: "status"},
+		{desc: "EOF before flush", input: pktLine("refs\n"), wantOutput: pktLine("refs\n"), wantError: io.EOF, wantErrorText: "advertisement ended before flush"},
+		{desc: "truncated pkt-line", input: "0008abc", wantError: io.ErrUnexpectedEOF},
+		{desc: "malformed length prefix", input: "zzzz", wantError: strconv.ErrSyntax, wantErrorText: "decode length"},
+		{desc: "writer failure", input: pktLine("refs\n") + "0000", writer: errorWriter{err: writerError}, wantRemaining: "0000", wantError: writerError},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			reader := bytes.NewBufferString(tc.input)
+			output := &bytes.Buffer{}
+			writer := tc.writer
+			if writer == nil {
+				writer = output
+			}
+
+			err := copyAdvertisement(writer, reader)
+
+			if tc.wantError == nil {
+				require.NoError(t, err)
+			} else {
+				require.ErrorIs(t, err, tc.wantError)
+			}
+			if tc.wantErrorText != "" {
+				assert.Contains(t, err.Error(), tc.wantErrorText)
+			}
+			assert.Equal(t, tc.wantOutput, output.String())
+			assert.Equal(t, tc.wantRemaining, reader.String())
+		})
+	}
+}
+
+type advertisementGatedReader struct {
+	io.Reader
+	advertisementWritten <-chan struct{}
+}
+
+func (r *advertisementGatedReader) Read(buffer []byte) (int, error) {
+	<-r.advertisementWritten
+
+	return r.Reader.Read(buffer)
+}
+
+type advertisementGatedOutput struct {
+	bytes.Buffer
+	advertisement        string
+	advertisementWritten chan struct{}
+}
+
+func newAdvertisementGatedOutput(advertisement string) *advertisementGatedOutput {
+	return &advertisementGatedOutput{
+		advertisement:        advertisement,
+		advertisementWritten: make(chan struct{}),
+	}
+}
+
+func (w *advertisementGatedOutput) Write(data []byte) (int, error) {
+	n, err := w.Buffer.Write(data)
+	if w.Len() >= len(w.advertisement) {
+		select {
+		case <-w.advertisementWritten:
+		default:
+			close(w.advertisementWritten)
+		}
+	}
+
+	return n, err
+}
+
+type firstByteGatedReader struct {
+	io.Reader
+	secondRequestStarted <-chan struct{}
+	firstRead            bool
+}
+
+func (r *firstByteGatedReader) Read(buffer []byte) (int, error) {
+	if !r.firstRead {
+		r.firstRead = true
+		return r.Reader.Read(buffer[:1])
+	}
+	<-r.secondRequestStarted
+
+	return r.Reader.Read(buffer)
+}
+
+type errorWriter struct {
+	err error
+}
+
+func (w errorWriter) Write(_ []byte) (int, error) {
+	return 0, w.err
+}
+
+func TestBuildCellsGitClient(t *testing.T) {
+	cfg := cellsTestConfig(t)
+
+	t.Run("constructs correct URL from CellAddress and GlProjectPath", func(t *testing.T) {
+		response := cellsTestResponse("http://cell1.example.com")
+		args := &commandargs.Shell{}
+
+		gitClient, err := buildCellsGitClient(cfg, response, args)
+		require.NoError(t, err)
+		require.Equal(t, "http://cell1.example.com/group/project.git", gitClient.URL)
+	})
+
+	t.Run("strips trailing slash from CellAddress", func(t *testing.T) {
+		response := cellsTestResponse("http://cell1.example.com/")
+		args := &commandargs.Shell{}
+
+		gitClient, err := buildCellsGitClient(cfg, response, args)
+		require.NoError(t, err)
+		require.Equal(t, "http://cell1.example.com/group/project.git", gitClient.URL)
+	})
+
+	t.Run("preserves path component from CellAddress", func(t *testing.T) {
+		response := cellsTestResponse("http://cell1.example.com/gitlab")
+		args := &commandargs.Shell{}
+
+		gitClient, err := buildCellsGitClient(cfg, response, args)
+		require.NoError(t, err)
+		require.Equal(t, "http://cell1.example.com/gitlab/group/project.git", gitClient.URL)
+	})
+
+	t.Run("returns error when GlProjectPath is empty", func(t *testing.T) {
+		response := &accessverifier.Response{
+			CellAddress: "http://cell1.example.com",
+			Who:         "key-123",
+			Gitaly: accessverifier.Gitaly{
+				Repo: pb.Repository{},
+			},
+		}
+		args := &commandargs.Shell{}
+
+		_, err := buildCellsGitClient(cfg, response, args)
+		require.Error(t, err)
+		require.Contains(t, err.Error(), "missing gl_project_path")
+	})
+
+	t.Run("sets Shell API request header with valid JWT", func(t *testing.T) {
+		response := cellsTestResponse("http://cell1.example.com")
+		args := &commandargs.Shell{}
+
+		gitClient, err := buildCellsGitClient(cfg, response, args)
+		require.NoError(t, err)
+		require.NotContains(t, gitClient.Headers, clientpkg.ShellAPIRequestHeader)
+		require.NotNil(t, gitClient.PrepareRequest)
+
+		request := httptest.NewRequest(http.MethodGet, gitClient.URL, nil)
+		require.NoError(t, gitClient.PrepareRequest(request))
+		claims := parseShellJWT(t, request.Header.Get(clientpkg.ShellAPIRequestHeader))
+		require.Equal(t, "gitlab-shell", claims["iss"])
+		require.Equal(t, testGlID, claims[claimGlID])
+	})
+
+	t.Run("returns error when CellAddress has no scheme", func(t *testing.T) {
+		response := cellsTestResponse("cell1.example.com")
+		args := &commandargs.Shell{}
+
+		_, err := buildCellsGitClient(cfg, response, args)
+		require.Error(t, err)
+		require.Contains(t, err.Error(), "missing URL scheme")
+	})
+
+	t.Run("sets Git-Protocol header when GitProtocolVersion is set", func(t *testing.T) {
+		response := cellsTestResponse("http://cell1.example.com")
+		args := &commandargs.Shell{Env: sshenv.Env{GitProtocolVersion: testGitProtocolVersion}}
+
+		gitClient, err := buildCellsGitClient(cfg, response, args)
+		require.NoError(t, err)
+		require.Equal(t, testGitProtocolVersion, gitClient.Headers[gitProtocolHeader])
+	})
+
+	t.Run("omits Git-Protocol header when GitProtocolVersion is empty", func(t *testing.T) {
+		response := cellsTestResponse("http://cell1.example.com")
+		args := &commandargs.Shell{}
+
+		gitClient, err := buildCellsGitClient(cfg, response, args)
+		require.NoError(t, err)
+		_, hasGitProtocol := gitClient.Headers[gitProtocolHeader]
+		require.False(t, hasGitProtocol)
+	})
+}
+
+func TestBuildCellsGitClientShellJWTClaims(t *testing.T) {
+	testCases := []struct {
+		desc           string
+		keyID          int
+		keyType        string
+		args           *commandargs.Shell
+		expectedClaims jwt.MapClaims
+	}{
+		{
+			desc:    "deploy key",
+			keyID:   42,
+			keyType: testDeployKeyType,
+			args:    &commandargs.Shell{Env: sshenv.Env{RemoteAddr: "203.0.113.5:2222"}},
+			expectedClaims: jwt.MapClaims{
+				claimGlID:      testGlID,
+				claimGlKeyID:   float64(42),
+				claimGlKeyType: testDeployKeyType,
+				claimCheckIP:   "203.0.113.5",
+			},
+		},
+		{
+			desc:    "user key",
+			keyID:   1,
+			keyType: testUserKeyType,
+			args:    &commandargs.Shell{Env: sshenv.Env{RemoteAddr: "2001:db8::1"}},
+			expectedClaims: jwt.MapClaims{
+				claimGlID:      testGlID,
+				claimGlKeyID:   float64(1),
+				claimGlKeyType: testUserKeyType,
+				claimCheckIP:   "2001:db8::1",
+			},
+		},
+		{
+			desc: "group certificate",
+			args: &commandargs.Shell{
+				Env: sshenv.Env{
+					RemoteAddr:    "198.51.100.10",
+					NamespacePath: "group/subgroup",
+				},
+			},
+			expectedClaims: jwt.MapClaims{
+				claimGlID:          testGlID,
+				claimCheckIP:       "198.51.100.10",
+				claimNamespacePath: "group/subgroup",
+			},
+		},
+		{
+			desc: "omits key claims when response has no key",
+			args: &commandargs.Shell{Env: sshenv.Env{RemoteAddr: "198.51.100.9"}},
+			expectedClaims: jwt.MapClaims{
+				claimGlID:    testGlID,
+				claimCheckIP: "198.51.100.9",
+			},
+		},
+		{
+			desc:    "no remote address",
+			keyID:   1,
+			keyType: testUserKeyType,
+			args:    &commandargs.Shell{},
+			expectedClaims: jwt.MapClaims{
+				claimGlID:      testGlID,
+				claimGlKeyID:   float64(1),
+				claimGlKeyType: testUserKeyType,
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			response := cellsTestResponse("http://cell1.example.com")
+			response.KeyID = tc.keyID
+			response.KeyType = tc.keyType
+
+			gitClient, err := buildCellsGitClient(cellsTestConfig(t), response, tc.args)
+			require.NoError(t, err)
+
+			request := httptest.NewRequest(http.MethodPost, gitClient.URL, nil)
+			require.NoError(t, gitClient.PrepareRequest(request))
+
+			claims := parseShellJWT(t, request.Header.Get(clientpkg.ShellAPIRequestHeader))
+			for _, registeredClaim := range []string{"iss", "iat", "exp"} {
+				require.Contains(t, claims, registeredClaim)
+				delete(claims, registeredClaim)
+			}
+			require.Equal(t, tc.expectedClaims, claims)
+		})
+	}
+}
+
+func parseShellJWT(t *testing.T, tokenString string) jwt.MapClaims {
+	t.Helper()
+	require.NotEmpty(t, tokenString)
+
+	claims := jwt.MapClaims{}
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(_ *jwt.Token) (interface{}, error) {
+		return []byte(testSecret), nil
+	})
+	require.NoError(t, err)
+	require.True(t, token.Valid)
+
+	return claims
+}
+
+func stubShellJWTSigner(t *testing.T, fn func(secret string, actor clientpkg.ShellActor) (string, error)) {
+	t.Helper()
+	original := signShellJWT
+	signShellJWT = fn
+	t.Cleanup(func() { signShellJWT = original })
+}
+
+func TestCellsPushSignsShellJWTPerRequest(t *testing.T) {
+	var actors []clientpkg.ShellActor
+	stubShellJWTSigner(t, func(_ string, actor clientpkg.ShellActor) (string, error) {
+		actors = append(actors, actor)
+		return fmt.Sprintf("jwt-%d", len(actors)), nil
+	})
+	advertisement := pktLine("e56497bb5f03a90a51293fc6d516788730953899 refs/heads/main\x00report-status\n") + string(pktline.PktFlush())
+	reportStatus := pktLine("unpack ok\n") + string(pktline.PktFlush())
+	cellServer, captured := startCapturingPushCellServer(t, []string{advertisement, advertisement + reportStatus}, nil)
+	output := newAdvertisementGatedOutput(advertisement)
+	input := &advertisementGatedReader{
+		Reader:               strings.NewReader(pktLine("0000000000000000000000000000000000000000 e56497bb5f03a90a51293fc6d516788730953899 refs/heads/main\x00report-status\n") + string(pktline.PktFlush()) + "PACK"),
+		advertisementWritten: output.advertisementWritten,
+	}
+
+	err := NewCellsPushCommand(
+		cellsTestConfig(t),
+		&readwriter.ReadWriter{Out: output, In: input},
+		&commandargs.Shell{Env: sshenv.Env{NamespacePath: "group"}},
+		cellsTestResponse(cellServer.URL),
+	).Execute(context.Background())
+
+	require.NoError(t, err)
+	require.Len(t, *captured, 2)
+	assert.Equal(t, "jwt-1", (*captured)[0].headers.Get(clientpkg.ShellAPIRequestHeader))
+	assert.Equal(t, "jwt-2", (*captured)[1].headers.Get(clientpkg.ShellAPIRequestHeader))
+	require.Len(t, actors, 2)
+	for _, actor := range actors {
+		assert.Equal(t, "group", actor.NamespacePath)
+	}
+}
+
+func TestCellsCommandsPassThroughCellErrorMessage(t *testing.T) {
+	testCases := []struct {
+		desc    string
+		body    string
+		execute func(string) error
+	}{
+		{
+			desc: "pull",
+			body: "You are not allowed to download code from this project.",
+			execute: func(cellAddress string) error {
+				return NewCellsPullCommand(
+					cellsTestConfig(t),
+					&readwriter.ReadWriter{Out: io.Discard, In: strings.NewReader(fetchV2Request)},
+					&commandargs.Shell{},
+					cellsTestResponse(cellAddress),
+				).Execute(context.Background())
+			},
+		},
+		{
+			desc: "push advertisement",
+			body: "You are not allowed to push code to this project.",
+			execute: func(cellAddress string) error {
+				return NewCellsPushCommand(
+					cellsTestConfig(t),
+					&readwriter.ReadWriter{Out: io.Discard, In: strings.NewReader("0000")},
+					&commandargs.Shell{},
+					cellsTestResponse(cellAddress),
+				).Execute(context.Background())
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			cellServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+				w.WriteHeader(http.StatusForbidden)
+				_, err := w.Write([]byte(tc.body))
+				assert.NoError(t, err)
+			}))
+			t.Cleanup(cellServer.Close)
+
+			err := tc.execute(cellServer.URL)
+
+			require.EqualError(t, err, tc.body)
+			var apiErr *clientpkg.APIError
+			require.ErrorAs(t, err, &apiErr)
+		})
+	}
+}
+
+func TestCellsCommandsReturnShellJWTSigningError(t *testing.T) {
+	signErr := errors.New("signing failed")
+	stubShellJWTSigner(t, func(_ string, _ clientpkg.ShellActor) (string, error) { return "", signErr })
+
+	cellServer, captured := startCapturingPushCellServer(t, nil, nil)
+
+	err := NewCellsPushCommand(
+		cellsTestConfig(t),
+		&readwriter.ReadWriter{Out: io.Discard, In: strings.NewReader("0000")},
+		&commandargs.Shell{},
+		cellsTestResponse(cellServer.URL),
+	).Execute(context.Background())
+	require.ErrorIs(t, err, signErr)
+	require.ErrorContains(t, err, "generating Shell JWT")
+	require.Equal(t, 1, strings.Count(err.Error(), "cells routing:"))
+
+	err = NewCellsPullCommand(
+		cellsTestConfig(t),
+		&readwriter.ReadWriter{Out: io.Discard, In: strings.NewReader(fetchV2Request)},
+		&commandargs.Shell{},
+		cellsTestResponse(cellServer.URL),
+	).Execute(context.Background())
+	require.ErrorIs(t, err, signErr)
+	require.ErrorContains(t, err, "generating Shell JWT")
+	require.Equal(t, 1, strings.Count(err.Error(), "cells routing:"))
+	require.Empty(t, *captured)
+}
+
+func startCapturingPushCellServer(t *testing.T, responseBodies []string, secondRequestStarted chan struct{}) (*httptest.Server, *[]capturedRequest) {
+	t.Helper()
+	captured := &[]capturedRequest{}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if secondRequestStarted != nil && len(*captured) == 1 {
+			close(secondRequestStarted)
+		}
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+		*captured = append(*captured, capturedRequest{path: r.URL.Path, headers: r.Header.Clone(), body: body})
+		requestIndex := len(*captured) - 1
+		if !assert.Less(t, requestIndex, len(responseBodies)) {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		_, err = w.Write([]byte(responseBodies[requestIndex]))
+		assert.NoError(t, err)
+	}))
+	t.Cleanup(server.Close)
+
+	return server, captured
+}
+
+func cellsTestConfig(t *testing.T) *config.Config {
+	t.Helper()
+
+	return &config.Config{
+		Secret: testSecret,
+	}
+}
+
+func cellsTestResponse(cellAddress string) *accessverifier.Response {
+	return &accessverifier.Response{
+		Success:     true,
+		UserID:      testGlID,
+		Username:    "alex-doe",
+		CellAddress: cellAddress,
+		Who:         "key-123",
+		Gitaly: accessverifier.Gitaly{
+			Repo: pb.Repository{
+				StorageName:   "storage_name",
+				RelativePath:  "relative_path",
+				GlRepository:  "project-1",
+				GlProjectPath: "group/project",
+			},
+			Address: "unix:///fake/gitaly.sock",
+			Token:   testGitalyToken,
+		},
+	}
+}

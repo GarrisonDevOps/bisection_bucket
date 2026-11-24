@@ -1,0 +1,299 @@
+require 'optparse'
+require 'mixlib/shellout'
+require 'rainbow'
+
+require 'gitlab_ctl/util'
+require 'gitlab_ctl'
+
+# For testing purposes, if the first path cannot be found load the second
+begin
+  require_relative '../../../../cookbooks/gitlab/libraries/pg_version'
+rescue LoadError
+  require_relative '../../../gitlab-cookbooks/gitlab/libraries/pg_version'
+end
+
+module GitlabCtl
+  class PgUpgrade
+    include GitlabCtl::Util
+    attr_accessor :tmp_dir, :timeout, :target_version, :initial_version, :psql_command, :port
+
+    attr_writer :data_dir, :tmp_data_dir
+
+    def initialize(ctl, target_version, tmp_dir = nil, timeout = nil, psql_command = nil, port = nil)
+      @ctl = ctl
+      @roles = GitlabCtl::Util.roles(ctl.base_path)
+      @tmp_dir = tmp_dir
+      @timeout = timeout
+      @target_version = target_version
+      @initial_version = fetch_running_version
+      @port = port || public_node_attributes['postgresql']['port']
+      @psql_command = psql_command || "gitlab-psql"
+    end
+
+    def data_dir
+      return @data_dir if @data_dir
+
+      # We still need to support legacy attributes starting with `gitlab`, as
+      # they might exists before running configure on an existing installation
+      pg_base_dir = node_attributes.dig(:gitlab, :postgresql, :dir) || node_attributes.dig(:postgresql, :dir) || File.join(@ctl.data_path, "postgresql")
+
+      @data_dir = File.join(pg_base_dir, "data")
+
+      @data_dir = File.realpath(@data_dir) if File.exist?(@data_dir)
+      @data_dir
+    end
+
+    def tmp_data_dir
+      return @tmp_data_dir if @tmp_data_dir
+
+      @tmp_data_dir = @tmp_dir ? "#{@tmp_dir}/data" : data_dir
+    end
+
+    # Return whether there is a file flag indicating that PostgreSQL upgrade is disabled
+    #
+    # @return [Boolean]
+    def pg_upgrade_disabled?
+      File.exist?('/etc/gitlab/disable-postgresql-upgrade')
+    end
+
+    def enough_free_space?(dir, needed)
+      needed <= space_free(dir)
+    end
+
+    def space_needed(dir)
+      GitlabCtl::Util.get_command_output(
+        "du -s --block-size=1m #{dir}", nil, @timeout
+      ).split.first.to_i
+    end
+
+    def space_free(dir)
+      space_available = GitlabCtl::Util.get_command_output(
+        "df -P --block-size=1m #{dir} | awk '{print $4}'", nil, @timeout
+      ).split.last.to_i
+
+      (space_available * 0.9).to_i
+    end
+
+    def run_pg_command(command)
+      pg_username = node_attributes.dig(:postgresql, :username)
+
+      GitlabCtl::Util.get_command_output("su - #{pg_username} -c \"#{command}\"", nil, @timeout)
+    end
+
+    def fetch_running_version
+      PGVersion.parse(GitlabCtl::Util.get_command_output(
+        "#{@ctl.base_path}/embedded/bin/pg_ctl --version"
+      ).split.last)
+    end
+
+    def run_query(query)
+      GitlabCtl::Util.get_command_output(
+        "#{@psql_command} -d postgres -c '#{query}' -q -t",
+        nil, # user
+        @timeout
+      ).strip
+    end
+
+    def fetch_server_encoding
+      run_query('SHOW SERVER_ENCODING')
+    end
+
+    def fetch_data_version
+      PGVersion.parse(File.read("#{data_dir}/PG_VERSION").strip)
+    end
+
+    def running?(service = 'postgresql')
+      !GitlabCtl::Util.run_command("gitlab-ctl status #{service}").error?
+    end
+
+    def start(service = 'postgresql')
+      GitlabCtl::Util.run_command("gitlab-ctl start #{service}").error!
+    end
+
+    def node_attributes
+      @node_attributes ||= GitlabCtl::Util.get_node_attributes(@ctl.base_path)
+    end
+
+    def public_node_attributes
+      @public_node_attributes ||= GitlabCtl::Util.get_public_node_attributes
+    end
+
+    def base_postgresql_path
+      "#{@ctl.base_path}/embedded/postgresql"
+    end
+
+    def target_version_path
+      "#{base_postgresql_path}/#{target_version.major}"
+    end
+
+    def initial_version_path
+      "#{base_postgresql_path}/#{initial_version.major}"
+    end
+
+    def upgrade_artifact_exists?(path)
+      return false unless File.exist?(path)
+
+      !Dir.empty?(path)
+    end
+
+    # Return whether the current (old) data directory was initialized with data
+    # page checksums enabled.
+    #
+    # pg_upgrade requires the old and new clusters to have matching data
+    # checksum settings. Omnibus historically created clusters without
+    # checksums, but PostgreSQL 18 changed the initdb default to enable them, so
+    # we must detect the old cluster's setting and mirror it when initializing
+    # the new cluster.
+    #
+    # @return [Boolean]
+    def data_checksums_enabled?
+      output = run_pg_command(
+        "#{initial_version_path}/bin/pg_controldata -D #{data_dir}"
+      )
+      match = output.match(/Data page checksum version:\s+(\d+)/)
+
+      # Fail loudly rather than defaulting to a checksum setting: a false
+      # negative here would silently initialize the new cluster with the wrong
+      # setting and only surface later as a confusing pg_upgrade mismatch.
+      raise "Unable to determine data checksum status from pg_controldata output: #{output.inspect}" if match.nil?
+
+      match[1].to_i != 0
+    end
+
+    def log(message)
+      $stderr.puts message
+    end
+
+    # Return whether the current node has a Geo primary role set
+    #
+    # @return [Boolean]
+    def geo_primary_role?
+      @roles.include?('geo_primary')
+    end
+
+    # Return whether the current node has a Geo secondary role set
+    #
+    # @return [Boolean]
+    def geo_secondary_role?
+      @roles.include?('geo_secondary')
+    end
+
+    # Return whether the current node has Patroni service enabled
+    #
+    # @return [Boolean]
+    def patroni_service_enabled?
+      @ctl.service_enabled?('patroni')
+    end
+
+    # Return whether the current node has Postgres service enabled
+    #
+    # @return [Boolean]
+    def postgres_service_enabled?
+      @ctl.service_enabled?('postgresql')
+    end
+
+    # Return whether the current node has Geo Postgres service enabled
+    #
+    # @return [Boolean]
+    def geo_postgres_service_enabled?
+      @ctl.service_enabled?('geo-postgresql')
+    end
+
+    def run_pg_upgrade
+      unless GitlabCtl::Util.progress_message('Upgrading the data') do
+        begin
+          run_pg_command(
+            "#{target_version_path}/bin/pg_upgrade " \
+            "-b #{initial_version_path}/bin " \
+            "--old-datadir=#{data_dir}  " \
+            "--new-datadir=#{tmp_data_dir}.#{target_version.major}  " \
+            "-B #{target_version_path}/bin "
+          )
+        rescue GitlabCtl::Errors::ExecutionError => e
+          log "Error upgrading the data to version #{target_version}"
+          log "STDOUT: #{e.stdout}"
+          log "STDERR: #{e.stderr}"
+          false
+        rescue Mixlib::ShellOut::CommandTimeout
+          log ""
+          log "Timed out during the database upgrade.".color(:red)
+          log "To run with more time, remove the temporary directory #{tmp_data_dir}.#{target_version.major},".color(:red)
+          log "then re-run your previous command, adding the --timeout option.".color(:red)
+          log "See the docs for more information: https://docs.gitlab.com/omnibus/settings/database.html#upgrade-packaged-postgresql-server".color(:red)
+          log "Or run gitlab-ctl pg-upgrade --help for usage".color(:red)
+          false
+        end
+      end
+        raise GitlabCtl::Errors::ExecutionError.new(
+          'run_pg_upgrade', '', 'Error upgrading the database'
+        )
+      end
+    end
+
+    class << self
+      def parse_options(args)
+        options = {
+          tmp_dir: nil,
+          wait: true,
+          skip_unregister: false,
+          timeout: nil,
+          target_version: nil,
+          skip_disk_check: false,
+          leader: nil,
+          replica: nil,
+          standby_leader: nil,
+          skip_multi_node: false
+        }
+
+        OptionParser.new do |opts|
+          opts.on('-tDIR', '--tmp-dir=DIR', 'Storage location for temporary data') do |t|
+            options[:tmp_dir] = t
+          end
+
+          opts.on('-w', '--no-wait', 'Do not wait before starting the upgrade process') do
+            options[:wait] = false
+          end
+
+          opts.on('-s', '--skip-unregister', 'Skip the attempt to unregister an HA secondary node. No-op in non-HA scenarios') do
+            options[:skip_unregister] = true
+          end
+
+          opts.on('-TTIMEOUT', '--timeout=TIMEOUT', 'Timeout in milliseconds for the execution of the underlying commands. Accepts duration format such as 1d2h3m4s5ms.') do |t|
+            i = GitlabCtl::Util.parse_duration(t)
+            options[:timeout] = i.positive? ? i : nil
+          end
+
+          opts.on('-VVERSION', '--target-version=VERSION', 'The explicit major version to upgrade or downgrade to') do |v|
+            options[:target_version] = v
+          end
+
+          opts.on('--skip-disk-check', 'Skip checking that there is enough free disk space to perform upgrade') do
+            options[:skip_disk_check] = true
+          end
+
+          opts.on('--leader', 'Patroni only. Force leader upgrade procedure.') do
+            options[:leader] = true
+            options[:replica] = false
+          end
+
+          opts.on('--replica', 'Patroni only. Force replica upgrade procedure.') do
+            options[:replica] = true
+            options[:leader] = false
+          end
+
+          opts.on('--standby-leader', 'Patroni only. Force standby-leader upgrade procedure.') do
+            options[:leader] = false
+            options[:replica] = false
+            options[:standby_leader] = true
+          end
+
+          opts.on('--skip-multi-node', 'Bail out instead of upgrading on anything other than a single-node install. Skips when Geo or Patroni is in use, or when PostgreSQL upgrade has been explicitly disabled. Intended for non-interactive callers such as the Docker entrypoint.') do
+            options[:skip_multi_node] = true
+          end
+        end.parse!(args)
+
+        options
+      end
+    end
+  end
+end

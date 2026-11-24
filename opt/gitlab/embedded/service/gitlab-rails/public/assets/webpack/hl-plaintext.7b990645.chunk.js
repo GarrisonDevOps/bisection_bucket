@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[48630],{271206(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Plain text",aliases:["text","txt"],disableAutodetect:!0}}})}}]);
+//# sourceMappingURL=hl-plaintext.7b990645.chunk.js.map

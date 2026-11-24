@@ -1,0 +1,2 @@
+@container panel (width>=768px){.actions-cell{width:1.5rem}}@container panel (width<992px){.actions-cell div{text-align:center!important;width:100%!important}.header-cell div{text-align:left!important;width:100%!important;padding:0!important}.actions-cell:before,.header-cell:before{display:none}.da-table-mobile-header:before{color:#8a8888}}
+/*# sourceMappingURL=dev_ops_reports.ca621964.css.map*/

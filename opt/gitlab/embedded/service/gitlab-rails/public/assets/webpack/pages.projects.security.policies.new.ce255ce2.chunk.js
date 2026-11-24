@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[78132],{937481(a,b,c){var d=c(264122);(0,c(974651).A)(document.getElementById("js-policy-builder-app"),d.m.PROJECT)}},function(a){var b=function(b){return a(a.s=b)};a.O(0,[14125,16542,23322,2706,2724,31126,32948,40026,45042,4710,54908,57090,57727,61070,6597,81314,8752,88413,97401,99528],function(){return b(213421),b(937481)}),a.O()}]);
+//# sourceMappingURL=pages.projects.security.policies.new.ce255ce2.chunk.js.map

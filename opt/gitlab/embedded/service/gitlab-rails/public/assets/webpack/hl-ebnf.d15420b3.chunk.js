@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[70034],{924686(a,b,c){c.r(b),c.d(b,{},{default:function(a){let b=a.COMMENT(/\(\*/,/\*\)/),c={begin:/=/,end:/[.;]/,contains:[b,{className:"meta",begin:/\?.*\?/},{className:"string",variants:[a.APOS_STRING_MODE,a.QUOTE_STRING_MODE,{begin:"`",end:"`"}]}]};return{name:"Extended Backus-Naur Form",illegal:/\S/,contains:[b,{className:"attribute",begin:/^[ ]*[a-zA-Z]+([\s_-]+[a-zA-Z]+)*/},c]}}})}}]);
+//# sourceMappingURL=hl-ebnf.d15420b3.chunk.js.map

@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../lib/tooling/predictive_tests/file_based_selection_runner'
+
+Tooling::PredictiveTests::FileBasedSelectionRunner.new.execute

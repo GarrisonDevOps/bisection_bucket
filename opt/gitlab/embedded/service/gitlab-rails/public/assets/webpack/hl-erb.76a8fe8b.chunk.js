@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[64850],{621174(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"ERB",subLanguage:"xml",contains:[a.COMMENT("<%#","%>"),{begin:"<%[%=-]?",end:"[%-]?%>",subLanguage:"ruby",excludeBegin:!0,excludeEnd:!0}]}}})}}]);
+//# sourceMappingURL=hl-erb.76a8fe8b.chunk.js.map

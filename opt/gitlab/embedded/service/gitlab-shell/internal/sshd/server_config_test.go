@@ -1,0 +1,1191 @@
+package sshd
+
+import (
+	"context"
+	"crypto/dsa" //nolint:staticcheck // SA1019: Intentionally using deprecated DSA for testing rejection
+	"crypto/rand"
+	"crypto/rsa"
+	"encoding/base64"
+	"errors"
+	"fmt"
+	"net"
+	"net/http"
+	"os"
+	"path"
+	"strings"
+	"sync/atomic"
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/require"
+	"golang.org/x/crypto/ssh"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/client/testserver"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/testhelper"
+	"gitlab.com/gitlab-org/labkit/v2/fips"
+	"gitlab.com/gitlab-org/labkit/v2/fips/sshalgo"
+)
+
+const (
+	localhostURL        = "http://localhost"
+	localhostIP         = "127.0.0.1"
+	testUser            = "user"
+	rootUser            = "root"
+	sourceAddressExt    = "source-address"
+	testUser2           = "testuser"
+	testNamespaceValue  = "namespace"
+	parseCAKeyErr       = "failed to parse trusted user CA key in file"
+	keyIDFormatErr      = "certificate KeyId does not match GitLab username format"
+	keyIDConsecutiveErr = "certificate KeyId contains consecutive special characters"
+
+	sourceAddrCIDR         = "10.0.0.0/8"
+	authorizedKeysAPIPath  = "/api/v4/internal/authorized_keys"
+	authorizedCertsAPIPath = "/api/v4/internal/authorized_certs"
+)
+
+func TestNewServerConfigWithoutHosts(t *testing.T) {
+	_, err := newServerConfig(&config.Config{GitlabURL: localhostURL})
+
+	require.Error(t, err)
+	require.Equal(t, "no host keys could be loaded, aborting", err.Error())
+}
+
+func TestHostKeyAndCerts(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+		HostCertFiles: []string{
+			path.Join(testRoot, "certs/valid/server-cert.pub"),
+			path.Join(testRoot, "certs/valid/server2-cert.pub"),
+			path.Join(testRoot, "certs/invalid/server-cert.pub"),
+			path.Join(testRoot, "certs/invalid-path.key"),
+			path.Join(testRoot, "certs/invalid/server.crt"),
+		},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	require.Len(t, cfg.hostKeys, 1)
+	require.Len(t, cfg.hostKeyToCertMap, 1)
+
+	// Check that the entry is pointing to the server's public key
+	data, err := os.ReadFile(path.Join(testRoot, "certs/valid/server.pub"))
+	require.NoError(t, err)
+
+	publicKey, comment, _, _, err := ssh.ParseAuthorizedKey(data)
+	require.NoError(t, err)
+	require.NotNil(t, comment)
+	require.NotNil(t, publicKey)
+	cert, ok := cfg.hostKeyToCertMap[string(publicKey.Marshal())]
+	require.True(t, ok)
+	require.NotNil(t, cert)
+	require.Equal(t, cert, cfg.hostKeys[0].PublicKey())
+}
+
+func TestNewServerConfigLoadsTrustedCAKeys(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	// Create a CA key file
+	_, caPubKey := createCAKeyPair(t)
+	caKeyFile := path.Join(testRoot, "ca.pub")
+	err := os.WriteFile(caKeyFile, ssh.MarshalAuthorizedKey(caPubKey), 0600)
+	require.NoError(t, err)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+		TrustedUserCAKeys: []string{caKeyFile},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	// Smoke test: verify CA keys were loaded via newServerConfig wiring
+	require.Len(t, cfg.trustedUserCAKeySet, 1)
+}
+
+func TestNewServerConfig_RejectsUnsupportedPublicKeyAlgorithm(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+		PublicKeyAlgorithms: []string{"ssh-ed25519", "rsa-sha2-999"},
+	}
+
+	_, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+
+	require.EqualError(t, err, `unsupported public key authentication algorithm in public_key_algorithms: "rsa-sha2-999"`)
+}
+
+func TestNewServerConfig_AcceptsSupportedPublicKeyAlgorithms(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+		// One current and one insecure-but-still-accepted algorithm, matching what
+		// x/crypto lets NewServerConn use.
+		PublicKeyAlgorithms: []string{"rsa-sha2-512", "ssh-rsa"},
+	}
+
+	_, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+
+	require.NoError(t, err)
+}
+
+func TestNewServerConfig_FailsOnBadCAKeyFile(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+		TrustedUserCAKeys: []string{"/nonexistent/ca.pub"},
+	}
+
+	_, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "failed to load trusted user CA keys")
+}
+
+func TestFailedAuthorizedKeysClient(t *testing.T) {
+	_, err := newServerConfig(&config.Config{GitlabURL: "ftp://localhost"})
+
+	require.Error(t, err)
+	require.Equal(t, "failed to initialize authorized keys client: error creating http client: unknown GitLab URL prefix", err.Error())
+}
+
+func TestUserKeyHandling(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	validRSAKey := rsaPublicKey(t)
+
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedKeysAPIPath,
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				key := base64.RawStdEncoding.EncodeToString(validRSAKey.Marshal())
+				if key == r.URL.Query().Get("key") {
+					w.Write([]byte(`{ "id": 1, "key": "key" }`))
+				} else {
+					w.WriteHeader(http.StatusInternalServerError)
+				}
+			},
+		},
+	}
+
+	url := testserver.StartSocketHTTPServer(t, requests)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+			path.Join(testRoot, "certs/invalid-path.key"),
+			path.Join(testRoot, "certs/invalid/server.crt"),
+		},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: url, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	testCases := []struct {
+		desc                string
+		user                string
+		key                 ssh.PublicKey
+		expectedErr         error
+		expectedPermissions *ssh.Permissions
+	}{
+		{
+			desc:        "wrong user",
+			user:        "wrong-user",
+			key:         rsaPublicKey(t),
+			expectedErr: errors.New("unknown user"),
+		}, {
+			desc:        "prohibited dsa key",
+			user:        testUser,
+			key:         dsaPublicKey(t),
+			expectedErr: errors.New("DSA is prohibited"),
+		}, {
+			desc:        "API error",
+			user:        testUser,
+			key:         rsaPublicKey(t),
+			expectedErr: &client.APIError{Msg: "Internal API unreachable", System: true},
+		}, {
+			desc: "successful request",
+			user: testUser,
+			key:  validRSAKey,
+			expectedPermissions: &ssh.Permissions{
+				Extensions: map[string]string{"key-id": "1"},
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			permissions, err := cfg.handleUserKey(context.Background(), tc.user, tc.key)
+			require.Equal(t, tc.expectedErr, err)
+			require.Equal(t, tc.expectedPermissions, permissions)
+		})
+	}
+}
+
+func TestUserCertificateHandling(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	caSigner, _ := createCAKeyPair(t)
+	validUserCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "root@example.com")
+	validUserCertWithSourceAddr := userCertSignedByCAWithOptions(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "root@example.com", map[string]string{sourceAddressExt: sourceAddrCIDR})
+
+	rateLimitedCASigner, _ := createCAKeyPair(t)
+	rateLimitedUserCert := userCertSignedByCA(t, rateLimitedCASigner, ssh.UserCert, time.Now().Add(time.Hour), "root@example.com")
+
+	key := strings.TrimPrefix(ssh.FingerprintSHA256(validUserCert.SignatureKey), "SHA256:")
+	rateLimitedKey := strings.TrimPrefix(ssh.FingerprintSHA256(rateLimitedUserCert.SignatureKey), "SHA256:")
+
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedCertsAPIPath,
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				switch {
+				case key == r.URL.Query().Get("key") && r.URL.Query().Get("user_identifier") == "root@example.com":
+					w.Write([]byte(`{ "username": "root", "namespace": "namespace" }`))
+				case rateLimitedKey == r.URL.Query().Get("key"):
+					w.Header().Set("Retry-After", "60")
+					w.WriteHeader(http.StatusTooManyRequests)
+					w.Write([]byte(`{"message":{"error":"This endpoint has been requested too many times. Try again later."}}`))
+				default:
+					w.WriteHeader(http.StatusInternalServerError)
+				}
+			},
+		},
+	}
+
+	url := testserver.StartSocketHTTPServer(t, requests)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+			path.Join(testRoot, "certs/invalid-path.key"),
+			path.Join(testRoot, "certs/invalid/server.crt"),
+		},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: url, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	testCases := []struct {
+		desc                string
+		cert                *ssh.Certificate
+		expectedErr         error
+		expectedPermissions *ssh.Permissions
+	}{
+		{
+			desc:        "wrong cert type",
+			cert:        userCert(t, ssh.HostCert, time.Now().Add(time.Hour)),
+			expectedErr: errors.New("handleUserCertificate: cert has type 2"),
+		}, {
+			desc:        "expired cert",
+			cert:        userCert(t, ssh.UserCert, time.Now().Add(-time.Hour)),
+			expectedErr: errors.New("ssh: cert has expired"),
+		}, {
+			desc:        "API error",
+			cert:        userCert(t, ssh.UserCert, time.Now().Add(time.Hour)),
+			expectedErr: &client.APIError{Msg: "Internal API unreachable", System: true},
+		}, {
+			desc: "rate limited",
+			cert: rateLimitedUserCert,
+			expectedErr: &ssh.BannerError{
+				Err:     &client.APIError{Msg: "Internal API error (429)", StatusCode: http.StatusTooManyRequests, System: false},
+				Message: tooManyRequestsBanner,
+			},
+		}, {
+			desc: "successful request",
+			cert: validUserCert,
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caSigner.PublicKey(), "root@example.com",
+					commandargs.CertificateTrustSourceGroup, rootUser, testNamespaceValue),
+			},
+		}, {
+			desc: "successful request with source-address",
+			cert: validUserCertWithSourceAddr,
+			expectedPermissions: &ssh.Permissions{
+				CriticalOptions: map[string]string{sourceAddressExt: sourceAddrCIDR},
+				Extensions: certExtensions(caSigner.PublicKey(), "root@example.com",
+					commandargs.CertificateTrustSourceGroup, rootUser, testNamespaceValue),
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			// Same deadline as publicKeyCallback, so an honored Retry-After fails fast.
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+
+			permissions, err := cfg.handleUserCertificate(ctx, testUser, "", tc.cert)
+			require.Equal(t, tc.expectedErr, err)
+			require.Equal(t, tc.expectedPermissions, permissions)
+		})
+	}
+}
+
+func TestFipsDefaultAlgorithms(t *testing.T) {
+	if !fips.Enabled() {
+		t.Skip()
+	}
+
+	srvCfg := &serverConfig{cfg: &config.Config{}}
+	sshServerConfig := srvCfg.get(context.Background(), nil)
+
+	algorithms := sshalgo.DefaultAlgorithms()
+
+	require.Equal(t, algorithms.PublicKeyAuths, sshServerConfig.PublicKeyAuthAlgorithms)
+	require.Equal(t, algorithms.MACs, sshServerConfig.MACs)
+	require.Equal(t, algorithms.KeyExchanges, sshServerConfig.KeyExchanges)
+	require.Equal(t, algorithms.Ciphers, sshServerConfig.Ciphers)
+	// v2 sshalgo seeds PublicKeyAuths from the FIPS-filtered supported set. v1
+	// left it nil because ssh.Config.SetDefaults never populates the field, so
+	// the pubkey-auth policy silently never applied. It must now be populated
+	// and must exclude the security-key variants, which sign off-module and are
+	// not FIPS compliant.
+	require.NotEmpty(t, algorithms.PublicKeyAuths)
+	require.NotContains(t, algorithms.PublicKeyAuths, ssh.KeyAlgoSKED25519)
+	require.NotContains(t, algorithms.PublicKeyAuths, ssh.KeyAlgoSKECDSA256)
+
+	sshServerConfig.SetDefaults()
+
+	// Go automatically adds curve25519-sha256@libssh.org as alias for curve25519-sha256
+	// if the latter exists for backwards compatibility:
+	// https://github.com/golang/crypto/blob/ef5341b70697ceb55f904384bd982587224e8b0c/ssh/common.go#L512-L520
+	var kexs []string
+	for _, k := range algorithms.KeyExchanges {
+		kexs = append(kexs, k)
+		if k == ssh.KeyExchangeCurve25519 {
+			kexs = append(kexs, "curve25519-sha256@libssh.org")
+		}
+	}
+
+	require.Equal(t, algorithms.MACs, sshServerConfig.MACs)
+	require.Equal(t, kexs, sshServerConfig.KeyExchanges)
+	require.Equal(t, algorithms.Ciphers, sshServerConfig.Ciphers)
+}
+
+func TestNonFipsDefaultAlgorithms(t *testing.T) {
+	if fips.Enabled() {
+		t.Skip()
+	}
+
+	srvCfg := &serverConfig{cfg: &config.Config{}}
+	sshServerConfig := srvCfg.get(context.Background(), nil)
+
+	defaultCfg := ssh.ServerConfig{}
+	defaultCfg.SetDefaults()
+
+	require.Equal(t, defaultCfg.PublicKeyAuthAlgorithms, sshServerConfig.PublicKeyAuthAlgorithms)
+	require.Equal(t, defaultCfg.MACs, sshServerConfig.MACs)
+	require.Equal(t, defaultCfg.KeyExchanges, sshServerConfig.KeyExchanges)
+	require.Equal(t, defaultCfg.Ciphers, sshServerConfig.Ciphers)
+}
+
+func TestCustomAlgorithms(t *testing.T) {
+	if fips.Enabled() {
+		// Under the native Go FIPS 140-3 module, x/crypto's ssh package
+		// registers only FIPS-approved algorithms, and SetDefaults()
+		// silently drops non-approved custom choices (curve25519 kex,
+		// chacha20 ciphers, ...). Skip under any FIPS backend for
+		// consistency with the other tests in this file.
+		t.Skip("FIPS mode restricts SSH algorithms; custom non-approved algorithms are filtered by x/crypto")
+	}
+
+	customMACs := []string{"hmac-sha2-512-etm@openssh.com"}
+	customKexAlgos := []string{"curve25519-sha256", "curve25519-sha256@libssh.org"}
+	customCiphers := []string{"aes256-gcm@openssh.com"}
+	customPublicKeyAlgorithms := []string{"rsa-sha2-256"}
+
+	srvCfg := &serverConfig{
+		cfg: &config.Config{
+			Server: config.ServerConfig{
+				MACs:                customMACs,
+				KexAlgorithms:       customKexAlgos,
+				Ciphers:             customCiphers,
+				PublicKeyAlgorithms: customPublicKeyAlgorithms,
+			},
+		},
+	}
+	sshServerConfig := srvCfg.get(context.Background(), nil)
+
+	require.Equal(t, customMACs, sshServerConfig.MACs)
+	require.Equal(t, customKexAlgos, sshServerConfig.KeyExchanges)
+	require.Equal(t, customCiphers, sshServerConfig.Ciphers)
+	require.Equal(t, customPublicKeyAlgorithms, sshServerConfig.PublicKeyAuthAlgorithms)
+
+	sshServerConfig.SetDefaults()
+
+	require.Equal(t, customMACs, sshServerConfig.MACs)
+	require.Equal(t, customKexAlgos, sshServerConfig.KeyExchanges)
+	require.Equal(t, customCiphers, sshServerConfig.Ciphers)
+}
+
+func TestGSSAPIWithMIC(t *testing.T) {
+	srvCfg := &serverConfig{
+		cfg: &config.Config{
+			Server: config.ServerConfig{
+				GSSAPI: config.GSSAPIConfig{
+					Enabled:              true,
+					ServicePrincipalName: "host/test@TEST.TEST",
+				},
+			},
+		},
+	}
+	sshServerConfig := srvCfg.get(context.Background(), nil)
+	server := sshServerConfig.GSSAPIWithMICConfig.Server.(*OSGSSAPIServer)
+
+	require.NotNil(t, sshServerConfig.GSSAPIWithMICConfig)
+	require.NotNil(t, sshServerConfig.GSSAPIWithMICConfig.AllowLogin)
+	require.NotNil(t, server)
+	require.Equal(t, "host/test@TEST.TEST", server.ServicePrincipalName)
+
+	sshServerConfig.SetDefaults()
+
+	require.NotNil(t, sshServerConfig.GSSAPIWithMICConfig)
+	require.NotNil(t, sshServerConfig.GSSAPIWithMICConfig.AllowLogin)
+	require.NotNil(t, server)
+	require.Equal(t, "host/test@TEST.TEST", server.ServicePrincipalName)
+}
+
+func TestGSSAPIWithMICDisabled(t *testing.T) {
+	srvCfg := &serverConfig{
+		cfg: &config.Config{
+			Server: config.ServerConfig{
+				GSSAPI: config.GSSAPIConfig{
+					Enabled: false,
+				},
+			},
+		},
+	}
+	sshServerConfig := srvCfg.get(context.Background(), nil)
+
+	require.Nil(t, sshServerConfig.GSSAPIWithMICConfig)
+
+	sshServerConfig.SetDefaults()
+
+	require.Nil(t, sshServerConfig.GSSAPIWithMICConfig)
+}
+
+func rsaPublicKey(t *testing.T) ssh.PublicKey {
+	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	require.NoError(t, err)
+
+	publicKey, err := ssh.NewPublicKey(&privateKey.PublicKey)
+	require.NoError(t, err)
+
+	return publicKey
+}
+
+//nolint:staticcheck // SA1019: Intentionally using deprecated DSA for testing rejection
+func dsaPublicKey(t *testing.T) ssh.PublicKey {
+	privateKey := new(dsa.PrivateKey)
+	params := new(dsa.Parameters)
+	require.NoError(t, dsa.GenerateParameters(params, rand.Reader, dsa.L1024N160))
+
+	privateKey.PublicKey.Parameters = *params
+	require.NoError(t, dsa.GenerateKey(privateKey, rand.Reader))
+
+	publicKey, err := ssh.NewPublicKey(&privateKey.PublicKey)
+	require.NoError(t, err)
+
+	return publicKey
+}
+
+func createCAKeyPair(t *testing.T) (ssh.Signer, ssh.PublicKey) {
+	caPrivKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	require.NoError(t, err)
+
+	caSigner, err := ssh.NewSignerFromKey(caPrivKey)
+	require.NoError(t, err)
+
+	caPubKey, err := ssh.NewPublicKey(&caPrivKey.PublicKey)
+	require.NoError(t, err)
+
+	return caSigner, caPubKey
+}
+
+func userCertSignedByCA(t *testing.T, caSigner ssh.Signer, certType uint32, validBefore time.Time, keyID string) *ssh.Certificate {
+	return userCertSignedByCAWithOptions(t, caSigner, certType, validBefore, keyID, nil)
+}
+
+func userCertSignedByCAWithOptions(t *testing.T, caSigner ssh.Signer, certType uint32, validBefore time.Time, keyID string, criticalOptions map[string]string) *ssh.Certificate {
+	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	require.NoError(t, err)
+
+	pubKey, err := ssh.NewPublicKey(&privateKey.PublicKey)
+	require.NoError(t, err)
+
+	cert := &ssh.Certificate{
+		CertType:    certType,
+		Key:         pubKey,
+		KeyId:       keyID,
+		ValidBefore: uint64(validBefore.Unix()),
+		Permissions: ssh.Permissions{
+			CriticalOptions: criticalOptions,
+		},
+	}
+	require.NoError(t, cert.SignCert(rand.Reader, caSigner))
+
+	return cert
+}
+
+func userCert(t *testing.T, certType uint32, validBefore time.Time) *ssh.Certificate {
+	signer, _ := createCAKeyPair(t)
+	return userCertSignedByCA(t, signer, certType, validBefore, "root@example.com")
+}
+
+func certExtensions(ca ssh.PublicKey, keyID, trustSource, username, namespace string) map[string]string {
+	ext := map[string]string{
+		certPermUsername:      username,
+		certPermCAFingerprint: ssh.FingerprintSHA256(ca),
+		certPermIdentity:      keyID,
+		certPermTrustSource:   trustSource,
+	}
+	if namespace != "" {
+		ext[certPermNamespace] = namespace
+	}
+	return ext
+}
+
+func TestParseTrustedUserCAKeys(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	// Create a temporary CA key file
+	_, caPubKey := createCAKeyPair(t)
+
+	caKeyFile := path.Join(testRoot, "test_ca.pub")
+	err := os.WriteFile(caKeyFile, ssh.MarshalAuthorizedKey(caPubKey), 0600)
+	require.NoError(t, err)
+
+	// Create a file with multiple CA keys
+	_, caPubKey2 := createCAKeyPair(t)
+	multiCAKeyFile := path.Join(testRoot, "multi_ca.pub")
+	multiCAContent := append(ssh.MarshalAuthorizedKey(caPubKey), ssh.MarshalAuthorizedKey(caPubKey2)...)
+	err = os.WriteFile(multiCAKeyFile, multiCAContent, 0600)
+	require.NoError(t, err)
+
+	// Create an invalid key file
+	invalidKeyFile := path.Join(testRoot, "invalid_ca.pub")
+	err = os.WriteFile(invalidKeyFile, []byte("not a valid ssh key"), 0600)
+	require.NoError(t, err)
+
+	// Create a file with valid key followed by invalid content (partial parse)
+	partialCAKeyFile := path.Join(testRoot, "partial_ca.pub")
+	partialContent := append(ssh.MarshalAuthorizedKey(caPubKey), []byte("invalid trailing content\n")...)
+	err = os.WriteFile(partialCAKeyFile, partialContent, 0600)
+	require.NoError(t, err)
+
+	testCases := []struct {
+		desc          string
+		files         []string
+		expectedCount int
+		expectErr     bool
+		errContains   string
+	}{
+		{
+			desc:          "valid CA key file",
+			files:         []string{caKeyFile},
+			expectedCount: 1,
+		},
+		{
+			desc:          "multiple CA keys in one file",
+			files:         []string{multiCAKeyFile},
+			expectedCount: 2,
+		},
+		{
+			desc:          "multiple files with deduplication",
+			files:         []string{caKeyFile, multiCAKeyFile},
+			expectedCount: 2,
+		},
+		{
+			desc:        "non-existent file",
+			files:       []string{"/nonexistent/ca.pub"},
+			expectErr:   true,
+			errContains: "failed to read trusted user CA key file",
+		},
+		{
+			desc:        "invalid key file",
+			files:       []string{invalidKeyFile},
+			expectErr:   true,
+			errContains: parseCAKeyErr,
+		},
+		{
+			desc:          "empty list",
+			files:         []string{},
+			expectedCount: 0,
+		},
+		{
+			desc:        "mix of valid then invalid files",
+			files:       []string{caKeyFile, invalidKeyFile},
+			expectErr:   true,
+			errContains: parseCAKeyErr,
+		},
+		{
+			desc:        "partial parse - valid key followed by invalid content",
+			files:       []string{partialCAKeyFile},
+			expectErr:   true,
+			errContains: parseCAKeyErr,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			keySet, err := parseTrustedUserCAKeys(tc.files)
+			if tc.expectErr {
+				require.Error(t, err)
+				require.Contains(t, err.Error(), tc.errContains)
+			} else {
+				require.NoError(t, err)
+				require.Len(t, keySet, tc.expectedCount)
+			}
+		})
+	}
+}
+
+func TestIsLocallyTrustedCA(t *testing.T) {
+	_, caPubKey := createCAKeyPair(t)
+	_, otherPubKey := createCAKeyPair(t)
+
+	cfg := &serverConfig{
+		trustedUserCAKeySet: map[string]struct{}{
+			string(caPubKey.Marshal()): {},
+		},
+	}
+
+	require.True(t, cfg.isLocallyTrustedCA(caPubKey))
+	require.False(t, cfg.isLocallyTrustedCA(otherPubKey))
+
+	// Test with empty trusted keys
+	emptyCfg := &serverConfig{
+		trustedUserCAKeySet: map[string]struct{}{},
+	}
+	require.False(t, emptyCfg.isLocallyTrustedCA(caPubKey))
+
+	// Test with nil trusted keys
+	nilCfg := &serverConfig{}
+	require.False(t, nilCfg.isLocallyTrustedCA(caPubKey))
+}
+
+func TestValidateKeyID(t *testing.T) {
+	testCases := []struct {
+		desc      string
+		keyID     string
+		expectErr bool
+		errMsg    string
+	}{
+		{desc: "valid simple username", keyID: testUser2, expectErr: false},
+		{desc: "valid with dots", keyID: "jane.doe", expectErr: false},
+		{desc: "valid with hyphens", keyID: "user-name", expectErr: false},
+		{desc: "valid with underscores", keyID: "user_name", expectErr: false},
+		{desc: "valid minimum length", keyID: "ab", expectErr: false},
+		{desc: "valid maximum length", keyID: strings.Repeat("a", 255), expectErr: false},
+		{desc: "valid mixed separators", keyID: "user.name-test_123", expectErr: false},
+		{desc: "empty KeyId", keyID: "", expectErr: true, errMsg: "certificate has empty KeyId"},
+		{desc: "single character", keyID: "a", expectErr: true, errMsg: "certificate KeyId length 1 is outside valid range [2, 255]"},
+		{desc: "too long", keyID: strings.Repeat("a", 256), expectErr: true, errMsg: "certificate KeyId length 256 is outside valid range [2, 255]"},
+		{desc: "starts with hyphen", keyID: "-username", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "ends with hyphen", keyID: "username-", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "starts with dot", keyID: ".username", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "ends with dot", keyID: "username.", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "consecutive dots", keyID: "user..name", expectErr: true, errMsg: keyIDConsecutiveErr},
+		{desc: "consecutive hyphens", keyID: "user--name", expectErr: true, errMsg: keyIDConsecutiveErr},
+		{desc: "consecutive mixed specials", keyID: "user.-name", expectErr: true, errMsg: keyIDConsecutiveErr},
+		{desc: "contains newline", keyID: "user\nname", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "contains space", keyID: "user name", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "contains null byte", keyID: "user\x00name", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "contains at sign", keyID: "user@domain.com", expectErr: true, errMsg: keyIDFormatErr},
+		{desc: "non-ASCII characters", keyID: "пользователь", expectErr: true, errMsg: keyIDFormatErr},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			err := validateKeyID(tc.keyID)
+			if tc.expectErr {
+				require.Error(t, err)
+				require.Equal(t, tc.errMsg, err.Error())
+			} else {
+				require.NoError(t, err)
+			}
+		})
+	}
+}
+
+func TestUserCertificateHandling_InstanceLevel(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	// Create a trusted CA key pair
+	caSigner, caPubKey := createCAKeyPair(t)
+
+	// Create certificates
+	validCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), testUser2)
+	expiredCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(-time.Hour), testUser2)
+	hostCert := userCertSignedByCA(t, caSigner, ssh.HostCert, time.Now().Add(time.Hour), testUser2)
+	emptyKeyIDCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "")
+	singleCharKeyIDCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "a")
+	newlineKeyIDCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "user\nname")
+	atSignKeyIDCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "user@domain.com")
+	dottedKeyIDCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "jane.doe")
+	consecutiveSpecialsCert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), "user..name")
+	sourceAddrCert := userCertSignedByCAWithOptions(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), testUser2, map[string]string{sourceAddressExt: "10.0.0.0/8,192.168.1.0/24"})
+	multiOptionsCert := userCertSignedByCAWithOptions(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), testUser2, map[string]string{sourceAddressExt: "10.0.0.1", "force-command": "/usr/bin/git"})
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	// Add the trusted CA
+	cfg.trustedUserCAKeySet = map[string]struct{}{
+		string(caPubKey.Marshal()): {},
+	}
+
+	testCases := []struct {
+		desc                string
+		cert                *ssh.Certificate
+		expectedErr         string
+		expectedPermissions *ssh.Permissions
+	}{
+		{
+			desc: "valid instance-level certificate",
+			cert: validCert,
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caPubKey, testUser2, commandargs.CertificateTrustSourceFile, testUser2, ""),
+			},
+		},
+		{
+			desc: "valid instance-level certificate with dots in username",
+			cert: dottedKeyIDCert,
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caPubKey, "jane.doe", commandargs.CertificateTrustSourceFile, "jane.doe", ""),
+			},
+		},
+		{
+			desc:        "expired certificate",
+			cert:        expiredCert,
+			expectedErr: "ssh: cert has expired",
+		},
+		{
+			desc:        "wrong cert type (host cert)",
+			cert:        hostCert,
+			expectedErr: "handleUserCertificate: cert has type 2",
+		},
+		{
+			desc:        "empty KeyId rejected",
+			cert:        emptyKeyIDCert,
+			expectedErr: "handleUserCertificate: certificate has empty KeyId",
+		},
+		{
+			desc:        "single char KeyId rejected",
+			cert:        singleCharKeyIDCert,
+			expectedErr: "handleUserCertificate: certificate KeyId length 1 is outside valid range [2, 255]",
+		},
+		{
+			desc:        "KeyId with newline rejected",
+			cert:        newlineKeyIDCert,
+			expectedErr: "handleUserCertificate: certificate KeyId does not match GitLab username format",
+		},
+		{
+			desc:        "KeyId with at sign rejected",
+			cert:        atSignKeyIDCert,
+			expectedErr: "handleUserCertificate: certificate KeyId does not match GitLab username format",
+		},
+		{
+			desc:        "KeyId with consecutive specials rejected",
+			cert:        consecutiveSpecialsCert,
+			expectedErr: "handleUserCertificate: certificate KeyId contains consecutive special characters",
+		},
+		{
+			desc: "valid instance-level certificate with source-address",
+			cert: sourceAddrCert,
+			expectedPermissions: &ssh.Permissions{
+				CriticalOptions: map[string]string{sourceAddressExt: "10.0.0.0/8,192.168.1.0/24"},
+				Extensions:      certExtensions(caPubKey, testUser2, commandargs.CertificateTrustSourceFile, testUser2, ""),
+			},
+		},
+		{
+			desc:        "instance-level certificate with unsupported critical option is rejected",
+			cert:        multiOptionsCert,
+			expectedErr: `ssh: unsupported critical option "force-command" in certificate`,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			permissions, err := cfg.handleUserCertificate(context.Background(), testUser, "", tc.cert)
+			if tc.expectedErr != "" {
+				require.EqualError(t, err, tc.expectedErr)
+			} else {
+				require.NoError(t, err)
+			}
+			require.Equal(t, tc.expectedPermissions, permissions)
+		})
+	}
+}
+
+func TestUserCertificateHandling_InstanceLevelWithMultipleCAs(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	// Create two trusted CA key pairs
+	caSigner1, caPubKey1 := createCAKeyPair(t)
+	caSigner2, caPubKey2 := createCAKeyPair(t)
+
+	// Create certificates signed by different CAs
+	certFromCA1 := userCertSignedByCA(t, caSigner1, ssh.UserCert, time.Now().Add(time.Hour), "user1")
+	certFromCA2 := userCertSignedByCA(t, caSigner2, ssh.UserCert, time.Now().Add(time.Hour), "user2")
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles: []string{
+			path.Join(testRoot, "certs/valid/server.key"),
+		},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: localhostURL, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	// Add both trusted CAs
+	cfg.trustedUserCAKeySet = map[string]struct{}{
+		string(caPubKey1.Marshal()): {},
+		string(caPubKey2.Marshal()): {},
+	}
+
+	// Both certificates should be trusted
+	permissions1, err := cfg.handleUserCertificate(context.Background(), testUser, "", certFromCA1)
+	require.NoError(t, err)
+	require.Equal(t, &ssh.Permissions{
+		Extensions: certExtensions(caPubKey1, "user1", commandargs.CertificateTrustSourceFile, "user1", ""),
+	}, permissions1)
+
+	permissions2, err := cfg.handleUserCertificate(context.Background(), testUser, "", certFromCA2)
+	require.NoError(t, err)
+	require.Equal(t, &ssh.Permissions{
+		Extensions: certExtensions(caPubKey2, "user2", commandargs.CertificateTrustSourceFile, "user2", ""),
+	}, permissions2)
+}
+
+func TestUserCertificateHandling_APIInstanceLevel(t *testing.T) {
+	const (
+		instanceIdentity              = "instance-user"
+		dottedIdentity                = "john.doe"
+		groupIdentity                 = "Group-User@Example.com"
+		groupUsername                 = "group-user"
+		blankNamespaceIdentity        = "blank-namespace"
+		noUsernameIdentity            = "no-username"
+		instanceWithNamespaceIdentity = "instance-ns-user"
+		instanceCasedIdentity         = "Instance-User"
+		instanceCasedUsername         = "instance-user"
+	)
+
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	// This CA is deliberately not added to trustedUserCAKeySet, so every
+	// certificate below resolves through the Rails API.
+	caSigner, caPubKey := createCAKeyPair(t)
+
+	signedCert := func(keyID string) *ssh.Certificate {
+		return userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), keyID)
+	}
+
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedCertsAPIPath,
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				switch id := r.URL.Query().Get("user_identifier"); id {
+				case instanceIdentity, dottedIdentity:
+					fmt.Fprintf(w, `{ "success": true, "username": %q, "instance": true }`, id)
+				case instanceCasedIdentity:
+					// Rails matches the identifier case-insensitively and returns
+					// the username as stored, so an instance-scoped response can
+					// differ from the KeyId without involving an email address.
+					fmt.Fprintf(w, `{ "success": true, "username": %q, "instance": true }`, instanceCasedUsername)
+				case groupIdentity:
+					fmt.Fprintf(w, `{ "success": true, "username": %q, "namespace": %q, "instance": false }`,
+						groupUsername, testNamespaceValue)
+				case blankNamespaceIdentity:
+					w.Write([]byte(`{ "success": true, "username": "someone", "instance": false }`))
+				case noUsernameIdentity:
+					w.Write([]byte(`{ "success": true, "instance": true }`))
+				case instanceWithNamespaceIdentity:
+					fmt.Fprintf(w, `{ "success": true, "username": %q, "namespace": %q, "instance": true }`,
+						id, testNamespaceValue)
+				default:
+					// Malformed KeyIds resolve successfully, so that the KeyId
+					// guard is what rejects them rather than an API error.
+					w.Write([]byte(`{ "success": true, "username": "resolved", "instance": true }`))
+				}
+			},
+		},
+	}
+
+	url := testserver.StartSocketHTTPServer(t, requests)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles:            []string{path.Join(testRoot, "certs/valid/server.key")},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: url, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	testCases := []struct {
+		desc                string
+		cert                *ssh.Certificate
+		expectedErr         string
+		expectedPermissions *ssh.Permissions
+	}{
+		{
+			desc: "instance-scoped response grants instance-wide access",
+			cert: signedCert(instanceIdentity),
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caPubKey, instanceIdentity, commandargs.CertificateTrustSourceInstance, instanceIdentity, ""),
+			},
+		},
+		{
+			desc: "instance-scoped response with dots in the username",
+			cert: signedCert(dottedIdentity),
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caPubKey, dottedIdentity, commandargs.CertificateTrustSourceInstance, dottedIdentity, ""),
+			},
+		},
+		{
+			desc: "instance-scoped response grants the username the API returns, not the KeyId",
+			cert: signedCert(instanceCasedIdentity),
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caPubKey, instanceCasedIdentity, commandargs.CertificateTrustSourceInstance, instanceCasedUsername, ""),
+			},
+		},
+		{
+			desc:        "instance-scoped response with a namespace the API should not have sent is rejected",
+			cert:        signedCert(instanceWithNamespaceIdentity),
+			expectedErr: "handleUserCertificate: instance-scoped response has unexpected namespace",
+		},
+		{
+			desc: "instance-scoped response propagates critical options",
+			cert: userCertSignedByCAWithOptions(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), instanceIdentity,
+				map[string]string{sourceAddressExt: sourceAddrCIDR}),
+			expectedPermissions: &ssh.Permissions{
+				CriticalOptions: map[string]string{sourceAddressExt: sourceAddrCIDR},
+				Extensions:      certExtensions(caPubKey, instanceIdentity, commandargs.CertificateTrustSourceInstance, instanceIdentity, ""),
+			},
+		},
+		{
+			desc: "group-scoped response grants the resolved username for an email KeyId, keeps the raw KeyId as identity, and keeps its namespace restriction",
+			cert: signedCert(groupIdentity),
+			expectedPermissions: &ssh.Permissions{
+				Extensions: certExtensions(caPubKey, groupIdentity, commandargs.CertificateTrustSourceGroup, groupUsername, testNamespaceValue),
+			},
+		},
+		{
+			desc:        "group-scoped response without a namespace is rejected",
+			cert:        signedCert(blankNamespaceIdentity),
+			expectedErr: "handleUserCertificate: group-scoped response missing namespace",
+		},
+		{
+			desc:        "response without a username is rejected",
+			cert:        signedCert(noUsernameIdentity),
+			expectedErr: "handleUserCertificate: response missing username",
+		},
+		{
+			desc:        "instance-scoped response with an empty KeyId is rejected",
+			cert:        signedCert(""),
+			expectedErr: "handleUserCertificate: certificate has empty KeyId",
+		},
+		{
+			desc:        "instance-scoped response with a newline in the KeyId is rejected",
+			cert:        signedCert("user\nname"),
+			expectedErr: "handleUserCertificate: " + keyIDFormatErr,
+		},
+		{
+			desc:        "instance-scoped response with an email KeyId is rejected",
+			cert:        signedCert("user@domain.com"),
+			expectedErr: "handleUserCertificate: " + keyIDFormatErr,
+		},
+		{
+			desc:        "instance-scoped response with consecutive specials in the KeyId is rejected",
+			cert:        signedCert("user..name"),
+			expectedErr: "handleUserCertificate: " + keyIDConsecutiveErr,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			permissions, err := cfg.handleUserCertificate(context.Background(), testUser, "", tc.cert)
+			if tc.expectedErr != "" {
+				require.EqualError(t, err, tc.expectedErr)
+			} else {
+				require.NoError(t, err)
+			}
+			require.Equal(t, tc.expectedPermissions, permissions)
+		})
+	}
+}
+
+// TestUserCertificateHandling_FileBasedCAPrecedence pins the requirement that a
+// locally trusted CA is resolved without consulting the Rails API.
+func TestUserCertificateHandling_FileBasedCAPrecedence(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+
+	caSigner, caPubKey := createCAKeyPair(t)
+	cert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), testUser2)
+
+	var apiCalls atomic.Int32
+
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedCertsAPIPath,
+			Handler: func(w http.ResponseWriter, _ *http.Request) {
+				apiCalls.Add(1)
+				w.Write([]byte(`{ "success": true, "username": "someone", "namespace": "elsewhere", "instance": false }`))
+			},
+		},
+	}
+
+	url := testserver.StartSocketHTTPServer(t, requests)
+
+	srvCfg := config.ServerConfig{
+		Listen:                  localhostIP,
+		ConcurrentSessionsLimit: 1,
+		HostKeyFiles:            []string{path.Join(testRoot, "certs/valid/server.key")},
+	}
+
+	cfg, err := newServerConfig(
+		&config.Config{GitlabURL: url, User: testUser, Server: srvCfg},
+	)
+	require.NoError(t, err)
+
+	cfg.trustedUserCAKeySet = map[string]struct{}{
+		string(caPubKey.Marshal()): {},
+	}
+
+	permissions, err := cfg.handleUserCertificate(context.Background(), testUser, "", cert)
+	require.NoError(t, err)
+	require.Equal(t, &ssh.Permissions{
+		Extensions: certExtensions(caPubKey, testUser2, commandargs.CertificateTrustSourceFile, testUser2, ""),
+	}, permissions)
+	require.Zero(t, apiCalls.Load(), "locally trusted CA must not trigger an API call")
+}
+
+type connMetadata struct {
+	ssh.ConnMetadata
+	user       string
+	remoteAddr net.Addr
+}
+
+func (c connMetadata) User() string         { return c.user }
+func (c connMetadata) RemoteAddr() net.Addr { return c.remoteAddr }
+
+func TestPublicKeyCallback_ForwardsClientAddressOnCertificateRejection(t *testing.T) {
+	testRoot := testhelper.PrepareTestRootDir(t)
+	caSigner, _ := createCAKeyPair(t)
+	cert := userCertSignedByCA(t, caSigner, ssh.UserCert, time.Now().Add(time.Hour), testUser2)
+
+	var checkIP atomic.Value
+	requests := []testserver.TestRequestHandler{
+		{
+			Path: authorizedCertsAPIPath,
+			Handler: func(w http.ResponseWriter, r *http.Request) {
+				checkIP.Store(r.URL.Query().Get("check_ip"))
+				w.WriteHeader(http.StatusNotFound)
+			},
+		},
+	}
+
+	cfg, err := newServerConfig(&config.Config{
+		GitlabURL: testserver.StartSocketHTTPServer(t, requests),
+		User:      testUser,
+		Server: config.ServerConfig{
+			Listen:                  localhostIP,
+			ConcurrentSessionsLimit: 1,
+			HostKeyFiles:            []string{path.Join(testRoot, "certs/valid/server.key")},
+		},
+	})
+	require.NoError(t, err)
+
+	testCases := []struct {
+		desc       string
+		remoteAddr net.Addr
+		expectedIP string
+	}{
+		{
+			desc:       "IPv4 client",
+			remoteAddr: &net.TCPAddr{IP: net.ParseIP("192.0.2.10"), Port: 50000},
+			expectedIP: "192.0.2.10",
+		},
+		{
+			desc:       "IPv6 client",
+			remoteAddr: &net.TCPAddr{IP: net.ParseIP("2001:db8::1"), Port: 50000},
+			expectedIP: "2001:db8::1",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			checkIP.Store("unset")
+
+			callback := cfg.publicKeyCallback(context.Background(), nil)
+			perms, err := callback(connMetadata{user: testUser, remoteAddr: tc.remoteAddr}, cert)
+			require.Error(t, err)
+			require.Nil(t, perms)
+
+			require.Equal(t, tc.expectedIP, checkIP.Load())
+		})
+	}
+}

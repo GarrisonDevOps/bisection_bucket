@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[9772],{525831(a,b,c){var d=c(816571);(0,c(169750).initNewResourceDropdown)(),(0,d.J)()}},function(a){a.O(0,[14072,14125,16542,2706,2724,40026,67594,68451,74438,8832],function(){return a(a.s=525831)}),a.O()}]);
+//# sourceMappingURL=pages.dashboard.issues.812822cd.chunk.js.map

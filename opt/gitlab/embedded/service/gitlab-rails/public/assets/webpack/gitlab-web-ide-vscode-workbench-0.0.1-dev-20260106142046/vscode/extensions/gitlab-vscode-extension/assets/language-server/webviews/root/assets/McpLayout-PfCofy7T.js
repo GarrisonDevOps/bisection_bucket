@@ -1,0 +1,1 @@
+import{d as n,i as r,a5 as a,j as c,k as p,o as i,l as u}from"./index-ChEn0GHg.js";import{u as m}from"./mcpStore-BUkCqJ1T.js";const k=n({__name:"McpLayout",setup(_){const o=m(),t=a();return r(async()=>{const e=t.query.workspaceUri;await o.initialize(e)}),c(()=>{o.dispose()}),(e,d)=>{const s=u("router-view");return i(),p(s)}}});export{k as default};

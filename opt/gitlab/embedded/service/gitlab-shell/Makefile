@@ -1,0 +1,168 @@
+.PHONY: validate verify test test_fancy acceptance-test coverage setup make_necessary_dirs build compile check clean install lint validate-log-fields ssh-audit-test ssh-audit-generate-policy
+
+# Use bash with pipefail so failures in a pipeline (e.g. `curl | tar`) are not
+# masked by the exit status of the last command in the pipe.
+SHELL := /usr/bin/env bash
+.SHELLFLAGS := -o pipefail -c
+
+FIPS_MODE ?= 0
+OS := $(shell uname | tr A-Z a-z)
+GO_SOURCES := $(shell git ls-files \*.go)
+VERSION_STRING := $(shell git describe --match v* 2>/dev/null || awk '$$0="v"$$0' VERSION 2>/dev/null || echo unknown)
+DATE_FMT = +%Y%m%d.%H%M%S
+ifdef SOURCE_DATE_EPOCH
+	BUILD_TIME := $(shell date -u -d "@$(SOURCE_DATE_EPOCH)" "$(DATE_FMT)" 2>/dev/null || date -u -r "$(SOURCE_DATE_EPOCH)" "$(DATE_FMT)" 2>/dev/null || date -u "$(DATE_FMT)")
+else
+	BUILD_TIME := $(shell date -u "$(DATE_FMT)")
+endif
+GO_TAGS := tracer_static tracer_static_jaeger continuous_profiler_stackdriver
+
+ARCH ?= $(shell uname -m | sed -e 's/x86_64/amd64/' | sed -e 's/aarch64/arm64/')
+
+GOTESTSUM_VERSION := 1.12.0
+GOTESTSUM_FILE := support/bin/gotestsum-${GOTESTSUM_VERSION}
+
+# Read from .tool-versions so Renovate updates there also apply to `make lint`.
+GOLANGCI_LINT_VERSION := $(shell awk '$$1 == "golangci-lint" { print $$2 }' .tool-versions 2>/dev/null)
+GOLANGCI_LINT_FILE := support/bin/golangci-lint-${GOLANGCI_LINT_VERSION}
+
+LABKIT_VALIDATE_VERSION := v2.65.1
+
+SSH_AUDIT_VERSION := 3.9.0
+SSH_AUDIT_DIR := support/bin/ssh-audit-${SSH_AUDIT_VERSION}
+SSH_AUDIT_FILE := ${SSH_AUDIT_DIR}/ssh-audit.py
+
+# ssh-audit policy to check against / regenerate. Override for the FIPS build.
+SSH_AUDIT_POLICY ?= support/ssh-audit/gitlab-sshd.policy
+# Host key types gitlab-sshd is configured with during the audit. ED25519 keys
+# are not usable under the FIPS module (rejected at load time), so the FIPS job
+# overrides this to "rsa ecdsa".
+SSH_AUDIT_HOST_KEY_TYPES ?= rsa ecdsa ed25519
+
+export GOFLAGS := -mod=readonly
+
+ifeq (${FIPS_MODE}, 1)
+    GO_TAGS += fips
+
+    # If the golang-fips compiler is built with CGO_ENABLED=0, this needs to be
+    # explicitly switched on.
+    export CGO_ENABLED=1
+
+    # The Go Cryptographic Module (GOFIPS140, Go 1.24+) is mutually exclusive
+    # with GOEXPERIMENT=boringcrypto. Toolchains that select the native module
+    # report its version via "go env GOFIPS140"; legacy golang-fips toolchains
+    # report "off" (or empty on Go < 1.24) and still require boringcrypto.
+    GOFIPS140_MODULE := $(shell go env GOFIPS140 2>/dev/null)
+    ifeq ($(filter-out off,$(GOFIPS140_MODULE)),)
+        # Go 1.19 now requires GOEXPERIMENT=boringcrypto for FIPS compilation.
+        # See https://github.com/golang/go/issues/51940 for more details.
+        BORINGCRYPTO_SUPPORT := $(shell GOEXPERIMENT=boringcrypto go version > /dev/null 2>&1; echo $$?)
+        ifeq ($(BORINGCRYPTO_SUPPORT), 0)
+            export GOEXPERIMENT=boringcrypto
+        endif
+    endif
+endif
+
+ifneq (${CGO_ENABLED}, 0)
+	GO_TAGS += gssapi
+endif
+
+ifeq (${OS}, darwin) # Mac OS
+    BREW_PREFIX := $(shell brew --prefix 2>/dev/null || echo "/opt/homebrew")
+
+    # To be able to compile gssapi library
+    export CGO_CFLAGS="-I$(BREW_PREFIX)/opt/heimdal/include"
+endif
+
+GOBUILD_FLAGS := -ldflags "-X main.Version=$(VERSION_STRING) -X main.BuildTime=$(BUILD_TIME)" -tags "$(GO_TAGS)" -mod=mod
+
+PREFIX ?= /usr/local
+
+build: compile
+
+validate: verify test
+
+verify: 
+	gofmt -s -l $(GO_SOURCES) | awk '{ print } END { if (NR > 0) { print "Please run make fmt"; exit 1 } }'
+
+fmt:
+	gofmt -w -s $(GO_SOURCES)
+
+test: 
+	go test -cover -coverprofile=cover.out -count 1 -tags "$(GO_TAGS)" ./...
+
+test_fancy: ${GOTESTSUM_FILE}
+	@${GOTESTSUM_FILE} --version
+	@${GOTESTSUM_FILE} --junitfile ./cover.xml --format pkgname -- -coverprofile=./cover.out -covermode=atomic -timeout 1m -count 1 -tags "$(GO_TAGS)" ./...
+
+${GOTESTSUM_FILE}:
+	mkdir -p $(shell dirname ${GOTESTSUM_FILE})
+	curl -fL --retry 5 --retry-all-errors https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_${OS}_${ARCH}.tar.gz | tar -zOxf - gotestsum > ${GOTESTSUM_FILE} && chmod +x ${GOTESTSUM_FILE}
+
+test_race:
+	go test -race -timeout 1m -count 1 ./... -v
+
+acceptance-test:
+	go test -tags=acceptance -count=1 -timeout=5m ./acceptance/...
+
+# ssh-audit ships as a package (ssh-audit.py is a thin launcher that imports the
+# ssh_audit package next to it), so we extract the whole release tree.
+${SSH_AUDIT_FILE}:
+	mkdir -p ${SSH_AUDIT_DIR}
+	curl -fL --retry 5 --retry-all-errors https://github.com/jtesta/ssh-audit/releases/download/v${SSH_AUDIT_VERSION}/v${SSH_AUDIT_VERSION}.tar.gz | tar -zxf - -C ${SSH_AUDIT_DIR} --strip-components=1
+	chmod +x ${SSH_AUDIT_FILE}
+
+# Verify gitlab-sshd's negotiated algorithms against the committed ssh-audit policy.
+ssh-audit-test: compile ${SSH_AUDIT_FILE}
+	SSH_AUDIT="${SSH_AUDIT_FILE}" SSH_AUDIT_HOST_KEY_TYPES="${SSH_AUDIT_HOST_KEY_TYPES}" support/ssh-audit/run.sh check "${SSH_AUDIT_POLICY}"
+
+# Regenerate the ssh-audit policy after an intentional algorithm change.
+ssh-audit-generate-policy: compile ${SSH_AUDIT_FILE}
+	SSH_AUDIT="${SSH_AUDIT_FILE}" SSH_AUDIT_HOST_KEY_TYPES="${SSH_AUDIT_HOST_KEY_TYPES}" support/ssh-audit/run.sh make-policy "${SSH_AUDIT_POLICY}"
+
+coverage:
+	[ -f cover.out ] && go tool cover -func cover.out
+
+lint:
+	@support/lint.sh ./...
+
+validate-log-fields:
+	go run gitlab.com/gitlab-org/labkit/v2/cmd/validate-log-fields@${LABKIT_VALIDATE_VERSION} .
+
+golangci: ${GOLANGCI_LINT_FILE}
+	@${GOLANGCI_LINT_FILE} run --issues-exit-code 0 --output.text.print-issued-lines=false ${GOLANGCI_LINT_ARGS}
+
+${GOLANGCI_LINT_FILE}:
+	@[ -n "${GOLANGCI_LINT_VERSION}" ] || { echo "golangci-lint version not found in .tool-versions" >&2; exit 1; }
+	@mkdir -p $(shell dirname ${GOLANGCI_LINT_FILE})
+	@curl -fL --retry 5 --retry-all-errors https://github.com/golangci/golangci-lint/releases/download/v${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}.tar.gz | tar --strip-components 1 -zOxf - golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}/golangci-lint > ${GOLANGCI_LINT_FILE} && chmod +x ${GOLANGCI_LINT_FILE}
+
+setup: make_necessary_dirs bin/gitlab-shell
+
+make_necessary_dirs:
+	go run ./support/make_necessary_dirs
+
+compile: bin/gitlab-shell bin/gitlab-sshd
+
+bin:
+	mkdir -p bin
+
+bin/gitlab-shell: bin $(GO_SOURCES)
+	go build $(GOBUILD_FLAGS) -o $(CURDIR)/bin ./cmd/...
+
+bin/gitlab-sshd: bin $(GO_SOURCES)
+	go build $(GOBUILD_FLAGS) -o $(CURDIR)/bin/gitlab-sshd ./cmd/gitlab-sshd
+
+check:
+	bin/gitlab-shell-check
+
+clean:
+	rm -f bin/*
+
+install: compile
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	install -m755 bin/gitlab-shell-check $(DESTDIR)$(PREFIX)/bin/
+	install -m755 bin/gitlab-shell $(DESTDIR)$(PREFIX)/bin/
+	install -m755 bin/gitlab-shell-authorized-keys-check $(DESTDIR)$(PREFIX)/bin/
+	install -m755 bin/gitlab-shell-authorized-principals-check $(DESTDIR)$(PREFIX)/bin/
+	install -m755 bin/gitlab-sshd $(DESTDIR)$(PREFIX)/bin/

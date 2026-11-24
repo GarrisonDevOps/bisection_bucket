@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[42528],{462604(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Tagger Script",contains:[{className:"comment",begin:/\$noop\(/,end:/\)/,contains:[{begin:/\\[()]/},{begin:/\(/,end:/\)/,contains:[{begin:/\\[()]/},"self"]}],relevance:10},{className:"keyword",begin:/\$[_a-zA-Z0-9]+(?=\()/},{className:"variable",begin:/%[_a-zA-Z0-9:]+%/},{className:"symbol",begin:/\\[\\nt$%,()]/},{className:"symbol",begin:/\\u[a-fA-F0-9]{4}/}]}}})}}]);
+//# sourceMappingURL=hl-taggerscript.60d58d5f.chunk.js.map

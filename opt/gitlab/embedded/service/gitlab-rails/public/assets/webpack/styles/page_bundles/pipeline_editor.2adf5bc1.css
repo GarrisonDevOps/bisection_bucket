@@ -1,0 +1,2 @@
+.file-tree-container{width:100%}@container panel (width>=768px){.file-tree-container{width:300px}}.file-tree-container>div.gl-overflow-y-auto{max-height:220px}@container panel (width>=768px){.file-tree-container>div.gl-overflow-y-auto{max-height:700px}}.file-tree-includes-link:hover>svg{display:block;top:2px}.job-assistant-drawer{width:100%}@container panel (width>=576px){.job-assistant-drawer{width:560px}}
+/*# sourceMappingURL=pipeline_editor.2adf5bc1.css.map*/

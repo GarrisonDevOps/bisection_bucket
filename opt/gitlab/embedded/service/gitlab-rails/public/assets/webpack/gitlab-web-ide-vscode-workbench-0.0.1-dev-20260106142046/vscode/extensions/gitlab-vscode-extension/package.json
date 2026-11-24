@@ -1,0 +1,752 @@
+{
+  "name": "gitlab-workflow",
+  "displayName": "GitLab Workflow",
+  "description": "Official GitLab-maintained extension for Visual Studio Code.",
+  "version": "6.63.0",
+  "publisher": "GitLab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/gitlab-org/gitlab-vscode-extension"
+  },
+  "engines": {
+    "vscode": "^1.92.2"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "gitlab",
+    "merge request",
+    "pipeline",
+    "ci cd",
+    "ai chat",
+    "duo chat",
+    "chat"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "bugs": {
+    "url": "https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues",
+    "email": "incoming+gitlab-org-gitlab-vscode-extension-5261717-issue-@incoming.gitlab.com"
+  },
+  "galleryBanner": {
+    "color": "#171321",
+    "theme": "dark"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitlab-duo",
+          "title": "GitLab Duo Chat",
+          "icon": "assets/icons/gitlab-duo-chat-enabled.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "gl.duoTutorial",
+        "title": "GitLab Duo Tutorial",
+        "category": "GitLab"
+      },
+      {
+        "command": "gl.showDiagnosticsFromSidePanel",
+        "title": "STATUS",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.openQuickChat",
+        "title": "Open Quick Chat",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.openQuickChatWithShortcut",
+        "title": "Open Quick Chat",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.closeQuickChat",
+        "title": "Close Quick Chat",
+        "category": "GitLab Duo Chat",
+        "enablement": "gitlab:quickChatOpen"
+      },
+      {
+        "command": "gl.sendQuickChat",
+        "title": "Send ⌘⏎",
+        "enablement": "!commentIsEmpty && !duoCommentLoading"
+      },
+      {
+        "command": "gl.sendQuickChatDup",
+        "title": "Send (Ctrl+⏎)",
+        "enablement": "!commentIsEmpty && !duoCommentLoading"
+      },
+      {
+        "command": "gl.quickChatOpenTelemetry",
+        "title": "QuickChat opened",
+        "enablement": "false"
+      },
+      {
+        "command": "gl.quickChatMessageSentTelemetry",
+        "title": "QuickChat message sent",
+        "enablement": "false"
+      },
+      {
+        "command": "gl.showOutput",
+        "title": "Show Extension Logs",
+        "category": "GitLab"
+      },
+      {
+        "command": "gl.showDiagnostics",
+        "title": "Diagnostics",
+        "category": "GitLab"
+      },
+      {
+        "command": "gl.openChat",
+        "title": "Open chat",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.closeChat",
+        "title": "Close chat",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.explainSelectedCode",
+        "title": "Explain selected snippet",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.webview.explainSelectedTerminalOutput",
+        "title": "Explain Terminal Output with Duo",
+        "category": "GitLab Duo Chat",
+        "icon": "$(gitlab-duo-chat-enabled)"
+      },
+      {
+        "command": "gl.generateTests",
+        "title": "Generate tests",
+        "category": "GitLab Duo"
+      },
+      {
+        "command": "gl.refactorCode",
+        "title": "Refactor",
+        "category": "GitLab Duo"
+      },
+      {
+        "command": "gl.fixCode",
+        "title": "Fix",
+        "category": "GitLab Duo"
+      },
+      {
+        "command": "gl.newChatConversation",
+        "title": "Start a new conversation",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.webview.duoChatV2.show",
+        "title": "Open chat",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.webview.closeChat",
+        "title": "Close chat",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.webview.explainSelectedCode",
+        "title": "Explain selected snippet",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.webview.generateTests",
+        "title": "Generate tests",
+        "category": "GitLab Duo"
+      },
+      {
+        "command": "gl.webview.refactorCode",
+        "title": "Refactor",
+        "category": "GitLab Duo"
+      },
+      {
+        "command": "gl.webview.fixCode",
+        "title": "Fix",
+        "category": "GitLab Duo"
+      },
+      {
+        "command": "gl.webview.newChatConversation",
+        "title": "Start a new conversation",
+        "category": "GitLab Duo Chat"
+      },
+      {
+        "command": "gl.toggleCodeSuggestionsForLanguage",
+        "title": "Toggle Code Suggestions for current language",
+        "category": "GitLab"
+      },
+      {
+        "command": "gl.toggleCodeSuggestions",
+        "title": "Toggle Code Suggestions",
+        "category": "GitLab"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "gl.gitlabDuo",
+        "label": "GitLab Duo Chat"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "gl.showDiagnosticsFromSidePanel",
+          "when": "view =~ /(gl.chatView|gl.webview.duo-chat-v2)/",
+          "group": "navigation"
+        },
+        {
+          "command": "gl.webview.explainSelectedTerminalOutput",
+          "when": "view == terminal && gitlab:chatTerminalContextAvailable && config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && gitlab.featureFlags.languageServerWebviews",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "gl.duoTutorial",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject"
+        },
+        {
+          "command": "gl.openQuickChat",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject"
+        },
+        {
+          "command": "gl.openQuickChatWithShortcut",
+          "when": "false"
+        },
+        {
+          "command": "gl.toggleCodeSuggestionsForLanguage",
+          "when": "config.gitlab.duoCodeSuggestions.enabled && activeEditor =~ /textFileEditor$/"
+        },
+        {
+          "command": "gl.openChat",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && activeViewlet !== workbench.view.extension.gitlab-duo"
+        },
+        {
+          "command": "gl.closeChat",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && activeViewlet === workbench.view.extension.gitlab-duo"
+        },
+        {
+          "command": "gl.explainSelectedCode",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.generateTests",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.refactorCode",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.fixCode",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.newChatConversation",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject"
+        }
+      ],
+      "comments/commentThread/context": [
+        {
+          "command": "gl.sendQuickChat",
+          "group": "inline",
+          "when": "commentController == duo-quick-chat && isMac"
+        },
+        {
+          "command": "gl.sendQuickChatDup",
+          "group": "inline",
+          "when": "commentController == duo-quick-chat && !isMac"
+        }
+      ],
+      "editor/context": [
+        {
+          "group": "z_commands",
+          "submenu": "gl.gitlabDuo"
+        }
+      ],
+      "terminal/context": [
+        {
+          "command": "gl.webview.explainSelectedTerminalOutput",
+          "group": "navigation",
+          "when": "gitlab:chatTerminalContextAvailable && config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && gitlab.featureFlags.languageServerWebviews"
+        }
+      ],
+      "gl.gitlabDuo": [
+        {
+          "command": "gl.openQuickChat",
+          "group": "navigation",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject"
+        },
+        {
+          "command": "gl.explainSelectedCode",
+          "group": "navigation",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.generateTests",
+          "group": "navigation",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.refactorCode",
+          "group": "navigation",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        },
+        {
+          "command": "gl.fixCode",
+          "group": "navigation",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "gl.openQuickChatWithShortcut",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject",
+        "key": "alt+c"
+      },
+      {
+        "command": "gl.closeQuickChat",
+        "when": "gitlab:quickChatOpen && editorTextFocus",
+        "key": "escape"
+      },
+      {
+        "command": "gl.webview.explainSelectedTerminalOutput",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && gitlab:chatTerminalContextAvailable && terminalFocus",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t"
+      },
+      {
+        "command": "gl.openChat",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && activeViewlet !== workbench.view.extension.gitlab-duo",
+        "key": "alt+d"
+      },
+      {
+        "command": "gl.closeChat",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && activeViewlet === workbench.view.extension.gitlab-duo && gitlab:chatFocused",
+        "key": "alt+d"
+      },
+      {
+        "command": "gl.focusChat",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && activeViewlet === workbench.view.extension.gitlab-duo && !gitlab:chatFocused",
+        "key": "alt+d"
+      },
+      {
+        "command": "gl.explainSelectedCode",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection",
+        "key": "alt+e"
+      },
+      {
+        "command": "gl.generateTests",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection",
+        "key": "alt+t"
+      },
+      {
+        "command": "gl.refactorCode",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject && editorHasSelection",
+        "key": "alt+r"
+      },
+      {
+        "command": "gl.newChatConversation",
+        "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject",
+        "key": "alt+n"
+      }
+    ],
+    "configuration": [
+      {
+        "id": "duo",
+        "title": "GitLab Duo",
+        "order": 1,
+        "properties": {
+          "gitlab.duoCodeSuggestions.enabled": {
+            "description": "GitLab Duo Code Suggestions",
+            "type": "boolean",
+            "order": 1,
+            "default": true
+          },
+          "gitlab.duo.enabledWithoutGitlabProject": {
+            "description": "If the extension can't get GitLab project details, should the GitLab Duo features be enabled? This can happen when you open a project but don't have a GitLab account set up in the extension, or when you open files that are not versioned in a GitLab project. Disable this setting if you want to enforce the `duoFeaturesEnabled` setting for your project or group.",
+            "type": "boolean",
+            "order": 6,
+            "default": true
+          },
+          "gitlab.duoCodeSuggestions.additionalLanguages": {
+            "description": "Additional languages to provide code suggestions for.",
+            "type": "array",
+            "order": 5,
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "gitlab.duoChat.enabled": {
+            "description": "Enable GitLab Duo Chat assistant",
+            "type": "boolean",
+            "order": 2,
+            "default": true
+          },
+          "gitlab.keybindingHints.enabled": {
+            "type": "boolean",
+            "default": true,
+            "order": 7,
+            "description": "Enable keybinding hints for GitLab Duo"
+          },
+          "gitlab.duoCodeSuggestions.enabledSupportedLanguages": {
+            "description": "Enable Code Suggestions for these languages.",
+            "type": "object",
+            "order": 4,
+            "properties": {
+              "c": {
+                "type": "boolean",
+                "default": true,
+                "description": "C"
+              },
+              "cpp": {
+                "type": "boolean",
+                "default": true,
+                "description": "C++"
+              },
+              "csharp": {
+                "type": "boolean",
+                "default": true,
+                "description": "C#"
+              },
+              "go": {
+                "type": "boolean",
+                "default": true,
+                "description": "Go"
+              },
+              "haml": {
+                "type": "boolean",
+                "default": true,
+                "description": "HAML"
+              },
+              "handlebars": {
+                "type": "boolean",
+                "default": true,
+                "description": "Handlebars"
+              },
+              "java": {
+                "type": "boolean",
+                "default": true,
+                "description": "Java"
+              },
+              "javascript": {
+                "type": "boolean",
+                "default": true,
+                "description": "JavaScript"
+              },
+              "javascriptreact": {
+                "type": "boolean",
+                "default": true,
+                "description": "JavaScript React"
+              },
+              "kotlin": {
+                "type": "boolean",
+                "default": true,
+                "description": "Kotlin"
+              },
+              "python": {
+                "type": "boolean",
+                "default": true,
+                "description": "Python"
+              },
+              "php": {
+                "type": "boolean",
+                "default": true,
+                "description": "PHP"
+              },
+              "ruby": {
+                "type": "boolean",
+                "default": true,
+                "description": "Ruby"
+              },
+              "rust": {
+                "type": "boolean",
+                "default": true,
+                "description": "Rust"
+              },
+              "scala": {
+                "type": "boolean",
+                "default": true,
+                "description": "Scala"
+              },
+              "shellscript": {
+                "type": "boolean",
+                "default": true,
+                "description": "Shell"
+              },
+              "sql": {
+                "type": "boolean",
+                "default": true,
+                "description": "SQL"
+              },
+              "swift": {
+                "type": "boolean",
+                "default": true,
+                "description": "Swift"
+              },
+              "typescript": {
+                "type": "boolean",
+                "default": true,
+                "description": "TypeScript"
+              },
+              "typescriptreact": {
+                "type": "boolean",
+                "default": true,
+                "description": "TypeScript React"
+              },
+              "svelte": {
+                "type": "boolean",
+                "default": true,
+                "description": "Svelte"
+              },
+              "terraform": {
+                "type": "boolean",
+                "default": true,
+                "description": "Terraform"
+              },
+              "terragrunt": {
+                "type": "boolean",
+                "default": true,
+                "description": "Terragrunt"
+              },
+              "vue": {
+                "type": "boolean",
+                "default": true,
+                "description": "Vue"
+              }
+            },
+            "default": {
+              "c": true,
+              "cpp": true,
+              "csharp": true,
+              "go": true,
+              "haml": true,
+              "handlebars": true,
+              "java": true,
+              "javascript": true,
+              "javascriptreact": true,
+              "kotlin": true,
+              "python": true,
+              "php": true,
+              "ruby": true,
+              "rust": true,
+              "scala": true,
+              "shellscript": true,
+              "sql": true,
+              "swift": true,
+              "typescript": true,
+              "typescriptreact": true,
+              "svelte": true,
+              "terraform": true,
+              "terragrunt": true,
+              "vue": true
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      {
+        "id": "other",
+        "title": "Other",
+        "properties": {
+          "gitlab.debug": {
+            "type": "boolean",
+            "default": false,
+            "order": 1000,
+            "description": "Turning on debug mode turns on better stack trace resolution (source maps) and shows more detailed logs. Restart the extension after enabling this option."
+          }
+        }
+      },
+      {
+        "id": "gitlab-config-other",
+        "properties": {
+          "gitlab.duoCodeSuggestions.openTabsContext": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable Open Tabs Context to improve Code Suggestions by sharing context across open tabs"
+          }
+        }
+      }
+    ],
+    "icons": {
+      "gitlab-code-suggestions-loading": {
+        "description": "GitLab Code Suggestions Loading",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA01"
+        }
+      },
+      "gitlab-code-suggestions-enabled": {
+        "description": "GitLab Code Suggestions Enabled",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA02"
+        }
+      },
+      "gitlab-code-suggestions-disabled": {
+        "description": "GitLab Code Suggestions Disabled",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA03"
+        }
+      },
+      "gitlab-code-suggestions-error": {
+        "description": "GitLab Code Suggestions Error",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA04"
+        }
+      },
+      "gitlab-logo": {
+        "description": "GitLab",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA05"
+        }
+      },
+      "gitlab-duo-chat-enabled": {
+        "description": "GitLab Duo Chat Enabled",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA06"
+        }
+      },
+      "gitlab-duo-chat-disabled": {
+        "description": "GitLab Duo Chat Disabled",
+        "default": {
+          "fontPath": "./assets/gitlab_icons.woff",
+          "fontCharacter": "\\eA07"
+        }
+      }
+    },
+    "views": {
+      "gitlab-duo": [
+        {
+          "type": "webview",
+          "id": "gl.chatView",
+          "name": "",
+          "when": "config.gitlab.duoChat.enabled && gitlab:chatAvailable && gitlab:chatAvailableForProject"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "watch:desktop": "node scripts/watch_desktop.mjs",
+    "watch:browser": "node scripts/watch_browser.mjs",
+    "build:desktop": "node scripts/build_desktop.mjs",
+    "build:browser": "node scripts/build_browser.mjs",
+    "build:transpile-es-to-cjs-for-integration-tests": "node scripts/transpile_es_to_cjs_for_integration_tests.mjs",
+    "package": "node scripts/package.mjs",
+    "publish": "vsce publish",
+    "clean": "node scripts/clean.mjs",
+    "lint": "eslint --report-unused-disable-directives --ext .js --ext .ts --ext .mjs . && npm run lint:prettier && npm run --prefix webviews/vue3 lint && npm run --prefix webviews/vue2 lint",
+    "lint:prettier": "prettier --check '**/*.{js,ts,mjs,vue,json,md}' || ( echo 'Prettier failed. Use \"npm run autofix\" to fix it.' && exit 1 )",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest",
+    "test:unit:watch": "jest --watch",
+    "prepare:test:integration": "npm run build:desktop && cp -R node_modules dist-desktop/ && npm run build:transpile-es-to-cjs-for-integration-tests && node scripts/create_test_workspace.mjs",
+    "test:integration": "npm run prepare:test:integration && node ./dist-desktop/test/run_test.js",
+    "prettier-package-json": "prettier --write package.json",
+    "prettier": "prettier --write '**/*.{js,ts,mjs,vue,json,md}'",
+    "autofix": "npm run clean && eslint --fix . && npm run prettier && npm run --prefix webviews/vue3 autofix",
+    "update-ci-variables": "node ./scripts/update_ci_variables.js",
+    "update-supported-languages": "node ./scripts/update_supported_languages.mjs && npm run prettier-package-json",
+    "create-test-workspace": "npm run build:desktop && node ./scripts/create_workspace_for_test_debugging.js",
+    "preinstall": "node ./scripts/ensure_npm.mjs",
+    "postinstall": "node scripts/postinstall.mjs && npm run prettier-package-json",
+    "semantic-release": "semantic-release",
+    "publish-ovsx": "ovsx publish"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@gitlab/eslint-plugin": "^21.2.1",
+    "@jest/globals": "^29.7.0",
+    "@parcel/watcher": "^2.5.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/gitlab": "^13.2.9",
+    "@semantic-release/npm": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "@types/jest": "^29.5.14",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^20.14.8",
+    "@types/request-promise": "^4.1.51",
+    "@types/semver": "^7.7.1",
+    "@types/sinon": "^17.0.4",
+    "@types/source-map-support": "^0.5.10",
+    "@types/temp": "^0.9.4",
+    "@types/uuid": "^11.0.0",
+    "@types/vscode": "^1.92.1",
+    "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "esbuild": "^0.27.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-import": "^2.32.0",
+    "execa": "^9.5.3",
+    "fs-extra": "^11.3.2",
+    "glob": "^13.0.0",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "mocha": "^11.7.5",
+    "mocha-junit-reporter": "^2.2.1",
+    "msw": "^2.4.2",
+    "ovsx": "^0.10.7",
+    "patch-package": "^8.0.1",
+    "prettier": "^3.6.2",
+    "rimraf": "^5.0.10",
+    "semantic-release": "^24.2.9",
+    "semantic-release-slack-bot": "^4.0.2",
+    "semantic-release-vsce": "^6.0.18",
+    "simple-git": "^3.30.0",
+    "sinon": "^21.0.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3",
+    "vsce": "^2.15.0",
+    "vscode-test": "^1.6.1",
+    "webfont": "^11.2.26"
+  },
+  "dependencies": {
+    "@anycable/core": "^0.9.2",
+    "@gitlab-org/gitlab-lsp": "^8.55.0",
+    "@gitlab/needle": "1.5.1",
+    "@snowplow/tracker-core": "4.6.8",
+    "cross-fetch": "^4.1.0",
+    "dayjs": "^1.11.19",
+    "graphql": "^16.10.0",
+    "graphql-request": "^6.1.0",
+    "https-proxy-agent": "^7.0.6",
+    "isomorphic-ws": "^5.0.0",
+    "lodash": "^4.17.21",
+    "path-browserify": "^1.0.1",
+    "semver": "^7.7.3",
+    "source-map-support": "^0.5.21",
+    "temp": "^0.9.4",
+    "uuid": "^11.1.0",
+    "vscode-languageclient": "^9.0.1",
+    "ws": "^8.18.3",
+    "xstate": "^5.22.0"
+  },
+  "browser": "browser",
+  "extensionDependencies": [
+    "gitlab.gitlab-web-ide"
+  ]
+}

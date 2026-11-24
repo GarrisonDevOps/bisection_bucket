@@ -1,0 +1,68 @@
+package githttp
+
+import (
+	"context"
+	"log/slog"
+
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/readwriter"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/accessverifier"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/gitlabnet/git"
+)
+
+const pushService = "git-receive-pack"
+
+var receivePackHTTPPrefix = []byte("001f# service=git-receive-pack\n0000")
+
+// PushCommand handles the execution of a Git push operation,
+// including configuration, input/output handling, and access verification.
+type PushCommand struct {
+	Config     *config.Config
+	ReadWriter *readwriter.ReadWriter
+	Response   *accessverifier.Response
+	Args       *commandargs.Shell
+}
+
+// See Uploading Data > HTTP(S) section at:
+// https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
+//
+// 1. Perform /info/refs?service=git-receive-pack request
+// 2. Remove the header to make it consumable by SSH protocol
+// 3. Send the result to the user via SSH (writeToStdout)
+// 4. Read the send-pack data provided by user via SSH (stdinReader)
+// 5. Perform /git-receive-pack request and send this data
+// 6. Return the output to the user
+
+// ForInfoRefs returns the necessary Push specifics for client.InfoRefs()
+func (c *PushCommand) ForInfoRefs() (*readwriter.ReadWriter, string, []byte) {
+	return c.ReadWriter, pushService, receivePackHTTPPrefix
+}
+
+// Execute runs the push command by determining the appropriate method (HTTP/SSH)
+func (c *PushCommand) Execute(ctx context.Context) error {
+	data := c.Response.Payload.Data
+	client := &git.Client{URL: data.PrimaryRepo, Headers: data.RequestHeaders}
+
+	// For Git over SSH routing
+	if data.GeoProxyPushSSHDirectToPrimary {
+		client.Headers = withGitProtocolHeader(client.Headers, c.Args.Env.GitProtocolVersion)
+		return c.requestSSHReceivePack(ctx, client)
+	}
+
+	if err := requestInfoRefs(ctx, client, c, infoRefsTimeout(c.Config)); err != nil {
+		return err
+	}
+
+	return c.requestReceivePack(ctx, client)
+}
+
+func (c *PushCommand) requestSSHReceivePack(ctx context.Context, client *git.Client) error {
+	slog.InfoContext(ctx, "Using Git over SSH receive pack")
+
+	return executeSSHRequest(ctx, client.SSHReceivePack, c.ReadWriter)
+}
+
+func (c *PushCommand) requestReceivePack(ctx context.Context, client *git.Client) error {
+	return pipeRequest(ctx, c.ReadWriter, readReceivePackRequest, client.ReceivePack)
+}

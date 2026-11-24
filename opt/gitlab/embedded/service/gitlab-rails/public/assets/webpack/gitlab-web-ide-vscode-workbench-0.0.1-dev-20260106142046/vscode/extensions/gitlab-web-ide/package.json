@@ -1,0 +1,284 @@
+{
+  "name": "gitlab-web-ide",
+  "version": "0.0.2",
+  "main": "./main.js",
+  "browser": "./main.js",
+  "displayName": "GitLab Web IDE Extension",
+  "description": "",
+  "icon": "assets/images/gitlab_logo.svg",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onFileSystem:gitlab-web-ide"],
+  "enabledApiProposals": [
+    "codiconDecoration",
+    "fileSearchProvider",
+    "scmValidation",
+    "ipc",
+    "resolvers",
+    "scmActionButton"
+  ],
+  "isBuiltin": true,
+  "publisher": "gitlab",
+  "contributes": {
+    "authentication": [
+      {
+        "label": "GitLab Web IDE",
+        "id": "gitlab-web-ide"
+      }
+    ],
+    "commands": [
+      {
+        "command": "gitlab-web-ide.show-logs",
+        "title": "Show Logs",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.commit",
+        "title": "Commit",
+        "category": "GitLab Web IDE",
+        "icon": "$(check)"
+      },
+      {
+        "command": "gitlab-web-ide.compare-with-mr-base",
+        "title": "Compare with merge request base",
+        "category": "GitLab Web IDE",
+        "icon": "$(git-pull-request)"
+      },
+      {
+        "command": "gitlab-web-ide.checkout-branch",
+        "title": "Checkout a branch",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.go-to-gitlab",
+        "title": "Go to GitLab",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.go-to-project",
+        "title": "Go to your open project on GitLab",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.share-your-feedback",
+        "title": "Share your feedback",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.commit-and-force-push",
+        "title": "Commit and force push",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.commit-amend-and-force-push",
+        "title": "Amend commit and force push",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.create-branch",
+        "title": "Create branch",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.create-branch-from-base",
+        "title": "Create branch from...",
+        "category": "GitLab Web IDE"
+      },
+      {
+        "command": "gitlab-web-ide.delete-branch",
+        "title": "Delete branch",
+        "category": "GitLab Web IDE"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "gitlab-web-ide.commitSubmenu",
+        "label": "Commit"
+      },
+      {
+        "id": "gitlab-web-ide.branchSubmenu",
+        "label": "Branch"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "gitlab-web-ide.compare-with-mr-base",
+          "when": "!explorerResourceIsFolder && resourcePath in gitlab-web-ide.mergeRequestFilePaths",
+          "group": "3_compare"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "gitlab-web-ide.compare-with-mr-base",
+          "when": "!isInDiffEditor && resourcePath in gitlab-web-ide.mergeRequestFilePaths",
+          "group": "navigation"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "gitlab-web-ide.commit",
+          "group": "navigation"
+        },
+        {
+          "submenu": "gitlab-web-ide.commitSubmenu",
+          "group": "1_modification",
+          "when": "additionalSourceControlOperations == true"
+        },
+        {
+          "submenu": "gitlab-web-ide.branchSubmenu",
+          "group": "1_modification",
+          "when": "additionalSourceControlOperations == true"
+        }
+      ],
+      "gitlab-web-ide.commitSubmenu": [
+        {
+          "command": "gitlab-web-ide.commit-and-force-push",
+          "group": "1_commit",
+          "when": "additionalSourceControlOperations == true"
+        },
+        {
+          "command": "gitlab-web-ide.commit-amend-and-force-push",
+          "group": "1_commit",
+          "when": "additionalSourceControlOperations == true"
+        }
+      ],
+      "gitlab-web-ide.branchSubmenu": [
+        {
+          "command": "gitlab-web-ide.create-branch",
+          "group": "2_modification",
+          "when": "additionalSourceControlOperations == true"
+        },
+        {
+          "command": "gitlab-web-ide.create-branch-from-base",
+          "group": "2_modification",
+          "when": "additionalSourceControlOperations == true"
+        },
+        {
+          "command": "gitlab-web-ide.delete-branch",
+          "group": "2_modification",
+          "when": "additionalSourceControlOperations == true"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "gitlab-web-ide.compare-with-mr-base",
+          "group": "navigation",
+          "when": "resourcePath in gitlab-web-ide.mergeRequestFilePaths"
+        },
+        {
+          "command": "gitlab-web-ide.go-to-project",
+          "when": "gitlab-web-ide.is-ready"
+        },
+        {
+          "command": "gitlab-web-ide.go-to-gitlab",
+          "when": "gitlab-web-ide.is-ready"
+        },
+        {
+          "command": "gitlab-web-ide.commit",
+          "when": "gitlab-web-ide.is-ready"
+        },
+        {
+          "command": "gitlab-web-ide.checkout-branch",
+          "when": "gitlab-web-ide.is-ready"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "terminal",
+        "contents": "The terminal is not available in the Web IDE"
+      },
+      {
+        "view": "workbench.views.extensions.installed",
+        "contents": "Enable the [extension marketplace](command:gitlab-web-ide.go-to-extension-marketplace-help) in your user preferences and reload the Web IDE.\n[Open user preferences](command:gitlab-web-ide.go-to-user-preferences)",
+        "when": "gitlab-web-ide.marketplace-disabled == 'opt-in'"
+      },
+      {
+        "view": "workbench.views.extensions.installed",
+        "contents": "To enable the [extension marketplace](command:gitlab-web-ide.go-to-extension-marketplace-help), contact a user with the Owner role for the enterprise group.\n[Go to enterprise group](command:gitlab-web-ide.go-to-enterprise-group)",
+        "when": "gitlab-web-ide.marketplace-disabled == 'enterprise-group'"
+      },
+      {
+        "view": "workbench.views.extensions.installed",
+        "contents": "To enable the [extension marketplace](command:gitlab-web-ide.go-to-extension-marketplace-help), contact your GitLab instance administrator.",
+        "when": "gitlab-web-ide.marketplace-disabled == 'with-docs'"
+      },
+      {
+        "view": "workbench.views.extensions.installed",
+        "contents": "To enable the extension marketplace, contact your GitLab instance administrator.",
+        "when": "gitlab-web-ide.marketplace-disabled == 'default'"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "getStartedWebIde",
+        "title": "Get started with the GitLab Web IDE",
+        "description": "The next-generation editing experience, right in your browser.",
+        "steps": [
+          {
+            "id": "customize",
+            "title": "Make it yours",
+            "description": "Customize the Web IDE interface by [choosing a theme](command:workbench.action.selectTheme) and panel layout. Discover more functionality by searching in the [command palette](command:workbench.action.showCommands).",
+            "media": {
+              "svg": "assets/images/step1.svg",
+              "altText": "Schematic image of Web Editor"
+            }
+          },
+          {
+            "id": "roadmap",
+            "title": "What's next for the Web IDE?",
+            "description": "GitLab Workflow and third-party extensions. Personalization and customization. Search improvements. Check out our [roadmap epic](https://gitlab.com/groups/gitlab-org/-/epics/7683) for more details.",
+            "media": {
+              "svg": "assets/images/step3.svg",
+              "altText": "Schematic image of the roadmap"
+            }
+          },
+          {
+            "id": "feedback",
+            "title": "Let us know what you think",
+            "description": "We want to hear about your experience with the new Web IDE. Let us know how things are working, or not, in the [feedback issue](https://gitlab.com/gitlab-org/gitlab/-/issues/410558).",
+            "media": {
+              "svg": "assets/images/step4.svg",
+              "altText": "Feedback image"
+            }
+          }
+        ]
+      }
+    ],
+    "colors": [
+      {
+        "id": "webIde.addedResourceForeground",
+        "description": "Color for added resources.",
+        "defaults": {
+          "light": "#587c0c",
+          "dark": "#81b88b",
+          "highContrast": "#a1e3ad",
+          "highContrastLight": "#374e06"
+        }
+      },
+      {
+        "id": "webIde.modifiedResourceForeground",
+        "description": "Color for modified resources.",
+        "defaults": {
+          "light": "#895503",
+          "dark": "#E2C08D",
+          "highContrast": "#E2C08D",
+          "highContrastLight": "#895503"
+        }
+      },
+      {
+        "id": "webIde.deletedResourceForeground",
+        "description": "Color for deleted resources.",
+        "defaults": {
+          "light": "#ad0707",
+          "dark": "#c74e39",
+          "highContrast": "#c74e39",
+          "highContrastLight": "#ad0707"
+        }
+      }
+    ]
+  }
+}

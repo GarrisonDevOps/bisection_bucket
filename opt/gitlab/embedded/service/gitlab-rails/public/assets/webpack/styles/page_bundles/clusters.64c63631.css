@@ -1,0 +1,2 @@
+@container panel (width<576px){.clusters-container .nav-controls{order:-1;width:100%}.clusters-container .nav-controls .gl-dropdown,.clusters-container .nav-controls .split-content-button{width:100%}}@container panel (width>=576px){.cluster-card-item{min-height:372px;padding-top:.25rem}}
+/*# sourceMappingURL=clusters.64c63631.css.map*/

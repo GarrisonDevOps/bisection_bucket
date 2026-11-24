@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[7595],{881483(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Clojure REPL",contains:[{className:"meta.prompt",begin:/^([\w.-]+|\s*#_)?=>/,starts:{end:/$/,subLanguage:"clojure"}}]}}})}}]);
+//# sourceMappingURL=hl-clojure-repl.c4aaa111.chunk.js.map

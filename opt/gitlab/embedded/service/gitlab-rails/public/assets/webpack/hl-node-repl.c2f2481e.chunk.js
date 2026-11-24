@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[10939],{728631(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Node REPL",contains:[{className:"meta.prompt",starts:{end:/ |$/,starts:{end:"$",subLanguage:"javascript"}},variants:[{begin:/^>(?=[ ]|$)/},{begin:/^\.\.\.(?=[ ]|$)/}]}]}}})}}]);
+//# sourceMappingURL=hl-node-repl.c2f2481e.chunk.js.map

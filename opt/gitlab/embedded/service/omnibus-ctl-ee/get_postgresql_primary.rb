@@ -1,0 +1,13 @@
+require "gitlab_ctl/util"
+require "gitlab_ctl/postgresql/ee"
+
+add_command_under_category 'get-postgresql-primary', 'database',
+                           'Get connection details to the PostgreSQL primary', 2 do
+
+  GitlabCtl::PostgreSQL::EE.get_primary.each do |entry|
+    log entry
+  end
+rescue StandardError => e
+  warn e
+  Kernel.exit 1
+end

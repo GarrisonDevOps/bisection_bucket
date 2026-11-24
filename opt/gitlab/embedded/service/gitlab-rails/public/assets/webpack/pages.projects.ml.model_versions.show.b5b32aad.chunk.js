@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[91485],{164068(a,b,c){var d=c(465766),e=c(855805);(0,d.U)("#js-mount-show-ml-model-version",e.gM,{withApolloProvider:!0,withVueRouter:!0,name:"ShowMlModelVersion"})}},function(a){var b=function(b){return a(a.s=b)};a.O(0,[14125,16542,17443,23322,2706,2724,28968,40026,45042,53422,61879,68451,84915,86890,96835,97401],function(){return b(213421),b(164068)}),a.O()}]);
+//# sourceMappingURL=pages.projects.ml.model_versions.show.b5b32aad.chunk.js.map

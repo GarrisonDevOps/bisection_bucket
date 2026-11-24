@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunk_gitlab_mfe_duo_chat=self.rspackChunk_gitlab_mfe_duo_chat||[]).push([[5876],{75119(t,e,a){function s(t){return{name:"Plain text",aliases:["text","txt"],disableAutodetect:!0}}a.r(e),a.d(e,{default:()=>s})}}]);

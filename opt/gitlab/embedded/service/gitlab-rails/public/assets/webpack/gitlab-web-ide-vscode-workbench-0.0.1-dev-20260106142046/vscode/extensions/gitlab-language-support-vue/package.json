@@ -1,0 +1,112 @@
+{
+  "name": "gitlab-language-support-vue",
+  "version": "0.0.1",
+  "displayName": "Vue - Basic Language Support (GitLab)",
+  "description": "Provides basic syntax highlighting for Vue files, based off the vetur extension.",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "categories": ["Programming Languages"],
+  "activationEvents": ["onLanguage:vue"],
+  "isBuiltin": true,
+  "publisher": "gitlab",
+  "contributes": {
+    "languages": [
+      {
+        "id": "vue",
+        "aliases": ["Vue", "vue"],
+        "extensions": [".vue"],
+        "configuration": "./assets/vetur/languages/vue-language-configuration.json"
+      },
+      {
+        "id": "vue-html",
+        "aliases": ["Vue-html"],
+        "configuration": "./assets/vetur/languages/vue-html-language-configuration.json"
+      },
+      {
+        "id": "vue-postcss",
+        "aliases": ["Vue-PostCSS", "Vue-POSTCSS", "vue-postcss"],
+        "configuration": "./assets/vetur/languages/vue-postcss-language-configuration.json"
+      },
+      {
+        "id": "vue-sugarss",
+        "aliases": ["Vue-SugarSS", "Vue-SUGARSS", "vue-sugarss"],
+        "configuration": "./assets/vetur/languages/vue-sugarss-language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vue",
+        "scopeName": "source.vue",
+        "path": "./assets/vetur/syntaxes/vue-generated.json",
+        "embeddedLanguages": {
+          "text.html.basic": "html",
+          "text.html.vue-html": "vue-html",
+          "text.jade.slm": "slm",
+          "text.pug": "jade",
+          "text.haml": "haml",
+          "text.slim": "slim",
+          "text.html.liquid": "liquid",
+          "source.css": "css",
+          "source.css.scss": "scss",
+          "source.css.less": "less",
+          "source.css.postcss": "vue-postcss",
+          "source.css.sugarss": "vue-sugarss",
+          "source.sass": "sass",
+          "source.stylus": "stylus",
+          "source.js": "javascript",
+          "source.ts": "typescript",
+          "source.coffee": "coffeescript",
+          "text.html.markdown": "md",
+          "source.yaml": "yaml",
+          "source.json": "json",
+          "source.php": "php",
+          "source.graphql": "graphql"
+        }
+      },
+      {
+        "language": "vue-postcss",
+        "scopeName": "source.css.postcss",
+        "path": "./assets/vetur/syntaxes/vue-postcss.json"
+      },
+      {
+        "language": "vue-sugarss",
+        "scopeName": "source.css.sugarss",
+        "path": "./assets/vetur/syntaxes/vue-sugarss.json"
+      },
+      {
+        "language": "vue-html",
+        "scopeName": "text.html.vue-html",
+        "path": "./assets/vetur/syntaxes/vue-html.tmLanguage.json",
+        "embeddedLanguages": {
+          "source.js": "javascript"
+        }
+      },
+      {
+        "path": "./assets/vetur/syntaxes/pug/directives.tmLanguage.json",
+        "scopeName": "vue.pug.directives",
+        "injectTo": ["source.vue"]
+      },
+      {
+        "path": "./assets/vetur/syntaxes/pug/interpolations.tmLanguage.json",
+        "scopeName": "vue.pug.interpolations",
+        "injectTo": ["source.vue"]
+      },
+      {
+        "scopeName": "markdown.vue.codeblock",
+        "path": "./assets/vetur/syntaxes/markdown-vue.json",
+        "injectTo": ["text.html.markdown"],
+        "embeddedLanguages": {
+          "meta.embedded.block.vue": "vue"
+        }
+      }
+    ],
+    "semanticTokenScopes": [
+      {
+        "scopes": {
+          "property.refValue": ["entity.name.function"]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[45299],{866034(a,b,c){var d=c(499937),e=c(107601),f=c.n(e);(0,c(141868).E)(document.getElementById("js-merge-request-dashboard")),requestIdleCallback(async()=>{let{initNewResourceDropdown:a}=await c.e(60155).then(c.bind(c,169750));a({resourceType:d.PQ,query:f()})})}},function(a){a.O(0,[14125,16542,18921,23322,2706,2724,27677,40026],function(){return a(a.s=866034)}),a.O()}]);
+//# sourceMappingURL=pages.dashboard.merge_requests.bda61328.chunk.js.map

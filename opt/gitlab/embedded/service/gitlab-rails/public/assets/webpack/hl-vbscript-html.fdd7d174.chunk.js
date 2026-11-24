@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[754],{808994(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"VBScript in HTML",subLanguage:"xml",contains:[{begin:"<%",end:"%>",subLanguage:"vbscript"}]}}})}}]);
+//# sourceMappingURL=hl-vbscript-html.fdd7d174.chunk.js.map

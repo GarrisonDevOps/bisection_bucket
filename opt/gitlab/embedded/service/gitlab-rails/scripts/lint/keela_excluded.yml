@@ -1,0 +1,429 @@
+# Keela exclusion file for false positives
+#
+# These items have been identified as "unused" by Keela, however subsequent
+# research shows them to be false positives (called dynamically, via
+# metaprogramming, from rake tasks, etc.) and should be excluded from detection.
+#
+# Format: Strategy-aware (recommended)
+# See: https://github.com/kerrizor/keela#exclusion-file
+#
+---
+attributes:
+  app/models/commit.rb:
+    - redacted_description_html: Setter is called dynamically via Banzai::ObjectRenderer#render which does object.__send__("redacted_#{attribute}_html=", ...) with CommitRenderer::ATTRIBUTES
+  app/models/supply_chain/slsa/provenance_statement.rb:
+    - invocation_id: "Required by the SLSA specification for JSON schema serialization"
+  ee/app/models/iteration.rb:
+    - skip_future_date_validation: "Read by the future_date validation (validate :future_date, unless: :skip_future_date_validation) and set via a factory trait across the iteration specs"
+delegations:
+  app/models/project.rb:
+    - push_pipelines_for_job_token_allowed: Required by the ci_cd_settings delegation shared example; used by the feature implementation in !243735
+  ee/app/models/deployments/approval.rb:
+    - deployment_project: "Read as the granular token boundary (boundary: :deployment_project) of Types::Deployments::ApprovalType"
+  ee/app/models/protected_environments/authorizable.rb:
+    - protected_environment_group: "Read as a granular token boundary (boundary: :protected_environment_group) of the protected environment approval rule and deploy access level types"
+    - protected_environment_project: "Read as a granular token boundary (boundary: :protected_environment_project) of the protected environment approval rule and deploy access level types"
+  ee/app/models/work_items/widgets/agent_plan.rb:
+    - readiness_score_feedback_html: Read by the GraphQL markdown field added in !252884
+methods:
+  app/helpers/routing/groups/members_helper.rb:
+    - request_access_group_members_path: Dynamically accessed via GroupChildEntity#request_access_path
+  app/helpers/routing/projects/members_helper.rb:
+    - request_access_project_members_path: Dynamically accessed via GroupChildEntity#request_access_path (polymorphic_path([:request_access, project, :members]))
+  app/helpers/routing/snippets_helper.rb:
+    - toggle_award_emoji_personal_snippet_path: Rails' dynamic route creation in app/helpers/award_emoji_helper.rb
+    - toggle_award_emoji_project_project_snippet_path: Rails' dynamic route creation in app/helpers/award_emoji_helper.rb
+    - toggle_award_emoji_project_project_snippet_url: Rails' dynamic route creation in app/helpers/award_emoji_helper.rb
+  app/helpers/sorting_titles_values_helper.rb:
+    - sort_value_stars_desc: Used to build sorting dropdowns in app/helpers/sorting_helper.rb
+  app/models/authz/project_authorizations/reach.rb:
+    - self.for_user: Used by the project_authorizations recalculation in https://gitlab.com/gitlab-org/gitlab/-/work_items/637571; remove when it lands
+    - project_ids: Used by the project_authorizations recalculation in https://gitlab.com/gitlab-org/gitlab/-/work_items/637571; remove when it lands
+  app/models/authz/project_authorizations/refresh_event.rb:
+    - pending_for?: Used by the project_authorizations verifier in https://gitlab.com/gitlab-org/gitlab/-/work_items/637562; remove when it lands
+    - expansion_pending?: Used by the project_authorizations verifier in https://gitlab.com/gitlab-org/gitlab/-/work_items/637562; remove when it lands
+  app/models/authz/project_authorizations/verification_sample.rb:
+    - pairs: Used by the project_authorizations verifier in https://gitlab.com/gitlab-org/gitlab/-/work_items/637594; remove when it lands
+  app/models/concerns/forced_email_confirmation.rb:
+    - confirmation_period_expired?: Override of Devise::Models::Confirmable method; called internally by Devise during confirmation
+  app/models/concerns/gitlab/encrypted_attribute.rb:
+    - attr_encrypted_encrypted_with: Will be used by the db_key_base re-encryption rake task (https://gitlab.com/gitlab-org/gitlab/-/issues/631458)
+  app/models/concerns/integrations/base/integration.rb:
+    - "#{arg}?": A metaprogramming method
+  app/models/concerns/organizations/isolatable.rb:
+    - not_isolated?: Will be used in follow up MR
+    - mark_as_isolated!: Will be used when setting Isolation Status
+  app/models/concerns/transactions.rb:
+    - reset_open_transactions_baseline: Used in spec_helper.rb to configure transaction behavior
+  app/models/event.rb:
+    - find_sti_class: Override of an ActiveRecord internal method
+  app/models/jira_import_state.rb:
+    - owner_class_attribute_default: Used internally by state_machine
+  app/models/merge_request_diff.rb:
+    - migrate_files_to_database!: Invoked manually (e.g. from a Rails console) to roll back external diffs to the database
+  app/models/note.rb:
+    - attribute_names_for_serialization: Acts as an override of an existing private ActiveRecord method
+  app/models/oauth_access_token.rb:
+    - self.revoke_all_for: Override of a Doorkeeper method, called by the doorkeeper gem when it revokes the tokens of an application
+  app/models/observability/group_o11y_setting.rb:
+    - read_attribute_for_validation: Override of an ActiveModel internal method called by validators
+  app/models/organizations/isolation_record.rb:
+    - not_isolated?: Will be used in follow up MR
+  app/models/project_statistics.rb:
+    - update_wiki_size: Called dynamically, and cannot be removed unless column is removed
+    - update_snippets_size: Called dynamically, and cannot be removed unless column is removed
+    - update_lfs_objects_size: Called dynamically, and cannot be removed unless column is removed
+    - update_uploads_size: Called dynamically, and cannot be removed unless column is removed
+    - update_container_registry_size: Called dynamically, and cannot be removed unless column is removed
+  app/models/project_team.rb:
+    - developer?: Used to surface access rights; referenced by specs and treated as a false positive
+    - planner?: Used to surface access rights; referenced by specs and treated as a false positive
+  app/models/service_desk/custom_email_verification.rb:
+    - owner_class_attribute_default: Used internally by state_machine
+  app/models/user.rb:
+    - inactive_message: Override of Devise method
+    - owner_class_attribute_default: Used internally by state_machine
+    - reset_password_by_token: Override of Devise method
+    - unlock_access_by_token: Override of Devise method
+    - will_save_change_to_login?: Override of Devise method
+  app/models/work_item.rb:
+    - descendant_ids_for: will be used in follow-up MR
+  ee/app/helpers/ee/gitlab_routing_helper.rb:
+    - user_group_saml_omniauth_metadata_path: Used to dynamically generate a method via `#url_helper`
+  ee/app/helpers/govern/policies_helper.rb:
+    - govern_settings_locked_message: Called by the settings write fence in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261838
+  ee/app/helpers/secrets_management/enrollment_helper.rb:
+    - allow_secrets_manager_namespace_enrollment?: Called from HAML views and controllers via EE::ApplicationHelper
+    - allow_secrets_manager_instance_enrollment?: Called from HAML views and controllers via EE::ApplicationHelper
+  ee/app/models/cd/application_flow_definition.rb:
+    - revert_to_previous_version: Will be called from the CD application flow definition revert API/mutation in a follow-up MR
+  ee/app/models/ci/secrets/integration.rb:
+    - gcp_secret_manager?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
+    - azure_key_vault?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
+    - hashicorp_vault?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
+    - aws?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
+    - gitlab_secrets_manager?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
+  ee/app/models/concerns/ai/duo_workflows/workflow_linkable.rb:
+    - declarative_policy_class: Called by the declarative_policy gem via respond_to? when resolving the policy class for a subject
+  ee/app/models/concerns/ee/issuable_link.rb:
+    - blocked_issuables_for_collection: Dynamically accessed by Gitlab::Graphql::Aggregations::Issuables::LazyLinksAggregate#load_queued_records
+  ee/app/models/concerns/geo/blob_replicator_strategy.rb:
+    - blob_location_records: Called by the Geo blob location backfill in the follow-up MR for https://gitlab.com/gitlab-org/gitlab/-/work_items/281430
+    - consume_event_deleted: Called by Gitlab::Geo::Replicator#consume
+  ee/app/models/concerns/geo/repository_replicator_strategy.rb:
+    - consume_event_deleted: Called by Gitlab::Geo::Replicator#consume
+  ee/app/models/concerns/geo/verifiable_replicator.rb:
+    - consume_event_checksum_succeeded: Called by Gitlab::Geo::Replicator#consume
+  ee/app/models/dependency_management/security_update/batch_request.rb:
+    - self.batch_branch?: Will be called by the batch scheduler in https://gitlab.com/gitlab-org/gitlab/-/work_items/635920; remove this entry there
+  ee/app/models/ee/user.rb:
+    - security_policy_bot_project: Returns the bot's associated project; preserved for backward compatibility with bot-specific access flows
+  ee/app/models/import/sync/external_object.rb:
+    - self.for_local_record: Will be called by the initial-import adoption service in a follow-up MR
+  ee/app/models/import/sync/repository.rb:
+    - application_generation_current?: Will be called by the reconciliation worker in a follow-up MR
+  ee/app/models/import/sync/repository_state.rb:
+    - lagging?: Will be called by the reconciliation worker in a follow-up MR
+  ee/app/models/merge_trains/car.rb:
+    - self.locking_enabled?: Overrides ActiveRecord::Locking::Optimistic.locking_enabled?, called by Rails
+  ee/app/models/package_metadata/sync_configuration.rb:
+    - self.advisories_pds_endpoint: Will be called from Location.for_advisories once advisories move to PDS in a follow-up MR (#631389)
+  ee/app/services/mcp/tools/security/get_vulnerability_tool.rb:
+    - build_variables_v0_1_0: Dispatched dynamically via Mcp::Tools::Concerns::Versionable#build_variables_for_version
+  ee/app/services/mcp/tools/security/list_vulnerabilities_tool.rb:
+    - build_variables_v0_1_0: Dispatched dynamically via Mcp::Tools::Concerns::Versionable#build_variables_for_version
+  ee/app/services/mcp/tools/security/save_vulnerability_tool.rb:
+    - build_variables_v0_2_0: Dispatched dynamically via Mcp::Tools::Concerns::Versionable#build_variables_for_version
+  app/services/import/gitlab_projects/create_project_service.rb:
+    - read_attribute_for_validation: ActiveModel::Validations interface method, called internally by Rails during validation
+  app/services/import/gitlab_projects/file_acquisition_strategies/remote_file_s3.rb:
+    - read_attribute_for_validation: ActiveModel::Validations interface method, called internally by Rails during validation
+  app/services/notification_service.rb:
+    - pages_domain_verification_succeeded: Dispatched via public_send("pages_domain_#{type}") in VerifyPagesDomainService#notify
+    - pages_domain_verification_failed: Dispatched via public_send("pages_domain_#{type}") in VerifyPagesDomainService#notify
+    - pages_domain_enabled: Dispatched via public_send("pages_domain_#{type}") in VerifyPagesDomainService#notify
+    - pages_domain_disabled: Dispatched via public_send("pages_domain_#{type}") in VerifyPagesDomainService#notify
+  ee/app/services/ee/notification_service.rb:
+    - notify_oncall_users_of_alert: Dispatched via send("notify_oncall_users_of_#{escalation.type}") in IncidentManagement::PendingEscalations::ProcessService
+    - notify_oncall_users_of_incident: Dispatched via send("notify_oncall_users_of_#{escalation.type}") in IncidentManagement::PendingEscalations::ProcessService
+  ee/app/services/security/security_orchestration_policies/project_create_service.rb:
+    - scan_execution_policies_docs_link: Called from readme.md.tt, rendered via ERB.new(...).result(binding) in #readme_template; tt is not in keela extensions
+    - group_level_branch_protection_docs_link: Called from readme.md.tt, rendered via ERB.new(...).result(binding) in #readme_template; tt is not in keela extensions
+    - instance_level_branch_protection_docs_link: Called from readme.md.tt, rendered via ERB.new(...).result(binding) in #readme_template; tt is not in keela extensions
+constants:
+  app/services/mcp/tools/toolsets.rb:
+    - ALWAYS_ON: Used by Manager#tools_in_toolsets to always include meta tools
+    - UNASSIGNED: Fallback for tools missing a toolset declaration
+  app/services/packages/rpm/parse_package_service.rb:
+    - CHANGELOGS_RPM_KEYS: Read via const_get("#{resource.upcase}_RPM_KEYS") in the generated build_* methods
+    - REQUIREMENTS_RPM_KEYS: Read via const_get("#{resource.upcase}_RPM_KEYS") in the generated build_* methods
+    - PROVIDES_RPM_KEYS: Read via const_get("#{resource.upcase}_RPM_KEYS") in the generated build_* methods
+  ee/app/models/ai/catalog/item_version.rb:
+    - SKILL_SCHEMA_VERSION: Referenced in specs and consumed by the skill publish service in a follow-up MR of https://gitlab.com/groups/gitlab-org/-/work_items/22961
+  ee/lib/sbom/package_url/normalizer.rb:
+    - NORMALIZED_TYPES: Read by specs to assert which purl types are normalized
+  ee/lib/gitlab/llm/chain/concerns/anthropic_prompt.rb:
+    - ROLE_NAMES: Used by ee/spec/lib/gitlab/llm/chain/utils/prompt_spec.rb; only flagged after an unrelated same-named constant was removed elsewhere in the codebase
+  ee/lib/gitlab/ai/dap_factory/configuration.rb:
+    - STATUS_KEYS: The keys allowed under the status block of .gitlab-dap-factory.yml; the first caller is the validator in https://gitlab.com/gitlab-org/gitlab/-/work_items/637190
+scopes:
+  ee/app/models/ai/flow_trigger.rb:
+    - not_factory_managed: Pair of factory_managed, which Keela only sees because this name contains it; the first caller is DAP Software Factory Sync in https://gitlab.com/gitlab-org/gitlab/-/work_items/637191
+  ee/app/models/workforce/person.rb:
+    - subtree_of: Read API for the workforce hierarchy store; first callers are the follow-ups of https://gitlab.com/groups/gitlab-org/-/work_items/23625
+    - direct_reports_of: Read API for the workforce hierarchy store; first callers are the follow-ups of https://gitlab.com/groups/gitlab-org/-/work_items/23625
+
+# Partials the partials strategy flags but which are rendered dynamically in a
+# way it cannot resolve statically. Each entry names its mechanism and render
+# site: COLLECTION (render @collection), INTERPOLATED (path built via string
+# interpolation), PARTIAL_PATH (path supplied as a variable/local/method return),
+# OTHER_DYNAMIC (path assigned to a local then rendered), GEM_INTERNAL (rendered
+# by a gem via naming convention).
+#
+partials:
+  app/views/admin/identities/_identity.html.haml:
+  - admin/identities/identity: 'COLLECTION: render @identities in app/views/admin/identities/index.html.haml:17'
+  app/views/admin/labels/_label.html.haml:
+  - admin/labels/label: 'COLLECTION: render @labels in app/views/admin/labels/index.html.haml:18'
+  app/views/admin/spam_logs/_spam_log.html.haml:
+  - admin/spam_logs/spam_log: 'COLLECTION: render @spam_logs in app/views/admin/spam_logs/index.html.haml:16'
+  app/views/groups/_invite_members_top_nav_link.html.haml:
+  - groups/invite_members_top_nav_link: 'PARTIAL_PATH: passed as partial: to invite_members_menu_item
+      in app/helpers/nav/new_dropdown_helper.rb:63, rendered by the invite_members
+      top-nav component'
+  app/views/groups/observability/setup/_endpoint_configuration.html.haml:
+  - groups/observability/setup/endpoint_configuration: 'PARTIAL_PATH: passed as endpoint_configuration_partial:
+      local, rendered via render endpoint_partial in app/views/shared/observability/setup/_setup_page.html.haml:29'
+  app/views/kaminari/gitlab/_disabled_page_cursor_nav.html.haml:
+  - kaminari/gitlab/disabled_page_cursor_nav: 'OTHER_DYNAMIC: assigned to local view
+      then render view in app/views/kaminari/gitlab/_prev_page.html.haml:12 and _next_page.html.haml:12'
+  app/views/kaminari/gitlab/_page.html.haml:
+  - kaminari/gitlab/page: 'GEM_INTERNAL: rendered by the kaminari gem internally via
+      paginate(theme: ''gitlab'') (app/helpers/pagination_helper.rb:24), not a direct
+      render call'
+  app/views/kaminari/gitlab/_page_cursor_nav.html.haml:
+  - kaminari/gitlab/page_cursor_nav: 'OTHER_DYNAMIC: assigned to local view then render
+      view in app/views/kaminari/gitlab/_prev_page.html.haml:12 and _next_page.html.haml:12'
+  app/views/profiles/chat_names/_chat_name.html.haml:
+  - profiles/chat_names/chat_name: 'COLLECTION: render @chat_names in app/views/profiles/chat_names/index.html.haml:21'
+  app/views/projects/_invite_members_top_nav_link.html.haml:
+  - projects/invite_members_top_nav_link: 'PARTIAL_PATH: passed as partial: to invite_members_menu_item
+      in app/helpers/nav/new_dropdown_helper.rb:117, rendered by the invite_members
+      top-nav component'
+  app/views/projects/commit/_expired_key_signature_badge.html.haml:
+  - projects/commit/expired_key_signature_badge: 'INTERPOLATED: render partial: "#{uri}#{verification_status}_signature_badge"
+      in app/views/projects/commit/_signature.html.haml:4 (verification_status enum
+      value "expired_key")'
+  app/views/projects/commit/_multiple_signatures_signature_badge.html.haml:
+  - projects/commit/multiple_signatures_signature_badge: 'INTERPOLATED: render partial:
+      "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (verification_status enum value "multiple_signatures")'
+  app/views/projects/commit/_other_user_signature_badge.html.haml:
+  - projects/commit/other_user_signature_badge: 'INTERPOLATED: render partial: "#{uri}#{verification_status}_signature_badge"
+      in app/views/projects/commit/_signature.html.haml:4 (verification_status enum
+      value "other_user")'
+  app/views/projects/commit/_revoked_key_signature_badge.html.haml:
+  - projects/commit/revoked_key_signature_badge: 'INTERPOLATED: render partial: "#{uri}#{verification_status}_signature_badge"
+      in app/views/projects/commit/_signature.html.haml:4 (verification_status enum
+      value "revoked_key")'
+  app/views/projects/commit/_same_user_different_email_signature_badge.html.haml:
+  - projects/commit/same_user_different_email_signature_badge: 'INTERPOLATED: render
+      partial: "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (verification_status enum value "same_user_different_email")'
+  app/views/projects/commit/_unknown_key_signature_badge.html.haml:
+  - projects/commit/unknown_key_signature_badge: 'INTERPOLATED: render partial: "#{uri}#{verification_status}_signature_badge"
+      in app/views/projects/commit/_signature.html.haml:4 (verification_status enum
+      value "unknown_key")'
+  app/views/projects/commit/_unverified_author_email_signature_badge.html.haml:
+  - projects/commit/unverified_author_email_signature_badge: 'INTERPOLATED: render
+      partial: "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (verification_status enum value "unverified_author_email")'
+  app/views/projects/commit/_unverified_key_signature_badge.html.haml:
+  - projects/commit/unverified_key_signature_badge: 'INTERPOLATED: render partial:
+      "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (verification_status enum value "unverified_key")'
+  app/views/projects/commit/_verified_signature_badge.html.haml:
+  - projects/commit/verified_signature_badge: 'INTERPOLATED: render partial: "#{uri}#{verification_status}_signature_badge"
+      in app/views/projects/commit/_signature.html.haml:4 (verification_status enum
+      value "verified")'
+  app/views/projects/commit/_verified_system_signature_badge.html.haml:
+  - projects/commit/verified_system_signature_badge: 'INTERPOLATED: render partial:
+      "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (verification_status enum value "verified_system")'
+  app/views/projects/commit/x509/_unverified_author_email_signature_badge.html.haml:
+  - projects/commit/x509/unverified_author_email_signature_badge: 'INTERPOLATED: render
+      partial: "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (x509/ prefix + enum value "unverified_author_email")'
+  app/views/projects/commit/x509/_unverified_signature_badge.html.haml:
+  - projects/commit/x509/unverified_signature_badge: 'INTERPOLATED: render partial:
+      "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (x509/ prefix + enum value "unverified")'
+  app/views/projects/commit/x509/_verified_signature_badge.html.haml:
+  - projects/commit/x509/verified_signature_badge: 'INTERPOLATED: render partial:
+      "#{uri}#{verification_status}_signature_badge" in app/views/projects/commit/_signature.html.haml:4
+      (x509/ prefix + enum value "verified")'
+  app/views/projects/observability/setup/_endpoint_configuration.html.haml:
+  - projects/observability/setup/endpoint_configuration: 'PARTIAL_PATH: passed as
+      endpoint_configuration_partial: local, rendered via render endpoint_partial
+      in app/views/shared/observability/setup/_setup_page.html.haml:29'
+  app/views/shared/deploy_keys/_project_group_form.html.haml:
+  - shared/deploy_keys/project_group_form: 'PARTIAL_PATH: returned by DeployKeysPresenter#form_partial_path,
+      rendered via render @deploy_keys.form_partial_path in app/views/shared/deploy_keys/_index.html.haml:25'
+  app/views/shared/wikis/_wiki_directory.html.haml:
+  - shared/wikis/wiki_directory: 'PARTIAL_PATH: returned by WikiDirectory#to_partial_path,
+      rendered via render partial: entry.to_partial_path in app/views/shared/wikis/pages.html.haml:32
+      and _wiki_directory.html.haml:14'
+  app/views/shared/wikis/_wiki_page.html.haml:
+  - shared/wikis/wiki_page: 'PARTIAL_PATH: returned by WikiPage#to_partial_path, rendered
+      via render partial: entry.to_partial_path in app/views/shared/wikis/pages.html.haml
+      and templates.html.haml'
+  ee/app/views/projects/commit/_verified_ca_signature_badge.html.haml:
+  - projects/commit/verified_ca_signature_badge: 'INTERPOLATED: render partial: "#{uri}#{verification_status}_signature_badge"
+      in app/views/projects/commit/_signature.html.haml:4 (verification_status enum
+      value "verified_ca")'
+  ee/app/views/projects/path_locks/_path_lock.html.haml:
+  - projects/path_locks/path_lock: 'COLLECTION: render @path_locks in ee/app/views/projects/path_locks/index.html.haml:10'
+  app/views/projects/blob/viewers/_audio.html.haml:
+  - projects/blob/viewers/audio: 'PARTIAL_PATH: render viewer.partial_path / viewer.loading_partial_path in app/views/projects/blob/_viewer.html.haml:13,24; path from BlobViewer::Base.partial_path'
+  app/views/projects/blob/viewers/_changelog.html.haml:
+  - projects/blob/viewers/changelog: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_citation.html.haml:
+  - projects/blob/viewers/citation: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_contributing.html.haml:
+  - projects/blob/viewers/contributing: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_csv.html.haml:
+  - projects/blob/viewers/csv: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_dependency_manager.html.haml:
+  - projects/blob/viewers/dependency_manager: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_download.html.haml:
+  - projects/blob/viewers/download: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_empty.html.haml:
+  - projects/blob/viewers/empty: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_graph.html.haml:
+  - projects/blob/viewers/graph: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_image.html.haml:
+  - projects/blob/viewers/image: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_license.html.haml:
+  - projects/blob/viewers/license: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_loading.html.haml:
+  - projects/blob/viewers/loading: 'PARTIAL_PATH: render viewer.loading_partial_path in app/views/projects/blob/_viewer.html.haml:13'
+  app/views/projects/blob/viewers/_loading_auxiliary.html.haml:
+  - projects/blob/viewers/loading_auxiliary: 'PARTIAL_PATH: render viewer.loading_partial_path in app/views/projects/blob/_viewer.html.haml:13'
+  app/views/projects/blob/viewers/_markup.html.haml:
+  - projects/blob/viewers/markup: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_notebook.html.haml:
+  - projects/blob/viewers/notebook: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_openapi.html.haml:
+  - projects/blob/viewers/openapi: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_pdf.html.haml:
+  - projects/blob/viewers/pdf: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_readme.html.haml:
+  - projects/blob/viewers/readme: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_route_map.html.haml:
+  - projects/blob/viewers/route_map: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_route_map_loading.html.haml:
+  - projects/blob/viewers/route_map_loading: 'PARTIAL_PATH: render viewer.loading_partial_path in app/views/projects/blob/_viewer.html.haml:13'
+  app/views/projects/blob/viewers/_sketch.html.haml:
+  - projects/blob/viewers/sketch: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_stl.html.haml:
+  - projects/blob/viewers/stl: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_svg.html.haml:
+  - projects/blob/viewers/svg: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_text.html.haml:
+  - projects/blob/viewers/text: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/blob/viewers/_video.html.haml:
+  - projects/blob/viewers/video: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/blob/_viewer.html.haml:24'
+  app/views/projects/diffs/viewers/_added.html.haml:
+  - projects/diffs/viewers/added: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_collapsed.html.haml:
+  - projects/diffs/viewers/collapsed: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_deleted.html.haml:
+  - projects/diffs/viewers/deleted: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_image.html.haml:
+  - projects/diffs/viewers/image: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_mode_changed.html.haml:
+  - projects/diffs/viewers/mode_changed: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_no_preview.html.haml:
+  - projects/diffs/viewers/no_preview: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_not_diffable.html.haml:
+  - projects/diffs/viewers/not_diffable: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_renamed.html.haml:
+  - projects/diffs/viewers/renamed: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/projects/diffs/viewers/_text.html.haml:
+  - projects/diffs/viewers/text: 'PARTIAL_PATH: render viewer.partial_path in app/views/projects/diffs/_viewer.html.haml'
+  app/views/search/results/_blob.html.haml:
+  - search/results/blob: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/search/results/_issue.html.haml:
+  - search/results/issue: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/search/results/_merge_request.html.haml:
+  - search/results/merge_request: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/search/results/_milestone.html.haml:
+  - search/results/milestone: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/search/results/_note.html.haml:
+  - search/results/note: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/search/results/_snippet_title.html.haml:
+  - search/results/snippet_title: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/search/results/_wiki_blob.html.haml:
+  - search/results/wiki_blob: 'INTERPOLATED: render_if_exists partial: "search/results/#{@scope.singularize}" in app/views/search/_results_list.html.haml:37'
+  app/views/profiles/preferences/tabs/_appearance.html.haml:
+  - profiles/preferences/tabs/appearance: 'INTERPOLATED: render "profiles/preferences/tabs/#{tab[:partial]}" in app/views/profiles/preferences/show.html.haml:18,23'
+  app/views/profiles/preferences/tabs/_behavior.html.haml:
+  - profiles/preferences/tabs/behavior: 'INTERPOLATED: render "profiles/preferences/tabs/#{tab[:partial]}" in app/views/profiles/preferences/show.html.haml:18,23'
+  app/views/profiles/preferences/tabs/_editing.html.haml:
+  - profiles/preferences/tabs/editing: 'INTERPOLATED: render "profiles/preferences/tabs/#{tab[:partial]}" in app/views/profiles/preferences/show.html.haml:18,23'
+  app/views/profiles/preferences/tabs/_integrations.html.haml:
+  - profiles/preferences/tabs/integrations: 'INTERPOLATED: render "profiles/preferences/tabs/#{tab[:partial]}" in app/views/profiles/preferences/show.html.haml:18,23'
+  app/views/profiles/preferences/tabs/_localization.html.haml:
+  - profiles/preferences/tabs/localization: 'INTERPOLATED: render "profiles/preferences/tabs/#{tab[:partial]}" in app/views/profiles/preferences/show.html.haml:18,23'
+  ee/app/views/profiles/preferences/tabs/_duo.html.haml:
+  - profiles/preferences/tabs/duo: 'INTERPOLATED: render "profiles/preferences/tabs/#{tab[:partial]}" in app/views/profiles/preferences/show.html.haml:18,23 (duo tab added via EE)'
+  app/views/kaminari/gitlab/_gap.html.haml:
+  - kaminari/gitlab/gap: 'GEM_INTERNAL: rendered by the kaminari gem via paginate(theme: ''gitlab''); _paginator.html.haml calls gap_tag'
+  app/views/kaminari/gitlab/_next_page.html.haml:
+  - kaminari/gitlab/next_page: 'GEM_INTERNAL: rendered by the kaminari gem via paginate(theme: ''gitlab''); _paginator.html.haml calls next_page_tag'
+  app/views/kaminari/gitlab/_paginator.html.haml:
+  - kaminari/gitlab/paginator: 'GEM_INTERNAL: rendered by the kaminari gem via paginate(theme: ''gitlab'') (app/helpers/pagination_helper.rb)'
+  app/views/kaminari/gitlab/_prev_page.html.haml:
+  - kaminari/gitlab/prev_page: 'GEM_INTERNAL: rendered by the kaminari gem via paginate(theme: ''gitlab''); _paginator.html.haml calls prev_page_tag'
+  app/views/import/source_users/_accept_invite.html.haml:
+  - import/source_users/accept_invite: 'PARTIAL_PATH: banner("accept_invite") -> render_to_string(partial:) in app/controllers/import/source_users_controller.rb:72'
+  app/views/import/source_users/_invalid_invite.html.haml:
+  - import/source_users/invalid_invite: 'PARTIAL_PATH: banner("invalid_invite") -> render_to_string(partial:) in app/controllers/import/source_users_controller.rb:72'
+  app/views/import/source_users/_reject_invite.html.haml:
+  - import/source_users/reject_invite: 'PARTIAL_PATH: banner("reject_invite") -> render_to_string(partial:) in app/controllers/import/source_users_controller.rb:72'
+  app/views/notify/links/generic_commit_statuses/_generic_commit_status.html.haml:
+  - notify/links/generic_commit_statuses/generic_commit_status: 'INTERPOLATED: render "notify/links/#{build.to_partial_path}" in app/views/notify/_failed_builds.html.haml:23'
+  app/views/notify/links/jobs/_job.html.haml:
+  - notify/links/jobs/job: 'INTERPOLATED: render "notify/links/#{build.to_partial_path}" in app/views/notify/_failed_builds.html.haml:23'
+  app/views/notify/links/projects/generic_commit_statuses/_generic_commit_status.html.haml:
+  - notify/links/projects/generic_commit_statuses/generic_commit_status: 'INTERPOLATED: render "notify/links/#{build.to_partial_path}" in app/views/notify/_failed_builds.html.haml:23'
+  app/views/devise/mailer/_confirmation_instructions_account.html.haml:
+  - devise/mailer/confirmation_instructions_account: 'INTERPOLATED: render partial: "confirmation_instructions_#{...}" in app/views/devise/mailer/confirmation_instructions.html.haml:1 and .text.erb:1'
+  app/views/devise/mailer/_confirmation_instructions_secondary.html.haml:
+  - devise/mailer/confirmation_instructions_secondary: 'INTERPOLATED: render partial: "confirmation_instructions_#{...}" in app/views/devise/mailer/confirmation_instructions.html.haml:1 and .text.erb:1'
+  app/views/shared/wikis/_pages_wiki_page.html.haml:
+  - shared/wikis/pages_wiki_page: 'INTERPOLATED: render "shared/wikis/#{context}_wiki_page" in app/views/shared/wikis/_wiki_page.html.haml:1'
+  app/views/projects/_readme.html.haml:
+  - projects/readme: 'PARTIAL_PATH: render view_path where view_path = @project.default_view in app/views/projects/show.html.haml:33 (ProjectPresenter#default_view)'
+  app/views/projects/_wiki.html.haml:
+  - projects/wiki: 'PARTIAL_PATH: render view_path where view_path = @project.default_view in app/views/projects/show.html.haml:33 (ProjectPresenter#default_view)'
+  app/views/shared/integrations/gitlab_slack_application/_help.html.haml:
+  - shared/integrations/gitlab_slack_application/help: 'INTERPOLATED: render "shared/integrations/#{integration.to_param}/help" in app/views/shared/_integration_settings.html.haml'
+  app/views/shared/integrations/gitlab_slack_application/_slack_integration_form.html.haml:
+  - shared/integrations/gitlab_slack_application/slack_integration_form: 'INTERPOLATED: render "shared/integrations/#{integration.to_param}/slack_integration_form" in app/views/shared/integrations/gitlab_slack_application/_help.html.haml:9'
+  app/views/shared/integrations/gitlab_slack_application/_top.html.haml:
+  - shared/integrations/gitlab_slack_application/top: 'INTERPOLATED: render "shared/integrations/#{integration.to_param}/top" in app/views/projects/settings/integrations/_form.html.haml:2'
+  app/views/shared/integrations/mattermost_slash_commands/_help.html.haml:
+  - shared/integrations/mattermost_slash_commands/help: 'INTERPOLATED: render "shared/integrations/#{integration.to_param}/help" in app/views/shared/_integration_settings.html.haml:10'
+  ee/app/views/shared/integrations/google_cloud_platform_artifact_registry/_help.html.haml:
+  - shared/integrations/google_cloud_platform_artifact_registry/help: 'INTERPOLATED: render "shared/integrations/#{integration.to_param}/help" in app/views/shared/_integration_settings.html.haml'
+  ee/app/views/shared/integrations/google_cloud_platform_workload_identity_federation/_help.html.haml:
+  - shared/integrations/google_cloud_platform_workload_identity_federation/help: 'INTERPOLATED: render "shared/integrations/#{integration.to_param}/help" in app/views/shared/_integration_settings.html.haml'
+  app/views/clusters/clusters/_advanced_settings_container.html.haml:
+  - clusters/clusters/advanced_settings_container: 'OTHER_DYNAMIC: render ''advanced_settings_container'' in ClustersHelper#render_cluster_info_tab_content (app/helpers/clusters_helper.rb:54), called from app/views/clusters/clusters/show.html.haml:40'
+  app/views/clusters/clusters/_details.html.haml:
+  - clusters/clusters/details: 'OTHER_DYNAMIC: render(''details'', expanded:) in ClustersHelper#render_cluster_info_tab_content (app/helpers/clusters_helper.rb:58), called from app/views/clusters/clusters/show.html.haml:40'
+  app/views/clusters/clusters/_migrate.html.haml:
+  - clusters/clusters/migrate: 'OTHER_DYNAMIC: render ''migrate'' in ClustersHelper#render_cluster_info_tab_content (app/helpers/clusters_helper.rb:56), called from app/views/clusters/clusters/show.html.haml:40'
+  app/views/projects/incidents/_new_branch.html.haml:
+  - projects/incidents/new_branch: 'OTHER_DYNAMIC: bare render ''new_branch'' in app/views/projects/issues/_emoji_block.html.haml:9 resolves via IncidentsController view-path prefix projects/incidents (override delegating to projects/issues/new_branch)'

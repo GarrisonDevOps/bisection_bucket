@@ -1,0 +1,20 @@
+{
+  "pages.projects.merge_requests.creations": {
+    "feature_flag": "vue3_migrate_merge_request_pages"
+  },
+  "pages.projects.merge_requests.creations.diffs": {
+    "feature_flag": "vue3_migrate_merge_request_pages"
+  },
+  "pages.projects.merge_requests.creations.new": {
+    "feature_flag": "vue3_migrate_merge_request_pages"
+  },
+  "pages.projects.merge_requests.rapid_diffs": {
+    "feature_flag": "vue3_migrate_merge_request_pages"
+  },
+  "pages.projects.merge_requests.reports": {
+    "feature_flag": "vue3_migrate_merge_request_pages"
+  },
+  "pages.projects.merge_requests.show": {
+    "feature_flag": "vue3_migrate_merge_request_pages"
+  }
+}

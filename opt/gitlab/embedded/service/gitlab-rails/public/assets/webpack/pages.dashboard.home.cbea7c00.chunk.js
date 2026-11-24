@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[18835],{827842(a,b,c){(0,c(743796).A)()}},function(a){a.O(0,[10207,14125,16542,18921,22302,2706,2724,28968,40026,74327,84915],function(){return a(a.s=827842)}),a.O()}]);
+//# sourceMappingURL=pages.dashboard.home.cbea7c00.chunk.js.map

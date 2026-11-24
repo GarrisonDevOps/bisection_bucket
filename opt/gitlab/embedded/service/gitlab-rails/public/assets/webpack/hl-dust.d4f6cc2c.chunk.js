@@ -1,0 +1,2 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[7753],{538141(a,b,c){c.r(b),c.d(b,{},{default:function(a){return{name:"Dust",aliases:["dst"],case_insensitive:!0,subLanguage:"xml",contains:[{className:"template-tag",begin:/\{[#\/]/,end:/\}/,illegal:/;/,contains:[{className:"name",begin:/[a-zA-Z\.-]+/,starts:{endsWithParent:!0,relevance:0,contains:[a.QUOTE_STRING_MODE]}}]},{className:"template-variable",begin:/\{/,end:/\}/,illegal:/;/,keywords:"if eq ne lt lte gt gte select default math sep"}]}}})}}]);
+//# sourceMappingURL=hl-dust.d4f6cc2c.chunk.js.map

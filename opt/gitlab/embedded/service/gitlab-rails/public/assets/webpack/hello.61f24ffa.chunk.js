@@ -1,0 +1,9 @@
+"use strict";(this.rspackChunk=this.rspackChunk||[]).push([[78874],{346049(a,b,c){var d=c(197846),e=c(365297);let f=String.fromCodePoint(129309),g=String.fromCodePoint(128270),h=String.fromCodePoint(128640),i=["  ##      ##  "," ############ "," +##########+ "," ++++####++++ ","  ++++..++++  ","    ......    "],j={"#":"#e2432a","+":"#fc6d27",".":"#fca326"," ":"inherit"},k=["⠀⠀⣰⣧⠀⠀⠀⠀⠀⠀⣼⣆⠀⠀","⠀⢠⣿⣿⡆⣀⣀⣀⣀⢰⣿⣿⡄⠀","⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀","⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀","⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⠟⠋⠀⠀","⠀⠀⠀⠀⠈⠙⢿⡿⠋⠁⠀⠀⠀⠀"].map((a,b)=>[...i[b].matchAll(/(.)\1*/g)].map(({0:b,1:c,index:d})=>({text:a.slice(d,d+b.length),style:`color: ${j[c]}; font-weight: bold; font-family: 'Apple Symbols', 'Segoe UI Symbol', 'DejaVu Sans Mono', monospace; line-height: 1;`}))),l=k.map(a=>a.map(({text:a})=>`%c${a}`).join("")).join("\n"),m=k.flat().map(({style:a})=>a);c.d(b,{},{logHello:()=>{console.log(`${l}
+%c${(0,d.A1)("HelloMessage|Welcome to GitLab!")}%c
+
+${(0,d.A1)("HelloMessage|Does this page need fixes or improvements? Open an issue or contribute a merge request to help make GitLab more lovable. At GitLab, everyone can contribute!")}
+
+${(0,d.nv)((0,d.A1)("HelloMessage|%{handshake_emoji} Contribute to GitLab: %{contribute_link}"),{handshake_emoji:`${f}`,contribute_link:`${e.cW}/community/contribute/`})}
+${(0,d.nv)((0,d.A1)("HelloMessage|%{magnifier_emoji} Create a new GitLab issue: %{new_issue_link}"),{magnifier_emoji:`${g}`,new_issue_link:"https://gitlab.com/gitlab-org/gitlab/-/work_items/new"})}
+${window.gon?.dot_com?`${(0,d.nv)((0,d.A1)("HelloMessage|%{rocket_emoji} We like your curiosity! Help us improve GitLab by joining the team: %{jobs_page_link}"),{rocket_emoji:`${h}`,jobs_page_link:`${e.cW}/jobs/`})}`:""}`,...m,"padding-top: 0.5em; font-size: 2em;","padding-bottom: 0.5em;")}})}}]);
+//# sourceMappingURL=hello.61f24ffa.chunk.js.map

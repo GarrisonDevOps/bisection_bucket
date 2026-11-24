@@ -1,0 +1,135 @@
+package command_test
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/cmd/gitlab-shell-authorized-keys-check/command"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/authorizedkeys"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/command/commandargs"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/config"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/executable"
+	"gitlab.com/gitlab-org/gitlab-shell/v14/internal/sshenv"
+)
+
+const (
+	testGitUser  = "git"
+	testActual   = "actual"
+	testUser     = "user"
+	testKey      = "key"
+	testExpected = "expected"
+)
+
+var (
+	authorizedKeysExec = &executable.Executable{Name: executable.AuthorizedKeysCheck}
+	basicConfig        = &config.Config{GitlabURL: "http+unix://gitlab.socket"}
+)
+
+func TestNew(t *testing.T) {
+	testCases := []struct {
+		desc         string
+		executable   *executable.Executable
+		env          sshenv.Env
+		arguments    []string
+		config       *config.Config
+		expectedType interface{}
+	}{
+		{
+			desc:         "it returns a AuthorizedKeys command",
+			executable:   authorizedKeysExec,
+			arguments:    []string{testGitUser, testGitUser, testKey},
+			config:       basicConfig,
+			expectedType: &authorizedkeys.Command{},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			command, err := command.New(tc.arguments, tc.config, nil)
+
+			require.NoError(t, err)
+			require.IsType(t, tc.expectedType, command)
+		})
+	}
+}
+
+func TestParseSuccess(t *testing.T) {
+	testCases := []struct {
+		desc         string
+		executable   *executable.Executable
+		env          sshenv.Env
+		arguments    []string
+		expectedArgs commandargs.CommandArgs
+		expectError  bool
+	}{
+		{
+			desc:         "It parses authorized-keys command",
+			executable:   &executable.Executable{Name: executable.AuthorizedKeysCheck},
+			arguments:    []string{testGitUser, testGitUser, testKey},
+			expectedArgs: &commandargs.AuthorizedKeys{Arguments: []string{testGitUser, testGitUser, testKey}, ExpectedUser: testGitUser, ActualUser: testGitUser, Key: testKey},
+		},
+		{
+			// this seems counter-intuitive, but this ensures we're preserving the
+			// current logic when handling this situation/
+			desc:         "No error when expected user does not match actual user",
+			executable:   &executable.Executable{Name: executable.AuthorizedKeysCheck},
+			arguments:    []string{testExpected, testActual, testKey},
+			expectedArgs: &commandargs.AuthorizedKeys{Arguments: []string{testExpected, testActual, testKey}, ExpectedUser: testExpected, ActualUser: testActual, Key: testKey},
+			expectError:  false,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			result, err := command.Parse(tc.arguments)
+
+			if !tc.expectError {
+				require.NoError(t, err)
+				require.Equal(t, tc.expectedArgs, result)
+			} else {
+				require.Error(t, err)
+			}
+		})
+	}
+}
+
+func TestParseFailure(t *testing.T) {
+	testCases := []struct {
+		desc          string
+		executable    *executable.Executable
+		env           sshenv.Env
+		arguments     []string
+		expectedError string
+	}{
+		{
+			desc:          "With not enough arguments for the AuthorizedKeysCheck",
+			executable:    &executable.Executable{Name: executable.AuthorizedKeysCheck},
+			arguments:     []string{testUser},
+			expectedError: "# Insufficient arguments. 1. Usage\n#\tgitlab-shell-authorized-keys-check <expected-username> <actual-username> <key>",
+		},
+		{
+			desc:          "With too many arguments for the AuthorizedKeysCheck",
+			executable:    &executable.Executable{Name: executable.AuthorizedKeysCheck},
+			arguments:     []string{testUser, testUser, testKey, "something-else"},
+			expectedError: "# Insufficient arguments. 4. Usage\n#\tgitlab-shell-authorized-keys-check <expected-username> <actual-username> <key>",
+		},
+		{
+			desc:          "With missing username for the AuthorizedKeysCheck",
+			executable:    &executable.Executable{Name: executable.AuthorizedKeysCheck},
+			arguments:     []string{testUser, "", testKey},
+			expectedError: "# No username provided",
+		},
+		{
+			desc:          "With missing key for the AuthorizedKeysCheck",
+			executable:    &executable.Executable{Name: executable.AuthorizedKeysCheck},
+			arguments:     []string{testUser, testUser, ""},
+			expectedError: "# No key provided",
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			_, err := command.Parse(tc.arguments)
+			require.EqualError(t, err, tc.expectedError)
+		})
+	}
+}
