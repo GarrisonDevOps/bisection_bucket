@@ -1,0 +1,35 @@
+%tr
+  %td.text-content
+    = email_default_heading(say_hi(@user))
+
+    %p
+      - if @all_failed
+        = safe_format(s_('AICatalog|Your bulk enablement of %{link_start}%{item_name}%{link_end} did not complete successfully.'), tag_pair(link_to('', item_url), :link_start, :link_end).merge(item_name: @item.name))
+      - elsif @has_failures
+        = safe_format(s_('AICatalog|Your bulk enablement of %{link_start}%{item_name}%{link_end} completed with errors.'), tag_pair(link_to('', item_url), :link_start, :link_end).merge(item_name: @item.name))
+      - else
+        = safe_format(s_('AICatalog|Your bulk enablement of %{link_start}%{item_name}%{link_end} completed successfully.'), tag_pair(link_to('', item_url), :link_start, :link_end).merge(item_name: @item.name))
+
+    %p
+      %strong= _('Summary:')
+    %p{ style: 'margin: 0;' }
+      = format(s_('AICatalog|Total projects: %{total}'), total: total_count)
+    %p{ style: 'margin: 0; color: #108548;' }
+      = format(s_('AICatalog|Successful: %{count}'), count: @successful_count)
+    - if @has_failures
+      %p{ style: 'margin: 0; color: #dd2b0e;' }
+        = format(s_('AICatalog|Failed: %{count}'), count: @failures.size)
+
+      %p{ style: 'margin-top: 16px;' }
+        %strong= s_('AICatalog|Failed projects:')
+      - @failures.each do |failure|
+        %p{ style: 'margin: 8px 0;' }
+          %strong= link_to(failure[:project].name, project_url(failure[:project]))
+          = "- #{failure[:error_message]}"
+    - if @has_warnings
+      %p{ style: 'margin-top: 16px;' }
+        %strong= s_('AICatalog|Projects enabled with warnings:')
+      - @warnings.each do |warning|
+        %p{ style: 'margin: 8px 0;' }
+          %strong= link_to(warning[:project].name, project_url(warning[:project]))
+          = "- #{warning[:message]}"

@@ -1,0 +1,27 @@
+---
+description: CVS is triggered by a change to the Software Bill of Materials (SBOM)
+internal_events: true
+action: cvs_on_sbom_change
+additional_properties:
+  label:
+    description: Type of the source of the SBOM components (e.g. pipeline_info)
+  property:
+    description: Id of the pipeline where SBOM components have been detected
+  start_time:
+    description: Start time of the CVS execution
+  end_time:
+    description: End time of the CVS execution
+  possibly_affected_sbom_occurrences:
+    description: Number of SBOM occurrences that could possibly be affected by the vulnerability
+  known_affected_sbom_occurrences:
+    description: Number of SBOM occurrences that are actually affected by the vulnerability
+  sbom_occurrences_semver_dialects_errors_count:
+    description: Number of SBOM occurrences for which CVS returned a SemverDialect Error
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+- dependency_management
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/163935
+tiers:
+  - ultimate

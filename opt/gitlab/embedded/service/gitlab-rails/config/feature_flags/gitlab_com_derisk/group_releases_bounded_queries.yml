@@ -1,0 +1,10 @@
+---
+name: group_releases_bounded_queries
+description: In the group releases finder, count releases directly and read each page from each project's first releases in the requested order.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638258
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269114
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639012
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

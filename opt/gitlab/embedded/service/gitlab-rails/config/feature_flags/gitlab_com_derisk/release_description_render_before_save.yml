@@ -1,0 +1,10 @@
+---
+name: release_description_render_before_save
+description: Renders a release description before the database transaction that creates or updates the release
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638256
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269134
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639034
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: fp_detection_non_default_branches
+description: Runs SAST false-positive detection automatically for new findings on tracked non-default branches and tags.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23514
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258183
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632914
+milestone: '19.6'
+group: group::agentic security flows
+type: beta
+default_enabled: true

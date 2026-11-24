@@ -1,0 +1,20 @@
+- return unless current_user
+- namespace = @project&.namespace || @group
+- return unless namespace.present?
+- return unless display_namespace_user_cap_reached_alert?(namespace)
+
+- root_namespace = namespace.root_ancestor
+- pending_users_link = pending_members_group_usage_quotas_path(root_namespace)
+- link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'
+- user_caps_link_start = link_start.html_safe % { url: help_page_path('subscriptions/manage_seats.md', anchor: 'user-cap') }
+- users_pending_approval_link_start = link_start.html_safe % { url: help_page_path('user/group/manage.md', anchor: 'approve-pending-members-for-a-group') }
+- link_end = '</a>'.html_safe
+
+= render Pajamas::AlertComponent.new(title: s_('NamespaceUserCap|Your group has reached its billable member limit'),
+  variant: :warning,
+  alert_options: { class: 'js-persistent-callout', data: namespace_user_cap_reached_alert_callout_data(namespace) },
+  close_button_options: { data: { testid: 'namespace_user_cap_alert_dismiss' }}) do |c|
+  - c.with_body do
+    = s_('NamespaceUserCap|Pending users must be reviewed and approved by a group owner. Learn more about %{user_caps_link_start}user caps%{link_end} and %{users_pending_approval_link_start}users pending approval%{link_end}.').html_safe % { user_caps_link_start: user_caps_link_start, users_pending_approval_link_start: users_pending_approval_link_start, link_end: link_end }
+  - c.with_actions do
+    = link_button_to s_('NamespaceUserCap|View pending approvals'), pending_users_link, class: 'gl-alert-action', variant: :confirm, size: :small

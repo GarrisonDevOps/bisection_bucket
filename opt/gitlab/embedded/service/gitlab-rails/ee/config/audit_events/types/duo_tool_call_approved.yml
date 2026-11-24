@@ -1,0 +1,10 @@
+---
+name: duo_tool_call_approved
+description: A tool call was approved in a Duo workflow session, either for one call (approval_scope once) or for the rest of the session (approval_scope session)
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593028
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233230
+feature_category: duo_agent_platform
+milestone: '19.0'
+saved_to_database: false
+streamed: true
+scope: [Group, Project]

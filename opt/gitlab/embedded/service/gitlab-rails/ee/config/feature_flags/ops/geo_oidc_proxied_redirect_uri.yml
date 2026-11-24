@@ -1,0 +1,8 @@
+---
+name: geo_oidc_proxied_redirect_uri
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/247435
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/396745
+milestone: '19.3'
+type: ops
+group: group::geo
+default_enabled: false

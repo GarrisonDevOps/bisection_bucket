@@ -1,0 +1,13 @@
+description: Trace external url
+category: project:operations:tracing
+action: external_url_populated
+extra_properties:
+identifiers:
+product_group: platform_insights
+product_categories:
+- observability
+milestone: "13.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/44323
+tiers:
+- premium
+- ultimate

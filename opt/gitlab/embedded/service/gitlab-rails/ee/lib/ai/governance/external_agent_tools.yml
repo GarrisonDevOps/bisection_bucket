@@ -1,0 +1,64 @@
+---
+# Tool names connected agents record through the GitLab CLI, by agent type and
+# Ai::ToolRules::Registry privilege group. Only the Tool calls by action card reads
+# this file; nothing here is enforced or shown in Tool management.
+#
+# Add a name only when the vendor's docs say what the tool does AND it has been
+# seen in production or a GitLab CLI fixture. Anything else stays Unclassified.
+
+# Claude Code
+claude-code:
+  read_only_files:  # Read
+    - name: Read
+      docs: https://code.claude.com/docs/en/tools-reference
+      seen_in: production, GitLab CLI fixtures (sync_test.go, events_test.go)
+  read_write_files:  # Write
+    - name: Edit
+      docs: https://code.claude.com/docs/en/tools-reference
+      seen_in: production, GitLab CLI fixture (sync_test.go)
+    - name: Write
+      docs: https://code.claude.com/docs/en/tools-reference
+      seen_in: production, GitLab CLI fixture (events_test.go)
+  run_commands:  # Destroy
+    - name: Bash
+      docs: https://code.claude.com/docs/en/tools-reference
+      seen_in: production, GitLab CLI fixtures (sync_test.go, events_test.go)
+
+# Cursor
+cursor:
+  read_only_files:  # Read
+    - name: Read
+      docs: https://cursor.com/docs/agent/tools
+      seen_in: production, GitLab CLI fixture (discovery_test.go)
+  read_write_files:  # Write
+    - name: Write
+      docs: https://cursor.com/docs/agent/hooks
+      seen_in: production
+  run_commands:  # Destroy
+    - name: Shell
+      docs: https://cursor.com/docs/agent/tools
+      seen_in: production, GitLab CLI fixture (discovery_test.go)
+
+# Codex
+codex:
+  read_write_files:  # Write
+    - name: apply_patch
+      docs: https://learn.chatgpt.com/docs/hooks
+      seen_in: GitLab CLI fixture (discovery_test.go)
+  run_commands:  # Destroy
+    - name: exec
+      docs: https://learn.chatgpt.com/docs/hooks
+      seen_in: production (code mode, the call runs tools.exec_command)
+    - name: exec_command
+      docs: https://learn.chatgpt.com/docs/hooks
+      seen_in: GitLab CLI fixture (discovery_test.go)
+    - name: shell
+      docs: https://learn.chatgpt.com/docs/config-file/config-reference
+      seen_in: GitLab CLI fixture (discovery_test.go), renamed from local_shell_call by the CLI
+
+# OpenCode
+opencode:
+  run_commands:  # Destroy
+    - name: bash
+      docs: https://opencode.ai/docs/tools/
+      seen_in: GitLab CLI fixture (sync_all_test.go)

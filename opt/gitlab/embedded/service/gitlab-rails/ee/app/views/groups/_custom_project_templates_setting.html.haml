@@ -1,0 +1,18 @@
+- return unless @group.group_project_template_available?
+- expanded = expanded_by_default?
+
+= render ::Layouts::SettingsBlockComponent.new(s_('GroupSettings|Custom project templates'),
+  id: 'js-custom-project-templates-settings',
+  testid: 'custom-project-templates-container',
+  expanded: expanded) do |c|
+  - c.with_description do
+    - link = link_to('', help_page_path('user/group/custom_project_templates.md'))
+    = safe_format(s_('GroupSettings|Select a subgroup to use as a source of custom templates for new projects in this group. %{link_start}Learn more%{link_end}.'), tag_pair(link, :link_start, :link_end))
+  - c.with_body do
+    = gitlab_ui_form_for @group, html: { multipart: true, class: 'gl-show-field-errors' }, authenticity_token: true do |f|
+      %input{ type: 'hidden', name: 'update_section', value: 'js-custom-project-templates-settings' }
+      = form_errors(@group)
+
+      .js-vue-group-select{ data: { label: _('Select subgroup'), input_name: 'group[custom_project_templates_group_id]', input_id: 'group_custom_project_templates_group_id', groups_filter: 'subgroups', parent_id: @group.id, selected: @group.namespace_template_setting&.custom_project_templates_group_id, clearable: 'true' } }
+
+      = f.submit _('Save changes'), pajamas_button: true , data: { testid: 'save-changes-button' }

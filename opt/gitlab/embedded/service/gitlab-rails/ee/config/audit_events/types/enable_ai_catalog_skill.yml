@@ -1,0 +1,10 @@
+---
+name: enable_ai_catalog_skill
+description: A user enables an AI Catalog skill in a project or group.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/639786
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270389
+feature_category: ai_catalog_curation
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Project, Group]

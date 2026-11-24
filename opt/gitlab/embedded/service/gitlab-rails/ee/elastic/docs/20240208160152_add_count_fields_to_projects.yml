@@ -1,0 +1,10 @@
+---
+name: AddCountFieldsToProjects
+version: '20240208160152'
+description: Add star_count and last_repository_updated_date to projects index.
+group: group::global search
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/144557
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169309
+marked_obsolete_in_milestone: '17.6'

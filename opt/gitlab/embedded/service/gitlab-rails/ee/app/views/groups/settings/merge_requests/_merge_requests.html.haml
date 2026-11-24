@@ -1,0 +1,34 @@
+- show_merge_checks = @group.licensed_feature_available?(:group_level_merge_checks_setting)
+- show_duo_code_review = @group.duo_features_enabled
+- duo_code_review_available = ::Gitlab::Duo::CodeReview.automatic_review_available?(@group)
+- duo_code_review_dap_available = duo_code_review_available && @group.duo_code_review_dap_available?
+- decisions_settings_available = ::Gitlab::Duo::CodeReview.decisions_settings_available?(@group)
+- depth_settings_available = ::Gitlab::Duo::CodeReview.depth_settings_available?(@group)
+
+= render ::Layouts::SettingsBlockComponent.new(_('Merge requests'),
+  id: 'js-merge-requests-settings',
+  expanded: expanded) do |c|
+  - c.with_description do
+    - if show_merge_checks && show_duo_code_review
+      = s_('GroupSettings|Configure merge request checks and automatic reviews by GitLab Duo for projects in this group. These settings cascade to subgroups and projects.')
+    - elsif show_merge_checks
+      = s_('GroupSettings|Choose the merge request checks for projects in this group. This setting overrides the same settings configured on each project in this group.')
+    - elsif show_duo_code_review
+      = s_('GroupSettings|Configure automatic reviews by GitLab Duo for merge requests in this group. This setting cascades to subgroups and projects but can be overridden.')
+    - else
+      = s_('GroupSettings|Configure merge request settings for projects in this group. These settings cascade to subgroups and projects.')
+  - c.with_body do
+    = gitlab_ui_form_for @group.namespace_settings, url: group_settings_merge_requests_path(@group), html: { multipart: true, class: 'merge-request-settings-form js-mr-settings-form' }, authenticity_token: true do |f|
+
+      = render 'groups/settings/merge_requests/require_sha_for_merge_settings', form: f
+
+      - if show_merge_checks
+        %hr.gl-border-default
+        %input{ name: 'update_section', type: 'hidden', value: 'js-merge-request-settings' }
+        = render 'groups/settings/merge_requests/merge_request_pipelines_and_threads_options', form: f
+
+      - if show_duo_code_review
+        %hr.gl-border-default
+        = render 'groups/settings/merge_requests/duo_code_review_settings', form: f, available: duo_code_review_available, decisions_available: decisions_settings_available, dap_available: duo_code_review_dap_available, depth_settings_available: depth_settings_available
+
+      = f.submit _('Save changes'), pajamas_button: true, data: { testid: 'save_merge_request_changes' }

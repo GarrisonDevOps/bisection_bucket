@@ -1,0 +1,18 @@
+---
+description: User clicks the explore pricing button on the self-managed credits card on the admin subscriptions page
+internal_events: true
+action: click_explore_pricing_cta_on_sm_credits_card
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - subscription_management
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237123
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: Identifies the CTA clicked; always "explore_pricing" for this event

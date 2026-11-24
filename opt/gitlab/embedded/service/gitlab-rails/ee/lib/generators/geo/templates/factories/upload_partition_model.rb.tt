@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+FactoryBot.define do
+  factory :geo_<%= file_name %>, class: 'Geo::<%= class_name %>' do
+    transient do
+      parent_model { create(:<%= parent_model_factory_name %>) } # rubocop:disable RSpec/FactoryBot/InlineAssociation -- Partition tables are read-only, and PostgreSQL routes Upload rows to the partition by model_type
+    end
+
+    initialize_with do
+      upload = create(:upload, :with_file, model: parent_model)
+      Geo::<%= class_name %>.find(upload.id)
+    end
+
+    trait :remote_store do
+      initialize_with do
+        upload = create(:upload, :object_storage, model: parent_model)
+        Geo::<%= class_name %>.find(upload.id)
+      end
+    end
+
+    # Verification state is stored in a separate state table
+    # (Geo::<%= state_class_name %>), not on the model itself.
+    trait(:verification_succeeded) do
+      after(:create) do |instance|
+        state = instance.<%= file_name %>_state
+        state.verification_checksum = 'abc'
+        state.verification_state = Geo::<%= class_name %>.verification_state_value(:verification_succeeded)
+        state.save!
+      end
+    end
+
+    trait(:verification_failed) do
+      after(:create) do |instance|
+        state = instance.<%= file_name %>_state
+        state.verification_failure = 'Could not calculate the checksum'
+        state.verification_state = Geo::<%= class_name %>.verification_state_value(:verification_failed)
+        state.save!
+      end
+    end
+
+    to_create { |instance| instance } # already persisted via initialize_with
+  end
+end

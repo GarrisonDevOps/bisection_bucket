@@ -1,0 +1,9 @@
+---
+name: geo_metrics_update_worker
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/499371
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169346
+rollout_issue_url:
+milestone: '19.3'
+type: ops
+group: group::geo
+default_enabled: true

@@ -1,0 +1,19 @@
+---
+description: Track Secret push protection total execution time
+internal_events: true
+status: active
+action: spp_total_execution_time
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  value:
+    description: execution time in seconds
+product_group: secret_detection
+product_categories:
+- secret_detection
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/218539
+tiers:
+- ultimate

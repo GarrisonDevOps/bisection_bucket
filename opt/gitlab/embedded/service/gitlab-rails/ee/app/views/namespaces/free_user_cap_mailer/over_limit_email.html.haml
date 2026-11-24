@@ -1,0 +1,25 @@
+%style{ type: 'text/css' }
+  a{ color: #6A4CC0 }
+  \.centered { text-align: center }
+  \h1.light { font-size: 1.5625rem }
+  \p.spaced-lines { line-height: 1.3rem }
+
+%p.centered
+  - image = 'mailers/in_product_marketing/team.png'
+  - attachments.inline[image] = File.read(Rails.root.join("app/assets/images", image))
+  = image_tag attachments[image].url, { width: '88', style: 'width: 88px;' }
+
+%h1.light.centered
+  = over_limit_title
+
+%p.spaced-lines
+  = over_limit_body_text(@namespace_name)
+
+%p.spaced-lines{ style: 'margin-bottom: 24px;' }
+  = over_limit_body_secondary_text(@start_trial_url, @upgrade_url, @trial_duration)
+
+%p.centered
+  = link_to s_('FreeUserCap|Manage members'), @manage_users_url, { style: 'color: white; background: #6A4CC0; border: none; border-radius: 4px; padding: 8px;' }
+
+%p.centered
+  = link_to s_('FreeUserCap|Explore paid plans'), @upgrade_url

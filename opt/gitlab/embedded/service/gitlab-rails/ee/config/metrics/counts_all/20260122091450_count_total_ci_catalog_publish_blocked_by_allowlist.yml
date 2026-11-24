@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_ci_catalog_publish_blocked_by_allowlist
+description: Count of CI/CD Catalog publish attempts blocked by allowlist restriction
+product_group: pipeline_authoring
+product_categories:
+  - pipeline_composition
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219891
+time_frame:
+  - 28d
+  - all
+data_source: internal_events
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+events:
+  - name: ci_catalog_publish_blocked_by_allowlist

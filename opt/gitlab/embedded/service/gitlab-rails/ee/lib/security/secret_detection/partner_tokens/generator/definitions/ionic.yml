@@ -1,0 +1,19 @@
+---
+token_type: "Ionic API token"
+class_name: "IonicClient"
+partner_name: "ionic"
+endpoint: "https://api.ionicjs.com/users/self"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Aion_[a-zA-Z0-9]{42}\z'
+sample_token: "ion_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_ionic_api"
+doc_url: "https://ionic.io/docs/appflow/personal-access-tokens"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

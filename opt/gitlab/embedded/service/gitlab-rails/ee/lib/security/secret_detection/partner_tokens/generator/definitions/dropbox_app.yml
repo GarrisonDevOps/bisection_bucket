@@ -1,0 +1,20 @@
+---
+token_type: "DropboxAppAccessToken"
+class_name: "DropboxAppClient"
+partner_name: "dropbox"
+endpoint: "https://api.dropboxapi.com/2/users/get_current_account"
+http_method: "post"
+auth_style: "bearer"
+token_pattern: '\Asl\.B_[a-zA-Z0-9_-]{138}\z'
+sample_token: "sl.B_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_dropbox_api"
+doc_url: "https://www.dropbox.com/developers/documentation/http/documentation#users-get_current_account"
+status_map:
+  "200": "active"
+  "400": "unknown"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

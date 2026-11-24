@@ -1,0 +1,18 @@
+---
+key_path: counts.count_total_ingest_ai_audit_events_batch_monthly
+description: Monthly count of AI audit event batches ingested
+product_group: compliance
+product_categories:
+- audit_events
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239886
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: ingest_ai_audit_events_batch

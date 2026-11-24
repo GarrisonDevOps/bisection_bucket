@@ -1,0 +1,11 @@
+---
+name: read_saved_reply
+description: Grants the ability to read saved replies (comment templates)
+boundaries:
+  - user
+  - group
+  - project
+available_for:
+  - granular_access_token
+permissions:
+  - read_saved_reply

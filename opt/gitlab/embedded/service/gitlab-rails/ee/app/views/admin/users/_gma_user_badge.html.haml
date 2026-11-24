@@ -1,0 +1,2 @@
+- if @user.group_managed_account?
+  = render Pajamas::BadgeComponent.new(s_('AdminUsers|Group Managed Account'), variant: :neutral)

@@ -1,0 +1,19 @@
+---
+key_path: counts.projects_inheriting_amazon_q_active
+description: Count of inherited projects with active integrations for AmazonQ
+product_group: duo_chat
+product_categories:
+- chat_engine
+value_type: number
+status: active
+milestone: "17.10"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/182145
+time_frame: all
+data_source: database
+instrumentation_class: ActiveProjectsInheritingIntegrationsMetric
+options:
+  type: amazon_q
+data_category: optional
+performance_indicator_type: []
+tiers:
+- ultimate

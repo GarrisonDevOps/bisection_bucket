@@ -1,0 +1,8 @@
+= render 'shared/ee/export_download_notice',
+    export_url: dependencies_export_download_url(@export),
+    exportable_link: dependencies_exportable_link(@export),
+    expiration_days: @expiration_days,
+    title_text: s_('Dependencies|The Dependency List was successfully exported from %{exportable}.'),
+    download_text: s_('Dependencies|%{link_start}Download the export%{link_end}'),
+    expiration_text: s_('Dependencies|This link will expire in %{number} days.'),
+    context_label: s_('Dependencies|Dependency List')

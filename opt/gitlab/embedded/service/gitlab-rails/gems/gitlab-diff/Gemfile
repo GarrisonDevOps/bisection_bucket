@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Specify your gem's dependencies in gitlab-diff.gemspec
+gemspec
+
+gem 'diff_match_patch', path: '../../vendor/gems/diff_match_patch'
+gem 'gitlab-utils', path: '../gitlab-utils'

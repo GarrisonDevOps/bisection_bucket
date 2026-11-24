@@ -1,0 +1,13 @@
+- provider = server['provider_name']
+
+- return unless smartcard_enabled_for_ldap?(provider)
+
+.gl-mt-5.gl-mb-3{ id: "#{provider}_smartcard" }
+  %h4.gl-heading-4
+    = sprite_icon('smart-card')
+    = _('Sign in using smart card')
+  %p
+    = _('Use your smart card to authenticate with the LDAP server.')
+  = gitlab_ui_form_for(:smartcard_ldap, url: auth_smartcard_url(provider: provider), html: { aria: { live: 'assertive' }}) do
+    = render Pajamas::ButtonComponent.new(type: :submit, variant: :confirm, category: smartcard_login_button_category(provider), block: true) do
+      = _('Sign in with smart card')

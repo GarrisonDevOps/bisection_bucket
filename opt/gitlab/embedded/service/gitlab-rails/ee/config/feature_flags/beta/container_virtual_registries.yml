@@ -1,0 +1,10 @@
+---
+name: container_virtual_registries
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/548794
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/204090
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/564803
+milestone: '18.4'
+group: group::container registry
+type: beta
+default_enabled: true

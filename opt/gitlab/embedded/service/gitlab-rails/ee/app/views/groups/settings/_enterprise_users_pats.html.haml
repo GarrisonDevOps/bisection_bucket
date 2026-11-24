@@ -1,0 +1,8 @@
+- return unless group.disable_personal_access_tokens_available?
+
+= f.gitlab_ui_checkbox_component :disable_personal_access_tokens, checkbox_options: { checked: group.disable_personal_access_tokens? } do |c|
+  - c.with_label do
+    = s_('GroupSettings|Disable personal access tokens')
+  - c.with_help_text do
+    - learn_more_link = link_to(_('Learn more'), help_page_path('user/profile/personal_access_tokens.md', anchor: 'disable-personal-access-tokens-for-enterprise-users'))
+    = s_("GroupSettings|If enabled, enterprise users cannot use personal access tokens. %{learn_more_link}.").html_safe % { learn_more_link: learn_more_link }

@@ -1,0 +1,5 @@
+---
+name: identity_verification
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/148123
+milestone: '16.11'
+group: group::authorization

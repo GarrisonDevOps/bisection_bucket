@@ -1,0 +1,19 @@
+- payload = Gitlab::Licenses::SubmitLicenseUsageDataBanner.new(current_user)
+- return unless payload&.display?
+
+= content_for :page_level_alert do
+  %div{ class: [container_class, @content_class, '!gl-pt-5'] }
+    = render Pajamas::AlertComponent.new(title: payload.title,
+      variant: :warning,
+      alert_options: { class: 'js-submit-license-usage-data-banner gl-my-5',
+                       data: { feature_id: payload.class::SUBMIT_LICENSE_USAGE_DATA_BANNER,
+                               dismiss_endpoint: callouts_path }},
+      dismissible: payload.dismissable?) do |c|
+      - c.with_body do
+        = payload.body
+      - c.with_actions do
+        - if payload.billable_usage_export_available?
+          = link_button_to s_('SubscriptionBanner|Export usage report'), billable_usage_admin_subscription_path, class: 'gl-alert-action', variant: :confirm, size: :small
+        - else
+          = link_button_to s_('SubscriptionBanner|Export license usage file'), admin_license_usage_export_path(format: :csv), class: 'gl-alert-action', variant: :confirm, size: :small
+        = link_button_to s_('SubscriptionBanner|Upload new license'), general_admin_application_settings_path, class: 'gl-alert-action', size: :small

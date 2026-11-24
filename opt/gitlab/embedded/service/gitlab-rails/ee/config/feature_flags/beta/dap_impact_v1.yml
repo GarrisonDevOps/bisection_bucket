@@ -1,0 +1,12 @@
+---
+name: dap_impact_v1
+description: Gates the duoWorkflows analytics aggregation engine and the DAP
+  Impact dashboard while DAP Impact v1 is under development. Can be enabled for
+  users or top-level groups.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/622366
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253495
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638848
+milestone: '19.4'
+group: group::optimize
+type: beta
+default_enabled: true

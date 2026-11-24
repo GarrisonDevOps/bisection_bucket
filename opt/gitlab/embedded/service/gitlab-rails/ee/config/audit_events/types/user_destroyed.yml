@@ -1,0 +1,12 @@
+---
+name: user_destroyed
+description:
+  A user is scheduled for removal from the instance.
+  Group and Project scopes were [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167021) in GitLab 17.5.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/374107
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/113784
+feature_category: user_management
+milestone: '15.11'
+saved_to_database: true
+streamed: true
+scope: [User, Group, Project]

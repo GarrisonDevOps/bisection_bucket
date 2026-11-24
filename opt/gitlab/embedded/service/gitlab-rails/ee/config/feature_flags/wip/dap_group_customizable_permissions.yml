@@ -1,0 +1,10 @@
+---
+name: dap_group_customizable_permissions
+description:
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/19743
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212521
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/581087
+milestone: '18.7'
+group: group::seat management
+type: wip
+default_enabled: false

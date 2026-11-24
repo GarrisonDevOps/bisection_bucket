@@ -1,0 +1,7 @@
+- if show_user_cap_alert?
+  .gl-w-full.gl-order-md-1.gl-mb-5.gl-mt-3{ class: "@md/panel:gl-mb-0" }
+    = render Pajamas::AlertComponent.new(variant: :info, dismissible: false,
+      alert_options: { data: { testid: "pending-members-alert" } }) do |c|
+      - c.with_body do
+        = safe_format(_('User caps is enabled for this group. You can manage members on the %{pending_members_link_start}pending members%{pending_members_link_end} page.'), tag_pair(pending_members_link, :pending_members_link_start, :pending_members_link_end))
+

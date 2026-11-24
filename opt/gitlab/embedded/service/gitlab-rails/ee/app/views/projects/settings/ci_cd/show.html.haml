@@ -1,0 +1,4 @@
+= render_ce 'projects/settings/ci_cd/show'
+
+- if can?(current_user, :admin_pipeline, @project)
+  = render 'projects/settings/ci_cd/pipeline_subscriptions'

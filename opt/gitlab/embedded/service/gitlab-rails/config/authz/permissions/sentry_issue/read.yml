@@ -1,0 +1,3 @@
+---
+name: read_sentry_issue
+description: Grants the ability to read errors from the project's Sentry or GitLab integrated error tracking, including error details and stack traces

@@ -1,0 +1,35 @@
+- add_page_specific_style 'page_bundles/promotions'
+- promotion_feature = 'promote_weight_sidebar_dismissed'
+
+- if show_promotions? && show_callout?(promotion_feature)
+  .block.js-weight-sidebar-callout.promotion-issue-sidebar{ data: { uid: promotion_feature } }
+    .sidebar-collapsed-icon{ data: { toggle: "dropdown", target: ".js-weight-sidebar-callout" } }
+      %span.gl-flex.gl-flex-col.gl-items-center{ data: { toggle: "tooltip", placement: "left", container: "body" }, title: _("Weight") }
+        = sprite_icon('weight')
+        %span.gl-pt-2.gl-px-3.gl-text-sm
+          = _('None')
+    .title.hide-collapsed.gl-font-bold{ class: '!gl-leading-28' }
+      = s_('Promotions|Weight')
+    .hide-collapsed.js-toggle-container.promotion-issue-weight-sidebar-message
+      %span.gl-text-subtle= s_('Promotions|This feature is locked.')
+      %a.btn-link.gl-button.js-toggle-button.js-weight-sidebar-callout-btn{ href: '#' }
+        = _('Learn more')
+        = sprite_icon('chevron-up', css_class: 'js-sidebar-collapse hidden')
+        = sprite_icon('chevron-down', css_class: 'js-sidebar-expand')
+      .js-toggle-content{ style: 'display: none' }
+        %div
+          %h4
+            = s_('Promotions|Weighting your issue')
+          %p
+            = image_tag('promotions/img-paid-feature-weight-sidebar.png', class: 'gl-w-full')
+          %p
+            = s_('Promotions|When you have a lot of issues, it can be hard to get an overview. By adding a weight to your issues, you can get a better idea of the effort, cost, required time, or value of each, and so better manage them.')
+          %p
+            - if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+              - subscription_link = link_button_to _('Premium plan'), promo_pricing_url, variant: :link, target: '_blank', rel: 'noopener noreferrer', class: 'tr-issue-weights-bronze-features-cta'
+              = s_("Promotions|See the other features in the %{subscription_link}").html_safe % { subscription_link: subscription_link }
+            - else
+              = s_('Promotions|Improve issues management with Issue weight and GitLab Enterprise Edition.')
+          %div
+            = render 'shared/promotions/promotion_link_project', short_form: true, target_blank: false, location: :issue_weights
+            = link_button_to s_("Promotions|Not now, thanks!"), '#', class: 'js-close js-close-callout gl-mt-3 js-close-session tr-issue-weights-not-now-cta'

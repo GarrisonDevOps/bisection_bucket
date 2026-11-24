@@ -1,0 +1,10 @@
+---
+name: ai_governance_connected_agents_filter
+description: Offer All agents and Connected alongside DAP in the AI Governance dashboard agent-class filter
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/618950
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632777
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254082
+milestone: '19.4'
+group: group::ai governance
+type: beta
+default_enabled: true

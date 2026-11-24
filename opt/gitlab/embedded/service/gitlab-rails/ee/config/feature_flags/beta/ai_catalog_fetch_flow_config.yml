@@ -1,0 +1,10 @@
+---
+name: ai_catalog_fetch_flow_config
+description: Let the Duo Workflow Service fetch a custom AI Catalog flow from GitLab instead of reading it from the CI job
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634359
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263006
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639169
+milestone: '19.6'
+group: group::ai catalog
+type: beta
+default_enabled: false

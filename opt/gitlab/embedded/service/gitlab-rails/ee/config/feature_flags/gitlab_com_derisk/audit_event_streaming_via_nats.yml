@@ -1,0 +1,13 @@
+---
+name: audit_event_streaming_via_nats
+description: Routes audit event streaming through NATS JetStream instead of enqueuing
+  a Sidekiq job per event. Publish failures fall back to the existing Sidekiq path,
+  preserving at-least-once delivery. Layered on top of the NATS capability check
+  (Gitlab::Nats.enabled?) as a per-root-group rollout overlay.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/17582
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249354
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/611331
+milestone: '19.3'
+group: group::compliance
+type: gitlab_com_derisk
+default_enabled: false

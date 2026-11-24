@@ -1,0 +1,10 @@
+---
+name: security_attribute_deleted
+description: A security attribute is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/568959
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209118
+feature_category: security_asset_inventories
+milestone: '18.6'
+saved_to_database: true
+streamed: true
+scope: [Group]

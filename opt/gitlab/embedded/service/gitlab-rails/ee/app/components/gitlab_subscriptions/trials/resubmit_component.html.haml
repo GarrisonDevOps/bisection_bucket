@@ -1,0 +1,19 @@
+= render top_page_component.new
+
+.gl-max-w-62.gl-mx-auto.gl-text-center{ class: extra_top_classes }
+  .svg-content
+    = image_tag(image_path('illustrations/status/status-alert-md.svg'), alt: _('Status alert'), size: 144)
+  %h1.gl-text-size-h-display
+    = _('Trial registration unsuccessful')
+  %p
+    = _("We're sorry, your trial could not be created. Please resubmit below to complete your registration.")
+
+  %p
+    = content
+
+  = form_tag submit_path, method: submit_method, data: { testid: 'trial-form' } do
+    - hidden_fields.each do |field, value|
+      = hidden_field_tag(field, value)
+
+    = render Pajamas::ButtonComponent.new(type: :submit, variant: :confirm, button_options: { class: 'gl-w-full', data: resubmit_button_data }) do
+      = _('Resubmit request')

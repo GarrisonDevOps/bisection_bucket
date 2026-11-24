@@ -1,0 +1,12 @@
+- page_title _("Work items")
+- @breadcrumb_link = issues_dashboard_path(assignee_username: current_user.username)
+- add_page_specific_style 'page_bundles/issuable_list'
+= content_for :meta_tags do
+  = auto_discovery_link_tag(:atom, safe_params.merge(rss_url_options).to_h, title: "#{current_user.name} issues")
+
+= render_dashboard_ultimate_trial(current_user)
+
+= render_if_exists 'shared/dashboard/saml_reauth_notice',
+  groups_requiring_saml_reauth: user_groups_requiring_reauth
+
+.js-issues-dashboard{ data: dashboard_issues_list_data(current_user) }

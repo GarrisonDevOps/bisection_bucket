@@ -1,0 +1,16 @@
+description: "Toggle list content"
+category: default
+action: toggle_list
+extra_properties:
+identifiers:
+product_group: planning_views
+product_categories:
+- planning_views
+milestone: "14.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/63765
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`closed`"

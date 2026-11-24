@@ -1,0 +1,7 @@
+- return unless group.enterprise_user_settings_available?(current_user)
+
+= f.gitlab_ui_checkbox_component :hide_email_on_profile, checkbox_options: { checked: group.hide_email_on_profile? } do |c|
+  - c.with_label do
+    = s_('GroupSettings|Hide email address from public profile')
+  - c.with_help_text do
+    = s_("GroupSettings|If enabled, hides email addresses on public profile pages for enterprise users.")

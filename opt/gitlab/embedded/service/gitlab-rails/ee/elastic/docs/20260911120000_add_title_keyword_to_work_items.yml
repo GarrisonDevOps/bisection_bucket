@@ -1,0 +1,11 @@
+---
+name: AddTitleKeywordToWorkItems
+version: '20260911120000'
+description: Adds a title.keyword sub-field to the work_items ES index mapping so
+  work items can be sorted by title on the Advanced Search path
+group: group::global search
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254391
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

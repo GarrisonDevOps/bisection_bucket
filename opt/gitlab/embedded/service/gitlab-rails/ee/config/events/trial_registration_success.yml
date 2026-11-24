@@ -1,0 +1,12 @@
+---
+description: Register trial successfully
+internal_events: true
+action: trial_registration_success
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+milestone: '17.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/179844
+tiers:
+  - ultimate

@@ -1,0 +1,19 @@
+---
+description: User dismissed the scan coverage recommendation banner
+internal_events: true
+status: active
+action: dismiss_scan_coverage_recommendation_banner
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The banner type shown. One of "no_scanners", "single_scanner_high", "single_scanner_low", or "two_scanners".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260446
+tiers:
+- ultimate

@@ -1,0 +1,10 @@
+= gitlab_ui_form_for @application_setting, url: security_and_compliance_admin_application_settings_path(anchor: 'js-security-mr-reports-settings'), html: { class: 'fieldset-form', id: 'security-mr-reports-settings' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group
+      = f.label :security_mr_report_cache_lifetime_minutes, _('Merge request security report cache lifetime (minutes)'), class: 'label-bold'
+      = f.number_field :security_mr_report_cache_lifetime_minutes, class: 'form-control gl-form-input', min: 10, max: 60
+      .form-text{ class: '!gl-text-subtle' }
+        = _('How long to cache security report comparisons on merge requests before regenerating. Longer durations reduce database load but may show slightly stale data. Must be between 10 and 60 minutes.')
+  = f.submit _('Save changes'), pajamas_button: true

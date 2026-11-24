@@ -1,0 +1,10 @@
+---
+name: ReindexProjectsToUpdateIntegerWithLongTypeSecondAttempt
+version: '20250404170331'
+description: Reindex projects to update integer with long type
+group: group::global search
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/187003
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198211
+marked_obsolete_in_milestone: '18.3'

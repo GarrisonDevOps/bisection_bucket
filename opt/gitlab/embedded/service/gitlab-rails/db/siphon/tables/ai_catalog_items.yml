@@ -1,0 +1,16 @@
+---
+table: ai_catalog_items
+database: main
+replication_targets:
+- name: clickhouse_main
+  target: siphon_ai_catalog_items
+  dedup_by:
+  - id
+  dedup_by_columns_lookup_table: siphon_ai_catalog_items_pg_pkey_ordered
+  reconcile:
+    column: traversal_path
+    expression_key_columns:
+    - organization_id
+- name: gcs_parquet_consumer
+  dedup_by:
+  - id

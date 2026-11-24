@@ -1,0 +1,16 @@
+---
+key_path: usage_activity_by_stage_monthly.manage.compliance_frameworks_with_pipeline
+description: Count of compliance frameworks that have a pipeline configuration
+product_group: compliance
+product_categories:
+- compliance_management
+value_type: number
+status: active
+milestone: '14.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/issues/329897
+time_frame: 28d
+data_source: database
+data_category: operational
+tiers:
+- ultimate
+performance_indicator_type: [customer_health_score]

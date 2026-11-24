@@ -1,0 +1,15 @@
+---
+table: knowledge_graph_enabled_namespaces
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_knowledge_graph_enabled_namespaces
+    dedup_by:
+      - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - root_namespace_id
+  - name: gcs_parquet_consumer
+    dedup_by:
+      - id

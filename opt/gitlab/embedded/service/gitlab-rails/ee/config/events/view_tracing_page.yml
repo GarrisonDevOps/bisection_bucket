@@ -1,0 +1,15 @@
+---
+description: Triggered when a user visits tracing page.
+internal_events: true
+action: view_tracing_page
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: platform_insights
+product_categories:
+- observability
+milestone: '17.1'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153227'
+tiers:
+  - ultimate

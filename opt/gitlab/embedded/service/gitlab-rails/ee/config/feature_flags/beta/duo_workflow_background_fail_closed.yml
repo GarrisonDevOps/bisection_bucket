@@ -1,0 +1,10 @@
+---
+name: duo_workflow_background_fail_closed
+description: Denies un-ruled write and execute tools for Duo flows running in the background
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/606829
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265476
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636652
+milestone: '19.6'
+group: group::ai control plane
+type: beta
+default_enabled: false

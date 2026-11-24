@@ -1,0 +1,15 @@
+---
+description: Data being out of sync between epics and work items for any of the basic epic attributes.
+internal_events: true
+action: epic_sync_mismatch_base_attributes
+product_group: portfolio_planning
+milestone: '17.6'
+identifiers:
+  - namespace
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/172416/
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192391
+milestone_removed: '18.1'
+status: removed
+tiers:
+  - premium
+  - ultimate

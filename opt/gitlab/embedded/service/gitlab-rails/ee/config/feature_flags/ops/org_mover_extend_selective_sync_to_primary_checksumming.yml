@@ -1,0 +1,9 @@
+---
+name: org_mover_extend_selective_sync_to_primary_checksumming
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/504138
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/174453
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/604496
+milestone: '19.6'
+group: group::geo
+type: ops
+default_enabled: false

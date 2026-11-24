@@ -1,0 +1,14 @@
+---
+name: delete_add_on_assignment
+description: Grants the ability to unassign users from seats of a seat-based add-on, such as GitLab Duo Pro or Duo Enterprise, which removes their access to the add-on's features.
+boundaries:
+  - group
+  - instance
+available_for:
+  - granular_access_token
+permissions:
+  - delete_add_on_assignment
+assignable_when:
+  - condition: admin
+    boundaries:
+      - instance

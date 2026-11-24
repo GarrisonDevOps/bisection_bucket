@@ -1,0 +1,15 @@
+---
+name: ReindexMergeRequestsForTitleCompletion
+version: '20241002103536'
+description: Reindex merge requests for title completion
+group: group::global search
+milestone: '17.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167887
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178356
+marked_obsolete_in_milestone: '17.9'
+skippable: true
+skip_condition: We implemented search_as_you_type for merge request title completion
+  https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167432, but the production
+  performance was not good. We will remove the search_as_you_type field during the
+  same milestone 17.5, so we can skip the reindexing for self-managed instances.

@@ -1,0 +1,5 @@
+<%= _("We've noticed an unusually high storage usage on %{project_name}" % { project_name: @project_name }) %>
+
+<%=
+  _("To prevent your project from being placed in a read-only state, manage your storage use: %{manage_storage_link} or contact support immediately: %{support_link}.") % { manage_storage_link: @manage_storage_url, support_link: @support_url }
+%>

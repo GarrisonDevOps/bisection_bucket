@@ -1,0 +1,106 @@
+# frozen_string_literal: true
+
+module Gitlab
+  module Licenses
+    class SubmitLicenseUsageDataBanner
+      include SafeFormatHelper
+      include Gitlab::Utils::StrongMemoize
+
+      SUBMIT_LICENSE_USAGE_DATA_BANNER = 'submit_license_usage_data_banner'
+
+      def initialize(user = nil)
+        @user = user
+      end
+
+      def reset
+        return unless has_non_trial_offline_cloud_license?
+        return unless same_day_or_end_of_month?
+
+        Gitlab::CurrentSettings.update(license_usage_data_exported: false)
+        Users::Callout.with_feature_name(SUBMIT_LICENSE_USAGE_DATA_BANNER).delete_all
+      end
+
+      def display?
+        return false unless user&.can_admin_all_resources?
+        return false unless has_non_trial_offline_cloud_license?
+        return false if Date.current < ::License.current.starts_at + 1.month
+        return false if user.dismissed_callout?(feature_name: SUBMIT_LICENSE_USAGE_DATA_BANNER)
+
+        true
+      end
+
+      def title
+        return unless display?
+
+        _('Report your license usage data to GitLab')
+      end
+
+      def body
+        return unless display?
+        return billable_usage_report_body if billable_usage_export_available?
+
+        safe_format(_(
+          'For the GitLab Team to keep your subscription data up to date, this is a ' \
+          'reminder to report your license usage on a monthly basis, or at the ' \
+          'cadence set in your agreement with GitLab. This allows us to simplify ' \
+          'the billing process for overages and renewals. To report your usage data, ' \
+          'export your license usage file and email it to %{renewal_service_email}. ' \
+          'If you need an updated license, GitLab will send the license to the email ' \
+          'address registered in the %{customers_dot}, and you can upload this license to your instance.'
+        ), renewal_service_email: renewal_service_email, customers_dot: customers_dot_url)
+      end
+
+      def dismissable?
+        Gitlab::CurrentSettings.license_usage_data_exported?
+      end
+
+      def billable_usage_export_available?
+        ::Utilization::BillableUsage::Exports::Availability.enabled?
+      end
+      strong_memoize_attr :billable_usage_export_available?
+
+      private
+
+      attr_reader :user
+
+      def billable_usage_report_body
+        safe_format(_(
+          'For the GitLab Team to keep your subscription data up to date, this is a ' \
+          'reminder to report your license usage on a monthly basis, or at the ' \
+          'cadence set in your agreement with GitLab. This allows us to simplify ' \
+          'the billing process for overages and renewals. To report your usage data, ' \
+          'export your usage report and upload it to the %{customers_dot}. ' \
+          'If you need an updated license, GitLab will send the license to the email ' \
+          'address registered in the %{customers_dot}, and you can upload this license to your instance.'
+        ), customers_dot: customers_dot_url)
+      end
+
+      def has_non_trial_offline_cloud_license?
+        return false if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+        return false unless ::License.current&.offline_cloud_license?
+        return false if ::License.current.trial?
+
+        true
+      end
+
+      def same_day_or_end_of_month?
+        current_date = Date.current
+        start_date = ::License.current.starts_at
+
+        current_date.day == start_date.day ||
+          (current_date == current_date.end_of_month && start_date.day > current_date.day)
+      end
+
+      def renewal_service_email
+        email = Gitlab::SubscriptionPortal::RENEWAL_SERVICE_EMAIL
+        "<a href='mailto:#{email}'>#{email}</a>".html_safe
+      end
+
+      def customers_dot_url
+        edit_account_url = ::Gitlab::Routing.url_helpers.subscription_portal_edit_account_url
+
+        %(<a href="#{edit_account_url}" referrerpolicy="no-referrer-when-downgrade">Customers Portal</a>).html_safe
+      end
+    end
+  end
+end

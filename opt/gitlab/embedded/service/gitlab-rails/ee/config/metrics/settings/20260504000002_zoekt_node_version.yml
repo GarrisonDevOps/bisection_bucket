@@ -1,0 +1,18 @@
+---
+key_path: settings.zoekt_node_version
+description: Maximum Zoekt version string across all online nodes on an instance
+product_group: global_search
+product_categories:
+- global_search
+value_type: string
+status: active
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234365
+time_frame: none
+data_source: system
+instrumentation_class: ZoektNodeVersionMetric
+data_category: optional
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

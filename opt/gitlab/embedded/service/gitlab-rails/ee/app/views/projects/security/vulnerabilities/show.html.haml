@@ -1,0 +1,10 @@
+- add_to_breadcrumbs _("Vulnerability Report"), project_security_vulnerability_report_index_path(@project)
+- breadcrumb_title @vulnerability.id.to_s
+- page_title @vulnerability.title
+- page_description @vulnerability.description
+- add_page_specific_style 'page_bundles/security_dashboard'
+- add_page_specific_style 'page_bundles/merge_request'
+
+#js-dependency-paths-drawer-portal
+
+#js-vulnerability-main{ data: vulnerability_details_app_data(@vulnerability, @pipeline, @project, @policy_dismissals) }

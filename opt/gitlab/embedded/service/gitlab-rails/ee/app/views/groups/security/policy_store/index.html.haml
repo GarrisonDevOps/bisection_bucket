@@ -1,0 +1,12 @@
+- title = _('Policy store')
+- page_title title
+- breadcrumb_title title
+- @content_wrapper_class = 'js-security-policies-container-wrapper'
+
+#js-policy-store{ data: { namespace_path: group.full_path,
+  namespace_type: 'group',
+  organization_id: group.organization_id,
+  empty_list_svg_path: image_path('illustrations/empty-state/empty-secure-add-md.svg'),
+  can_create_policy: can?(current_user, :create_govern_policy, group).to_s,
+  new_policy_path: new_group_security_policy_store_path(group),
+  list_path: group_security_policy_store_index_path(group) } }

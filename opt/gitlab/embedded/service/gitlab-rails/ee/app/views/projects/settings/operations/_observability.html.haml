@@ -1,0 +1,10 @@
+- return unless can?(current_user, :read_observability, @project)
+
+= render ::Layouts::SettingsBlockComponent.new(s_('Observability|Tracing, Metrics & Logs'),
+  id: 'js-observability-settings') do |c|
+  - c.with_description do
+    = s_('Observability|Enable tracing, metrics, or logs on your project.')
+  - c.with_body do
+    = sprintf(s_("Observability|View our %{documentation} for further instructions on how to use these features."), { documentation: link_to(_('documentation'), help_page_path('operations/_index.md'), target: '_blank', rel: 'noopener noreferrer') }).html_safe
+    = render 'observability_alerts_settings'
+

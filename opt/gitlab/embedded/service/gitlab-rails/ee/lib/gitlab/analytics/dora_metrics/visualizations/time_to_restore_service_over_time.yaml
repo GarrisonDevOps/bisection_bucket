@@ -1,0 +1,20 @@
+---
+version: 1
+type: LineChart
+data:
+  type: dora_metrics
+  query:
+    metric: time_to_restore_service
+    dateRange: 180d
+    interval: DAILY
+options:
+  xAxis:
+    name: Date
+    type: time
+  yAxis:
+    name: "Days for an open incident"
+    type: value
+  includeLegendAvgMax: false
+  chartTooltip:
+    titleFormatter: DATE
+    valueUnit: TIME_INTERVAL

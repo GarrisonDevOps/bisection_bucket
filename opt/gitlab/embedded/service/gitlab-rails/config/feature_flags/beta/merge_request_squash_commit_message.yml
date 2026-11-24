@@ -1,0 +1,10 @@
+---
+name: merge_request_squash_commit_message
+description: Resolve the MergeRequest.squashCommitMessage GraphQL field. When disabled the field returns null.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264936
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636582
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636015
+milestone: '19.6'
+group: group::code review
+type: beta
+default_enabled: false

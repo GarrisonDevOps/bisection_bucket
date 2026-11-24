@@ -1,0 +1,11 @@
+{
+  "description": "Per-user metrics used by abuse prevention",
+  "type": "object",
+  "properties": {
+    "top_level_groups_created_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

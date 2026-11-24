@@ -1,0 +1,5 @@
+---
+name: disable_ssh_keys
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/205020
+milestone: '18.6'
+group: group::authentication

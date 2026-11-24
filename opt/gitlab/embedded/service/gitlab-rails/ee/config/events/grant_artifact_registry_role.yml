@@ -1,0 +1,23 @@
+---
+description: >-
+  User grants one or more Artifact Registry roles in an organization, with the
+  single or bulk mutation. A role change counts as a grant, because IAM keeps
+  one role per user per resource.
+internal_events: true
+status: active
+action: grant_artifact_registry_role
+identifiers:
+- user
+additional_properties:
+  property:
+    description: "'other' when any assignee is not the user who made the request, otherwise 'self'"
+  value:
+    description: Number of Artifact Registry roles granted in the request
+product_group: container_registry
+product_categories:
+- artifact_registry
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265602
+tiers:
+- premium
+- ultimate

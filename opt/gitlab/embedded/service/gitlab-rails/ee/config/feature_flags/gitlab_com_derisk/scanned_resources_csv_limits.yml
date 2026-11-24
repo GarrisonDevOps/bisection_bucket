@@ -1,0 +1,10 @@
+---
+name: scanned_resources_csv_limits
+description: Limit the size and number of DAST artifacts parsed for the scanned resources CSV, and rate limit CSV downloads per user.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637250
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268224
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638775
+milestone: '19.6'
+group: group::dynamic analysis
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: inactive_scim_user_cannot_be_added
+description: A user cannot be added to a group during SAML authentication when their SCIM identity is inactive
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/422582
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/173879
+feature_category: user_management
+milestone: '17.7'
+saved_to_database: true
+streamed: true
+scope: [Group]

@@ -1,0 +1,11 @@
+---
+name: update_oauth_application
+description: Grants the ability to update OAuth applications
+boundaries:
+  - instance
+  - group
+  - user
+available_for:
+  - granular_access_token
+permissions:
+  - update_oauth_application

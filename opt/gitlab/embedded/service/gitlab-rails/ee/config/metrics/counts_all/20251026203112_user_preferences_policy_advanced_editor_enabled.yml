@@ -1,0 +1,17 @@
+---
+data_category: optional
+instrumentation_class: CountUsersPolicyAdvancedEditorEnabledMetric
+key_path: counts.user_preferences_policy_advanced_editor_enabled
+description: Count of users with the Policy Advanced Editor enabled
+product_group: policy_management
+product_categories:
+- security_policy_management
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "18.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210222

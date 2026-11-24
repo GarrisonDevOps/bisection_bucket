@@ -1,0 +1,10 @@
+---
+name: duo_code_review_clean_identity_start
+description: Starts Duo Code Review from a worker with no composite identity linked, instead of inline in the requesting request, so a merge request created or un-drafted by another Duo flow can still be reviewed. Disabling restores the previous inline start.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/612038
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249624
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/613638
+milestone: '19.4'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,29 @@
+---
+description: User minimized the GitLab Duo Chat panel using the minimize control
+internal_events: true
+status: active
+action: minimize_duo_chat_panel
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  value:
+    description: Width of the Duo Chat panel in pixels restored after leaving the maximized view
+  session_id:
+    description: Unique identifier of the session the panel was minimized in
+  flow_type:
+    description: Agent or flow active in the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243564
+tiers:
+- premium
+- ultimate
+classification: duo

@@ -1,0 +1,17 @@
+---
+description: Tracks when user clicks Learn More on GitLab Duo page
+internal_events: true
+status: active
+action: click_learn_more_link_duo_agent_platform_buy_credits
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+product_categories:
+  - subscription_management
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229288
+tiers:
+  - free
+  - premium
+  - ultimate

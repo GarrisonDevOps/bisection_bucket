@@ -1,0 +1,9 @@
+---
+name: organization_transfer_group_bots
+description: Moves group- and project-owned bots and service accounts when a group is transferred to a new organization.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270620
+rollout_issue_url:
+milestone: '19.6'
+group: group::organizations
+type: gitlab_com_derisk
+default_enabled: false

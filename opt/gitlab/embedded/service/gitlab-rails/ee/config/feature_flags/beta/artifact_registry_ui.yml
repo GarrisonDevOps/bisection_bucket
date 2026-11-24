@@ -1,0 +1,10 @@
+---
+name: artifact_registry_ui
+description: Enable the Artifact Registry organization UI
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/21052
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244109
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605113
+milestone: '19.2'
+group: group::container registry
+type: beta
+default_enabled: true

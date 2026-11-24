@@ -1,0 +1,15 @@
+- return unless @group.licensed_feature_available?(:custom_file_templates_for_namespace)
+
+= render ::Layouts::SettingsBlockComponent.new(_('Templates'),
+  id: 'js-templates',
+  testid: 'file-template-repositories-container',
+  expanded: expanded) do |c|
+  - c.with_description do
+    = _('Select a repository containing templates for common files.')
+    = link_to _('What templates can I create?'), help_page_path('user/group/manage.md', anchor: 'group-file-templates'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @group, url: group_path, html: { class: 'fieldset-form' } do |f|
+      = form_errors(@group)
+      .js-vue-project-select{ data: { label: _('Select a template repository'), input_name: 'group[file_template_project_id]', input_id: 'group[file_template_project_id]', group_id: @group.id, with_shared: true.to_s, selected: @group.checked_file_template_project_id } }
+      %p.-gl-mt-5= _('Create common files more quickly, and standardize their format.')
+      = f.submit _('Save changes'), pajamas_button: true, data: { testid: 'save-changes-button' }

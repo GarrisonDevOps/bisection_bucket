@@ -1,0 +1,18 @@
+---
+key_path: counts.count_total_view_metrics_details_page
+description: Total count of users who visited metrics details page
+product_group: platform_insights
+product_categories:
+- observability
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/156823
+time_frame: all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: view_metrics_details_page

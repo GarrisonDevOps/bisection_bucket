@@ -1,0 +1,28 @@
+<%= say_hi(@user) %>
+
+<% if @all_failed %>
+<%= format(s_('AICatalog|Your bulk enablement of %{item_name} did not complete successfully.'), item_name: @item.name) %>
+<% elsif @has_failures %>
+<%= format(s_('AICatalog|Your bulk enablement of %{item_name} completed with errors.'), item_name: @item.name) %>
+<% else %>
+<%= format(s_('AICatalog|Your bulk enablement of %{item_name} completed successfully.'), item_name: @item.name) %>
+<% end %>
+
+<%= _('Summary:') %>
+<%= format(s_('AICatalog|Total projects: %{total}'), total: total_count) %>
+<%= format(s_('AICatalog|Successful: %{count}'), count: @successful_count) %>
+<% if @has_failures %>
+<%= format(s_('AICatalog|Failed: %{count}'), count: @failures.size) %>
+
+<%= s_('AICatalog|Failed projects:') %>
+<% @failures.each do |failure| %>
+- <%= failure[:project].name %> (<%= project_url(failure[:project]) %>): <%= failure[:error_message] %>
+<% end %>
+<% end %>
+<% if @has_warnings %>
+
+<%= s_('AICatalog|Projects enabled with warnings:') %>
+<% @warnings.each do |warning| %>
+- <%= warning[:project].name %> (<%= project_url(warning[:project]) %>): <%= warning[:message] %>
+<% end %>
+<% end %>

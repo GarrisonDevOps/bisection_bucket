@@ -1,0 +1,10 @@
+- return unless ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+
+= f.fields_for :namespace do |namespace_form|
+  .settings-section
+    .settings-sticky-header
+      .settings-sticky-header-inner
+        %h4.gl-my-0
+          = _('Licensed Features')
+
+    = render 'admin/namespace_plan', f: namespace_form

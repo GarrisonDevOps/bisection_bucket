@@ -1,0 +1,5 @@
+#!/bin/bash
+
+terraform init
+terraform plan -var='runners={"<%= deployment_name %>":{"runner_token":"<%= gitlab_runner_token %>"}}' -out plan.out
+terraform apply plan.out

@@ -1,0 +1,10 @@
+---
+name: job_router_admission_control
+description: Enable Admission Control in the Job Router. The Job Router must be enabled for this. Use the runner as an actor.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/582799
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216815
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/584394
+milestone: '18.8'
+group: group::runner core
+type: beta
+default_enabled: false

@@ -1,0 +1,345 @@
+Ruby:
+  - example: |-
+      # filter out users without a zipcode
+      def users_with_zipcode(users)
+      {{cursor}}
+      end
+
+      # find users with a zipcode
+    response: |-
+      <new_code>users.reject { |u| u.zipcode.nil? }
+    trigger_type: 'empty_function'
+  - example: |-
+      class Domain
+        attr_reader :domain, :port
+
+        def initialize(domain:, port:)
+          {{cursor}}
+        end
+      end
+    response: |-
+      @domain = domain
+      @port = port
+    trigger_type: 'empty_function'
+  - example: |-
+      class User < ApplicationRecord
+        has_many :addresses
+      # scope for users who have addresses in California
+      {{cursor}}
+
+      # scope for users who are in Arkansas
+    response: |-
+      <new_code>scope :with_ca_addresses, -> { joins(:addresses).where(addresses: { state: :CA }) }
+    trigger_type: 'comment'
+  - example: |-
+      LABELS = {
+        en: 'Accept',
+        fr: 'Accepter'
+      }
+      # returns the correct label for a given language, or 'Not Found' if not found
+      {{cursor}}
+    response: |-
+      <new_code>def accept_label(language) do
+        label = LABELS[language]
+        label || 'Not Found'
+      end
+    trigger_type: 'comment'
+TypeScript:
+  - example: |-
+      // write a function to generate a unique UUID
+      {{cursor}}
+
+      // calculate the square root of a number
+    response: |-
+      <new_code>function generateUUID(): string {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+    trigger_type: 'comment'
+  - example: |-
+      import { currentIssuesUrl } from './urls';
+
+      async function fetchData(filters) {
+        // fetch the current filtered list of issues
+      {{cursor}}
+        return response.json();
+      }
+
+      // display the issue list
+    response: |-
+      <new_code>const response = await fetch(currentIssuesUrl, filters);
+    trigger_type: 'comment'
+  - example: |-
+      import { currentIssuesUrl } from './urls';
+
+      // fetch the current filtered list of issues
+      async function fetchData(filters) {
+      {{cursor}}
+      }
+
+      // display the issue list
+    response: |-
+      <new_code>const response = await fetch(currentIssuesUrl, filters);
+      return response.json();
+    trigger_type: 'empty_function'
+  - example: |-
+      // get the hotels near the user, be sure to check permission for location usage
+      async function getNearbyHotels(userLocation: GeolocationCoordinates): Promise<Hotel[]> {
+        {{cursor}}
+      }
+    response: |-
+      // Check if user has granted location permission
+      if (!navigator.geolocation) {
+        throw new Error('Location not enabled');
+      }
+
+      // Call API to get nearby hotels
+      const hotels = await fetchHotels(userLocation);
+
+      // Filter hotels within 5km
+      const nearbyHotels = hotels.filter(hotel => {
+        const distance = calculateDistance(hotel.coordinates, userLocation);
+        return distance <= 5;
+      });
+      return nearbyHotels;
+    trigger_type: 'empty_function'
+Python:
+  - example: |-
+      class Project:
+        def __init__(self, name, public):
+          self.name = name
+          self.visibility = 'PUBLIC' if public
+
+          # is this project public?
+      {{cursor}}
+
+          # print name of this project
+    response: |-
+      <new_code>def is_public(self):
+        return self.visibility == 'PUBLIC'
+    trigger_type: 'comment'
+  - example: |-
+      def get_user(session):
+        # get the current user's name from the session data
+      {{cursor}}
+
+      # is the current user an admin
+    response: |-
+      <new_code>username = None
+      if 'username' in session:
+        username = session['username']
+      return username
+    trigger_type: 'comment'
+  - example: |-
+      class Project:
+        def __init__(self, name, public):
+      {{cursor}}
+    response: |-
+      <new_code>self.name = name
+      self.visibility = 'PUBLIC' if public
+    trigger_type: 'empty_function'
+  - example: |-
+      # get the current user's name from the session data
+      def get_user(session):
+      {{cursor}}
+
+      # is the current user an admin
+    response: |-
+      <new_code>username = None
+      if 'username' in session:
+        username = session['username']
+      return username
+    trigger_type: 'empty_function'
+Go:
+  - example: |-
+      package main
+      import (
+        "net/http"
+      )
+      func main() {
+        err := http.ListenAndServe(httpPort, nil)
+        if err != nil { panic(err) }
+      }
+      // create an HTTP handler that fetches the current user preferences and returns them as JSON
+      {{cursor}}
+
+      // function to print the current user's name
+    response: |-
+      <new_code>func userPrefsHandler(w http.ResponseWriter, r *http.Request) {
+
+        // Get current user
+        user := getCurrentUser(r)
+
+        // Fetch user prefs from database
+        prefs, err := fetchUserPrefs(user.ID)
+        if err != nil { http.Error(w, "Error fetching prefs", 500); return }
+
+        // Encode prefs to JSON
+        jsonPrefs := json.Marshal(prefs)
+        if err != nil { http.Error(w, "Error encoding prefs", 500); return }
+
+        w.Header().Set("Content-Type", "application/json")
+        w.Write(jsonPrefs)
+      }
+    trigger_type: 'comment'
+  - example: |-
+      func filterPrimes(list []int) []int {
+      // filter out any non-prime numbers from the list
+      {{cursor}}
+        return primes
+      }
+
+      // calculate the square root of a number
+    response: |-
+      <new_code>var primes []int
+        for _, num := range list {
+          isPrime := true
+          for i := 2; i <= num/2; i++ {
+            if num%i == 0 {
+              isPrime = false
+              break
+            }
+          }
+          if isPrime { primes = append(primes, num) }
+        }
+    trigger_type: 'comment'
+  - example: |-
+      // filter out any non-prime numbers from the list
+      func filterPrimes(list []int) []int {
+      {{cursor}}
+        return primes
+      }
+
+      // calculate the square root of a number
+    response: |-
+      <new_code>var primes []int
+        for _, num := range list {
+          isPrime := true
+          for i := 2; i <= num/2; i++ {
+            if num%i == 0 {
+              isPrime = false
+              break
+            }
+          }
+          if isPrime { primes = append(primes, num) }
+        }
+    trigger_type: 'empty_function'
+  - example: |-
+      package main
+      import (
+        "net/http"
+      )
+      func main() {
+        err := http.ListenAndServe(httpPort, nil)
+        if err != nil { panic(err) }
+      }
+      // create an HTTP handler that fetches the current user preferences and returns them as JSON
+      func userPrefsHandler(w http.ResponseWriter, r *http.Request) {
+      {{cursor}}
+      }
+
+      // function to print the current user's name
+    response: |-
+      <new_code>// Get current user
+        user := getCurrentUser(r)
+
+        // Fetch user prefs from database
+        prefs, err := fetchUserPrefs(user.ID)
+        if err != nil { http.Error(w, "Error fetching prefs", 500); return }
+
+        // Encode prefs to JSON
+        jsonPrefs := json.Marshal(prefs)
+        if err != nil { http.Error(w, "Error encoding prefs", 500); return }
+
+        w.Header().Set("Content-Type", "application/json")
+        w.Write(jsonPrefs)
+    trigger_type: 'empty_function'
+JavaScript:
+  - example: |-
+      // create CatsController with findAll method using nestjs
+      {{cursor}}
+    response: |-
+      <new_code>import { Controller, Get } from '@nestjs/common';
+
+      @Controller('cats')
+      export class CatsController {
+        @Get()
+        findAll() {
+          return 'This action returns all cats';
+        }
+      }
+    trigger_type: 'comment'
+  - example: |-
+      // create an exported weekFrom function that returns date a week from passed one
+      {{cursor}}
+    response: |-
+      <new_code>import * as dateFns from 'date-fns'
+
+      module.exports.weekFrom = (date) => dateFns.addDays(new Date(2017, 0, 25, 21, 28, 15), 7)
+    trigger_type: 'comment'
+  - example: |-
+      // write a function to generate a unique UUID
+      {{cursor}}
+      // this function prints someone's name
+    response: |-
+      <new_code>function generateUUID() {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+    trigger_type: 'comment'
+  - example: |-
+      import { currentIssuesUrl } from './urls';
+
+      // fetch the current filtered list of issues
+      async function fetchData(filters) {
+      {{cursor}}
+        return response.json();
+      }
+
+      // function to display list of issues
+    response: |-
+      <new_code>
+      // build request URL with filters
+      let url = currentIssuesUrl;
+      if (filters) {
+        url += '?' + Object.entries(filters)
+        .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+        .join('&');
+      }
+
+      // make fetch request
+      const response = await fetch(url);
+    trigger_type: 'empty_function'
+  - example: |-
+      // get the hotels near the user, be sure to check permission for location usage
+      async function getNearbyHotels(userLocation: GeolocationCoordinates): Promise<Hotel[]> {
+        {{cursor}}
+        return nearbyHotels;
+      }
+    response: |-
+      // check if we have permission to access location
+        if (!navigator.geolocation) {
+        throw new Error('Geolocation not supported');
+      }
+
+        let nearbyHotels = [];
+
+        // make API request to get hotels
+        const response = await fetch('/api/hotels/nearby', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userLocation)
+      });
+
+        if (response.ok) {
+        nearbyHotels = await response.json();
+      } else {
+        throw new Error('Failed to get nearby hotels');
+      }
+    trigger_type: 'empty_function'

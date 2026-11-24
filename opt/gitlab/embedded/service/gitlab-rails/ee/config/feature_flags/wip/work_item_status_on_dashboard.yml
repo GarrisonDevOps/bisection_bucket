@@ -1,0 +1,10 @@
+---
+name: work_item_status_on_dashboard
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/560683
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207627
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/575108
+milestone: '18.5'
+group: group::work items
+type: wip
+default_enabled: false

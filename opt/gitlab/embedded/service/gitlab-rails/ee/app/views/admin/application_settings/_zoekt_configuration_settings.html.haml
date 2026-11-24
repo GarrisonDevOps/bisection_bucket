@@ -1,0 +1,18 @@
+= render ::Layouts::SettingsBlockComponent.new(_('Exact code search'),
+  id: 'js-exact-code-search-settings',
+  testid: 'admin-exact-code-search-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = _('Configure settings for exact code search.')
+    = link_to _('Learn more.'), help_page_path('integration/zoekt/_index.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: general_admin_application_settings_path(anchor: 'js-exact-code-search-settings'), html: { class: 'fieldset-form', id: 'exact-code-search-settings' } do |f|
+      = form_errors(@application_setting)
+      %fieldset
+        .form-group
+          - zoekt_settings_checkboxes(f).each do |checkbox|
+            = checkbox
+        .form-group
+          - zoekt_settings_inputs(f).each do |input|
+            = input
+      = f.submit _('Save changes'), pajamas_button: true

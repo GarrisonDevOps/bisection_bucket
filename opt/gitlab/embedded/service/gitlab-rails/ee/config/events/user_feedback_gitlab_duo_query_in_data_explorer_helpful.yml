@@ -1,0 +1,16 @@
+---
+description: User provided feedback for GitLab Duo generated query in the data explorer - helpful
+internal_events: true
+action: user_feedback_gitlab_duo_query_in_data_explorer_helpful
+identifiers:
+- project
+- namespace
+- user
+product_group: platform_insights
+product_categories:
+- product_analytics
+- custom_dashboards_foundation
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/148354
+tiers:
+- ultimate

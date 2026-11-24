@@ -1,0 +1,23 @@
+---
+key_path: redis_hll_counters.quickactions.i_quickactions_page
+description: Count of unique active users using the `/page <escalation_policy>` quick action
+product_group: platform_insights
+product_categories:
+- on_call_schedule_management
+value_type: number
+status: active
+milestone: "14.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/79977
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+    - i_quickactions_page
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

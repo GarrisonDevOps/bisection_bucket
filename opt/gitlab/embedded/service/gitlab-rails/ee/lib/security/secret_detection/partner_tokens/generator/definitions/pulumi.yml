@@ -1,0 +1,21 @@
+---
+token_type: "Pulumi API token"
+class_name: "PulumiClient"
+partner_name: "pulumi"
+endpoint: "https://api.pulumi.com/api/user"
+http_method: "get"
+auth_style: "header"
+auth_param: "Authorization"
+auth_prefix: "token "
+token_pattern: '\Apul-[a-f0-9]{40}\z'
+sample_token: "pul-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_pulumi_api"
+doc_url: "https://www.pulumi.com/docs/reference/cloud-rest-api/users/"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

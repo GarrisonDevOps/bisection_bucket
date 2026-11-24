@@ -1,0 +1,10 @@
+---
+table_name: alert_management_metric_image_upload_registry
+description: Geo registry table for tracking replication and verification of Alert Management Metric Image Uploads
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236178
+milestone: '19.1'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::AlertManagementMetricImageUploadRegistry
+gitlab_schema: gitlab_geo

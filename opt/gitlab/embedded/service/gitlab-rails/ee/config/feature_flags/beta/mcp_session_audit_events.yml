@@ -1,0 +1,10 @@
+---
+name: mcp_session_audit_events
+description: Emit AI audit events for GitLab MCP server tool calls, grouped into inferred sessions
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/604733
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260242
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/637966
+milestone: '19.6'
+group: group::ai governance
+type: beta
+default_enabled: true

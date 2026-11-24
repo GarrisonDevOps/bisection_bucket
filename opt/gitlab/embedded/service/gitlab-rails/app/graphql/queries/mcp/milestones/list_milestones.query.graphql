@@ -1,0 +1,63 @@
+# @feature_category: mcp_server
+query mcpListMilestones(
+  $fullPath: ID!
+  $isProject: Boolean = false
+  $state: MilestoneStateEnum
+  $searchTitle: String
+  $includeAncestors: Boolean
+  $includeDescendants: Boolean
+  $first: Int
+  $after: String
+) {
+  group(fullPath: $fullPath) @skip(if: $isProject) {
+    id
+    milestones(
+      state: $state
+      searchTitle: $searchTitle
+      includeAncestors: $includeAncestors
+      includeDescendants: $includeDescendants
+      first: $first
+      after: $after
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        iid
+        title
+        description
+        state
+        dueDate
+        startDate
+        webPath
+      }
+    }
+  }
+  project(fullPath: $fullPath) @include(if: $isProject) {
+    id
+    milestones(
+      state: $state
+      searchTitle: $searchTitle
+      includeAncestors: $includeAncestors
+      first: $first
+      after: $after
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        iid
+        title
+        description
+        state
+        dueDate
+        startDate
+        webPath
+      }
+    }
+  }
+}

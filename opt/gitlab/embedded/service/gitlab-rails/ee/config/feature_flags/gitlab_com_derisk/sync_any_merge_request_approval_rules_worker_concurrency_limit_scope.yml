@@ -1,0 +1,11 @@
+---
+name: sync_any_merge_request_approval_rules_worker_concurrency_limit_scope
+description: Scope the concurrency limit of SyncAnyMergeRequestApprovalRulesWorker
+  per top-level group
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633462
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269198
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636157
+milestone: '19.6'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

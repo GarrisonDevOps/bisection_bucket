@@ -1,0 +1,9 @@
+---
+name: batch_delete_ml_records_on_project_destroy
+description: Delete the ML rows of a project in bounded batches before the project row is destroyed, instead of one cascading statement
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268416
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638631
+milestone: '19.6'
+group: group::mlops
+type: gitlab_com_derisk
+default_enabled: false

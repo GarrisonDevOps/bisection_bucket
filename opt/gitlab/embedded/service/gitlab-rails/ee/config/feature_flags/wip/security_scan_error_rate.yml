@@ -1,0 +1,9 @@
+---
+name: security_scan_error_rate
+feature_issue_url: https://gitlab.com/gitlab-com/gl-infra/observability/team/-/issues/3908
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170983
+rollout_issue_url:
+milestone: '17.9'
+group: group::security insights
+type: wip
+default_enabled: false

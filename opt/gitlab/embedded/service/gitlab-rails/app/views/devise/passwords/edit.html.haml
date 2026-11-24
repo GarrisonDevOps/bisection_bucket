@@ -1,0 +1,20 @@
+= render 'devise/shared/tab_single', tab_title: _('Change your password')
+= gitlab_ui_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: 'gl-show-field-errors', aria: { live: 'assertive' } }) do |f|
+  .devise-errors
+    = render "devise/shared/error_messages", resource: resource
+  = f.hidden_field :reset_password_token
+  .form-group
+    = f.label :password, _('New password')
+    = f.password_field :password, autocomplete: 'new-password', class: "form-control gl-form-input top js-password-complexity-validation", required: true, title: _('This field is required.'), data: { testid: 'password-field'}
+    = render_if_exists 'shared/password_requirements_list'
+  .form-group
+    = f.label :password_confirmation, _('Confirm new password')
+    = f.password_field :password_confirmation, autocomplete: 'new-password', class: "form-control gl-form-input bottom", title: _('This field is required.'), data: { testid: 'password-confirmation-field' }, required: true
+
+  = render Pajamas::ButtonComponent.new(type: :submit, variant: :confirm, block: true, button_options: { data: { testid: 'change-password-button' } }) do
+    = _('Change your password')
+
+.gl-mt-3.gl-text-center
+  = _("Didn't receive a confirmation email?")
+  = link_to _("Request a new one"), new_confirmation_path(resource_name)
+  = render 'devise/shared/sign_in_link'

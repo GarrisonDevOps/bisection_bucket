@@ -1,0 +1,8 @@
+en:
+  doorkeeper:
+    scopes:
+      read_virtual_registry: Grants read-only access to container images through the dependency proxy and virtual registries.
+    scope_desc:
+      read_virtual_registry: Grants read-only access to container images through the dependency proxy in private projects and virtual registries.
+    group_access_token_scope_desc:
+      read_virtual_registry: Grants read-only access (pull) to container images through the dependency proxy if any project in a group is private and authorization is required. Grants read-only access to virtual registries.

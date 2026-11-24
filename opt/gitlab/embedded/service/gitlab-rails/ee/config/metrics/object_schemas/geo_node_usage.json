@@ -1,0 +1,1924 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "abuse_report_uploads_checksum_failed_count": {
+        "description": "Number of Abuse Report Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "abuse_report_uploads_checksum_total_count": {
+        "description": "Number of Abuse Report Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "abuse_report_uploads_checksummed_count": {
+        "description": "Number of Abuse Report Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "abuse_report_uploads_count": {
+        "description": "Number of Abuse Report Uploads on the primary",
+        "type": "number"
+      },
+      "abuse_report_uploads_failed_count": {
+        "description": "Number of Abuse Report Uploads failed on secondary",
+        "type": "number"
+      },
+      "abuse_report_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Abuse Report Uploads on secondary",
+        "type": "number"
+      },
+      "abuse_report_uploads_registry_count": {
+        "description": "Number of Abuse Report Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "abuse_report_uploads_synced_count": {
+        "description": "Number of Abuse Report Uploads in the registry",
+        "type": "number"
+      },
+      "abuse_report_uploads_verification_failed_count": {
+        "description": "Number of Abuse Report Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "abuse_report_uploads_verification_total_count": {
+        "description": "Number of Abuse Report Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "abuse_report_uploads_verified_count": {
+        "description": "Number of Abuse Report Uploads verified on the secondary",
+        "type": "number"
+      },
+      "achievement_uploads_checksum_failed_count": {
+        "description": "Number of Achievement Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "achievement_uploads_checksum_total_count": {
+        "description": "Number of Achievement Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "achievement_uploads_checksummed_count": {
+        "description": "Number of Achievement Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "achievement_uploads_count": {
+        "description": "Number of Achievement Uploads on the primary",
+        "type": "number"
+      },
+      "achievement_uploads_failed_count": {
+        "description": "Number of Achievement Uploads failed on secondary",
+        "type": "number"
+      },
+      "achievement_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Achievement Uploads on secondary",
+        "type": "number"
+      },
+      "achievement_uploads_registry_count": {
+        "description": "Number of Achievement Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "achievement_uploads_synced_count": {
+        "description": "Number of Achievement Uploads in the registry",
+        "type": "number"
+      },
+      "achievement_uploads_verification_failed_count": {
+        "description": "Number of Achievement Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "achievement_uploads_verification_total_count": {
+        "description": "Number of Achievement Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "achievement_uploads_verified_count": {
+        "description": "Number of Achievement Uploads verified on the secondary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_checksum_failed_count": {
+        "description": "Number of Alert Management Metric Image Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_checksum_total_count": {
+        "description": "Number of Alert Management Metric Image Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_checksummed_count": {
+        "description": "Number of Alert Management Metric Image Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_count": {
+        "description": "Number of Alert Management Metric Image Uploads on the primary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_failed_count": {
+        "description": "Number of Alert Management Metric Image Uploads failed on secondary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Alert Management Metric Image Uploads on secondary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_registry_count": {
+        "description": "Number of Alert Management Metric Image Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_synced_count": {
+        "description": "Number of Alert Management Metric Image Uploads in the registry",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_verification_failed_count": {
+        "description": "Number of Alert Management Metric Image Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_verification_total_count": {
+        "description": "Number of Alert Management Metric Image Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "alert_management_metric_image_uploads_verified_count": {
+        "description": "Number of Alert Management Metric Image Uploads verified on the secondary",
+        "type": "number"
+      },
+      "appearance_uploads_checksum_failed_count": {
+        "description": "Number of Appearance Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "appearance_uploads_checksum_total_count": {
+        "description": "Number of Appearance Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "appearance_uploads_checksummed_count": {
+        "description": "Number of Appearance Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "appearance_uploads_count": {
+        "description": "Number of Appearance Uploads on the primary",
+        "type": "number"
+      },
+      "appearance_uploads_failed_count": {
+        "description": "Number of Appearance Uploads failed on secondary",
+        "type": "number"
+      },
+      "appearance_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Appearance Uploads on secondary",
+        "type": "number"
+      },
+      "appearance_uploads_registry_count": {
+        "description": "Number of Appearance Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "appearance_uploads_synced_count": {
+        "description": "Number of Appearance Uploads in the registry",
+        "type": "number"
+      },
+      "appearance_uploads_verification_failed_count": {
+        "description": "Number of Appearance Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "appearance_uploads_verification_total_count": {
+        "description": "Number of Appearance Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "appearance_uploads_verified_count": {
+        "description": "Number of Appearance Uploads verified on the secondary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_checksum_failed_count": {
+        "description": "Number of Bulk import/export archive uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_checksum_total_count": {
+        "description": "Number of Bulk import/export archive uploads available to checksum on primary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_checksummed_count": {
+        "description": "Number of Bulk import/export archive uploads checksummed on the primary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_count": {
+        "description": "Number of Bulk import/export archive uploads on the primary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_failed_count": {
+        "description": "Number of Bulk import/export archive uploads failed on secondary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Bulk import/export archive uploads on secondary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_registry_count": {
+        "description": "Number of Bulk import/export archive uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_synced_count": {
+        "description": "Number of Bulk import/export archive uploads in the registry",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_verification_failed_count": {
+        "description": "Number of Bulk import/export archive uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_verification_total_count": {
+        "description": "Number of Bulk import/export archive uploads available to verify on secondary",
+        "type": "number"
+      },
+      "bulk_import_export_upload_uploads_verified_count": {
+        "description": "Number of Bulk import/export archive uploads verified on the secondary",
+        "type": "number"
+      },
+      "ci_secure_files_checksum_failed_count": {
+        "description": "Number of CI Secure Files failed to checksum on primary",
+        "type": "number"
+      },
+      "ci_secure_files_checksum_total_count": {
+        "description": "Number of CI Secure Files available to checksum on primary",
+        "type": "number"
+      },
+      "ci_secure_files_checksummed_count": {
+        "description": "Number of CI Secure Files checksummed on the primary",
+        "type": "number"
+      },
+      "ci_secure_files_count": {
+        "description": "Number of CI Secure Files on the primary",
+        "type": "number"
+      },
+      "ci_secure_files_failed_count": {
+        "description": "Number of CI Secure Files failed on secondary",
+        "type": "number"
+      },
+      "ci_secure_files_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync CI Secure Files on secondary",
+        "type": "number"
+      },
+      "ci_secure_files_registry_count": {
+        "description": "Number of CI Secure Files synced to sync on secondary",
+        "type": "number"
+      },
+      "ci_secure_files_synced_count": {
+        "description": "Number of CI Secure Files in the registry",
+        "type": "number"
+      },
+      "ci_secure_files_verification_failed_count": {
+        "description": "Number of CI Secure Files failed to verify on secondary",
+        "type": "number"
+      },
+      "ci_secure_files_verification_total_count": {
+        "description": "Number of CI Secure Files available to verify on secondary",
+        "type": "number"
+      },
+      "ci_secure_files_verified_count": {
+        "description": "Number of CI Secure Files verified on the secondary",
+        "type": "number"
+      },
+      "container_repositories_checksum_failed_count": {
+        "description": "Number of Container Repositories failed to checksum on primary",
+        "type": "number"
+      },
+      "container_repositories_checksum_total_count": {
+        "description": "Number of Container Repositories available to checksum on primary",
+        "type": "number"
+      },
+      "container_repositories_checksummed_count": {
+        "description": "Number of Container Repositories checksummed on the primary",
+        "type": "number"
+      },
+      "container_repositories_count": {
+        "description": "Number of Container Repositories on the primary",
+        "type": "number"
+      },
+      "container_repositories_failed_count": {
+        "description": "Number of Container Repositories failed on secondary",
+        "type": "number"
+      },
+      "container_repositories_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Container Repositories on secondary",
+        "type": "number"
+      },
+      "container_repositories_registry_count": {
+        "description": "Number of Container Repositories synced to sync on secondary",
+        "type": "number"
+      },
+      "container_repositories_replication_enabled": {
+        "description": "Container repositories replication enabled",
+        "type": "number"
+      },
+      "container_repositories_synced_count": {
+        "description": "Number of Container Repositories in the registry",
+        "type": "number"
+      },
+      "container_repositories_verification_failed_count": {
+        "description": "Number of Container Repositories failed to verify on secondary",
+        "type": "number"
+      },
+      "container_repositories_verification_total_count": {
+        "description": "Number of Container Repositories available to verify on secondary",
+        "type": "number"
+      },
+      "container_repositories_verified_count": {
+        "description": "Number of Container Repositories verified on the secondary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_checksum_failed_count": {
+        "description": "Number of Dependency List Export Part Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_checksum_total_count": {
+        "description": "Number of Dependency List Export Part Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_checksummed_count": {
+        "description": "Number of Dependency List Export Part Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_count": {
+        "description": "Number of Dependency List Export Part Uploads on the primary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_failed_count": {
+        "description": "Number of Dependency List Export Part Uploads failed on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Dependency List Export Part Uploads on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_registry_count": {
+        "description": "Number of Dependency List Export Part Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_synced_count": {
+        "description": "Number of Dependency List Export Part Uploads in the registry",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_verification_failed_count": {
+        "description": "Number of Dependency List Export Part Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_verification_total_count": {
+        "description": "Number of Dependency List Export Part Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_part_uploads_verified_count": {
+        "description": "Number of Dependency List Export Part Uploads verified on the secondary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_checksum_failed_count": {
+        "description": "Number of Dependency List Export Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_checksum_total_count": {
+        "description": "Number of Dependency List Export Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_checksummed_count": {
+        "description": "Number of Dependency List Export Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_count": {
+        "description": "Number of Dependency List Export Uploads on the primary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_failed_count": {
+        "description": "Number of Dependency List Export Uploads failed on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Dependency List Export Uploads on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_registry_count": {
+        "description": "Number of Dependency List Export Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_synced_count": {
+        "description": "Number of Dependency List Export Uploads in the registry",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_verification_failed_count": {
+        "description": "Number of Dependency List Export Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_verification_total_count": {
+        "description": "Number of Dependency List Export Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "dependency_list_export_uploads_verified_count": {
+        "description": "Number of Dependency List Export Uploads verified on the secondary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_checksum_failed_count": {
+        "description": "Number of Dependency Proxy Blobs failed to checksum on primary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_checksum_total_count": {
+        "description": "Number of Dependency Proxy Blobs available to checksum on primary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_checksummed_count": {
+        "description": "Number of Dependency Proxy Blobs checksummed on the primary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_count": {
+        "description": "Number of Dependency Proxy Blobs on the primary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_failed_count": {
+        "description": "Number of Dependency Proxy Blobs failed on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Dependency Proxy Blobs on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_registry_count": {
+        "description": "Number of Dependency Proxy Blobs synced to sync on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_synced_count": {
+        "description": "Number of Dependency Proxy Blobs in the registry",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_verification_failed_count": {
+        "description": "Number of Dependency Proxy Blobs failed to verify on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_verification_total_count": {
+        "description": "Number of Dependency Proxy Blobs available to verify on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_blobs_verified_count": {
+        "description": "Number of Dependency Proxy Blobs verified on the secondary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_checksum_failed_count": {
+        "description": "Number of Dependency Proxy Manifests failed to checksum on primary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_checksum_total_count": {
+        "description": "Number of Dependency Proxy Manifests available to checksum on primary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_checksummed_count": {
+        "description": "Number of Dependency Proxy Manifests checksummed on the primary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_count": {
+        "description": "Number of Dependency Proxy Manifests on the primary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_failed_count": {
+        "description": "Number of Dependency Proxy Manifests failed on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Dependency Proxy Manifests on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_registry_count": {
+        "description": "Number of Dependency Proxy Manifests synced to sync on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_synced_count": {
+        "description": "Number of Dependency Proxy Manifests in the registry",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_verification_failed_count": {
+        "description": "Number of Dependency Proxy Manifests failed to verify on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_verification_total_count": {
+        "description": "Number of Dependency Proxy Manifests available to verify on secondary",
+        "type": "number"
+      },
+      "dependency_proxy_manifests_verified_count": {
+        "description": "Number of Dependency Proxy Manifests verified on the secondary",
+        "type": "number"
+      },
+      "design_management_action_uploads_checksum_failed_count": {
+        "description": "Number of Design Management Action Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "design_management_action_uploads_checksum_total_count": {
+        "description": "Number of Design Management Action Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "design_management_action_uploads_checksummed_count": {
+        "description": "Number of Design Management Action Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "design_management_action_uploads_count": {
+        "description": "Number of Design Management Action Uploads on the primary",
+        "type": "number"
+      },
+      "design_management_action_uploads_failed_count": {
+        "description": "Number of Design Management Action Uploads failed on secondary",
+        "type": "number"
+      },
+      "design_management_action_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Design Management Action Uploads on secondary",
+        "type": "number"
+      },
+      "design_management_action_uploads_registry_count": {
+        "description": "Number of Design Management Action Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "design_management_action_uploads_synced_count": {
+        "description": "Number of Design Management Action Uploads in the registry",
+        "type": "number"
+      },
+      "design_management_action_uploads_verification_failed_count": {
+        "description": "Number of Design Management Action Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "design_management_action_uploads_verification_total_count": {
+        "description": "Number of Design Management Action Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "design_management_action_uploads_verified_count": {
+        "description": "Number of Design Management Action Uploads verified on the secondary",
+        "type": "number"
+      },
+      "design_management_repositories_checksum_failed_count": {
+        "description": "Number of Design Management Repositories failed to checksum on primary",
+        "type": "number"
+      },
+      "design_management_repositories_checksum_total_count": {
+        "description": "Number of Design Management Repositories available to checksum on primary",
+        "type": "number"
+      },
+      "design_management_repositories_checksummed_count": {
+        "description": "Number of Design Management Repositories checksummed on the primary",
+        "type": "number"
+      },
+      "design_management_repositories_count": {
+        "description": "Number of Design Management Repositories on the primary",
+        "type": "number"
+      },
+      "design_management_repositories_failed_count": {
+        "description": "Number of Design Management Repositories failed on secondary",
+        "type": "number"
+      },
+      "design_management_repositories_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Design Management Repositories on secondary",
+        "type": "number"
+      },
+      "design_management_repositories_registry_count": {
+        "description": "Number of Design Management Repositories synced to sync on secondary",
+        "type": "number"
+      },
+      "design_management_repositories_synced_count": {
+        "description": "Number of Design Management Repositories in the registry",
+        "type": "number"
+      },
+      "design_management_repositories_verification_failed_count": {
+        "description": "Number of Design Management Repositories failed to verify on secondary",
+        "type": "number"
+      },
+      "design_management_repositories_verification_total_count": {
+        "description": "Number of Design Management Repositories available to verify on secondary",
+        "type": "number"
+      },
+      "design_management_repositories_verified_count": {
+        "description": "Number of Design Management Repositories verified on the secondary",
+        "type": "number"
+      },
+      "git_fetch_event_count_weekly": {
+        "description": "Git fetch event count weekly",
+        "type": "number"
+      },
+      "git_push_event_count_weekly": {
+        "description": "Git push event count weekly",
+        "type": "number"
+      },
+      "group_uploads_checksum_failed_count": {
+        "description": "Number of Group Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "group_uploads_checksum_total_count": {
+        "description": "Number of Group Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "group_uploads_checksummed_count": {
+        "description": "Number of Group Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "group_uploads_count": {
+        "description": "Number of Group Uploads on the primary",
+        "type": "number"
+      },
+      "group_uploads_failed_count": {
+        "description": "Number of Group Uploads failed on secondary",
+        "type": "number"
+      },
+      "group_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Group Uploads on secondary",
+        "type": "number"
+      },
+      "group_uploads_registry_count": {
+        "description": "Number of Group Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "group_uploads_synced_count": {
+        "description": "Number of Group Uploads in the registry",
+        "type": "number"
+      },
+      "group_uploads_verification_failed_count": {
+        "description": "Number of Group Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "group_uploads_verification_total_count": {
+        "description": "Number of Group Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "group_uploads_verified_count": {
+        "description": "Number of Group Uploads verified on the secondary",
+        "type": "number"
+      },
+      "group_wiki_repositories_checksum_failed_count": {
+        "description": "Number of Group Wiki Repositories failed to checksum on primary",
+        "type": "number"
+      },
+      "group_wiki_repositories_checksum_total_count": {
+        "description": "Number of Group Wiki Repositories available to checksum on primary",
+        "type": "number"
+      },
+      "group_wiki_repositories_checksummed_count": {
+        "description": "Number of Group Wiki Repositories checksummed on the primary",
+        "type": "number"
+      },
+      "group_wiki_repositories_count": {
+        "description": "Number of Group Wiki Repositories on the primary",
+        "type": "number"
+      },
+      "group_wiki_repositories_failed_count": {
+        "description": "Number of Group Wiki Repositories failed on secondary",
+        "type": "number"
+      },
+      "group_wiki_repositories_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Group Wiki Repositories on secondary",
+        "type": "number"
+      },
+      "group_wiki_repositories_registry_count": {
+        "description": "Number of Group Wiki Repositories synced to sync on secondary",
+        "type": "number"
+      },
+      "group_wiki_repositories_synced_count": {
+        "description": "Number of Group Wiki Repositories in the registry",
+        "type": "number"
+      },
+      "group_wiki_repositories_verification_failed_count": {
+        "description": "Number of Group Wiki Repositories failed to verify on secondary",
+        "type": "number"
+      },
+      "group_wiki_repositories_verification_total_count": {
+        "description": "Number of Group Wiki Repositories available to verify on secondary",
+        "type": "number"
+      },
+      "group_wiki_repositories_verified_count": {
+        "description": "Number of Group Wiki Repositories verified on the secondary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_checksum_failed_count": {
+        "description": "Number of Import/Export Archive Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_checksum_total_count": {
+        "description": "Number of Import/Export Archive Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_checksummed_count": {
+        "description": "Number of Import/Export Archive Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_count": {
+        "description": "Number of Import/Export Archive Uploads on the primary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_failed_count": {
+        "description": "Number of Import/Export Archive Uploads failed on secondary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Import/Export Archive Uploads on secondary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_registry_count": {
+        "description": "Number of Import/Export Archive Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_synced_count": {
+        "description": "Number of Import/Export Archive Uploads in the registry",
+        "type": "number"
+      },
+      "import_export_upload_uploads_verification_failed_count": {
+        "description": "Number of Import/Export Archive Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_verification_total_count": {
+        "description": "Number of Import/Export Archive Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "import_export_upload_uploads_verified_count": {
+        "description": "Number of Import/Export Archive Uploads verified on the secondary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_checksum_failed_count": {
+        "description": "Number of Issuable Metric Image Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_checksum_total_count": {
+        "description": "Number of Issuable Metric Image Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_checksummed_count": {
+        "description": "Number of Issuable Metric Image Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_count": {
+        "description": "Number of Issuable Metric Image Uploads on the primary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_failed_count": {
+        "description": "Number of Issuable Metric Image Uploads failed on secondary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Issuable Metric Image Uploads on secondary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_registry_count": {
+        "description": "Number of Issuable Metric Image Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_synced_count": {
+        "description": "Number of Issuable Metric Image Uploads in the registry",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_verification_failed_count": {
+        "description": "Number of Issuable Metric Image Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_verification_total_count": {
+        "description": "Number of Issuable Metric Image Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "issuable_metric_image_uploads_verified_count": {
+        "description": "Number of Issuable Metric Image Uploads verified on the secondary",
+        "type": "number"
+      },
+      "job_artifacts_checksum_failed_count": {
+        "description": "Number of CI Job Artifacts failed to checksum on primary",
+        "type": "number"
+      },
+      "job_artifacts_checksum_total_count": {
+        "description": "Number of CI Job Artifacts available to checksum on primary",
+        "type": "number"
+      },
+      "job_artifacts_checksummed_count": {
+        "description": "Number of CI Job Artifacts checksummed on the primary",
+        "type": "number"
+      },
+      "job_artifacts_count": {
+        "description": "Number of CI Job Artifacts on the primary",
+        "type": "number"
+      },
+      "job_artifacts_failed_count": {
+        "description": "Number of CI Job Artifacts failed on secondary",
+        "type": "number"
+      },
+      "job_artifacts_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync CI Job Artifacts on secondary",
+        "type": "number"
+      },
+      "job_artifacts_registry_count": {
+        "description": "Number of CI Job Artifacts synced to sync on secondary",
+        "type": "number"
+      },
+      "job_artifacts_synced_count": {
+        "description": "Number of CI Job Artifacts in the registry",
+        "type": "number"
+      },
+      "job_artifacts_verification_failed_count": {
+        "description": "Number of CI Job Artifacts failed to verify on secondary",
+        "type": "number"
+      },
+      "job_artifacts_verification_total_count": {
+        "description": "Number of CI Job Artifacts available to verify on secondary",
+        "type": "number"
+      },
+      "job_artifacts_verified_count": {
+        "description": "Number of CI Job Artifacts verified on the secondary",
+        "type": "number"
+      },
+      "lfs_objects_checksum_failed_count": {
+        "description": "Number of LFS Objects failed to checksum on primary",
+        "type": "number"
+      },
+      "lfs_objects_checksum_total_count": {
+        "description": "Number of LFS Objects available to checksum on primary",
+        "type": "number"
+      },
+      "lfs_objects_checksummed_count": {
+        "description": "Number of LFS Objects checksummed on the primary",
+        "type": "number"
+      },
+      "lfs_objects_count": {
+        "description": "Number of LFS Objects on the primary",
+        "type": "number"
+      },
+      "lfs_objects_failed_count": {
+        "description": "Number of LFS Objects failed on secondary",
+        "type": "number"
+      },
+      "lfs_objects_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync LFS Objects on secondary",
+        "type": "number"
+      },
+      "lfs_objects_registry_count": {
+        "description": "Number of LFS Objects synced to sync on secondary",
+        "type": "number"
+      },
+      "lfs_objects_synced_count": {
+        "description": "Number of LFS Objects in the registry",
+        "type": "number"
+      },
+      "lfs_objects_verification_failed_count": {
+        "description": "Number of LFS Objects failed to verify on secondary",
+        "type": "number"
+      },
+      "lfs_objects_verification_total_count": {
+        "description": "Number of LFS Objects available to verify on secondary",
+        "type": "number"
+      },
+      "lfs_objects_verified_count": {
+        "description": "Number of LFS Objects verified on the secondary",
+        "type": "number"
+      },
+      "merge_request_diffs_checksum_failed_count": {
+        "description": "Number of Merge Request Diffs failed to checksum on primary",
+        "type": "number"
+      },
+      "merge_request_diffs_checksum_total_count": {
+        "description": "Number of Merge Request Diffs available to checksum on primary",
+        "type": "number"
+      },
+      "merge_request_diffs_checksummed_count": {
+        "description": "Number of Merge Request Diffs checksummed on the primary",
+        "type": "number"
+      },
+      "merge_request_diffs_count": {
+        "description": "Number of Merge Request Diffs on the primary",
+        "type": "number"
+      },
+      "merge_request_diffs_failed_count": {
+        "description": "Number of Merge Request Diffs failed on secondary",
+        "type": "number"
+      },
+      "merge_request_diffs_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Merge Request Diffs on secondary",
+        "type": "number"
+      },
+      "merge_request_diffs_registry_count": {
+        "description": "Number of Merge Request Diffs synced to sync on secondary",
+        "type": "number"
+      },
+      "merge_request_diffs_synced_count": {
+        "description": "Number of Merge Request Diffs in the registry",
+        "type": "number"
+      },
+      "merge_request_diffs_verification_failed_count": {
+        "description": "Number of Merge Request Diffs failed to verify on secondary",
+        "type": "number"
+      },
+      "merge_request_diffs_verification_total_count": {
+        "description": "Number of Merge Request Diffs available to verify on secondary",
+        "type": "number"
+      },
+      "merge_request_diffs_verified_count": {
+        "description": "Number of Merge Request Diffs verified on the secondary",
+        "type": "number"
+      },
+      "organization_detail_uploads_checksum_failed_count": {
+        "description": "Number of Organization Detail Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "organization_detail_uploads_checksum_total_count": {
+        "description": "Number of Organization Detail Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "organization_detail_uploads_checksummed_count": {
+        "description": "Number of Organization Detail Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "organization_detail_uploads_count": {
+        "description": "Number of Organization Detail Uploads on the primary",
+        "type": "number"
+      },
+      "organization_detail_uploads_failed_count": {
+        "description": "Number of Organization Detail Uploads failed on secondary",
+        "type": "number"
+      },
+      "organization_detail_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Organization Detail Uploads on secondary",
+        "type": "number"
+      },
+      "organization_detail_uploads_registry_count": {
+        "description": "Number of Organization Detail Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "organization_detail_uploads_synced_count": {
+        "description": "Number of Organization Detail Uploads in the registry",
+        "type": "number"
+      },
+      "organization_detail_uploads_verification_failed_count": {
+        "description": "Number of Organization Detail Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "organization_detail_uploads_verification_total_count": {
+        "description": "Number of Organization Detail Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "organization_detail_uploads_verified_count": {
+        "description": "Number of Organization Detail Uploads verified on the secondary",
+        "type": "number"
+      },
+      "package_files_checksum_failed_count": {
+        "description": "Number of Package Files failed to checksum on primary",
+        "type": "number"
+      },
+      "package_files_checksum_total_count": {
+        "description": "Number of Package Files available to checksum on primary",
+        "type": "number"
+      },
+      "package_files_checksummed_count": {
+        "description": "Number of Package Files checksummed on the primary",
+        "type": "number"
+      },
+      "package_files_count": {
+        "description": "Number of Package Files on the primary",
+        "type": "number"
+      },
+      "package_files_failed_count": {
+        "description": "Number of Package Files failed on secondary",
+        "type": "number"
+      },
+      "package_files_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Package Files on secondary",
+        "type": "number"
+      },
+      "package_files_registry_count": {
+        "description": "Number of Package Files synced to sync on secondary",
+        "type": "number"
+      },
+      "package_files_synced_count": {
+        "description": "Number of Package Files in the registry",
+        "type": "number"
+      },
+      "package_files_verification_failed_count": {
+        "description": "Number of Package Files failed to verify on secondary",
+        "type": "number"
+      },
+      "package_files_verification_total_count": {
+        "description": "Number of Package Files available to verify on secondary",
+        "type": "number"
+      },
+      "package_files_verified_count": {
+        "description": "Number of Package Files verified on the secondary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_checksum_failed_count": {
+        "description": "Number of Debian Project Component Files failed to checksum on primary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_checksum_total_count": {
+        "description": "Number of Debian Project Component Files available to checksum on primary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_checksummed_count": {
+        "description": "Number of Debian Project Component Files checksummed on the primary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_count": {
+        "description": "Number of Debian Project Component Files on the primary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_failed_count": {
+        "description": "Number of Debian Project Component Files failed on secondary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Debian Project Component Files on secondary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_registry_count": {
+        "description": "Number of Debian Project Component Files synced to sync on secondary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_synced_count": {
+        "description": "Number of Debian Project Component Files in the registry",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_verification_failed_count": {
+        "description": "Number of Debian Project Component Files failed to verify on secondary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_verification_total_count": {
+        "description": "Number of Debian Project Component Files available to verify on secondary",
+        "type": "number"
+      },
+      "packages_debian_project_component_files_verified_count": {
+        "description": "Number of Debian Project Component Files verified on the secondary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_checksum_failed_count": {
+        "description": "Number of Helm Metadata Caches failed to checksum on primary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_checksum_total_count": {
+        "description": "Number of Helm Metadata Caches available to checksum on primary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_checksummed_count": {
+        "description": "Number of Helm Metadata Caches checksummed on the primary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_count": {
+        "description": "Number of Helm Metadata Caches on the primary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_failed_count": {
+        "description": "Number of Helm Metadata Caches failed on secondary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Helm Metadata Caches on secondary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_registry_count": {
+        "description": "Number of Helm Metadata Caches synced to sync on secondary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_synced_count": {
+        "description": "Number of Helm Metadata Caches in the registry",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_verification_failed_count": {
+        "description": "Number of Helm Metadata Caches failed to verify on secondary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_verification_total_count": {
+        "description": "Number of Helm Metadata Caches available to verify on secondary",
+        "type": "number"
+      },
+      "packages_helm_metadata_caches_verified_count": {
+        "description": "Number of Helm Metadata Caches verified on the secondary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_checksum_failed_count": {
+        "description": "Number of NuGet Symbols failed to checksum on primary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_checksum_total_count": {
+        "description": "Number of NuGet Symbols available to checksum on primary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_checksummed_count": {
+        "description": "Number of NuGet Symbols checksummed on the primary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_count": {
+        "description": "Number of NuGet Symbols on the primary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_failed_count": {
+        "description": "Number of NuGet Symbols failed on secondary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync NuGet Symbols on secondary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_registry_count": {
+        "description": "Number of NuGet Symbols synced to sync on secondary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_synced_count": {
+        "description": "Number of NuGet Symbols in the registry",
+        "type": "number"
+      },
+      "packages_nuget_symbols_verification_failed_count": {
+        "description": "Number of NuGet Symbols failed to verify on secondary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_verification_total_count": {
+        "description": "Number of NuGet Symbols available to verify on secondary",
+        "type": "number"
+      },
+      "packages_nuget_symbols_verified_count": {
+        "description": "Number of NuGet Symbols verified on the secondary",
+        "type": "number"
+      },
+      "pages_deployments_checksum_failed_count": {
+        "description": "Number of Pages Deployments failed to checksum on primary",
+        "type": "number"
+      },
+      "pages_deployments_checksum_total_count": {
+        "description": "Number of Pages Deployments available to checksum on primary",
+        "type": "number"
+      },
+      "pages_deployments_checksummed_count": {
+        "description": "Number of Pages Deployments checksummed on the primary",
+        "type": "number"
+      },
+      "pages_deployments_count": {
+        "description": "Number of Pages Deployments on the primary",
+        "type": "number"
+      },
+      "pages_deployments_failed_count": {
+        "description": "Number of Pages Deployments failed on secondary",
+        "type": "number"
+      },
+      "pages_deployments_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Pages Deployments on secondary",
+        "type": "number"
+      },
+      "pages_deployments_registry_count": {
+        "description": "Number of Pages Deployments synced to sync on secondary",
+        "type": "number"
+      },
+      "pages_deployments_synced_count": {
+        "description": "Number of Pages Deployments in the registry",
+        "type": "number"
+      },
+      "pages_deployments_verification_failed_count": {
+        "description": "Number of Pages Deployments failed to verify on secondary",
+        "type": "number"
+      },
+      "pages_deployments_verification_total_count": {
+        "description": "Number of Pages Deployments available to verify on secondary",
+        "type": "number"
+      },
+      "pages_deployments_verified_count": {
+        "description": "Number of Pages Deployments verified on the secondary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_checksum_failed_count": {
+        "description": "Number of Personal Snippet Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_checksum_total_count": {
+        "description": "Number of Personal Snippet Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_checksummed_count": {
+        "description": "Number of Personal Snippet Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_count": {
+        "description": "Number of Personal Snippet Uploads on the primary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_failed_count": {
+        "description": "Number of Personal Snippet Uploads failed on secondary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Personal Snippet Uploads on secondary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_registry_count": {
+        "description": "Number of Personal Snippet Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_synced_count": {
+        "description": "Number of Personal Snippet Uploads in the registry",
+        "type": "number"
+      },
+      "personal_snippet_uploads_verification_failed_count": {
+        "description": "Number of Personal Snippet Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_verification_total_count": {
+        "description": "Number of Personal Snippet Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "personal_snippet_uploads_verified_count": {
+        "description": "Number of Personal Snippet Uploads verified on the secondary",
+        "type": "number"
+      },
+      "pipeline_artifacts_checksum_failed_count": {
+        "description": "Number of Pipeline Artifacts failed to checksum on primary",
+        "type": "number"
+      },
+      "pipeline_artifacts_checksum_total_count": {
+        "description": "Number of Pipeline Artifacts available to checksum on primary",
+        "type": "number"
+      },
+      "pipeline_artifacts_checksummed_count": {
+        "description": "Number of Pipeline Artifacts checksummed on the primary",
+        "type": "number"
+      },
+      "pipeline_artifacts_count": {
+        "description": "Number of Pipeline Artifacts on the primary",
+        "type": "number"
+      },
+      "pipeline_artifacts_failed_count": {
+        "description": "Number of Pipeline Artifacts failed on secondary",
+        "type": "number"
+      },
+      "pipeline_artifacts_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Pipeline Artifacts on secondary",
+        "type": "number"
+      },
+      "pipeline_artifacts_registry_count": {
+        "description": "Number of Pipeline Artifacts synced to sync on secondary",
+        "type": "number"
+      },
+      "pipeline_artifacts_synced_count": {
+        "description": "Number of Pipeline Artifacts in the registry",
+        "type": "number"
+      },
+      "pipeline_artifacts_verification_failed_count": {
+        "description": "Number of Pipeline Artifacts failed to verify on secondary",
+        "type": "number"
+      },
+      "pipeline_artifacts_verification_total_count": {
+        "description": "Number of Pipeline Artifacts available to verify on secondary",
+        "type": "number"
+      },
+      "pipeline_artifacts_verified_count": {
+        "description": "Number of Pipeline Artifacts verified on the secondary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_checksum_failed_count": {
+        "description": "Number of Relation Export File Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_checksum_total_count": {
+        "description": "Number of Relation Export File Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_checksummed_count": {
+        "description": "Number of Relation Export File Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_count": {
+        "description": "Number of Relation Export File Uploads on the primary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_failed_count": {
+        "description": "Number of Relation Export File Uploads failed on secondary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Relation Export File Uploads on secondary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_registry_count": {
+        "description": "Number of Relation Export File Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_synced_count": {
+        "description": "Number of Relation Export File Uploads in the registry",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_verification_failed_count": {
+        "description": "Number of Relation Export File Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_verification_total_count": {
+        "description": "Number of Relation Export File Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "project_import_export_relation_export_upload_uploads_verified_count": {
+        "description": "Number of Relation Export File Uploads verified on the secondary",
+        "type": "number"
+      },
+      "project_repositories_checksum_failed_count": {
+        "description": "Number of Project Repositories failed to checksum on primary",
+        "type": "number"
+      },
+      "project_repositories_checksum_total_count": {
+        "description": "Number of Project Repositories available to checksum on primary",
+        "type": "number"
+      },
+      "project_repositories_checksummed_count": {
+        "description": "Number of Project Repositories checksummed on the primary",
+        "type": "number"
+      },
+      "project_repositories_count": {
+        "description": "Number of Project Repositories on the primary",
+        "type": "number"
+      },
+      "project_repositories_failed_count": {
+        "description": "Number of Project Repositories failed on secondary",
+        "type": "number"
+      },
+      "project_repositories_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Project Repositories on secondary",
+        "type": "number"
+      },
+      "project_repositories_registry_count": {
+        "description": "Number of Project Repositories synced to sync on secondary",
+        "type": "number"
+      },
+      "project_repositories_synced_count": {
+        "description": "Number of Project Repositories in the registry",
+        "type": "number"
+      },
+      "project_repositories_verification_failed_count": {
+        "description": "Number of Project Repositories failed to verify on secondary",
+        "type": "number"
+      },
+      "project_repositories_verification_total_count": {
+        "description": "Number of Project Repositories available to verify on secondary",
+        "type": "number"
+      },
+      "project_repositories_verified_count": {
+        "description": "Number of Project Repositories verified on the secondary",
+        "type": "number"
+      },
+      "project_topic_uploads_checksum_failed_count": {
+        "description": "Number of Project Topic Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "project_topic_uploads_checksum_total_count": {
+        "description": "Number of Project Topic Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "project_topic_uploads_checksummed_count": {
+        "description": "Number of Project Topic Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "project_topic_uploads_count": {
+        "description": "Number of Project Topic Uploads on the primary",
+        "type": "number"
+      },
+      "project_topic_uploads_failed_count": {
+        "description": "Number of Project Topic Uploads failed on secondary",
+        "type": "number"
+      },
+      "project_topic_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Project Topic Uploads on secondary",
+        "type": "number"
+      },
+      "project_topic_uploads_registry_count": {
+        "description": "Number of Project Topic Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "project_topic_uploads_synced_count": {
+        "description": "Number of Project Topic Uploads in the registry",
+        "type": "number"
+      },
+      "project_topic_uploads_verification_failed_count": {
+        "description": "Number of Project Topic Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "project_topic_uploads_verification_total_count": {
+        "description": "Number of Project Topic Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "project_topic_uploads_verified_count": {
+        "description": "Number of Project Topic Uploads verified on the secondary",
+        "type": "number"
+      },
+      "project_uploads_checksum_failed_count": {
+        "description": "Number of Project Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "project_uploads_checksum_total_count": {
+        "description": "Number of Project Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "project_uploads_checksummed_count": {
+        "description": "Number of Project Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "project_uploads_count": {
+        "description": "Number of Project Uploads on the primary",
+        "type": "number"
+      },
+      "project_uploads_failed_count": {
+        "description": "Number of Project Uploads failed on secondary",
+        "type": "number"
+      },
+      "project_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Project Uploads on secondary",
+        "type": "number"
+      },
+      "project_uploads_registry_count": {
+        "description": "Number of Project Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "project_uploads_synced_count": {
+        "description": "Number of Project Uploads in the registry",
+        "type": "number"
+      },
+      "project_uploads_verification_failed_count": {
+        "description": "Number of Project Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "project_uploads_verification_total_count": {
+        "description": "Number of Project Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "project_uploads_verified_count": {
+        "description": "Number of Project Uploads verified on the secondary",
+        "type": "number"
+      },
+      "project_wiki_repositories_checksum_failed_count": {
+        "description": "Number of Project Wiki Repositories failed to checksum on primary",
+        "type": "number"
+      },
+      "project_wiki_repositories_checksum_total_count": {
+        "description": "Number of Project Wiki Repositories available to checksum on primary",
+        "type": "number"
+      },
+      "project_wiki_repositories_checksummed_count": {
+        "description": "Number of Project Wiki Repositories checksummed on the primary",
+        "type": "number"
+      },
+      "project_wiki_repositories_count": {
+        "description": "Number of Project Wiki Repositories on the primary",
+        "type": "number"
+      },
+      "project_wiki_repositories_failed_count": {
+        "description": "Number of Project Wiki Repositories failed on secondary",
+        "type": "number"
+      },
+      "project_wiki_repositories_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Project Wiki Repositories on secondary",
+        "type": "number"
+      },
+      "project_wiki_repositories_registry_count": {
+        "description": "Number of Project Wiki Repositories synced to sync on secondary",
+        "type": "number"
+      },
+      "project_wiki_repositories_synced_count": {
+        "description": "Number of Project Wiki Repositories in the registry",
+        "type": "number"
+      },
+      "project_wiki_repositories_verification_failed_count": {
+        "description": "Number of Project Wiki Repositories failed to verify on secondary",
+        "type": "number"
+      },
+      "project_wiki_repositories_verification_total_count": {
+        "description": "Number of Project Wiki Repositories available to verify on secondary",
+        "type": "number"
+      },
+      "project_wiki_repositories_verified_count": {
+        "description": "Number of Project Wiki Repositories verified on the secondary",
+        "type": "number"
+      },
+      "projects_count": {
+        "description": "Projects count",
+        "type": "number"
+      },
+      "proxy_local_requests_event_count_weekly": {
+        "description": "Proxy local requests event count weekly",
+        "type": "number"
+      },
+      "proxy_remote_requests_event_count_weekly": {
+        "description": "Proxy remote requests event count weekly",
+        "type": "number"
+      },
+      "snippet_repositories_checksum_failed_count": {
+        "description": "Number of Snippet Repositories failed to checksum on primary",
+        "type": "number"
+      },
+      "snippet_repositories_checksum_total_count": {
+        "description": "Number of Snippet Repositories available to checksum on primary",
+        "type": "number"
+      },
+      "snippet_repositories_checksummed_count": {
+        "description": "Number of Snippet Repositories checksummed on the primary",
+        "type": "number"
+      },
+      "snippet_repositories_count": {
+        "description": "Number of Snippet Repositories on the primary",
+        "type": "number"
+      },
+      "snippet_repositories_failed_count": {
+        "description": "Number of Snippet Repositories failed on secondary",
+        "type": "number"
+      },
+      "snippet_repositories_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Snippet Repositories on secondary",
+        "type": "number"
+      },
+      "snippet_repositories_registry_count": {
+        "description": "Number of Snippet Repositories synced to sync on secondary",
+        "type": "number"
+      },
+      "snippet_repositories_synced_count": {
+        "description": "Number of Snippet Repositories in the registry",
+        "type": "number"
+      },
+      "snippet_repositories_verification_failed_count": {
+        "description": "Number of Snippet Repositories failed to verify on secondary",
+        "type": "number"
+      },
+      "snippet_repositories_verification_total_count": {
+        "description": "Number of Snippet Repositories available to verify on secondary",
+        "type": "number"
+      },
+      "snippet_repositories_verified_count": {
+        "description": "Number of Snippet Repositories verified on the secondary",
+        "type": "number"
+      },
+      "supply_chain_attestations_checksum_failed_count": {
+        "description": "Number of Supply Chain Attestations failed to checksum on primary",
+        "type": "number"
+      },
+      "supply_chain_attestations_checksum_total_count": {
+        "description": "Number of Supply Chain Attestations available to checksum on primary",
+        "type": "number"
+      },
+      "supply_chain_attestations_checksummed_count": {
+        "description": "Number of Supply Chain Attestations checksummed on the primary",
+        "type": "number"
+      },
+      "supply_chain_attestations_count": {
+        "description": "Number of Supply Chain Attestations on the primary",
+        "type": "number"
+      },
+      "supply_chain_attestations_failed_count": {
+        "description": "Number of Supply Chain Attestations failed on secondary",
+        "type": "number"
+      },
+      "supply_chain_attestations_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Supply Chain Attestations on secondary",
+        "type": "number"
+      },
+      "supply_chain_attestations_registry_count": {
+        "description": "Number of Supply Chain Attestations synced to sync on secondary",
+        "type": "number"
+      },
+      "supply_chain_attestations_synced_count": {
+        "description": "Number of Supply Chain Attestations in the registry",
+        "type": "number"
+      },
+      "supply_chain_attestations_verification_failed_count": {
+        "description": "Number of Supply Chain Attestations failed to verify on secondary",
+        "type": "number"
+      },
+      "supply_chain_attestations_verification_total_count": {
+        "description": "Number of Supply Chain Attestations available to verify on secondary",
+        "type": "number"
+      },
+      "supply_chain_attestations_verified_count": {
+        "description": "Number of Supply Chain Attestations verified on the secondary",
+        "type": "number"
+      },
+      "terraform_state_versions_checksum_failed_count": {
+        "description": "Number of Terraform State Versions failed to checksum on primary",
+        "type": "number"
+      },
+      "terraform_state_versions_checksum_total_count": {
+        "description": "Number of Terraform State Versions available to checksum on primary",
+        "type": "number"
+      },
+      "terraform_state_versions_checksummed_count": {
+        "description": "Number of Terraform State Versions checksummed on the primary",
+        "type": "number"
+      },
+      "terraform_state_versions_count": {
+        "description": "Number of Terraform State Versions on the primary",
+        "type": "number"
+      },
+      "terraform_state_versions_failed_count": {
+        "description": "Number of Terraform State Versions failed on secondary",
+        "type": "number"
+      },
+      "terraform_state_versions_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Terraform State Versions on secondary",
+        "type": "number"
+      },
+      "terraform_state_versions_registry_count": {
+        "description": "Number of Terraform State Versions synced to sync on secondary",
+        "type": "number"
+      },
+      "terraform_state_versions_synced_count": {
+        "description": "Number of Terraform State Versions in the registry",
+        "type": "number"
+      },
+      "terraform_state_versions_verification_failed_count": {
+        "description": "Number of Terraform State Versions failed to verify on secondary",
+        "type": "number"
+      },
+      "terraform_state_versions_verification_total_count": {
+        "description": "Number of Terraform State Versions available to verify on secondary",
+        "type": "number"
+      },
+      "terraform_state_versions_verified_count": {
+        "description": "Number of Terraform State Versions verified on the secondary",
+        "type": "number"
+      },
+      "uploads_checksum_failed_count": {
+        "description": "Number of Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "uploads_checksum_total_count": {
+        "description": "Number of Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "uploads_checksummed_count": {
+        "description": "Number of Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "uploads_count": {
+        "description": "Number of Uploads on the primary",
+        "type": "number"
+      },
+      "uploads_failed_count": {
+        "description": "Number of Uploads failed on secondary",
+        "type": "number"
+      },
+      "uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Uploads on secondary",
+        "type": "number"
+      },
+      "uploads_registry_count": {
+        "description": "Number of Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "uploads_synced_count": {
+        "description": "Number of Uploads in the registry",
+        "type": "number"
+      },
+      "uploads_verification_failed_count": {
+        "description": "Number of Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "uploads_verification_total_count": {
+        "description": "Number of Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "uploads_verified_count": {
+        "description": "Number of Uploads verified on the secondary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_checksum_failed_count": {
+        "description": "Number of User Permission Export File Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_checksum_total_count": {
+        "description": "Number of User Permission Export File Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_checksummed_count": {
+        "description": "Number of User Permission Export File Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_count": {
+        "description": "Number of User Permission Export File Uploads on the primary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_failed_count": {
+        "description": "Number of User Permission Export File Uploads failed on secondary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync User Permission Export File Uploads on secondary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_registry_count": {
+        "description": "Number of User Permission Export File Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_synced_count": {
+        "description": "Number of User Permission Export File Uploads in the registry",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_verification_failed_count": {
+        "description": "Number of User Permission Export File Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_verification_total_count": {
+        "description": "Number of User Permission Export File Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "user_permission_export_upload_uploads_verified_count": {
+        "description": "Number of User Permission Export File Uploads verified on the secondary",
+        "type": "number"
+      },
+      "user_uploads_checksum_failed_count": {
+        "description": "Number of User Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "user_uploads_checksum_total_count": {
+        "description": "Number of User Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "user_uploads_checksummed_count": {
+        "description": "Number of User Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "user_uploads_count": {
+        "description": "Number of User Uploads on the primary",
+        "type": "number"
+      },
+      "user_uploads_failed_count": {
+        "description": "Number of User Uploads failed on secondary",
+        "type": "number"
+      },
+      "user_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync User Uploads on secondary",
+        "type": "number"
+      },
+      "user_uploads_registry_count": {
+        "description": "Number of User Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "user_uploads_synced_count": {
+        "description": "Number of User Uploads in the registry",
+        "type": "number"
+      },
+      "user_uploads_verification_failed_count": {
+        "description": "Number of User Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "user_uploads_verification_total_count": {
+        "description": "Number of User Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "user_uploads_verified_count": {
+        "description": "Number of User Uploads verified on the secondary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_checksum_failed_count": {
+        "description": "Number of Vulnerability Archive Export Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_checksum_total_count": {
+        "description": "Number of Vulnerability Archive Export Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_checksummed_count": {
+        "description": "Number of Vulnerability Archive Export Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_count": {
+        "description": "Number of Vulnerability Archive Export Uploads on the primary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_failed_count": {
+        "description": "Number of Vulnerability Archive Export Uploads failed on secondary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Vulnerability Archive Export Uploads on secondary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_registry_count": {
+        "description": "Number of Vulnerability Archive Export Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_synced_count": {
+        "description": "Number of Vulnerability Archive Export Uploads in the registry",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_verification_failed_count": {
+        "description": "Number of Vulnerability Archive Export Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_verification_total_count": {
+        "description": "Number of Vulnerability Archive Export Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_archive_export_uploads_verified_count": {
+        "description": "Number of Vulnerability Archive Export Uploads verified on the secondary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_checksum_failed_count": {
+        "description": "Number of Vulnerability Export Part Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_checksum_total_count": {
+        "description": "Number of Vulnerability Export Part Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_checksummed_count": {
+        "description": "Number of Vulnerability Export Part Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_count": {
+        "description": "Number of Vulnerability Export Part Uploads on the primary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_failed_count": {
+        "description": "Number of Vulnerability Export Part Uploads failed on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Vulnerability Export Part Uploads on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_registry_count": {
+        "description": "Number of Vulnerability Export Part Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_synced_count": {
+        "description": "Number of Vulnerability Export Part Uploads in the registry",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_verification_failed_count": {
+        "description": "Number of Vulnerability Export Part Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_verification_total_count": {
+        "description": "Number of Vulnerability Export Part Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_part_uploads_verified_count": {
+        "description": "Number of Vulnerability Export Part Uploads verified on the secondary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_checksum_failed_count": {
+        "description": "Number of Vulnerability Export Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_checksum_total_count": {
+        "description": "Number of Vulnerability Export Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_checksummed_count": {
+        "description": "Number of Vulnerability Export Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_count": {
+        "description": "Number of Vulnerability Export Uploads on the primary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_failed_count": {
+        "description": "Number of Vulnerability Export Uploads failed on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Vulnerability Export Uploads on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_registry_count": {
+        "description": "Number of Vulnerability Export Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_synced_count": {
+        "description": "Number of Vulnerability Export Uploads in the registry",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_verification_failed_count": {
+        "description": "Number of Vulnerability Export Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_verification_total_count": {
+        "description": "Number of Vulnerability Export Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_export_uploads_verified_count": {
+        "description": "Number of Vulnerability Export Uploads verified on the secondary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_checksum_failed_count": {
+        "description": "Number of Vulnerability Remediation Uploads failed to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_checksum_total_count": {
+        "description": "Number of Vulnerability Remediation Uploads available to checksum on primary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_checksummed_count": {
+        "description": "Number of Vulnerability Remediation Uploads checksummed on the primary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_count": {
+        "description": "Number of Vulnerability Remediation Uploads on the primary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_failed_count": {
+        "description": "Number of Vulnerability Remediation Uploads failed on secondary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_oldest_unsynced_time": {
+        "description": "Timestamp of the oldest out of sync Vulnerability Remediation Uploads on secondary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_registry_count": {
+        "description": "Number of Vulnerability Remediation Uploads synced to sync on secondary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_synced_count": {
+        "description": "Number of Vulnerability Remediation Uploads in the registry",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_verification_failed_count": {
+        "description": "Number of Vulnerability Remediation Uploads failed to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_verification_total_count": {
+        "description": "Number of Vulnerability Remediation Uploads available to verify on secondary",
+        "type": "number"
+      },
+      "vulnerability_remediation_uploads_verified_count": {
+        "description": "Number of Vulnerability Remediation Uploads verified on the secondary",
+        "type": "number"
+      }
+    }
+  }
+}

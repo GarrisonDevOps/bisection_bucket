@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Settings that allow User Seats Management",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "seat_control": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "description": "To hold values corresponding to seat_control off, seat_control user_cap, and seat_control block overages"
+    }
+  }
+}

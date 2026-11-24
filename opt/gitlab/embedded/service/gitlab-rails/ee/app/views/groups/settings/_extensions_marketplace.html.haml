@@ -1,0 +1,10 @@
+- f = local_assigns.fetch(:f)
+- group = local_assigns.fetch(:group)
+
+- return unless group.can_manage_extensions_marketplace_for_enterprise_users?
+
+= f.gitlab_ui_checkbox_component :enterprise_users_extensions_marketplace_enabled, checkbox_options: { checked: group.enterprise_users_extensions_marketplace_enabled? } do |c|
+  - c.with_label do
+    = s_('GroupSettings|Enable extension marketplace')
+  - c.with_help_text do
+    = s_("GroupSettings|Enterprise user accounts can use the extension marketplace in the Web IDE and workspaces.")

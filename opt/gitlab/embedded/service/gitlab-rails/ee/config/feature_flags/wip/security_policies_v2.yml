@@ -1,0 +1,10 @@
+---
+name: security_policies_v2
+description: Security policies UI reimagined
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/577799
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231556
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/598030
+milestone: '19.0'
+group: group::security policies
+type: wip
+default_enabled: false

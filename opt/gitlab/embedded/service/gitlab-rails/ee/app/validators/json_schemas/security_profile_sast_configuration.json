@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gitlab.com/gitlab-org/security-products/analyzers/sast/config.schema.json",
+  "description": "Schema for the GitLab SAST scan profile configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "secure_analyzers_prefix": {
+      "description": "Prefix for the container registry from which the analyzer image is pulled.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "image_suffix": {
+      "description": "Suffix appended to the analyzer image name.",
+      "type": "string",
+      "enum": [
+        "",
+        "-fips"
+      ]
+    },
+    "analyzer_image_tag": {
+      "description": "Tag of the analyzer image to use. Warning: Setting this value overrides the pinned image tag for all SAST analyzers, which can cause analyzer failures if they require specific versions.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "excluded_analyzers": {
+      "description": "Analyzers excluded from the scan.",
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    },
+    "excluded_paths": {
+      "description": "Glob paths excluded from the scan.",
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    },
+    "advanced_sast_partial_scan": {
+      "description": "Controls GitLab Advanced SAST diff-based scanning. Use 'differential' to enable, 'false' to disable.",
+      "type": "string",
+      "enum": [
+        "differential",
+        "false"
+      ]
+    },
+    "gitlab_adv_sast_incr_scan": {
+      "description": "Whether GitLab Advanced SAST incremental scanning is enabled.",
+      "type": "boolean"
+    }
+  }
+}

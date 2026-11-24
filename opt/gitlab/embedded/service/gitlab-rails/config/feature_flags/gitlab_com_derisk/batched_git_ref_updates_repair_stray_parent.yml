@@ -1,0 +1,10 @@
+---
+name: batched_git_ref_updates_repair_stray_parent
+description: Repair a stray parent reference that blocks batched ref deletion, then retry the batch
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263001
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/634369
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/632245
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::gitaly
+default_enabled: false

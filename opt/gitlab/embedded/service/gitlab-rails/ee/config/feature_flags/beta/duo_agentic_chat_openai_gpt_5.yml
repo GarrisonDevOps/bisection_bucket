@@ -1,0 +1,10 @@
+---
+name: duo_agentic_chat_openai_gpt_5
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/560560
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200789
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/560561
+milestone: '18.3'
+group: group::ai framework
+type: beta
+default_enabled: false

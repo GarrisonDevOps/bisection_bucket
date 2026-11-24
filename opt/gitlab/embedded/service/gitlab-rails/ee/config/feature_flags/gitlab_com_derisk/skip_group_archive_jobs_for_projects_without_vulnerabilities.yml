@@ -1,0 +1,10 @@
+---
+name: skip_group_archive_jobs_for_projects_without_vulnerabilities
+description: Queue group archive vulnerability jobs only for projects with vulnerabilities.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637720
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268810
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638850
+milestone: '19.6'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

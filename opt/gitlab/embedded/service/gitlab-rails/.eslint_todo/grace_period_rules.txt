@@ -1,0 +1,6 @@
+# ESLint rules in a grace period, one per line. The full `eslint` CI job
+# suppresses their offenses; MR pipelines still enforce them on changed files.
+# See doc/development/fe_guide/tooling.md#enable-a-rule-with-a-grace-period.
+unicorn/no-array-callback-reference
+local-rules/vue-no-single-use-i18n-keys
+local-rules/storybook-title-matches-path

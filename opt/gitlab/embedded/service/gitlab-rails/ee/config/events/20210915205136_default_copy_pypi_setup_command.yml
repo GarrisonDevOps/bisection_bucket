@@ -1,0 +1,16 @@
+description: "Copy PyPI setup command"
+category: default
+action: copy_pypi_setup_command
+extra_properties:
+identifiers:
+product_group: package_registry
+product_categories:
+- package_registry
+milestone: "13.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/29935
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`code_instruction`"

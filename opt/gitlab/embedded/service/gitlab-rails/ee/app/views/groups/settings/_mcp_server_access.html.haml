@@ -1,0 +1,9 @@
+- mcp_group_settings = ::Mcp::GroupSettings.new(group)
+- if mcp_group_settings.setting_available?
+  .form-group
+    %h5= s_('GroupSettings|MCP client access')
+
+    = f.gitlab_ui_checkbox_component :mcp_server_enabled,
+        s_("GroupSettings|Allow connection to GitLab"),
+        checkbox_options: { checked: mcp_group_settings.mcp_server_enabled? },
+        help_text: s_('GroupSettings|When you turn on this setting, the GitLab Duo Agent Platform and external applications can access your data through MCP clients.')

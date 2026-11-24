@@ -1,0 +1,9 @@
+---
+name: group_general_settings_vue
+description: Render the group general settings (naming, description, avatar, README) form with Vue instead of the server-rendered HAML form
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262108
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634474
+milestone: '19.6'
+group: group::design strategy
+type: gitlab_com_derisk
+default_enabled: false

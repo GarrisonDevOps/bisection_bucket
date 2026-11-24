@@ -1,0 +1,38 @@
+// There's no way to disable or enable a pull mirror, so if the boolean
+// isn't set, then we don't have a pull mirror.
+- return unless @project.mirror?
+
+- import_state = @project.import_state
+
+- return unless import_state
+
+%tr{ data: { testid: 'mirrored-repository-row-container' } }
+  %td.mirror-url{ data: { testid: 'mirror-repository-url-content' } }
+    = @project.safe_import_url
+    = render_if_exists 'projects/mirrors/mirror_branches_setting_badge', record: @project
+  %td= _('Pull')
+  %td
+    = import_state.last_update_started_at.present? ? time_ago_with_tooltip(import_state.last_update_started_at) : _('Never')
+  %td{ data: { testid: 'mirror-last-update-at-content' } }= import_state.last_successful_update_at.present? ? time_ago_with_tooltip(import_state.last_successful_update_at) : _('Never')
+  %td
+    - if import_state&.last_error.present?
+      = gl_badge_tag _('Error'), { variant: :danger }, { data: { toggle: 'tooltip', html: 'true' }, title: html_escape(import_state.last_error.try(:strip)) }
+  %td.mirror-action-buttons
+    .btn-group.mirror-actions-group{ role: 'group' }
+      - ssh_public_key = @project.import_data.ssh_public_key
+      - if ssh_public_key
+        = clipboard_button(text: ssh_public_key, variant: :default, category: :primary, size: :medium, class: 'rspec-copy-ssh-public-key', title: _('Copy SSH public key'), testid: 'copy-public-key-button')
+      - if import_state.mirror_update_due? || import_state.updating_mirror?
+        = render Pajamas::ButtonComponent.new(icon: 'retry',
+          button_options: { class: 'disabled', title: _('Updating'), data: { container: 'body', toggle: 'tooltip', testid: 'updating-button' } },
+          icon_classes: 'spin')
+      - elsif @project.self_or_ancestors_archived?
+        = render Pajamas::ButtonComponent.new(icon: 'retry',
+          button_options: { class: 'disabled', title: _('This project is archived and read-only. To resume pull mirroring, unarchive the project.'), data: { container: 'body', toggle: 'tooltip', testid: 'update-now-button' } },
+          icon_classes: 'spin')
+      - else
+        = link_button_to nil, update_now_project_mirror_path(@project), method: :post, class: 'js-force-update-mirror', data: { container: 'body', toggle: 'tooltip', testid: 'update-now-button' }, title: _('Update now'), icon: 'retry'
+      = render Pajamas::ButtonComponent.new(variant: :danger,
+        category: :secondary,
+        icon: 'remove',
+        button_options: { class: 'js-delete-mirror js-delete-pull-mirror', title: _('Remove'), data: { toggle: 'tooltip', container: 'body' } })

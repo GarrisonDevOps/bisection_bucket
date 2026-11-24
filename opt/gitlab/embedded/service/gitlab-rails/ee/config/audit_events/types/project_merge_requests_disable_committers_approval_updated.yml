@@ -1,0 +1,10 @@
+---
+name: project_merge_requests_disable_committers_approval_updated
+description: A project's setting for disabling committers approval on merge requests is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/369277
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106652
+milestone: '15.7'
+feature_category: code_review_workflow
+saved_to_database: true
+streamed: true
+scope: [Project]

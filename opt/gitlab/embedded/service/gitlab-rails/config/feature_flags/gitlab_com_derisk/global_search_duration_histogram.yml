@@ -1,0 +1,10 @@
+---
+name: global_search_duration_histogram
+description: Record search apdex elapsed time into a gitlab_global_search_duration_seconds histogram, labelled search_type/search_level/search_scope.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627960
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254016
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636603
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::global search
+default_enabled: false

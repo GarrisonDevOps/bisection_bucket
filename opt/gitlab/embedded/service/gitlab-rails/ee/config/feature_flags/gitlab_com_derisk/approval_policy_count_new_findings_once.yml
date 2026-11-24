@@ -1,0 +1,11 @@
+---
+name: approval_policy_count_new_findings_once
+description: Stop merge request approval policies counting a newly detected finding
+  again as a pre-existing vulnerability against vulnerabilities_allowed
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636065
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265016
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636066
+milestone: '19.6'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

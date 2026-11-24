@@ -1,0 +1,24 @@
+---
+description: Tracks usage of predefined slash commands in Duo Chat.
+category: Gitlab::Llm::Completions::Chat
+action: process_gitlab_duo_slash_command
+classification: duo
+extra_properties:
+identifiers:
+- user
+- namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: "16.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/138457
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Name of the slash command
+  property:
+    description: Ai Action request Id that can be used to connect this event to others that happen when the request is resolved.
+  value:
+    description: Boolean flag indicating if slash command used addition user input

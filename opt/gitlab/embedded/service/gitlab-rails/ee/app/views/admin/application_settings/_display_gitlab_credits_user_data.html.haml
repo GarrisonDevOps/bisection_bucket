@@ -1,0 +1,9 @@
+- return unless License.gitlab_credits_entitled?
+- return if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+
+- f = local_assigns.fetch(:form)
+
+.form-group
+  %h5= s_('AdminSettingsUsageBilling|GitLab Credits dashboard')
+  = f.gitlab_ui_checkbox_component :display_gitlab_credits_user_data,  s_('AdminSettingsUsageBilling|Display user data'),
+    help_text: s_('AdminSettingsUsageBilling|If selected, individual usernames and their credit usage are visible on the GitLab Credits dashboard. If your organization needs to restrict access to individual user activity for compliance or privacy reasons, clear this checkbox.')

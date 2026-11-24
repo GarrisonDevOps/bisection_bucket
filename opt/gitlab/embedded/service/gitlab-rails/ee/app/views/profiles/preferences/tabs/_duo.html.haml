@@ -1,0 +1,12 @@
+- if duo_default_group_preference?
+  = render preferences_section(s_('Preferences|GitLab Duo'), id: 'duo') do |c|
+    - c.with_body do
+      = render 'profiles/preferences/default_duo_group'
+
+- if orbit_preference? || orbit_billable_namespace_preference?
+  = render preferences_section(s_('Preferences|GitLab Orbit'), id: 'orbit', testid: 'orbit-settings-section') do |c|
+    - c.with_body do
+      = render 'profiles/preferences/orbit_settings', f: f if orbit_preference?
+      = render 'profiles/preferences/knowledge_graph_governing_group' if orbit_billable_namespace_preference?
+
+= render 'profiles/preferences/code_suggestions_settings_self_assignment'

@@ -1,0 +1,14 @@
+---
+api_type: string
+attr: o11y_provisioner_api_key
+clusterwide: true
+column: o11y_provisioner_api_key
+db_type: jsonb
+default:
+description: API key that GitLab sends to the GitLab Observability provisioner. Maximum
+  510 characters. Not returned in responses. This setting is available for GitLab.com
+  only.
+encrypted: true
+gitlab_com_different_than_default: true
+jihu: false
+not_null: false

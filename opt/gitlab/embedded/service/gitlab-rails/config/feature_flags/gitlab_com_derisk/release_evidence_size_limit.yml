@@ -1,0 +1,10 @@
+---
+name: release_evidence_size_limit
+description: Cap the size of each release evidence at an admin setting, storing issues only within the bytes left, and collect no evidence when the parts users see exceed it.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638257
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269740
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639446
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

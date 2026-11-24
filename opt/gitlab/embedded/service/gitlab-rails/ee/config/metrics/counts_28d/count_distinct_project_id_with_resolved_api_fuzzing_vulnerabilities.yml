@@ -1,0 +1,20 @@
+---
+key_path: usage_activity_by_stage.count_distinct_project_id_with_resolved_api_fuzzing_vulnerabilities
+description: Count of distinct projects with resolved API Fuzzing vulnerabilities
+product_group: dynamic_analysis
+product_categories:
+- fuzz_testing
+value_type: number
+status: active
+milestone: '17.6'
+performance_indicator_type:
+- lighthouse
+instrumentation_class: CountDistinctProjectIdsWithResolvedVulnerabilitiesActivityMetric
+options:
+  report_type: api_fuzzing
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170661'
+time_frame: 28d
+data_source: database
+data_category: optional
+tiers:
+- ultimate

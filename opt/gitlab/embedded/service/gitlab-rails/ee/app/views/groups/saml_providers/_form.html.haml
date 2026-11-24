@@ -1,0 +1,46 @@
+%section.saml_provider.gl-mt-5
+  = gitlab_ui_form_for [group, saml_provider], url: group_saml_providers_path, html: { id: 'js-saml-settings-form' } do |f|
+    .form-group
+      = form_errors(saml_provider)
+      = f.gitlab_ui_checkbox_component :enabled, s_('GroupSAML|Enable SAML authentication for this group'), checkbox_options: { class: 'js-group-saml-enabled-input' }
+    .form-group
+      - disable_password_authentication_for_enterprise_users_enable_saml_help_text_tag = saml_sso_settings_generate_helper_text(display_none: saml_provider.enabled?, text: s_("GroupSAML|Before disabling password authentication, enable SAML authentication."))
+      - disable_password_authentication_for_enterprise_users_two_factor_authentication_help_text_tag = saml_sso_settings_generate_helper_text(display_none: false, text: s_("GroupSAML|Disables passkeys for two-factor authentication."))
+      - disable_password_authentication_for_enterprise_users_help_text = disable_password_authentication_for_enterprise_users_enable_saml_help_text_tag + disable_password_authentication_for_enterprise_users_two_factor_authentication_help_text_tag
+      = f.gitlab_ui_checkbox_component :disable_password_authentication_for_enterprise_users, s_('GroupSAML|Disable password and passkey authentication for enterprise users'), help_text: disable_password_authentication_for_enterprise_users_help_text, checkbox_options: { class: 'js-group-saml-disable-password-authentication-for-enterprise-users-input' }
+    .form-group
+      - enable_saml_help_text = s_('GroupSAML|Before enforcing SSO, enable SAML authentication.')
+      - web_activity_warning_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: help_page_path('user/group/saml_sso/_index.md', anchor: 'sso-enforcement') }
+      - web_activity_warning_text = html_escape(s_('GroupSAML|%{strongOpen}Warning%{strongClose} - Enable %{linkStart}SSO enforcement%{linkEnd} to reduce security risks.')) % { strongOpen: '<strong>'.html_safe, strongClose: '</strong>'.html_safe, linkStart: web_activity_warning_link_start, linkEnd: '</a>'.html_safe }
+      - web_activity_warning_tag = '<span class="js-warning %{class}">%{text}</span>'.html_safe % { class: saml_provider.enforced_sso? && 'gl-hidden', text: web_activity_warning_text }
+      - web_activity_help_text = '%{enable_saml_help_text_tag}%{web_activity_warning_tag}'.html_safe % { enable_saml_help_text_tag: saml_sso_settings_generate_helper_text(display_none: saml_provider.enabled?, text: enable_saml_help_text), web_activity_warning_tag: web_activity_warning_tag }
+      = f.gitlab_ui_checkbox_component :enforced_sso, s_('GroupSAML|Enforce SSO-only authentication for web activity for this group'), help_text: web_activity_help_text, checkbox_options: { checked: saml_provider.new_record? || saml_provider.enforced_sso?, class: 'js-group-saml-enforced-sso-input', data: { testid: 'enforced-sso-checkbox' } }
+
+    .form-group
+      - enable_web_auth_help_text = s_("GroupSAML|Before enforcing SSO-only authentication for Git activity of all users, enable SSO-only authentication for web activity.")
+      = f.gitlab_ui_checkbox_component :git_check_enforced, s_('GroupSAML|Enforce SSO-only authentication for Git and Dependency Proxy activity for this group'), help_text: saml_sso_settings_generate_helper_text(display_none: saml_provider.enabled?, text: enable_web_auth_help_text), checkbox_options: { class: 'js-group-saml-enforced-git-check-input' }
+    %div{ class: "well-segment borderless !gl-mb-5 gl-col-12 gl-col-lg-9 !gl-p-0" }
+      = f.label :sso_url, class: 'label-bold' do
+        = s_('GroupSAML|Identity provider single sign-on URL')
+      = f.text_field :sso_url, placeholder: 'e.g. https://example.com/adfs/ls', class: 'form-control', data: { testid: 'identity-provider-sso-field' }
+      .form-text.gl-text-subtle
+        = s_('GroupSAML|Members will be forwarded here when signing in to your group. Get this from your identity provider, where it can also be called "SSO Service Location", "SAML Token Issuance Endpoint", or "SAML 2.0/W-Federation URL".')
+
+    %div{ class: "well-segment borderless !gl-mb-5 gl-col-12 gl-col-lg-9 !gl-p-0" }
+      = f.label :certificate_fingerprint, class: 'label-bold' do
+        = s_('GroupSAML|Certificate fingerprint')
+      = f.text_field :certificate_fingerprint, placeholder: 'e.g. 0a:1b:2c:3d:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd:ee:ff', class: 'form-control', data: { testid: 'certificate-fingerprint-field' }
+      .form-text.gl-text-subtle
+        = s_('GroupSAML|SHA1 or SHA256 fingerprint of the SAML token signing certificate. Get this from your identity provider, where it can also be called "Thumbprint".')
+
+    .well-segment.borderless.gl-mb-3.gl-col-12.gl-col-lg-9.gl-p-0
+      = f.label :default_membership_role, class: 'label-bold' do
+        = s_('GroupSAML|Default membership role')
+      .js-saml-membership-role-selector{ data: { saml_membership_role_selector_data: saml_membership_role_selector_data(group, current_user).to_json } }
+      .form-text.gl-text-subtle
+        = s_('GroupSAML|This will be set as the access level of users added to the group.')
+
+    %div{ class: "!gl-mt-5" }
+      = f.submit _("Save changes"), data: { testid: 'save-changes-button' }, pajamas_button: true
+      #js-saml-test-button.has-tooltip.gl-float-right
+        = render 'test_button', saml_provider: @saml_provider

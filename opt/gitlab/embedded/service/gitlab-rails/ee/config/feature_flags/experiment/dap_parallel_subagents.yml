@@ -1,0 +1,10 @@
+---
+name: dap_parallel_subagents
+description: Enables parallel subagent execution for GitLab Duo Agent Platform flows.
+feature_issue_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/work_items/2070
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251134
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/618641
+milestone: '19.4'
+group: group::agent execution
+type: experiment
+default_enabled: false

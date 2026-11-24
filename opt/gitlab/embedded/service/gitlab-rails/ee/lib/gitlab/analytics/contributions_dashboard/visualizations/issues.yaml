@@ -1,0 +1,8 @@
+---
+version: 1
+type: ContributionsIssuesChart
+data:
+  type: contributions
+  query: 
+    metric: 'issues'
+options: {}

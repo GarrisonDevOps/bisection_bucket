@@ -1,0 +1,11 @@
+---
+name: gi_migration_merge_request_analytics
+description: Shows the merge request analytics system dashboard in GitLab Intelligence.
+  Can be enabled for users.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638173
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268973
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638175
+milestone: '19.6'
+group: group::optimize
+type: wip
+default_enabled: false

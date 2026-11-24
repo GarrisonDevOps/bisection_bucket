@@ -1,0 +1,10 @@
+---
+name: custom_admin_role_unassigned_from_user
+description: A custom admin role is unassigned from a user
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/507958
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/186570
+feature_category: permissions
+milestone: "18.0"
+saved_to_database: true
+streamed: true
+scope: [User]

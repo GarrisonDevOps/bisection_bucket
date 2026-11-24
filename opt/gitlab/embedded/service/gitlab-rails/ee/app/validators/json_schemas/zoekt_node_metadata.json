@@ -1,0 +1,85 @@
+{
+  "description": "Zoekt node metadata",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "task_count": {
+      "type": "integer"
+    },
+    "concurrency": {
+      "type": "integer"
+    },
+    "version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "process_health": {
+      "type": "object",
+      "properties": {
+        "indexer": {
+          "type": "object",
+          "properties": {
+            "mmap_current": {
+              "type": "integer"
+            },
+            "mmap_max": {
+              "type": "integer"
+            },
+            "restarts_1m": {
+              "type": "integer"
+            },
+            "restarts_5m": {
+              "type": "integer"
+            },
+            "restarts_15m": {
+              "type": "integer"
+            },
+            "rss_bytes": {
+              "type": "integer"
+            },
+            "uptime_seconds": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "webserver": {
+          "type": "object",
+          "properties": {
+            "mmap_current": {
+              "type": "integer"
+            },
+            "mmap_max": {
+              "type": "integer"
+            },
+            "restarts_1m": {
+              "type": "integer"
+            },
+            "restarts_5m": {
+              "type": "integer"
+            },
+            "restarts_15m": {
+              "type": "integer"
+            },
+            "rss_bytes": {
+              "type": "integer"
+            },
+            "uptime_seconds": {
+              "type": "integer"
+            },
+            "shards_loaded": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

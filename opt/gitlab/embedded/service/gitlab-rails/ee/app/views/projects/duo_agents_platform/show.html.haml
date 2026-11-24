@@ -1,0 +1,8 @@
+- page_title _('Automate')
+- @skip_current_level_breadcrumb = true
+- @force_show_panel_header = true if Feature.enabled?(:duo_automations, current_user)
+
+- if dap_identity_verification_required?(@project)
+  .js-duo-agents-platform-verification-alert{ data: duo_agents_platform_identity_verification_data(@project) }
+- else
+  #js-duo-agents-platform-page{ data: duo_agents_platform_data(@project) }

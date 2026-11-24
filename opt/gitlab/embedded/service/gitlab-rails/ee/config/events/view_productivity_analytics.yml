@@ -1,0 +1,15 @@
+---
+description: Visit to /groups/:group/-/analytics/productivity_analytics
+internal_events: true
+action: view_productivity_analytics
+identifiers:
+- namespace
+- user
+product_group: optimize
+product_categories:
+- value_stream_management
+milestone: '17.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/149959
+tiers:
+- premium
+- ultimate

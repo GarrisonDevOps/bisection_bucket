@@ -1,0 +1,11 @@
+---
+name: duo_mr_risk_classification
+description: Classify merge request risk with a Duo Agent Platform flow and surface
+  the resulting score in the merge request widget
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/21610
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249586
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/612062
+milestone: '19.3'
+group: group::code review
+type: wip
+default_enabled: false

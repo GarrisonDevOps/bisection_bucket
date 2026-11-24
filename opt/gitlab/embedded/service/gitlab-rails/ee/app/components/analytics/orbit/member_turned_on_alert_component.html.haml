@@ -1,0 +1,12 @@
+= render ::Users::GroupDismissibleAlertComponent.new(title: title,
+  alert_options: { data: { event_tracking: 'view_orbit_turned_on_member_alert', event_tracking_load: 'true', testid: 'orbit-turned-on-alert' } },
+  close_button_options: { data: { event_tracking: 'dismiss_orbit_turned_on_member_alert' } },
+  dismiss_options: { user: current_user, group: root, feature_id: FEATURE_ID, defer_links: true }) do |c|
+  - c.with_body do
+    %p.gl-mt-4
+      = body_text
+  - c.with_actions do
+    = render Pajamas::ButtonComponent.new(size: :small, variant: :confirm, href: dashboard_orbit_path(quickstart: true), button_options: { class: 'deferred-link', data: { event_tracking: 'click_set_up_on_orbit_turned_on_member_alert' } }) do
+      = s_('Orbit|Use GitLab Orbit')
+    = render Pajamas::ButtonComponent.new(size: :small, target: '_blank', href: DOCS_URL, button_options: { class: 'gl-ml-3', rel: 'noopener noreferrer', data: { event_tracking: 'click_learn_more_on_orbit_turned_on_member_alert' } }) do
+      = _('Learn more')

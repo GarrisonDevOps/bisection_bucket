@@ -1,0 +1,16 @@
+---
+description: Tracks when the dependency firewall is enabled or disabled for a namespace
+internal_events: true
+action: dependency_firewall_setting_changed
+identifiers:
+  - namespace
+product_group: dependency_firewall
+product_categories:
+  - dependency_firewall
+milestone: '19.4'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244926'
+tiers:
+  - ultimate
+additional_properties:
+  value:
+    description: 1 when dependency firewall is enabled, 0 when disabled

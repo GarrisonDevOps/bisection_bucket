@@ -1,0 +1,24 @@
+---
+key_path: count_distinct_namespace_id_from_view_explore_analytics_dashboard_dap_impact
+description: Count of unique namespaces selected in the scope of the DAP Impact analytics dashboard (each selected group, or the namespace of each selected project)
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259595
+time_frame:
+- 7d
+- 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: view_explore_analytics_dashboard
+  unique: namespace.id
+  filter:
+    label: dap_impact

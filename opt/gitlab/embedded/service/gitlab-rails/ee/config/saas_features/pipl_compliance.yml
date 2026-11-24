@@ -1,0 +1,5 @@
+---
+name: pipl_compliance
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157579
+milestone: '17.3'
+group: group::authorization

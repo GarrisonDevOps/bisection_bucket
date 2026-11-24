@@ -1,0 +1,14 @@
+.gl-mb-3
+  = udf.label :onboarding_status_country, s_('Onboarding|Country'), class: 'gl-mb-2 gl-block'
+  = udf.select :onboarding_status_country,
+    World.countries_for_select.map { |c| c.first(2) },
+    { include_blank: s_('Onboarding|Select a country or region') },
+    class: 'gl-form-select gl-w-full',
+    required: true,
+    data: { testid: 'country' }
+
+%hr.gl-my-4
+
+= udf.gitlab_ui_checkbox_component :onboarding_status_email_opt_in,
+  s_('Onboarding|I agree that GitLab can contact me by email about its product, services, or events.'),
+  checkbox_options: { data: { testid: 'email-opt-in', event_tracking: 'uncheck_email_optin_setup_profile' } }

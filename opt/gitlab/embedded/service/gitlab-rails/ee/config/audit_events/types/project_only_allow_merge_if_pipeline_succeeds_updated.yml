@@ -1,0 +1,10 @@
+---
+name: project_only_allow_merge_if_pipeline_succeeds_updated
+description: A project's only allow merge if pipeline succeeds setting is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/369288
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106652
+milestone: '15.7'
+feature_category: code_review_workflow
+saved_to_database: true
+streamed: true
+scope: [Project]

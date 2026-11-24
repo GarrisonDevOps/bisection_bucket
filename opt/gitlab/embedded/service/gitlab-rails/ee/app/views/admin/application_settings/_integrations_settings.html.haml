@@ -1,0 +1,13 @@
+- return unless License.feature_available?(:integrations_allow_list)
+
+= render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|Integration settings'),
+  id: 'js-integration-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('AdminSettings|Manage which integrations can be enabled on this instance.')
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: general_admin_application_settings_path(anchor: 'js-integration-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+      .js-allowed-integrations{ data: integrations_allow_list_data }
+
+      = f.submit _('Save changes'), pajamas_button: true

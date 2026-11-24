@@ -1,0 +1,11 @@
+---
+name: sm_duo_seat_assignment_email
+description: Controls whether seat assignment emails are sent to users in self-managed instances when they are assigned
+             GitLab Duo seats.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/557290
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202115
+rollout_issue_url: # No rollout: This is an ops-flag
+milestone: '18.4'
+group: group::activation
+type: ops
+default_enabled: true

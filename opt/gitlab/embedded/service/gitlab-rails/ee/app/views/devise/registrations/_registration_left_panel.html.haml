@@ -1,0 +1,47 @@
+-# Marketing illustration and heading shown in the right panel for the sign-up step
+- content_for :registration_marketing_panel_image, onboarding_status_presenter.signup_page_image
+- content_for :registration_marketing_panel_heading, onboarding_status_presenter.signup_page_heading
+
+.gl-flex.gl-flex-col.gl-h-full.gl-w-full{ data: { testid: 'registration-two-panel-layout' } }
+  .gl-flex.gl-justify-between.gl-items-center.gl-gap-3.gl-mb-10
+    = image_tag 'illustrations/gitlab_logo.svg', class: 'gl-h-6', alt: 'GitLab'
+    = render 'devise/shared/sign_in_link',
+      wrapper_class: 'gl-my-0',
+      tracking_action: 'click_sign_in_from_registration_page',
+      tracking_label: preregistration_tracking_label
+
+  .gl-flex-1.gl-flex.gl-flex-col.gl-mx-auto.gl-w-full.registration-form-container
+    %h1.gl-m-0.gl-pb-3
+      = s_('InProductMarketing|Get Started with GitLab')
+    - if onboarding_status_presenter.get_started_subtext.present?
+      %p.gl-m-0.gl-pb-6
+        = onboarding_status_presenter.get_started_subtext
+
+    - event_label = onboarding_status_presenter.event_label
+    .signup-box.registration-form{ data: { event_tracking_load: 'true', event_tracking: 'render_registration_form', event_label: event_label } }
+      = render 'signup_box_form_unified',
+        url: registration_path(resource_name, ::Onboarding::StatusPresenter.registration_path_params(params: params)),
+        button_text: _('Continue'),
+        button_class: 'black-btn'
+
+      = render 'devise/shared/terms_of_service_notice', button_text: _('Continue'), css_class: 'gl-text-sm gl-mt-3'
+
+      - if signup_button_based_providers_enabled?
+        .gl-pt-5
+          = render 'shared/divider', text: _('or')
+        .gl-flex.gl-gap-3.gl-flex-col
+          - popular_enabled_button_based_providers.each do |provider|
+            = render 'devise/shared/omniauth_provider_button',
+              href: omniauth_authorize_path(:user, provider, onboarding_status_presenter.registration_omniauth_params),
+              provider: provider,
+              classes: 'js-track-omni-auth',
+              full_label: true,
+              data: { provider: provider, event_tracking: 'click_registration_cta', event_label: event_label, event_property: "registration_form_#{provider}_sso" }
+
+  .registration-form-footer.gl-flex.gl-justify-between.gl-mt-8
+    %p.gl-m-0
+      = s_('InProductMarketing|Want to host GitLab on your servers?')
+      = link_to s_('InProductMarketing|Start a Self-Managed trial'),
+        promo_url(path: '/free-trial', query: { hosted: 'self-managed' }),
+        data: { track_action: 'click_link', track_label: 'start_self-managed_trial' }
+    = render 'devise/shared/language_switcher'

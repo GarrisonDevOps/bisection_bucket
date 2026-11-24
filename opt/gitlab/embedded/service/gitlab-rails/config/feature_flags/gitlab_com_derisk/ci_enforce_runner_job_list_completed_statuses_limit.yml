@@ -1,0 +1,10 @@
+---
+name: ci_enforce_runner_job_list_completed_statuses_limit
+description: Enforces the per-user rate limit on runner job lists filtered by completed statuses, in GraphQL and REST; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638237
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268904
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638961
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

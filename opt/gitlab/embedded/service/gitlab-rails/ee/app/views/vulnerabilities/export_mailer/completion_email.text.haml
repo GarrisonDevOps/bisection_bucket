@@ -1,0 +1,4 @@
+= s_('Vulnerabilities|The vulnerabilities list was successfully exported.')
+= s_('Vulnerabilities|Follow the link below to download the export.')
+= vulnerabilities_export_download_url(@export)
+= s_('Vulnerabilities|This link will expire in %{number} days.') % { number: @expiration_days }

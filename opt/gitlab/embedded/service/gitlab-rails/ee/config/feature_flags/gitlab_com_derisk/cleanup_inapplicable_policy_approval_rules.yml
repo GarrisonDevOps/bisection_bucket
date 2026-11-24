@@ -1,0 +1,11 @@
+---
+name: cleanup_inapplicable_policy_approval_rules
+description: Delete a project's merge request approval policy rules that belong to a
+  security policy configuration that no longer applies to the project
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637674
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266904
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637675
+milestone: '19.6'
+group: group::security policies
+type: gitlab_com_derisk
+default_enabled: false

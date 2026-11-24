@@ -1,0 +1,21 @@
+- page_title s_('Trial|Start your free Ultimate trial')
+- content_for(:hide_empty_navbar, true)
+- content_for :registration_marketing_panel_image, 'subscription/groups'
+- content_for :registration_marketing_panel_heading, s_("InProductMarketing|Let's get set up")
+- content_for :page_specific_javascripts do
+  = render "layouts/google_tag_manager_head"
+  = render "layouts/one_trust"
+  = render "layouts/bizible"
+= render "layouts/google_tag_manager_body"
+
+
+.registration-form-container.gl-mx-auto.gl-mt-6
+  .gl-py-8
+    %h2.gl-mt-0.gl-mb-3
+      = s_('Trial|Welcome to GitLab')
+
+    %p.gl-mb-6
+      = s_('Trial|Set up your GitLab environment and answer a few questions to personalize your experience.')
+
+    .gl-max-w-80.gl-mx-auto
+      #js-create-trial-welcome-form{ data: { view_model: form_data } }

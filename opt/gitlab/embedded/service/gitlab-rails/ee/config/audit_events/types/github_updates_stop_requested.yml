@@ -1,0 +1,10 @@
+---
+name: github_updates_stop_requested
+description: A user requests to stop GitHub updates for a project imported with continuous sync
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/628593
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266762
+feature_category: importers
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

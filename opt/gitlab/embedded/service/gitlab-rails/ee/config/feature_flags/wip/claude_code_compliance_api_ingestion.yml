@@ -1,0 +1,11 @@
+---
+name: claude_code_compliance_api_ingestion
+description: Polls the Claude Compliance API for Claude Code sessions of a top-level
+  group and records them as AI governance sessions
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/21540
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261009
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/623179
+milestone: '19.6'
+group: group::ai governance
+type: wip
+default_enabled: false

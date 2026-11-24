@@ -1,0 +1,6 @@
+- add_to_breadcrumbs _("Labels"), project_labels_path(@project)
+- breadcrumb_title _("New label")
+- page_title _("New Label")
+
+= render ::Layouts::PageHeadingComponent.new(_('New label'))
+= render 'shared/labels/form', url: project_labels_path(@project), back_path: project_labels_path(@project)

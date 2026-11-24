@@ -1,0 +1,11 @@
+.row
+  .form-group.gl-col-sm-12
+    = f.label :onboarding_status_setup_for_company, onboarding_status_presenter.setup_for_company_label_text
+    .gl-flex.gl-flex-col
+      .gl-grow
+        = f.gitlab_ui_radio_component :onboarding_status_setup_for_company, true, _('My company or team'),
+          help_text: onboarding_status_presenter.setup_for_company_help_text, radio_options: { required: true,
+          class: "js-track-error", data: { track_action_for_errors: onboarding_status_presenter.tracking_label } }
+      .gl-grow{ data: { testid: 'setup-for-just-me-content' } }
+        = f.gitlab_ui_radio_component :onboarding_status_setup_for_company, false, _('Just me'),
+          radio_options: { required: true, data: { testid: 'setup-for-just-me-radio' } }

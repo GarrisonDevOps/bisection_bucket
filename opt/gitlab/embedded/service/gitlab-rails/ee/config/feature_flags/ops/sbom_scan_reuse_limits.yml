@@ -1,0 +1,11 @@
+---
+name: sbom_scan_reuse_limits
+description: Rate limits the SBOM scan reuse endpoint per project. Turn this off if dependency scanning
+  jobs start failing on the reuse call.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636067
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266517
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636067
+milestone: '19.6'
+group: group::composition analysis
+type: ops
+default_enabled: true

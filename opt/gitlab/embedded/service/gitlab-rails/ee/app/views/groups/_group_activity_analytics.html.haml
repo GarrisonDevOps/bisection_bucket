@@ -1,0 +1,13 @@
+- return unless show_group_activity_analytics?
+
+#js-group-activity{ data: {
+    can_read_billing: can?(current_user, :read_billing, group).to_s,
+    show_plan_indicator: show_plan_indicator?(@group).to_s,
+    group_billings_path: group_billings_path(@group),
+    group_full_path: @group.full_path,
+    group_subscription_plan_name: @group.actual_plan.title,
+    merge_requests_metric_link: group_analytics_productivity_analytics_path(@group),
+    issues_metric_link: group_issues_analytics_path(@group),
+    new_members_metric_link: group_group_members_path(@group, sort: 'last_joined')
+  }
+}

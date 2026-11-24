@@ -1,0 +1,24 @@
+= gitlab_ui_form_for @saml_response_check.tap(&:valid?), url: '#', html: { class: 'gl-show-field-errors', role: 'form' } do |f|
+  - if f.object.valid?
+    = render Pajamas::AlertComponent.new(variant: :success) do |c|
+      - c.with_body do
+        = s_('GroupSAML|Valid SAML Response')
+  = form_errors(@saml_response_check)
+  .form-group
+    = f.label :name_id, s_('GroupSAML|NameID'), class: 'label-bold required'
+    = f.text_field :name_id, disabled: true, class: 'form-control'
+  .form-group
+    = f.label :name_id_format, s_('GroupSAML|NameID Format'), class: 'label-bold required'
+    = f.text_field :name_id_format, disabled: true, class: 'form-control'
+.file-holder
+  - indented_xml = Nokogiri.XML(@saml_response_check.xml).to_xml
+  .js-file-title.file-title
+    = s_("GroupSAML|SAML Response XML")
+    .file-actions
+      .btn-group
+        = clipboard_button(text: indented_xml, class: "js-copy-blob-source-btn", title: s_('GroupSAML|Copy SAML Response XML'))
+  .file-content.code.js-syntax-highlight
+    .blob-content
+      %pre.code.highlight
+        %code
+          = Gitlab::Highlight.highlight('response.xml', indented_xml, language: 'xml')

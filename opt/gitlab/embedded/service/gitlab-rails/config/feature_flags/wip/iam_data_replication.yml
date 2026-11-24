@@ -1,0 +1,10 @@
+---
+name: iam_data_replication
+description: "Replicates IAM entities from Rails to the IAM service through the iam_outbox: an outbox row in the write transaction, an immediate write, and the drain worker."
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/602678
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242097
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/606908
+milestone: '19.3'
+group: group::authentication
+type: wip
+default_enabled: false

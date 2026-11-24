@@ -1,0 +1,22 @@
+---
+key_path: sums.sum_total_ci_build_minutes_monthly_with_group_type
+description: Monthly count of CI build minutes for group runner types(rounded to 100th of a minute).
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+value_type: number
+status: active
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168894
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate
+events:
+  - name: track_ci_build_minutes_with_runner_type
+    operator: 'sum(value)'
+    filter:
+      label: group_type

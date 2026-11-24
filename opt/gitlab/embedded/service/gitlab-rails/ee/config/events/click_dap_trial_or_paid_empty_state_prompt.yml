@@ -1,0 +1,17 @@
+---
+description: User clicks a predefined prompt in the Duo Agentic Chat trial or paid empty state
+internal_events: true
+action: click_dap_trial_or_paid_empty_state_prompt
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Title of the predefined prompt clicked
+product_group: activation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223072
+tiers:
+  - premium
+  - ultimate
+classification: duo

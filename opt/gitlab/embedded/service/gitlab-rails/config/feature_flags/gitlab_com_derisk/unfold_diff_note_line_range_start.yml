@@ -1,0 +1,10 @@
+---
+name: unfold_diff_note_line_range_start
+description: Unfold the folded diff lines a multiline diff note's line range starts on, not only the lines around the note's own line, so the whole commented range is shown.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639557
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269907
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639548
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

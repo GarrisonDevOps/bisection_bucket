@@ -1,0 +1,8 @@
+- form_id = 'centralized_security_policy_management_setting'
+
+= gitlab_ui_form_for @application_setting, url: security_and_compliance_admin_application_settings_path(anchor: 'js-centralized_security_policy_management_setting'), html: { class: 'fieldset-form', id: form_id } do |f|
+  #js-centralized_security_policy_management{ data: {
+    centralized_security_policy_group_id: compliance_security_policy_group_id,
+    centralized_security_policy_group_locked: compliance_security_policy_group_locked?.to_s,
+    form_id: form_id,
+    new_group_path: new_group_path } }

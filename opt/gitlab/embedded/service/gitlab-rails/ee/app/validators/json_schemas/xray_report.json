@@ -1,0 +1,16 @@
+{
+  "definitions": {
+    "file_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "libs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

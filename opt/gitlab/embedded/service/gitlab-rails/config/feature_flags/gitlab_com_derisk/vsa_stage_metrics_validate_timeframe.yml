@@ -1,0 +1,10 @@
+---
+name: vsa_stage_metrics_validate_timeframe
+description: Reject GraphQL value stream stage metrics queries with a timeframe over 180 days
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636169
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266129
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638756
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

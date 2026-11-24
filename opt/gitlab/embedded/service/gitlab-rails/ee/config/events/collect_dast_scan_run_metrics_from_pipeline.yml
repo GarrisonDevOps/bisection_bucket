@@ -1,0 +1,29 @@
+---
+description: Run information for a DAST analyzer scan launched from a pipeline job.
+internal_events: true
+status: active
+action: collect_dast_scan_run_metrics_from_pipeline
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: The UUID of the scan generating this event.
+  value:
+    description: The scan runtime in seconds.
+  label:
+    description: The scan result code.
+  auth_type:
+    description: The scan authentication type.
+  panic_st_f:
+    description: The scan panic stack function.
+  panic_st_l:
+    description: The scan panic stack location.
+product_group: dynamic_analysis
+product_categories:
+- dynamic_application_security_testing
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203871
+tiers:
+- ultimate

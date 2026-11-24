@@ -1,0 +1,10 @@
+---
+name: group_saml_member_added
+description: A user was added as a SAML group member
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/560237
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202160
+feature_category: compliance_management
+milestone: '18.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

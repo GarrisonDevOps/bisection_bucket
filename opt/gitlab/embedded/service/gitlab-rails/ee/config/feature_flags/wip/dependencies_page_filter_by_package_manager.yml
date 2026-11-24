@@ -1,0 +1,9 @@
+---
+name: dependencies_page_filter_by_package_manager
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/493774
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/179530#note_2330664288
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/517271
+milestone: '17.10'
+group: group::security insights
+type: wip
+default_enabled: false

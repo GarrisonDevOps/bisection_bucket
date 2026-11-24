@@ -1,0 +1,10 @@
+---
+name: mcp_duo_agent_sessions_on_workhorse
+description: Run foundational agent sessions started over MCP on the Workhorse runtime instead of in a CI job
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631699
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259682
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638030
+milestone: '19.6'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

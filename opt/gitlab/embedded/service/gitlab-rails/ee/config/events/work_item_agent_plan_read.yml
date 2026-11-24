@@ -1,0 +1,38 @@
+---
+description: A work item's agent plan content was read via GraphQL
+internal_events: true
+status: active
+action: work_item_agent_plan_read
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: work item type
+  property:
+    description: user role
+  source:
+    description: |
+      Origin of the read. One of `ai_workflows` (Duo workflows or external
+      coding agents authenticated with an `ai_workflows`-scoped token, such as
+      `glab`, Claude, OpenCode, Duo CLI or Gemini CLI), `api` (regular
+      PAT/OAuth `api`-scope or session-backed UI), or `internal` (no token in
+      the current request context, e.g. background jobs or system calls).
+  work_item_id:
+    description: Id of the work item whose agent plan was read.
+  workflow_id:
+    description: |
+      Id of the Duo workflow run that made the request, taken from the
+      `X-Gitlab-Duo-Workflow-Id` header. Omitted when the header is absent or
+      not a positive integer within the bigint range. The header is
+      client-supplied and is not authorized or looked up, so use it for
+      analytics joins only.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242003
+tiers:
+- premium
+- ultimate

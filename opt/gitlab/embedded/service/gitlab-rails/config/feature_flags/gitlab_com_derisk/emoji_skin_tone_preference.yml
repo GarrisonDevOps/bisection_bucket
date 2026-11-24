@@ -1,0 +1,13 @@
+---
+name: emoji_skin_tone_preference
+description: Default emoji skin tone user preference. Gates the preferences page select,
+  gon.emoji_skin_tone, which the emoji picker, autocomplete and grouped awards list read,
+  replacing a user's reaction when they add another skin tone of the same emoji, and
+  counting every skin tone of thumbs up and thumbs down as an upvote or downvote.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/24004
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262314
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/633111
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

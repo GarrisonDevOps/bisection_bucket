@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_complete_duo_chat_response
+description: Monthly count of Duo Chat responses that finished, with an answer or an error
+product_group: duo_chat
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259436
+time_frame:
+- 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: complete_duo_chat_response

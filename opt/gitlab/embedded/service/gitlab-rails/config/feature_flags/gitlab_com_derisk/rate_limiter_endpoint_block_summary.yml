@@ -1,0 +1,10 @@
+---
+name: rate_limiter_endpoint_block_summary
+description: Log a per-endpoint count of rack rate limiter blocks from each Puma worker every 5 minutes
+feature_issue_url: https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/work_items/30224
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268019
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638075
+milestone: '19.6'
+group: group::networking and incident management
+type: gitlab_com_derisk
+default_enabled: false

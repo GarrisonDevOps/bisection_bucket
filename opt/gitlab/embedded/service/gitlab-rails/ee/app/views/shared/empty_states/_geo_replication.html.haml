@@ -1,0 +1,11 @@
+- geo_troubleshooting_link = help_page_path('administration/geo/replication/troubleshooting/_index.md')
+- image = 'illustrations/empty-state/empty-geo-md.svg'
+- title = has_filters ? _('No results found') : s_('Geo|There are no %{replicable_type} to show') % { replicable_type: replicable_type }
+- geo_troubleshooting_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: geo_troubleshooting_link }
+- description = has_filters ? _('Edit your search filter and try again.') : html_escape(s_('Geo|No %{replicable_type} were found. If you believe this may be an error, please refer to the %{linkStart}Geo Troubleshooting%{linkEnd} documentation for more information.')) % { replicable_type: replicable_type, linkStart: geo_troubleshooting_link_start, linkEnd: '</a>'.html_safe }
+
+= render Pajamas::EmptyStateComponent.new(svg_path: image,
+  title: title) do |c|
+
+  - c.with_description do
+    = description

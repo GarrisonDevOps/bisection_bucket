@@ -1,0 +1,19 @@
+---
+description: A project import was started with continuous sync turned on, so the project keeps getting updates from the source
+internal_events: true
+action: enable_import_continuous_sync
+identifiers:
+- project
+- user
+- namespace
+additional_properties:
+  label:
+    description: import_type of the source (github)
+product_group: import
+product_categories:
+- importers
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265502
+tiers:
+- premium
+- ultimate

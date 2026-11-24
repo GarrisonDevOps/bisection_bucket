@@ -1,0 +1,15 @@
+- expanded = expanded_by_default?
+
+- if @group.licensed_feature_available?(:protected_environments)
+  = render ::Layouts::SettingsBlockComponent.new(_('Protected environments'),
+    id: 'js-protected-environments-settings',
+    css_class: 'protected-environments-settings',
+    expanded: expanded) do |c|
+    - c.with_description do
+      = s_('ProtectedEnvironment|Only specified groups can execute deployments in protected environments.')
+    - c.with_body do
+      #js-protected-environments{ data: { entity_id: @group.id,
+                                  entity_type: 'groups',
+                                  tiers: @tiers.keys.to_json,
+                                  api_link: help_page_path('api/protected_environments.md'),
+                                  docs_link: help_page_path('ci/environments/deployment_approvals.md', anchor: 'add-multiple-approval-rules') } }

@@ -1,0 +1,19 @@
+---
+data_category: optional
+key_path: counts.sarif_derived_security_scans
+description: Count of security scan records derived from ingested SARIF reports.
+product_group: security_controls
+product_categories:
+- vulnerability_management
+value_type: number
+status: active
+time_frame:
+- all
+- 28d
+data_source: database
+instrumentation_class: CountSarifSecurityScansMetric
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248827

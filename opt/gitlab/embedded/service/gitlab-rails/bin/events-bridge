@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Runs the GitLab Events Bridge in the foreground until SIGTERM or SIGINT. It does not
+# daemonize; run it under a process supervisor.
+#
+# Exit status: 0 after a clean shutdown, 1 when an event fails to bridge or startup fails.
+
+require 'optparse'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  opts.on('--topic TOPIC', 'Relay topic to subscribe to') { |value| options[:topic] = value }
+  opts.on('--consumer-group GROUP', 'Relay consumer group to join') { |value| options[:consumer_group] = value }
+end.parse!
+
+require_relative '../config/environment'
+
+bridge = Gitlab::EventsPlatform::Bridge.new(**options)
+
+%w[TERM INT].each do |signal|
+  Signal.trap(signal) { bridge.stop }
+end
+
+bridge.run

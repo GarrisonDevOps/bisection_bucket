@@ -1,0 +1,4 @@
+- page_title _("Edit"), @application.name, _("Applications")
+
+= render ::Layouts::PageHeadingComponent.new(_('Edit application'))
+= render 'shared/doorkeeper/applications/form', url: doorkeeper_submit_path(@application)

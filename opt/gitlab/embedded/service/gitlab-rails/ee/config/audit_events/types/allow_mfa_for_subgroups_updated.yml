@@ -1,0 +1,10 @@
+---
+name: allow_mfa_for_subgroups_updated
+description: Setting for Subgroups can set up their own two-factor authentication rules updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164973
+feature_category: system_access
+milestone: '17.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

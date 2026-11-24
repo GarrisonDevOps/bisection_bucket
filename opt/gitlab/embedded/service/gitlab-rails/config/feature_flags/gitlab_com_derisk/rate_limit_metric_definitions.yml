@@ -1,0 +1,11 @@
+---
+name: rate_limit_metric_definitions
+description: Enforces the per-IP rate limit on GET /usage_data/metric_definitions.
+  While disabled, requests over the limit are logged but not blocked
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635595
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270522
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639898
+milestone: '19.6'
+group: group::analytics instrumentation
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: ai_usage_data_collection_enabled_updated
+description: Collect usage data setting on group changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/595736
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230130
+feature_category: agent_foundations
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Group]

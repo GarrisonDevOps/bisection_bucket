@@ -1,0 +1,10 @@
+---
+name: ci_archive_traces_cron_cursor
+description: Page through trace chunks with a cursor kept between runs in Ci::ArchiveTracesCronWorker
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634314
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263376
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634622
+milestone: '19.6'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

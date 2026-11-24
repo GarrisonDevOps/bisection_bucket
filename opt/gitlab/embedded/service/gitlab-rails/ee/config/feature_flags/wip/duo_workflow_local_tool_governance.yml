@@ -1,0 +1,10 @@
+---
+name: duo_workflow_local_tool_governance
+description: Enforces HITL AI tool governance rules for Duo flows on local surfaces (IDE, CLI, Chat)
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/606343
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249463
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/613544
+milestone: '19.3'
+group: group::developer clients
+type: wip
+default_enabled: false

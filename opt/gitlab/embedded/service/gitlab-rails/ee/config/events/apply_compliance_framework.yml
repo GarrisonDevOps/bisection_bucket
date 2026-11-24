@@ -1,0 +1,18 @@
+---
+description: A user applies compliance framework
+internal_events: true
+action: apply_compliance_framework
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Ids of projects where user applies compliance framework
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175130
+tiers:
+  - premium
+  - ultimate

@@ -1,0 +1,5 @@
+---
+name: self_hosted_models
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260335
+milestone: '18.5'
+group: group::ai model services

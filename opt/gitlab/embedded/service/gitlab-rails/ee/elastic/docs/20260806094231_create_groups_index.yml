@@ -1,0 +1,10 @@
+---
+name: CreateGroupsIndex
+version: '20260806094231'
+description: Creates the groups Elasticsearch index for improved global search performance
+group: group::global search
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248894
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

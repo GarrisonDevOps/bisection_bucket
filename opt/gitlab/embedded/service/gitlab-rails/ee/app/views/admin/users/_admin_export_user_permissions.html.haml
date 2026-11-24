@@ -1,0 +1,3 @@
+- return unless can?(current_user, :export_user_permissions)
+
+= render Pajamas::ButtonComponent.new(href: admin_user_permission_exports_path(format: :csv), icon: 'upload', button_options: { data: { toggle: "tooltip", placement: "top", container: "body" }, title: s_("AdminUsers|Export permissions as CSV (max 100,000 users)") })

@@ -1,0 +1,16 @@
+---
+description: Triggered when a user submits a GitLab Duo natural language query from the data explorer.
+internal_events: true
+action: user_submitted_gitlab_duo_query_from_data_explorer
+identifiers:
+  - project
+  - user
+  - namespace
+product_group: platform_insights
+product_categories:
+- product_analytics
+- custom_dashboards_foundation
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/145463
+tiers:
+  - ultimate

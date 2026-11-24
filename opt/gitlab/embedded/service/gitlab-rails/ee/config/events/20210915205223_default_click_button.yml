@@ -1,0 +1,18 @@
+description: "Slide security discover carousel"
+category: default
+action: click_button
+extra_properties:
+identifiers:
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: "12.8"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21658
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`security-discover-carousel`"
+  property:
+    description: "Slide index"

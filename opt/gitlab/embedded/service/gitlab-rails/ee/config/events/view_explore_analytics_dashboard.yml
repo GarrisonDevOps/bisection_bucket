@@ -1,0 +1,27 @@
+---
+description: A user viewed a dashboard view on an explore analytics dashboard with a scope selected. Sent once per selected group or project, so a multi-select scope sends several events that share a view_id.
+internal_events: true
+action: view_explore_analytics_dashboard
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Dashboard slug for system dashboards (for example dap_impact), or custom for custom dashboards
+  property:
+    description: Title of the dashboard view (tab) that was shown. Empty for custom dashboards, whose titles are user-written.
+  view_id:
+    description: Identifier shared by the events sent for one view of the dashboard
+  scope_count:
+    description: Number of groups and projects selected in the scope filter
+  scope_type:
+    description: Kind of namespaces selected in the scope filter (group, project, or mixed)
+product_categories:
+  - custom_dashboards_foundation
+product_group: optimize
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259595
+tiers:
+  - premium
+  - ultimate

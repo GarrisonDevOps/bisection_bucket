@@ -1,0 +1,6 @@
+- add_to_breadcrumbs s_('JiraService|Jira issues'), project_integrations_jira_issues_path(@project)
+- breadcrumb_title external_issue_breadcrumb_title(@issue_json[:references][:relative])
+- @breadcrumb_title_avatar = image_path('illustrations/logos/jira.svg')
+- page_title @issue_json[:title]
+
+.js-jira-issues-show-app{ data: jira_issues_show_data }

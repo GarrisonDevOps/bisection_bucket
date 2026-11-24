@@ -1,0 +1,17 @@
+---
+key_path: settings.zoekt_search_enabled
+description: Whether zoekt_search_enabled application setting is enabled on an instance
+product_group: global_search
+product_categories:
+- global_search
+value_type: boolean
+status: active
+milestone: '17.1'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/155078'
+time_frame: none
+data_source: system
+instrumentation_class: ZoektSearchEnabledMetric
+data_category: optional
+tiers:
+  - premium
+  - ultimate

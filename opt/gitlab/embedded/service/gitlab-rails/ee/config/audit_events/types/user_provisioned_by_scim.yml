@@ -1,0 +1,10 @@
+---
+name: user_provisioned_by_scim
+description: A user is provisioned by SCIM
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/423322
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/174040
+feature_category: user_management
+milestone: '17.8'
+saved_to_database: true
+streamed: true
+scope: [Group]

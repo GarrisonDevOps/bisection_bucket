@@ -1,0 +1,10 @@
+---
+name: sync_drifted_tracked_context_traversal_ids
+description: 'Enqueue a traversal_ids resync for drifted security tracked contexts from FindOrCreateService and the tracked context traversal_ids consistency check'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631433
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258666
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631472
+milestone: '19.5'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

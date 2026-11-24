@@ -1,0 +1,5 @@
+---
+name: enforce_top_level_group_limits
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216797
+milestone: '18.9'
+group: group::authorization

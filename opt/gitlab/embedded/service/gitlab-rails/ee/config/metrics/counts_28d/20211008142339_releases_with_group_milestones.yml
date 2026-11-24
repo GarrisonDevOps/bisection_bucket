@@ -1,0 +1,18 @@
+---
+key_path: usage_activity_by_stage_monthly.release.releases_with_group_milestones
+description: Unique users creating releases with group milestones associated
+product_group: environments
+product_categories:
+- release_orchestration
+value_type: number
+status: active
+milestone: "14.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/71650
+time_frame: 28d
+data_source: database
+instrumentation_class: 'CountUsersAssociatingGroupMilestonesToReleasesMetric'
+data_category: optional
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

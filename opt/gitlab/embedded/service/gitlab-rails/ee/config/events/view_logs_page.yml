@@ -1,0 +1,15 @@
+---
+description: User visited logs page
+internal_events: true
+action: view_logs_page
+identifiers:
+- project
+- namespace
+- user
+product_group: platform_insights
+product_categories:
+- observability
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/156821
+tiers:
+- ultimate

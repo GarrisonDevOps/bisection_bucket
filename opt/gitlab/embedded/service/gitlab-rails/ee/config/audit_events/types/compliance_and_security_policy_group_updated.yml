@@ -1,0 +1,10 @@
+---
+name: compliance_and_security_policy_group_updated
+description: The compliance and security policy group for the instance is assigned, changed, or removed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/601730
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270527
+milestone: '19.6'
+feature_category: security_policy_management
+saved_to_database: true
+streamed: true
+scope: [Instance]

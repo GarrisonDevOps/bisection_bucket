@@ -1,0 +1,12 @@
+---
+name: audit_event_streaming_destination_timeouts
+description: Caps each audit event streaming send to Amazon S3 at 8 seconds per
+  connect and read, with two retries, so a slow destination cannot hold a shared
+  streaming thread for minutes. Disable to return to the AWS SDK defaults.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/17582
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267183
+rollout_issue_url:
+milestone: '19.6'
+group: group::compliance
+type: ops
+default_enabled: false

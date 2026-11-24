@@ -1,0 +1,33 @@
+---
+description: Duo Agentic Chat user attaches a file to a prompt. Fired once per accepted file
+internal_events: true
+status: active
+action: attach_file_duo_agentic_chat
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: 'How the file was attached: plus_menu, paste, or drag_and_drop'
+  property:
+    description: MIME type of the file, for example image/png
+  value:
+    description: 'Size bucket of the file, as its upper bound in KB: 100, 500, 1024, or 2048'
+  session_id:
+    description: Unique identifier of the session the file was attached in
+  flow_type:
+    description: Agent or flow active in the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264707
+tiers:
+- premium
+- ultimate
+classification: duo

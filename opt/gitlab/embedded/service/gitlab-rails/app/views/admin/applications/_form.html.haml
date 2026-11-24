@@ -1,0 +1,44 @@
+= gitlab_ui_form_for [:admin, @application], url: @url, html: {role: 'form'} do |f|
+  = form_errors(application)
+
+  = content_tag :div, class: 'form-group row' do
+    .gl-col-12
+      = f.label :name
+      = f.text_field :name, class: 'form-control gl-form-input', data: { testid: 'name-field' }
+      = doorkeeper_errors_for application, :name
+
+  = content_tag :div, class: 'form-group row' do
+    .gl-col-12
+      = f.label :redirect_uri
+      = f.text_area :redirect_uri, class: 'form-control gl-form-input', data: { testid: 'redirect-uri-field' }
+      = doorkeeper_errors_for application, :redirect_uri
+      %span.form-text.gl-text-subtle
+        Use one line per URI
+
+  = content_tag :div, class: 'form-group row' do
+    .gl-col-12
+      = f.label :trusted
+      = f.gitlab_ui_checkbox_component :trusted, _('Trusted applications are automatically authorized on GitLab OAuth flow. It\'s highly recommended for the security of users that trusted applications have the confidential setting set to true.'), checkbox_options: { data: { testid: 'trusted-checkbox' } }
+
+  = content_tag :div, class: 'form-group row' do
+    .gl-col-12
+      = f.label :confidential
+      = f.gitlab_ui_checkbox_component :confidential, _('The application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.')
+
+
+  = content_tag :div, class: 'form-group row' do
+    .gl-col-12
+      - docs_link_url = help_page_path('api/oauth2.md', anchor: 'device-authorization-grant-flow')
+      - docs_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: docs_link_url }
+      = f.label _('Device authorization grant')
+      = f.gitlab_ui_checkbox_component :device_code_enabled, _('Enable to allow %{docs_link_start}Device authorization grant flow%{docs_link_end}.').html_safe % { docs_link_start: docs_link_start, docs_link_end: '</a>'.html_safe },
+        checkbox_options: { data: { testid: 'device-code-enabled-checkbox' } }
+
+  .form-group.row
+    .gl-col-12
+      = f.label :scopes
+      = render 'shared/tokens/scopes_form', prefix: 'authn_oauth_application', token: application, scopes: @scopes, f: f
+
+  .settings-sticky-footer.gl-flex.gl-gap-3
+    = f.submit _('Save application'), pajamas_button: true, data: { testid: 'save-application-button' }
+    = link_button_to _('Cancel'), admin_applications_path

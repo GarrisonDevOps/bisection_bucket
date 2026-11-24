@@ -1,0 +1,10 @@
+---
+name: secure_consistency_check_duplicate_contexts
+description: Controls execution of DuplicateDefaultTrackedContextsCheck consistency check
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/601618
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261024
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634010
+milestone: '19.6'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

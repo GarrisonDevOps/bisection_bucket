@@ -1,0 +1,15 @@
+---
+description: Tracks explore link clicks on the duo core banner
+internal_events: true
+action: click_explore_link_on_duo_core_banner
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - activation
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192008
+tiers:
+  - premium
+  - ultimate

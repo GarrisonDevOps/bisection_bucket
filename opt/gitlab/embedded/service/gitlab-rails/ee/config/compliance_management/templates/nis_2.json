@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "name": "NIS 2",
+  "description": "NIS 2 compliance requirements",
+  "color": "#004494",
+  "requirements": [
+    {
+      "name": "Article 11 Requirements, technical capabilities and tasks of CSIRTs",
+      "description": "3. The CSIRTs shall have the following tasks: a) monitoring and analysing cyber threats, vulnerabilities and incidents at national level and, upon request, providing assistance to essential and important entities concerned regarding real-time or near real-time monitoring of their network and information systems.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Article 21 Cybersecurity risk-management measures",
+      "description": "Implement cybersecurity measures based on all-hazards approach to protect systems from incidents, including supply chain security across direct suppliers and service providers, and security in network/information systems acquisition, development, maintenance, and vulnerability handling.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

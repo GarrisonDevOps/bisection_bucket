@@ -1,0 +1,14 @@
+---
+version: 1
+type: AiImpactTable
+data:
+  type: value_stream
+  query:
+    filters:
+      includeMetrics:
+        - pipeline_count
+        - pipeline_duration_median
+        - pipeline_success_rate
+        - pipeline_failed_rate
+        - pipeline_other_rate
+options: {}

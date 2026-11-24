@@ -1,0 +1,5 @@
+---
+name: read_dedicated_hosted_runner_usage
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260305
+milestone: '19.6'
+group: group::Runners Platform

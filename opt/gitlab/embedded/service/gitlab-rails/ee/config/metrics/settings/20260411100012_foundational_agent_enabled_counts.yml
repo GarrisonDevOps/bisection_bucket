@@ -1,0 +1,19 @@
+---
+key_path: settings.foundational_agent_enabled_counts
+description: Counts how many organizations have each foundational agent effectively enabled (explicit or inherited default) on a Self-Managed instance
+product_group: agent_execution
+product_categories:
+  - duo_agent_platform
+value_type: object
+status: active
+milestone: "19.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231057
+time_frame: none
+data_source: system
+instrumentation_class: FoundationalAgentEnabledCountsMetric
+data_category: operational
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate
+value_json_schema: "ee/config/metrics/object_schemas/foundational_agent_enabled_counts_metric.json"

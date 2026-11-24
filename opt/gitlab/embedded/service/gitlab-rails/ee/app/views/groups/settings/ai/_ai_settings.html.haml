@@ -1,0 +1,4 @@
+- if ::Ai::AmazonQ.connected?
+  #js-amazon-q-settings{ data: { view_model: group_amazon_q_settings_view_model_json } }
+- elsif show_group_ai_settings_general? && !(Gitlab.com? && @group.root?)
+  #js-ai-settings{ data: group_ai_general_settings_helper_data }

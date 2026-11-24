@@ -1,0 +1,50 @@
+---
+description: AI Catalog item Duplicate button click
+internal_events: true
+status: active
+action: click_duplicate_ai_catalog_item_button
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Type of AI Catalog item
+  page:
+    description: Catalog page of origin (Show item)
+  origin:
+    description: Catalog area of origin (Explore / Project / Group)
+  item_type:
+    description: Item type. One of custom_flow, custom_agent, custom_external_agent,
+      foundational_flow, foundational_agent, foundational_external_agent.
+  item_version:
+    description: Semantic version of the item (e.g. "1.0.0").
+  item_schema_version:
+    description: Flow Schema version (e.g. "v1").
+  flow_name:
+    description: Foundational flow name.
+  component_name:
+    description: Foundational agent reference (e.g. "chat", "orbit_agent").
+  custom_item_id:
+    description: Custom item ID.
+  tools:
+    description: Comma-separated built-in tool names used by the item. Only present
+      when duplicated from the item show page.
+  mcp_tools:
+    description: Comma-separated MCP tool names used by the item. Only present when
+      duplicated from the item show page.
+  mcp_servers:
+    description: Comma-separated MCP server IDs used by the item. Only present when
+      duplicated from the item show page.
+  components:
+    description: Comma-separated component types defined in the flow. Only present
+      when duplicated from the item show page.
+product_group: ai_catalog
+product_categories:
+  - ai_catalog_curation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219336
+tiers:
+  - premium
+  - ultimate
+classification: duo

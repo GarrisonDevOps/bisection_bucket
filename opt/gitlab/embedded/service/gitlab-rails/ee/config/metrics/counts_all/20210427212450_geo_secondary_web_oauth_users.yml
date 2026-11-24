@@ -1,0 +1,16 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage.enablement.geo_secondary_web_oauth_users
+description: Number of distinct owner ids from secodary geo nodes oauth access grants
+product_group: geo
+product_categories:
+- geo_replication
+value_type: number
+status: active
+milestone: "13.12"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/51201
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate

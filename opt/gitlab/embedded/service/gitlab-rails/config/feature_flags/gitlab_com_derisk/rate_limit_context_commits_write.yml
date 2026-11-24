@@ -1,0 +1,10 @@
+---
+name: rate_limit_context_commits_write
+description: Rate limits adding and removing merge request context commits through the API per user
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636123
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267499
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638010
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: show_diff_preview_in_email_updated
+description: Setting Email notification to include diff preview is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164973
+feature_category: code_review_workflow
+milestone: '17.4'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

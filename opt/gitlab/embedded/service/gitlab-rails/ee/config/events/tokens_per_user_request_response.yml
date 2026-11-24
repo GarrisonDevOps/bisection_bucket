@@ -1,0 +1,22 @@
+---
+description: Tracks the number of tokens in a response from an LLM
+action: tokens_per_user_request_response
+classification: duo
+identifiers:
+- user
+product_group: ai_model_services
+product_categories:
+- ai_abstraction_layer
+milestone: '16.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/40379
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Action
+  property:
+    description: Request Id
+  value:
+    description: Response size in tokens

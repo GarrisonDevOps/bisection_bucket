@@ -1,0 +1,15 @@
+---
+description: Continuous Vulnerability Scan on advisory database updates.
+action: global_scan
+identifiers:
+product_group: composition_analysis
+product_categories:
+- dependency_management
+- container_scanning
+milestone: '16.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170427
+tiers:
+- ultimate
+additional_properties:
+  label:
+    description: '`secure_cvs` includes counts for `possibly_affected_projects`, `known_affected_projects`, `possibly_affected_sbom_occurrences`, `known_affected_sbom_occurrences`. These determine how many projects and components have been scanned (possibly) and found to be affected (known) by a security advisory.'

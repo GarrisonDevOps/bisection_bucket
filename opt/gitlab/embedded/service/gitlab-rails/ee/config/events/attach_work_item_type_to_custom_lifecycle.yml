@@ -1,0 +1,19 @@
+---
+description: Work item type attached to a custom lifecycle in a namespace
+internal_events: true
+status: active
+action: attach_work_item_type_to_custom_lifecycle
+identifiers:
+- namespace
+- user
+additional_properties:
+  label:
+    description: Name of the work item type attached
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '18.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/205712
+tiers:
+- premium
+- ultimate

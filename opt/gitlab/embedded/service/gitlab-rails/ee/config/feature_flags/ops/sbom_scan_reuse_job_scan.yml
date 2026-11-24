@@ -1,0 +1,11 @@
+---
+name: sbom_scan_reuse_job_scan
+description: Returns a job's existing scan when the job reuses the same SBOM digest again, instead of
+  inserting another row. Turn this off if dependency scanning jobs get the wrong scan back from the reuse call.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636067
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267293
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636067
+milestone: '19.6'
+group: group::composition analysis
+type: ops
+default_enabled: true

@@ -1,0 +1,14 @@
+---
+version: 1
+type: AiImpactTable
+data:
+  type: value_stream
+  query:
+    filters:
+      includeMetrics:
+        - deployment_frequency
+        - merge_request_throughput
+        - median_time_to_merge
+        - contributor_count
+        - vulnerability_critical
+options: {}

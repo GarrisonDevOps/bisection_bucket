@@ -1,0 +1,11 @@
+---
+name: ReindexEpicsToFixLabelIds
+version: '20231016162120'
+description: This migration will reindex epics to fix the possible wrong values of
+  label_ids
+group: group::global search
+milestone: '16.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/133612
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/165989
+marked_obsolete_in_milestone: '17.5'

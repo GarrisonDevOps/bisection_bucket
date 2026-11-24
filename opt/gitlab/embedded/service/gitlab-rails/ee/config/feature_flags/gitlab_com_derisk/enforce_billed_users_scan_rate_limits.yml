@@ -1,0 +1,10 @@
+---
+name: enforce_billed_users_scan_rate_limits
+description: Reject calls that run a billed users scan when they are over the billed users scan rate limits, and seat usage CSV exports over the seat usage export rate limit
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636108
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269334
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639222
+milestone: '19.7'
+group: group::seat management
+type: gitlab_com_derisk
+default_enabled: false

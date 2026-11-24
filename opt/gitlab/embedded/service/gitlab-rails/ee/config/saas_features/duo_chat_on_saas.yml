@@ -1,0 +1,5 @@
+---
+name: duo_chat_on_saas
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/140352
+milestone: '16.8'
+group: group::ai framework

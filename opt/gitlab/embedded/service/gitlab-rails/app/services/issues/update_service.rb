@@ -1,0 +1,307 @@
+# frozen_string_literal: true
+
+module Issues
+  class UpdateService < Issues::BaseService
+    prepend RateLimitedService
+
+    # Work item and legacy epic updates run through this service too, so one key covers every entry point.
+    rate_limit key: :work_item_update, opts: { scope: { user: :current_user } }
+
+    # NOTE: For Issues::UpdateService, we default perform_spam_check to false, because spam_checking is not
+    # necessary in many cases, and we don't want to require every caller to explicitly pass it
+    # to disable spam checking.
+    def initialize(container:, current_user: nil, params: {}, perform_spam_check: false)
+      super(container: container, current_user: current_user, params: params)
+      @perform_spam_check = perform_spam_check
+    end
+
+    def execute(issue)
+      @move_errors = nil
+      @create_merge_request_error = nil
+      prepare_update(issue)
+      handle_move_between_ids(issue)
+
+      change_issue_duplicate(issue)
+      move_issue_to_new_container(issue) || clone_issue(issue) || update_task_event(issue) || update(issue)
+    end
+
+    def update(issue)
+      create_merge_request_from_quick_action
+
+      super.tap { |updated_issue| add_deferred_errors(updated_issue) }
+    end
+
+    def before_update(issue, skip_spam_check: false)
+      change_work_item_type(issue)
+
+      return if skip_spam_check || !perform_spam_check
+
+      issue.check_for_spam(user: current_user, action: :update)
+    end
+
+    def change_work_item_type(issue)
+      # When the new `work_item_type` object is provided (preferred path, supports custom types),
+      # rely on the `work_item_type=` setter executed via `assign_attributes` and skip the
+      # legacy `issue_type` lookup which only resolves types by base_type.
+      # See https://gitlab.com/groups/gitlab-org/-/work_items/20291
+      return if params[:work_item_type].present?
+      return unless params[:issue_type].present?
+
+      # Resolve to a type object (may be a system-defined or a namespace-scoped converted
+      # custom type) and let `work_item_type=` call `persistable_id`. This keeps the
+      # write path consistent for converted and non-converted types, instead of assigning
+      # `work_item_type_id` directly which bypasses the persistable id logic.
+      issue.work_item_type = work_item_type_provider.find_by_base_type(params[:issue_type]) ||
+        work_item_type_provider.default_issue_type
+    end
+
+    def handle_changes(issue, options)
+      super
+      old_associations = options.fetch(:old_associations, {})
+      old_labels = old_associations.fetch(:labels, [])
+      old_mentioned_users = old_associations.fetch(:mentioned_users, [])
+      old_assignees = old_associations.fetch(:assignees, [])
+      old_severity = old_associations[:severity]
+
+      if has_changes?(issue, old_labels: old_labels, old_assignees: old_assignees)
+        todo_service.resolve_todos_for_target(issue, current_user)
+      end
+
+      if issue.previous_changes.include?('title') ||
+          issue.previous_changes.include?('description')
+        todo_service.update_issue(issue, current_user, old_mentioned_users)
+      end
+
+      handle_assignee_changes(issue, old_assignees)
+      handle_confidential_change(issue)
+      handle_added_labels(issue, old_labels)
+      handle_added_mentions(issue, old_mentioned_users)
+      handle_severity_change(issue, old_severity)
+      handle_escalation_status_change(issue)
+      handle_issue_type_change(issue)
+      handle_date_changes(issue)
+    end
+
+    def handle_assignee_changes(issue, old_assignees)
+      return if issue.assignees == old_assignees
+
+      create_assignee_note(issue, old_assignees)
+      Gitlab::ResourceEvents::AssignmentEventRecorder.new(parent: issue, old_assignees: old_assignees).record
+      notification_service.async.reassigned_issue(issue, current_user, old_assignees)
+      todo_service.reassigned_assignable(issue, current_user, old_assignees)
+      track_incident_action(current_user, issue, :incident_assigned)
+      execute_flow_triggers(issue, issue.assignees - old_assignees, :assign)
+
+      GraphqlTriggers.issuable_assignees_updated(issue)
+    end
+
+    def handle_task_changes(issuable)
+      todo_service.resolve_todos_for_target(issuable, current_user)
+      todo_service.update_issue(issuable, current_user)
+    end
+
+    def change_issue_duplicate(issue)
+      canonical_issue_id = params.delete(:canonical_issue_id)
+      return unless canonical_issue_id
+
+      canonical_issue = Issue.find_by_id(canonical_issue_id)
+
+      if canonical_issue
+        Issues::DuplicateService.new(container: project, current_user: current_user).execute(issue, canonical_issue)
+      end
+    end
+
+    def move_issue_to_new_container(issue)
+      target_container = params.delete(:target_container)
+
+      return unless target_container &&
+        issue.can_move?(current_user, target_container) &&
+        !move_to_same_container?(issue, target_container)
+
+      target_work_item_type_id = params.delete(:target_work_item_type_id)
+
+      update(issue)
+
+      move_service_container = target_container.is_a?(Project) ? target_container.project_namespace : target_container
+
+      move_params = {}
+      move_params[:target_work_item_type_id] = target_work_item_type_id if target_work_item_type_id
+
+      move_response = ::WorkItems::DataSync::MoveService.new(
+        work_item: issue, current_user: current_user, target_namespace: move_service_container,
+        params: move_params
+      ).execute
+
+      return move_response[:work_item] unless move_response.error?
+
+      @move_errors = move_response.errors
+      add_deferred_errors(issue)
+      issue
+    end
+
+    private
+
+    # Runs after the rate limit check and before any change. EE promotes the issue to an epic here.
+    def prepare_update(_issue); end
+
+    # The support bot is one shared account acting for every Service Desk email, so its updates
+    # are not charged to the per-user limit.
+    def rate_limit_exempt?
+      current_user.present? && current_user.support_bot?
+    end
+
+    attr_reader :perform_spam_check
+
+    # Model validation can regenerate an error also returned by the move.
+    def add_deferred_errors(issue)
+      [*@move_errors, *@create_merge_request_error].each do |message|
+        next if issue.errors.full_messages.include?(message)
+
+        issue.errors.add(:base, message)
+      end
+    end
+
+    override :after_update
+    def after_update(issue, old_associations)
+      super
+
+      GraphqlTriggers.work_item_updated(
+        issue,
+        updated_changes: namespace_subscription_changes(issue, old_associations)
+      )
+      publish_event(issue, old_associations)
+    end
+
+    # previous_changes only reports columns, so label and assignee changes are diffed against the
+    # captured associations, and widget keys cover changes that touch neither (e.g. status).
+    def namespace_subscription_changes(issue, old_associations)
+      changes = issue.previous_changes.keys + updated_widget_keys
+      changes << 'labels' if issue.labels != old_associations[:labels]
+      changes << 'assignees' if issue.assignees != old_associations[:assignees]
+      # The write cutover clears the position change, so it is absent from previous_changes here.
+      changes << 'relative_position' if @repositioned
+      changes
+    end
+
+    def updated_widget_keys
+      @widget_params&.compact_blank&.keys&.map(&:to_s) || []
+    end
+
+    def publish_event(work_item, old_associations)
+      updated_attributes = work_item.previous_changes.keys.map(&:to_s)
+      updated_attributes << 'relative_position' if @repositioned
+
+      event = WorkItems::WorkItemUpdatedEvent.new(data: {
+        id: work_item.id,
+        namespace_id: work_item.namespace_id,
+        previous_work_item_parent_id: old_associations[:work_item_parent_id],
+        updated_attributes: updated_attributes,
+        updated_widgets: updated_widget_keys
+      }.tap(&:compact_blank!))
+
+      work_item.run_after_commit_or_now do
+        Gitlab::EventStore.publish(event)
+      end
+    end
+
+    def handle_date_changes(issue)
+      return unless issue.previous_changes.slice('due_date', 'start_date').any?
+
+      GraphqlTriggers.issuable_dates_updated(issue)
+    end
+
+    def clone_issue(issue)
+      target_container = params.delete(:target_clone_container)
+      with_notes = params.delete(:clone_with_notes)
+
+      return unless target_container &&
+        issue.can_clone?(current_user, target_container)
+
+      target_work_item_type_id = params.delete(:target_work_item_type_id)
+
+      # we've pre-empted this from running in #execute, so let's go ahead and update the Issue now.
+      update(issue)
+
+      clone_service_container = target_container.is_a?(Project) ? target_container.project_namespace : target_container
+
+      clone_params = { clone_with_notes: with_notes }
+      clone_params[:target_work_item_type_id] = target_work_item_type_id if target_work_item_type_id
+
+      ::WorkItems::DataSync::CloneService.new(
+        work_item: issue, current_user: current_user, target_namespace: clone_service_container,
+        params: clone_params
+      ).execute[:work_item]
+    end
+
+    def create_merge_request_from_quick_action
+      create_merge_request_params = params.delete(:create_merge_request)
+      return unless create_merge_request_params
+
+      MergeRequests::CreateFromIssueService.new(project: project, current_user: current_user, mr_params: create_merge_request_params).execute
+    rescue RateLimitedService::RateLimitedError
+      @create_merge_request_error = _('Merge request creation rate limit exceeded. Try again later.')
+    end
+
+    def handle_confidential_change(issue)
+      if issue.previous_changes.include?('confidential')
+        # don't enqueue immediately to prevent todos removal in case of a mistake
+        TodosDestroyer::ConfidentialIssueWorker.perform_in(Todo::WAIT_FOR_DELETE, issue.id) if issue.confidential?
+        create_confidentiality_note(issue)
+        track_incident_action(current_user, issue, :incident_change_confidential)
+      end
+    end
+
+    def handle_added_labels(issue, old_labels)
+      added_labels = issue.labels - old_labels
+
+      if added_labels.present?
+        notification_service.async.relabeled_issue(issue, added_labels, current_user)
+      end
+    end
+
+    def handle_added_mentions(issue, old_mentioned_users)
+      added_mentions = issue.mentioned_users(current_user) - old_mentioned_users
+
+      if added_mentions.present?
+        notification_service.async.new_mentions_in_issue(issue, added_mentions, current_user)
+      end
+    end
+
+    def handle_severity_change(issue, old_severity)
+      return unless old_severity && issue.severity != old_severity
+
+      ::IncidentManagement::AddSeveritySystemNoteWorker.perform_async(issue.id, current_user.id)
+    end
+
+    def create_confidentiality_note(issue)
+      SystemNoteService.change_issue_confidentiality(issue, issue.project, current_user)
+    end
+
+    def handle_issue_type_change(issue)
+      return unless issue.previous_changes.include?('work_item_type_id')
+
+      do_handle_issue_type_change(issue)
+    end
+
+    def do_handle_issue_type_change(issue)
+      SystemNoteService.change_issue_type(issue, current_user)
+
+      ::IncidentManagement::IssuableEscalationStatuses::CreateService.new(issue).execute if issue.supports_escalation?
+    end
+
+    def move_to_same_container?(issue, target_container)
+      target_container_identifier = target_container.id
+
+      target_container_identifier = target_container.project_namespace_id if target_container.is_a?(Project)
+
+      issue.namespace_id == target_container_identifier
+    end
+
+    override :allowed_update_params
+    def allowed_update_params(params)
+      super.except(:issue_type)
+    end
+  end
+end
+
+Issues::UpdateService.prepend_mod_with('Issues::UpdateService')

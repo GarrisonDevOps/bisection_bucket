@@ -1,0 +1,10 @@
+---
+name: mcp_client
+description: Enable Workhorse MCP client
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/561296
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206445
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/572340
+milestone: '18.5'
+group: group::agent foundations
+type: gitlab_com_derisk
+default_enabled: false

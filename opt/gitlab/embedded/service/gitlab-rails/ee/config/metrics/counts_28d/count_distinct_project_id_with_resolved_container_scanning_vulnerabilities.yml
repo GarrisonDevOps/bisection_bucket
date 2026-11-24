@@ -1,0 +1,20 @@
+---
+key_path: usage_activity_by_stage.count_distinct_project_id_with_resolved_container_scanning_vulnerabilities
+description: Count of distinct projects with resolved Container Scanning vulnerabilities
+product_group: composition_analysis
+product_categories:
+- container_scanning
+value_type: number
+status: active
+milestone: '17.6'
+performance_indicator_type:
+- lighthouse
+instrumentation_class: CountDistinctProjectIdsWithResolvedVulnerabilitiesActivityMetric
+options:
+  report_type: container_scanning
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170661'
+time_frame: 28d
+data_source: database
+data_category: optional
+tiers:
+- ultimate

@@ -1,0 +1,7 @@
+- page_title s_('GroupSAML|SAML Group Links')
+%h1.page-title.gl-text-size-h-display= s_('GroupSAML|SAML Group Links')
+%p.gl-mb-0
+  - learn_more_link = link_to('', help_page_path('user/group/saml_sso/group_sync.md', anchor: 'automatic-member-removal'), target: '_blank', rel: 'noopener noreferrer')
+  = safe_format(s_('GroupSAML|Use SAML group links to manage group membership through SAML. If SAML group links are active, GitLab may automatically change member roles or remove members from groups. %{link_start}Learn more%{link_end}.'), tag_pair(learn_more_link, :link_start, :link_end))
+= render 'form', group: @group
+= render 'saml_group_links', group: @group

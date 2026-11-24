@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+RUN_IN_DEFAULT_RUBY_LABEL = 'pipeline:run-in-ruby3_3'
+RUBY_VERSIONS_FILE = '.gitlab/ci/version.yml'
+# Matches the workflow rule that keeps stable-branch MRs on the default version.
+STABLE_BRANCH_PATTERN = /\A[\d-]+-stable(-ee|-jh)?\z/
+
+return unless helper.all_changed_files.include?(RUBY_VERSIONS_FILE)
+return if helper.mr_target_branch.match?(STABLE_BRANCH_PATTERN)
+
+default_ruby_bumped = helper.changed_lines(RUBY_VERSIONS_FILE).any? do |line|
+  line.start_with?('+') && line.include?('RUBY_VERSION_DEFAULT')
+end
+
+return unless default_ruby_bumped
+return if helper.mr_labels.include?(RUN_IN_DEFAULT_RUBY_LABEL)
+
+# Merge request pipelines run the next Ruby version, so a RUBY_VERSION_DEFAULT
+# bump is not exercised by its own MR pipeline unless the MR opts out.
+warn "This merge request changes `RUBY_VERSION_DEFAULT` but does not have the " \
+  "~\"#{RUN_IN_DEFAULT_RUBY_LABEL}\" label. Without the label, this MR's pipeline runs no " \
+  "jobs on the new Ruby version. Add the label and start a new pipeline so the bump is " \
+  "validated before merge."

@@ -1,0 +1,8 @@
+---
+title: View system monitoring
+name: read_admin_monitoring
+description: Read system information such as background migrations, health checks, and Gitaly in the Admin Area.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/507959
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/179439
+feature_category: admin
+milestone: '17.9'

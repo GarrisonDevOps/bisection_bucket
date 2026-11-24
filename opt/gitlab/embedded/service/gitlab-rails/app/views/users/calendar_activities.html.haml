@@ -1,0 +1,8 @@
+%h4.gl-mt-5
+  = html_escape(_("Contributions for %{calendar_date}")) % { calendar_date: tag.strong(@calendar_date.to_fs(:medium)) }
+
+- if @events.any?
+  = render partial: 'events/event', collection: @events.sort_by(&:created_at), locals: { timezone: local_timezone_instance(@user.timezone) }
+- else
+  %p
+    = _('No contributions were found')

@@ -1,0 +1,10 @@
+---
+name: ai_custom_instructions_updated
+description: Custom AI instructions setting on group changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/601517
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245563
+feature_category: ai_abstraction_layer
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

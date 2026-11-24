@@ -1,0 +1,12 @@
+---
+name: BackfillNewFieldsInWorkItems
+version: '20250605120024'
+description: Recently we added closed_at, health, weight, milestone_due_date, milestone_start_date,
+  and label_names fields to work_items mappings. Now we need to populate these fields
+  with data for all the existing work_items.
+group: group::global search
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/193590
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209380
+marked_obsolete_in_milestone: '18.6'

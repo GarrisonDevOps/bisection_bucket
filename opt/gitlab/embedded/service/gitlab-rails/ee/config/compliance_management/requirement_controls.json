@@ -1,0 +1,587 @@
+[
+  {
+    "id": "scanner_sast_running",
+    "name": "SAST running",
+    "expression": {
+      "field": "scanner_sast_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "minimum_approvals_required_2",
+    "name": "At least two approvals",
+    "expression": {
+      "field": "minimum_approvals_required",
+      "operator": ">=",
+      "value": 2
+    }
+  },
+  {
+    "id": "merge_request_prevent_author_approval",
+    "name": "Author approved merge request is forbidden",
+    "expression": {
+      "field": "merge_request_prevent_author_approval",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "merge_request_prevent_committers_approval",
+    "name": "Committers approved merge request is forbidden",
+    "expression": {
+      "field": "merge_request_prevent_committers_approval",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "project_visibility_not_internal",
+    "name": "Internal visibility is forbidden",
+    "expression": {
+      "field": "project_visibility_not_internal",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "default_branch_protected",
+    "name": "Default branch protected",
+    "expression": {
+      "field": "default_branch_protected",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "auth_sso_enabled",
+    "name": "Auth SSO enabled",
+    "expression": {
+      "field": "auth_sso_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_secret_detection_running",
+    "name": "Secret detection running",
+    "expression": {
+      "field": "scanner_secret_detection_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_dep_scanning_running",
+    "name": "Dependency scanning running",
+    "expression": {
+      "field": "scanner_dep_scanning_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_container_scanning_running",
+    "name": "Container scanning running",
+    "expression": {
+      "field": "scanner_container_scanning_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_license_compliance_running",
+    "name": "License compliance running",
+    "expression": {
+      "field": "scanner_license_compliance_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_dast_running",
+    "name": "DAST running",
+    "expression": {
+      "field": "scanner_dast_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_api_security_running",
+    "name": "API security running",
+    "expression": {
+      "field": "scanner_api_security_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_code_quality_running",
+    "name": "Code quality running",
+    "expression": {
+      "field": "scanner_code_quality_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "scanner_iac_running",
+    "name": "IaC scanning running",
+    "expression": {
+      "field": "scanner_iac_running",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "code_changes_requires_code_owners",
+    "name": "Code changes require code owners",
+    "expression": {
+      "field": "code_changes_requires_code_owners",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "reset_approvals_on_push",
+    "name": "Reset approvals on push",
+    "expression": {
+      "field": "reset_approvals_on_push",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "status_checks_required",
+    "name": "Status checks required",
+    "expression": {
+      "field": "status_checks_required",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "require_branch_up_to_date",
+    "name": "Require branch up to date",
+    "expression": {
+      "field": "require_branch_up_to_date",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "resolve_discussions_required",
+    "name": "Resolve discussions required",
+    "expression": {
+      "field": "resolve_discussions_required",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "require_linear_history",
+    "name": "Require linear history",
+    "expression": {
+      "field": "require_linear_history",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "restrict_push_merge_access",
+    "name": "Restrict push and merge access",
+    "expression": {
+      "field": "restrict_push_merge_access",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "force_push_disabled",
+    "name": "Force push disabled",
+    "expression": {
+      "field": "force_push_disabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "terraform_enabled",
+    "name": "Terraform enabled",
+    "expression": {
+      "field": "terraform_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "project_repo_exists",
+    "name": "Project repo exists",
+    "expression": {
+      "field": "project_repo_exists",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "issue_tracking_enabled",
+    "name": "Issue tracking enabled",
+    "expression": {
+      "field": "issue_tracking_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "stale_branch_cleanup_enabled",
+    "name": "Stale branch cleanup enabled",
+    "expression": {
+      "field": "stale_branch_cleanup_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "branch_deletion_disabled",
+    "name": "Branch deletion disabled",
+    "expression": {
+      "field": "branch_deletion_disabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "review_and_archive_stale_repos",
+    "name": "Review and archive stale repositories",
+    "expression": {
+      "field": "review_and_archive_stale_repos",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "review_and_remove_inactive_users",
+    "name": "Review and remove inactive users",
+    "expression": {
+      "field": "review_and_remove_inactive_users",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "more_members_than_admins",
+    "name": "More members than admins",
+    "expression": {
+      "field": "more_members_than_admins",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "require_mfa_for_contributors",
+    "name": "Require MFA for contributors",
+    "expression": {
+      "field": "require_mfa_for_contributors",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "require_mfa_at_org_level",
+    "name": "Require MFA at organization level",
+    "expression": {
+      "field": "require_mfa_at_org_level",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "ensure_2_admins_per_repo",
+    "name": "Ensure two administrators per repository",
+    "expression": {
+      "field": "ensure_2_admins_per_repo",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "strict_permissions_for_repo",
+    "name": "Strict Permission for Repository",
+    "expression": {
+      "field": "strict_permissions_for_repo",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "secure_webhooks",
+    "name": "Secure webhooks",
+    "expression": {
+      "field": "secure_webhooks",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "restricted_build_access",
+    "name": "Restricted build access",
+    "expression": {
+      "field": "restricted_build_access",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "gitlab_license_level_ultimate",
+    "name": "GitLab license level Ultimate",
+    "expression": {
+      "field": "gitlab_license_level_ultimate",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "status_page_configured",
+    "name": "Status page configured",
+    "expression": {
+      "field": "status_page_configured",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "has_valid_ci_config",
+    "name": "Has valid CI/CD configuration",
+    "expression": {
+      "field": "has_valid_ci_config",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "error_tracking_enabled",
+    "name": "Error tracking enabled",
+    "expression": {
+      "field": "error_tracking_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "default_branch_users_can_push",
+    "name": "Default branch users can push",
+    "expression": {
+      "field": "default_branch_users_can_push",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "default_branch_protected_from_direct_push",
+    "name": "Default branch protected from direct push",
+    "expression": {
+      "field": "default_branch_protected_from_direct_push",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "push_protection_enabled",
+    "name": "Push protection enabled",
+    "expression": {
+      "field": "push_protection_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "project_marked_for_deletion",
+    "name": "Project not marked for deletion",
+    "expression": {
+      "field": "project_marked_for_deletion",
+      "operator": "=",
+      "value": false
+    }
+  },
+  {
+    "id": "project_archived",
+    "name": "Project not archived",
+    "expression": {
+      "field": "project_archived",
+      "operator": "=",
+      "value": false
+    }
+  },
+  {
+    "id": "default_branch_users_can_merge",
+    "name": "Default branch users can merge",
+    "expression": {
+      "field": "default_branch_users_can_merge",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "merge_request_commit_reset_approvals",
+    "name": "Merge request commit resets approvals",
+    "expression": {
+      "field": "merge_request_commit_reset_approvals",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "project_visibility_not_public",
+    "name": "Project visibility not public",
+    "expression": {
+      "field": "project_visibility_not_public",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "package_hunter_no_findings_untriaged",
+    "name": "Package Hunter no findings untriaged",
+    "expression": {
+      "field": "package_hunter_no_findings_untriaged",
+      "operator": "=",
+      "value": false
+    }
+  },
+  {
+    "id": "project_pipelines_not_public",
+    "name": "Project pipelines not public",
+    "expression": {
+      "field": "project_pipelines_not_public",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "vulnerabilities_slo_days_over_threshold",
+    "name": "Vulnerabilities SLO days over threshold",
+    "expression": {
+      "field": "vulnerabilities_slo_days_over_threshold",
+      "operator": "=",
+      "value": false
+    }
+  },
+  {
+    "id": "merge_requests_approval_rules_prevent_editing",
+    "name": "Merge requests approval rules prevent editing",
+    "expression": {
+      "field": "merge_requests_approval_rules_prevent_editing",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "project_user_defined_variables_restricted_to_maintainers",
+    "name": "User-defined CI/CD variables restricted to maintainers",
+    "expression": {
+      "field": "project_user_defined_variables_restricted_to_maintainers",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "merge_requests_require_code_owner_approval",
+    "name": "Merge requests require code owner approval",
+    "expression": {
+      "field": "merge_requests_require_code_owner_approval",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "cicd_job_token_scope_enabled",
+    "name": "CI/CD job token scope enabled",
+    "expression": {
+      "field": "cicd_job_token_scope_enabled",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "minimum_approvals_required_1",
+    "name": "At least one approval",
+    "expression": {
+      "field": "minimum_approvals_required",
+      "operator": ">=",
+      "value": 1
+    }
+  },
+  {
+    "id": "protected_branches_set",
+    "name": "Protected branches exist",
+    "expression": {
+      "field": "protected_branches_set",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "code_owner_approval_required",
+    "name": "Code owner approval required",
+    "expression": {
+      "field": "code_owner_approval_required",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "require_signed_commits",
+    "name": "Requires signed commits",
+    "expression": {
+      "field": "require_signed_commits",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "has_forks",
+    "name": "Forks exist for the project",
+    "expression": {
+      "field": "has_forks",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "model_registry_access_level_configured",
+    "name": "Model registry access level configured",
+    "expression": {
+      "field": "model_registry_access_level_configured",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "model_experiments_access_level_configured",
+    "name": "Model experiments access level configured",
+    "expression": {
+      "field": "model_experiments_access_level_configured",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "duo_agentic_flow_audit_events_streaming",
+    "name": "Duo Agentic Flow audit events streaming",
+    "expression": {
+      "field": "duo_agentic_flow_audit_events_streaming",
+      "operator": "=",
+      "value": true
+    }
+  },
+  {
+    "id": "duo_agentic_flow_governance_oversight_configured",
+    "name": "Duo agentic flow governance oversight configured",
+    "expression": {
+      "field": "duo_agentic_flow_governance_oversight_configured",
+      "operator": "=",
+      "value": true
+    }
+  }
+]

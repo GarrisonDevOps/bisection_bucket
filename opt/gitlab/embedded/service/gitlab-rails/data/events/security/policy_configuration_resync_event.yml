@@ -1,0 +1,6 @@
+---
+event: Security::PolicyConfigurationResyncEvent
+description: Published when the security policies of a configuration are force resynced,
+  triggering one sync of all policies per project.
+feature_category: security_policy_management
+ee_only: true

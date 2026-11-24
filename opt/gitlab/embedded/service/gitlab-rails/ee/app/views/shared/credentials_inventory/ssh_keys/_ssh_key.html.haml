@@ -1,0 +1,25 @@
+.gl-responsive-table-row{ role: 'row' }
+  .table-section.section-40
+    .table-mobile-header{ role: 'rowheader' }
+      = _('Owner')
+    .table-mobile-content
+      = render 'shared/credentials_inventory/users/user_detail', user: ssh_key.user
+  .table-section.section-15
+    .table-mobile-header{ role: 'rowheader' }
+      = _('Created On')
+    .table-mobile-content
+      = ssh_key.created_at.to_date
+  .table-section.section-15
+    .table-mobile-header{ role: 'rowheader' }
+      = _('Last Accessed On')
+    .table-mobile-content
+      = (last_used_at = ssh_key.last_used_at).present? ? last_used_at.to_date : _('Never')
+  .table-section.section-15
+    .table-mobile-header{ role: 'rowheader' }
+      = _('Expiration')
+    .table-mobile-content.gl-w-full
+      = render 'shared/credentials_inventory/expiry_date', credential: ssh_key
+  .table-section.section-5
+    .table-mobile-header{ role: 'rowheader' }
+    .table-mobile-content
+      = render 'shared/ssh_keys/key_delete', category: :secondary, button_data: ssh_key_delete_modal_data(ssh_key, ssh_key_delete_path(ssh_key))

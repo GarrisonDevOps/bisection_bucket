@@ -1,0 +1,10 @@
+---
+name: duo_workflow_file_attachments_enabled_updated
+description: In a group, the setting that allows file attachments in GitLab Duo Chat is changed
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/work_items/20481
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268538
+feature_category: chat_engine
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group]

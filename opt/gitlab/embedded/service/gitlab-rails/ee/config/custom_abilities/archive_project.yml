@@ -1,0 +1,13 @@
+---
+title: Archive project
+name: archive_project
+description: Allows archiving of projects.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/425957
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/134998
+feature_category: groups_and_projects
+milestone: '16.6'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [50]
+project_permissions:
+  - archive_project

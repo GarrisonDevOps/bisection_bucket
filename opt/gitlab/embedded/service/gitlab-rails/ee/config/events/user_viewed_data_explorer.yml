@@ -1,0 +1,17 @@
+---
+description: Triggered when a user views the data explorer.
+internal_events: true
+action: user_viewed_data_explorer
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: platform_insights
+product_categories:
+- custom_dashboards_foundation
+- product_analytics
+milestone: "16.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135708
+tiers:
+- ultimate

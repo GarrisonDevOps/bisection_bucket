@@ -1,0 +1,22 @@
+---
+data_category: optional
+key_path: counts.all_searches
+description: Total searches served by basic search, advanced search and exact code
+  search (Zoekt). Exact code search from the web UI and the GraphQL API is counted
+  from 19.6. Semantic code search is not counted.
+product_group: global_search
+product_categories:
+- global_search
+value_type: number
+status: active
+time_frame: all
+data_source: internal_events
+events:
+  - name: perform_search
+tiers:
+- free
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

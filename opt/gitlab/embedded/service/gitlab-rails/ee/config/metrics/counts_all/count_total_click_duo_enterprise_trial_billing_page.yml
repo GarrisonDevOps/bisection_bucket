@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_click_duo_enterprise_trial_billing_page
+description: Total count of Duo Enterprise trial alert buttons clicks on billing page
+product_group: acquisition
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/162179
+time_frame: all
+data_source: internal_events
+data_category: optional
+tiers:
+  - free
+  - premium
+  - ultimate
+events:
+  - name: click_duo_enterprise_trial_billing_page

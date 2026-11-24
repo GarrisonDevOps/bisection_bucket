@@ -1,0 +1,7 @@
+- return unless show_email_additional_text?
+
+%p
+  &mdash;
+  %br
+  %br
+    = Gitlab::Utils.nlbr(Gitlab::CurrentSettings.email_additional_text)

@@ -1,0 +1,9 @@
+---
+name: organization_security_dashboard
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605373
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245508
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605923
+milestone: '19.3'
+group: group::vulnerability management
+type: beta
+default_enabled: true

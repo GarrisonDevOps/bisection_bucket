@@ -1,0 +1,16 @@
+---
+description: Project security attributes application page was viewed
+internal_events: true
+status: active
+action: view_project_security_attributes
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: security_controls
+product_categories:
+  - security_asset_inventories
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/199179
+tiers:
+  - ultimate

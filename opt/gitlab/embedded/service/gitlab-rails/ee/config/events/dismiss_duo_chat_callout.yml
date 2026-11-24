@@ -1,0 +1,17 @@
+---
+description: Tracks duo chat callout dismiss
+internal_events: true
+action: dismiss_duo_chat_callout
+identifiers:
+- user
+product_group: activation
+product_categories:
+- activation
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/176884
+tiers:
+- premium
+- ultimate
+status: removed
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224957
+milestone_removed: "18.10"

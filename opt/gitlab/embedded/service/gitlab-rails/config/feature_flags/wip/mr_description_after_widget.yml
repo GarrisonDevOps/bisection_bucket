@@ -1,0 +1,10 @@
+---
+name: mr_description_after_widget
+description: Shows the merge request description after the merge request widget on the Overview tab.
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269608
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639432
+milestone: '19.6'
+group: group::code review
+type: wip
+default_enabled: false

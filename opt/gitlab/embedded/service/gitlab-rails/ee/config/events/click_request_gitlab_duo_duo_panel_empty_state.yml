@@ -1,0 +1,18 @@
+---
+description: User clicks "Request GitLab Duo" in the Duo chat panel access-denied empty state
+internal_events: true
+status: active
+action: click_request_gitlab_duo_duo_panel_empty_state
+identifiers:
+  - user
+  - namespace
+product_group: acquisition
+additional_properties:
+  property:
+    description: The root group id the request is stored against
+product_categories:
+  - acquisition
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257330
+tiers:
+  - free

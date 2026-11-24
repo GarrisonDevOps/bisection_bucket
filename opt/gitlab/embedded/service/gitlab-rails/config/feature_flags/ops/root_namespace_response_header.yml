@@ -1,0 +1,8 @@
+---
+name: root_namespace_response_header
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270514
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639906
+milestone: '19.6'
+type: ops
+group: group::Networking & Incident Management
+default_enabled: false

@@ -1,0 +1,20 @@
+---
+key_path: counts.dast_jobs
+description: Count of DAST jobs run
+product_group: dynamic_analysis
+product_categories:
+- dynamic_application_security_testing
+value_type: number
+status: active
+time_frame: all
+instrumentation_class: CountCiBuildsMetric
+options:
+  secure_type: dast
+data_source: database
+data_category: operational
+tiers:
+- ultimate
+performance_indicator_type:
+- customer_health_score
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

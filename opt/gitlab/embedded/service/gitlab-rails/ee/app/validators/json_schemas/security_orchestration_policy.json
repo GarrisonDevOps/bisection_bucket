@@ -1,0 +1,3342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GitLab Security Policies Configuration",
+  "description": "Policies in GitLab provide security teams a way to require scans of their choice to be run whenever a project pipeline runs according to the configuration specified. It is configured by supplying a file in `.gitlab/security-policies/policy.yml`, which will list applicable security policies. A full list of all options can be found at https://docs.gitlab.com/ee/user/application_security/policies/.",
+  "type": "object",
+  "anyOf": [
+    {
+      "required": [
+        "scan_execution_policy"
+      ]
+    },
+    {
+      "required": [
+        "approval_policy"
+      ]
+    },
+    {
+      "required": [
+        "pipeline_execution_policy"
+      ]
+    },
+    {
+      "required": [
+        "pipeline_execution_schedule_policy"
+      ]
+    },
+    {
+      "required": [
+        "vulnerability_management_policy"
+      ]
+    },
+    {
+      "required": [
+        "dependency_firewall_policy"
+      ]
+    }
+  ],
+  "properties": {
+    "experiments": {
+      "type": "object",
+      "description": "Contains experimental feature configurations",
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*$": {
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether the experimental feature is enabled"
+            },
+            "configuration": {
+              "type": "object",
+              "description": "Optional configuration options for the experimental feature",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "vulnerability_management_policy": {
+      "type": "array",
+      "description": "Declares auto-resolve, auto-dismiss, or severity override configuration for a policy.",
+      "additionalItems": false,
+      "items": {
+        "required": [
+          "name",
+          "enabled",
+          "rules",
+          "actions"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name for the policy.",
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          "description": {
+            "description": "Specifies the longer description of the policy.",
+            "type": "string",
+            "maxLength": 1000000
+          },
+          "enabled": {
+            "description": "Whether to enforce this policy or not.",
+            "type": "boolean"
+          },
+          "rules": {
+            "description": "Specifies conditions when this policy should be applied.",
+            "type": "array",
+            "maxItems": 5,
+            "additionalItems": false,
+            "items": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "required": [
+                    "type",
+                    "scanners",
+                    "severity_levels"
+                  ],
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "no_longer_detected"
+                      ],
+                      "type": "string",
+                      "description": "Specifies a type of the policy rule."
+                    },
+                    "scanners": {
+                      "description": "Specifies a list of scanners that should be considered to enforce this policy. Possible values: `sast`, `secret_detection`, `dependency_scanning`, `container_scanning`, `dast`, `coverage_fuzzing`, `api_fuzzing`, `sarif`.",
+                      "type": "array",
+                      "additionalItems": false,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "sast",
+                          "secret_detection",
+                          "dependency_scanning",
+                          "container_scanning",
+                          "dast",
+                          "coverage_fuzzing",
+                          "api_fuzzing",
+                          "sarif"
+                        ]
+                      }
+                    },
+                    "severity_levels": {
+                      "description": "Specifies a list of vulnerability security levels that should be considered to enforce this policy. Possible values: `info`, `unknown`, `low`, `medium`, `high`, `critical`.",
+                      "type": "array",
+                      "additionalItems": false,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "critical",
+                          "high",
+                          "medium",
+                          "low",
+                          "info",
+                          "unknown"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "required": [
+                    "type",
+                    "criteria"
+                  ],
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "detected"
+                      ],
+                      "type": "string",
+                      "description": "Specifies a type of the policy rule for matching detected vulnerabilities."
+                    },
+                    "criteria": {
+                      "description": "Specifies the criteria for matching vulnerabilities. All specified criteria must match for the policy rule to trigger.",
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 3,
+                      "additionalItems": false,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type"
+                        ],
+                        "oneOf": [
+                          {
+                            "required": [
+                              "value"
+                            ],
+                            "properties": {
+                              "type": {
+                                "description": "The type of criteria to match against. Possible values: `file_path`, `directory`.",
+                                "type": "string",
+                                "enum": [
+                                  "file_path",
+                                  "directory"
+                                ]
+                              },
+                              "value": {
+                                "description": "The value to match against. Supports glob patterns including wildcards.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 1000
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          {
+                            "required": [
+                              "values"
+                            ],
+                            "properties": {
+                              "type": {
+                                "description": "The type of criteria to match against. Possible values: `file_path`, `directory`.",
+                                "type": "string",
+                                "enum": [
+                                  "file_path",
+                                  "directory"
+                                ]
+                              },
+                              "values": {
+                                "description": "Multiple values to match against. The criterion matches if any value matches (OR logic). Supports glob patterns including wildcards.",
+                                "type": "array",
+                                "minItems": 1,
+                                "maxItems": 1000,
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 1000
+                                }
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          {
+                            "required": [
+                              "value"
+                            ],
+                            "properties": {
+                              "type": {
+                                "description": "The type of criteria to match against identifiers.",
+                                "type": "string",
+                                "enum": [
+                                  "identifier"
+                                ]
+                              },
+                              "identifier_type": {
+                                "description": "When specified, matches against the identifier's external_type and external_id instead of its name. For example, 'cwe' to match CWE identifiers by their external_id.",
+                                "type": "string",
+                                "enum": [
+                                  "cve",
+                                  "cwe",
+                                  "owasp"
+                                ]
+                              },
+                              "value": {
+                                "description": "The value to match against. Supports exact match or wildcard patterns for CVE, CWE, or scanner-specific IDs.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 1000
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          {
+                            "required": [
+                              "values"
+                            ],
+                            "properties": {
+                              "type": {
+                                "description": "The type of criteria to match against identifiers.",
+                                "type": "string",
+                                "enum": [
+                                  "identifier"
+                                ]
+                              },
+                              "identifier_type": {
+                                "description": "When specified, matches against the identifier's external_type and external_id instead of its name. For example, 'cwe' to match CWE identifiers by their external_id.",
+                                "type": "string",
+                                "enum": [
+                                  "cve",
+                                  "cwe",
+                                  "owasp"
+                                ]
+                              },
+                              "values": {
+                                "description": "Multiple values to match against. The criterion matches if any value matches (OR logic). Supports exact match or wildcard patterns for CVE, CWE, or scanner-specific IDs.",
+                                "type": "array",
+                                "minItems": 1,
+                                "maxItems": 1000,
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 1000
+                                }
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "actions": {
+            "type": "array",
+            "description": "Specifies what actions should be performed on the matched vulnerabilities.",
+            "additionalItems": false,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "required": [
+                    "type"
+                  ],
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "auto_resolve"
+                      ],
+                      "type": "string",
+                      "description": "The type of action that should be taken for auto-resolving vulnerabilities."
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "required": [
+                    "type",
+                    "dismissal_reason"
+                  ],
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "auto_dismiss"
+                      ],
+                      "type": "string",
+                      "description": "The type of action that should be taken for auto-dismissing vulnerabilities."
+                    },
+                    "dismissal_reason": {
+                      "description": "Specifies the reason for dismissing vulnerabilities. Possible values: `acceptable_risk`, `false_positive`, `mitigating_control`, `used_in_tests`, `not_applicable`.",
+                      "type": "string",
+                      "enum": [
+                        "acceptable_risk",
+                        "false_positive",
+                        "mitigating_control",
+                        "used_in_tests",
+                        "not_applicable"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "required": [
+                    "type",
+                    "severity_override_operation"
+                  ],
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "severity_override"
+                      ],
+                      "type": "string",
+                      "description": "The type of action for overriding vulnerability severity."
+                    },
+                    "severity_override_operation": {
+                      "type": "string",
+                      "enum": [
+                        "set",
+                        "increase",
+                        "decrease"
+                      ],
+                      "description": "The severity override operation."
+                    },
+                    "severity_override_value": {
+                      "type": "string",
+                      "enum": [
+                        "info",
+                        "low",
+                        "medium",
+                        "high",
+                        "critical"
+                      ],
+                      "description": "Target severity when operation is 'set'."
+                    }
+                  },
+                  "additionalProperties": false,
+                  "if": {
+                    "properties": {
+                      "severity_override_operation": {
+                        "const": "set"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "type",
+                      "severity_override_operation",
+                      "severity_override_value"
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "policy_scope": {
+            "$ref": "#/$defs/policy_scope"
+          }
+        }
+      }
+    },
+    "dependency_firewall_policy": {
+      "type": "array",
+      "description": "Declares dependency firewall policies for managing package licenses and security.",
+      "additionalItems": false,
+      "items": {
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "enabled",
+          "enforcement_type",
+          "rules"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the policy",
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          "description": {
+            "description": "Specifies the longer description of the policy.",
+            "type": "string",
+            "maxLength": 1000000
+          },
+          "enabled": {
+            "description": "Whether to enforce this policy or not.",
+            "type": "boolean"
+          },
+          "enforcement_type": {
+            "description": "Specifies how this policy should be enforced. 'enforced' blocks the download when a rule matches. 'warn' allows the download but records a warning.",
+            "type": "string",
+            "enum": [
+              "enforced",
+              "warn"
+            ]
+          },
+          "rules": {
+            "$ref": "#/$defs/dependency_firewall_rules",
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "license"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "minContains": 0,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "malicious"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "minContains": 0,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "age"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "minContains": 0,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "risk_severity"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "minContains": 0,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "package_version"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "minContains": 0,
+                "maxContains": 1
+              }
+            ]
+          },
+          "bypass_settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "access_tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "policy_scope": {
+            "$ref": "#/$defs/dependency_firewall_policy_scope"
+          }
+        }
+      }
+    },
+    "pipeline_execution_policy": {
+      "type": "array",
+      "description": "Declares custom pipeline configuration for a policy.",
+      "additionalItems": false,
+      "items": {
+        "required": [
+          "name",
+          "enabled",
+          "content",
+          "pipeline_config_strategy"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name for the policy.",
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          "description": {
+            "description": "Specifies the longer description of the policy.",
+            "type": "string",
+            "maxLength": 1000000
+          },
+          "content": {
+            "$ref": "#/$defs/pipeline_execution_content"
+          },
+          "pipeline_config_strategy": {
+            "description": "Defines the method for merging the policy configuration with the project pipeline. Can be a string or an object with type and apply_on_empty_pipeline options.",
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "inject_ci",
+                  "inject_policy",
+                  "override_project_ci"
+                ],
+                "description": "Simple string format for backward compatibility. `inject_ci` preserves the project CI configuration and injects additional jobs from the policy. Having multiple policies enabled injects all jobs additively. `inject_policy` behaves like `inject_ci`, but allows custom policy stages to be injected too. `override_project_ci` replaces the project CI configuration and keeps only the policy jobs in the pipeline."
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "inject_ci",
+                      "inject_policy",
+                      "override_project_ci"
+                    ],
+                    "description": "The strategy type for merging policy configuration."
+                  },
+                  "apply_on_empty_pipeline": {
+                    "type": "string",
+                    "enum": [
+                      "always",
+                      "if_no_config",
+                      "never"
+                    ],
+                    "description": "Controls when policies apply to empty pipelines. `always`: Always applies (current default). `if_no_config`: Only applies when project has no CI config. `never`: Never applies a fallback pipeline."
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "suffix": {
+            "description": "Defines the method for policy job naming. `on_conflict` (default) applies a unique suffix when a job with the same name is detected in the pipeline. A job called `policy-job` will be added into the pipeline as `policy-job:policy-<security-policy-project-id>-<policy-index>`. `never` is a strict mode which results in a pipeline failure if job names are not unique.",
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "never",
+                  "on_conflict"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "skip_ci": {
+            "description": "Defines whether it should be allowed to use skip_ci directive when policy is enforced.",
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "allowlist": {
+                "type": "object",
+                "description": "A list of user IDs that are allowed to use skip_ci if it is generally not allowed.",
+                "properties": {
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "allowed"
+            ]
+          },
+          "no_pipeline": {
+            "description": "Defines whether it should be allowed to use no_pipeline directive when policy is enforced.",
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "allowlist": {
+                "type": "object",
+                "description": "A list of user IDs that are allowed to use no_pipeline if it is generally not allowed.",
+                "properties": {
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "allowed"
+            ]
+          },
+          "variables_override": {
+            "description": "Defines whether variables can be overridden and the exceptions.",
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "exceptions": {
+                "type": "array",
+                "description": "A list of variables that are excepted from the enforcement.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dotenv": {
+                "type": "string",
+                "description": "Defines whether dotenv artifact variables should respect the `variables_override` policy rules. By default (when not specified), dotenv variables are subject to the same override rules as other variables. Set to `allow_override` to let dotenv variables bypass the policy rules.",
+                "enum": [
+                  "respect_policy",
+                  "allow_override"
+                ]
+              }
+            },
+            "required": [
+              "allowed"
+            ]
+          },
+          "enforce_on_child_pipelines": {
+            "description": "Whether to enforce the policy in child pipelines (pipelines with the `parent_pipeline` source). Defaults to `false`.",
+            "type": "boolean"
+          },
+          "policy_scope": {
+            "$ref": "#/$defs/policy_scope"
+          },
+          "metadata": {
+            "$ref": "#/$defs/metadata"
+          },
+          "enabled": {
+            "description": "Whether to enforce this policy or not.",
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "pipeline_execution_schedule_policy": {
+      "type": "array",
+      "description": "Starts pipelines on a schedule with custom pipeline configuration.",
+      "additionalItems": false,
+      "maxItems": 5,
+      "items": {
+        "required": [
+          "name",
+          "enabled",
+          "content",
+          "schedules"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name for the policy.",
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          "description": {
+            "description": "Specifies the longer description of the policy.",
+            "type": "string",
+            "maxLength": 1000000
+          },
+          "content": {
+            "$ref": "#/$defs/pipeline_execution_content"
+          },
+          "schedules": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "daily",
+                    "weekly",
+                    "monthly"
+                  ]
+                },
+                "branches": {
+                  "$ref": "#/$defs/schedule_branches"
+                },
+                "start_time": {
+                  "type": "string",
+                  "description": "HH:mm format",
+                  "pattern": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+                },
+                "time_window": {
+                  "type": "object",
+                  "description": "Specifies the time window on which scheduled runs can be distributed. The actual time window might be shorter based on the schedule frequency.",
+                  "properties": {
+                    "value": {
+                      "type": "integer",
+                      "minimum": 600,
+                      "maximum": 2629746
+                    },
+                    "distribution": {
+                      "type": "string",
+                      "enum": [
+                        "random"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "distribution"
+                  ],
+                  "additionalProperties": false
+                },
+                "timezone": {
+                  "type": "string",
+                  "description": "IANA timezone identifier",
+                  "default": "UTC"
+                },
+                "snooze": {
+                  "type": "object",
+                  "description": "Stop this schedule until a certain time.",
+                  "properties": {
+                    "until": {
+                      "type": "string",
+                      "description": "Time until the execution should be paused. Format: 2025-6-13T20:20:00+00:00.",
+                      "format": "date-time"
+                    },
+                    "reason": {
+                      "type": "string",
+                      "description": "Document a reason for snoozing the schedule."
+                    }
+                  },
+                  "required": [
+                    "until"
+                  ]
+                },
+                "days": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                      "Sunday"
+                    ]
+                  },
+                  "description": "List of days. For example: ['Monday', 'Friday']"
+                },
+                "days_of_month": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 31
+                  },
+                  "description": "Dates within the month. For example: [3, 10, 17]"
+                }
+              },
+              "required": [
+                "type",
+                "start_time",
+                "time_window"
+              ],
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "weekly"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "days"
+                    ]
+                  },
+                  "else": {
+                    "not": {
+                      "required": [
+                        "days"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "monthly"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "days_of_month"
+                    ]
+                  },
+                  "else": {
+                    "not": {
+                      "required": [
+                        "days_of_month"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "variables_override": {
+            "description": "Defines whether project/group CI/CD variables can be accessed by policy jobs. When not specified, defaults to blocking all project/group variables (allowed: false).",
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "exceptions": {
+                "type": "array",
+                "description": "A list of variables that are excepted from the enforcement.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dotenv": {
+                "type": "string",
+                "description": "Defines whether dotenv artifact variables should respect the `variables_override` policy rules. By default (when not specified), dotenv variables are subject to the same override rules as other variables. Set to `allow_override` to let dotenv variables bypass the policy rules.",
+                "enum": [
+                  "respect_policy",
+                  "allow_override"
+                ]
+              }
+            },
+            "required": [
+              "allowed"
+            ],
+            "additionalProperties": false
+          },
+          "policy_scope": {
+            "$ref": "#/$defs/policy_scope"
+          },
+          "metadata": {
+            "$ref": "#/$defs/metadata"
+          },
+          "enabled": {
+            "description": "Whether to enforce this policy or not.",
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "scan_execution_policy": {
+      "type": "array",
+      "description": "Declares required security scans to be run on a specified schedule or with the project pipeline.",
+      "additionalItems": false,
+      "items": {
+        "required": [
+          "name",
+          "enabled",
+          "rules",
+          "actions"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name for the policy.",
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string"
+          },
+          "description": {
+            "description": "Specifies the longer description of the policy.",
+            "type": "string",
+            "maxLength": 1000000
+          },
+          "policy_scope": {
+            "$ref": "#/$defs/policy_scope"
+          },
+          "metadata": {
+            "$ref": "#/$defs/metadata"
+          },
+          "enabled": {
+            "description": "Whether to enforce this policy or not.",
+            "type": "boolean"
+          },
+          "rules": {
+            "description": "Specifies conditions when this policy should be applied.",
+            "type": "array",
+            "additionalItems": false,
+            "items": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "required": [
+                    "branches"
+                  ]
+                },
+                {
+                  "required": [
+                    "branch_type"
+                  ]
+                },
+                {
+                  "required": [
+                    "agents"
+                  ]
+                }
+              ],
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "description": "Specifies when this policy should be enforced. `pipeline` indicates that given policy should be enforced for the pipeline started for the branch matching one of the defined in `branches` field. `schedule` indicates that given policy should execute defined `actions` on specified `cadence`.",
+                  "enum": [
+                    "pipeline",
+                    "schedule"
+                  ],
+                  "type": "string"
+                },
+                "branches": {
+                  "type": "array",
+                  "additionalItems": false,
+                  "description": "Used to specify a list of branches that should enforce this policy. Supports wildcard (ie. `*` or `release-*`). Supported only when `type` is set to `pipeline`.",
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "branch_type": {
+                  "type": "string",
+                  "description": "Which types of branches to scan.",
+                  "enum": [
+                    "default",
+                    "protected",
+                    "all",
+                    "target_default",
+                    "target_protected"
+                  ]
+                },
+                "branch_exceptions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "full_path": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "full_path"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "cadence": {
+                  "description": "Specifies when this policy should schedule a new pipeline with enforced `actions`. Uses cron expression as a format (ie. `0 22 * * 1-5`). Supported only when `type` is set to `schedule`.",
+                  "type": "string",
+                  "pattern": "(@(yearly|annually|monthly|weekly|daily|midnight|noon|hourly))|(((\\*|(\\-?\\d+\\,?)+)(\\/\\d+)?|last|L|(sun|mon|tue|wed|thu|fri|sat|SUN|MON|TUE|WED|THU|FRI|SAT\\-|\\,)+|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|\\-|\\,)+)\\s?){5,6}"
+                },
+                "timezone": {
+                  "type": "string",
+                  "description": "Time zone to apply to the cadence. Value must be an IANA Time Zone Database identifier, for example: `America/New_York`."
+                },
+                "time_window": {
+                  "description": "Specifies for how long the scheduled scans are allowed to run",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "distribution": {
+                      "description": "Specifies how the scheduled scans should be distributed.",
+                      "type": "string",
+                      "enum": [
+                        "random"
+                      ]
+                    },
+                    "value": {
+                      "description": "Specifies the time window in seconds. Min: 1 hour, Max: 30 days. Capped to not exceed the schedule interval.",
+                      "type": "integer",
+                      "minimum": 3600,
+                      "maximum": 2629746
+                    }
+                  },
+                  "required": [
+                    "distribution",
+                    "value"
+                  ]
+                },
+                "agents": {
+                  "type": "object",
+                  "description": "Specifies names of the GitLab agents where cluster image scanning will run.",
+                  "minProperties": 1,
+                  "maxProperties": 1,
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$": {
+                      "type": "object",
+                      "description": "Specifies the name of the Kubernetes cluster configured for your project in GitLab.",
+                      "additionalProperties": false,
+                      "properties": {
+                        "namespaces": {
+                          "type": "array",
+                          "description": "Specifies Kubernetes namespaces where resources will be scanned.",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "pipeline_sources": {
+                  "type": "object",
+                  "description": "Specifies which pipeline sources this policy should be applied to (only for pipeline type).",
+                  "properties": {
+                    "including": {
+                      "type": "array",
+                      "description": "Which pipeline source to apply scan to (only for pipeline type).",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "unknown",
+                          "push",
+                          "web",
+                          "trigger",
+                          "schedule",
+                          "api",
+                          "external",
+                          "pipeline",
+                          "chat",
+                          "merge_request_event",
+                          "external_pull_request_event"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "schedule"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "cadence"
+                ]
+              },
+              "additionalProperties": false
+            }
+          },
+          "actions": {
+            "type": "array",
+            "description": "Specifies a list of scans that should be enforced in this policy.",
+            "additionalItems": false,
+            "items": {
+              "type": "object",
+              "properties": {
+                "scan": {
+                  "description": "The type of scan that should be enforced to run. Available: `sast`, `sast_iac`, `dast`, `secret_detection`, `container_scanning`, `dependency_scanning`.",
+                  "enum": [
+                    "dast",
+                    "secret_detection",
+                    "container_scanning",
+                    "cluster_image_scanning",
+                    "sast",
+                    "dependency_scanning",
+                    "sast_iac",
+                    "business_logic"
+                  ],
+                  "type": "string"
+                },
+                "scanner_profile": {
+                  "description": "A name of the DAST Scanner Profile to be used to execute DAST scan. Supported only when `scan` is set to `dast`.",
+                  "type": "string"
+                },
+                "site_profile": {
+                  "description": "A name of the DAST Site Profile to be used to execute DAST scan. Supported only when `scan` is set to `dast`.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "variables": {
+                  "type": "object",
+                  "description": "Defines environment variables for specific security jobs. Job level property overrides global variables.",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "tags": {
+                  "type": "array",
+                  "additionalItems": false,
+                  "description": "Defines the runner tags to which the security jobs has to execute.",
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "template": {
+                  "description": "The type of the CI template that should be used to enforce the scan. Available: `default` and `latest`. In addition to these options, versioned templates can be used with `dependency_scanning`  in the format `v1`, `v2`, etc.",
+                  "type": "string"
+                },
+                "scan_settings": {
+                  "description": "The customizable options for enforced scan.",
+                  "type": "object",
+                  "properties": {
+                    "ignore_default_before_after_script": {
+                      "description": "Specifies whether to preserve default before_script and after_script values.",
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "scan": {
+                        "const": "dast"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "site_profile"
+                    ],
+                    "maxProperties": 7
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "scan": {
+                        "const": "secret_detection"
+                      }
+                    }
+                  },
+                  "then": {
+                    "maxProperties": 5
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "scan": {
+                        "const": "cluster_image_scanning"
+                      }
+                    }
+                  },
+                  "then": {
+                    "maxProperties": 5
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "scan": {
+                        "const": "dependency_scanning"
+                      }
+                    }
+                  },
+                  "then": {
+                    "maxProperties": 5,
+                    "properties": {
+                      "template": {
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "default",
+                              "latest"
+                            ]
+                          },
+                          {
+                            "pattern": "^v\\d+$"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "scan": {
+                        "const": "sast"
+                      }
+                    }
+                  },
+                  "then": {
+                    "maxProperties": 5
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "scan": {
+                        "not": {
+                          "enum": [
+                            "dependency_scanning"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "template": {
+                        "enum": [
+                          "default",
+                          "latest"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "additionalProperties": false
+            }
+          },
+          "skip_ci": {
+            "description": "Defines whether it should be allowed to use skip_ci directive when policy is enforced.",
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "allowlist": {
+                "type": "object",
+                "description": "A list of user IDs that are allowed to use skip_ci if it is generally not allowed.",
+                "properties": {
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "allowed"
+            ]
+          },
+          "no_pipeline": {
+            "description": "Defines whether it should be allowed to use no_pipeline directive when policy is enforced.",
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "allowlist": {
+                "type": "object",
+                "description": "A list of user IDs that are allowed to use no_pipeline if it is generally not allowed.",
+                "properties": {
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "allowed"
+            ]
+          }
+        }
+      }
+    },
+    "approval_policy": {
+      "type": "array",
+      "description": "Declares actions to be enforced based on scan results.",
+      "additionalItems": false,
+      "items": {
+        "anyOf": [
+          {
+            "required": [
+              "name",
+              "enabled",
+              "rules",
+              "actions"
+            ]
+          },
+          {
+            "required": [
+              "name",
+              "enabled",
+              "rules",
+              "approval_settings"
+            ]
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name for the policy.",
+            "minLength": 1,
+            "maxLength": 255,
+            "type": "string",
+            "pattern": "^(?!License-Check$|Coverage-Check$)"
+          },
+          "description": {
+            "description": "Specifies the longer description of the policy.",
+            "type": "string",
+            "maxLength": 1000000
+          },
+          "enabled": {
+            "description": "Whether to enforce this policy or not.",
+            "type": "boolean"
+          },
+          "fallback_behavior": {
+            "type": "object",
+            "properties": {
+              "fail": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "closed"
+                ]
+              }
+            }
+          },
+          "policy_tuning": {
+            "type": "object",
+            "properties": {
+              "unblock_rules_using_execution_policies": {
+                "type": "boolean",
+                "description": "Experimental: Unblock policy approval rules with missing scans of scanners which are enforced by Scan execution policies. If scan does not produce artifacts because it is not applicable to the given project, approval rules are automatically unblocked and do not require approvals."
+              },
+              "security_report_time_window": {
+                "type": "integer",
+                "description": "Specifies the time window in minutes for choosing the target pipeline for the security report comparison."
+              }
+            }
+          },
+          "enforcement_type": {
+            "description": "Defines how this policy should be enforced. 'enforce' (default) blocks merge requests when violations are detected. 'warn' allows merge requests to proceed but shows warnings.",
+            "type": "string",
+            "enum": [
+              "warn",
+              "enforce"
+            ],
+            "default": "enforce"
+          },
+          "policy_scope": {
+            "$ref": "#/$defs/policy_scope"
+          },
+          "metadata": {
+            "$ref": "#/$defs/metadata"
+          },
+          "rules": {
+            "description": "Specifies conditions when a this policy should be applied.",
+            "type": "array",
+            "maxItems": 5,
+            "additionalItems": false,
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "scan_finding",
+                    "license_finding",
+                    "any_merge_request"
+                  ],
+                  "type": "string",
+                  "description": "Specified a type of the policy rule. `scan_finding`/`license_finding`/`any_merge_request` rule enforces the defined actions based on the provided information."
+                },
+                "branches": {
+                  "type": "array",
+                  "description": "Specifies a list of protected branches that should be considered to enforce this policy.",
+                  "additionalItems": false,
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "branch_type": {
+                  "type": "string",
+                  "description": "Which types of branches to scan.",
+                  "enum": [
+                    "default",
+                    "protected"
+                  ]
+                },
+                "branch_exceptions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "full_path": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "full_path"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "scanners": {
+                  "description": "Specifies a list of scanners that should be considered to enforce this policy. Can be an array of scanner name strings (legacy format) or scanner objects with type and vulnerability_attributes (new format). Possible scanner values: `sast`, `secret_detection`, `dependency_scanning`, `container_scanning`, `dast`, `coverage_fuzzing`, `api_fuzzing`, `sarif`.",
+                  "type": "array",
+                  "additionalItems": false,
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Legacy format: scanner name as a string."
+                      },
+                      {
+                        "$ref": "#/$defs/scanner_with_attributes"
+                      }
+                    ]
+                  }
+                },
+                "vulnerabilities_allowed": {
+                  "description": "Specifies a number of vulnerabilities allowed before this rule is enforced.",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 32767
+                },
+                "severity_levels": {
+                  "description": "Specifies a list of vulnerability security levels that should be concidered to enforce this policy. Possible values: `info`, `unknown`, `low`, `medium`, `high`, `critical`.",
+                  "type": "array",
+                  "additionalItems": false,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "critical",
+                      "high",
+                      "medium",
+                      "low",
+                      "info",
+                      "unknown"
+                    ]
+                  }
+                },
+                "vulnerability_states": {
+                  "type": "array",
+                  "description": "Specifies a list of vulnerability states that should be considered to enforce this policy. The `newly_detected` state considers all newly detected vulnerabilities regardless of their status or dismissal. The other states consider findings that match the selected state and already exist in the default branch.",
+                  "additionalItems": false,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "detected",
+                      "confirmed",
+                      "resolved",
+                      "dismissed",
+                      "new_needs_triage",
+                      "new_dismissed"
+                    ]
+                  }
+                },
+                "vulnerability_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "false_positive": {
+                      "type": "boolean"
+                    },
+                    "fix_available": {
+                      "type": "boolean"
+                    },
+                    "known_exploited": {
+                      "type": "boolean",
+                      "description": "Filter vulnerabilities based on CISA Known Exploited Vulnerabilities (KEV) catalog. When true, only includes vulnerabilities actively exploited in the wild. When false, does not filter vulnerabilities based on known exploit status."
+                    },
+                    "epss_score": {
+                      "type": "object",
+                      "description": "Filter vulnerabilities based on Exploit Prediction Scoring System (EPSS) score. EPSS estimates the probability (0-1) that a vulnerability will be exploited.",
+                      "properties": {
+                        "operator": {
+                          "type": "string",
+                          "enum": [
+                            "greater_than",
+                            "less_than"
+                          ],
+                          "description": "Comparison operator for EPSS score threshold."
+                        },
+                        "value": {
+                          "type": "number",
+                          "minimum": 0.0,
+                          "maximum": 1.0,
+                          "description": "EPSS score threshold value (0.0 to 1.0). For example, 0.8 represents 80% exploitation probability."
+                        }
+                      },
+                      "required": [
+                        "operator",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "enrichment_data_unavailable": {
+                      "type": "object",
+                      "description": "Define how to handle vulnerabilities without enrichment data (missing EPSS score or known exploit status).",
+                      "properties": {
+                        "action": {
+                          "type": "string",
+                          "enum": [
+                            "block",
+                            "ignore"
+                          ],
+                          "description": "Action to take for vulnerabilities without enrichment data. When 'block', vulnerabilities without enrichment data are evaluated as per the rule-level criteria. When 'ignore', vulnerabilities without enrichment data are excluded from policy evaluation."
+                        }
+                      },
+                      "required": [
+                        "action"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "vulnerability_age": {
+                  "type": "object",
+                  "properties": {
+                    "operator": {
+                      "enum": [
+                        "greater_than",
+                        "less_than"
+                      ],
+                      "type": "string",
+                      "description": "Specify the operator to which the age value is compared to"
+                    },
+                    "value": {
+                      "description": "Specifies an age number",
+                      "type": "integer"
+                    },
+                    "interval": {
+                      "enum": [
+                        "day",
+                        "week",
+                        "month",
+                        "year"
+                      ],
+                      "type": "string",
+                      "description": "Specify the interval to which the age value is compared to"
+                    }
+                  },
+                  "required": [
+                    "operator",
+                    "value",
+                    "interval"
+                  ],
+                  "additionalProperties": false
+                },
+                "match_on_inclusion_license": {
+                  "type": "boolean",
+                  "description": "Specifies whether to match licenses on inclusion or exclusion."
+                },
+                "license_types": {
+                  "type": "array",
+                  "description": "Specifies the licenses to match.",
+                  "minItems": 1,
+                  "maxItems": 1000,
+                  "uniqueItems": true,
+                  "additionalItems": false,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  }
+                },
+                "license_states": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "additionalItems": false,
+                  "description": "States which license finding states to match on.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "newly_detected",
+                      "detected"
+                    ]
+                  }
+                },
+                "licenses": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Specifies the licenses to match including the package exceptions.",
+                  "properties": {
+                    "denied": {
+                      "$ref": "#/$defs/licenses_with_package_exclusions"
+                    },
+                    "allowed": {
+                      "$ref": "#/$defs/licenses_with_package_exclusions"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "required": [
+                        "denied"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "allowed"
+                      ]
+                    }
+                  ]
+                },
+                "commits": {
+                  "type": "string",
+                  "description": "Specifies the commits to match.",
+                  "enum": [
+                    "any",
+                    "unsigned"
+                  ]
+                },
+                "license_overrides": {
+                  "$ref": "#/$defs/license_override_mappings"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "branches"
+                  ]
+                },
+                {
+                  "required": [
+                    "branch_type"
+                  ]
+                }
+              ],
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "scan_finding"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "type",
+                      "scanners",
+                      "vulnerabilities_allowed",
+                      "severity_levels",
+                      "vulnerability_states"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "license_finding"
+                      }
+                    }
+                  },
+                  "then": {
+                    "oneOf": [
+                      {
+                        "required": [
+                          "type",
+                          "match_on_inclusion_license",
+                          "license_types",
+                          "license_states"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "type",
+                          "license_states",
+                          "licenses"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "any_merge_request"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "type",
+                      "commits"
+                    ]
+                  }
+                }
+              ],
+              "additionalProperties": false
+            }
+          },
+          "actions": {
+            "description": "Specifies a list of actions that should be enforced in this policy. For `require_approval` action, at least one of `user_approvers`, `user_approvers_ids`, `group_approvers`, `group_approvers_ids`, `role_approvers` should be provided.",
+            "type": "array",
+            "additionalItems": false,
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "require_approval",
+                    "send_bot_message"
+                  ],
+                  "type": "string",
+                  "description": "Specified a type of the policy action. `require_approval` action specifies required approvals (from selected groups or users) when this policy is applied. `send_bot_message` enables comments on merge requests when policy violations are detected."
+                },
+                "approvals_required": {
+                  "description": "Specifies a number of required merge request approvals.",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "user_approvers": {
+                  "description": "Specifies a list of users (by usernames) required to approve affected merge request.",
+                  "type": "array",
+                  "minItems": 1,
+                  "additionalItems": false,
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "user_approvers_ids": {
+                  "description": "Specifies a list of users (by IDs) required to approve affected merge request.",
+                  "type": "array",
+                  "minItems": 1,
+                  "additionalItems": false,
+                  "items": {
+                    "minLength": 1,
+                    "type": "integer"
+                  }
+                },
+                "group_approvers": {
+                  "type": "array",
+                  "description": "Specifies a list of groups (by group path) required to approve affected merge request.",
+                  "minItems": 1,
+                  "additionalItems": false,
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "group_approvers_ids": {
+                  "type": "array",
+                  "description": "Specifies a list of groups (by IDs) required to approve affected merge request.",
+                  "minItems": 1,
+                  "additionalItems": false,
+                  "items": {
+                    "minLength": 1,
+                    "type": "integer"
+                  }
+                },
+                "role_approvers": {
+                  "type": "array",
+                  "description": "Specifies a list of roles required to approve affected merge request.",
+                  "minItems": 1,
+                  "additionalItems": false,
+                  "items": {
+                    "minLength": 1,
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "guest",
+                          "reporter",
+                          "developer",
+                          "maintainer",
+                          "owner"
+                        ]
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  }
+                },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "visibility": {
+                  "type": "string",
+                  "enum": [
+                    "public",
+                    "internal"
+                  ],
+                  "description": "Specifies whether the `send_bot_message` comment is publicly visible or an internal note. Defaults to `public`."
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "require_approval"
+                      }
+                    }
+                  },
+                  "then": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "type",
+                          "approvals_required",
+                          "user_approvers"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "type",
+                          "approvals_required",
+                          "user_approvers_ids"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "type",
+                          "approvals_required",
+                          "group_approvers"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "type",
+                          "approvals_required",
+                          "group_approvers_ids"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "type",
+                          "approvals_required",
+                          "role_approvers"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "send_bot_message"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "enabled"
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "approval_settings": {
+            "type": "object",
+            "not": {
+              "required": [
+                "remove_approvals_with_new_commit",
+                "remove_code_owner_approvals_with_new_commit"
+              ],
+              "properties": {
+                "remove_approvals_with_new_commit": {
+                  "const": true
+                },
+                "remove_code_owner_approvals_with_new_commit": {
+                  "const": true
+                }
+              }
+            },
+            "properties": {
+              "prevent_approval_by_author": {
+                "type": "boolean"
+              },
+              "prevent_approval_by_commit_author": {
+                "type": "boolean"
+              },
+              "remove_approvals_with_new_commit": {
+                "type": "boolean"
+              },
+              "remove_code_owner_approvals_with_new_commit": {
+                "type": "boolean"
+              },
+              "require_password_to_approve": {
+                "type": "boolean"
+              },
+              "block_branch_modification": {
+                "type": "boolean"
+              },
+              "prevent_pushing_and_force_pushing": {
+                "type": "boolean"
+              },
+              "prevent_editing_approval_rules": {
+                "type": "boolean"
+              },
+              "block_group_branch_modification": {
+                "oneOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "exceptions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "enabled"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "bypass_settings": {
+            "type": "object",
+            "properties": {
+              "branches": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "pattern": {
+                          "type": "string"
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "required": [
+                            "name"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "pattern"
+                          ]
+                        }
+                      ]
+                    },
+                    "target": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "pattern": {
+                          "type": "string"
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "required": [
+                            "name"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "pattern"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "source",
+                    "target"
+                  ]
+                }
+              },
+              "access_tokens": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "service_accounts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "guest",
+                    "reporter",
+                    "developer",
+                    "maintainer",
+                    "owner"
+                  ]
+                }
+              },
+              "custom_roles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "policy_scope": {
+      "type": "object",
+      "properties": {
+        "match_mode": {
+          "description": "Specifies how multiple policy scope conditions are combined. Use 'all' to require all specified conditions to be met (more restrictive, default), or 'any' to require at least one condition to be met (more permissive).",
+          "type": "string",
+          "enum": [
+            "all",
+            "any"
+          ]
+        },
+        "compliance_frameworks": {
+          "description": "Specifies for which compliance frameworks this policy should be applied to.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "projects": {
+          "type": "object",
+          "description": "Specifies for which projects this policy should be applied to.",
+          "properties": {
+            "including": {
+              "type": "array",
+              "description": "Specifies projects where this policy should be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the project."
+                  }
+                }
+              }
+            },
+            "excluding": {
+              "type": "array",
+              "description": "Specifies projects where this policy should not be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the project."
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Exclude projects of this type from the policy scope. Set to 'personal' to exclude personal projects or 'archived' to exclude archived projects from policy.",
+                    "enum": [
+                      "personal",
+                      "archived"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "groups": {
+          "type": "object",
+          "description": "Specifies for which groups this policy should be applied to.",
+          "properties": {
+            "including": {
+              "type": "array",
+              "description": "Specifies groups where this policy should be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the group."
+                  }
+                }
+              }
+            },
+            "excluding": {
+              "type": "array",
+              "description": "Specifies groups where this policy should not be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the group."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "business_impact": {
+          "type": "object",
+          "description": "Specifies Business Impact security attributes for policy scoping.",
+          "properties": {
+            "including": {
+              "$ref": "#/$defs/security_attributes_properties_including"
+            },
+            "excluding": {
+              "$ref": "#/$defs/security_attributes_properties_excluding"
+            }
+          }
+        },
+        "application": {
+          "type": "object",
+          "description": "Specifies Application security attributes for policy scoping.",
+          "properties": {
+            "including": {
+              "$ref": "#/$defs/security_attributes_properties_including"
+            },
+            "excluding": {
+              "$ref": "#/$defs/security_attributes_properties_excluding"
+            }
+          }
+        },
+        "business_unit": {
+          "type": "object",
+          "description": "Specifies Business Unit security attributes for policy scoping.",
+          "properties": {
+            "including": {
+              "$ref": "#/$defs/security_attributes_properties_including"
+            },
+            "excluding": {
+              "$ref": "#/$defs/security_attributes_properties_excluding"
+            }
+          }
+        },
+        "exposure": {
+          "type": "object",
+          "description": "Specifies Exposure security attributes for policy scoping.",
+          "properties": {
+            "including": {
+              "$ref": "#/$defs/security_attributes_properties_including"
+            },
+            "excluding": {
+              "$ref": "#/$defs/security_attributes_properties_excluding"
+            }
+          }
+        }
+      }
+    },
+    "dependency_firewall_policy_scope": {
+      "type": "object",
+      "description": "Scope for a dependency firewall policy. Supports group and project targeting only; compliance frameworks and security attribute scopes are intentionally not supported.",
+      "additionalProperties": false,
+      "properties": {
+        "projects": {
+          "type": "object",
+          "description": "Specifies for which projects this policy should be applied to.",
+          "properties": {
+            "including": {
+              "type": "array",
+              "description": "Specifies projects where this policy should be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the project."
+                  }
+                }
+              }
+            },
+            "excluding": {
+              "type": "array",
+              "description": "Specifies projects where this policy should not be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the project."
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Exclude projects of this type from the policy scope. Set to 'personal' to exclude personal projects or 'archived' to exclude archived projects from policy.",
+                    "enum": [
+                      "personal",
+                      "archived"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "groups": {
+          "type": "object",
+          "description": "Specifies for which groups this policy should be applied to.",
+          "properties": {
+            "including": {
+              "type": "array",
+              "description": "Specifies groups where this policy should be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the group."
+                  }
+                }
+              }
+            },
+            "excluding": {
+              "type": "array",
+              "description": "Specifies groups where this policy should not be applied to.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Specifies the ID of the group."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "security_attributes_properties_including": {
+      "type": "array",
+      "description": "Projects with any of these security attributes will match this criterion.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Specifies the ID of the security attribute."
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    "security_attributes_properties_excluding": {
+      "type": "array",
+      "description": "Projects with any of these security attributes will not match this criterion.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Specifies the ID of the security attribute."
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    "pipeline_execution_content": {
+      "description": "Specifies the content of custom configuration.",
+      "type": "object",
+      "properties": {
+        "include": {
+          "type": "array",
+          "maxItems": 1,
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "file": {
+                "type": "string"
+              },
+              "ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "project",
+              "file"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "include"
+      ],
+      "additionalProperties": false
+    },
+    "metadata": {
+      "description": "Specifies custom annotations in a form of key-value pairs.",
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z$][\\w$]*$": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "licenses_with_package_exclusions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "uniqueItems": true,
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "packages": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "excluding": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "purls": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 1000,
+                    "additionalItems": false,
+                    "items": {
+                      "minLength": 1,
+                      "maxLength": 1024,
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                },
+                "required": [
+                  "purls"
+                ]
+              }
+            },
+            "required": [
+              "excluding"
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "schedule_branches": {
+      "type": "array",
+      "description": "List of branches to schedule pipelines for. Maximum five branches per schedule. The policy only schedules pipelines for branches that exist in the project.",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "scanner_with_attributes": {
+      "type": "object",
+      "description": "Scanner configuration with optional vulnerability_attributes, severity_levels, vulnerabilities_allowed, and vulnerability_states for atomic scanner rule criteria.",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The scanner type.",
+          "enum": [
+            "sast",
+            "secret_detection",
+            "dependency_scanning",
+            "container_scanning",
+            "dast",
+            "coverage_fuzzing",
+            "api_fuzzing",
+            "sarif"
+          ]
+        },
+        "severity_levels": {
+          "description": "Scanner-specific severity levels. Overrides rule-level severity_levels for this scanner.",
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low",
+              "info",
+              "unknown"
+            ]
+          }
+        },
+        "vulnerabilities_allowed": {
+          "description": "Scanner-specific number of vulnerabilities allowed. Overrides rule-level vulnerabilities_allowed for this scanner.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32767
+        },
+        "vulnerability_states": {
+          "description": "Scanner-specific vulnerability states. Overrides rule-level vulnerability_states for this scanner.",
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "string",
+            "enum": [
+              "detected",
+              "confirmed",
+              "resolved",
+              "dismissed",
+              "new_needs_triage",
+              "new_dismissed"
+            ]
+          }
+        },
+        "vulnerability_attributes": {
+          "type": "object",
+          "description": "Scanner-specific vulnerability filtering criteria. These override rule-level vulnerability_attributes for this scanner.",
+          "properties": {
+            "false_positive": {
+              "type": "boolean"
+            },
+            "fix_available": {
+              "type": "boolean"
+            },
+            "known_exploited": {
+              "type": "boolean",
+              "description": "Filter vulnerabilities based on CISA Known Exploited Vulnerabilities (KEV) catalog. When true, only includes vulnerabilities actively exploited in the wild. When false, does not filter vulnerabilities based on known exploit status."
+            },
+            "epss_score": {
+              "type": "object",
+              "description": "Filter vulnerabilities based on Exploit Prediction Scoring System (EPSS) score. EPSS estimates the probability (0-1) that a vulnerability will be exploited.",
+              "properties": {
+                "operator": {
+                  "type": "string",
+                  "enum": [
+                    "greater_than",
+                    "less_than"
+                  ],
+                  "description": "Comparison operator for EPSS score threshold."
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "description": "EPSS score threshold value (0.0 to 1.0). For example, 0.8 represents 80% exploitation probability."
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "enrichment_data_unavailable": {
+              "type": "object",
+              "description": "Define how to handle vulnerabilities without enrichment data (missing EPSS score or known exploit status).",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "block",
+                    "ignore"
+                  ],
+                  "description": "Action to take for vulnerabilities without enrichment data. When 'block', vulnerabilities without enrichment data are evaluated as per the rule-level criteria. When 'ignore', vulnerabilities without enrichment data are excluded from policy evaluation."
+                }
+              },
+              "required": [
+                "action"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "is_malicious": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, the scanner's matching findings are treated as malware violations regardless of severity/state filters. Only valid for `dependency_scanning` and `container_scanning`."
+        },
+        "dependency_change": {
+          "type": "string",
+          "enum": [
+            "introduced",
+            "unchanged",
+            "any"
+          ],
+          "description": "Match findings by whether the MR introduced or changed the component and version compared with the target branch. Only valid for `dependency_scanning`."
+        },
+        "dependency_type": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "transitive",
+            "any"
+          ],
+          "description": "Match findings by whether the component is a direct or transitive dependency. Only valid for `dependency_scanning`."
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "dependency_change"
+                ]
+              },
+              {
+                "required": [
+                  "dependency_type"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "type": {
+                "const": "dependency_scanning"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "is_malicious": {
+                "const": true
+              }
+            },
+            "required": [
+              "is_malicious"
+            ]
+          },
+          "then": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "dependency_scanning",
+                  "container_scanning"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dependency_firewall_rules": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Specifies rules for dependency firewall enforcement",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "license",
+              "malicious",
+              "age",
+              "risk_severity",
+              "package_version"
+            ],
+            "description": "Specifies the type of the rule"
+          },
+          "denied": {
+            "type": "array",
+            "description": "Entries that are denied. For 'license' rules, list of license names. For 'malicious' rules, if the package has been flagged as malicious. For 'age' rules, the minimum age a package version must reach. For 'risk_severity' rules, a maximum vulnerability count per severity level. For 'package_version' rules, a package name and exact version. Mutually exclusive with 'allowed'.",
+            "minItems": 1
+          },
+          "allowed": {
+            "type": "array",
+            "description": "Entries that are allowed. For 'license' rules, list of license names. Mutually exclusive with 'denied'.",
+            "minItems": 1
+          },
+          "exceptions": {
+            "type": "array",
+            "description": "List of exceptions that bypass this rule. Each entry can specify either a package URL (PURL) or a vulnerability identifier (e.g. CVE).",
+            "items": {
+              "type": "object",
+              "properties": {
+                "purl": {
+                  "type": "string",
+                  "pattern": "^pkg:",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Package URL (PURL) format for the exception"
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Vulnerability identifier (e.g. CVE) for the exception"
+                }
+              },
+              "anyOf": [
+                {
+                  "required": [
+                    "purl"
+                  ]
+                },
+                {
+                  "required": [
+                    "id"
+                  ]
+                }
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "type",
+              "denied"
+            ]
+          },
+          {
+            "required": [
+              "type",
+              "allowed"
+            ]
+          }
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "license"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "denied": {
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "description": "The name of the license (SPDX human-readable name)"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "allowed": {
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "description": "The name of the license (SPDX human-readable name)"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "malicious"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "denied"
+              ],
+              "not": {
+                "required": [
+                  "allowed"
+                ]
+              },
+              "properties": {
+                "denied": {
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "is_malicious"
+                    ],
+                    "properties": {
+                      "is_malicious": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ],
+                        "description": "Whether the package is flagged by the malicious packages data feed."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "age"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "denied"
+              ],
+              "not": {
+                "required": [
+                  "allowed"
+                ]
+              },
+              "properties": {
+                "denied": {
+                  "maxItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "value",
+                      "interval"
+                    ],
+                    "properties": {
+                      "value": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Specifies the minimum age number. Package versions younger than this age are denied."
+                      },
+                      "interval": {
+                        "type": "string",
+                        "enum": [
+                          "day",
+                          "week",
+                          "month"
+                        ],
+                        "description": "Specifies the interval unit for the age value."
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "interval": {
+                              "const": "day"
+                            }
+                          },
+                          "required": [
+                            "interval"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "maximum": 365
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "interval": {
+                              "const": "week"
+                            }
+                          },
+                          "required": [
+                            "interval"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "maximum": 52
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "interval": {
+                              "const": "month"
+                            }
+                          },
+                          "required": [
+                            "interval"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "maximum": 12
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "risk_severity"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "denied"
+              ],
+              "not": {
+                "required": [
+                  "allowed"
+                ]
+              },
+              "properties": {
+                "denied": {
+                  "maxItems": 4,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "severity",
+                      "threshold"
+                    ],
+                    "properties": {
+                      "severity": {
+                        "type": "string",
+                        "enum": [
+                          "critical",
+                          "high",
+                          "medium",
+                          "low"
+                        ],
+                        "description": "Severity level this count applies to."
+                      },
+                      "threshold": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Maximum number of vulnerabilities permitted at this severity. Strictly more than this is denied; 0 denies any vulnerability at this severity."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "dependentSchemas": {
+                "denied": {
+                  "properties": {
+                    "denied": {
+                      "allOf": [
+                        {
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "severity": {
+                                "const": "critical"
+                              }
+                            },
+                            "required": [
+                              "severity"
+                            ]
+                          },
+                          "minContains": 0,
+                          "maxContains": 1
+                        },
+                        {
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "severity": {
+                                "const": "high"
+                              }
+                            },
+                            "required": [
+                              "severity"
+                            ]
+                          },
+                          "minContains": 0,
+                          "maxContains": 1
+                        },
+                        {
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "severity": {
+                                "const": "medium"
+                              }
+                            },
+                            "required": [
+                              "severity"
+                            ]
+                          },
+                          "minContains": 0,
+                          "maxContains": 1
+                        },
+                        {
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "severity": {
+                                "const": "low"
+                              }
+                            },
+                            "required": [
+                              "severity"
+                            ]
+                          },
+                          "minContains": 0,
+                          "maxContains": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "package_version"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "denied"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "allowed"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "exceptions"
+                    ]
+                  }
+                ]
+              },
+              "properties": {
+                "denied": {
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "version"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "description": "The exact package name to deny."
+                      },
+                      "version": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "description": "The exact package version to deny."
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 20,
+                        "not": {
+                          "pattern": "[\\r\\n]"
+                        },
+                        "description": "Short reason shown to developers in the block message for this entry."
+                      },
+                      "reference_link": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2048,
+                        "pattern": "^https?://.+",
+                        "not": {
+                          "pattern": "[\\r\\n]"
+                        },
+                        "description": "Link to more information about this entry, such as a CVE page. Stored and shown in the UI only."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "additionalProperties": false
+      }
+    },
+    "license_override_mappings": {
+      "type": "array",
+      "description": "Maps specific packages to known license identifiers, overriding scanner detection results during policy evaluation.",
+      "minItems": 1,
+      "maxItems": 500,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "purl": {
+            "type": "string",
+            "description": "Package URL identifying the package to override.",
+            "minLength": 1,
+            "maxLength": 1024,
+            "format": "uri"
+          },
+          "license": {
+            "type": "string",
+            "description": "The SPDX license identifier or name to assign to the package.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "mode": {
+            "type": "string",
+            "description": "Override mode: 'patch' applies only when the detected license is unknown; 'overwrite' always applies.",
+            "enum": [
+              "patch",
+              "overwrite"
+            ],
+            "default": "patch"
+          }
+        },
+        "required": [
+          "purl",
+          "license"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

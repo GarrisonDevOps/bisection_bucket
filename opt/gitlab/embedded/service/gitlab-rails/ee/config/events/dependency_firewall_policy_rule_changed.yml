@@ -1,0 +1,21 @@
+---
+description: A rule within a dependency firewall policy was created, updated, or deleted via a change to policy.yml
+internal_events: true
+action: dependency_firewall_policy_rule_changed
+identifiers:
+  - project
+  - namespace
+additional_properties:
+  label:
+    description: The change action for the rule — one of "create", "update", or "delete".
+  property:
+    description: The rule type — one of "license", "malicious", "risk_severity", or "package_version".
+  value:
+    description: The policy enforcement type as a numeric — 1 for "enforced" (block), 0 for "warn".
+product_group: dependency_firewall
+product_categories:
+  - dependency_firewall
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244700
+tiers:
+  - ultimate

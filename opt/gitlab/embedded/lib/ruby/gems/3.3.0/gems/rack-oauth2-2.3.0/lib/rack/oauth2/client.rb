@@ -1,0 +1,246 @@
+module Rack
+  module OAuth2
+    class Client
+      include AttrRequired, AttrOptional
+      attr_required :identifier
+      attr_optional :secret, :private_key, :certificate, :redirect_uri, :scheme, :host, :port, :authorization_endpoint, :token_endpoint, :revocation_endpoint
+
+      def initialize(attributes = {})
+        (required_attributes + optional_attributes).each do |key|
+          self.send :"#{key}=", attributes[key]
+        end
+        @grant = Grant::ClientCredentials.new
+        @authorization_endpoint ||= '/oauth2/authorize'
+        @token_endpoint ||= '/oauth2/token'
+        attr_missing!
+      end
+
+      def authorization_uri(params = {})
+        params[:redirect_uri] ||= self.redirect_uri
+        params[:response_type] ||= :code
+        params[:response_type] = Array(params[:response_type]).join(' ')
+        params[:scope] = Array(params[:scope]).join(' ')
+        Util.redirect_uri absolute_uri_for(authorization_endpoint), :query, params.merge(
+          client_id: self.identifier
+        )
+      end
+
+      def authorization_code=(code)
+        @grant = Grant::AuthorizationCode.new(
+          code: code,
+          redirect_uri: self.redirect_uri
+        )
+      end
+
+      def resource_owner_credentials=(credentials)
+        @grant = Grant::Password.new(
+          username: credentials.first,
+          password: credentials.last
+        )
+      end
+
+      def refresh_token=(token)
+        @grant = Grant::RefreshToken.new(
+          refresh_token: token
+        )
+      end
+
+      def jwt_bearer=(assertion)
+        @grant = Grant::JWTBearer.new(
+          assertion: assertion
+        )
+      end
+
+      def saml2_bearer=(assertion)
+        @grant = Grant::SAML2Bearer.new(
+          assertion: assertion
+        )
+      end
+
+      def subject_token=(subject_token, subject_token_type = URN::TokenType::JWT)
+        @grant = Grant::TokenExchange.new(
+          subject_token: subject_token,
+          subject_token_type: subject_token_type
+        )
+      end
+
+      def force_token_type!(token_type)
+        @forced_token_type = token_type.to_s
+      end
+
+      def access_token!(*args)
+        headers, params, http_client, options = authenticated_context_from(*args)
+        params[:scope] = Array(options.delete(:scope)).join(' ') if options[:scope].present?
+        params.merge! @grant.as_json
+        params.merge! options
+        handle_response do
+          http_client.post(
+            absolute_uri_for(token_endpoint),
+            Util.compact_hash(params),
+            headers
+          ) do |req|
+            yield req if block_given?
+          end
+        end
+      end
+
+      def revoke!(*args)
+        headers, params, http_client, options = authenticated_context_from(*args)
+
+        params.merge! case
+        when access_token = options.delete(:access_token)
+          {
+            token: access_token,
+            token_type_hint: :access_token
+          }
+        when refresh_token = options.delete(:refresh_token)
+          {
+            token: refresh_token,
+            token_type_hint: :refresh_token
+          }
+        when @grant.is_a?(Grant::RefreshToken)
+          {
+            token: @grant.refresh_token,
+            token_type_hint: :refresh_token
+          }
+        when options[:token].blank?
+          raise ArgumentError, 'One of "token", "access_token" and "refresh_token" is required'
+        end
+        params.merge! options
+
+        handle_revocation_response do
+          http_client.post(
+            absolute_uri_for(revocation_endpoint),
+            Util.compact_hash(params),
+            headers
+          ) do |req|
+            yield req if block_given?
+          end
+        end
+      end
+
+      private
+
+      def absolute_uri_for(endpoint)
+        _endpoint_ = Util.parse_uri endpoint
+        _endpoint_.scheme ||= self.scheme || 'https'
+        _endpoint_.host ||= self.host
+        _endpoint_.port ||= self.port
+        raise 'No Host Info' unless _endpoint_.host
+        _endpoint_.to_s
+      end
+
+      def authenticated_context_from(*args)
+        headers, params = {}, {}
+        http_client = Rack::OAuth2.http_client
+
+        # NOTE:
+        #  Using Array#extract_options! for backward compatibility.
+        #  Until v1.0.5, the first argument was 'client_auth_method' in scalar.
+        options = args.extract_options!
+        client_auth_method = args.first || options.delete(:client_auth_method)&.to_sym || :basic
+
+        case client_auth_method
+        when :basic
+          cred = Base64.strict_encode64 [
+            Util.www_form_url_encode(identifier),
+            Util.www_form_url_encode(secret)
+          ].join(':')
+          headers.merge!(
+            'Authorization' => "Basic #{cred}"
+          )
+        when :basic_without_www_form_urlencode
+          cred = ["#{identifier}:#{secret}"].pack('m').tr("\n", '')
+          headers.merge!(
+            'Authorization' => "Basic #{cred}"
+          )
+        when :jwt_bearer
+          params.merge!(
+            client_assertion_type: URN::ClientAssertionType::JWT_BEARER
+          )
+          # NOTE: optionally auto-generate client_assertion.
+          params[:client_assertion] = if options[:client_assertion].present?
+            options.delete(:client_assertion)
+          else
+            require 'json/jwt'
+            JSON::JWT.new(
+              iss: identifier,
+              sub: identifier,
+              aud: absolute_uri_for(token_endpoint),
+              jti: SecureRandom.hex(16),
+              iat: Time.now,
+              exp: 3.minutes.from_now
+            ).sign(private_key || secret).to_s
+          end
+        when :saml2_bearer
+          params.merge!(
+            client_assertion_type: URN::ClientAssertionType::SAML2_BEARER
+          )
+        when :mtls
+          params.merge!(
+            client_id: identifier
+          )
+          http_client.ssl.client_key = private_key
+          http_client.ssl.client_cert = certificate
+        when :mtls_basic
+          http_client.ssl.client_key = private_key
+          http_client.ssl.client_cert = certificate
+          cred = Base64.strict_encode64 [
+            Util.www_form_url_encode(identifier),
+            Util.www_form_url_encode(secret)
+          ].join(':')
+          headers.merge!(
+            'Authorization' => "Basic #{cred}"
+          )
+        else
+          params.merge!(
+            client_id: identifier,
+            client_secret: secret
+          )
+        end
+
+        [headers, params, http_client, options]
+      end
+
+      def handle_response
+        response = yield
+        case response.status
+        when 200..201
+          handle_success_response response
+        else
+          handle_error_response response
+        end
+      end
+
+      def handle_revocation_response
+        response = yield
+        case response.status
+        when 200..201
+          :success
+        else
+          handle_error_response response
+        end
+      end
+
+      def handle_success_response(response)
+        token_hash = response.body.with_indifferent_access
+        case (@forced_token_type || token_hash[:token_type])&.downcase
+        when 'bearer'
+          AccessToken::Bearer.new(token_hash)
+        else
+          raise 'Unknown Token Type'
+        end
+      end
+
+      def handle_error_response(response)
+        error = response.body.with_indifferent_access
+        raise Error.new(response.status, error)
+      rescue Faraday::ParsingError, NoMethodError
+        raise Error.new(response.status, error: 'Unknown', error_description: response.body)
+      end
+    end
+  end
+end
+
+require 'rack/oauth2/client/error'
+require 'rack/oauth2/client/grant'

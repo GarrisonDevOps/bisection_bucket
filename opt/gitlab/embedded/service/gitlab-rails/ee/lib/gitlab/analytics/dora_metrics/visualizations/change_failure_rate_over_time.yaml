@@ -1,0 +1,20 @@
+---
+version: 1
+type: LineChart
+data:
+  type: dora_metrics
+  query:
+    metric: change_failure_rate
+    dateRange: 180d
+    interval: DAILY
+options:
+  xAxis:
+    name: Date
+    type: time
+  yAxis:
+    name: "Percentage of failed deployments"
+    type: value
+  includeLegendAvgMax: false
+  chartTooltip:
+    titleFormatter: DATE
+    valueUnit: PERCENT

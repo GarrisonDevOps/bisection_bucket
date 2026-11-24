@@ -1,0 +1,5 @@
+---
+name: skip_self_managed_onboarding
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260294
+milestone: '19.6'
+group: group::acquisition

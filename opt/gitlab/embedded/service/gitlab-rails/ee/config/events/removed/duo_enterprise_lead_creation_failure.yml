@@ -1,0 +1,15 @@
+---
+description: Create Duo Enterprise lead failure
+internal_events: true
+action: duo_enterprise_lead_creation_failure
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/160106
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258835
+milestone_removed: '19.6'
+status: removed
+tiers:
+  - ultimate

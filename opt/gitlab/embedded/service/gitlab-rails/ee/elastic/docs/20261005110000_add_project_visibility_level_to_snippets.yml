@@ -1,0 +1,12 @@
+---
+name: AddProjectVisibilityLevelToSnippets
+version: '20261005110000'
+description: Adds a project_visibility_level short field to the main index mapping, so
+  project snippet documents can carry their project's visibility for the public and internal
+  project snippet filter
+group: group::global search
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259626
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

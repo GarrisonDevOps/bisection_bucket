@@ -1,0 +1,7 @@
+- title = _('Issue Analytics')
+- page_title title
+- add_page_specific_style 'page_bundles/issues_analytics'
+
+= render ::Layouts::PageHeadingComponent.new(title)
+= render 'shared/issuable/search_bar', type: :issues_analytics, show_sorting_dropdown: false, placeholder: _('Filter results…')
+#js-issues-analytics{ data: { type: 'project', full_path: @project.full_path, endpoint: project_analytics_issues_analytics_path(@project), filters_empty_state_svg_path: image_path('illustrations/empty-state/empty-search-md.svg'), issues_api_endpoint: expose_url(api_v4_projects_issues_path(id: @project.id)), issues_page_endpoint: project_issues_path(@project), has_issues_completed_feature: @project.licensed_feature_available?(:issues_completed_analytics).to_s } }

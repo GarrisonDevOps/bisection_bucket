@@ -1,0 +1,10 @@
+---
+name: update_ai_catalog_third_party_flow
+description: A user updates an AI Catalog external agent (formerly third-party flow).
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/566901
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212625
+feature_category: ai_catalog_curation
+milestone: '18.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

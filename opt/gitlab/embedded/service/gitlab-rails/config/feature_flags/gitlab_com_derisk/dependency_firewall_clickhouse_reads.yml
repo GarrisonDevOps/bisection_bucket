@@ -1,0 +1,10 @@
+---
+name: dependency_firewall_clickhouse_reads
+description: De-risks serving Dependency Firewall prevented-stats dashboard reads from the ClickHouse Siphon replica instead of PostgreSQL on GitLab.com, where analytics ClickHouse is enabled and Siphon replicates dependency_firewall_prevented_packages. Checked for the root namespace.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631890
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261486
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631122
+milestone: '19.6'
+group: group::dependency firewall
+type: gitlab_com_derisk
+default_enabled: false

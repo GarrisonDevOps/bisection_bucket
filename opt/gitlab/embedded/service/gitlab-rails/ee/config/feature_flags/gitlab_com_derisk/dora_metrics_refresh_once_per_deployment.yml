@@ -1,0 +1,10 @@
+---
+name: dora_metrics_refresh_once_per_deployment
+description: Refresh DORA daily metrics once per successful deployment, after merge requests are linked, instead of twice with a 5-minute delay
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636174
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266605
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637702
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

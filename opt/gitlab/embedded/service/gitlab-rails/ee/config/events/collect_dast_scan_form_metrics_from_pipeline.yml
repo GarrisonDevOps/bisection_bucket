@@ -1,0 +1,36 @@
+---
+description: The event tracks DAST form metrics
+internal_events: true
+action: collect_dast_scan_form_metrics_from_pipeline
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: dynamic_analysis
+product_categories:
+  - vulnerability_management
+milestone: '18.1'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189956'
+tiers:
+  - ultimate
+additional_properties:
+  property:
+    description: "a UUID that identifies a scan"
+  value:
+    description: "total number of forms found"
+  label:
+    description: "total time spent to find forms"
+  form_fields_found:
+    description: "total number of input fields found across all forms"
+  form_submission_attempts:
+    description: "number of attempts to submit forms"
+  successful_submissions:
+    description: "number of form submissions that completed successfully"
+  failed_submissions:
+    description: "number of form submissions that failed"
+  forms_per_minute:
+    description: "average number of forms processed per minute"
+  successful_navigation_from_forms:
+    description: "number of successful page navigations that occurred after form submission"
+  failed_navigation_from_forms:
+    description: "number of failed page navigations that occurred after form submission"

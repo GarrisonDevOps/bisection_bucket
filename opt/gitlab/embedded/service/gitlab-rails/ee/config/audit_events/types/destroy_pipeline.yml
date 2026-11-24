@@ -1,0 +1,10 @@
+---
+name: destroy_pipeline
+description: A pipeline is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/339041
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135255
+feature_category: continuous_integration
+milestone: "16.6"
+saved_to_database: true
+streamed: true
+scope: [Project]

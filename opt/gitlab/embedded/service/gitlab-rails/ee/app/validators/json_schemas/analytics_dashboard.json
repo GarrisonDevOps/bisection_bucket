@@ -1,0 +1,665 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "This is the schema for Explore > Analytics Dashboards",
+  "$ref": "#/definitions/AnalyticsDashboard",
+  "definitions": {
+    "AnalyticsDashboard": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "2"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "gridHeight": {
+          "$comment": "Deprecated: Explore dashboards always render with the compact grid. Kept so existing definitions still validate.",
+          "enum": [
+            "default",
+            "compact",
+            null
+          ]
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Panel"
+              },
+              {
+                "$ref": "#/definitions/SectionPanel"
+              }
+            ]
+          }
+        },
+        "views": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DashboardView"
+          }
+        },
+        "status": {
+          "enum": [
+            "beta",
+            "experiment",
+            null
+          ]
+        },
+        "errors": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duoPrompts": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          }
+        },
+        "filters": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DashboardFilters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "license": {
+              "enum": [
+                "product_analytics",
+                "group_level_analytics_dashboard",
+                "project_level_analytics_dashboard"
+              ]
+            },
+            "feature_flag": {
+              "enum": [
+                "dap_impact_v1",
+                "gi_migration_dora_metrics",
+                "gi_migration_merge_request_analytics",
+                "gi_migration_value_streams_dashboard"
+              ]
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "clickhouse"
+                ]
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            }
+          }
+        }
+      },
+      "required": [
+        "title",
+        "panels"
+      ],
+      "title": "AnalyticsDashboard"
+    },
+    "DashboardView": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "duoPrompts": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          }
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Panel"
+              },
+              {
+                "$ref": "#/definitions/SectionPanel"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "title",
+        "panels"
+      ],
+      "title": "DashboardView"
+    },
+    "DashboardFilters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "excludeAnonymousUsers": {
+          "$ref": "#/definitions/DashboardFilter"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/DateRangeFilter"
+        },
+        "groups": {
+          "$ref": "#/definitions/GroupsFilter"
+        },
+        "projects": {
+          "$ref": "#/definitions/ProjectsFilter"
+        },
+        "scope": {
+          "$ref": "#/definitions/ScopeFilter"
+        },
+        "filteredSearch": {
+          "$ref": "#/definitions/FilteredSearchFilter"
+        }
+      },
+      "title": "DashboardFilters"
+    },
+    "DashboardFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GroupsFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "multiSelect": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ProjectsFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "multiSelect": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ScopeFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "multiSelect": {
+          "type": "boolean"
+        },
+        "requirePermissions": {
+          "$ref": "#/definitions/ScopeFilterPermissions"
+        },
+        "requireDuoAgentPlatform": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DateRangeFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "numberOfDaysLimit": {
+          "type": "number"
+        },
+        "options": {
+          "$ref": "#/definitions/DateRangeFilterOptions"
+        },
+        "defaultOption": {
+          "type": "string",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/DateRangeFilterOptions/items"
+            }
+          ]
+        }
+      }
+    },
+    "FilteredSearchFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilteredSearchFilterOption"
+          }
+        }
+      }
+    },
+    "Panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "titleIcon": {
+          "type": "string"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/Tooltip"
+        },
+        "footer": {
+          "$ref": "#/definitions/PanelFooter"
+        },
+        "gridAttributes": {
+          "$ref": "#/definitions/GridAttributes"
+        },
+        "visualization": {
+          "$ref": "#/definitions/Visualization"
+        },
+        "views": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/definitions/View"
+          }
+        },
+        "queryOverrides": {
+          "$ref": "#/definitions/QueryOverrides"
+        },
+        "options": {
+          "$ref": "#/definitions/PanelOptions"
+        }
+      },
+      "required": [
+        "gridAttributes",
+        "title",
+        "visualization"
+      ],
+      "title": "Panel"
+    },
+    "View": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "visualization": {
+          "$ref": "#/definitions/Visualization"
+        }
+      },
+      "required": [
+        "text",
+        "visualization"
+      ],
+      "title": "View"
+    },
+    "PanelFooter": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "dashboardViewLink": {
+          "$ref": "#/definitions/PanelFooterDashboardViewLink"
+        }
+      },
+      "title": "PanelFooter"
+    },
+    "PanelFooterDashboardViewLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "view": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "text",
+        "view"
+      ],
+      "title": "PanelFooterDashboardViewLink"
+    },
+    "Visualization": {
+      "$ref": "analytics_visualization.json#/definitions/AnalyticsVisualization",
+      "title": "Visualization"
+    },
+    "GridAttributes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "yPos": {
+          "type": "integer"
+        },
+        "xPos": {
+          "type": "integer"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "minWidth": {
+          "type": "integer"
+        },
+        "minHeight": {
+          "type": "integer"
+        },
+        "maxWidth": {
+          "type": "integer"
+        },
+        "maxHeight": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "height",
+        "width"
+      ],
+      "title": "GridAttributes"
+    },
+    "PanelOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decimalPlaces": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "PanelOptions"
+    },
+    "QueryOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timeDimensions": {
+          "$ref": "#/definitions/TimeDimensions"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "filters": {
+          "$ref": "#/definitions/QueryFilters"
+        }
+      },
+      "required": [],
+      "title": "QueryOverrides"
+    },
+    "TimeDimensions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "title": "TimeDimensions"
+    },
+    "QueryFilters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includeMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludeMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "projectTopics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [],
+      "title": "Filters"
+    },
+    "Tooltip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "descriptionLink": {
+          "type": "string",
+          "format": "uri"
+        },
+        "template": {
+          "$comment": "Names a registered component that replaces the tooltip content. See tooltip_templates/index.js.",
+          "enum": [
+            "dap_credits_tooltip"
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "descriptionLink": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "descriptionLink"
+        ]
+      },
+      "then": {
+        "properties": {
+          "description": {
+            "pattern": ".*%\\{linkStart\\}.*%\\{linkEnd\\}.*"
+          }
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "ScopeFilterPermissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "readProAiAnalytics",
+          "readEnterpriseAiAnalytics"
+        ]
+      }
+    },
+    "DateRangeFilterOptions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "today",
+          "custom",
+          "7d",
+          "30d",
+          "60d",
+          "90d",
+          "180d",
+          "365d"
+        ]
+      }
+    },
+    "FilteredSearchFilterOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "token": {
+          "enum": [
+            "assignee",
+            "author",
+            "label",
+            "milestone",
+            "target_branch",
+            "source_branch"
+          ]
+        },
+        "operator": {
+          "enum": [
+            "is",
+            "is_not",
+            "is_not_or"
+          ]
+        },
+        "unique": {
+          "type": "boolean"
+        },
+        "maxSuggestions": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "token"
+      ],
+      "title": "FilteredSearchFilterOption"
+    },
+    "SectionGridAttributes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "yPos": {
+          "type": "integer"
+        },
+        "xPos": {
+          "type": "integer"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "minWidth": {
+          "type": "integer"
+        },
+        "minHeight": {
+          "type": "integer"
+        },
+        "maxWidth": {
+          "type": "integer"
+        },
+        "maxHeight": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "xPos",
+        "yPos",
+        "height"
+      ],
+      "title": "SectionGridAttributes"
+    },
+    "SectionTooltip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description"
+      ],
+      "title": "SectionTooltip"
+    },
+    "Section": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/SectionTooltip"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "title": "Section"
+    },
+    "SectionPanel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "section": {
+          "$ref": "#/definitions/Section"
+        },
+        "gridAttributes": {
+          "$ref": "#/definitions/SectionGridAttributes"
+        }
+      },
+      "required": [
+        "section",
+        "gridAttributes"
+      ],
+      "title": "SectionPanel"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+= content_for :page_level_alert do
+  - if show_pipl_compliance_alert?
+    = render Pajamas::AlertComponent.new(title: s_('PIPL|Important Change to Your GitLab.com Account'),
+     variant: :info,
+     dismissible: true,
+     alert_options: { class: 'gl-mb-5 js-pipl-compliance-alert', data: { feature_id: Users::CalloutsHelper::PIPL_COMPLIANCE_ALERT, dismiss_endpoint: callouts_path, defer_links: 'true' } },
+     close_button_options: { data: { testid: 'pipl-compliance-alert-dismiss' }}) do |c|
+      - c.with_body do
+        = s_('PIPL|Please be advised that GitLab can no longer service GitLab.com accounts for individuals and organizations located in Mainland China, Macao, and Hong Kong. Our system indicates that you are visiting GitLab from one of these locations. We advise you to transition your GitLab.com account from GitLab to %{jihu_link}. JiHu is an independent company with a localized GitLab offering that has exclusive rights to provide GitLab to individuals and organizations located in this region. You have %{deadline} days to complete the transition, after which GitLab will delete your account from our systems. If you believe you are receiving this notification in error, please log in to GitLab.com from a supported service location. For further information or support, please feel free to contact %{email}.' ).html_safe % { jihu_link: link_to('JiHu', 'https://gitlab.cn/saasmigration/', target: '_blank', rel: 'noopener noreferrer'), deadline: current_user.pipl_user.remaining_pipl_access_days, email: link_to('saasmigration@gitlab.cn', 'mailto:saasmigration@gitlab.cn') }

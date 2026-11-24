@@ -1,0 +1,34 @@
+- return unless ::Gitlab::Saas.feature_available?(:identity_verification)
+
+- restricted_dial_codes = Array(@application_setting.sms_cost_restricted_dial_codes)
+
+= gitlab_ui_form_for @application_setting, url: general_admin_application_settings_path(anchor: 'js-signup-settings'), html: { class: 'fieldset-form gl-mt-8', id: 'sms-cost-restricted-dial-codes-settings' } do |f|
+  = render ::Layouts::CrudComponent.new(s_('IdentityVerification|Phone verification dial code restrictions'),
+    description: s_('IdentityVerification|Users who enter a phone number with a selected dial code must verify a payment method to continue.'),
+    count: restricted_dial_codes.size,
+    is_collapsible: true,
+    options: { data: { testid: 'sms-cost-restricted-dial-codes' } },
+    body_options: { class: 'gl-max-h-62 gl-overflow-y-auto !gl-p-0' }) do |c|
+    - c.with_body do
+      = hidden_field_tag 'application_setting[sms_cost_restricted_dial_codes][]', nil
+      %table.table.b-table.gl-table.gl-table--sticky-header.gl-mb-0
+        %thead
+          %tr.gl-z-2
+            %th= s_('IdentityVerification|Dial code')
+            %th= s_('IdentityVerification|Country')
+            %th= s_('IdentityVerification|Country code')
+        %tbody
+          - sms_cost_restricted_dial_code_countries.each do |dial_code, countries|
+            - rows = countries.presence || [[s_('IdentityVerification|No supported country'), nil]]
+            - rows.each_with_index do |(name, alpha2), index|
+              %tr{ data: { testid: "dial-code-#{dial_code}-row" } }
+                - if index == 0
+                  %td.gl-align-top{ rowspan: rows.size }
+                    = f.gitlab_ui_checkbox_component :sms_cost_restricted_dial_codes, "+#{dial_code}",
+                      checkbox_options: { multiple: true, checked: restricted_dial_codes.include?(dial_code) },
+                      checked_value: dial_code,
+                      unchecked_value: nil
+                %td= name
+                %td.gl-text-subtle= alpha2
+    - c.with_footer do
+      = f.submit _('Save changes'), pajamas_button: true, data: { testid: 'save-sms-cost-restricted-dial-codes-button' }

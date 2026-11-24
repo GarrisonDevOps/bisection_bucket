@@ -1,0 +1,10 @@
+---
+name: routable_oauth_access_token
+description: Makes OAuth access tokens routable based on the organization and the user.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636298
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265392
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636316
+milestone: '19.6'
+group: group::cells infrastructure
+type: gitlab_com_derisk
+default_enabled: false

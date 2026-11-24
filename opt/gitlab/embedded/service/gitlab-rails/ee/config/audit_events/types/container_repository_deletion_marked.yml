@@ -1,0 +1,10 @@
+---
+name: container_repository_deletion_marked
+description: A project's container repository is marked for deletion
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/362290
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/152967
+feature_category: container_registry
+milestone: '17.2'
+saved_to_database: true
+streamed: true
+scope: [Project]

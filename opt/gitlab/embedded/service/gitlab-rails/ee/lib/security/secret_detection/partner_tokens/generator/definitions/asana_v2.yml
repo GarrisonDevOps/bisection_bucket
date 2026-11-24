@@ -1,0 +1,19 @@
+---
+token_type: "AsanaPersonalAccessTokenV2"
+class_name: "AsanaV2Client"
+partner_name: "asana"
+endpoint: "https://app.asana.com/api/1.0/users/me"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\A2/[0-9]{16}/[0-9]{16}:[0-9a-f]{32}\z'
+sample_token: "2/1234567890123456/1234567890123456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_asana_api"
+doc_url: "https://developers.asana.com/docs/authentication"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

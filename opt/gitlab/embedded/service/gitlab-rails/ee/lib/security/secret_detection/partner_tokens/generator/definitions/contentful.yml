@@ -1,0 +1,21 @@
+---
+token_type: "ContentfulPersonalAccessToken"
+class_name: "ContentfulClient"
+partner_name: "contentful"
+endpoints:
+  - "https://api.contentful.com/users/me"
+  - "https://api.eu.contentful.com/users/me"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\ACFPAT-[a-zA-Z0-9_-]{43}\z'
+sample_token: "CFPAT-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_contentful_api"
+doc_url: "https://www.contentful.com/developers/docs/references/content-management-api/users/get-the-authenticated-user/"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

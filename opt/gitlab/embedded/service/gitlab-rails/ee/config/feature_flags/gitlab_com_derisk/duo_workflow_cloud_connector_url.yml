@@ -1,0 +1,10 @@
+---
+name: duo_workflow_cloud_connector_url
+description: Controls whether we send requests via Cloudflare or directly to the Duo Workflow Service load balancer.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/509586
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200293
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/559199
+milestone: '18.3'
+group: group::duo workflow
+type: gitlab_com_derisk
+default_enabled: false

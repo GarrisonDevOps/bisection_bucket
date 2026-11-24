@@ -1,0 +1,10 @@
+---
+name: anthropic_compliance_integration_created
+description: An Anthropic Compliance integration is created for a top-level group
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/628487
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264339
+feature_category: ai_governance
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group]

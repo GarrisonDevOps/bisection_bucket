@@ -1,0 +1,11 @@
+---
+name: read_namespace_duo_availability
+description: Grants the ability to read GitLab Duo availability across namespaces
+available_for:
+  - granular_access_token
+permissions:
+  - read_namespace_duo_availability
+boundaries:
+  - instance
+assignable_when:
+  - condition: admin

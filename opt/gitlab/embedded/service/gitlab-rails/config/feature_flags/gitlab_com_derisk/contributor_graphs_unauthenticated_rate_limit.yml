@@ -1,0 +1,10 @@
+---
+name: contributor_graphs_unauthenticated_rate_limit
+description: Enforce the per-project rate limit on unauthenticated contributor graph and repository analytics requests
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636143
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269158
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639049
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

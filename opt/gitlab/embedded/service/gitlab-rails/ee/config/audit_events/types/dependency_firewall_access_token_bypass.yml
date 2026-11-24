@@ -1,0 +1,10 @@
+---
+name: dependency_firewall_access_token_bypass
+description: A dependency firewall policy is bypassed by an access token listed in its bypass settings
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/639638
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270199
+feature_category: dependency_firewall
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

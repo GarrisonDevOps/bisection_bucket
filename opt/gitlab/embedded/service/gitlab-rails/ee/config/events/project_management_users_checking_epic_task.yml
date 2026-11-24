@@ -1,0 +1,17 @@
+---
+description: An epic task has been checked
+internal_events: true
+action: project_management_users_checking_epic_task
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132027
+tiers:
+- premium
+- ultimate

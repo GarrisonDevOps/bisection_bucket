@@ -1,0 +1,11 @@
+- project = project || @project
+
+- if alternative_kerberos_url?
+  %li{ class: '!gl-pt-3 !gl-px-4' }
+    %label.label-bold
+      = _('Clone with KRB5')
+    .input-group
+      = text_field_tag :kerberos_project_clone, project.kerberos_url_to_repo, class: "js-select-on-focus form-control", readonly: true, aria: { label: _('Repository clone URL') }
+      .input-group-append
+        = clipboard_button(target: '#kerberos_project_clone', title: _("Copy URL"), variant: :default, category: :primary, size: :medium)
+        = render_if_exists 'projects/buttons/geo'

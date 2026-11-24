@@ -1,0 +1,11 @@
+---
+name: duo_mcp_tool_governance
+description: Extend ai_tool_rules governance to the tools served by GitLab's own MCP
+  server
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/606073
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/247822
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/607499
+milestone: '19.4'
+group: group::compliance
+type: beta
+default_enabled: true

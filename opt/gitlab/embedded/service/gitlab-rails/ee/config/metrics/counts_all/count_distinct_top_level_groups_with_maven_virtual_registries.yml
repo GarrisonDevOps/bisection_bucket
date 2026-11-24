@@ -1,0 +1,19 @@
+---
+key_path: counts.top_level_groups_with_maven_virtual_registries
+description: Count of distinct top-level groups that have at least one Maven virtual registry
+product_group: package_registry
+product_categories:
+  - virtual_registry
+value_type: number
+status: active
+milestone: "18.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/211991
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+performance_indicator_type: []
+instrumentation_class: CountDistinctTopLevelGroupsWithMavenVirtualRegistriesMetric
+

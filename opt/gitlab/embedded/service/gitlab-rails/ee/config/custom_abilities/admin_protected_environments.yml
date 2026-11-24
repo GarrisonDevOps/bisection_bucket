@@ -1,0 +1,16 @@
+---
+title: Manage Protected Environments
+name: admin_protected_environments
+description: Create, read, update, and delete protected environments
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/471385
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178283
+feature_category: continuous_delivery
+milestone: '17.9'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+project_permissions:
+  - admin_protected_environments
+group_permissions:
+  - admin_protected_environments

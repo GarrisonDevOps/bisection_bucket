@@ -1,0 +1,17 @@
+---
+key_path: counts.users_with_custom_roles
+description: Number of users who have custom roles
+product_group: authentication
+product_categories:
+- permissions
+value_type: number
+status: active
+milestone: "15.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/110852
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountUsersWithCustomRolesMetric
+performance_indicator_type: []
+tiers:
+- ultimate

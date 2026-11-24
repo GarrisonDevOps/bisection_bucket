@@ -1,0 +1,18 @@
+---
+key_path: usage_activity_by_stage.manage.groups_frameworks_and_audit_event_streaming_destinations
+description: "Distinct count of audit event streaming destinations where the group has projects with frameworks assigned"
+product_group: compliance
+value_type: number
+status: active
+milestone: "17.11"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184339
+time_frame: all
+data_source: database
+data_category: operational
+instrumentation_class: CountEventStreamingDestinationsMetric
+tiers:
+- ultimate
+performance_indicator_type: []
+options:
+  with_assigned_compliance_frameworks: true
+

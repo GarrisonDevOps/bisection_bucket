@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.workspaces.users_creating_workspaces
+description: Count of users creating workspaces
+product_group: remote_development
+product_categories:
+- workspaces
+value_type: number
+status: active
+milestone: "16.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/120341
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+performance_indicator_type: []
+tiers:
+- ultimate
+options:
+  events:
+    - users_creating_workspaces

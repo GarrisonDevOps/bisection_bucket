@@ -1,0 +1,21 @@
+---
+description: User views the no credits remaining empty state in Duo Agentic Chat
+internal_events: true
+status: active
+action: view_duo_agentic_no_credits_empty_state
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Subscription type or enablement type (trial, paid, or free_addon)
+product_group: duo_chat
+product_categories:
+  - duo_agent_platform
+  - activation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221113
+tiers:
+  - free
+  - premium
+  - ultimate

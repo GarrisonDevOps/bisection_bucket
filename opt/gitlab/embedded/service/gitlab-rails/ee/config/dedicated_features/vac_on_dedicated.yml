@@ -1,0 +1,5 @@
+---
+name: vac_on_dedicated
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260322
+milestone: '19.5'
+group: group::security insights

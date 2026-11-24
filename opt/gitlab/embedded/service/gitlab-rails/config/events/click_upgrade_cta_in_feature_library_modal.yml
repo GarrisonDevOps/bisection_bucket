@@ -1,0 +1,21 @@
+---
+description: Tracks when a user clicks the call to action in the header of an Explore page
+  in the feature library modal.
+internal_events: true
+action: click_upgrade_cta_in_feature_library_modal
+identifiers:
+- user
+product_group: engagement
+product_categories:
+- navigation
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267290
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: The plan of the Explore page (premium or ultimate).
+  property:
+    description: The type of call to action (upgrade or talk_to_sales).

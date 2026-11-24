@@ -1,0 +1,18 @@
+---
+key_path: settings.duo_features_enabled
+description: Tracks whether Duo features are enabled at the instance level on a Self-Managed instance
+product_group: provision
+product_categories:
+  - duo_service_infra
+value_type: boolean
+status: active
+milestone: "19.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230995
+time_frame: none
+data_source: system
+instrumentation_class: DuoFeaturesEnabledMetric
+data_category: operational
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

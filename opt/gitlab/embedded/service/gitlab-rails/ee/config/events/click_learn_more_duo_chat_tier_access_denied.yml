@@ -1,0 +1,26 @@
+---
+description: User clicks the Learn more link inside a Duo Agentic Chat tier_access_denied message
+internal_events: true
+status: active
+action: click_learn_more_duo_chat_tier_access_denied
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  session_id:
+    description: Unique identifier of the session where the link was clicked
+  flow_type:
+    description: Agent or flow active in the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+  - chat_engine
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233681
+tiers:
+  - free
+  - premium
+  - ultimate

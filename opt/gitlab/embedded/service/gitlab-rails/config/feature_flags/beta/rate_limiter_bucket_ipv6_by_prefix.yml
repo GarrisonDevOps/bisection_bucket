@@ -1,0 +1,10 @@
+---
+name: rate_limiter_bucket_ipv6_by_prefix
+description: Count IPv6 clients by network prefix in the per-IP rate limits and the Git authentication IP ban
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637554
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268782
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/640004
+milestone: '19.6'
+group: group::Networking & Incident Management
+type: beta
+default_enabled: false

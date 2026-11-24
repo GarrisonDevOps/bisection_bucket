@@ -1,0 +1,9 @@
+---
+name: click_house_guest_query_limits
+description: Apply read and execution time limits to ClickHouse select queries issued by guest web requests
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266977
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637704
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

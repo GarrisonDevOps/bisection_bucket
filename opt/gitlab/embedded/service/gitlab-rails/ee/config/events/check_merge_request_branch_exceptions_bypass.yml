@@ -1,0 +1,18 @@
+---
+description: Merge requests bypassed by branch exceptions in security policy
+internal_events: true
+status: active
+action: check_merge_request_branch_exceptions_bypass
+identifiers:
+- project
+- namespace
+additional_properties:
+  value:
+    description: merge_request_id
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202917
+tiers:
+- ultimate

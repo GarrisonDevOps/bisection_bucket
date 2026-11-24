@@ -1,0 +1,4 @@
+- page_title s_('IdentityVerification|Help us keep GitLab secure')
+- content_for :body_class, '!gl-bg-default'
+
+#js-arkose-labs-challenge{ data: arkose_labs_data.merge(session_verification_path: verify_arkose_labs_session_signup_identity_verification_path) }

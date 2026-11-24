@@ -1,0 +1,10 @@
+---
+name: clickhouse_write_buffer_dump_protection
+description: Re-queues a ClickHouse write buffer batch when its insert fails and serialises dump runs per table with an exclusive lease
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636342
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267085
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637721
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

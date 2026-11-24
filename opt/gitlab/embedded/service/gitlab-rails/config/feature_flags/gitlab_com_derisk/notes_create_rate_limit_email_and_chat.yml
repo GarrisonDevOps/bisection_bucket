@@ -1,0 +1,11 @@
+---
+name: notes_create_rate_limit_email_and_chat
+description: Enforce the notes_create rate limit on notes created by incoming email
+  and chat slash commands
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635767
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266695
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637416
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

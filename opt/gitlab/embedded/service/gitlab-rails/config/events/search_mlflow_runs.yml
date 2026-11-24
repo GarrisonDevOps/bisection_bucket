@@ -1,0 +1,21 @@
+---
+description: A search of the runs of an experiment with the MLflow-compatible API (runs/search) loads its results
+internal_events: true
+status: active
+action: search_mlflow_runs
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: 'The order the search applies: metric, column (a supported run attribute), or none (an unsupported order, which falls back to created_at)'
+product_group: mlops
+product_categories:
+- mlops
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265948
+tiers:
+- free
+- premium
+- ultimate

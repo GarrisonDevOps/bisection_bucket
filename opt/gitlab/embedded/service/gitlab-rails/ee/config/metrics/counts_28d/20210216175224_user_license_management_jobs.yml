@@ -1,0 +1,20 @@
+---
+data_category: operational
+key_path: usage_activity_by_stage_monthly.secure.user_license_management_jobs
+description: Monthly number of users running License Scanning jobs
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+value_type: number
+status: active
+time_frame: 28d
+instrumentation_class: CountUsersCreatingCiBuildsMetric
+options:
+  secure_type: license_management
+data_source: database
+tiers:
+- ultimate
+performance_indicator_type:
+- customer_health_score
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

@@ -1,0 +1,11 @@
+---
+name: rate_limiter_expired_oauth_token_per_token
+description: Count unauthenticated requests with an expired OAuth token per token
+  instead of per IP, so the client gets the 401 it refreshes on
+feature_issue_url: https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/work_items/30160
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264986
+rollout_issue_url: https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/work_items/30194
+milestone: '19.6'
+group: group::Networking & Incident Management
+type: gitlab_com_derisk
+default_enabled: false

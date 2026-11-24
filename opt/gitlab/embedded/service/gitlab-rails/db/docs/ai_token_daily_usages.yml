@@ -1,0 +1,14 @@
+---
+table_name: ai_token_daily_usages
+classes:
+- Ai::TokenDailyUsage
+feature_categories:
+- ai_abstraction_layer
+description: GitLab Duo input and output token counts per user, namespace, feature and model for each UTC day. Never summed across models. Partitioned by month.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260537
+milestone: '19.6'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  organization_id: organizations
+table_size: small
+notes: organization_id is the row's namespace organization when traversal_ids is not empty, and the user's organization when it is empty. An organization transfer moves a group's rows with the group, a personal namespace's rows with its owner, and a user's rows with no namespace with the user. traversal_ids and user_id are kept as written, with no foreign key, so a day's usage stays with the group it was recorded under after the namespace or user is deleted or moved. A flush drops a repeated event only within one batch of 1,000 buffered rows, so an event buffered twice and flushed in two batches is counted twice.

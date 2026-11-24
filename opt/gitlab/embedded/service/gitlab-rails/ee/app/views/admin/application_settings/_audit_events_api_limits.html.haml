@@ -1,0 +1,35 @@
+- admin_audit_log_available = ::License.feature_available?(:admin_audit_log)
+- audit_events_available = ::License.feature_available?(:audit_events)
+- return unless admin_audit_log_available || audit_events_available
+
+= render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|Audit events API rate limits'),
+  id: 'js-audit-events-api-limits-settings',
+  testid: 'audit-events-api-limits-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('AdminSettings|Set the per-user rate limits for requests to the audit events API.')
+    = link_to _('Learn more.'), help_page_path('administration/settings/rate-limit-on-audit-events-api.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-audit-events-api-limits-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+
+      %fieldset
+        = _("Set to 0 to disable the limits.")
+
+      - if admin_audit_log_available
+        %fieldset
+          .form-group
+            = f.label :audit_events_api_limit, safe_format(_('Maximum requests to the %{api_name} API per minute per user'), api_name: tag.code('GET /audit_events[/:id]')), class: 'label-bold'
+            = f.number_field :audit_events_api_limit, min: 0, class: 'form-control gl-form-input'
+
+      - if audit_events_available
+        %fieldset
+          .form-group
+            = f.label :project_audit_events_api_limit, safe_format(_('Maximum requests to the %{api_name} API per minute per user per project'), api_name: tag.code('GET /projects/:id/audit_events[/:audit_event_id]')), class: 'label-bold'
+            = f.number_field :project_audit_events_api_limit, min: 0, class: 'form-control gl-form-input'
+        %fieldset
+          .form-group
+            = f.label :group_audit_events_api_limit, safe_format(_('Maximum requests to the %{api_name} API per minute per user per group'), api_name: tag.code('GET /groups/:id/audit_events[/:audit_event_id]')), class: 'label-bold'
+            = f.number_field :group_audit_events_api_limit, min: 0, class: 'form-control gl-form-input'
+
+      = f.submit _('Save changes'), pajamas_button: true

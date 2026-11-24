@@ -1,0 +1,8 @@
+# Columns of exported models that are deliberately not exported. Each entry needs a `note`
+# (why it is not exported) or a `migrate_issue_url` (issue to export it).
+# See https://docs.gitlab.com/development/import_export/#ignored-exported-attributes
+ProjectCiCdSetting:
+  project_id:
+    note: "Set from the parent project on import"
+  push_pipelines_for_job_token_allowed:
+    note: "Users cannot set it yet. Export it once https://gitlab.com/gitlab-org/gitlab/-/work_items/569974 lets them."

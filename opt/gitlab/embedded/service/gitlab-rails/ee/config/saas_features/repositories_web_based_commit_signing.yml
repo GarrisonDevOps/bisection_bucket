@@ -1,0 +1,5 @@
+---
+name: repositories_web_based_commit_signing
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/191520
+milestone: '18.1'
+group: group::source code

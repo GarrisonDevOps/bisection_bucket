@@ -1,0 +1,25 @@
+- title: "Linux package support for Ubuntu 22.04"
+  announcement_milestone: "19.6"
+  removal_milestone: "20.0"
+  breaking_change: true
+  reporter: balasankarc
+  stage: gitlab-delivery
+  issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/635015
+  impact: medium
+  impact_offering: self-managed
+  scope: instance
+  resolution_role: Admin
+  manual_task: true
+  body: |
+    Ubuntu standard support for Ubuntu 22.04 [ends on June 1, 2027](https://wiki.ubuntu.com/Releases).
+
+    In accordance with our [Linux package supported platforms policy](https://docs.gitlab.com/install/package/#supported-platforms),
+    we drop package builds once a vendor stops supporting the operating system.
+
+    From GitLab 20.0, we will no longer provide packages for the Ubuntu 22.04 distribution for Linux package installs.
+    GitLab 19.11 will be the last GitLab version with Linux packages for Ubuntu 22.04.
+
+    If you currently run GitLab on Ubuntu 22.04, you must upgrade to Ubuntu 24.04 or another
+    [supported operating system](https://docs.gitlab.com/install/package/#supported-platforms) before upgrading to GitLab
+    20.0. Canonical provides an [upgrade guide](https://documentation.ubuntu.com/server/how-to/software/upgrade-your-release/)
+    to help you migrate.

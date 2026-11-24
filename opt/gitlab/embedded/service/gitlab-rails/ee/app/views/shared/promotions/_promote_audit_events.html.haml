@@ -1,0 +1,11 @@
+- title = s_('Promotions|Keep track of events in your project')
+- if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+  - title = s_('Promotions|Upgrade your plan to activate audit events.')
+
+= render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-radar-md.svg',
+  title: title) do |c|
+
+  - c.with_description do
+    = _('Automatic event tracking provides a traceable history for audits.')
+    .gl-mt-5
+      = render 'shared/promotions/promotion_link_project', location: :audit_events

@@ -1,0 +1,18 @@
+---
+description: User clicks the purchase or increase credits CTA button on the self-managed credits card on the admin subscriptions page
+internal_events: true
+action: click_purchase_credits_cta_on_sm_credits_card
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - subscription_management
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231577
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: The type of CTA action (purchase_credits or increase_credits)

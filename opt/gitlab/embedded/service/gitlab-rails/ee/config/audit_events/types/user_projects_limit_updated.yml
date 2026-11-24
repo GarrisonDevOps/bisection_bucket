@@ -1,0 +1,10 @@
+---
+name: user_projects_limit_updated
+description: A user's project creation limit is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/603254
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240990
+milestone: '19.2'
+feature_category: user_profile
+saved_to_database: true
+streamed: true
+scope: [User, Group]

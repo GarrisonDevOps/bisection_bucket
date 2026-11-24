@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: counts.ldap_keys
+description: Number of keys synced as part of LDAP `https://docs.gitlab.com/ee/administration/auth/ldap/#ldap-sync-configuration-settings`
+product_group: authentication
+product_categories:
+- system_access
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

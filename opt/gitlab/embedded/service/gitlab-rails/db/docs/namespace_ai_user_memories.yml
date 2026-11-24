@@ -1,0 +1,13 @@
+---
+table_name: namespace_ai_user_memories
+classes:
+- Ai::NamespaceUserMemory
+feature_categories:
+- duo_agent_platform
+description: Stores per-user personal AI memory scoped to a root namespace (top-level group) for GitLab.com
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261814
+milestone: '19.6'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  namespace_id: namespaces
+table_size: small

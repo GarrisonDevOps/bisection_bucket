@@ -1,0 +1,20 @@
+- f = local_assigns.fetch(:f)
+- section = local_assigns.fetch(:section)
+- url_help_text = local_assigns.fetch(:url_help_text)
+- username_help_text = local_assigns.fetch(:username_help_text)
+- password_help_text = local_assigns.fetch(:password_help_text)
+.form-group.gl-m-0
+  = f.label :url, _('URL'), class: 'label-bold'
+  = f.text_field :url, value: section.options['url'], class: 'form-control gl-form-input', placeholder: 'http://localhost:9200, http://localhost:9201', autocomplete: 'off', disabled: section.inputs_disabled
+  .form-text.gl-text-subtle.gl-mt-0
+    = url_help_text
+.form-group.gl-m-0
+  = f.label :username, _('Username'), class: 'label-bold'
+  = f.text_field :username, value: section.options['username'], class: 'form-control gl-form-input', autocomplete: 'off', disabled: section.inputs_disabled
+  .form-text.gl-text-subtle.gl-mt-0
+    = username_help_text
+.form-group.gl-m-0
+  = f.label :password, _('Password'), class: 'label-bold'
+  = f.password_field :password, value: section.password_value, class: 'form-control gl-form-input', autocomplete: 'new-password', disabled: section.inputs_disabled
+  .form-text.gl-text-subtle.gl-mt-0
+    = password_help_text

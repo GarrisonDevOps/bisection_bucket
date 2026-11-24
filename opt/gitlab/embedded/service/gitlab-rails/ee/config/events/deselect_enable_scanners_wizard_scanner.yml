@@ -1,0 +1,18 @@
+---
+description: User deselected a scanner in the enable scanners wizard
+internal_events: true
+action: deselect_enable_scanners_wizard_scanner
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The scan type that was deselected (e.g. "SAST", "SECRET_DETECTION").
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242094
+tiers:
+- ultimate

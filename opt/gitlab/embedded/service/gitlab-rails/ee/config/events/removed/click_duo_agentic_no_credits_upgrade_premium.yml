@@ -1,0 +1,22 @@
+---
+description: User clicks upgrade to premium button in Duo Agentic Chat no credits empty state
+internal_events: true
+status: removed
+action: click_duo_agentic_no_credits_upgrade_premium
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Subscription type (trial or paid)
+product_group: duo_chat
+product_categories:
+- duo_agent_platform
+- activation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221113
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233986
+milestone_removed: '19.0'
+tiers:
+  - premium
+  - ultimate

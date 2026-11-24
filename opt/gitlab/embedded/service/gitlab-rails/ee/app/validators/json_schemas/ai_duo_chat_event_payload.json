@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "AI usage event properties of Duo Chat",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

@@ -1,0 +1,9 @@
+---
+name: mlflow_bounded_list_responses
+description: Return only the latest model version in MLflow latest_versions and paginate MLflow experiments/list
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263896
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/635108
+milestone: '19.6'
+group: group::mlops
+type: gitlab_com_derisk
+default_enabled: false

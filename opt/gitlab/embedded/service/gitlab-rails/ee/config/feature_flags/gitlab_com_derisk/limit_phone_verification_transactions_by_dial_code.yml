@@ -1,0 +1,10 @@
+---
+name: limit_phone_verification_transactions_by_dial_code
+description: Require credit card verification before an SMS verification code is sent to a dial code that has exceeded its daily phone verification transaction limit.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/609536
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257995
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631067
+milestone: '19.5'
+group: group::abuse engineering
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: authz_refresh_sidekiq_memberships
+description: Keep the Sidekiq project_authorizations refreshes for membership and share changes running. Disabled, they stop once authz_refresh_compute_memberships, authz_refresh_compute_projects and both write path flags are fully on, and membership events that are not computed go to the old workers. Leave at least 5 minutes between changing computing or the write path flags and this flag in either direction, since refresh jobs keep flag values for their whole run. Disable it only once computing has been fully on that long. To roll back, turn computing off first and enable this once the queue has drained
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637588
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270473
+rollout_issue_url:
+milestone: '19.6'
+group: group::authorization
+type: ops
+default_enabled: true

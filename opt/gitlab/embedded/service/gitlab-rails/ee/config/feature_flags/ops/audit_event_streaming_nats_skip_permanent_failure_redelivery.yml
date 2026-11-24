@@ -1,0 +1,14 @@
+---
+name: audit_event_streaming_nats_skip_permanent_failure_redelivery
+description: On the NATS audit event streaming path, stops redelivering a group's
+  batch when a destination fails with an error a retry cannot fix (invalid
+  configuration, 401/403, 404, other 4xx). The batch is acked once the group's
+  other destinations succeed, so they don't receive duplicates. Disable to
+  redeliver on every destination-side failure.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/17582
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268096
+rollout_issue_url:
+milestone: '19.6'
+group: group::compliance
+type: ops
+default_enabled: false

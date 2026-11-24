@@ -1,0 +1,41 @@
+- return unless group.root? && group.seat_control_available?
+
+.form-group#js-seat-control
+  %h5
+    = _("Seat control")
+  - if group.gitlab_subscription&.contract_overages_allowed? == false
+    .gl-flex.gl-items-start.gl-gap-3
+      = sprite_icon('lock', css_class: 'gl-mt-1 gl-flex-shrink-0 gl-text-gray-500')
+      %p.gl-mb-0
+        - restricted_access_link = link_to('', help_page_path('subscriptions/manage_seats.md', anchor: 'restricted-access'), target: '_blank', rel: 'noopener noreferrer', class: 'gl-link')
+        - purchase_seats_link = link_to('', add_seats_url(group), target: '_blank', rel: 'noopener noreferrer', class: 'gl-link')
+        - restricted_access_tag = tag_pair(restricted_access_link, :restricted_access_start, :restricted_access_end)
+        - purchase_seats_tag = tag_pair(purchase_seats_link, :purchase_seats_start, :purchase_seats_end)
+        - description = s_("GroupSettings|%{restricted_access_start}Restricted access%{restricted_access_end} is turned on for your subscription by default. This setting prevents overages when no seats are available. %{purchase_seats_start}Purchase more seats%{purchase_seats_end} to add users.")
+        = safe_format(description, restricted_access_tag, purchase_seats_tag)
+  - else
+    - if group.block_overages_available?
+      - base_help_text = _('Invitations above seat count are blocked')
+      - saml_warning_html = seat_control_saml_scim_warning
+      - help_text_with_warning = seat_control_warning?(group) ? "#{base_help_text}#{saml_warning_html}" : base_help_text
+
+      %div
+        = f.gitlab_ui_radio_component :seat_control, :block_overages, _("Restricted access"),
+          help_text: help_text_with_warning.html_safe,
+          radio_options: { disabled: group.shared_externally? }
+    %div
+      = f.gitlab_ui_radio_component :seat_control, :user_cap, _("Set user cap"),
+        help_text: _("Users who are added or request access beyond the user cap must be approved by a group owner."),
+        radio_options: { disabled: group.shared_externally?, data: { testid: 'seat-control-user-cap-radio' } }
+      = f.label :new_user_signups_cap, _('Number of users for user cap'), class: 'gl-sr-only'
+      .gl-ml-6
+        = f.number_field :new_user_signups_cap, min: 1,
+          class: 'form-control form-control-sm gl-form-input gl-w-auto gl-mt-3',
+          disabled: group.shared_externally?, required: true,
+          data: { testid: 'user-cap-limit-field', dirty_submit_original_value: @group.new_user_signups_cap }
+    .gl-my-5
+      = f.gitlab_ui_radio_component :seat_control, :off, "Open access",
+        help_text: _("Invitations do not need to be approved by a group owner."),
+        label_options: { data: { testid: 'seat-control-off-radio' } }
+    - if group.shared_externally?
+      .form-text.gl-text-subtle= seat_control_disabled_help_text

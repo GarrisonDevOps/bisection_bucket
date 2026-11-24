@@ -1,0 +1,10 @@
+---
+name: dependency_management_batch_updates
+description: Batch auto-remediation updates into one merge request per lockfile
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603257
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266763
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637446
+milestone: '19.7'
+group: group::code security
+type: wip
+default_enabled: false

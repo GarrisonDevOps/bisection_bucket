@@ -1,0 +1,22 @@
+---
+key_path: counts.count_slack_duo_scoped_installations
+description: Count of GitLab for Slack app installations whose granted OAuth scopes
+  include app_mentions:read, meaning the workspace installed a Duo-capable manifest
+  and can receive GitLab bot mentions. Measures the installed base for GitLab Duo
+  for Slack independent of usage.
+product_group: ai_catalog
+product_categories:
+- duo_agent_platform
+value_type: number
+status: active
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253496
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+- free
+- premium
+- ultimate
+performance_indicator_type: []
+instrumentation_class: CountSlackDuoScopedInstallationsMetric

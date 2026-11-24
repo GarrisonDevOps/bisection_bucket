@@ -1,0 +1,11 @@
+---
+name: cross_project_archive_rate_limit
+description: Enforce the cross-project archive download rate limit. While disabled,
+  requests over the limit are logged but not blocked.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635883
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270059
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/640144
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

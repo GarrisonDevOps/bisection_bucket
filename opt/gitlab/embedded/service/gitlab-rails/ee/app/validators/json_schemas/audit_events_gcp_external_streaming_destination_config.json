@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Config for google cloud logging external audit event streaming destinations",
+  "type": "object",
+  "properties": {
+    "googleProjectIdName": {
+      "description": "Google project id name.",
+      "type": "string",
+      "pattern": "\\A[a-z][a-z0-9-]*[a-z0-9]\\z",
+      "minLength": 6,
+      "maxLength": 30
+    },
+    "clientEmail": {
+      "description": "Client email.",
+      "type": "string",
+      "format": "idn-email",
+      "minLength": 1,
+      "maxLength": 254
+    },
+    "logIdName": {
+      "description": "Log id name.",
+      "type": "string",
+      "default": "audit-events",
+      "minLength": 1,
+      "maxLength": 511,
+      "pattern": "\\A[\\w/.-]+\\z"
+    }
+  },
+  "required": [
+    "googleProjectIdName",
+    "clientEmail"
+  ],
+  "additionalProperties": false
+}

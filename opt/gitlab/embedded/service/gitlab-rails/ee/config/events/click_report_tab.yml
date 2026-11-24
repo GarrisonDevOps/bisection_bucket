@@ -1,0 +1,13 @@
+---
+description: Tracks clicks on report tabs within the application.
+action: click_report_tab
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '16.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/128148
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: name of the tab

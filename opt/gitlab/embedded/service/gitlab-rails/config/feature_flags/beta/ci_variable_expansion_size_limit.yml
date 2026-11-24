@@ -1,0 +1,10 @@
+---
+name: ci_variable_expansion_size_limit
+description: Limit the size added by expanding CI/CD variable references.
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265796
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637322
+milestone: '19.6'
+group: group::pipeline authoring
+type: beta
+default_enabled: true

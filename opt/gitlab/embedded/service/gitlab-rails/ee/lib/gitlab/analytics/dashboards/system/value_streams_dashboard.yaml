@@ -1,0 +1,193 @@
+---
+title: Value Streams Dashboard
+description: Track key DevSecOps metrics throughout the development lifecycle.
+version: '2'
+constraints:
+  feature_flag: gi_migration_value_streams_dashboard
+  license: group_level_analytics_dashboard
+  data:
+  - clickhouse
+filters:
+  dateRange:
+    enabled: false
+  scope:
+    enabled: true
+panels:
+- title: Usage overview for the %{namespaceName} %{namespaceType}
+  visualization:
+    type: NamespaceMetadata
+    data:
+      type: namespace_metadata
+      query: {}
+    options: {}
+  gridAttributes:
+    yPos: 0
+    xPos: 0
+    width: 12
+    height: 13
+- title: Groups
+  visualization:
+    type: SingleStat
+    data:
+      type: usage_count
+      query:
+        metric: groups
+    options: {}
+  gridAttributes:
+    yPos: 13
+    xPos: 0
+    width: 2
+    height: 16
+- title: Projects
+  visualization:
+    type: SingleStat
+    data:
+      type: usage_count
+      query:
+        metric: projects
+    options: {}
+  gridAttributes:
+    yPos: 13
+    xPos: 2
+    width: 2
+    height: 16
+- title: Users
+  visualization:
+    type: SingleStat
+    data:
+      type: usage_count
+      query:
+        metric: users
+    options: {}
+  gridAttributes:
+    yPos: 13
+    xPos: 4
+    width: 2
+    height: 16
+- title: Issues
+  visualization:
+    type: SingleStat
+    data:
+      type: usage_count
+      query:
+        metric: issues
+    options: {}
+  gridAttributes:
+    yPos: 13
+    xPos: 6
+    width: 2
+    height: 16
+- title: Merge requests
+  visualization:
+    type: Glql
+    options: {}
+    data:
+      type: glql
+      query:
+        glql: |
+          display: stat
+          mode: analytics
+          query: type = MergeRequest
+          metrics: totalCount
+  gridAttributes:
+    yPos: 13
+    xPos: 8
+    width: 2
+    height: 16
+- title: Pipelines
+  visualization:
+    type: Glql
+    options: {}
+    data:
+      type: glql
+      query:
+        glql: |
+          display: stat
+          mode: analytics
+          query: type = Pipeline
+          metrics: totalCount
+  gridAttributes:
+    yPos: 13
+    xPos: 10
+    width: 2
+    height: 16
+- title: Lifecycle metrics for the %{namespaceName} %{namespaceType}
+  visualization:
+    type: AiImpactTable
+    data:
+      type: value_stream
+      query:
+        filters:
+          includeMetrics:
+          - lead_time
+          - cycle_time
+          - issues
+          - issues_completed
+          - deploys
+          - median_time_to_merge
+          - merge_request_throughput
+          - contributor_count
+    options: {}
+  gridAttributes:
+    yPos: 29
+    xPos: 0
+    width: 12
+    height: 64
+- title: DORA metrics for the %{namespaceName} %{namespaceType}
+  visualization:
+    type: AiImpactTable
+    data:
+      type: value_stream
+      query:
+        filters:
+          includeMetrics:
+          - deployment_frequency
+          - lead_time_for_changes
+          - time_to_restore_service
+          - change_failure_rate
+    options: {}
+  gridAttributes:
+    yPos: 93
+    xPos: 0
+    width: 12
+    height: 43
+- title: Security metrics for the %{namespaceName} %{namespaceType}
+  visualization:
+    type: AiImpactTable
+    data:
+      type: value_stream
+      query:
+        filters:
+          includeMetrics:
+          - vulnerability_critical
+          - vulnerability_high
+    options: {}
+  gridAttributes:
+    yPos: 136
+    xPos: 0
+    width: 12
+    height: 32
+- title: DORA performers score for the %{namespaceName} %{namespaceType} (Last full calendar month)
+  visualization:
+    type: DoraPerformersScore
+    data:
+      type: value_stream
+      query: {}
+    options: {}
+  gridAttributes:
+    yPos: 168
+    xPos: 0
+    width: 12
+    height: 51
+- title: Projects by DORA metric (Last full calendar month)
+  visualization:
+    type: DoraProjectsComparison
+    data:
+      type: dora_metrics_by_project
+      query: {}
+    options: {}
+  gridAttributes:
+    yPos: 219
+    xPos: 0
+    width: 12
+    height: 55

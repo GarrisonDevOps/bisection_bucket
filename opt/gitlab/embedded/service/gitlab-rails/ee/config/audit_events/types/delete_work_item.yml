@@ -1,0 +1,10 @@
+---
+name: delete_work_item
+description: A work item is successfully deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/370487
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/96773
+feature_category: "team_planning"
+milestone: "15.4"
+saved_to_database: false
+streamed: true
+scope: [Project]

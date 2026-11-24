@@ -1,0 +1,24 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_from_csv_dependency_list_project_export
+description: Count of unique namespaces that created a `csv` dependency list export on a Project
+product_group: vulnerability_management
+product_categories:
+- dependency_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184666
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: create_dependency_list_export
+  unique: namespace.id
+  filter:
+    label: csv
+    property: Project

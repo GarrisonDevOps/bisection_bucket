@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "name": "ISMAP",
+  "description": "ISMAP compliance requirements",
+  "color": "#D11919",
+  "requirements": [
+    {
+      "name": "6.1.2 Segregation of duties",
+      "description": "Conflicting duties and areas of responsibility should be segregated to reduce opportunities for unauthorized or unintentional modification or misuse of the organization's assets.",
+      "controls": [
+        {
+          "name": "minimum_approvals_required_2",
+          "control_type": "internal",
+          "expression": {
+            "field": "minimum_approvals_required",
+            "operator": ">=",
+            "value": 2
+          }
+        },
+        {
+          "name": "merge_request_prevent_author_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_author_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_request_prevent_committers_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_committers_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_requests_approval_rules_prevent_editing",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_requests_approval_rules_prevent_editing",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "9.3.1 Use of secret authentication information",
+      "description": "Users should be required to follow the organization's practices in the use of secret authentication information.",
+      "controls": [
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "9.4.5 Access control to program source code",
+      "description": "Access to program source code should be restricted.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "12.1.2 Change management",
+      "description": "Changes to the organization, business processes, information processing facilities and systems that affect information security should be controlled.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "12.6.1 Management of technical vulnerabilities",
+      "description": "Information about technical vulnerabilities of information systems being used should be obtained in a timely fashion, the organization's exposure to such vulnerabilities evaluated and appropriate measures taken to address the associated risk.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "14.2.1 Secure development policy",
+      "description": "Rules for the development of software and systems should be established and applied to developments within the organization.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "14.2.1 Secure development policy 1",
+      "description": "Rules for the development of software and systems should be established and applied to developments within the organization.",
+      "controls": [
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "14.2.8 System security testing",
+      "description": "Testing of security functionality should be carried out during development.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "14.2.8 System security testing 1",
+      "description": "Testing of security functionality should be carried out during development.",
+      "controls": [
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "18.1.2 Intellectual property rights",
+      "description": "Appropriate procedures should be implemented to ensure compliance with legislative, regulatory and contractual requirements related to intellectual property rights and use of proprietary software products.",
+      "controls": [
+        {
+          "name": "scanner_license_compliance_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_license_compliance_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+---
+# Cop supports --autocorrect.
+RSpec/VerifiedDoubleReference:
+  Exclude:
+    - 'ee/spec/lib/search/elastic/response_mapper_spec.rb'
+    - 'qa/spec/page/logging_spec.rb'
+    - 'qa/spec/scenario_shared_examples.rb'
+    - 'qa/spec/tools/ci/code_paths_mapping_spec.rb'
+    - 'spec/lib/gitlab/github_import/bulk_importing_spec.rb'
+    - 'spec/lib/gitlab/github_import/importer/events/base_importer_spec.rb'
+    - 'spec/services/ci/unlock_pipeline_service_spec.rb'

@@ -1,0 +1,10 @@
+---
+name: org_admin_hooks
+description: Serve webhook pages in the organization admin area
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632598
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265973
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636785
+milestone: '19.6'
+group: group::import
+type: beta
+default_enabled: false

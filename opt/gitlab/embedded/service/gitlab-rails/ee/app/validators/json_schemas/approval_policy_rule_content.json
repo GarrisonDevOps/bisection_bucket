@@ -1,0 +1,636 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Approval rule actions",
+  "type": "object",
+  "properties": {
+    "type": {
+      "enum": [
+        "scan_finding",
+        "license_finding",
+        "any_merge_request"
+      ],
+      "type": "string",
+      "description": "Specified a type of the policy rule. `scan_finding`/`license_finding`/`any_merge_request` rule enforces the defined actions based on the provided information."
+    },
+    "branches": {
+      "type": "array",
+      "description": "Specifies a list of protected branches that should be considered to enforce this policy.",
+      "additionalItems": false,
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "branch_type": {
+      "type": "string",
+      "description": "Which types of branches to scan.",
+      "enum": [
+        "default",
+        "protected"
+      ]
+    },
+    "branch_exceptions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "full_path": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "name",
+              "full_path"
+            ]
+          }
+        ]
+      }
+    },
+    "scanners": {
+      "description": "Specifies a list of scanners that should be considered to enforce this policy. Can be an array of scanner name strings (legacy format) or scanner objects with type and vulnerability_attributes (new format). Possible scanner values: `sast`, `secret_detection`, `dependency_scanning`, `container_scanning`, `dast`, `coverage_fuzzing`, `api_fuzzing`, `sarif`.",
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "description": "Legacy format: scanner name as a string."
+          },
+          {
+            "$ref": "#/$defs/scanner_with_attributes"
+          }
+        ]
+      }
+    },
+    "vulnerabilities_allowed": {
+      "description": "Specifies a number of vulnerabilities allowed before this rule is enforced.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32767
+    },
+    "severity_levels": {
+      "description": "Specifies a list of vulnerability security levels that should be concidered to enforce this policy. Possible values: `info`, `unknown`, `low`, `medium`, `high`, `critical`.",
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "string",
+        "enum": [
+          "critical",
+          "high",
+          "medium",
+          "low",
+          "info",
+          "unknown"
+        ]
+      }
+    },
+    "vulnerability_states": {
+      "type": "array",
+      "description": "Specifies a list of vulnerability states that should be considered to enforce this policy. The `newly_detected` state considers all newly detected vulnerabilities regardless of their status or dismissal. The other states consider findings that match the selected state and already exist in the default branch.",
+      "additionalItems": false,
+      "items": {
+        "type": "string",
+        "enum": [
+          "detected",
+          "confirmed",
+          "resolved",
+          "dismissed",
+          "new_needs_triage",
+          "new_dismissed"
+        ]
+      }
+    },
+    "vulnerability_attributes": {
+      "type": "object",
+      "properties": {
+        "false_positive": {
+          "type": "boolean"
+        },
+        "fix_available": {
+          "type": "boolean"
+        },
+        "known_exploited": {
+          "type": "boolean",
+          "description": "Filter vulnerabilities based on CISA Known Exploited Vulnerabilities (KEV) catalog. When true, only includes vulnerabilities actively exploited in the wild. When false, does not filter vulnerabilities based on known exploit status."
+        },
+        "epss_score": {
+          "type": "object",
+          "description": "Filter vulnerabilities based on Exploit Prediction Scoring System (EPSS) score. EPSS estimates the probability (0-1) that a vulnerability will be exploited.",
+          "properties": {
+            "operator": {
+              "type": "string",
+              "enum": [
+                "greater_than",
+                "less_than"
+              ],
+              "description": "Comparison operator for EPSS score threshold."
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "EPSS score threshold value (0.0 to 1.0). For example, 0.8 represents 80% exploitation probability."
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "enrichment_data_unavailable": {
+          "type": "object",
+          "description": "Define how to handle vulnerabilities without enrichment data (missing EPSS score or known exploit status).",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "block",
+                "ignore"
+              ],
+              "description": "Action to take for vulnerabilities without enrichment data. When 'block', vulnerabilities without enrichment data are evaluated as per the rule-level criteria. When 'ignore', vulnerabilities without enrichment data are excluded from policy evaluation."
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "vulnerability_age": {
+      "type": "object",
+      "properties": {
+        "operator": {
+          "enum": [
+            "greater_than",
+            "less_than"
+          ],
+          "type": "string",
+          "description": "Specify the operator to which the age value is compared to"
+        },
+        "value": {
+          "description": "Specifies an age number",
+          "type": "integer"
+        },
+        "interval": {
+          "enum": [
+            "day",
+            "week",
+            "month",
+            "year"
+          ],
+          "type": "string",
+          "description": "Specify the interval to which the age value is compared to"
+        }
+      },
+      "required": [
+        "operator",
+        "value",
+        "interval"
+      ],
+      "additionalProperties": false
+    },
+    "match_on_inclusion_license": {
+      "type": "boolean",
+      "description": "Specifies whether to match licenses on inclusion or exclusion."
+    },
+    "license_types": {
+      "type": "array",
+      "description": "Specifies the licenses to match.",
+      "minItems": 1,
+      "maxItems": 1000,
+      "uniqueItems": true,
+      "additionalItems": false,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      }
+    },
+    "license_states": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "additionalItems": false,
+      "description": "States which license finding states to match on.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "newly_detected",
+          "detected"
+        ]
+      }
+    },
+    "licenses": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Specifies the licenses to match including the package exceptions.",
+      "properties": {
+        "denied": {
+          "$ref": "#/$defs/licenses_with_package_exclusions"
+        },
+        "allowed": {
+          "$ref": "#/$defs/licenses_with_package_exclusions"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "denied"
+          ]
+        },
+        {
+          "required": [
+            "allowed"
+          ]
+        }
+      ]
+    },
+    "commits": {
+      "type": "string",
+      "description": "Specifies the commits to match.",
+      "enum": [
+        "any",
+        "unsigned"
+      ]
+    },
+    "license_overrides": {
+      "$ref": "#/$defs/license_override_mappings"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "branches"
+      ]
+    },
+    {
+      "required": [
+        "branch_type"
+      ]
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "scan_finding"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "type",
+          "scanners",
+          "vulnerabilities_allowed",
+          "severity_levels",
+          "vulnerability_states"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "license_finding"
+          }
+        }
+      },
+      "then": {
+        "oneOf": [
+          {
+            "required": [
+              "type",
+              "match_on_inclusion_license",
+              "license_types",
+              "license_states"
+            ]
+          },
+          {
+            "required": [
+              "type",
+              "license_states",
+              "licenses"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "any_merge_request"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "type",
+          "commits"
+        ]
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "licenses_with_package_exclusions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "uniqueItems": true,
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "packages": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "excluding": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "purls": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 1000,
+                    "additionalItems": false,
+                    "items": {
+                      "minLength": 1,
+                      "maxLength": 1024,
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                },
+                "required": [
+                  "purls"
+                ]
+              }
+            },
+            "required": [
+              "excluding"
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "scanner_with_attributes": {
+      "type": "object",
+      "description": "Scanner configuration with optional vulnerability_attributes, severity_levels, vulnerabilities_allowed, and vulnerability_states for atomic scanner rule criteria.",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The scanner type.",
+          "enum": [
+            "sast",
+            "secret_detection",
+            "dependency_scanning",
+            "container_scanning",
+            "dast",
+            "coverage_fuzzing",
+            "api_fuzzing",
+            "sarif"
+          ]
+        },
+        "severity_levels": {
+          "description": "Scanner-specific severity levels. Overrides rule-level severity_levels for this scanner.",
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low",
+              "info",
+              "unknown"
+            ]
+          }
+        },
+        "vulnerabilities_allowed": {
+          "description": "Scanner-specific number of vulnerabilities allowed. Overrides rule-level vulnerabilities_allowed for this scanner.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32767
+        },
+        "vulnerability_states": {
+          "description": "Scanner-specific vulnerability states. Overrides rule-level vulnerability_states for this scanner.",
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "string",
+            "enum": [
+              "detected",
+              "confirmed",
+              "resolved",
+              "dismissed",
+              "new_needs_triage",
+              "new_dismissed"
+            ]
+          }
+        },
+        "vulnerability_attributes": {
+          "type": "object",
+          "description": "Scanner-specific vulnerability filtering criteria. These override rule-level vulnerability_attributes for this scanner.",
+          "properties": {
+            "false_positive": {
+              "type": "boolean"
+            },
+            "fix_available": {
+              "type": "boolean"
+            },
+            "known_exploited": {
+              "type": "boolean",
+              "description": "Filter vulnerabilities based on CISA Known Exploited Vulnerabilities (KEV) catalog. When true, only includes vulnerabilities actively exploited in the wild. When false, does not filter vulnerabilities based on known exploit status."
+            },
+            "epss_score": {
+              "type": "object",
+              "description": "Filter vulnerabilities based on Exploit Prediction Scoring System (EPSS) score. EPSS estimates the probability (0-1) that a vulnerability will be exploited.",
+              "properties": {
+                "operator": {
+                  "type": "string",
+                  "enum": [
+                    "greater_than",
+                    "less_than"
+                  ],
+                  "description": "Comparison operator for EPSS score threshold."
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "description": "EPSS score threshold value (0.0 to 1.0). For example, 0.8 represents 80% exploitation probability."
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "enrichment_data_unavailable": {
+              "type": "object",
+              "description": "Define how to handle vulnerabilities without enrichment data (missing EPSS score or known exploit status).",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "block",
+                    "ignore"
+                  ],
+                  "description": "Action to take for vulnerabilities without enrichment data. When 'block', vulnerabilities without enrichment data are evaluated as per the rule-level criteria. When 'ignore', vulnerabilities without enrichment data are excluded from policy evaluation."
+                }
+              },
+              "required": [
+                "action"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "is_malicious": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, the scanner's matching findings are treated as malware violations regardless of severity/state filters. Only valid for `dependency_scanning` and `container_scanning`."
+        },
+        "dependency_change": {
+          "type": "string",
+          "enum": [
+            "introduced",
+            "unchanged",
+            "any"
+          ],
+          "description": "Match findings by whether the MR introduced or changed the component and version compared with the target branch. Only valid for `dependency_scanning`."
+        },
+        "dependency_type": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "transitive",
+            "any"
+          ],
+          "description": "Match findings by whether the component is a direct or transitive dependency. Only valid for `dependency_scanning`."
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "dependency_change"
+                ]
+              },
+              {
+                "required": [
+                  "dependency_type"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "type": {
+                "const": "dependency_scanning"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "is_malicious": {
+                "const": true
+              }
+            },
+            "required": [
+              "is_malicious"
+            ]
+          },
+          "then": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "dependency_scanning",
+                  "container_scanning"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "license_override_mappings": {
+      "type": "array",
+      "description": "Maps specific packages to known license identifiers, overriding scanner detection results during policy evaluation.",
+      "minItems": 1,
+      "maxItems": 500,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "purl": {
+            "type": "string",
+            "description": "Package URL identifying the package to override.",
+            "minLength": 1,
+            "maxLength": 1024,
+            "format": "uri"
+          },
+          "license": {
+            "type": "string",
+            "description": "The SPDX license identifier or name to assign to the package.",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "mode": {
+            "type": "string",
+            "description": "Override mode: 'patch' applies only when the detected license is unknown; 'overwrite' always applies.",
+            "enum": [
+              "patch",
+              "overwrite"
+            ],
+            "default": "patch"
+          }
+        },
+        "required": [
+          "purl",
+          "license"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

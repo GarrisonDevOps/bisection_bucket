@@ -1,0 +1,10 @@
+---
+name: token_exchange_ci_id_token
+description: Accept a CI/CD ID token as the credential at the token exchange endpoint
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633754
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268440
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638630
+milestone: '19.6'
+group: group::authentication
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gitlab.com/gitlab-org/security-products/dependency-management/config.schema.json",
+  "description": "Schema for the GitLab Dependency Management feature configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "auto_remediation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether auto-remediation is enabled."
+        },
+        "cooldown": {
+          "description": "Minimum number of days after a package is released before it can be used.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "severity_level": {
+          "description": "Minimum vulnerability severity that triggers an automated upgrade. Findings below this threshold are skipped.",
+          "type": "string",
+          "enum": [
+            "info",
+            "unknown",
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "upgrade_policy": {
+          "description": "Highest version bump allowed when remediating. 'patch' allows patch only, 'minor' allows patch and minor, 'major' allows any bump.",
+          "type": "string",
+          "enum": [
+            "patch",
+            "minor",
+            "major"
+          ]
+        },
+        "open_merge_requests_limit": {
+          "description": "Maximum number of open merge requests the feature may have at once. Further upgrades wait until existing ones merge or close.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "runner_tags": {
+          "description": "Runner tags applied to the auto-remediation job. Commas, quotes, `$`, and leading or trailing whitespace are rejected because CI splits, unquotes, strips, or expands tags on them.",
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 255,
+            "pattern": "\\A[^,\\s\"'$]([^,\"'$]*[^,\\s\"'$])?\\z"
+          }
+        },
+        "batch_updates": {
+          "type": "boolean",
+          "description": "Whether to batch updates into one merge request per lockfile."
+        },
+        "max_updates_per_batch": {
+          "description": "Maximum number of dependency updates in one batch merge request. Further updates wait for the next run.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        }
+      }
+    }
+  }
+}

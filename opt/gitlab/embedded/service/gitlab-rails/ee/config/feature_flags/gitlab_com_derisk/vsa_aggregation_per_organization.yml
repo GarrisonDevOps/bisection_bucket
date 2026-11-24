@@ -1,0 +1,10 @@
+---
+name: vsa_aggregation_per_organization
+description: Runs the value stream analytics aggregation cron workers as one job per organization
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636944
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266209
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636944
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

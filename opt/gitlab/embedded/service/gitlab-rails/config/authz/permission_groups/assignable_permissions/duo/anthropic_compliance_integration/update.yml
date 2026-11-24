@@ -1,0 +1,9 @@
+---
+name: update_anthropic_compliance_integration
+description: Grants the ability to update the Anthropic Compliance integration
+available_for:
+  - granular_access_token
+permissions:
+  - update_anthropic_compliance_integration
+boundaries:
+  - group

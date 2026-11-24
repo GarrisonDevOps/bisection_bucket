@@ -1,0 +1,10 @@
+---
+name: set_runner_associated_projects
+description: Associated projects are successfully assigned to a CI/CD runner
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/359958
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/97666
+feature_category: "runner"
+milestone: "15.4"
+saved_to_database: true
+streamed: true
+scope: [Project]

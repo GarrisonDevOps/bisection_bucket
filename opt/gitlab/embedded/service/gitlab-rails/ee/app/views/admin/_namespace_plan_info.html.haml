@@ -1,0 +1,16 @@
+- namespace = local_assigns.fetch(:namespace)
+- return unless ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions) && namespace
+
+- list_item_classes = '!gl-grid @md/panel:gl-grid-cols-3 gl-gap-x-3'
+
+%li{ class: list_item_classes }
+  %span.gl-text-subtle Plan:
+  .gl-col-span-2
+    - if namespace.paid?
+      %strong.plan-badge.gl-inline{ data: { plan: namespace.actual_plan_name, testid: 'group-plan-content' } }
+        = custom_icon('icon_premium')
+        = namespace.actual_plan.title
+    - else
+      %strong.plan-badge.gl-inline{ data: { testid: 'group-plan-content' } }
+        = custom_icon('icon_premium')
+        No Plan

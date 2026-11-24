@@ -1,0 +1,10 @@
+---
+name: org_mover_manifest_api
+description: Enables the internal org_mover manifest endpoint, which serves the Org Mover manifest (the databases, tables and asset sources that moving an organization off this cell must carry) generated for the running GitLab version. Cell-scoped; enable on cells that take part in organization moves.
+feature_issue_url: https://gitlab.com/gitlab-com/gl-infra/tenant-scale/transport/team/-/work_items/126
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268597
+rollout_issue_url: https://gitlab.com/gitlab-com/gl-infra/tenant-scale/transport/team/-/work_items/126
+milestone: '19.6'
+group: group::organizations
+type: wip
+default_enabled: false

@@ -1,0 +1,22 @@
+---
+key_path: settings.database.statistics_missing
+description: Whether a large table has no planner statistics, so PostgreSQL plans its queries on default estimates.
+product_group: database_health
+product_categories:
+- database
+value_type: boolean
+status: active
+milestone: "19.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266546
+time_frame: none
+data_source: system
+data_category: optional
+instrumentation_class: DatabaseDiagnosticsFindingMetric
+options:
+  check: planner_statistics
+  finding_code: statistics_missing
+performance_indicator_type: []
+tiers:
+- free
+- premium
+- ultimate

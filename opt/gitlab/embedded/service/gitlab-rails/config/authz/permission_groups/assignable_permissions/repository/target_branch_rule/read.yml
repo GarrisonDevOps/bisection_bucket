@@ -1,0 +1,9 @@
+---
+name: read_target_branch_rule
+description: Grants the ability to read target branch rules
+boundaries:
+  - project
+available_for:
+  - granular_access_token
+permissions:
+  - read_target_branch_rule

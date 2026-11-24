@@ -1,0 +1,10 @@
+---
+name: require_credit_card_for_cost_restricted_dial_codes
+description: Require a user to verify a credit card before an SMS verification code is sent to a dial code an administrator has marked as cost restricted.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/609536
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249216
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/613769
+milestone: '19.4'
+group: group::abuse engineering
+type: gitlab_com_derisk
+default_enabled: false

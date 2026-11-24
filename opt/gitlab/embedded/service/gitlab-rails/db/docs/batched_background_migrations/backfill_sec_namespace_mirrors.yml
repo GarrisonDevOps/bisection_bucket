@@ -1,0 +1,9 @@
+---
+migration_job_name: BackfillSecNamespaceMirrors
+description: Backfills sec_namespace_mirrors from the namespaces table on the main
+  database
+feature_category: organization
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266711
+milestone: '19.6'
+queued_migration_version: 20261030150814
+gitlab_schema: gitlab_main_org

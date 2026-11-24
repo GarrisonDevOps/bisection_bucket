@@ -1,0 +1,11 @@
+---
+name: group_overview_sidebar
+description: Shows a sidebar with group information and member links on the top-level
+  group overview page, in place of the group activity header.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633599
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265967
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636784
+milestone: '19.6'
+group: group::acquisition
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,33 @@
+---
+description: A user searches project code using semantic (natural language) search via the REST API.
+internal_events: true
+action: search_code_with_semantic_search
+identifiers:
+- user
+- project
+- namespace
+additional_properties:
+  label:
+    description: >-
+      Confidence level derived from the similarity score distribution of the results
+      (high, medium, low, or unknown). Comparable only within the semantic search engine:
+      the underlying similarity scores are not normalised across queries, so this value
+      must never be plotted against Elasticsearch _score or presented as a cross-engine
+      relevance number.
+  property:
+    description: >-
+      Transport that issued the query: "rest_api" for a direct REST API call, or "mcp"
+      when the MCP server invoked the same route via the semantic_code_search tool.
+      A future non-REST caller (for example the Duo Chat CodebaseSearch tool) would be
+      added here rather than merged into an existing series. MCP detection is token-scope
+      based, so an MCP call made with a granular-scope token is reported as "rest_api".
+  value:
+    description: Number of files returned after Duo context exclusion filtering and grouping.
+product_group: global_search
+product_categories:
+- global_search
+milestone: '18.11'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227817'
+tiers:
+- premium
+- ultimate

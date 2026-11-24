@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "AI usage event properties of code suggestion",
+  "type": "object",
+  "properties": {
+    "branch_name": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "suggestion_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unique_tracking_id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,11 @@
+description: Submit survey response
+category: SurveyResponsesController
+action: submit_response
+extra_properties:
+identifiers:
+product_group: activation
+milestone: "13.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/29951
+tiers:
+- premium
+- ultimate

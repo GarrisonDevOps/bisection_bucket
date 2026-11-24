@@ -1,0 +1,502 @@
+# EE Sidekiq Cron Jobs default schedules loaded by Gitlab::SidekiqConfig::CronJobs
+# This is loaded in addition to config/schedule.yml when Gitlab.ee? is true
+---
+
+ai_flow_schedule_worker:
+  class: Ai::FlowScheduleWorker
+  cron: "3-59/10 * * * *"
+
+ai_active_context_bulk_process_worker:
+  class: Ai::ActiveContext::BulkProcessWorker
+  cron: "*/1 * * * *"
+
+ai_active_context_code_scheduling_worker:
+  class: Ai::ActiveContext::Code::SchedulingWorker
+  cron: "*/1 * * * *"
+
+ai_active_context_migration_worker:
+  class: Ai::ActiveContext::MigrationWorker
+  cron: "*/5 * * * *"
+
+ai_active_context_task_worker:
+  class: Ai::ActiveContext::TaskWorker
+  cron: "*/5 * * * *"
+
+ai_catalog_items_aggregate_last30_day_usage_worker:
+  class: Ai::Catalog::Items::AggregateLast30DayUsageWorker
+  cron: "0 0 * * *"
+
+ai_compliance_anthropic_schedule_ingestion_worker:
+  class: Ai::Compliance::Anthropic::ScheduleIngestionWorker
+  cron: "17 */6 * * *"
+
+ai_conversation_cleanup_cron_worker:
+  class: Ai::Conversation::CleanupCronWorker
+  cron: "0 * * * *"
+
+ai_dump_token_daily_usage_write_buffer_cron_worker:
+  class: Ai::DumpTokenDailyUsageWriteBufferCronWorker
+  cron: "*/5 * * * *"
+
+ai_duo_workflows_fail_stuck_workflows_worker:
+  class: Ai::DuoWorkflows::FailStuckWorkflowsWorker
+  cron: "*/30 * * * *"
+
+ai_duo_workflows_sync_session_credits_cron_worker:
+  class: Ai::DuoWorkflows::SyncSessionCreditsCronWorker
+  cron: ~  # set dynamically in lib/gitlab/sidekiq_config/cron_job_initializer.rb
+
+analytics_cycle_analytics_consistency_worker:
+  class: Analytics::CycleAnalytics::ConsistencyWorker
+  cron: "*/30 * * * *"
+
+analytics_cycle_analytics_incremental_worker:
+  class: Analytics::CycleAnalytics::IncrementalWorker
+  cron: "*/10 * * * *"
+
+analytics_cycle_analytics_reaggregation_worker:
+  class: Analytics::CycleAnalytics::ReaggregationWorker
+  cron: "*/25 * * * *"
+
+analytics_cycle_analytics_stage_aggregation_worker:
+  class: Analytics::CycleAnalytics::StageAggregationWorker
+  cron: "*/5 * * * *"
+
+analytics_devops_adoption_create_all_snapshots_worker:
+  class: Analytics::DevopsAdoption::CreateAllSnapshotsWorker
+  cron: "0 1 * * *"
+
+analytics_dump_ai_user_metrics_database_write_buffer_cron_worker:
+  class: Analytics::DumpAiUserMetricsWriteBufferCronWorker
+  cron: "*/10 * * * *"
+
+analytics_knowledge_graph_auto_index_worker:
+  class: Analytics::KnowledgeGraph::AutoIndexWorker
+  cron: "0 * * * *"
+
+analytics_orbit_schedule_disable_ended_trials_worker:
+  class: Analytics::Orbit::ScheduleDisableEndedTrialsWorker
+  cron: "15 * * * *"
+
+analytics_value_stream_dashboard_count_worker:
+  class: Analytics::ValueStreamDashboard::CountWorker
+  cron: "*/7 * * * *"
+
+app_sec_dast_profile_schedule_worker:
+  class: AppSec::Dast::ProfileScheduleWorker
+  cron: "7-59/15 * * * *"
+
+arkose_blocked_users_report_worker:
+  class: Arkose::BlockedUsersReportWorker
+  cron: "0 6 * * *"
+
+audit_events_streaming_nats_consumer_worker:
+  class: AuditEvents::Streaming::NatsConsumerWorker
+  cron: "*/1 * * * *"
+
+cd_rollouts_prune_incoming_events_worker:
+  class: Cd::Rollouts::PruneIncomingEventsWorker
+  cron: "40 1 * * *"
+
+ci_namespace_mirrors_consistency_check_worker:
+  class: Database::CiNamespaceMirrorsConsistencyCheckWorker
+  cron: "*/4 * * * *"
+
+ci_project_mirrors_consistency_check_worker:
+  class: Database::CiProjectMirrorsConsistencyCheckWorker
+  cron: "2-58/4 * * * *"
+
+ci_runners_stale_group_runners_prune_worker_cron:
+  class: Ci::Runners::StaleGroupRunnersPruneCronWorker
+  cron: "30 * * * *"
+
+click_house_ci_finished_builds_sync_worker:
+  class: ClickHouse::CiFinishedBuildsSyncCronWorker
+  cron: "*/3 * * * *"
+  args:
+    - 1
+
+click_house_dump_all_write_buffers_cron_worker:
+  class: ClickHouse::DumpAllWriteBuffersCronWorker
+  cron: "*/2 * * * *"
+
+click_house_duo_workflows_model_aliases_sync_cron_worker:
+  class: ClickHouse::DuoWorkflowsModelAliasesSyncCronWorker
+  cron: "*/5 * * * *"
+
+click_house_event_authors_consistency_cron_worker:
+  class: ClickHouse::EventAuthorsConsistencyCronWorker
+  cron: "*/30 * * * *"
+
+click_house_event_namespace_paths_consistency_cron_worker:
+  class: ClickHouse::EventPathsConsistencyCronWorker
+  cron: "*/45 * * * *"
+
+click_house_events_sync_worker:
+  class: ClickHouse::EventsSyncWorker
+  cron: "*/3 * * * *"
+
+click_house_namespace_organizations_sync_cron_worker:
+  class: ClickHouse::NamespaceOrganizationsSyncCronWorker
+  cron: "*/30 * * * *"
+
+click_house_rebuild_materialized_view_cron_worker:
+  class: ClickHouse::RebuildMaterializedViewCronWorker
+  cron: "*/10 * * * *"
+
+
+compliance_violations_consistency_worker:
+  class: ComplianceManagement::MergeRequests::ComplianceViolationsConsistencyWorker
+  cron: "0 1 * * *"
+
+delete_expired_dependency_exports_worker:
+  class: Sbom::DeleteExpiredExportsWorker
+  cron: "0 4 * * *"
+
+delete_expired_vulnerability_exports_worker:
+  class: Vulnerabilities::DeleteExpiredExportsWorker
+  cron: "0 4 * * *"
+
+dependency_management_prune_remediations_worker:
+  class: DependencyManagement::PruneRemediationsWorker
+  cron: "40 4 * * *"
+
+search_elastic_cluster_reindexing_cron_worker:
+  class: Search::Elastic::ClusterReindexingCronWorker
+  cron: "*/5 * * * *"
+
+search_elastic_index_bulk_cron_worker:
+  class: Search::Elastic::IndexBulkCronWorker
+  cron: "*/1 * * * *"
+
+search_elastic_index_initial_bulk_cron_worker:
+  class: Search::Elastic::IndexInitialBulkCronWorker
+  cron: "*/1 * * * *"
+
+elastic_migration_worker:
+  class: Elastic::MigrationWorker
+  cron: "*/5 * * * *"
+
+elastic_remove_expired_namespace_subscriptions_from_index_cron_worker:
+  class: Search::Elastic::RemoveExpiredNamespaceSubscriptionsFromIndexCronWorker
+  cron: "10 * * * *"
+
+framework_evaluation_scheduler_worker:
+  class: ComplianceManagement::FrameworkEvaluationSchedulerWorker
+  cron: "0 */12 * * *"
+
+geo_checksum_mismatch_reporting_worker:
+  class: Geo::ChecksumMismatchReportingWorker
+  cron: "*/10 * * * *"
+
+geo_ci_job_artifact_verification_summary_calculator_worker:
+  class: Geo::CiJobArtifactVerificationSummaryCalculatorWorker
+  cron: "* * * * *"
+
+geo_metrics_update_worker:
+  class: Geo::MetricsUpdateWorker
+  cron: "*/1 * * * *"
+
+geo_prune_event_log_worker:
+  class: Geo::PruneEventLogWorker
+  cron: "*/5 * * * *"
+
+geo_registry_blob_location_backfill_cron_worker:
+  class: Geo::RegistryBlobLocationBackfillCronWorker
+  cron: "*/5 * * * *"
+
+geo_registry_sync_worker:
+  class: Geo::RegistrySyncWorker
+  cron: "*/1 * * * *"
+
+geo_repository_registry_sync_worker:
+  class: Geo::RepositoryRegistrySyncWorker
+  cron: "*/1 * * * *"
+
+geo_secondary_registry_consistency_worker:
+  class: Geo::Secondary::RegistryConsistencyWorker
+  cron: "* * * * *"
+
+geo_secondary_usage_data_cron_worker:
+  class: Geo::SecondaryUsageDataCronWorker
+  cron: "0 0 * * 0"
+
+geo_sync_timeout_cron_worker:
+  class: Geo::SyncTimeoutCronWorker
+  cron: "*/10 * * * *"
+
+geo_verification_cron_worker:
+  class: Geo::VerificationCronWorker
+  cron: "* * * * *"
+
+gitlab_subscriptions_add_on_purchases_cleanup_worker:
+  class: GitlabSubscriptions::AddOnPurchases::CleanupWorker
+  cron: "0 1 * * *"
+
+gitlab_subscriptions_add_on_purchases_schedule_bulk_refresh_user_assignments_worker:
+  class: GitlabSubscriptions::AddOnPurchases::ScheduleBulkRefreshUserAssignmentsWorker
+  cron: "0 */4 * * *"
+
+gitlab_subscriptions_offline_cloud_license_provision_worker:
+  class: GitlabSubscriptions::AddOnPurchases::OfflineCloudLicenseProvisionWorker
+  cron: "30 0 * * *"
+
+group_secret_rotation_reminder_batch_worker:
+  class: SecretsManagement::GroupSecretRotationReminderBatchWorker
+  cron: "* * * * *"
+
+historical_data_worker:
+  class: HistoricalDataWorker
+  cron: "0 12 * * *"
+
+import_sync_repositories_schedule_repairs_cron_worker:
+  class: Import::Sync::Repositories::ScheduleRepairsCronWorker
+  cron: "*/30 * * * *"
+
+incident_management_persist_oncall_rotation_worker:
+  class: IncidentManagement::OncallRotations::PersistAllRotationsShiftsJob
+  cron: "*/5 * * * *"
+
+incident_management_schedule_escalation_check_worker:
+  class: IncidentManagement::PendingEscalations::ScheduleCheckCronWorker
+  cron: "*/1 * * * *"
+
+incident_sla_exceeded_check_worker:
+  class: IncidentManagement::IncidentSlaExceededCheckWorker
+  cron: "*/2 * * * *"
+
+iterations_generator_worker:
+  class: Iterations::Cadences::ScheduleCreateIterationsWorker
+  cron: "5 0 * * *"
+
+iterations_update_status_worker:
+  class: IterationsUpdateStatusWorker
+  cron: "5 0 * * *"
+
+ldap_add_on_seat_sync_worker:
+  class: GitlabSubscriptions::AddOnPurchases::LdapAllAddOnSeatSyncWorker
+  cron: "0 2 * * *"
+
+ldap_admin_sync_worker:
+  class: Authz::LdapAdminRoleWorker
+  cron: "0 * * * *"
+
+ldap_group_sync_worker:
+  class: LdapAllGroupsSyncWorker
+  cron: "0 * * * *"
+
+ldap_sync_worker:
+  class: LdapSyncWorker
+  cron: "30 1 * * *"
+
+licenses_reset_submit_license_usage_data_banner:
+  class: Licenses::ResetSubmitLicenseUsageDataBannerWorker
+  cron: "0 0 * * *"
+
+mcp_audit_close_idle_sessions_worker:
+  class: Mcp::Audit::CloseIdleSessionsWorker
+  cron: "*/5 * * * *"
+
+members_schedule_prune_deletions_worker:
+  class: Members::SchedulePruneDeletionsWorker
+  cron: "*/5 * * * *"
+
+merge_trains_unstick_stuck_merges_cron_worker:
+  class: MergeTrains::UnstickStuckMergesCronWorker
+  cron: "*/30 * * * *"
+
+minimal_access_provisioning_notification_worker:
+  class: GitlabSubscriptions::MemberManagement::MinimalAccessProvisioningNotificationWorker
+  cron: "0 1 * * *"
+
+namespaces_enable_descendants_cache_cron_worker:
+  class: Namespaces::EnableDescendantsCacheCronWorker
+  cron: "*/11 * * * *"
+
+observability_alert_query_worker:
+  class: Observability::AlertQueryWorker
+  cron: "* * * * *"
+
+okr_checkin_reminder_emails:
+  class: Okrs::CheckinReminderEmailsCronWorker
+  cron: "0 1 * * *"
+
+package_metadata_advisories_sync_worker:
+  class: PackageMetadata::AdvisoriesSyncWorker
+  cron: "*/5 * * * *"
+
+package_metadata_cve_enrichment_sync_worker:
+  class: PackageMetadata::CveEnrichmentSyncWorker
+  cron: "0 */1 * * *"
+
+package_metadata_licenses_sync_worker:
+  class: PackageMetadata::LicensesSyncWorker
+  cron: "*/5 * * * *"
+
+package_metadata_malware_advisories_sync_worker:
+  class: PackageMetadata::MalwareAdvisoriesSyncWorker
+  cron: "*/5 * * * *"
+
+pause_control_resume_worker:
+  class: PauseControl::ResumeWorker
+  cron: "*/5 * * * *"
+
+project_secret_rotation_reminder_batch_worker:
+  class: SecretsManagement::ProjectSecretRotationReminderBatchWorker
+  cron: "* * * * *"
+
+group_secrets_manager_maintenance_tasks_cron_worker:
+  class: SecretsManagement::GroupSecretsManagerMaintenanceTasksCronWorker
+  cron: "* * * * *"
+
+project_secrets_manager_maintenance_tasks_cron_worker:
+  class: SecretsManagement::ProjectSecretsManagerMaintenanceTasksCronWorker
+  cron: "* * * * *"
+
+group_secrets_manager_reap_orphan_tasks_cron_worker:
+  class: SecretsManagement::GroupSecretsManagerReapOrphanTasksCronWorker
+  cron: "*/15 * * * *"
+
+project_secrets_manager_reap_orphan_tasks_cron_worker:
+  class: SecretsManagement::ProjectSecretsManagerReapOrphanTasksCronWorker
+  cron: "*/15 * * * *"
+
+reconcile_namespace_secret_counts_cron_worker:
+  class: SecretsManagement::ReconcileNamespaceSecretCountsCronWorker
+  cron: "23 2 * * *"
+
+emit_secrets_stored_billable_event_cron_worker:
+  class: SecretsManagement::EmitSecretsStoredBillableEventCronWorker
+  cron: "30 4 * * *"
+
+refresh_billable_usage_daily_totals_cron_worker:
+  class: Utilization::BillableUsage::RefreshDailyTotalsCronWorker
+  cron: "15 * * * *"
+
+report_security_policies_metrics_worker:
+  class: Security::Policies::ReportSecurityPoliciesMetricsWorker
+  cron: "*/1 * * * *"
+
+search_elastic_metrics_update_cron_worker:
+  class: Search::Elastic::MetricsUpdateCronWorker
+  cron: "*/1 * * * *"
+
+search_elastic_migration_cleanup_cron_worker:
+  class: Search::Elastic::MigrationCleanupCronWorker
+  cron: "0 0 * * 1-5"
+
+search_zoekt_metrics_update_cron_worker:
+  class: Search::Zoekt::MetricsUpdateCronWorker
+  cron: "*/1 * * * *"
+
+search_zoekt_rollout_worker:
+  class: Search::Zoekt::RolloutWorker
+  cron: "*/10 * * * *"
+
+search_zoekt_scheduling_worker:
+  class: Search::Zoekt::SchedulingWorker
+  cron: "*/1 * * * *"
+
+security_analyzer_namespace_statuses_schedule_worker:
+  class: Security::AnalyzerNamespaceStatuses::ScheduleWorker
+  cron: "0 8 * * 0"
+
+security_create_orchestration_policy_worker:
+  class: Security::CreateOrchestrationPolicyWorker
+  cron: "*/10 * * * *"
+
+security_dependency_firewall_flush_activity_stats_write_buffer_cron_worker:
+  class: Security::DependencyFirewall::FlushActivityStatsWriteBufferCronWorker
+  cron: "*/5 * * * *"
+
+security_dependency_firewall_flush_prevented_packages_write_buffer_cron_worker:
+  class: Security::DependencyFirewall::FlushPreventedPackagesWriteBufferCronWorker
+  cron: "*/5 * * * *"
+
+security_dependency_firewall_schedule_daily_group_prevented_stats_refresh_cron_worker:
+  class: Security::DependencyFirewall::ScheduleDailyGroupPreventedStatsRefreshCronWorker
+  cron: "5 0 * * * UTC"
+
+security_destroy_expired_sbom_scans_worker:
+  class: Security::VulnerabilityScanning::DestroyExpiredSbomScansWorker
+  cron: "0 2 * * *"
+
+security_finding_enrichments_purge_worker:
+  class: Security::FindingEnrichments::PurgeWorker
+  cron: "0 */4 * * 6,0"
+
+security_orchestration_policy_rule_schedule_worker:
+  class: Security::OrchestrationPolicyRuleScheduleWorker
+  cron: "*/15 * * * *"
+
+security_pipeline_execution_policies_schedule_worker:
+  class: Security::PipelineExecutionPolicies::ScheduleWorker
+  cron: "* * * * *"
+
+security_pipeline_execution_schedule_policies_cleanup_stale_test_runs_worker:
+  class: Security::PipelineExecutionSchedulePolicies::CleanupStaleTestRunsWorker
+  cron: "0 * * * *"
+
+security_scan_execution_policies_schedule_worker:
+  class: Security::ScanExecutionPolicies::ScheduleWorker
+  cron: "* * * * *"
+
+security_scan_result_policies_sweep_stale_running_violations_worker:
+  class: Security::ScanResultPolicies::SweepStaleRunningViolationsWorker
+  cron: "*/30 * * * *"
+
+security_scans_purge_worker:
+  class: Security::Scans::PurgeWorker
+  cron: "0 */3 * * *"
+
+security_unassign_policy_configurations_for_expired_licenses_worker:
+  class: Security::UnassignPolicyConfigurationsForExpiredLicensesCronWorker
+  cron: "0 1 * * *"
+
+sync_seat_link_worker:
+  class: SyncSeatLinkWorker
+  cron: ~  # set dynamically in lib/gitlab/sidekiq_config/cron_job_initializer.rb
+
+sync_service_token_worker:
+  class: "CloudConnector::SyncServiceTokenWorker"
+  cron: ~  # set dynamically in lib/gitlab/sidekiq_config/cron_job_initializer.rb
+
+timeout_pending_status_check_responses_worker:
+  class: ComplianceManagement::TimeoutPendingStatusCheckResponsesWorker
+  cron: "*/1 * * * *"
+
+usage_events_dump_write_buffer_cron_worker:
+  class: UsageEvents::DumpWriteBufferCronWorker
+  cron: "*/5 * * * *"
+
+users_delete_unconfirmed_users_worker:
+  class: Users::UnconfirmedUsersDeletionCronWorker
+  cron: "0 * * * *"
+
+users_security_policy_bot_cleanup_cron_worker:
+  class: Users::SecurityPolicyBotCleanupCronWorker
+  cron: "0 * * * *"
+
+virtual_registries_cleanup_enqueue_policy_worker:
+  class: VirtualRegistries::Cleanup::EnqueuePolicyWorker
+  cron: "40 * * * *"
+
+vulnerability_archival_schedule_worker:
+  class: Vulnerabilities::Archival::ScheduleWorker
+  cron: "0 0 1 * *"
+
+vulnerability_historical_statistics_deletion_worker:
+  class: Vulnerabilities::HistoricalStatistics::DeletionWorker
+  cron: "15 3 * * *"
+
+vulnerability_namespace_statistics_schedule_worker:
+  class: Vulnerabilities::NamespaceStatistics::ScheduleWorker
+  cron: "0 8 * * 0"
+
+vulnerability_orphaned_remediations_cleanup_worker:
+  class: Vulnerabilities::OrphanedRemediationsCleanupWorker
+  cron: "15 3 * * */6"
+
+vulnerability_statistics_schedule_worker:
+  class: Vulnerabilities::Statistics::ScheduleWorker
+  cron: "15 1,20 * * *"

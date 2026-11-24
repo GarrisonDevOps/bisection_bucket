@@ -1,0 +1,32 @@
+# Template .gitlab/duo/agent-config.yml for SWE-bench seeded projects.
+#
+# One project is created per SWE-bench instance. The project's default branch
+# is reset to exactly base_commit before this config is committed, so the
+# /testbed checkout in the swebench image and $CI_PROJECT_DIR are already in
+# sync — no commit-checkout gymnastics required.
+#
+# The `image` key is injected per-instance by the seeder (derived from instance_id).
+#
+# This config assumes a PRE-BAKED swebench image that already includes:
+#   - Node.js 20 (>= 20.17, required by @gitlab/duo-cli)
+#   - git >= 2.54 (required for `git grep --max-count`)
+#   - conda at /opt/miniconda3 with a `testbed` env activated by default in
+#     login shells (/root/.bashrc sources `conda activate testbed`)
+#   - A repo clone at /testbed already checked out at base_commit
+#
+# `@gitlab/duo-cli` is intentionally NOT pre-baked: its version must track
+# the duo-workflow-service running in the GDK, so the install stays here in
+# the runtime setup_script.
+#
+# Image build tooling and runbook:
+#   https://gitlab.com/gitlab-org/modelops/ai-model-validation-and-research/ai-evaluation/prompt-library/-/blob/main/doc/eval_scenarios/agent_platform/swebench_prebaked_images.md
+#
+# This config is committed to the default branch of every seeded project.
+---
+setup_script:
+  # Replace /testbed with a symlink to $CI_PROJECT_DIR so the pre-installed
+  # conda env and compiled extensions point at the agent's working copy.
+  # Both are already at base_commit so no git checkout is needed.
+  - find /testbed -mindepth 1 -maxdepth 1 -not -name '.git' -exec cp -a {} $CI_PROJECT_DIR/ \; && rm -rf /testbed && ln -s $CI_PROJECT_DIR /testbed
+  # Install @gitlab/duo-cli (not pre-baked; must track the duo-workflow-service version).
+  - npm install -g @gitlab/duo-cli

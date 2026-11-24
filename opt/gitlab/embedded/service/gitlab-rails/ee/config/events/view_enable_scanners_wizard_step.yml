@@ -1,0 +1,18 @@
+---
+description: User viewed a step of the enable scanners wizard
+internal_events: true
+action: view_enable_scanners_wizard_step
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The wizard step being viewed. One of "approach", "items", "scanners", "review", or "confirmation".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242094
+tiers:
+- ultimate

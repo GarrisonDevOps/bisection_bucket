@@ -1,0 +1,10 @@
+---
+migration_job_name: MarkDuplicateDefaultTrackedContextsAsNonDefault
+description: Marks all but one default tracked context of a project as non-default, keeping the context
+  that matches the repository default branch. Projects with no matching context are logged and skipped
+feature_category: vulnerability_management
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259248
+milestone: '19.6'
+queued_migration_version: 20261022180729
+gitlab_schema: gitlab_sec
+finalized_by:

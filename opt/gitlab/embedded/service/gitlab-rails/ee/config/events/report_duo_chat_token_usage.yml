@@ -1,0 +1,18 @@
+---
+description: The AI Gateway reported the tokens one Duo Chat agent turn used, per model
+internal_events: true
+status: active
+action: report_duo_chat_token_usage
+classification: duo
+identifiers:
+- user
+- project
+- namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259818
+tiers:
+- premium
+- ultimate

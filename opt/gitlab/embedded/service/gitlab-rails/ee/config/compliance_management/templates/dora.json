@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "name": "DORA",
+  "description": "DORA compliance requirements",
+  "color": "#004494",
+  "requirements": [
+    {
+      "name": "Article 8 Identification",
+      "description": "2. Financial entities shall, on a continuous basis, identify all sources of ICT risk, in particular the risk exposure to and from other financial entities, and assess cyber threats and ICT vulnerabilities relevant to their ICT supported business functions, information assets and ICT assets. Financial entities shall review on a regular basis, and at least yearly, the risk scenarios impacting them.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Article 9 Protection and prevention",
+      "description": "4. As part of the ICT risk management framework, financial entities shall implement documented policies, procedures and controls for ICT change management. These changes include software, hardware, firmware, systems or security parameters, and must be based on a risk assessment approach as part of the overall change management process.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "minimum_approvals_required_2",
+          "control_type": "internal",
+          "expression": {
+            "field": "minimum_approvals_required",
+            "operator": ">=",
+            "value": 2
+          }
+        },
+        {
+          "name": "merge_request_prevent_author_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_author_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_request_prevent_committers_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_committers_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_requests_approval_rules_prevent_editing",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_requests_approval_rules_prevent_editing",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Article 25 Testing of ICT tools and systems",
+      "description": "1. Digital operational resilience testing programs shall include vulnerability assessments, scans, open source analyses, network security assessments, gap analyses, source code reviews, scenario-based tests, compatibility testing, performance testing, and penetration testing. Testing is required before deployment of applications and infrastructure supporting critical functions.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+---
+name: ai_governance_sessions_api
+description: Return AI governance sessions and external agent identities from the aiGovernanceSessions and aiAgentIdentities GraphQL fields on groups and projects
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630095
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257545
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630933
+milestone: '19.5'
+group: group::ai governance
+type: beta
+default_enabled: true

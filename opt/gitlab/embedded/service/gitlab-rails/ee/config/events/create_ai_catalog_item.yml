@@ -1,0 +1,37 @@
+---
+description: AI Catalog item created successfully
+internal_events: true
+status: active
+action: create_ai_catalog_item
+classification: duo
+identifiers:
+- project
+- user
+additional_properties:
+  label:
+    description: Type of AI catalog item
+  item_type:
+    description: Item type. One of custom_flow, custom_agent, custom_external_agent.
+  item_version:
+    description: Semantic version of the item (e.g. "1.0.0").
+  item_schema_version:
+    description: Flow Schema version (e.g. "v1").
+  custom_item_id:
+    description: Custom item ID.
+  tools:
+    description: Comma-separated built-in tool names used by the item.
+  mcp_tools:
+    description: Comma-separated MCP tool names used by the item.
+  mcp_servers:
+    description: Comma-separated MCP server IDs used by the item.
+  components:
+    description: Comma-separated component types defined in the flow. Custom
+      flows only.
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198512
+tiers:
+- premium
+- ultimate

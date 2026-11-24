@@ -1,0 +1,5 @@
+---
+name: scheduled_scan_default_time_window
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258280
+milestone: '19.6'
+group: group::policy management

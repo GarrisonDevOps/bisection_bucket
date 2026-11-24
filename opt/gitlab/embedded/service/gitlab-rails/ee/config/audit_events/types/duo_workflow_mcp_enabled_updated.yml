@@ -1,0 +1,10 @@
+---
+name: duo_workflow_mcp_enabled_updated
+description: Duo Workflow MCP enabled setting on group changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593025
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/232180
+feature_category: duo_agent_platform
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Group]

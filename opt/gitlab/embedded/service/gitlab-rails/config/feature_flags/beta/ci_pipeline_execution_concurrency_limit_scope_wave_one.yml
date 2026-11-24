@@ -1,0 +1,11 @@
+---
+name: ci_pipeline_execution_concurrency_limit_scope_wave_one
+description: Caps each top-level group or user at a share of the Sidekiq concurrency
+  limit of Ci::CreateDownstreamPipelineWorker, MergeTrains::RefreshWorker and Ci::DropPipelineWorker.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/24422
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268561
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638713
+milestone: '19.6'
+group: group::pipeline execution
+type: beta
+default_enabled: false

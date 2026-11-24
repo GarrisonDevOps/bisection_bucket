@@ -1,0 +1,20 @@
+---
+description: When a (non-author) user requests Duo Code Review to perform a code review on an MR
+internal_events: true
+action: request_review_duo_code_review_on_mr_by_non_author
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: The id of the MR
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/190058
+tiers:
+- premium
+- ultimate

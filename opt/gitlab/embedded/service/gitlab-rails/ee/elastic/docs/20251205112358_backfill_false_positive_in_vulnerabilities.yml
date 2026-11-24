@@ -1,0 +1,10 @@
+---
+name: BackfillFalsePositiveInVulnerabilities
+version: '20251205112358'
+description: Backfills Vulnerabilities Index to populate false_positive field with PostgreSQL data
+group: group::security insights
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213418
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

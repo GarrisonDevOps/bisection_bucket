@@ -1,0 +1,58 @@
+# frozen_string_literal: true
+
+class Create<%= class_name %>States < Gitlab::Database::Migration[<%= migration_version %>]
+  disable_ddl_transaction!
+
+  milestone '<%= milestone %>'
+
+  VERIFICATION_STATE_INDEX_NAME = "index_<%= state_table_name %>_on_verification_state"
+  PENDING_VERIFICATION_INDEX_NAME = "index_<%= state_table_name %>_pending_verification"
+  FAILED_VERIFICATION_INDEX_NAME = "index_<%= state_table_name %>_failed_verification"
+  NEEDS_VERIFICATION_INDEX_NAME = "index_<%= state_table_name %>_needs_verification_id"
+  VERIFICATION_STARTED_INDEX_NAME = "index_<%= state_table_name %>_on_verification_started"
+
+  def up
+    create_table :<%= state_table_name %>, if_not_exists: true do |t|
+      t.datetime_with_timezone :verification_started_at
+      t.datetime_with_timezone :verification_retry_at
+      t.datetime_with_timezone :verified_at
+      t.references :<%= file_name %>,
+        null: false,
+        index: { unique: true }<%= state_inline_foreign_key %>
+<% if sharding_keys.any? -%>
+      <%= sharding_key_column_definition %>
+<% end -%>
+      t.integer :verification_state, default: 0, limit: 2, null: false
+      t.integer :verification_retry_count, default: 0, limit: 2, null: false
+      t.binary :verification_checksum, using: 'verification_checksum::bytea'
+      t.text :verification_failure, limit: 255
+
+      t.index :verification_state, name: VERIFICATION_STATE_INDEX_NAME
+      t.index :verified_at,
+        where: "(verification_state = 0)",
+        order: { verified_at: 'ASC NULLS FIRST' },
+        name: PENDING_VERIFICATION_INDEX_NAME
+      t.index :verification_retry_at,
+        where: "(verification_state = 3)",
+        order: { verification_retry_at: 'ASC NULLS FIRST' },
+        name: FAILED_VERIFICATION_INDEX_NAME
+      t.index [:<%= foreign_key_name %>, :verification_started_at],
+        where: "(verification_state = 1)",
+        name: VERIFICATION_STARTED_INDEX_NAME
+      t.index :<%= foreign_key_name %>,
+        where: "((verification_state = 0) OR (verification_state = 3))",
+        name: NEEDS_VERIFICATION_INDEX_NAME
+<% if sharding_keys.any? -%>
+      <%= sharding_key_index_definition %>
+<% end -%>
+    end
+
+<% state_fk_lines.each do |line| -%>
+    <%= line %>
+<% end -%>
+  end
+
+  def down
+    drop_table :<%= state_table_name %>
+  end
+end

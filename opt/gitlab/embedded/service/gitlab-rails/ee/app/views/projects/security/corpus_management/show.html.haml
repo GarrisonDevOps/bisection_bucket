@@ -1,0 +1,9 @@
+- add_to_breadcrumbs _('Security configuration'), project_security_configuration_path(@project)
+- breadcrumb_title s_('CorpusManagement|Fuzz testing corpus management')
+- page_title s_('CorpusManagement|Fuzz testing corpus management')
+
+.js-corpus-management{ data: {project_full_path: @project.full_path,
+            empty_state_svg_path: image_path('illustrations/empty-todos-md.svg'),
+            can_upload_corpus: can?(current_user, :create_package, @project).to_s,
+            can_read_corpus: can?(current_user, :read_package, @project&.packages_policy_subject).to_s,
+            can_destroy_corpus: can?(current_user, :destroy_package, @project).to_s } }

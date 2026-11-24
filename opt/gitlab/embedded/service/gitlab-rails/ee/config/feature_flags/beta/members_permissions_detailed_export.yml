@@ -1,0 +1,9 @@
+---
+name: members_permissions_detailed_export
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/460477
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157296
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/467359
+milestone: '17.4'
+group: group::authorization
+type: beta
+default_enabled: false

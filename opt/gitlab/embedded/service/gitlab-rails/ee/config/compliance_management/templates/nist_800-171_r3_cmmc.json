@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "name": "NIST 800-171 Rev. 3 CMMC",
+  "description": "NIST 800-171 Rev. 3 CMMC compliance requirements",
+  "color": "#003E74",
+  "requirements": [
+    {
+      "name": "03.01.04 Separation of Duties",
+      "description": "a) Identify the duties of individuals requiring separation. b) Define system access authorizations to support separation of duties.",
+      "controls": [
+        {
+          "name": "minimum_approvals_required_2",
+          "control_type": "internal",
+          "expression": {
+            "field": "minimum_approvals_required",
+            "operator": ">=",
+            "value": 2
+          }
+        },
+        {
+          "name": "merge_request_prevent_author_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_author_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_request_prevent_committers_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_committers_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_requests_approval_rules_prevent_editing",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_requests_approval_rules_prevent_editing",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "03.04.04 Impact Analyses",
+      "description": "a) Analyze changes to the system to determine potential security impacts prior to change implementation. b) Verify that the security requirements for the system continue to be satisfied after the system changes have been implemented.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "03.04.05 Access Restrictions for Change",
+      "description": "a) Define, document, approve, and enforce physical and logical access restrictions associated with changes to the system.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "03.04.10 System Component Inventory",
+      "description": "a) Develop and document an inventory of system components. b) Review and update the system component inventory (organization-defined frequency). c) Update the system component inventory as part of installations, removals, and system updates.",
+      "controls": [
+        {
+          "name": "scanner_license_compliance_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_license_compliance_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "03.05.07 Password Management",
+      "description": "b) Verify that passwords are not found on the list of commonly used, expected, or compromised passwords when users create or update passwords. c) Transmit passwords only over cryptographically protected channels. d) Store passwords in a cryptographically protected form.",
+      "controls": [
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "03.11.02 Vulnerability Monitoring and Scanning",
+      "description": "a) Monitor and scan the system for vulnerabilities (organization-defined frequency) and when new vulnerabilities affecting the system are identified. c) Update system vulnerabilities to be scanned (organization-defined frequency) and when new vulnerabilities are identified and reported.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

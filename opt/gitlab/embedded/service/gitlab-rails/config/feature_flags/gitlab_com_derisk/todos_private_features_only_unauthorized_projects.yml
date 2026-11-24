@@ -1,0 +1,9 @@
+---
+name: todos_private_features_only_unauthorized_projects
+description: Only enqueue TodosDestroyer::PrivateFeaturesWorker for projects the user can no longer access
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268756
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638830
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

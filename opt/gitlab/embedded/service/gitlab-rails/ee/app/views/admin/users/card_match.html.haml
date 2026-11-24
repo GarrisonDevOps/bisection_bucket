@@ -1,0 +1,54 @@
+- add_to_breadcrumbs _('Users'), admin_users_path
+- add_to_breadcrumbs @user.name, admin_user_path(@user)
+- breadcrumb_title _('All users with matching cards')
+- page_title @user.name, _('All users with matching cards')
+- stripe_time_zone = 'America/Los_Angeles'
+- stripe_time_format = '%b %-d, %-I:%M%P %Z'
+
+.gl-flex.gl-flex-wrap.gl-justify-between.gl-items-center.gl-py-3.gl-mb-5.gl-border-b-solid.gl-border-default.gl-border-b-1
+  .gl-my-3
+    %h1.page-title.gl-text-size-h-display.gl-m-0
+      = @user.name
+      \-
+      = _("All users with matching cards")
+
+.row
+  - if @similar_credit_card_validations.present?
+    .gl-col-md-12
+      %table.gl-table
+        %thead
+          %th= _('ID')
+          %th= _('User')
+          %th= _('Name')
+          %th.gl-text-right= _('Validated at')
+          %th.gl-text-right= _('User created at')
+          %th.gl-text-right= _('Current sign-in ip')
+        - @similar_credit_card_validations.each do |credit_card_validation|
+          - user = credit_card_validation.user
+          - validated_at = user.credit_card_validated_at
+          %tr
+            %td
+              = user.id
+            %td
+              = link_to(user.username, admin_user_path(user))
+              - if user == @user
+                = render Pajamas::BadgeComponent.new(_('This user'), variant: 'neutral')
+              - if user.banned?
+                = render Pajamas::BadgeComponent.new(_('Banned'), variant: 'danger')
+              - elsif user.blocked?
+                = render Pajamas::BadgeComponent.new(_('Blocked'), variant: 'danger')
+            %td
+              = user.name
+            %td.gl-text-right
+              = validated_at.to_fs(:medium)
+              \/
+              = validated_at.in_time_zone(stripe_time_zone).strftime(stripe_time_format)
+            %td.gl-text-right= user.created_at.to_fs(:medium)
+            %td.gl-text-right
+              - if user.current_sign_in_ip
+                = user.current_sign_in_ip
+                = link_to sprite_icon('earth'), "https://api.hostip.info/country.php?ip=#{user.current_sign_in_ip}", target: '_blank', rel: 'noreferrer'
+      %p.gl-mt-5= _('* All times are in UTC unless specified')
+      = paginate @similar_credit_card_validations, theme: 'gitlab'
+
+

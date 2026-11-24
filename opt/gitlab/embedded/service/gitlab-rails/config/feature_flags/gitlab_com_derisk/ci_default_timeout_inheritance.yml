@@ -1,0 +1,10 @@
+---
+name: ci_default_timeout_inheritance
+description: Apply timeout defined in the CI/CD default section to jobs that do not define their own timeout.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/213634
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266852
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637618
+milestone: '19.6'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

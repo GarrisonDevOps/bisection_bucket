@@ -1,0 +1,5 @@
+- add_to_breadcrumbs _('Packages and registries settings'), group_settings_packages_and_registries_path(@group)
+- breadcrumb_title s_('VirtualRegistry|Virtual registry cache cleanup policy')
+- page_title s_('VirtualRegistry|Virtual registry cache cleanup policy'), _('Packages and registries settings')
+
+#js-virtual-registries-cleanup-policy-form{ data: { provide: { groupPath: @group.full_path, settingsPath: group_settings_packages_and_registries_path(@group) }.to_json } }

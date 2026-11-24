@@ -1,0 +1,5 @@
+---
+name: marketing_site_language
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/166536
+milestone: '17.5'
+group: group::acquisition

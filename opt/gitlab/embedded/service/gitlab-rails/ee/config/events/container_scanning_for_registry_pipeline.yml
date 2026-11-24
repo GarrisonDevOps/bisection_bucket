@@ -1,0 +1,19 @@
+---
+description: Container Scanning pipeline for registry images was triggered
+internal_events: true
+action: container_scanning_for_registry_pipeline
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: Status of the pipeline schedule operation.
+product_group: composition_analysis
+product_categories:
+- container_scanning
+- software_composition_analysis
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154285
+tiers:
+- ultimate

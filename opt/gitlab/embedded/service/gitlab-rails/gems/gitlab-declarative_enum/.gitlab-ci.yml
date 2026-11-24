@@ -1,0 +1,7 @@
+include:
+  - local: gems/gem.gitlab-ci.yml
+    inputs:
+      gem_name: "gitlab-declarative_enum"
+      # TODO: reserve the gem name on RubyGems, then drop this.
+      # https://docs.gitlab.com/ee/development/gems.html#reserve-a-gem-name
+      skip_gem_validation: true

@@ -1,0 +1,5 @@
+---
+name: prevent_enterprise_user_account_deletion
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/241926
+milestone: '19.3'
+group: group::authentication

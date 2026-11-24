@@ -1,0 +1,9 @@
+- add_to_breadcrumbs _('Geo sites'), admin_geo_nodes_path
+- page_title @replicator_class.replicable_title_plural
+
+#js-geo-replicable{ data: { "replicable_types" => replicable_types.to_json,
+  "replicator-class-data" => replicable_class_data(@replicator_class).to_json,
+  "geo-target-site-name" => @target_node&.name,
+  "geo-target-site-id" => @target_node&.id,
+  "geo-current-site-id" => @current_node&.id,
+  "replicable-base-path" => site_replicables_admin_geo_node_path(@target_node&.id, replicable_name_plural: @replicator_class.replicable_name_plural) } }

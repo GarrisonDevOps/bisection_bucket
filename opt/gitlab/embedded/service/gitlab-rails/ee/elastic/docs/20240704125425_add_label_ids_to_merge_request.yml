@@ -1,0 +1,10 @@
+---
+name: AddLabelIdsToMergeRequest
+version: '20240704125425'
+description: Support for indexing and searching labels for merge request documents
+group: group::global search
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/159377
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178350
+marked_obsolete_in_milestone: '17.9'

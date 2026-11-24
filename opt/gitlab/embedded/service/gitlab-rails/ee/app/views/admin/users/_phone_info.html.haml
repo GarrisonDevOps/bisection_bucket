@@ -1,0 +1,19 @@
+- return if !Gitlab::Saas.feature_available?(:identity_verification)
+- phone_number_validation = user.phone_number_validation
+= render Pajamas::CardComponent.new(card_options: { class: 'gl-mb-5' }, body_options: { class: 'gl-py-0'}) do |c|
+  - c.with_header do
+    = _('Phone')
+    - if local_assigns[:link_to_match_page] && phone_number_validation&.phone_number
+      .gl-float-right.gl-text-sm
+        = link_to phone_match_admin_user_path(user) do
+          = _('View phone number matches')
+  - c.with_body do
+    %ul.content-list
+      %li#phone-status
+        %span= phone_number_validation&.validated_at? ? _('Validated at:') : _('Validated:')
+        %strong= phone_number_validation&.validated_at&.to_fs(:medium) || _('No')
+      - if phone_number_validation&.phone_number
+        %li#phone-number
+          %span= _('Last attempted number:')
+          %strong
+            = "+#{phone_number_validation&.international_dial_code} #{phone_number_validation&.phone_number} (#{phone_number_validation&.country})"

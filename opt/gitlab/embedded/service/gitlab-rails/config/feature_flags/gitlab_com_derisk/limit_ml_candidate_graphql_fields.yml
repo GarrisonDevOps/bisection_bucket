@@ -1,0 +1,9 @@
+---
+name: limit_ml_candidate_graphql_fields
+description: Resolve the metrics, params and metadata of at most one ML candidate per GraphQL query
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263960
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635197
+milestone: '19.6'
+group: group::mlops
+type: gitlab_com_derisk
+default_enabled: false

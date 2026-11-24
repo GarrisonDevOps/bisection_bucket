@@ -1,0 +1,10 @@
+---
+name: ai_governance_tool_calls
+description: Show the tool calls summary tile, the Top tools used by agents card and the Tool calls by risk card on the AI Governance dashboard
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/618956
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632775
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/256578
+milestone: '19.5'
+group: group::ai governance
+type: beta
+default_enabled: true

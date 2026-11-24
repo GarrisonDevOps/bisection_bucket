@@ -1,0 +1,11 @@
+%p.details
+  = html_escape(_('%{user} created an epic: %{epic_link}')) % { user: link_to(@epic.author_name, user_url(@epic.author)),
+                                                                epic_link: link_to(@epic.to_reference, group_epic_url(@epic.group, @epic)) }
+
+- if @epic.assignee
+  %p
+    = assignees_label(@epic)
+
+- if @epic.description
+  .md
+    = markdown(@epic.description, pipeline: :email, author: @epic.author, current_user: @recipient, issuable_reference_expansion_enabled: true)

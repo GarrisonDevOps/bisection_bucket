@@ -1,0 +1,10 @@
+---
+name: user_can_create_group_updated
+description: A user's ability to create groups is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/603254
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240990
+milestone: '19.2'
+feature_category: user_profile
+saved_to_database: true
+streamed: true
+scope: [User, Group]

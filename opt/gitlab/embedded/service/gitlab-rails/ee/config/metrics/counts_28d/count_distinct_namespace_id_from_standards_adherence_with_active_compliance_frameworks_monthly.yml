@@ -1,0 +1,19 @@
+key_path: redis_hll_counters.count_distinct_namespace_id_from_standards_adherence_with_active_compliance_frameworks_monthly
+description: Monthly count of unique namespaces visits with standards adherence report
+product_group: compliance
+product_categories:
+- compliance_management
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168865
+value_type: number
+data_source: internal_events
+data_category: optional
+status: active
+milestone: '17.6'
+time_frame: 28d
+tiers:
+- ultimate
+events:
+- name: visit_standards_adherence
+  unique: namespace.id
+  filter:
+    property: with_active_compliance_frameworks

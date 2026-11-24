@@ -1,0 +1,17 @@
+---
+description: User views expired paid subscription promo in AI panel
+internal_events: true
+status: active
+action: view_duo_agentic_subscription_expired_empty_state
+identifiers:
+  - user
+  - namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233096
+tiers:
+- premium
+- ultimate
+classification: duo

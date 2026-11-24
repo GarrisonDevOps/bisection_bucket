@@ -1,0 +1,17 @@
+---
+key_path: block_seat_overage_enabled
+description: Whether block seat overage feature is enabled.
+product_group: seat_management
+product_categories:
+- seat_cost_management
+value_type: boolean
+status: active
+milestone: "17.8"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177262
+time_frame: none
+data_source: system
+data_category: optional
+instrumentation_class: BlockSeatOverageEnabledMetric
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,7 @@
+- configuration_text = s_('AiPowered|Model selection')
+- page_title configuration_text
+- breadcrumb_title configuration_text
+- add_to_breadcrumbs _('GitLab Duo'), group_settings_gitlab_duo_path(@group)
+- add_page_specific_style 'page_bundles/settings'
+
+#js-gitlab-duo-model-selection{ data: { view_model: group_model_selection_view_model(@group).to_json } }

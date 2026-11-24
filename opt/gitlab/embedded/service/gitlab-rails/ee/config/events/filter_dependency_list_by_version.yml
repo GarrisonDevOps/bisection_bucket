@@ -1,0 +1,15 @@
+---
+description: Triggered when a user filter by version in the dependency list page.
+internal_events: true
+action: filter_dependency_list_by_version
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: vulnerability_management
+product_categories:
+  - dependency_management
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189356
+tiers:
+  - ultimate

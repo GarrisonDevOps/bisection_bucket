@@ -1,0 +1,12 @@
+---
+version: 1
+type: SingleStat
+data:
+  type: dora_metrics
+  query:
+    metric: deployment_frequency
+    dateRange: 180d
+    interval: ALL
+options:
+  unit: per_day
+  decimalPlaces: 1

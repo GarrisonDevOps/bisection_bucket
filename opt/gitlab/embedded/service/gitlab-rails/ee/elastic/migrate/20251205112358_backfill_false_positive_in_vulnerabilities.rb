@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+class BackfillFalsePositiveInVulnerabilities < Elastic::Migration
+  include ::Search::Elastic::MigrationDatabaseBackfillHelper
+
+  batch_size 30_000
+  batched!
+  throttle_delay 30.seconds
+  retry_on_failure
+
+  DOCUMENT_TYPE = ::Vulnerabilities::Read
+
+  # Vulnerabilities do not honour this setting.
+  def respect_limited_indexing?
+    false
+  end
+
+  def item_to_preload
+    { project: :namespace }
+  end
+end

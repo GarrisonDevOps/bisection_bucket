@@ -1,0 +1,56 @@
+---
+stage: Plan
+group: Work Items
+info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/marketing/product-and-technical-marketing/technical-writing/#assignments>
+title: External issue trackers
+description: Configure an external issue tracker for a GitLab project to reference and link issues from tools like Bugzilla or YouTrack.
+---
+
+{{< details >}}
+
+- Tier: Free, Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+GitLab has its own [issue tracker](../user/project/issues/_index.md),
+but you can also configure an external issue tracker per GitLab project.
+You can then use:
+
+- The external issue tracker with the GitLab issue tracker
+- The external issue tracker only
+
+With an external tracker, you can use the format `CODE-123` to mention
+external issues in GitLab merge requests, commits, and comments where:
+
+- `CODE` is a unique code for the tracker.
+- `123` is the issue number in the tracker.
+
+References are displayed as issue links.
+
+## Disable the GitLab issue tracker
+
+To turn off work items for a project, including the GitLab issue tracker:
+
+1. In the top bar, select **Search or go to** and find your project.
+1. In the left sidebar, select **Settings** > **General**.
+1. Expand **Visibility, project features, permissions**.
+1. Under **Work items**, turn off the toggle.
+1. Select **Save changes**.
+
+After you turn off the work items setting, **Work items** is not visible in the left sidebar.
+If you've configured an [external issue tracker](#configure-an-external-issue-tracker), it remains in the left sidebar.
+
+## Configure an external issue tracker
+
+You can configure any of the following external issue trackers:
+
+- [Bugzilla](../user/project/integrations/bugzilla.md)
+- [ClickUp](../user/project/integrations/clickup.md)
+- [Custom issue tracker](../user/project/integrations/custom_issue_tracker.md)
+- [Engineering Workflow Management (EWM)](../user/project/integrations/ewm.md)
+- [Jira](jira/_index.md)
+- [Linear](../user/project/integrations/linear.md)
+- [Phorge](../user/project/integrations/phorge.md)
+- [Redmine](../user/project/integrations/redmine.md)
+- [YouTrack](../user/project/integrations/youtrack.md)

@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy content for scan_execution_policy type",
+  "type": "object",
+  "properties": {
+    "actions": {
+      "type": "array",
+      "description": "Specifies a list of scans that should be enforced in this policy.",
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "scan": {
+            "description": "The type of scan that should be enforced to run. Available: `sast`, `sast_iac`, `dast`, `secret_detection`, `container_scanning`, `dependency_scanning`.",
+            "enum": [
+              "dast",
+              "secret_detection",
+              "container_scanning",
+              "cluster_image_scanning",
+              "sast",
+              "dependency_scanning",
+              "sast_iac",
+              "business_logic"
+            ],
+            "type": "string"
+          },
+          "scanner_profile": {
+            "description": "A name of the DAST Scanner Profile to be used to execute DAST scan. Supported only when `scan` is set to `dast`.",
+            "type": "string"
+          },
+          "site_profile": {
+            "description": "A name of the DAST Site Profile to be used to execute DAST scan. Supported only when `scan` is set to `dast`.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "variables": {
+            "type": "object",
+            "description": "Defines environment variables for specific security jobs. Job level property overrides global variables.",
+            "additionalProperties": false,
+            "patternProperties": {
+              "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                "type": "string"
+              }
+            }
+          },
+          "tags": {
+            "type": "array",
+            "additionalItems": false,
+            "description": "Defines the runner tags to which the security jobs has to execute.",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "template": {
+            "description": "The type of the CI template that should be used to enforce the scan. Available: `default` and `latest`. In addition to these options, versioned templates can be used with `dependency_scanning`  in the format `v1`, `v2`, etc.",
+            "type": "string"
+          },
+          "scan_settings": {
+            "description": "The customizable options for enforced scan.",
+            "type": "object",
+            "properties": {
+              "ignore_default_before_after_script": {
+                "description": "Specifies whether to preserve default before_script and after_script values.",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "scan": {
+                  "const": "dast"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "site_profile"
+              ],
+              "maxProperties": 7
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scan": {
+                  "const": "secret_detection"
+                }
+              }
+            },
+            "then": {
+              "maxProperties": 5
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scan": {
+                  "const": "cluster_image_scanning"
+                }
+              }
+            },
+            "then": {
+              "maxProperties": 5
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scan": {
+                  "const": "dependency_scanning"
+                }
+              }
+            },
+            "then": {
+              "maxProperties": 5,
+              "properties": {
+                "template": {
+                  "oneOf": [
+                    {
+                      "enum": [
+                        "default",
+                        "latest"
+                      ]
+                    },
+                    {
+                      "pattern": "^v\\d+$"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scan": {
+                  "const": "sast"
+                }
+              }
+            },
+            "then": {
+              "maxProperties": 5
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scan": {
+                  "not": {
+                    "enum": [
+                      "dependency_scanning"
+                    ]
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "template": {
+                  "enum": [
+                    "default",
+                    "latest"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "additionalProperties": false
+      }
+    },
+    "skip_ci": {
+      "description": "Defines whether it should be allowed to use skip_ci directive when policy is enforced.",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "allowlist": {
+          "type": "object",
+          "description": "A list of user IDs that are allowed to use skip_ci if it is generally not allowed.",
+          "properties": {
+            "users": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "allowed"
+      ]
+    },
+    "no_pipeline": {
+      "description": "Defines whether it should be allowed to use no_pipeline directive when policy is enforced.",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "allowlist": {
+          "type": "object",
+          "description": "A list of user IDs that are allowed to use no_pipeline if it is generally not allowed.",
+          "properties": {
+            "users": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "allowed"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

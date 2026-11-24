@@ -1,0 +1,18 @@
+description: "Toggle swimlanes"
+category: default
+action: click_toggle_swimlanes_button
+extra_properties:
+identifiers:
+product_group: planning_views
+product_categories:
+- planning_views
+milestone: "13.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/42327
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`toggle_swimlanes`"
+  property:
+    description: "`[on | off]`"

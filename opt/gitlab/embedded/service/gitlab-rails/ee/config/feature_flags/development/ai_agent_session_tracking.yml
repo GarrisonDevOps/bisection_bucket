@@ -1,0 +1,9 @@
+---
+name: ai_agent_session_tracking
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/603405
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245529
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/603405
+milestone: '19.3'
+group: group::compliance
+type: development
+default_enabled: true

@@ -1,0 +1,7 @@
+- disabled = local_assigns.fetch(:disabled, false)
+
+- if license_allows_auditor_user?
+  = f.gitlab_ui_radio_component :access_level, :auditor,
+    s_('AdminUsers|Auditor'),
+    radio_options: { disabled: disabled },
+    help_text: s_('AdminUsers|Auditors have read-only access to all groups, projects, and users.')

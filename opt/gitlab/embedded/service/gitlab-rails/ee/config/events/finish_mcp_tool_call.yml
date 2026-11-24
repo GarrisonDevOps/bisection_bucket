@@ -1,0 +1,39 @@
+---
+description: Tracks MCP tool call finish event
+internal_events: true
+action: finish_mcp_tool_call
+classification: duo
+identifiers:
+- user
+- namespace
+product_group: ai_model_services
+product_categories:
+- duo_agent_platform
+extra_trackers:
+- tracking_class: Gitlab::Tracking::AiTracking
+additional_properties:
+  request_id:
+    description: JSON-RPC request id of the tool call. The MCP Server is stateless and does not issue session ids.
+  tool_name:
+    description: Name of the MCP tool being called
+  canonical_tool_name:
+    description: Canonical name of the MCP tool when the call used an alias. Not set when the call used the canonical name.
+  has_tool_call_success:
+    description: Whether the tool call was successful
+  failure_reason:
+    description: Failure category when the tool call failed. Uses the same value as the `tool_status` field in `mcp.log`. One of `bad_request`, `unauthorized`, `not_found`, or `error`. Not set on successful calls, where `tool_status` is `ok` in the log.
+  error_status:
+    description: Error status if the tool call failed
+  mcp_client_name:
+    description: The MCP client name, from the clientInfo in the request _meta or else the User-Agent
+  mcp_client_version:
+    description: The MCP client version, from the same source as mcp_client_name
+  dispatched_tool_name:
+    description: For aggregated tools, the name of the sub-tool the call was dispatched to, for example gitlab_search_in_project. Not set for other tools.
+  normalized_arguments:
+    description: Comma-separated list of the argument rewrites applied before the tool ran, for example id->project_id. Not set when no argument was rewritten.
+milestone: '18.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/issues/574629
+tiers:
+- premium
+- ultimate

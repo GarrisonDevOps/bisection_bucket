@@ -1,0 +1,19 @@
+---
+token_type: "FlutterwaveProdSecretKey"
+class_name: "FlutterwaveClient"
+partner_name: "flutterwave"
+endpoint: "https://api.flutterwave.com/v3/balances"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\AFLWSECK-[0-9A-Ha-h]{32}-X\z'
+sample_token: "FLWSECK-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-X"
+rate_limit_key: "partner_flutterwave_api"
+doc_url: "https://developer.flutterwave.com/reference/get-all-wallet-balances"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

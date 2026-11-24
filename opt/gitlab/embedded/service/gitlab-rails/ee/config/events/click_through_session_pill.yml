@@ -1,0 +1,29 @@
+---
+description: Duo Agentic Chat user clicks through a pinned active session pill
+internal_events: true
+status: active
+action: click_through_session_pill
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  workflow_id:
+    description: Workflow identifier associated with the clicked pill
+  session_id:
+    description: Unique identifier of the chat session where the pill was clicked
+  flow_type:
+    description: Agent or flow type associated with the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.1'
+introduced_by_url:
+tiers:
+- premium
+- ultimate
+classification: duo

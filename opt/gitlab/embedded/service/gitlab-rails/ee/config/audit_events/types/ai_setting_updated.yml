@@ -1,0 +1,10 @@
+---
+name: ai_setting_updated
+description: An AI setting is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593015
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230001
+feature_category: ai_abstraction_layer
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Instance]

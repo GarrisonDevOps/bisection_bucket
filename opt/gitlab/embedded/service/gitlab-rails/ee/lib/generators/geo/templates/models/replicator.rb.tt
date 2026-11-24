@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+module Geo
+  class <%= replicator_class_name %> < Gitlab::Geo::Replicator
+    include ::Geo::BlobReplicatorStrategy
+<%= replicator_strategy_includes -%>
+
+    def self.model
+      <%= replicator_model_reference %>
+    end
+
+    # @return [String] human-readable title.
+    def self.replicable_title
+      s_('Geo|<%= replicable_title %>')
+    end
+
+    # @return [String] pluralized human-readable title.
+    def self.replicable_title_plural
+      s_('Geo|<%= replicable_title_plural %>')
+    end
+<% unless upload_partition? -%>
+
+    def carrierwave_uploader
+      <%= carrierwave_uploader_body %>
+    end
+<% end -%>
+  end
+end

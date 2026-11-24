@@ -1,0 +1,18 @@
+---
+key_path: counts.zoekt_nodes
+description: Total number of online Zoekt nodes on an instance
+product_group: global_search
+product_categories:
+- global_search
+value_type: number
+status: active
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234365
+time_frame: all
+data_source: database
+instrumentation_class: CountZoektNodesMetric
+data_category: optional
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

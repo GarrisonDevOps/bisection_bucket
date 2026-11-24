@@ -1,0 +1,12 @@
+---
+name: BackfillDismissedVulnerabilities
+version: '20260409000000'
+description: Backfill dismissed vulnerabilities in the Elasticsearch index to correct stale state from bulk dismiss bug
+group: group::security insights
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230706
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:
+skippable: false
+skip_condition:

@@ -1,0 +1,19 @@
+- return unless ::ServiceDesk::PaidNamespaceProbation.configurable?
+
+= render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|Service Desk email limits for new paid namespaces'),
+  id: 'js-service-desk-paid-namespace-probation-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('AdminSettings|Apply the Free plan Service Desk email rate limits to a top-level namespace for a number of days after it moves to a paid plan.')
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-service-desk-paid-namespace-probation-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+
+      %fieldset
+        .form-group
+          = f.label :service_desk_paid_namespace_probation_days, s_('AdminSettings|Days with Free plan limits'), class: 'label-bold'
+          = f.number_field :service_desk_paid_namespace_probation_days, min: 0, max: 365, class: 'form-control gl-form-input'
+          .form-text.gl-text-subtle
+            = s_('AdminSettings|Set to 0 to apply the paid plan limits immediately.')
+
+      = f.submit _('Save changes'), pajamas_button: true

@@ -1,0 +1,18 @@
+---
+description: Container file pulled through a container virtual registry
+internal_events: true
+action: pull_container_file_through_virtual_registry
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Whether the upstream or the cache was used to fulfill the file request (one of from_upstream, from_cache)
+product_group: container_registry
+product_categories:
+  - virtual_registry
+milestone: '18.7'
+introduced_by_url:
+tiers:
+  - premium
+  - ultimate

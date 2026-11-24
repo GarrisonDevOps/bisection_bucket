@@ -1,0 +1,16 @@
+- ai_gateway_url = @instance_configuration.settings[:ai_gateway_url]
+- content_for :table_content do
+  %li
+    = link_to _('AI gateway URL'), '#ai_gateway_url'
+
+- content_for :settings_content do
+  %h2#ai_gateway_url
+    = _('AI gateway URL')
+
+  - if ai_gateway_url.blank?
+    %p
+      = _('No AI gateway available.')
+  - else
+    %p
+      = _('AI Gateway URL:')
+      = link_to ai_gateway_url, ai_gateway_url, target: '_blank', rel: 'noopener noreferrer'

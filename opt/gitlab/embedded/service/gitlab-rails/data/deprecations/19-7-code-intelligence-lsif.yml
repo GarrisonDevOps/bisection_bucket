@@ -1,0 +1,34 @@
+- title: "Code intelligence (LSIF) is deprecated"
+  removal_milestone: "20.0"
+  announcement_milestone: "19.7"
+  breaking_change: true
+  window:
+  reporter: phikai
+  stage: AI Coding
+  issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638863
+  impact: low
+  impact_offering: [GitLab.com, Dedicated, self-managed]
+  scope: project
+  resolution_role: Maintainer
+  manual_task: false
+  body: |  # (required) Don't change this line.
+    [Code intelligence](https://docs.gitlab.com/user/project/code_intelligence/), which shows definitions and
+    references from an uploaded LSIF report, is deprecated in GitLab 19.7 and will be removed in GitLab 20.0.
+    Use [code navigation](https://docs.gitlab.com/user/project/code_navigation/) instead.
+    Code navigation reads the knowledge graph from GitLab Orbit, so it doesn't need an indexer or a CI/CD job.
+    Code navigation is available in GitLab Premium and Ultimate.
+
+    In GitLab 20.0:
+
+    - Code intelligence information no longer appears in the repository file view or in merge request diffs.
+    - Jobs that use `artifacts:reports:lsif` keep running and passing. GitLab accepts the report but doesn't process it.
+    - The `code_intelligence_go` job is removed from the Auto DevOps template.
+    - The GraphQL field `RepositoryBlob.codeNavigationPath` and the `ci_max_artifact_size_lsif` plan limit are removed.
+    - The `lsif` job artifact type remains, so you can still list and download existing artifacts until they expire.
+
+    No action is required to keep your pipelines working. After you set up code navigation, you can
+    remove the job that uploads `artifacts:reports:lsif`, or the `code-intelligence` CI/CD component,
+    to save compute minutes.
+
+    The removal depends on code navigation being available on GitLab Self-Managed and GitLab Dedicated.
+    If code navigation isn't available on those offerings by GitLab 20.0, the removal moves to the next major release.

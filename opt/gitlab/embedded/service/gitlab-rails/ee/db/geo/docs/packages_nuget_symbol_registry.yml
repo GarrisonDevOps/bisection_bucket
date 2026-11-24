@@ -1,0 +1,10 @@
+---
+table_name: packages_nuget_symbol_registry
+description: Geo registry table for tracking replication and verification of Packages::Nuget::Symbol objects
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203221
+milestone: '18.4'
+feature_categories:
+- geo_replication
+classes:
+- Geo::PackagesNugetSymbolRegistry
+gitlab_schema: gitlab_geo

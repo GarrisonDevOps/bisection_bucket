@@ -1,0 +1,34 @@
+- wiki_syntax_link_url = 'https://github.com/google/re2/wiki/Syntax'
+- wiki_syntax_link = link_to('', wiki_syntax_link_url, target: '_blank', rel: 'noopener noreferrer')
+- if @project.licensed_feature_available?(:repository_mirrors)
+  .form-group.gl-mt-5
+    = label_tag do
+      = _('Mirror branches')
+      .gl-font-normal.form-text.gl-text-subtle
+        = _('Choose which branches should be mirrored')
+    = render Pajamas::RadioTagComponent.new(name: :mirror_branch_setting,
+        label: _('Mirror all branches'),
+        value: :all,
+        checked: true,
+        radio_options: { class: 'js-mirror-branch-setting' }) do |c|
+      = c.with_help_text do
+        = _("If enabled, all branches will be mirrored.")
+        = link_to _('Learn more.'), help_page_path('user/project/repository/mirror/_index.md'), target: '_blank', rel: 'noopener noreferrer'
+    = render Pajamas::RadioTagComponent.new(name: :mirror_branch_setting,
+        label: _('Mirror only protected branches'),
+        value: :protected,
+        radio_options: { class: 'js-mirror-branch-setting' }) do |c|
+      = c.with_help_text do
+        = _('If enabled, only protected branches will be mirrored.')
+        = link_to _('Learn more.'), help_page_path('user/project/repository/mirror/_index.md', anchor: 'mirror-only-protected-branches'), target: '_blank', rel: 'noopener noreferrer'
+    = render Pajamas::RadioTagComponent.new(name: :mirror_branch_setting,
+      value: :regex,
+      help_text: safe_format(_('All branch names must match %{link_start}this regular expression%{link_end}. If empty, any branch name is allowed.'),
+        tag_pair(wiki_syntax_link, :link_start, :link_end)),
+      radio_options: { class: 'js-mirror-branch-setting' }) do |c|
+      = c.with_label do
+        = _('Mirror specific branches')
+        = text_field_tag :mirror_branch_regex, nil, class: 'form-control gl-form-input gl-mt-2  js-mirror-branch-regex gl-form-input-xl', placeholder: _('Example') + ':(feature|hotfix)\/.*', disabled: true
+
+- else
+  = render_ce 'projects/mirrors/branch_filter'

@@ -1,0 +1,24 @@
+---
+token_type: "Rubygem API token"
+class_name: "RubygemsClient"
+partner_name: "rubygems"
+endpoint: "https://rubygems.org/api/v1/gems.json"
+http_method: "get"
+# RubyGems takes the raw key as the Authorization value, with no scheme.
+auth_style: "header"
+auth_param: "Authorization"
+token_pattern: '\Arubygems_[a-f0-9]{48}\z'
+# Filler characters only, never a real credential.
+sample_token: "rubygems_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_rubygems_api"
+doc_url: "https://guides.rubygems.org/rubygems-org-api/"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  # A live key without the index_rubygems scope gets 403.
+  "403": "unknown"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

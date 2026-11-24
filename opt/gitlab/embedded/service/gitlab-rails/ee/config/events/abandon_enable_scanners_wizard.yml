@@ -1,0 +1,18 @@
+---
+description: User confirmed exit from the enable scanners wizard without applying a configuration
+internal_events: true
+action: abandon_enable_scanners_wizard
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The wizard step the user abandoned from. One of "approach", "items", "scanners", or "review".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242094
+tiers:
+- ultimate

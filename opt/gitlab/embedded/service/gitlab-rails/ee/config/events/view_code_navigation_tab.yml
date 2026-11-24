@@ -1,0 +1,21 @@
+---
+description: A user viewed the References or Calls tab for a symbol in the Code Navigation
+  panel
+internal_events: true
+status: active
+action: view_code_navigation_tab
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: The tab that was viewed, either references or calls
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252848
+tiers:
+- premium
+- ultimate

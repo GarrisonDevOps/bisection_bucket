@@ -1,0 +1,8 @@
+- return unless google_tag_manager_enabled?
+
+- content_for :page_specific_javascripts do
+  = render "layouts/google_tag_manager_head"
+  -# GA needs OneTrust for storing cookies
+  = render "layouts/one_trust"
+
+= render "layouts/google_tag_manager_body"

@@ -1,0 +1,5 @@
+---
+name: admin_homepage
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206597
+milestone: '18.5'
+group: group::engagement

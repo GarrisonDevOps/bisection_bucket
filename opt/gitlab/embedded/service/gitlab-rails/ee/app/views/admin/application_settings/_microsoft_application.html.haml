@@ -1,0 +1,12 @@
+- return unless @microsoft_application
+
+= render ::Layouts::SettingsBlockComponent.new(s_('Microsoft|Microsoft Azure Integration'),
+  id: 'js-microsoft-application-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('Microsoft|Sync group memberships from Microsoft Azure when SAML response includes an overage claim.')
+    = link_to _('Learn more.'), help_page_path('user/group/saml_sso/group_sync.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    .microsoft-application
+      = gitlab_ui_form_for @microsoft_application, method: :put, url: update_microsoft_application_admin_application_settings_url do |f|
+        = render 'shared/system_access/microsoft_application_form', f: f

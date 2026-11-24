@@ -1,0 +1,16 @@
+description: "Click board switch dropdown"
+category: default
+action: click_dropdown
+extra_properties:
+identifiers:
+product_group: planning_views
+product_categories:
+- planning_views
+milestone: "14.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/63765
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`board_switcher`"

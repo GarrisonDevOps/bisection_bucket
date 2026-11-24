@@ -1,0 +1,14 @@
+---
+description: User clicks the explore other agents link in the Duo Agentic Chat trial or paid empty state
+internal_events: true
+action: click_dap_trial_or_paid_empty_state_explore_agents_link
+identifiers:
+  - user
+  - namespace
+product_group: activation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223072
+tiers:
+  - premium
+  - ultimate
+classification: duo

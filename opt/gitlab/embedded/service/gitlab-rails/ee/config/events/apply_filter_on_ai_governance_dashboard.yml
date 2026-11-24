@@ -1,0 +1,25 @@
+---
+description: A user changed a filter on the AI Governance dashboard. Not sent for
+  the default selection on load
+internal_events: true
+status: active
+action: apply_filter_on_ai_governance_dashboard
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: The filter. agent_class for the agent type toggle, timeframe for
+      the date range toggle
+  property:
+    description: The chosen value. One of all, internal_dap or external for agent_class,
+      and last_7_days or last_30_days for timeframe
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262793
+tiers:
+- premium
+- ultimate

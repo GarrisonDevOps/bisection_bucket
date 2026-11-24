@@ -1,0 +1,12 @@
+---
+name: BackfillTraversalIdsForMilestones
+version: '20251204143000'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/215233
+milestone: '18.9'
+group: group::global search
+description: Backfills traversal_ids field for milestones to enable efficient namespace
+  hierarchy filtering
+skippable: false
+obsolete: true
+marked_obsolete_in_milestone: '19.1'
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237558

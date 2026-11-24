@@ -1,0 +1,9 @@
+---
+name: stop_welcome_redirection
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/520090
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183899
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/523927
+milestone: '17.10'
+group: group::acquisition
+type: gitlab_com_derisk
+default_enabled: false

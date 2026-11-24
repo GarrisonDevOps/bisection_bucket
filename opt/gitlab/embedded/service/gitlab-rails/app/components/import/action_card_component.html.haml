@@ -1,0 +1,8 @@
+%a{ **link_attributes }
+  %span.gl-shrink-0{ aria: { hidden: 'true' } }
+    = sprite_icon(@icon, size: 24)
+  %span.gl-min-w-0.gl-grow
+    %span.gl-block.gl-font-bold= @title
+    %span.gl-mt-2.gl-block.gl-text-subtle= @description
+  %span.gl-shrink-0.gl-text-subtle{ aria: { hidden: 'true' } }
+    = sprite_icon('arrow-right')

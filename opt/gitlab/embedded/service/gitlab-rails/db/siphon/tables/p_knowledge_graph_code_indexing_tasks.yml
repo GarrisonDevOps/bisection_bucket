@@ -1,0 +1,8 @@
+---
+table: p_knowledge_graph_code_indexing_tasks
+database: main
+replication_targets:
+  - name: gcs_parquet_consumer
+    dedup_by:
+      - id
+      - created_at

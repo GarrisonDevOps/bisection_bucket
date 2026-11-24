@@ -1,0 +1,13 @@
+---
+name: merge_request_compliance_violations_writes
+description: Kill switch for enqueuing
+  ComplianceManagement::MergeRequests::ComplianceViolationsWorker after merge.
+  Disabling it stops new rows in the legacy merge_requests_compliance_violations
+  table, used only by the deprecated compliance violations report.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/551236
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265013
+rollout_issue_url:
+milestone: '19.6'
+group: group::compliance
+type: ops
+default_enabled: true

@@ -1,0 +1,12 @@
+= render Pajamas::CardComponent.new(card_options: card_options, body_options: body_options) do |c|
+  - c.with_body do
+    .gl-text-size-h2.gl-font-bold
+      = icon
+      = title
+    .gl-mb-5
+      - body.map do |line|
+        .gl-mt-3
+          = line
+    .gl-flex.gl-flex-wrap.gl-gap-3
+      = render Pajamas::ButtonComponent.new(**primary_cta_options) do
+        = primary_cta

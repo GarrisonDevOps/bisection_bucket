@@ -1,0 +1,11 @@
+- page_title _('Policy details')
+- add_to_breadcrumbs _('Policy store'), security_policy_store_organization_path(@organization)
+- breadcrumb_title _('Policy details')
+
+#js-policy-store-detail{ data: { organization_id: @organization.id,
+  namespace_type: 'organization',
+  policy_id: @policy_id,
+  can_update_policy: can?(current_user, :update_govern_policy, @organization).to_s,
+  can_delete_policy: can?(current_user, :delete_govern_policy, @organization).to_s,
+  list_path: security_policy_store_organization_path(@organization),
+  edit_path: edit_security_policy_store_organization_path(@organization, @policy_id) } }

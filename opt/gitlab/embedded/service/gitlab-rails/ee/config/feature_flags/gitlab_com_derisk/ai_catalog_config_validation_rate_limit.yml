@@ -1,0 +1,10 @@
+---
+name: ai_catalog_config_validation_rate_limit
+description: Rate limits AI Catalog mutations that validate an agent or flow configuration
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636312
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267093
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637757
+milestone: '19.6'
+group: group::ai catalog
+type: gitlab_com_derisk
+default_enabled: false

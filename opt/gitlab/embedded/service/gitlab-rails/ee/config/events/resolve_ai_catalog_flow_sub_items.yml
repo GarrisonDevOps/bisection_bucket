@@ -1,0 +1,38 @@
+---
+description: A session's GET catalog_items request is resolved, recording whether the AI Catalog sub-agents it references were served, refused, or skipped.
+internal_events: true
+status: active
+action: resolve_ai_catalog_flow_sub_items
+classification: duo
+identifiers:
+- project
+- user
+additional_properties:
+  label:
+    description: Outcome. One of served, refused (at least one sub-agent was
+      refused), skipped.
+  property:
+    description: When skipped, the reason the sub-agents were not resolved.
+      One of feature_flag_disabled, beta_features_disabled.
+  value:
+    description: Number of sub-agents served with a definition.
+  refused_count:
+    description: Number of sub-agents returned with an error instead of a definition.
+  item_type:
+    description: Item type. One of foundational_flow, custom_flow.
+  item_version:
+    description: Semantic version of the item (e.g. "1.0.0").
+  item_schema_version:
+    description: Flow Schema version (e.g. "v1").
+  flow_name:
+    description: Foundational flow name.
+  custom_item_id:
+    description: Custom item ID.
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263003
+tiers:
+- premium
+- ultimate

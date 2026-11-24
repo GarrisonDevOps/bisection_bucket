@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Duo agent platform settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "duo_custom_agents_enabled": {
+      "type": "boolean",
+      "description": "Allow custom agents for this instance",
+      "default": true
+    },
+    "lock_duo_custom_agents_enabled": {
+      "type": "boolean",
+      "description": "Lock custom agents enabled setting for all groups",
+      "default": false
+    },
+    "duo_custom_flows_enabled": {
+      "type": "boolean",
+      "description": "Allow custom flows for this instance",
+      "default": true
+    },
+    "lock_duo_custom_flows_enabled": {
+      "type": "boolean",
+      "description": "Lock custom flows enabled setting for all groups",
+      "default": false
+    },
+    "duo_external_agents_enabled": {
+      "type": "boolean",
+      "description": "Allow external agents for this instance",
+      "default": true
+    },
+    "lock_duo_external_agents_enabled": {
+      "type": "boolean",
+      "description": "Lock external agents enabled setting for all groups",
+      "default": false
+    },
+    "ai_agent_governance_enforcement": {
+      "type": "integer",
+      "description": "Agent credential governance mode: 0 off, 1 dry run, 2 enforce",
+      "enum": [0, 1, 2],
+      "default": 0
+    },
+    "lock_ai_agent_governance_enforcement": {
+      "type": "boolean",
+      "description": "Lock agent credential governance mode for all groups",
+      "default": false
+    },
+    "duo_token_usage_retention_days": {
+      "type": "integer",
+      "minimum": 90,
+      "maximum": 3650,
+      "description": "Days to keep daily GitLab Duo token usage",
+      "default": 1095
+    }
+  }
+}

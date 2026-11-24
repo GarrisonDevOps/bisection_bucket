@@ -1,0 +1,14 @@
+---
+table_name: <%= state_table_name %>
+description: Separate table for <%= replicable_title %> verification states
+introduced_by_url:
+milestone: '<%= milestone %>'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::<%= state_class_name %>
+gitlab_schema: <%= state_gitlab_schema %>
+<% if sharding_keys.any? -%>
+sharding_key:
+<%= sharding_key_yaml_entries %>
+<% end -%>

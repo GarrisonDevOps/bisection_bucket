@@ -1,0 +1,21 @@
+---
+description: A user clicked a tab on the AI Governance page. Not sent for the tab
+  opened on load
+internal_events: true
+status: active
+action: click_tab_on_ai_governance_page
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: The tab. One of dashboard, tool_management, audit_events, mcp_registry or connected_agents
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262793
+tiers:
+- premium
+- ultimate

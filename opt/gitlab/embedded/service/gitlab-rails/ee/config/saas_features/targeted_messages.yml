@@ -1,0 +1,5 @@
+---
+name: targeted_messages
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183052
+milestone: '17.10'
+group: group::acquisition

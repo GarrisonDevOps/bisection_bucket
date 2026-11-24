@@ -1,0 +1,11 @@
+---
+name: auto_enable_duo_code_review_on_duo_add_on_purchase
+description: Stamp a GitLab.com namespace as pending automatic Duo Code Review enablement
+  when it acquires its first Duo add-on
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23518
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255855
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629759
+milestone: '19.5'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "AI usage event properties for troubleshoot job tool",
+  "type": "object",
+  "properties": {
+    "pipeline_id": {
+      "type": "integer"
+    },
+    "merge_request_id": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

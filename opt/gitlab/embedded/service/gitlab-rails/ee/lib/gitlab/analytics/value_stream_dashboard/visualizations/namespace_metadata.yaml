@@ -1,0 +1,7 @@
+---
+version: 1
+type: NamespaceMetadata
+data:
+  type: namespace_metadata
+  query: {}
+options: {}

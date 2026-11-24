@@ -1,0 +1,9 @@
+- return unless can?(current_user, :update_observability_alert_setting, @project)
+
+= gitlab_ui_form_for @project, url: project_settings_operations_path(@project), html: { class: 'fieldset-form' } do |f|
+  = form_errors(@project.project_setting)
+  %fieldset.gl-mt-5.form-group.gl-form-group
+    = f.gitlab_ui_checkbox_component :observability_alerts_enabled,
+      s_('Observability|Enable Observability alerts'),
+      help_text: s_('Observability|Creates alerts automatically for Observability-related errors.')
+  = f.submit _('Save changes'), pajamas_button: true

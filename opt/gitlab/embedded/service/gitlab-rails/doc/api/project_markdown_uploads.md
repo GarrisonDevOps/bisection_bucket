@@ -1,0 +1,313 @@
+---
+stage: Plan
+group: Work Items
+info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/marketing/product-and-technical-marketing/technical-writing/#assignments>
+description: REST API to upload, list, download, and delete Markdown file uploads for a project.
+title: Markdown uploads API
+---
+
+{{< details >}}
+
+- Tier: Free, Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+Use this API to manage [Markdown uploads](../security/user_file_uploads.md) that can be referenced
+in Markdown text in issues, merge requests, snippets, or wiki pages.
+
+## Rate limits
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269433) in GitLab 19.6 [with a feature flag](../administration/feature_flags/_index.md) named `markdown_uploads_rate_limit_enforce`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+
+A rate limit applies to the total size of the files each user uploads every day.
+For more information, see [rate limits](../rate_limits/_index.md#api-and-rails-console).
+
+## Create an upload
+
+{{< history >}}
+
+- `full_path` response attribute pattern [changed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/150939) in GitLab 17.1.
+- `id` attribute [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161160) in GitLab 17.3.
+- [Changed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269454) in GitLab 19.7 to return `403 Forbidden` for archived projects and projects pending deletion.
+
+{{< /history >}}
+
+Uploads a file to the specified project to be used in an issue or merge request description, or a comment.
+
+You cannot upload files to an archived project or a project pending deletion.
+The endpoint returns `403 Forbidden` instead.
+
+```plaintext
+POST /projects/:id/uploads
+```
+
+Supported attributes:
+
+| Attribute | Type              | Required | Description |
+|:----------|:------------------|:---------|:------------|
+| `file`    | string            | Yes      | File to be uploaded. |
+| `id`      | integer or string | Yes      | ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
+
+To upload a file from your file system, use the `--form` argument. This causes cURL to post data using the
+`Content-Type: multipart/form-data` header. The `file=` parameter must point to a file on your file system and be
+preceded by `@`.
+
+Example request:
+
+```shell
+curl --request POST \
+    --header "PRIVATE-TOKEN: <your_access_token>" \
+    --form "file=@dk.png" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads"
+```
+
+Example response:
+
+```json
+{
+  "id": 5,
+  "alt": "dk",
+  "url": "/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png",
+  "full_path": "/-/project/1234/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png",
+  "markdown": "![dk](/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png)"
+}
+```
+
+In the response, the:
+
+- `full_path` is the absolute path to the file.
+- `url` can be used in Markdown contexts. The link is expanded when the format in `markdown` is used.
+
+## List uploads
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157066) in GitLab 17.2.
+
+{{< /history >}}
+
+Lists all uploads of a project sorted by `created_at` in descending order.
+
+Prerequisites:
+
+- the Maintainer or Owner role.
+
+```plaintext
+GET /projects/:id/uploads
+```
+
+Supported attributes:
+
+| Attribute | Type              | Required | Description |
+|:----------|:------------------|:---------|:------------|
+| `id`      | integer or string | Yes      | ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
+
+Example request:
+
+```shell
+curl --header "PRIVATE-TOKEN: <your_access_token>" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads"
+```
+
+Example response:
+
+```json
+[
+  {
+    "id": 1,
+    "size": 1024,
+    "filename": "image.png",
+    "created_at":"2024-06-20T15:53:03.067Z",
+    "uploaded_by": {
+      "id": 18,
+      "name" : "Alexandra Bashirian",
+      "username" : "eileen.lowe"
+    }
+  },
+  {
+    "id": 2,
+    "size": 512,
+    "filename": "other-image.png",
+    "created_at":"2024-06-19T15:53:03.067Z",
+    "uploaded_by": null
+  }
+]
+```
+
+## Download an uploaded file by ID
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157066) in GitLab 17.2.
+
+{{< /history >}}
+
+Downloads an uploaded file by ID.
+
+Prerequisites:
+
+- the Maintainer or Owner role.
+
+```plaintext
+GET /projects/:id/uploads/:upload_id
+```
+
+Supported attributes:
+
+| Attribute   | Type              | Required | Description |
+|:------------|:------------------|:---------|:------------|
+| `id`        | integer or string | Yes      | ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
+| `upload_id` | integer           | Yes      | ID of the upload. |
+
+If successful, returns [`200`](rest/troubleshooting.md#status-codes) and the uploaded file in the response body.
+
+Example request:
+
+```shell
+curl --header "PRIVATE-TOKEN: <your_access_token>" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads/1"
+```
+
+## Download an uploaded file by secret and filename
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164441) in GitLab 17.4.
+
+{{< /history >}}
+
+Download an uploaded file by secret and filename.
+
+Prerequisites:
+
+- the Guest, Planner, Reporter, Developer, Maintainer, or Owner role.
+
+```plaintext
+GET /projects/:id/uploads/:secret/:filename
+```
+
+Supported attributes:
+
+| Attribute  | Type              | Required | Description |
+|:-----------|:------------------|:---------|:------------|
+| `id`       | integer or string | Yes      | ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
+| `secret`   | string            | Yes      | 32-character secret of the upload. |
+| `filename` | string            | Yes      | Filename of the upload. |
+
+If successful, returns [`200`](rest/troubleshooting.md#status-codes) and the uploaded file in the response body.
+
+Example request:
+
+```shell
+curl --header "PRIVATE-TOKEN: <your_access_token>" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads/648d97c6eef5fc5df8d1004565b3ee5a/sample.jpg"
+```
+
+### Download a file linked from a description or comment
+
+To download a file that is linked from a description or comment, get the secret and filename from the link.
+The link to an uploaded file has one of these formats:
+
+- On the rendered page: `https://gitlab.example.com/-/project/<project_id>/uploads/<secret>/<filename>`.
+  To get the API URL, replace `/-/project/` with `/api/v4/projects/`.
+- In the raw Markdown: `/uploads/<secret>/<filename>`.
+  This link does not include the project or group.
+  If the file belongs to a group (for example, in an epic), use the
+  [group Markdown uploads API](group_markdown_uploads.md#download-an-uploaded-file-by-secret-and-filename).
+  The project endpoint returns `404` for files uploaded to a group.
+
+Copy the filename from the link, not from your original file.
+GitLab can change the filename when the file is uploaded. For example, GitLab replaces spaces with underscores.
+
+For example, for this link on a rendered page:
+
+```plaintext
+https://gitlab.example.com/-/project/5/uploads/648d97c6eef5fc5df8d1004565b3ee5a/sample.jpg
+```
+
+Use this request:
+
+```shell
+curl --header "PRIVATE-TOKEN: <your_access_token>" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads/648d97c6eef5fc5df8d1004565b3ee5a/sample.jpg"
+```
+
+## Delete an uploaded file by ID
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157066) in GitLab 17.2.
+
+{{< /history >}}
+
+Deletes an uploaded file by ID.
+
+Prerequisites:
+
+- the Maintainer or Owner role.
+
+```plaintext
+DELETE /projects/:id/uploads/:upload_id
+```
+
+Supported attributes:
+
+| Attribute   | Type              | Required | Description |
+|:------------|:------------------|:---------|:------------|
+| `id`        | integer or string | Yes      | ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
+| `upload_id` | integer           | Yes      | ID of the upload. |
+
+If successful, returns [`204`](rest/troubleshooting.md#status-codes) status code without any response body.
+
+Example request:
+
+```shell
+curl --request DELETE \
+    --header "PRIVATE-TOKEN: <your_access_token>" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads/1"
+```
+
+## Delete an uploaded file by secret and filename
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164441) in GitLab 17.4.
+
+{{< /history >}}
+
+Deletes an uploaded file by secret and filename.
+
+Prerequisites:
+
+- the Maintainer or Owner role.
+
+```plaintext
+DELETE /projects/:id/uploads/:secret/:filename
+```
+
+Supported attributes:
+
+| Attribute  | Type              | Required | Description |
+|:-----------|:------------------|:---------|:------------|
+| `id`       | integer or string | Yes      | ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
+| `secret`   | string            | Yes      | 32-character secret of the upload. |
+| `filename` | string            | Yes      | Filename of the upload. |
+
+If successful, returns [`204`](rest/troubleshooting.md#status-codes) status code without any response body.
+
+Example request:
+
+```shell
+curl --request DELETE \
+    --header "PRIVATE-TOKEN: <your_access_token>" \
+    --url "https://gitlab.example.com/api/v4/projects/5/uploads/648d97c6eef5fc5df8d1004565b3ee5a/sample.jpg"
+```

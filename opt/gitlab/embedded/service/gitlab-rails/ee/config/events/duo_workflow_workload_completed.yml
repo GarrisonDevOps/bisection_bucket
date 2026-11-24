@@ -1,0 +1,31 @@
+---
+description: A Duo Workflow workload CI pipeline completed (success or failure), tracking E2E job metrics
+internal_events: true
+status: active
+action: duo_workflow_workload_completed
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Pipeline status (success, failed, canceled)
+  property:
+    description: Build failure reason (e.g. stuck_or_timeout_failure, runner_system_failure, script_failure). Only present for failed jobs.
+  value:
+    description: Pipeline duration in seconds (pipeline created_at to finished_at)
+  workflow_id:
+    description: Duo Workflow ID
+  workflow_definition:
+    description: Workflow definition name (e.g. fix_pipeline/v1)
+extra_trackers:
+- tracking_class: Gitlab::Tracking::AiTracking
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233868
+tiers:
+- premium
+- ultimate

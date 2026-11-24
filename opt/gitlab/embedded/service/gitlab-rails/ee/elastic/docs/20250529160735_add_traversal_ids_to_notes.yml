@@ -1,0 +1,10 @@
+---
+name: AddTraversalIdsToNotes
+version: '20250529160735'
+description: Add traversal_ids mapping to notes index
+group: group::global search
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/193056
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209379
+marked_obsolete_in_milestone: '18.6'

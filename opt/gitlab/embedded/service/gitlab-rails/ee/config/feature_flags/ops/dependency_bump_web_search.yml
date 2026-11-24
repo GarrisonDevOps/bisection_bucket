@@ -1,0 +1,13 @@
+---
+name: dependency_bump_web_search
+description: Enables web search for the resolve_dependency_bump Duo flow, which analyzes failed
+  pipelines on dependency-bump merge requests and commits fixes. Web search lets the flow look up
+  dependency changelogs and release notes. Turn this off if web search drives up LLM cost or flow
+  latency, or if the upstream web search provider degrades.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/604047
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244358
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605335
+milestone: '19.2'
+group: group::compliance
+type: ops
+default_enabled: true

@@ -1,0 +1,17 @@
+---
+description: Security Policy using policy scope
+internal_events: true
+action: check_policy_scope_for_security_policy
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Type of the policy scope (all, project, group, compliance_framework)
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168862
+tiers:
+- ultimate

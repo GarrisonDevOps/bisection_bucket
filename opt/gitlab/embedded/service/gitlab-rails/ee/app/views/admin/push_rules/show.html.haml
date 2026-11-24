@@ -1,0 +1,15 @@
+- breadcrumb_title _("Push rules")
+- page_title _("Push rules")
+- add_page_specific_style 'page_bundles/settings'
+
+= render ::Layouts::SettingsBlockComponent.new(_('Push rules'),
+  button_options: { data: { event_tracking_load: 'true', event_tracking: 'view_admin_push_rule_pageload' } },
+  id: 'js-push-rule-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('PushRules|Define push rules for newly created projects and groups. Some settings apply to new groups, all settings apply to new projects.')
+    = link_to _('Learn more.'), help_page_path('user/project/repository/push_rules.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = render 'push_rules'
+
+= render 'merge_request_approvals'

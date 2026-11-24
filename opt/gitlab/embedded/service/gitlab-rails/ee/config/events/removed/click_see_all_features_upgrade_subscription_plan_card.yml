@@ -1,0 +1,23 @@
+---
+description: User clicks link to see all features on upgrade subscription plan card
+internal_events: true
+status: removed
+action: click_see_all_features_upgrade_subscription_plan_card
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Plan type
+product_group: acquisition
+product_categories:
+  - acquisition
+  - subscription_management
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228174
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249475
+milestone_removed: '19.3'
+tiers:
+  - free
+  - premium
+  - ultimate

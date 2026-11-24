@@ -1,0 +1,16 @@
+---
+description: Tracks client-side errors occurring in the application.
+action: client_error
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '15.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/85910
+tiers:
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: hardcoded value payment_form_submitted
+  property:
+    description: Error message and context of the error

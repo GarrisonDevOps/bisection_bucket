@@ -1,0 +1,10 @@
+---
+name: mcp_server_block_enforcement
+description: Enforce the external MCP server kill-switch for Duo Agent Platform workflows
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/601159
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243396
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/607552
+milestone: '19.3'
+group: group::compliance
+type: beta
+default_enabled: true

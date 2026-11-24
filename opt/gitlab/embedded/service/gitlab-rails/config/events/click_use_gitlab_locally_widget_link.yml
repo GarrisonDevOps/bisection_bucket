@@ -1,0 +1,20 @@
+---
+description: When a user clicks a link in the Use GitLab locally widget on the personal homepage
+internal_events: true
+action: click_use_gitlab_locally_widget_link
+identifiers:
+- user
+additional_properties:
+  label:
+    description: Item containing the link (ide_extension or cli)
+  property:
+    description: Link clicked (vs_code, jetbrains, or gitlab_cli)
+product_group: activation
+product_categories:
+- navigation
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265799
+tiers:
+- free
+- premium
+- ultimate

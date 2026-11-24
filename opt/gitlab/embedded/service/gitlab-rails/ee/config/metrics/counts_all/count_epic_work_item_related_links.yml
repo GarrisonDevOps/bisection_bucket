@@ -1,0 +1,20 @@
+---
+key_path: counts.work_item_related_links_epics
+description: Total count of related links with an epic work item as type.
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161331
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountRelatedWorkItemLinksMetric
+options:
+  target_type: epic
+tiers:
+  - premium
+  - ultimate

@@ -1,0 +1,5 @@
+---
+name: hide_project_instance_tab
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/185832
+milestone: '17.11'
+group: group::source code

@@ -1,0 +1,6 @@
+- blocking_issues_count = @issuable_meta_data[issuable.id]&.blocking_issues_count || 0
+
+- if blocking_issues_count > 0
+  %li.gl-hidden.has-tooltip{ class: "@sm/panel:gl-block", data: { testid: 'blocking-issues' }, title: _('Blocking issues') }
+    = sprite_icon('entity-blocking', css_class: "gl-align-middle")
+    = blocking_issues_count

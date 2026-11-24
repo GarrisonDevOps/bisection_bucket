@@ -1,0 +1,10 @@
+---
+name: ai_governance_session_gate
+description: Gate external agent session capture on the ai_governance_enabled setting instead of duo_external_agents_enabled
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633673
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266468
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637274
+milestone: '19.6'
+group: group::ai governance
+type: gitlab_com_derisk
+default_enabled: false

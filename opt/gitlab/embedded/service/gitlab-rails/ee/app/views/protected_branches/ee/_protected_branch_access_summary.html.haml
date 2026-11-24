@@ -1,0 +1,25 @@
+- can_update = local_assigns[:can_update]
+- can_push = local_assigns[:can_push]
+- can_update_push = can_update && can_push
+- popover_data = {}
+
+- unless can_push
+  - security_policies_link = link_to('', security_policies_path(protected_branch.entity), target: '_blank', rel: 'noopener noreferrer nofollow')
+  - learn_more_link = link_to('', help_page_path('user/application_security/policies/merge_request_approval_policies.md'), target: '_blank', rel: 'noopener noreferrer nofollow')
+  - popover_content = safe_format(s_("BranchRules|This setting is blocked by a security policy. To make changes, go to the %{security_policies_link_start}security policies%{security_policies_link_end}. %{learn_more_link_start}Learn more.%{learn_more_link_end}"), tag_pair(learn_more_link, :learn_more_link_start, :learn_more_link_end), tag_pair(security_policies_link, :security_policies_link_start, :security_policies_link_end))
+  - popover_data = can_update ? { container: 'body', toggle: 'popover', html: 'true', triggers: 'hover focus', content: popover_content } : {}
+
+%td{ data: { label: s_("ProtectedBranch|Allowed to merge") } }
+  .js-allowed-to-merge{ data: { filter: true, disabled: !can_update, preselected_items: access_levels_data(protected_branch.merge_access_levels).to_json } }
+
+%td{ data: { label: s_("ProtectedBranch|Allowed to push and merge") } }
+  .disabled-popover{ data: popover_data }
+    .js-allowed-to-push{ data: { filter: true, disabled: !can_update_push, preselected_items: preselected_push_access_levels_data(protected_branch.push_access_levels, can_push).to_json } }
+
+%td{ data: { label: s_("ProtectedBranch|Allowed to force push") } }
+  = render Pajamas::ToggleComponent.new(classes: 'js-force-push-toggle',
+    data: { testid: 'protected-branch-force-push-toggle', **popover_data },
+    label: s_("ProtectedBranch|Toggle allowed to force push"),
+    is_checked: protected_branch.allow_force_push && can_push,
+    is_disabled: !can_update_push,
+    label_position: :hidden)

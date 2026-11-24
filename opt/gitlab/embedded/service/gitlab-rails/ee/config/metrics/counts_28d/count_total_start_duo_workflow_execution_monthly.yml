@@ -1,0 +1,18 @@
+---
+key_path: counts.count_total_start_duo_workflow_execution_monthly
+description: Monthly count of duo workflow execution started
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/163342
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: start_duo_workflow_execution

@@ -1,0 +1,21 @@
+---
+description: Custom work item type archived or unarchived
+internal_events: true
+status: active
+action: archive_work_item_type
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Name of the archived or unarchived work item type
+  property:
+    description: Whether the type was archived (true) or unarchived (false)
+product_group: work_items
+product_categories:
+  - team_planning
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227987
+tiers:
+  - premium
+  - ultimate

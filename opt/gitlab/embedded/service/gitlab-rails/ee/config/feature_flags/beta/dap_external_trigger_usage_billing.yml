@@ -1,0 +1,10 @@
+---
+name: dap_external_trigger_usage_billing
+description: Flag to gate billing for Duo Agent Platform external triggers
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/581917
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213966
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/585372
+milestone: '18.8'
+group: group::duo chat
+type: beta
+default_enabled: true

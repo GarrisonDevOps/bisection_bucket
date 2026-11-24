@@ -1,0 +1,17 @@
+---
+version: 1
+type: AreaChart
+data:
+  type: code_generation_volume_over_time
+  query:
+    dateRange: 180d
+options:
+  xAxis:
+    name: "Month"
+    type: "category"
+  yAxis:
+    name: "Lines of Code"
+    type: "value"
+  includeLegendAvgMax: false
+  chartTooltip:
+    valueUnit: COUNT

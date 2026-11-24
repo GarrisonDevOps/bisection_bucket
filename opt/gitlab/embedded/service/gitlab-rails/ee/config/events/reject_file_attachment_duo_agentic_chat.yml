@@ -1,0 +1,36 @@
+---
+description: Duo Agentic Chat turns away a file the user tried to attach, before the prompt is sent.
+  Fired once per rejected file, or once per batch for too_many
+internal_events: true
+status: active
+action: reject_file_attachment_duo_agentic_chat
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: 'How the file was attached: plus_menu, paste, or drag_and_drop'
+  property:
+    description: 'Why the file was rejected: unsupported_type, too_large, total_too_large,
+      too_many, or read_failed'
+  value:
+    description: Number of files turned away. 1, or for too_many the number of files dropped
+      from the batch
+  session_id:
+    description: Unique identifier of the session the file was rejected in
+  flow_type:
+    description: Agent or flow active in the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264707
+tiers:
+- premium
+- ultimate
+classification: duo

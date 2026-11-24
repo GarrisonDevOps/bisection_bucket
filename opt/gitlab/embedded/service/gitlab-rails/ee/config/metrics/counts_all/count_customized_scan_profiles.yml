@@ -1,0 +1,18 @@
+---
+key_path: counts.count_customized_scan_profiles
+description: Count of customized (non GitLab-recommended) security scan profiles.
+product_group: security_controls
+product_categories:
+- security_testing_configuration
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248997
+time_frame:
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountCustomizedScanProfiles
+tiers:
+- ultimate

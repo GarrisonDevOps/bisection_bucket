@@ -1,0 +1,19 @@
+---
+description: Duo Enterprise trial alert buttons clicks on billing page
+internal_events: true
+action: click_duo_enterprise_trial_billing_page
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Type of Duo Enterprise trial
+product_group: acquisition
+product_categories:
+- chat_engine
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/162179
+tiers:
+  - free
+  - premium
+  - ultimate

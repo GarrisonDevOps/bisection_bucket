@@ -1,0 +1,22 @@
+---
+title: Link to a security policy project
+name: manage_security_policy_link
+description: Allows linking security policy projects.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/440226
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/148371
+feature_category: security_policy_management
+milestone: '16.11'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [50]
+group_permissions:
+  - read_security_orchestration_policies
+  - read_security_orchestration_policy_project
+  - update_security_orchestration_policy_project
+project_permissions:
+  - access_security_and_compliance
+  - read_compliance_framework
+  - read_security_orchestration_policies
+  - read_security_orchestration_policy_project
+  - update_security_orchestration_policy_project

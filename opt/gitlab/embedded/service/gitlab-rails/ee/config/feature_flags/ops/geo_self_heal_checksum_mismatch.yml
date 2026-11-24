@@ -1,0 +1,9 @@
+---
+name: geo_self_heal_checksum_mismatch
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/562796
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/246765
+rollout_issue_url: # No rollout: This is an ops-flag
+milestone: '19.3'
+type: ops
+group: group::geo
+default_enabled: true

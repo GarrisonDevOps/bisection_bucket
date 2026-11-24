@@ -1,0 +1,10 @@
+---
+version: 1
+type: SingleStat
+data:
+  type: mean_time_to_merge
+  query:
+    dateRange: 365d
+options:
+  unit: days
+  decimalPlaces: 0

@@ -1,0 +1,10 @@
+= gitlab_ui_form_for @application_setting, url: security_and_compliance_admin_application_settings_path(anchor: 'js-security-scans-settings'), html: { class: 'fieldset-form', id: 'security-scans-settings' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group
+      = f.label :security_scan_stale_after_days, _('Security scan retention period (days)'), class: 'label-bold'
+      = f.number_field :security_scan_stale_after_days, class: 'form-control gl-form-input', min: 7, max: 90
+      .form-text{ class: '!gl-text-subtle' }
+        = _('Number of days to retain security scan data before purging. This controls when scan findings are considered stale and eligible for cleanup. Must be between 7 and 90 days.')
+  = f.submit _('Save changes'), pajamas_button: true

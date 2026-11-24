@@ -1,0 +1,10 @@
+---
+name: unban_user
+description: A user is unbanned
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/377620
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/116221
+feature_category: "user_management"
+milestone: "15.11"
+saved_to_database: true
+streamed: true
+scope: [User]

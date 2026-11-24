@@ -1,0 +1,423 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy content for approval_policy type",
+  "type": "object",
+  "properties": {
+    "enforcement_type": {
+      "description": "Defines how this policy should be enforced. 'enforce' (default) blocks merge requests when violations are detected. 'warn' allows merge requests to proceed but shows warnings.",
+      "type": "string",
+      "enum": [
+        "warn",
+        "enforce"
+      ],
+      "default": "enforce"
+    },
+    "fallback_behavior": {
+      "type": "object",
+      "properties": {
+        "fail": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed"
+          ]
+        }
+      }
+    },
+    "policy_tuning": {
+      "type": "object",
+      "properties": {
+        "unblock_rules_using_execution_policies": {
+          "type": "boolean",
+          "description": "Experimental: Unblock policy approval rules with missing scans of scanners which are enforced by Scan execution policies. If scan does not produce artifacts because it is not applicable to the given project, approval rules are automatically unblocked and do not require approvals."
+        },
+        "security_report_time_window": {
+          "type": "integer",
+          "description": "Specifies the time window in minutes for choosing the target pipeline for the security report comparison."
+        }
+      }
+    },
+    "actions": {
+      "description": "Specifies a list of actions that should be enforced in this policy. For `require_approval` action, at least one of `user_approvers`, `user_approvers_ids`, `group_approvers`, `group_approvers_ids`, `role_approvers` should be provided.",
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "require_approval",
+              "send_bot_message"
+            ],
+            "type": "string",
+            "description": "Specified a type of the policy action. `require_approval` action specifies required approvals (from selected groups or users) when this policy is applied. `send_bot_message` enables comments on merge requests when policy violations are detected."
+          },
+          "approvals_required": {
+            "description": "Specifies a number of required merge request approvals.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "user_approvers": {
+            "description": "Specifies a list of users (by usernames) required to approve affected merge request.",
+            "type": "array",
+            "minItems": 1,
+            "additionalItems": false,
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "user_approvers_ids": {
+            "description": "Specifies a list of users (by IDs) required to approve affected merge request.",
+            "type": "array",
+            "minItems": 1,
+            "additionalItems": false,
+            "items": {
+              "minLength": 1,
+              "type": "integer"
+            }
+          },
+          "group_approvers": {
+            "type": "array",
+            "description": "Specifies a list of groups (by group path) required to approve affected merge request.",
+            "minItems": 1,
+            "additionalItems": false,
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "group_approvers_ids": {
+            "type": "array",
+            "description": "Specifies a list of groups (by IDs) required to approve affected merge request.",
+            "minItems": 1,
+            "additionalItems": false,
+            "items": {
+              "minLength": 1,
+              "type": "integer"
+            }
+          },
+          "role_approvers": {
+            "type": "array",
+            "description": "Specifies a list of roles required to approve affected merge request.",
+            "minItems": 1,
+            "additionalItems": false,
+            "items": {
+              "minLength": 1,
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "guest",
+                    "reporter",
+                    "developer",
+                    "maintainer",
+                    "owner"
+                  ]
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "internal"
+            ],
+            "description": "Specifies whether the `send_bot_message` comment is publicly visible or an internal note. Defaults to `public`."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "require_approval"
+                }
+              }
+            },
+            "then": {
+              "anyOf": [
+                {
+                  "required": [
+                    "type",
+                    "approvals_required",
+                    "user_approvers"
+                  ]
+                },
+                {
+                  "required": [
+                    "type",
+                    "approvals_required",
+                    "user_approvers_ids"
+                  ]
+                },
+                {
+                  "required": [
+                    "type",
+                    "approvals_required",
+                    "group_approvers"
+                  ]
+                },
+                {
+                  "required": [
+                    "type",
+                    "approvals_required",
+                    "group_approvers_ids"
+                  ]
+                },
+                {
+                  "required": [
+                    "type",
+                    "approvals_required",
+                    "role_approvers"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "send_bot_message"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "enabled"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "approval_settings": {
+      "type": "object",
+      "properties": {
+        "prevent_approval_by_author": {
+          "type": "boolean"
+        },
+        "prevent_approval_by_commit_author": {
+          "type": "boolean"
+        },
+        "remove_approvals_with_new_commit": {
+          "type": "boolean"
+        },
+        "remove_code_owner_approvals_with_new_commit": {
+          "type": "boolean"
+        },
+        "require_password_to_approve": {
+          "type": "boolean"
+        },
+        "block_branch_modification": {
+          "type": "boolean"
+        },
+        "prevent_pushing_and_force_pushing": {
+          "type": "boolean"
+        },
+        "prevent_editing_approval_rules": {
+          "type": "boolean"
+        },
+        "block_group_branch_modification": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "exceptions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "enabled"
+              ]
+            }
+          ]
+        }
+      },
+      "not": {
+        "required": [
+          "remove_approvals_with_new_commit",
+          "remove_code_owner_approvals_with_new_commit"
+        ],
+        "properties": {
+          "remove_approvals_with_new_commit": {
+            "const": true
+          },
+          "remove_code_owner_approvals_with_new_commit": {
+            "const": true
+          }
+        }
+      }
+    },
+    "bypass_settings": {
+      "type": "object",
+      "properties": {
+        "branches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "pattern": {
+                    "type": "string"
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "pattern"
+                    ]
+                  }
+                ]
+              },
+              "target": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "pattern": {
+                    "type": "string"
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "pattern"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "source",
+              "target"
+            ]
+          }
+        },
+        "access_tokens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "service_accounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "guest",
+              "reporter",
+              "developer",
+              "maintainer",
+              "owner"
+            ]
+          }
+        },
+        "custom_roles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

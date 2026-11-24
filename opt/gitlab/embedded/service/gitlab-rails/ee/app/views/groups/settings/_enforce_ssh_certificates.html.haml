@@ -1,0 +1,10 @@
+- if group.ssh_certificates_available?
+  %h5= s_('GroupSettings|Enforce SSH Certificates')
+
+  .form-group.gl-mb-3
+    = f.gitlab_ui_checkbox_component :enforce_ssh_certificates, checkbox_options: { disabled: !can?(current_user, :admin_group, group), checked: group.enforce_ssh_certificates? } do |c|
+      - c.with_label do
+        = s_('GroupSettings|Enforce SSH Certificates')
+      - c.with_help_text do
+        = s_("GroupSettings|If enabled, individual user accounts will be able to use only issued SSH certificates for Git access. It doesn't apply to service accounts, deploy keys, and other types of internal accounts.")
+        = link_to s_('GroupSettings|How do I manage group SSH certificates?'), help_page_path('user/group/ssh_certificates.md')

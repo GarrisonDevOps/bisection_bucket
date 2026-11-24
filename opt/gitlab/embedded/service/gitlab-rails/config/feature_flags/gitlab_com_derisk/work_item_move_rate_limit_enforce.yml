@@ -1,0 +1,10 @@
+---
+name: work_item_move_rate_limit_enforce
+description: Enforces the per-user rate limit on moving and cloning issues and work items, shared between the REST API, GraphQL, and the web UI; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637476
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268181
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638511
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

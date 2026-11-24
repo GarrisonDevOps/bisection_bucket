@@ -1,0 +1,16 @@
+---
+description: Tracked context ID filter was selected on the project vulnerability report
+internal_events: true
+status: active
+action: applied_non_default_branch_filter
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: vulnerability_management
+product_categories:
+  - vulnerability_management
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229118
+tiers:
+  - ultimate

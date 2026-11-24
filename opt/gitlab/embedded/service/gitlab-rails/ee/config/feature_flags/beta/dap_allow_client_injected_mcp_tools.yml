@@ -1,0 +1,10 @@
+---
+name: dap_allow_client_injected_mcp_tools
+description: Skip the tool call approval gate for MCP tools the client injected into the start request
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628633
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255644
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/629141
+milestone: '19.5'
+group: group::ai control plane
+type: beta
+default_enabled: false

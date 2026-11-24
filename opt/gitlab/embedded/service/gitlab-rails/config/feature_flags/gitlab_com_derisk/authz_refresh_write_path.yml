@@ -1,0 +1,10 @@
+---
+name: authz_refresh_write_path
+description: Write project_authorizations refreshes through the shared locked write path, checked per user
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637574
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268691
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638776
+milestone: '19.6'
+group: group::authorization
+type: gitlab_com_derisk
+default_enabled: false

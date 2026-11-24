@@ -1,0 +1,10 @@
+---
+name: composite_oauth_token_created
+description: A composite OAuth token was created for a Duo workflow
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593023
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231162
+feature_category: duo_agent_platform
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Group, Project, User]

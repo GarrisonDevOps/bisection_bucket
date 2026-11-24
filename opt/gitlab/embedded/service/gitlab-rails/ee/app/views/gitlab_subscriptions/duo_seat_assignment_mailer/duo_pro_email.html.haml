@@ -1,0 +1,156 @@
+- code_suggestions_help_page_link = link_to('', help_page_url('user/project/repository/code_suggestions/_index.md'), target: '_blank', rel: 'noopener noreferrer')
+- duo_chat_help_page_link = link_to('', help_page_url('user/gitlab_duo_chat/_index.md'), target: '_blank', rel: 'noopener noreferrer')
+- duo_ide_setup_page_link = link_to('', help_page_url('user/get_started/getting_started_gitlab_duo.md', anchor: 'step-4-prepare-to-use-gitlab-duo-in-your-ide'), target: '_blank', rel: 'noopener noreferrer')
+- code_suggestions_demo_Link = link_to('', "https://gitlab.navattic.com/code-suggestions?utm_medium=email&utm_source=iterable&utm_campaign=eg_global_x_nurture_x_en_duoproseatallocation&utm_content=onboarding_email&glm_source=email&glm_content=duo-pro-onboarding", target: '_blank', rel: 'noopener noreferrer')
+:css
+  a {color: #A989F5 }
+  table { font-family: "Inter", helvetica, arial, sans-serif;}
+%table{ border: "0", cellpadding: "0", cellspacing: "0", role: "presentation", width: "100%" }
+  %tr
+    %td{ align: "center", style: "padding: 0px;" }
+      %table{ border: "0", cellpadding: "0", cellspacing: "0", role: "presentation", style: "background-color: #171321", width: "600" }
+        %tr
+          %td{ style: "padding: 0px;" }
+            %table{ border: "0", cellpadding: "0", cellspacing: "0", role: "presentation", width: "100%" }
+              / logo header
+              %tr
+                %td{ align: "left", style: "padding: 20px;" }
+                  %a{ href: "https://about.gitlab.com/" }
+                    %img{ alt: "go to about.gitlab", src: image_url('mailers/duo/duo_white_logo.png'), width: "150" }
+              / /logo header
+
+              / title
+              %tr
+                %td{ style: "max-width: 600px; width: 100%; text-align: left; height: 62px; padding: 10px 20px; min-height: 40px; ", valign: "middle", width: "100%" }
+                  %h1{ style: "line-height: 36px; font-weight: 600; color: #ffffff; margin: 0;" }
+                    = s_('CodeSuggestions|You have been assigned a GitLab Duo Pro seat')
+              / /title
+
+              / Two body paragraph
+              %tr
+                %td{ style: "padding: 20px 50px 20px 20px; color: #ffffff; line-height: 20px;" }
+                  %p
+                    = safe_format(s_('CodeSuggestions|You now have access to GitLab Duo Pro, which features %{code_suggestions_link_start}Code Suggestions%{code_suggestions_link_end} and %{chat_link_start}Chat%{chat_link_end}, which boost your efficiency and effectiveness by reducing the time required to write and understand code.'), tag_pair(code_suggestions_help_page_link, :code_suggestions_link_start, :code_suggestions_link_end), tag_pair(duo_chat_help_page_link, :chat_link_start, :chat_link_end))
+                  %p
+                    = safe_format(s_('CodeSuggestions|Get started with GitLab Duo Pro today by %{duo_ide_setup_page_link_start}setting up your IDE for success%{duo_ide_setup_page_link_end}.'), tag_pair(duo_ide_setup_page_link, :duo_ide_setup_page_link_start, :duo_ide_setup_page_link_end))
+              / /Two body paragraph
+
+              / border-based button purple
+              %tr
+                %td{ align: "left", style: "padding: 10px 40px 20px 30px;" }
+                  %a{ href: help_page_url('user/get_started/getting_started_gitlab_duo.md', anchor: 'step-4-prepare-to-use-gitlab-duo-in-your-ide'), style: "font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 3px;  border-top: 10px solid #7759c2; border-bottom: 10px solid #7759c2; border-right: 25px solid #7759c2; border-left: 25px solid #7759c2; background-color: #7759c2; display: inline-block;", target: "_blank", rel: "noopener noreferrer nofollow" }
+                    = _('Get started')
+              / /border-based button purple
+
+              / pill section divider
+              %table{ role: "presentation", style: "margin: 20px" }
+                %tr
+                  %td{ style: "font-family: 'JetBrains Mono', monospace; line-height: 1.3; text-align: left; color: #e3d6ff; padding: 3px 21px 3px 21px; border: 1px solid #E3D6FF; border-radius: 25px" }
+                    %p
+                      = _('Key features')
+              / /pill section divider
+
+              / features
+              %tr
+                %td
+                  %table{ role: "presentation", style: "color: #ffffff; width: 580px" }
+                    %tr
+                      %td{ style: "vertical-align: top; padding: 10px 25px 20px 15px" }
+                        %a{ href: help_page_url('user/project/repository/code_suggestions/_index.md'), target: '_blank', rel: 'noopener noreferrer' }
+                          %img{ alt: "Code Suggestions", src: image_url('mailers/duo/code_suggestions_feature_preview.png'), width: "170" }
+                      %td{ align: "left", style: "vertical-align: middle" }
+                        %h3{ style: "line-height: 20px; margin: 0;" }
+                          %a{ href: help_page_url('user/project/repository/code_suggestions/_index.md'), target: '_blank', rel: 'noopener noreferrer' }
+                            = s_('CodeSuggestions|Code Suggestions')
+                        %p{ style: "margin: 13px 0px; line-height: 1.5" }
+                          = s_('CodeSuggestions|Automatically generate new lines of code, including full functions, from single and multi-line comments as well as comment blocks')
+                    %tr
+                      %td{ style: "vertical-align: top; padding: 20px 25px 20px 15px" }
+                        %a{ href: help_page_url('user/gitlab_duo_chat/examples.md', anchor: 'write-tests-in-the-ide'), target: '_blank', rel: 'noopener noreferrer' }
+                          %img{ alt: "Test Generation", src: image_url('mailers/duo/test_generation_feature_preview.png'), width: "170" }
+                      %td{ align: "left", style: "vertical-align: middle; padding: 20px 15px 20px 0px" }
+                        %h3{ style: "line-height: 20px; margin: 0;" }
+                          %a{ href: help_page_url('user/gitlab_duo_chat/examples.md', anchor: 'write-tests-in-the-ide'), target: '_blank', rel: 'noopener noreferrer' }
+                            = s_('CodeSuggestions|Test Generation')
+                        %p{ style: "margin: 13px 0px; ling-height: 1.5" }
+                          = s_('CodeSuggestions|Automate your repetitive tasks and catch bugs early')
+                    %tr
+                      %td{ style: "vertical-align: top; padding: 20px 25px 20px 15px" }
+                        %a{ href: help_page_url('user/gitlab_duo_chat/examples.md', anchor: 'explain-selected-code'), target: '_blank', rel: 'noopener noreferrer' }
+                          %img{ alt: "Code Explanations", src: image_url('mailers/duo/code_explanations_feature_preview.png'), width: "170" }
+                      %td{ align: "left", style: "vertical-align: middle; padding: 20px 15px 0px 0px" }
+                        %h3{ style: "line-height: 20px; margin: 0;" }
+                          %a{ href: help_page_url('user/gitlab_duo_chat/examples.md', anchor: 'explain-selected-code'), target: '_blank', rel: 'noopener noreferrer' }
+                            = s_('CodeSuggestions|Code Explanations')
+                        %p{ style: "margin: 13px 0px; line-height: 1.5" }
+                          = s_('CodeSuggestions|Helps you get up to speed quickly by explaining source code')
+              / /features
+
+              / demo link
+              %tr
+                %td{ style: "padding: 20px; color: #ffffff;" }
+                  %p
+                    = safe_format(s_('CodeSuggestions|See Duo Pro in action in a Code Suggestions %{code_suggestions_demo_link_start}click-through demo%{code_suggestions_demo_link_end}.'), tag_pair(code_suggestions_demo_Link, :code_suggestions_demo_link_start, :code_suggestions_demo_link_end))
+              / /demo link
+
+              / border-based button purple
+              %tr
+                %td{ align: "left", style: "padding: 20px;" }
+                  %a{ href: new_user_session_url, style: "font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 3px;  border-top: 10px solid #7759c2; border-bottom: 10px solid #7759c2; border-right: 25px solid #7759c2; border-left: 25px solid #7759c2; background-color: #7759c2; display: inline-block;", target: "_blank", rel: "noopener noreferrer nofollow" }
+                    = _('Go to GitLab')
+              / /border-based button purple
+
+              / pill section divider
+              %tr
+                %td
+                  %table{ role: "presentation", style: "margin: 20px" }
+                    %tr
+                      %td{ style: "font-family: 'JetBrains Mono', monospace; line-height: 1.3; text-align: left; color: #e3d6ff; padding: 3px 21px 3px 21px; border: 1px solid #E3D6FF; border-radius: 25px" }
+                        %p
+                          = _('Resources')
+              / /pill section divider
+
+              / resources
+              %tr
+                %td{ align: "center", style: "padding: 20px" }
+                  %table{ role: "presentation" }
+                    %tr
+                      %td{ width: "170", align: "center" }
+                        %table{ role: "presentation" }
+                          %tr
+                            %td{ align: "center", style: "padding-bottom: 10px" }
+                              %a{ href: "https://university.gitlab.com/pages/ai?utm_medium=email&utm_source=iterable&utm_campaign=eg_global_x_nurture_x_en_duoproseatallocation&utm_content=onboarding_email&glm_source=email&glm_content=duo-pro-onboarding#developers-quick", target: '_blank', rel: 'noopener noreferrer' }
+                                %img{ alt: "quick start guide", src: image_url('mailers/duo/duo_guide_icon.png'), width: "60" }
+                          %tr
+                            %td{ align: "center" }
+                              %h3{ style: "color: #ffffff" }
+                                = _('Quick start guide')
+                      %td{ width: "170", align: "center" }
+                        %table{ role: "presentation" }
+                          %tr
+                            %td{ align: "center", style: "padding-bottom: 10px" }
+                              %a{ href: "https://university.gitlab.com/?utm_medium=email&utm_source=iterable&utm_campaign=eg_global_x_nurture_x_en_duoproseatallocation&utm_content=onboarding_email&glm_source=email&glm_content=duo-pro-onboarding", target: '_blank', rel: 'noopener noreferrer' }
+                                %img{ alt: "GitLab University", src: image_url('mailers/duo/duo_learn_icon.png'), width: "60" }
+                          %tr
+                            %td{ align: "center" }
+                              %h3{ style: "color: #ffffff" }
+                                = _('GitLab University')
+                      %td{ width: "170", align: "center" }
+                        %table{ role: "presentation" }
+                          %tr
+                            %td{ align: "center", style: "padding-bottom: 10px" }
+                              %a{ href: help_page_url('user/gitlab_duo/_index.md'), target: '_blank', rel: 'noopener noreferrer' }
+                                %img{ alt: "Documentation", src: image_url('mailers/duo/duo_docs_icon.png'), width: "60" }
+                          %tr
+                            %td{ align: "center" }
+                              %h3{ style: "color: #ffffff" }
+                                = _('Documentation')
+              //resources
+
+              / footer
+              %tr
+                %td{ align: "center", style: "color: #ffffff; padding-top: 40px;" }
+                  %img{ alt: "GitLab", src: image_url('mailers/gitlab_logo.png'), width: "36" }
+                  %p{ style: "font-size: 13px; padding: 20px" }
+                    = notification_reason_text(show_manage_notifications_link: true, show_help_link: true, unsubscribe_url: @unsubscribe_url, format: :html)
+              / /footer

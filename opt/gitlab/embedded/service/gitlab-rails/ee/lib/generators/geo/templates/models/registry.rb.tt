@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+module Geo
+  class <%= registry_class_name %> < Geo::BaseRegistry
+    include ::Geo::ReplicableRegistry
+    include ::Geo::VerifiableRegistry
+<%= registry_partition_includes -%>
+
+    belongs_to :<%= file_name %>, class_name: '<%= registry_belongs_to_class %>'
+
+    def self.model_class
+      <%= registry_model_class_reference %>
+    end
+
+    def self.model_foreign_key
+      :<%= foreign_key_name %>
+    end
+<%= registry_partition_class_methods -%>
+  end
+end

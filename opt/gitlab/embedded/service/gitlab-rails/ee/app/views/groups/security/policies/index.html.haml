@@ -1,0 +1,18 @@
+- breadcrumb_title _("Policies")
+- @content_wrapper_class = 'js-security-policies-container-wrapper'
+- disable_security_policy_project = !can_update_security_orchestration_policy_project?(group)
+- disable_scan_policy_update = !can_create_or_modify_security_policy?(group)
+
+#js-group-security-policies-list{ data: { assigned_policy_project: assigned_policy_project(group).to_json,
+  designated_as_csp: group.designated_as_csp?.to_s,
+  disable_security_policy_project: disable_security_policy_project.to_s,
+  disable_scan_policy_update: disable_scan_policy_update.to_s,
+  documentation_path: help_page_path('user/application_security/policies/_index.md'),
+  empty_filter_svg_path: image_path('illustrations/empty-state/empty-search-md.svg'),
+  empty_list_svg_path: image_path('illustrations/empty-state/empty-secure-add-md.svg'),
+  namespace_path: group.full_path,
+  root_namespace_path: group.root_ancestor&.full_path,
+  new_policy_path: new_group_security_policy_path(group),
+  max_scan_execution_policy_schedules: max_scan_execution_policy_schedules,
+  max_scan_execution_policy_actions: max_scan_execution_policy_actions,
+  access_tokens: access_tokens_for_container(group).to_json } }

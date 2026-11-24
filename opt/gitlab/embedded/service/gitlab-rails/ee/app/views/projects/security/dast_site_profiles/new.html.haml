@@ -1,0 +1,6 @@
+- add_to_breadcrumbs _('Security configuration'), project_security_configuration_path(@project)
+- add_to_breadcrumbs s_('DastProfiles|Manage profiles'), project_security_configuration_profile_library_path(@project, anchor: 'site-profiles')
+- breadcrumb_title s_('DastProfiles|New site profile')
+- page_title s_('DastProfiles|New site profile')
+
+.js-dast-site-profile-form{ data: dast_site_profile_form_data(@project) }

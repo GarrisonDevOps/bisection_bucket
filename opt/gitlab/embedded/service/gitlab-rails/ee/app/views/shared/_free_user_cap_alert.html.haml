@@ -1,0 +1,22 @@
+- content_for :page_level_alert do
+  - if Namespaces::FreeUserCap.enforced_without_storage_check?(source.root_ancestor)
+    = render Namespaces::FreeUserCap::EnforcementWithoutStorageAlertComponent.new(namespace: source.root_ancestor,
+      user: current_user)
+
+    = render Namespaces::FreeUserCap::NonOwnerEnforcementWithoutStorageAlertComponent.new(namespace: source.root_ancestor,
+      user: current_user)
+  - else
+    = render Namespaces::FreeUserCap::EnforcementAlertComponent.new(namespace: source.root_ancestor,
+      user: current_user)
+
+    = render Namespaces::FreeUserCap::NonOwnerEnforcementAlertComponent.new(namespace: source.root_ancestor,
+      user: current_user)
+
+  = render Namespaces::FreeUserCap::EnforcementAtLimitAlertComponent.new(namespace: source.root_ancestor,
+    user: current_user)
+
+  = render Namespaces::FreeUserCap::PreEnforcementAlertComponent.new(namespace: source.root_ancestor,
+    user: current_user)
+
+  = render Namespaces::FreeUserCap::NonOwnerPreEnforcementAlertComponent.new(namespace: source.root_ancestor,
+    user: current_user)

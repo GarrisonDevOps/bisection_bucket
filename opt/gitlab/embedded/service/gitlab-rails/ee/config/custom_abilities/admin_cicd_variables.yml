@@ -1,0 +1,17 @@
+---
+title: Manage CI/CD variables
+name: admin_cicd_variables
+description: Create, read, update, and delete CI/CD variables.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/437947
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143369
+feature_category: secrets_management
+milestone: '16.10'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - admin_cicd_variables
+group_permissions:
+  - admin_cicd_variables

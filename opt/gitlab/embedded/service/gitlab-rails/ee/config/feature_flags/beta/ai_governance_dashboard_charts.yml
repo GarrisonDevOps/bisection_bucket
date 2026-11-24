@@ -1,0 +1,10 @@
+---
+name: ai_governance_dashboard_charts
+description: Serve and show the chart cards on the AI Governance dashboard, starting with session distribution
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629071
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632776
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258249
+milestone: '19.5'
+group: group::ai governance
+type: beta
+default_enabled: true

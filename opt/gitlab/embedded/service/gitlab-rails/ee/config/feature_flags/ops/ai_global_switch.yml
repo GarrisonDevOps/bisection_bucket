@@ -1,0 +1,8 @@
+---
+name: ai_global_switch
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135093
+rollout_issue_url: # No rollout: This is an ops-flag
+milestone: '16.6'
+type: ops
+group: group::ai framework
+default_enabled: false

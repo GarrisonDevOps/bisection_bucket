@@ -1,0 +1,14 @@
+.gl-col-span-6{ class: "@md/panel:gl-row-span-2 @md/panel:gl-col-span-3", data: { testid: 'trial-reassurances-column' } }
+  .gl-mb-6.gl-place-self-center
+    = image_tag 'illustrations/tanuki-ai-md.svg', width: 160
+
+  %h3.gl-mb-3.gl-text-left.gl-text-default
+    = heading
+
+  %p.gl-mb-5.gl-text-left.gl-text-subtle= s_('InProductMarketing|No credit card required.')
+
+  %ul.gl-pl-0.gl-mb-6.gl-pl-0.gl-mb-6x.gl-text-default.gl-text-sm
+    - advantages.each do |advantage|
+      %li.gl-flex.gl-mb-3{ data: { testid: 'advantage-item' } }
+        %span.gl-mr-3= sprite_icon 'check-circle', css_class: 'gl-icon gl-fill-icon-success'
+        = advantage

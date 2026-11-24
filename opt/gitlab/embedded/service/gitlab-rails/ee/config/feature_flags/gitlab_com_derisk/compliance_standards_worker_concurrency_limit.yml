@@ -1,0 +1,10 @@
+---
+name: compliance_standards_worker_concurrency_limit
+description: Limits the concurrency of the per-project standards adherence check workers
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636585
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268918
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638940
+milestone: '19.6'
+group: group::compliance
+type: gitlab_com_derisk
+default_enabled: false

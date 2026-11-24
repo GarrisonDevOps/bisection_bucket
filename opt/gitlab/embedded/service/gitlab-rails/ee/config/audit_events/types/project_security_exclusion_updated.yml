@@ -1,0 +1,10 @@
+---
+name: project_security_exclusion_updated
+description: A project security exclusion is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/492464
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/166511
+feature_category: secret_detection
+milestone: '17.5'
+saved_to_database: true
+streamed: true
+scope: [Project]

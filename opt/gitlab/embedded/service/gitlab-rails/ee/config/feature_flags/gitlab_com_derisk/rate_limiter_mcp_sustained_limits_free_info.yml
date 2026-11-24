@@ -1,0 +1,11 @@
+---
+name: rate_limiter_mcp_sustained_limits_free_info
+description: Log MCP Server requests from free plan requesters that exceed the per-plan
+  hourly limit, without blocking
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/634981
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264022
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/635267
+milestone: '19.6'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,21 @@
+- f = local_assigns.fetch(:form)
+.form-group.gl-form-group{ role: 'group' }
+  = f.label :pipeline_execution_policies_per_configuration_limit, _('Maximum number of pipeline execution policies allowed per security policy configuration'), class: 'gl-block col-form-label'
+  = f.number_field :pipeline_execution_policies_per_configuration_limit, class: 'form-control gl-form-input gl-form-input-sm', min: 0, max: 20
+  %small.form-text.gl-text-subtle
+    = _("The maximum number of pipeline execution policies allowed per security policy configuration can exceed the limit for the instance. Set to 0 to use instance limit.")
+.form-group.gl-form-group{ role: 'group' }
+  = f.label :scan_execution_policies_per_configuration_limit, _('Maximum number of scan execution policies allowed per security policy configuration'), class: 'gl-block col-form-label'
+  = f.number_field :scan_execution_policies_per_configuration_limit, class: 'form-control gl-form-input gl-form-input-sm', min: 0, max: 20
+  %small.form-text.gl-text-subtle
+    = _("The maximum number of scan execution policies allowed per security policy configuration can exceed the limit for the instance. Set to 0 to use instance limit.")
+.form-group.gl-form-group{ role: 'group' }
+  = f.label :approval_policies_per_configuration_limit, _('Maximum number of approval policies allowed per security policy configuration'), class: 'gl-block col-form-label'
+  = f.number_field :approval_policies_per_configuration_limit, class: 'form-control gl-form-input gl-form-input-sm', min: 0, max: 20
+  %small.form-text.gl-text-subtle
+    = _("The maximum number of approval policies allowed per security policy configuration can exceed the limit for the instance. Set to 0 to use instance limit.")
+.form-group.gl-form-group{ role: 'group' }
+  = f.label :vulnerability_management_policies_per_configuration_limit, _('Maximum number of vulnerability management policies allowed per security policy configuration'), class: 'gl-block col-form-label'
+  = f.number_field :vulnerability_management_policies_per_configuration_limit, class: 'form-control gl-form-input gl-form-input-sm', min: 0, max: 20
+  %small.form-text.gl-text-subtle
+    = _("The maximum number of vulnerability management policies allowed per security policy configuration can exceed the limit for the instance. Set to 0 to use instance limit.")

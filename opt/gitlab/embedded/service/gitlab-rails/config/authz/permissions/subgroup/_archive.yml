@@ -1,0 +1,7 @@
+---
+name: _archive_subgroup
+description: Private permission that gates archiving a group that has a parent
+  group. The group policy combines this permission with a parent group check
+  to enable the public archive_group permission. Must not be checked directly
+  at enforcement points.
+conditionally_enables: archive_group

@@ -1,0 +1,20 @@
+---
+token_type: "digitalocean-access-token"
+class_name: "DigitaloceanOauthClient"
+partner_name: "digitalocean"
+endpoint: "https://api.digitalocean.com/v2/account"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Adoo_v1_[a-f0-9]{64}\z'
+sample_token: "doo_v1_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_digitalocean_api"
+doc_url: "https://docs.digitalocean.com/reference/api/reference/account/"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "403": "active"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

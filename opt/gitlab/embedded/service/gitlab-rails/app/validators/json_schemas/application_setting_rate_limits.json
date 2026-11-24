@@ -1,0 +1,669 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Application rate limits",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "audit_events_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the instance audit events API endpoints per user per minute."
+    },
+    "project_audit_events_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the project audit events API endpoints per user per project per minute."
+    },
+    "group_audit_events_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the group audit events API endpoints per user per group per minute."
+    },
+    "autocomplete_users_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of authenticated requests allowed to the GET /autocomplete/users endpoint."
+    },
+    "autocomplete_users_unauthenticated_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of unauthenticated requests allowed to the GET /autocomplete/users endpoint."
+    },
+    "concurrent_bitbucket_import_jobs_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of simultaneous import jobs for Bitbucket Cloud importer."
+    },
+    "concurrent_bitbucket_server_import_jobs_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of simultaneous import jobs for Bitbucket Server importer."
+    },
+    "concurrent_pull_request_import_jobs_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of simultaneous pull request import jobs for the GitHub, Bitbucket Cloud, and Bitbucket Server importers."
+    },
+    "concurrent_github_import_jobs_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of simultaneous import jobs for GitHub importer."
+    },
+    "git_push_per_project_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of Git pushes every minute to one project, over HTTPS and SSH. Set to 0 to disable the limit."
+    },
+    "github_gists_import_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of GitHub gists import requests a user can make per minute. Set to 0 to disable the limit."
+    },
+    "gitlab_shell_operation_per_actor_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of Git operations one user or deploy key can perform every minute across all repositories. Set to 0 to disable the limit."
+    },
+    "ipv6_rate_limit_prefix_length": {
+      "type": "integer",
+      "minimum": 48,
+      "maximum": 128,
+      "description": "Network prefix length that IPv6 client addresses are grouped by in per-IP rate limits. Set to 128 to count each address separately."
+    },
+    "concurrent_relation_batch_export_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of simultaneous batch export jobs to process."
+    },
+    "create_organization_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/organizations endpoint."
+    },
+    "cross_reference_checks_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of references each user can check for cross-reference notes per minute. Set to 0 to disable the limit."
+    },
+    "project_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/projects endpoint per user per day."
+    },
+    "group_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/groups endpoint per user per day."
+    },
+    "dependency_scanning_sbom_scan_api_upload_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of SBOM uploads allowed for Dependency Scanning Sbom Scan API."
+    },
+    "dependency_scanning_sbom_scan_api_download_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of SBOM downloads allowed for Dependency Scanning Sbom Scan API."
+    },
+    "glql_db_seconds_per_ip_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Database seconds, across all databases and their replicas, that GLQL queries from each unauthenticated IP address can use every 15 minutes. Set to 0 to turn off the limit."
+    },
+    "glql_db_seconds_per_query_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Database seconds, across all databases and their replicas, that each GLQL query text can use every 15 minutes, across all users. Set to 0 to turn off the limit."
+    },
+    "glql_db_seconds_per_user_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Database seconds, across all databases and their replicas, that GLQL queries from each user can use every 15 minutes. Set to 0 to turn off the limit."
+    },
+    "glql_duo_db_seconds_per_user_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Database seconds, across all databases and their replicas, that GLQL queries from GitLab Duo Agent Platform flows can use every 15 minutes for each user. Set to 0 to turn off the limit."
+    },
+    "group_archive_unarchive_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /groups/:id/archive & POST /groups/:id/unarchive API."
+    },
+    "group_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/groups/:id endpoint."
+    },
+    "group_invited_groups_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/groups/:id/invited_groups endpoint."
+    },
+    "group_projects_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/groups/:id/projects endpoint."
+    },
+    "group_relations_export_download_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/groups/:id/export_relations/download endpoint per user and group during direct transfer migrations."
+    },
+    "group_relations_export_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/groups/:id/export_relations endpoint per user and group during direct transfer migrations."
+    },
+    "group_shared_groups_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/groups/:id/groups/shared endpoint."
+    },
+    "groups_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/groups endpoint."
+    },
+    "epic_move_list_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of epic board moves allowed per user every minute."
+    },
+    "issuable_csv_import_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of CSV imports of issues, work items, and requirements allowed per user every hour."
+    },
+    "work_item_move_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of issue moves and clones allowed per user every minute."
+    },
+    "project_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/projects/:id endpoint."
+    },
+    "project_invited_groups_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/projects/:id/invited_groups endpoint."
+    },
+    "project_repositories_archive_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of authenticated archive download requests allowed per user across all projects."
+    },
+    "project_repositories_archive_unauthenticated_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of unauthenticated archive download requests allowed per IP address across all projects."
+    },
+    "project_repositories_blame_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of blame requests allowed per user and project, across the REST endpoint and the GraphQL blame field."
+    },
+    "project_repositories_blame_unauthenticated_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of unauthenticated blame requests allowed per IP address, across the REST endpoint and the GraphQL blame field."
+    },
+    "project_repositories_blobs_batch_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/projects/:id/repository/blobs/batch endpoint per user and project."
+    },
+    "project_repository_commits_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of commits with stats allowed from the GET /api/v4/projects/:id/repository/commits endpoint per minute, per user or IP address. A with_stats request costs the number of commits returned; a request that uses the all parameter costs 3 more."
+    },
+    "projects_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/projects endpoint."
+    },
+    "project_members_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/projects/:id/members/all endpoint."
+    },
+    "project_relations_export_download_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/projects/:id/export_relations/download endpoint per user and project during direct transfer migrations."
+    },
+    "project_relations_export_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/projects/:id/export_relations endpoint per user and project during direct transfer migrations."
+    },
+    "protected_branch_write_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of protected branches a user can create and delete per top-level group every hour."
+    },
+    "runner_jobs_request_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the POST /api/v4/jobs/request endpoint."
+    },
+    "runner_jobs_patch_trace_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the PATCH /api/v4/jobs/:id/trace endpoint."
+    },
+    "runner_jobs_endpoints_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the /api/v4/jobs/* endpoints."
+    },
+    "runner_manager_creation_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of runner managers each runner can create every 10 minutes."
+    },
+    "tags_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of tag creation requests allowed per 30 minutes per project. Set to 0 for unlimited requests per 30 minutes."
+    },
+    "throttle_authenticated_git_http_enabled": {
+      "type": "boolean",
+      "description": "Enable authenticated Git HTTP request rate limit"
+    },
+    "throttle_authenticated_git_http_requests_per_period": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Authenticated Git HTTP request rate limit"
+    },
+    "throttle_authenticated_git_http_period_in_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Authenticated Git HTTP rate limit period in seconds"
+    },
+    "throttle_authenticated_mcp_enabled": {
+      "type": "boolean",
+      "description": "Enable MCP Server request rate limit"
+    },
+    "throttle_authenticated_mcp_requests_per_period": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum MCP Server requests per period per user"
+    },
+    "throttle_authenticated_mcp_period_in_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "MCP Server rate limit period in seconds"
+    },
+    "throttle_authenticated_dependency_proxy_enabled": {
+      "type": "boolean",
+      "description": "Enable authenticated dependency proxy request rate limit"
+    },
+    "throttle_authenticated_dependency_proxy_requests_per_period": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Authenticated dependency proxy request rate limit"
+    },
+    "throttle_authenticated_dependency_proxy_period_in_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Authenticated dependency proxy rate limit period in seconds"
+    },
+    "todos_list_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed per minute per user to the GET /api/v4/todos endpoint. Set to 0 for unlimited requests per minute."
+    },
+    "user_contributed_projects_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/users/:user_id/contributed_projects endpoint."
+    },
+    "user_projects_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/users/:user_id/projects endpoint."
+    },
+    "user_starred_projects_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /api/v4/users/:user_id/starred_projects endpoint."
+    },
+    "label_delete_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of project or group labels a user can delete per minute."
+    },
+    "markdown_upload_limit_megabytes_per_day": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of megabytes of Markdown uploads a user can make per day. Set to 0 to disable the limit."
+    },
+    "members_delete_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of project or group members a user can delete per minute."
+    },
+    "milestone_destroy_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of milestones with more than 10 issues and merge requests a user can delete per minute."
+    },
+    "downstream_pipeline_trigger_limit_per_project_user_sha": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of downstream pipelines that can be triggered per minute (for a given project, user, and commit)."
+    },
+    "pages_deployments_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times the GraphQL pagesDeployments field can be resolved per minute for each user, or for each IP address for unauthenticated requests."
+    },
+    "pipeline_cancel_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of pipeline cancellations allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "pipeline_retry_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of pipeline retries allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "runner_job_list_completed_statuses_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of runner job list requests filtered by a completed status allowed per minute for a given user. Set to 0 to disable the limit."
+    },
+    "runner_job_list_project_filtered_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of runner job list requests filtered to the user's projects allowed per minute for a given user. Set to 0 to disable the limit."
+    },
+    "runner_manager_list_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of runner managers a user can list per minute. Set to 0 to disable the limit."
+    },
+    "pipeline_schedule_management_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of pipeline schedule changes (create, update, delete, take ownership) allowed per minute for a given user. Set to 0 to disable the limit."
+    },
+    "pipeline_trigger_management_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of pipeline trigger token changes (create, update, delete) allowed per minute for a given user. Set to 0 to disable the limit."
+    },
+    "job_retry_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of job retries allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "job_play_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of manual job runs allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "pipeline_delete_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of pipeline deletions allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "job_erase_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of job erasures allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "job_cancel_limit_per_user_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of job cancellations allowed per minute for a given project. Set to 0 to disable the limit."
+    },
+    "users_api_limit_followers": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:id/followers endpoint."
+    },
+    "users_api_limit_following": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:id/following endpoint."
+    },
+    "users_api_limit_status": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:user_id/status endpoint."
+    },
+    "users_api_limit_ssh_keys": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:user_id/keys endpoint."
+    },
+    "users_api_limit_ssh_key": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:id/keys/:key_id endpoint."
+    },
+    "users_api_limit_gpg_keys": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:id/gpg_keys endpoint."
+    },
+    "users_api_limit_gpg_key": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to the GET /users/:id/gpg_keys/:key_id endpoint."
+    },
+    "virtual_registries_endpoints_api_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests allowed to /api/v4/virtual_registries/packages/:package_format/:id/* endpoints."
+    },
+    "insights_query_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of Insights chart queries allowed per user or IP address per group or project per minute. Set to 0 to disable the limit."
+    },
+    "merge_train_removal_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of merge requests a user can remove from merge trains per minute. Set to 0 to disable the limit."
+    },
+    "orbit_query_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of GitLab Orbit queries allowed per user per minute. Set to 0 to disable the limit."
+    },
+    "orbit_indexing_status_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of GitLab Orbit indexing status requests allowed per user per minute. Set to 0 to disable the limit."
+    },
+    "orbit_item_counts_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of GitLab Orbit item count requests allowed per user per minute. Set to 0 to disable the limit."
+    },
+    "orbit_rate_limit_allowlist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Usernames excluded from the GitLab Orbit rate limits."
+    },
+    "subscription_usage_per_minute_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of subscriptionUsage and trialUsage requests allowed per user per minute. Set to 0 to disable the limit."
+    },
+    "subscription_usage_per_hour_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of subscriptionUsage and trialUsage requests allowed per user per hour. Set to 0 to disable the limit."
+    },
+    "subscription_usage_per_day_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of subscriptionUsage and trialUsage requests allowed per user per day. Set to 0 to disable the limit."
+    },
+    "budget_cap_update_per_minute_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of budget cap mutation calls allowed per user per minute. Set to 0 to disable the limit."
+    },
+    "budget_cap_update_per_hour_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of budget cap mutation calls allowed per user per hour. Set to 0 to disable the limit."
+    },
+    "budget_cap_update_per_day_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of budget cap mutation calls allowed per user per day. Set to 0 to disable the limit."
+    },
+    "credits_usage_per_minute_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of creditsUsage requests allowed per user per minute. Set to 0 to disable the limit."
+    },
+    "credits_usage_per_hour_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of creditsUsage requests allowed per user per hour. Set to 0 to disable the limit."
+    },
+    "credits_usage_per_day_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of creditsUsage requests allowed per user per day. Set to 0 to disable the limit."
+    },
+    "service_desk_paid_namespace_probation_days": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 365,
+      "description": "Number of days a newly paid top-level namespace keeps the free plan Service Desk email rate limits. Set to 0 to disable the probation."
+    },
+    "pipeline_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of pipelines allowed to be created per user"
+    },
+    "ci_lint_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of CI Lint requests allowed per minute per user. Set to 0 for unlimited requests per minute."
+    },
+    "raw_blob_request_limit_unauthenticated": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of unauthenticated requests per minute across all raw paths in a project (default is 800). Set to 0 to disable throttling."
+    },
+    "release_evidence_collections_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of release evidence collection requests a user can make per minute. Set to 0 to disable the limit."
+    },
+    "release_writes_limit_per_project": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of release create and update requests allowed per minute for each project. Set to 0 to disable the limit."
+    },
+    "release_writes_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of release create and update requests a user can make per minute. Set to 0 to disable the limit."
+    },
+    "group_hooks_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of group webhooks a user can create per minute for a given group. Set to 0 to disable the limit."
+    },
+    "discussions_resolve_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of thread resolve and unresolve requests a user can make per minute. Set to 0 to disable the limit."
+    },
+    "merge_requests_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of merge requests a user can create per minute. Set to 0 to disable the limit."
+    },
+    "environment_delete_rows_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of deployment, job, and merge request link rows a user can delete with environments per minute. Set to 0 to disable the limit."
+    },
+    "feature_flag_user_list_write_bytes_limit_per_user": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of bytes of feature flag user lists a user can write per minute. Set to 0 to disable the limit."
+    },
+    "merge_requests_rebase_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of merge request rebases a user can request per minute. Set to 0 to disable the limit."
+    },
+    "draft_notes_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of draft notes a user can create per minute. Set to 0 to disable the limit."
+    },
+    "pages_domain_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of Pages custom domains a user can create per day. Set to 0 to disable the limit."
+    },
+    "pages_domain_verify_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of Pages custom domain verification requests a user can make per minute. Set to 0 to disable the limit."
+    },
+    "project_hooks_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of project webhooks a user can create per minute for a given project. Set to 0 to disable the limit."
+    },
+    "system_hooks_create_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of system hooks a user can create per minute. Set to 0 to disable the limit."
+    },
+    "web_hook_event_resend_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of webhook event resend requests a user can make per minute for a given project or group. Set to 0 to disable the limit."
+    },
+    "web_hook_test_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of webhook test requests a user can make per minute for a given project, group, or organization. Set to 0 to disable the limit."
+    },
+    "wiki_read_request_limit_unauthenticated": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of unauthenticated wiki read requests allowed per minute for each project or group wiki. Set to 0 to disable the limit."
+    },
+    "merge_request_diffs_page_request_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of merge request Changes page loads a user, or an IP address for unauthenticated requests, can make per minute. Set to 0 to disable the limit."
+    },
+    "merge_request_diff_resources_request_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of requests a user, or an IP address for unauthenticated requests, can make per minute to the merge request diff resources the Changes page loads (diffs_stream, diffs_stats, diff_files_metadata). Set to 0 to disable the limit."
+    },
+    "work_item_hierarchy_add_children_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of child items a user can add to work items or epics per minute. Set to 0 to disable the limit."
+    },
+    "work_item_update_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of issue, epic, and work item updates allowed per user every minute."
+    }
+  }
+}

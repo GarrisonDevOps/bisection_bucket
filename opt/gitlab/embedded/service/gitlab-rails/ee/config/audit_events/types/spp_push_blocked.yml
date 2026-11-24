@@ -1,0 +1,10 @@
+---
+name: spp_push_blocked
+description: Secret push protection blocks a push because it detects a secret in the changes
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/601632
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251138
+feature_category: secret_detection
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Project]

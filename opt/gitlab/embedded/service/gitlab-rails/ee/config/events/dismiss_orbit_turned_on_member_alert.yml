@@ -1,0 +1,15 @@
+---
+description: A group member dismisses the GitLab Orbit turned-on banner
+internal_events: true
+action: dismiss_orbit_turned_on_member_alert
+identifiers:
+- user
+- namespace
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268108
+tiers:
+- premium
+- ultimate

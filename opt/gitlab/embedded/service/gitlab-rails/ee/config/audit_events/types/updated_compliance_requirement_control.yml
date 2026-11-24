@@ -1,0 +1,10 @@
+---
+name: updated_compliance_requirement_control
+description: Compliance requirement control updated.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/512381
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177557
+milestone: '17.9'
+feature_category: compliance_management
+saved_to_database: true
+streamed: true
+scope: [Group]

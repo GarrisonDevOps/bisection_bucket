@@ -1,0 +1,16 @@
+---
+table_name: workforce_people
+classes:
+- Workforce::Person
+feature_categories:
+- value_stream_management
+description: One row per person in a tenant's workforce hierarchy, holding the external
+  identifier, full name, external manager identifier, matched GitLab user and a precomputed
+  ancestry path. No email or other HR attribute is stored.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261107
+milestone: '19.6'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  group_id: namespaces
+  organization_id: organizations
+table_size: small

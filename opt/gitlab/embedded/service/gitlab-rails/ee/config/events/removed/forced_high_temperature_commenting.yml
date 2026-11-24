@@ -1,0 +1,19 @@
+---
+description: Forced commenting on a high temperature comment
+internal_events: true
+action: forced_high_temperature_commenting
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: duo_chat
+product_categories:
+- ai_abstraction_layer
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177415
+tiers:
+- ultimate
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260432
+milestone_removed: '19.6'
+status: removed

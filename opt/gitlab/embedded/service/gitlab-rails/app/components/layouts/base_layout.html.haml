@@ -1,0 +1,34 @@
+.gl-base-layout{ @options }
+  = render ::Layouts::PageHeadingComponent.new(@heading, options: { class: class_names('gl-sr-only': @page_heading_sr_only) }) do |c|
+    - if show_heading_skeleton?
+      - c.with_heading_wrapper do
+        .gl-animate-skeleton-loader.gl-my-2.gl-h-8.gl-w-88.gl-max-w-full.gl-rounded-base{ aria: { hidden: 'true' }, data: { testid: 'base-layout-heading-skeleton' } }
+    - else
+      - c.with_heading do
+        = heading || @heading
+    - if actions?
+      - c.with_actions do
+        = actions
+    - if show_description_skeleton?
+      - c.with_description do
+        .gl-animate-skeleton-loader.gl-my-2.gl-h-4.gl-rounded-base{ class: 'gl-w-3/4', aria: { hidden: 'true' }, data: { testid: 'base-layout-description-skeleton' } }
+    - elsif description? || @description
+      - c.with_description do
+        = description || @description
+
+  - if alerts?
+    .gl-base-layout-alerts.js-base-layout-alerts{ data: { testid: 'base-layout-alerts' } }
+      = alerts
+
+  %div{ data: { testid: 'base-layout-content' } }
+    - if @loading && loading?
+      = loading
+    - elsif @loading
+      %div{ role: 'status', data: { testid: 'base-layout-skeleton' } }
+        %span.gl-sr-only= _('Loading')
+        - if loading_skeleton?
+          = loading_skeleton
+        - else
+          = render ::Layouts::BaseLayoutSkeletonComponent.new
+    - else
+      = content

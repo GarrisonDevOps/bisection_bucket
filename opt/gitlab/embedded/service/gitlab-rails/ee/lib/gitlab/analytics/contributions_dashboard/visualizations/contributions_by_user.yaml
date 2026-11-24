@@ -1,0 +1,8 @@
+---
+version: 1
+type: ContributionsByUserTable
+data:
+  type: contributions
+  query: 
+    metric: 'contributions_by_user'
+options: {}

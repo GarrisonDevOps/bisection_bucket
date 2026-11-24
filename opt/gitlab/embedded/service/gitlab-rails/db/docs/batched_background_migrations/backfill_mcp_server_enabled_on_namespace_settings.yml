@@ -1,0 +1,9 @@
+---
+migration_job_name: BackfillMcpServerEnabledOnNamespaceSettings
+description: Sets NULL namespace_settings.mcp_server_enabled values to true before the column is made NOT NULL
+feature_category: mcp_server
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266477
+milestone: '19.6'
+queued_migration_version: 20261029232722
+gitlab_schema: gitlab_main_org
+finalized_by: # version of the migration that finalized this BBM

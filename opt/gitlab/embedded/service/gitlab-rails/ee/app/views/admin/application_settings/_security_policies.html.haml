@@ -1,0 +1,27 @@
+= gitlab_ui_form_for @application_setting, url: security_and_compliance_admin_application_settings_path(anchor: 'js-security-policies-settings'), html: { class: 'fieldset-form', id: 'security-policies-settings' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group.gl-mb-0
+      = f.gitlab_ui_checkbox_component :policy_store_experiment_enabled, s_('PolicyStore|Enable the Policy Store experiment') do |c|
+        - c.with_help_text do
+          = s_('PolicyStore|When enabled, the experimental Policy Store becomes available at the organization level.')
+    .form-group.gl-mb-0
+      = f.label :scan_execution_policies_schedule_limit, _('Maximum number of schedule rules per scan execution policy'), class: 'label-bold'
+      = f.number_field :scan_execution_policies_schedule_limit, class: 'form-control gl-form-input', min: 0, max: 20
+    .form-group.gl-mb-0
+      = f.label :scan_execution_policies_action_limit, _('Maximum number of actions per scan execution policy'), class: 'label-bold'
+      = f.number_field :scan_execution_policies_action_limit, class: 'form-control gl-form-input', min: 0, max: 20
+    .form-group.gl-mb-0
+      = f.label :pipeline_execution_policies_per_configuration_limit, _('Maximum number of pipeline execution policies allowed per security policy configuration'), class: 'label-bold'
+      = f.number_field :pipeline_execution_policies_per_configuration_limit, class: 'form-control gl-form-input', min: 0, max: 20
+    .form-group.gl-mb-0
+      = f.label :scan_execution_policies_per_configuration_limit, _('Maximum number of scan execution policies allowed per security policy configuration'), class: 'label-bold'
+      = f.number_field :scan_execution_policies_per_configuration_limit, class: 'form-control gl-form-input', min: 0, max: 20
+    .form-group.gl-mb-0
+      = f.label :security_approval_policies_limit, _('Maximum number of approval policies allowed per security policy configuration'), class: 'label-bold'
+      = f.number_field :security_approval_policies_limit, class: 'form-control gl-form-input', min: 0, max: 20
+    .form-group.gl-mb-0
+      = f.label :vulnerability_management_policies_per_configuration_limit, _('Maximum number of vulnerability management policies allowed per security policy configuration'), class: 'label-bold'
+      = f.number_field :vulnerability_management_policies_per_configuration_limit, class: 'form-control gl-form-input', min: 0, max: 20
+  = f.submit _('Save changes'), pajamas_button: true

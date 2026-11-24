@@ -1,0 +1,4 @@
+---
+# Cop supports --autocorrect.
+Mcp/VersionedMethodNaming:
+  Details: grace period

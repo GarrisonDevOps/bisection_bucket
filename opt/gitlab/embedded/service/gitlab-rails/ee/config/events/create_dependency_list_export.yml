@@ -1,0 +1,20 @@
+---
+description: Dependency list export created
+internal_events: true
+action: create_dependency_list_export
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Format of the export
+  property:
+    description: Class of object that the export is associated with
+product_group: vulnerability_management
+product_categories:
+  - dependency_management
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184666
+tiers:
+  - ultimate

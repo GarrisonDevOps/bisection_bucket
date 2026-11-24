@@ -1,0 +1,83 @@
+
+title: DORA metrics analytics
+description: View current DORA metric performance and historical trends to analyze DevOps efficiency over time.
+filters:
+  dateRange:
+    enabled: true
+    defaultOption: 180d
+    options:
+      - 7d
+      - 30d
+      - 90d
+      - 180d
+      - custom
+    numberOfDaysLimit: 180
+    numberOfDaysHistoryLimit: 730
+panels:
+  - title: Deployment frequency average
+    gridAttributes:
+      width: 3
+      height: 1
+      yPos: 0
+      xPos: 0
+    queryOverrides: {}
+    visualization: deployment_frequency_average
+  - title: Change failure rate
+    gridAttributes:
+      width: 3
+      height: 1
+      yPos: 0
+      xPos: 3
+    queryOverrides: {}
+    visualization: change_failure_rate
+  - title: Time to restore service median
+    gridAttributes:
+      width: 3
+      height: 1
+      yPos: 0
+      xPos: 6
+    queryOverrides: {}
+    visualization: time_to_restore_service_median
+  - title: Lead time for changes median
+    gridAttributes:
+      width: 3
+      height: 1
+      yPos: 0
+      xPos: 9
+    queryOverrides: {}
+    visualization: lead_time_for_changes_median
+  - title: Deployment frequency over time
+    gridAttributes:
+      width: 6
+      height: 3
+      yPos: 1
+      xPos: 0
+    queryOverrides: {}
+    visualization: deployment_frequency_over_time
+  - title: Change failure rate over time
+    gridAttributes:
+      width: 6
+      height: 3
+      yPos: 1
+      xPos: 6
+    queryOverrides: {}
+    options: {}
+    visualization: change_failure_rate_over_time
+  - title: Time to restore service over time
+    gridAttributes:
+      width: 6
+      height: 3
+      yPos: 4
+      xPos: 0
+    queryOverrides: {}
+    options: {}
+    visualization: time_to_restore_service_over_time
+  - title: Lead time for changes over time
+    gridAttributes:
+      width: 6
+      height: 3
+      yPos: 4
+      xPos: 6
+    queryOverrides: {}
+    options: {}
+    visualization: lead_time_for_changes_over_time

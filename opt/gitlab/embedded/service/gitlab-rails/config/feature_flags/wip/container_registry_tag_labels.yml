@@ -1,0 +1,10 @@
+---
+name: container_registry_tag_labels
+description: Returns the labels and annotations of container registry tags in the tag details.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258419
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/18815
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637271
+milestone: '19.6'
+group: group::container registry
+type: wip
+default_enabled: false

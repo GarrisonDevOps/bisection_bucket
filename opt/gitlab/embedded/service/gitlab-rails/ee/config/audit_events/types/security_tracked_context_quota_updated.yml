@@ -1,0 +1,10 @@
+---
+name: security_tracked_context_quota_updated
+description: The tracked security context quota for an organization is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/585972
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239796
+feature_category: vulnerability_management
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Instance]

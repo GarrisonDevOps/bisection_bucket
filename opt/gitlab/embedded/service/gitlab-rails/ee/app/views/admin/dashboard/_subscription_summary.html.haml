@@ -1,0 +1,25 @@
+- return if license&.paid? || ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+
+.gl-mb-6.gl-mt-5.gl-flex.gl-flex-col{ class: "md:gl-flex-row" }
+  .gl-border.gl-flex.gl-flex-1.gl-flex-col.gl-justify-between.gl-rounded-t-lg.gl-bg-default.gl-p-6{ class: "md:gl-rounded-l-lg md:gl-rounded-r-none" }
+    .gl-text-sm.gl-text-subtle.gl-leading-20
+      = s_('AdminArea|Active subscription')
+    .gl-heading-1-fixed.gl-text-default.gl-my-2
+      = s_('AdminArea|GitLab Free')
+    .gl-text-sm.gl-text-subtle.gl-leading-20
+      = s_('AdminArea|Basic CI/CD features for individual developers. Bring your own runners and storage.')
+  .gl-border.gl-flex.gl-flex-1.gl-flex-col.gl-justify-between.gl-rounded-b-lg.gl-border-t-0.gl-bg-subtle.gl-p-6{ class: "md:gl-border-t md:gl-rounded-l-none md:gl-rounded-r-lg md:gl-border-l-0" }
+    .gl-heading-3-fixed.gl-text-default.gl-mb-0
+      = s_('AdminArea|Try a 30 day free trial of Ultimate')
+    .gl-text-sm.gl-text-subtle.gl-leading-20.gl-my-3
+      = s_('AdminArea|For teams who need advanced CI/CD and productivity features.')
+    .gl-flex
+      - options = { variant: 'confirm', size: 'small', button_options: { class: 'gl-p-3 gl-mr-3' } }
+      = render Pajamas::ButtonComponent.new(href: new_self_managed_trials_path,
+        **options.deep_merge(button_options: { data: { 'event-tracking': 'click_start_trial_cta_sm_admin_dashboard' }})) do
+        = s_('AdminArea|Start free trial')
+      = render Pajamas::ButtonComponent.new(category: 'secondary',
+        href: promo_pricing_url(query: { deployment: 'self-managed' }),
+        target: "_blank",
+        **options.deep_merge(button_options: { data: { 'event-tracking': 'click_explore_plans_cta_sm_admin_dashboard' }})) do
+        = s_('AdminArea|Explore plans')

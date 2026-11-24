@@ -1,0 +1,10 @@
+---
+name: ci_rate_limit_rest_runner_job_list_completed_statuses
+description: Rate limits REST runner job lists filtered by completed statuses per user, and returns no jobs for statuses a runner's jobs can't have or for users with no authorized project
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638239
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268904
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638937
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

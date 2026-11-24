@@ -1,0 +1,13 @@
+---
+name: merge_request_diff_resources_rate_limit
+description: Enforces the rate limit on the merge request diff resources the Changes
+  page loads (diffs_stream, diffs_stats, diff_files_metadata), per user when signed
+  in, per IP address when anonymous; while disabled, requests over the limit are
+  only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635093
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269240
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639415
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,15 @@
+---
+name: BackfillTokenStatusInVulnerabilities
+version: '20251001130713'
+description: Backfills Vulnerabilities Index from PostgreSQL to backfill token_status
+group: group::security insights
+milestone: '18.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207065
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219260
+marked_obsolete_in_milestone: '18.9'
+skippable: true
+skip_condition: This migration will run on SaaS and Dedicated GitLab instances. For
+  Self-managed instances decision is awaited and is tracked in https://gitlab.com/gitlab-org/gitlab/-/issues/525484.
+  For Self-managed this migration will be skipped and can be introduced later based
+  on product direction.

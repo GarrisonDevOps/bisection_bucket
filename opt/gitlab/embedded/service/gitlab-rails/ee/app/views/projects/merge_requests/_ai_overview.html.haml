@@ -1,0 +1,1 @@
+#js-ai-overview{ data: { project_path: @project.full_path, iid: @merge_request.iid, ai_suggested_reviewers_available: ::Gitlab::Duo::RecommendReviewers.available?(@merge_request.target_project).to_s } }

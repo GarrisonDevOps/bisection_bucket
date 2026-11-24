@@ -1,0 +1,15 @@
+- linked_configurations = local_assigns.fetch(:linked_configurations)
+- limited_configurations = linked_configurations[:limited_configurations]
+- has_more = linked_configurations[:has_more]
+
+%p= s_("SecurityOrchestration|Group cannot be deleted because it has projects that are linked as a security policy project")
+%p= s_("SecurityOrchestration|Unlink the following projects from the following containers:")
+%ul
+  - limited_configurations.group_by(&:security_policy_management_project).each do |policy_project, blocking_configurations|
+    %li
+      %strong= policy_project.full_path
+      %ul
+        - blocking_configurations.each do |configuration|
+          %li= link_to(configuration.project&.name || configuration.namespace&.name, security_policies_path(configuration.project || configuration.namespace))
+  - if has_more
+    %strong and more

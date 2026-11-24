@@ -1,0 +1,5 @@
+---
+name: security_scans_api
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/190818
+milestone: '18.1'
+group: group::static analysis

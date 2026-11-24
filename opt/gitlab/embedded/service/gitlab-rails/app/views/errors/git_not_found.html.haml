@@ -1,0 +1,8 @@
+- content_for(:title, 'Git Resource Not Found')
+
+.error-container
+  = image_tag('illustrations/error/error-404-lg.svg', alt: '404', lazy: false)
+  %h1
+    = s_('404|404: Git resource not found')
+  %p
+    = s_("404|Application cannot get access to a branch or commit in your repository. It might have been moved")

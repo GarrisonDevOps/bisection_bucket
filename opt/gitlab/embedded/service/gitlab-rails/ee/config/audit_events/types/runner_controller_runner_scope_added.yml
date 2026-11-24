@@ -1,0 +1,10 @@
+---
+name: runner_controller_runner_scope_added
+description: Runner-level scope is added to a runner controller
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/586417
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223546
+feature_category: continuous_integration
+milestone: '18.10'
+saved_to_database: true
+streamed: true
+scope: [Instance]

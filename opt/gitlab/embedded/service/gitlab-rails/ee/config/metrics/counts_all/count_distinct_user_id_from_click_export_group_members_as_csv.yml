@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.count_distinct_user_id_from_click_export_group_members_as_csv
+description: Count of unique users that export group members as CSV
+product_group: organizations
+product_categories:
+- groups_and_projects
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168243
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: click_export_group_members_as_csv
+  unique: user.id

@@ -1,0 +1,15 @@
+---
+description: User clicks `View all sessions` in the empty `Needs a decision` tab of the agent sessions inbox
+internal_events: true
+status: active
+action: click_view_all_sessions_in_agent_session_inbox
+identifiers:
+- user
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262148
+tiers:
+- premium
+- ultimate

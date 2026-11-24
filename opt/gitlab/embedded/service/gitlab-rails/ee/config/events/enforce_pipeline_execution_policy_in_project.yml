@@ -1,0 +1,21 @@
+---
+description: Pipeline execution policy was enforced
+internal_events: true
+action: enforce_pipeline_execution_policy_in_project
+identifiers:
+- project
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/158675
+tiers:
+- ultimate
+additional_properties:
+  label:
+    description: "Pipeline config strategy - mixed, inject_ci, inject_policy, override_project_ci"
+  property:
+    description: "Variable precedence configuration - highest_precedence, mixed, override_allowed, override_not_allowed"
+  value:
+    description: "Number of enforced pipeline execution policies"

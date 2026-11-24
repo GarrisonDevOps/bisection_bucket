@@ -1,0 +1,14 @@
+---
+description: MR approval policy with multiple approver actions
+internal_events: true
+action: check_multiple_approval_actions_for_approval_policy
+identifiers:
+- project
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/176669
+tiers:
+- ultimate

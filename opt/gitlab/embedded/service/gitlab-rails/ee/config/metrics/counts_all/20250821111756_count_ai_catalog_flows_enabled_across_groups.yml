@@ -1,0 +1,20 @@
+---
+key_path: counts.ai_catalog_flows_enabled_across_groups
+description: Total AI catalog flows enabled across groups
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+value_type: number
+status: active
+milestone: "18.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202202
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountAiCatalogFlowsEnabledMetric
+performance_indicator_type: []
+options:
+  consumer_type: group
+tiers:
+- premium
+- ultimate

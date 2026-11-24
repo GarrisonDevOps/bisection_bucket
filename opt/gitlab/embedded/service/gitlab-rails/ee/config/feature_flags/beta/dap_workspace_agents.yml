@@ -1,0 +1,10 @@
+---
+name: dap_workspace_agents
+description: Attach customer-defined workspace agents to foundational flows as subagents
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/622600
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253760
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627782
+milestone: '19.4'
+group: group::agent developer
+type: beta
+default_enabled: true

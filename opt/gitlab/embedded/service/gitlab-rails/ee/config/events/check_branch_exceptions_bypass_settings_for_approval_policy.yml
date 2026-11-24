@@ -1,0 +1,15 @@
+---
+description: MR approval policy with branch exceptions in bypass_settings
+internal_events: true
+status: active
+action: check_branch_exceptions_bypass_settings_for_approval_policy
+identifiers:
+- project
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197833
+tiers:
+- ultimate

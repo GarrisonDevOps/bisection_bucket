@@ -1,0 +1,17 @@
+---
+description: Approval policy with atomic (per-scanner) rule criteria was created or updated
+internal_events: true
+action: approval_policy_with_atomic_scanner_rule
+identifiers:
+  - project
+  - namespace
+additional_properties:
+  label:
+    description: 'Whether the policy was created or updated'
+product_group: policy_management
+product_categories:
+  - security_policy_management
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230383
+tiers:
+  - ultimate

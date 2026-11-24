@@ -1,0 +1,24 @@
+---
+key_path: redis_hll_counters.network_policies.clusters_using_network_policies_ui
+description: Number of distinct clusters with network policies using the network policies UI
+product_group: policy_management
+product_categories:
+- security_policy_management
+value_type: number
+status: removed
+milestone_removed: '15.5'
+removed_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/98858'
+milestone: "14.1"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/64731
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: operational
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+    - clusters_using_network_policies_ui
+tiers:
+- ultimate
+performance_indicator_type: []

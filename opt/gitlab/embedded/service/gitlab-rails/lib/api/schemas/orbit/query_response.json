@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["result", "query_type", "row_count"],
+  "properties": {
+    "result": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "string" }
+      ],
+      "description": "The query result built by the Orbit service. Its shape is set by the Orbit query response schema and versioned by its `format_version` field. An empty string when the Orbit service returns no result.",
+      "externalDocs": {
+        "description": "Orbit query response schema",
+        "url": "https://gitlab.com/gitlab-org/orbit/knowledge-graph/-/raw/main/config/schemas/query_response.json"
+      }
+    },
+    "query_type": {
+      "type": "string",
+      "description": "The type of query that was run.",
+      "example": "traversal"
+    },
+    "raw_query_strings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The compiled queries, for debugging. Present only when the Orbit service returns them."
+    },
+    "row_count": {
+      "type": "integer",
+      "description": "The number of rows in the returned page.",
+      "example": 2
+    }
+  }
+}

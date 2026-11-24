@@ -1,0 +1,4 @@
+- if @project.feature_available?(:issuable_default_templates)
+  = s_('ProjectSettings|Choose the method, options, checks, and squash options for merge requests. You can also set up merge request templates for different actions.')
+- else
+  = s_('ProjectSettings|Choose your merge method, options, checks, and squash options.')

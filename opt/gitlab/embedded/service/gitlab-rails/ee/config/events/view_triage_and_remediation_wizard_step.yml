@@ -1,0 +1,18 @@
+---
+description: User viewed a step of the triage and remediation wizard
+internal_events: true
+action: view_triage_and_remediation_wizard_step
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The wizard step being viewed. One of "approach", "items", "profile", "mode", "capabilities", "review", or "confirmation".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267364
+tiers:
+- ultimate

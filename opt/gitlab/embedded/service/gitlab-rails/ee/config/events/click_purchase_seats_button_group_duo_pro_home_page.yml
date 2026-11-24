@@ -1,0 +1,19 @@
+---
+description: Tracks when a user clicks the "Purchase seats" button on the Duo Pro home page.
+internal_events: true
+action: click_purchase_seats_button_group_duo_pro_home_page
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: acquisition
+product_categories:
+- duo_service_infra
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169498
+tiers:
+- ultimate
+additional_properties:
+  label:
+    description: hardcoded value duo_pro_purchase_seats

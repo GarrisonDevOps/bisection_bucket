@@ -1,0 +1,10 @@
+---
+name: delete_instance_ssh_certificate
+description: An instance SSH certificate authority is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/611324
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257413
+feature_category: source_code_management
+milestone: '19.5'
+saved_to_database: true
+streamed: true
+scope: [Instance]

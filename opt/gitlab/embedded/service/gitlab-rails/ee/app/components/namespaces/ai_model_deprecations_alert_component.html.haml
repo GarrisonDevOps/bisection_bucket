@@ -1,0 +1,14 @@
+- selected_deprecated_models_count = selected_deprecated_models.count
+
+= render Pajamas::AlertComponent.new(title: n_("Model scheduled for removal", "Models scheduled for removal", selected_deprecated_models_count),
+  variant: :info,
+  dismissible: false,
+  alert_options: { data: { testid: 'ai-model-deprecation-alert' } }) do |c|
+  = c.with_body do
+    %p= s_('AiModelDeprecation|The following models have been deprecated and will stop working after GitLab removes them. Please change to an alternative model before the removal version to avoid disruption.')
+    %ul
+      - selected_deprecated_models.each do |model|
+        %li= deprecation_list_item_message(model)
+
+  = c.with_actions do
+    = helpers.link_button_to s_('AiModelDeprecation|Change model'), model_selection_path, class: 'gl-mb-3', variant: :confirm, size: :small

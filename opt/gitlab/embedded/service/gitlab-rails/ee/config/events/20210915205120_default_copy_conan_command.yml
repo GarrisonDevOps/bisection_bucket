@@ -1,0 +1,16 @@
+description: "Copy Conan command"
+category: default
+action: copy_conan_command
+extra_properties:
+identifiers:
+product_group: package_registry
+product_categories:
+- package_registry
+milestone: "12.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21908
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`code_instruction`"

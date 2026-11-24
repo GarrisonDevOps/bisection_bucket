@@ -1,0 +1,16 @@
+---
+name: audit_event_streaming_nats_shadow_publish
+description: Gates the shadow-mode publish side of NATS audit event streaming.
+  When on (together with audit_event_streaming_nats_shadow_mode), EnqueueService
+  publishes events to NATS for shadow load while still delivering via Sidekiq.
+  Turning it off stops publishing without touching the consumer, so the consumer
+  can keep draining and discarding the existing backlog until the stream is
+  empty, with no delivery to customer endpoints. Enables a clean cutover where
+  publishing stops, the stream drains to zero, then shadow mode is disabled.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/604456
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258563
+rollout_issue_url:
+milestone: '19.5'
+group: group::compliance
+type: ops
+default_enabled: false

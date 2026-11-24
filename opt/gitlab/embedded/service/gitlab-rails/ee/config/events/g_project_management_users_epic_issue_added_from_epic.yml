@@ -1,0 +1,16 @@
+---
+description: User created a new issue from an epic
+internal_events: true
+action: g_project_management_users_epic_issue_added_from_epic
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131495
+tiers:
+- premium

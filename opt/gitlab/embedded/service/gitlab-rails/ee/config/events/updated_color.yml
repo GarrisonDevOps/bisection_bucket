@@ -1,0 +1,11 @@
+---
+description: track logs an event indicating that a user has successfully updated the color of a work item.
+action: updated_color
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/145410
+tiers:
+  - premium
+  - ultimate

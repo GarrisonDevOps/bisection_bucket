@@ -1,0 +1,154 @@
+inherit_from:
+  - ../config/rubocop.yml
+
+Gemfile/MissingFeatureCategory:
+  Enabled: false
+
+# Mirrors the monolith's global settings, so that moving a file into this gem
+# does not change which cops apply to it. See the root `.rubocop.yml`.
+Fips/OpenSSL:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 25
+  AllowSubject: true
+
+Style/NumericPredicate:
+  EnforcedStyle: comparison
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either_consistent
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_builtin_english_names
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Exclude:
+    - spec/**/*_spec.rb
+
+# Debt inherited with the moved files, previously held in `.rubocop_todo/`.
+Fips/SHA1:
+  Exclude:
+    - lib/gitlab/diff/formatters/base_formatter.rb
+    - spec/support/position_formatters_shared_examples.rb
+
+Gitlab/NamespacedClass:
+  Exclude:
+    - lib/gitlab/marker_range.rb
+    - lib/gitlab/string_range_marker.rb
+    - lib/gitlab/string_regex_marker.rb
+
+Gitlab/StrongMemoizeAttr:
+  Exclude:
+    - lib/gitlab/diff/char_diff.rb
+
+Layout/ClassStructure:
+  Exclude:
+    - lib/gitlab/diff/line.rb
+
+Layout/LineEndStringConcatenationIndentation:
+  Exclude:
+    - spec/gitlab/diff/char_diff_spec.rb
+
+Layout/LineLength:
+  Exclude:
+    - lib/gitlab/diff/formatters/base_formatter.rb
+    - lib/gitlab/diff/parser.rb
+    - lib/gitlab/word_diff/parser.rb
+    - spec/gitlab/diff/formatters/text_formatter_spec.rb
+    - spec/gitlab/diff/inline_diff_marker_spec.rb
+    - spec/gitlab/string_range_marker_spec.rb
+    - spec/gitlab/string_regex_marker_spec.rb
+    - spec/gitlab/word_diff/parser_spec.rb
+
+Lint/AssignmentInCondition:
+  Exclude:
+    - lib/gitlab/diff/formatters/base_formatter.rb
+    - lib/gitlab/string_regex_marker.rb
+
+Lint/UnusedBlockArgument:
+  Exclude:
+    - lib/gitlab/diff/inline_diff_markdown_marker.rb
+    - spec/gitlab/string_range_marker_spec.rb
+    - spec/gitlab/string_regex_marker_spec.rb
+
+Lint/UnusedMethodArgument:
+  Exclude:
+    - lib/gitlab/diff/line.rb
+
+RSpec/FeatureCategory:
+  Exclude:
+    - spec/gitlab/marker_range_spec.rb
+    - spec/gitlab/word_diff/chunk_collection_spec.rb
+    - spec/gitlab/word_diff/line_processor_spec.rb
+    - spec/gitlab/word_diff/parser_spec.rb
+    - spec/gitlab/word_diff/positions_counter_spec.rb
+    - spec/gitlab/word_diff/segments/chunk_spec.rb
+    - spec/gitlab/word_diff/segments/diff_hunk_spec.rb
+    - spec/gitlab/word_diff/segments/newline_spec.rb
+
+RSpec/InstanceVariable:
+  Exclude:
+    - spec/gitlab/diff/parser_spec.rb
+
+RSpec/NamedSubject:
+  Exclude:
+    - spec/gitlab/diff/char_diff_spec.rb
+    - spec/gitlab/diff/formatters/file_formatter_spec.rb
+    - spec/gitlab/diff/formatters/image_formatter_spec.rb
+    - spec/gitlab/diff/inline_diff_markdown_marker_spec.rb
+    - spec/gitlab/diff/inline_diff_marker_spec.rb
+    - spec/gitlab/diff/inline_diff_spec.rb
+    - spec/gitlab/diff/pair_selector_spec.rb
+    - spec/gitlab/diff/parallel_diff_spec.rb
+    - spec/gitlab/string_regex_marker_spec.rb
+    - spec/gitlab/word_diff/parser_spec.rb
+
+RSpec/VerifiedDoubles:
+  Exclude:
+    - spec/gitlab/diff/file_collection_sorter_spec.rb
+    - spec/gitlab/diff/line_spec.rb
+
+Rails/OutputSafety:
+  Exclude:
+    - lib/gitlab/diff/char_diff.rb
+    - lib/gitlab/diff/inline_diff_marker.rb
+    - lib/gitlab/diff/line.rb
+    - lib/gitlab/string_range_marker.rb
+    - spec/gitlab/string_range_marker_spec.rb
+    - spec/gitlab/string_regex_marker_spec.rb
+
+Style/AccessorGrouping:
+  Exclude:
+    - lib/gitlab/diff/formatters/base_formatter.rb
+    - lib/gitlab/diff/formatters/image_formatter.rb
+    - lib/gitlab/diff/formatters/text_formatter.rb
+
+Style/InlineDisableAnnotation:
+  Exclude:
+    - lib/gitlab/diff/line.rb
+
+Style/RedundantRegexpEscape:
+  Exclude:
+    - lib/gitlab/word_diff/segments/diff_hunk.rb
+
+Style/RedundantSelf:
+  Exclude:
+    - lib/gitlab/marker_range.rb
+
+Style/SuperArguments:
+  Exclude:
+    - lib/gitlab/diff/formatters/file_formatter.rb
+    - lib/gitlab/diff/formatters/image_formatter.rb
+    - lib/gitlab/diff/formatters/text_formatter.rb
+    - lib/gitlab/diff/inline_diff_markdown_marker.rb
+    - lib/gitlab/diff/inline_diff_marker.rb

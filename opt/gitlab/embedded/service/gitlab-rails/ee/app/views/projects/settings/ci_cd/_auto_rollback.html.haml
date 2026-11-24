@@ -1,0 +1,21 @@
+- if @project.feature_available?(:auto_rollback)
+  = render ::Layouts::SettingsBlockComponent.new(_("Automatic deployment rollbacks"),
+    id: 'auto-rollback-settings',
+    expanded: expanded) do |c|
+    - c.with_description do
+      = s_('AutoRollback|Automatically roll back to the last successful deployment when a critical problem is detected.')
+    - c.with_body do
+      .row
+        .gl-col-lg-12
+          = gitlab_ui_form_for @project, url: project_settings_ci_cd_path(@project, anchor: 'auto-rollback-settings') do |f|
+            = form_errors(@project)
+            %fieldset.builds-feature
+              .gl-form-group.form-group.gl-mb-0
+                .gl-form.form-check.gl-pl-0
+                  - help_text = s_('AutoRollback|Automatic rollbacks start when a critical alert is triggered. If the last successful deployment fails to roll back automatically, it can still be done manually.')
+                  - more_info_link = link_to(_('More information'), help_page_path('ci/environments/_index.md', anchor: 'auto-rollback'), target: '_blank', rel: 'noopener noreferrer')
+                  = f.gitlab_ui_checkbox_component :auto_rollback_enabled,
+                      s_('AutoRollback|Enable automatic rollbacks'),
+                      help_text: '%{help_text} %{more_info_link}'.html_safe % { help_text: help_text, more_info_link: more_info_link }
+
+              = f.submit _('Save changes'), class: "gl-mt-5", pajamas_button: true

@@ -1,0 +1,10 @@
+---
+name: security_policy_pipeline_failed
+description: A pipeline with security policy jobs failed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/539232
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196628
+feature_category: security_policy_management
+milestone: '18.3'
+saved_to_database: false
+streamed: true
+scope: [Project]

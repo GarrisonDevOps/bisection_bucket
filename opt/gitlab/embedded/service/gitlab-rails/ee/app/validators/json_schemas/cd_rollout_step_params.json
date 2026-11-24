@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Step-specific configuration copied from the flow definition node (e.g. wait seconds, canary service weights). Opaque to Rails.",
+  "type": "object"
+}

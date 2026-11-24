@@ -1,0 +1,10 @@
+---
+name: credit_caps_bulk_update
+description: Enables bulk CSV import of per-user credit cap overrides
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630981
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257651
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631018
+milestone: '19.5'
+group: group::cost management
+type: beta
+default_enabled: true

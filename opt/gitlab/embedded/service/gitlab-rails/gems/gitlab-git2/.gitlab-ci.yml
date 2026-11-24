@@ -1,0 +1,18 @@
+include:
+  - local: gems/gem.gitlab-ci.yml
+    inputs:
+      gem_name: "gitlab-git2"
+      # The `gitlab_rubygems` account does not own the RubyGems name yet.
+      skip_gem_validation: true
+
+# The specs talk to a real Gitaly. They start one from the binaries that the
+# parent pipeline's `setup-test-env` job builds, so they test against the same
+# Gitaly as the monolith's specs.
+rspec:
+  needs:
+    - pipeline: $PARENT_PIPELINE_ID
+      job: clone-gitlab-repo
+    - pipeline: $PARENT_PIPELINE_ID
+      job: setup-test-env
+  variables:
+    GITALY_BIN_DIR: "${CI_PROJECT_DIR}/tmp/tests/gitaly/_build/bin"

@@ -1,0 +1,10 @@
+---
+name: ci_pipeline_seed_timeout
+description: Fails pipeline creation when evaluating job rules takes longer than the seed timeout.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635122
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263899
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635123
+milestone: '19.6'
+group: group::pipeline authoring
+type: beta
+default_enabled: true

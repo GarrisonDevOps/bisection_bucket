@@ -1,0 +1,10 @@
+---
+name: BackfillWorkItemMilestoneData
+version: '20250516124136'
+description: Backfill milestone id and title in the work_items index.
+group: group::global search
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189288
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209375
+marked_obsolete_in_milestone: '18.6'

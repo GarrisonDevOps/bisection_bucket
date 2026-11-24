@@ -1,0 +1,10 @@
+---
+name: issues_analytics_sql_aggregation
+description: Count Issue Analytics issues by month in SQL instead of loading every created_at into Ruby
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636126
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269574
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636126
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

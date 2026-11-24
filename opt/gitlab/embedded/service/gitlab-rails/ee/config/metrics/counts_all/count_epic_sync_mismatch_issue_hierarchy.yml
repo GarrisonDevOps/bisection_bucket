@@ -1,0 +1,21 @@
+---
+key_path: counts.epic_sync_mismatch.issue_hierarchy
+description: Count of out of sync events for issue hierarchy mismatches
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+performance_indicator_type: []
+value_type: number
+status: removed
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/172416
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192391
+milestone_removed: '18.1'
+time_frame: 7d
+data_source: internal_events
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+events:
+  - name: epic_sync_mismatch_issue_hierarchy

@@ -1,0 +1,11 @@
+- page_title s_('JiraService|Jira issues')
+- @force_fluid_layout = true
+- add_page_specific_style 'page_bundles/issuable_list'
+
+.js-jira-issues-list{ data: { issues_fetch_path: project_integrations_jira_issues_path(@project, format: :json),
+  deployment: @jira_integration.data_fields.deployment_type,
+  initial_state: params[:state],
+  initial_sort_by: params[:sort],
+  project_full_path: @project.full_path,
+  issue_create_url: @jira_integration.new_issue_url,
+  empty_state_path: image_path('illustrations/empty-state/empty-issues-md.svg') } }

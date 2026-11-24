@@ -1,0 +1,17 @@
+---
+description: Tracks purchase seats button click on the group duo usage page
+internal_events: true
+action: click_purchase_seats_button_group_duo_usage_page
+identifiers:
+  - user
+  - namespace
+product_group: activation
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/172431
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "[duo_pro_purchase_seats | duo_enterprise_purchase_seats]"

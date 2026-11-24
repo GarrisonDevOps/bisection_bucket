@@ -1,0 +1,17 @@
+---
+description: A user clicks view details button in standards adherence tab
+internal_events: true
+action: click_standards_adherence_item_details
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Id of clicked adherence item
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175130
+tiers:
+  - ultimate

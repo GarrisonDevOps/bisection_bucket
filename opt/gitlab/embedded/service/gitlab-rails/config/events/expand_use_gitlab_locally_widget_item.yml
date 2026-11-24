@@ -1,0 +1,18 @@
+---
+description: When a user expands an item in the Use GitLab locally widget on the personal homepage
+internal_events: true
+action: expand_use_gitlab_locally_widget_item
+identifiers:
+- user
+additional_properties:
+  label:
+    description: Item expanded (ide_extension or cli)
+product_group: activation
+product_categories:
+- navigation
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265799
+tiers:
+- free
+- premium
+- ultimate

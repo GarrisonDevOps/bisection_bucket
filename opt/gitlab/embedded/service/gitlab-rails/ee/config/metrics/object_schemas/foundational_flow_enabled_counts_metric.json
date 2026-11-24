@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "description": "Hash of flow reference to count of top-level groups with that foundational flow enabled",
+  "additionalProperties": {
+    "type": "integer",
+    "description": "Count of groups with this foundational flow enabled"
+  }
+}

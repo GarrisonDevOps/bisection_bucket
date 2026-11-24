@@ -1,0 +1,11 @@
+- linked_configurations = security_configurations_preventing_project_deletion(@project)
+
+- if linked_configurations.none?
+  = render_ce 'projects/delete_delayed'
+- else
+  %p= s_("SecurityOrchestration|Project cannot be deleted because it is linked as a security policy project")
+  %p= s_("SecurityOrchestration|Unlink the project from the following containers:")
+  %ul
+    - linked_configurations.each do |configuration|
+      %li
+        = link_to(configuration.project&.name || configuration.namespace&.name, security_policies_path(configuration.project || configuration.namespace))

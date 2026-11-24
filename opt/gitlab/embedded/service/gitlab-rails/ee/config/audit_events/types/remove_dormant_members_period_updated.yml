@@ -1,0 +1,10 @@
+---
+name: remove_dormant_members_period_updated
+description: Setting Days of inactivity before removal is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164973
+feature_category: groups_and_projects
+milestone: '17.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

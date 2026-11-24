@@ -1,0 +1,33 @@
+- return unless @group.built_in_project_templates_enabled_available?
+
+- expanded = expanded_by_default?
+- setting_locked = cascading_namespace_setting_locked?(:built_in_project_templates_enabled, @group)
+
+= render ::Layouts::SettingsBlockComponent.new(s_('GroupSettings|Built-in project templates'),
+  id: 'js-built-in-project-templates-settings',
+  testid: 'built-in-project-templates-settings',
+  expanded: expanded) do |c|
+  - c.with_description do
+    = s_('GroupSettings|Control whether built-in project templates are available for new projects. You can enforce this setting for all subgroups.')
+  - c.with_body do
+    = gitlab_ui_form_for @group, html: { multipart: true, class: 'fieldset-form' }, authenticity_token: true do |f|
+      %input{ type: 'hidden', name: 'update_section', value: 'js-built-in-project-templates-settings' }
+      = form_errors(@group)
+
+      .form-group.gl-mb-3
+        = render 'shared/namespaces/cascading_settings/setting_checkbox', attribute: :built_in_project_templates_enabled,
+            group: @group,
+            form: f,
+            setting_locked: setting_locked,
+            checked: @group.namespace_settings.built_in_project_templates_enabled,
+            settings_path_helper: ->(locked_ancestor) { edit_group_path(locked_ancestor, anchor: 'js-built-in-project-templates-settings') },
+            help_text: s_('GroupSettings|When selected, built-in templates appear in the template selector.') do
+          = s_('GroupSettings|Enable built-in project templates')
+
+      = render 'shared/namespaces/cascading_settings/enforcement_checkbox',
+        attribute: :built_in_project_templates_enabled,
+        group: @group,
+        form: f,
+        setting_locked: setting_locked
+
+      = f.submit _('Save changes'), pajamas_button: true, data: { testid: 'save_built_in_project_templates_changes' }

@@ -1,0 +1,18 @@
+---
+key_path: counts.external_status_checks
+description: Total number of external status checks
+product_group: policy_management
+product_categories:
+- compliance_management
+value_type: number
+status: active
+milestone: '14.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/82416
+time_frame: all
+data_source: database
+data_category: operational
+instrumentation_class: CountExternalStatusChecksMetric
+tiers:
+  - ultimate
+performance_indicator_type:
+  - customer_health_score

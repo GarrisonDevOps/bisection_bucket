@@ -1,0 +1,11 @@
+---
+name: orbit_promo_access_gate
+description: Gives Orbit only to top-level groups on GitLab.com, or to GitLab Self-Managed and GitLab Dedicated instances, that have the orbit_promo add-on or an active Orbit trial, instead of by plan or license.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23874
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260830
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633557
+milestone: '19.5'
+group: group::context-systems
+type: beta
+default_enabled: true
+log_state_changes: true

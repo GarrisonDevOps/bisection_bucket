@@ -1,0 +1,10 @@
+---
+name: knowledge_graph_billing
+description: Enables the Orbit billing attribution setting - governing namespace exposed in user preferences
+feature_issue_url: https://gitlab.com/gitlab-org/orbit/knowledge-graph/-/work_items/506
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233102
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/599480
+milestone: '19.0'
+group: group::context-systems
+type: wip
+default_enabled: false

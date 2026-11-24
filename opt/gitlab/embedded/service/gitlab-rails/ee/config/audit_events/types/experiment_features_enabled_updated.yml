@@ -1,0 +1,10 @@
+---
+name: experiment_features_enabled_updated
+description: Enabling experiment AI features setting is toggled
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/404856/
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/118222
+feature_category: not_owned
+milestone: '16.0'
+saved_to_database: true
+streamed: true
+scope: [Group]

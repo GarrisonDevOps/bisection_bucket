@@ -1,0 +1,19 @@
+---
+description: AI Catalog item index page visited
+internal_events: true
+status: active
+action: view_ai_catalog_item_index
+classification: duo
+identifiers:
+- user
+additional_properties:
+  label:
+    description: Type of AI Catalog item
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203053
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,11 @@
+
+= render ::Users::GroupDismissibleAlertComponent.new(title: s_("CodeReviewEnabledByDefaultAlertComponent|Automated code review is enabled"),
+  dismiss_options: { user: @current_user, group: @group, feature_id: "duo_code_review_enabled_by_default" }) do |c|
+  - c.with_body do
+    %p.gl-mt-4
+      = s_("CodeReviewEnabledByDefaultAlertComponent|Code Review flow automatically reviews your merge requests to help you ship better code, faster.")
+  - c.with_actions do
+    = render Pajamas::ButtonComponent.new(size: :small, target: "_blank", href: help_page_url("user/duo_agent_platform/flows/foundational_flows/code_review/_index.md", anchor: "automatic-reviews"), button_options: { rel: "noopener noreferrer", data: { track_action: "click_button", track_label: "duo_code_review_default_learn_more" } }) do
+      = _("Learn more")
+    = render Pajamas::ButtonComponent.new(size: :small, variant: :confirm, button_options: { class: 'gl-ml-3', data: { track_action: "click_button", track_label: "duo_code_review_default_update_group_settings" } }, href: edit_group_path(@group, anchor: 'js-merge-requests-settings')) do
+      = _("Update group settings")

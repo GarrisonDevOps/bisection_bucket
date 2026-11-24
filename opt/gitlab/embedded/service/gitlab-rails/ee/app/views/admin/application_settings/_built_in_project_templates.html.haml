@@ -1,0 +1,20 @@
+- return unless @application_setting.instance_built_in_project_templates_enabled_available?
+
+= render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|Built-in project templates'),
+  id: 'js-built-in-project-templates-settings',
+  testid: 'built-in-project-templates-settings',
+  expanded: expanded) do |c|
+  - c.with_description do
+    = s_('AdminSettings|Control whether built-in project templates are available for new projects. You can enforce this setting for all groups.')
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: templates_admin_application_settings_path(anchor: 'js-built-in-project-templates-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+      .form-group.gl-mb-3
+        = f.gitlab_ui_checkbox_component :built_in_project_templates_enabled,
+          s_('AdminSettings|Enable built-in project templates'),
+          help_text: s_('AdminSettings|When selected, built-in templates are available in the template selector.')
+      .form-group.gl-mb-3
+        = f.gitlab_ui_checkbox_component :lock_built_in_project_templates_enabled,
+          s_('AdminSettings|Enforce for all groups'),
+          help_text: s_('AdminSettings|Groups cannot change this setting.')
+      = f.submit _('Save changes'), pajamas_button: true

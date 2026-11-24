@@ -1,0 +1,10 @@
+---
+name: autonomous_oauth_token_created
+description: An autonomous OAuth token was created for a Duo workflow without composite identity
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/605895
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/247640
+feature_category: duo_agent_platform
+milestone: '19.3'
+saved_to_database: true
+streamed: true
+scope: [Group, Project, User]

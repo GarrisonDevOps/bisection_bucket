@@ -1,0 +1,8 @@
+---
+title: View CI/CD
+name: read_admin_cicd
+description: Read CI/CD details for runners and jobs in the Admin Area.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/507960
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177233
+feature_category: admin
+milestone: '17.9'

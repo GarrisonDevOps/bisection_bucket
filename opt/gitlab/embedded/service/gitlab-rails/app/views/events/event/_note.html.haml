@@ -1,0 +1,23 @@
+- return if !event.personal_snippet_note? && event.has_no_project_and_group?
+
+= icon_for_profile_event(event)
+
+= event_user_info(event)
+
+.event-title.gl-flex
+  = inline_event_icon(event)
+  .event-title-block.gl-inline-block.gl-mr-2
+    %span.event-type{ class: event.action_name + user_profile_activity_classes }
+      = localized_action_name(event)
+    %span= event_note_title_html(event)
+    - title = note_target_title(event.target)
+    - if title.present?
+      %span.event-target-title.gl-text-ellipsis.gl-overflow-hidden{ dir: "auto" }
+        = "&quot;".html_safe + title + "&quot".html_safe
+
+    = render "events/event_scope", event: event
+
+.event-body
+  .event-note
+    .md
+      = first_line_in_markdown(event.target, :note, 150, project: event.project)

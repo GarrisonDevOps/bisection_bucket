@@ -1,0 +1,26 @@
+---
+description: Tracks the merge request created from vulnerability resolution
+internal_events: true
+action: track_mr_creation_from_vr
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Vulnerability AI action
+  property:
+    description: Status of MR creation
+  vulnerability_id:
+    description: Id of the vulnerability
+  internal_merge_request_id:
+    description: Id of the internal megre request created from vulnerability
+  language:
+    description: Programming language of the file associated with vulnerability
+product_group: vulnerability_management
+product_categories:
+  - vulnerability_management
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170152
+tiers:
+  - ultimate

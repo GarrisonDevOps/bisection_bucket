@@ -1,0 +1,19 @@
+---
+description: Track when Secret Push Protection encounters a StandardError exception
+internal_events: true
+status: active
+action: spp_standard_error_exception_encountered
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: name of exception class
+product_group: secret_detection
+product_categories:
+- secret_detection
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221623
+tiers:
+- ultimate

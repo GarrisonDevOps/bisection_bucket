@@ -1,0 +1,37 @@
+- project = @project.present(current_user: current_user)
+- ref = local_assigns[:ref] || @ref
+- expanded = params[:expanded].present?
+- add_page_specific_style 'page_bundles/projects'
+-# If the blob has a RichViewer we preload the content except for GeoJSON since it is handled by Vue
+- if blob.rich_viewer && blob.extension != 'geojson'
+  - add_page_startup_api_call local_assigns.fetch(:viewer_url) { url_for(safe_params.merge(viewer: blob.rich_viewer.type, format: :json)) }
+
+#js-repository-blob-header-app{ data: vue_blob_header_app_data(project, blob, ref) }
+
+- if project.forked?
+  #js-fork-info{ data: vue_fork_divergence_data(project, ref) }
+
+.gl-bg-subtle.gl-border.gl-rounded-lg.gl-overflow-clip
+  #js-last-commit.gl-flex.gl-items-center.gl-justify-center.gl-m-auto{ data: { history_link: project_commits_path(project, ref)} }
+    .gl-flex.gl-grow.gl-items-center.gl-gap-3.gl-p-4{ aria: { hidden: 'true' } }
+      .gl-animate-skeleton-loader.gl-h-7.gl-w-7.gl-shrink-0.gl-rounded-full
+      .gl-flex.gl-grow.gl-flex-col.gl-gap-2
+        .gl-animate-skeleton-loader.gl-h-4.gl-w-30.gl-max-w-full.gl-rounded-default
+        .gl-animate-skeleton-loader.gl-h-3.gl-w-20.gl-max-w-full.gl-rounded-default
+  - if project.licensed_feature_available?(:code_owners)
+    #js-code-owners{ data: { blob_path: blob.path, project_path: @project.full_path, branch: @ref, can_view_branch_rules: can_view_branch_rules?, branch_rules_path: branch_rules_path } }
+  #js-blob-auxiliary-viewer
+    = render "projects/blob/auxiliary_viewer", blob: blob, ref: @ref
+
+#blob-content-holder.blob-content-holder
+  - if @code_navigation_path
+    #js-code-navigation{ data: { code_navigation_path: @code_navigation_path, blob_path: blob.path, definition_path_prefix: project_blob_path(@project, @ref, ref_type: @ref_type) } }
+  - if !expanded
+    -# Data info will be removed once we migrate this to use GraphQL
+    -# Follow-up issue: https://gitlab.com/gitlab-org/gitlab/-/issues/330406
+    #js-view-blob-app{ data: vue_blob_app_data(project, blob, ref).merge(ref_type: @ref_type.to_s) }
+      = gl_loading_icon(size: 'md')
+  - else
+    %article.file-holder
+      = render 'projects/blob/header', blob: blob
+      = render 'projects/blob/content', blob: blob

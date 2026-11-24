@@ -1,0 +1,17 @@
+---
+description: Active Merge Request Approval Policies with package exceptions
+internal_events: true
+action: enforce_approval_policies_with_package_exceptions_in_project
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Whether the licenses were defined as allowlist or denylist
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/187782
+tiers:
+- ultimate

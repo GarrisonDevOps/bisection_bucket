@@ -1,0 +1,10 @@
+---
+name: rate_limit_project_repository_commits_api
+description: Rate limit with_stats or all requests to GET /projects/:id/repository/commits per user or IP address
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635505
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267664
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638193
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

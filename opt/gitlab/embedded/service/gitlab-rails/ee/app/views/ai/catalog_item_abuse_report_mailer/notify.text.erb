@@ -1,0 +1,50 @@
+<%= _("Hello Admin,") %>
+
+<%= _("GitLab user %{username} flagged the AI Catalog item %{item_name} for review.") % { username: @reporter.username, item_name: @ai_catalog_item.name } %>
+
+- <%= _("Catalog item: %{name} (ID: %{id})") % { name: @ai_catalog_item.name, id: @ai_catalog_item.id } %>
+- <%= _("Reported by: %{username} at %{time}") % { username: @reporter.username, time: @reported_at.strftime('%Y-%m-%d %H:%M:%S %Z') } %>
+- <%= _("Reason:") %>
+<% if @reason.present? %>
+  - <%= @reason %>
+<% end %>
+<% if @message.present? %>
+  - <%= @message %>
+<% end %>
+
+<%= _("If everything looks okay, you can ignore this message.") %>
+
+<%= _("To delete the item from the UI:") %>
+
+1. <%= _("Navigate to %{item_name} in the AI Catalog: %{url}.") % { item_name: @ai_catalog_item.name, url: catalog_item_url } %>
+2. <%= _("On the upper right, select the overflow menu, then select Delete.") %>
+3. <%= _("On the confirmation dialog, choose a deletion method.") %>
+4. <%= _("Select Delete.") %>
+
+<%= _("You can also use our GraphQL API to remove an item:") %>
+
+- <%= _("Recommended. Permanently delete an item:") %>
+
+  mutation ai_catalog_item_delete {
+    <%= mutation_name %>(input: {
+      id: "<%= @ai_catalog_item.to_global_id %>",
+      forceHardDelete: true
+    }) {
+      errors
+      success
+    }
+  }
+
+- <%= _("Hide an item from the AI Catalog. The item is not deleted and can still be used:") %>
+
+  mutation ai_catalog_item_delete {
+    <%= mutation_name %>(input: {
+      id: "<%= @ai_catalog_item.to_global_id %>"
+    }) {
+      errors
+      success
+    }
+  }
+
+<%= _("This is an automated message. Please don't reply to this message.") %>
+

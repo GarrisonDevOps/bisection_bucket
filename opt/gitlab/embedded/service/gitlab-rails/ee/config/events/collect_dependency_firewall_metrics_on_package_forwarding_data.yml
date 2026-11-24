@@ -1,0 +1,22 @@
+---
+description: Emitted when a package request is forwarded to an upstream registry while the dependency firewall is enabled, capturing the amount of data transferred so COGS estimates can be verified.
+internal_events: true
+action: collect_dependency_firewall_metrics_on_package_forwarding_data
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: package_registry
+product_categories:
+  - dependency_firewall
+milestone: '19.2'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242595'
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: Ecosystem of the forwarded package - one of npm, pypi, gem, maven
+  property:
+    description: The package URL (purl) identifying the forwarded artefact
+  value:
+    description: Size in bytes of the data transferred from upstream while servicing the forwarded request

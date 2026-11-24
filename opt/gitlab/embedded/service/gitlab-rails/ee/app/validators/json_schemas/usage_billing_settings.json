@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Usage Billing settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "display_gitlab_credits_user_data": {
+      "type": "boolean",
+      "description": "Enable display of user data in GitLab Credits dashboards"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+- page_title s_('BillingPlans|Discover Premium')
+
+.gl-flex.gl-flex-direction-column.gl-align-items-center.gl-py-6
+  .gl-max-w-5xl.gl-m-auto
+
+    .gl-text-center.gl-mb-8
+      %h1.gl-font-size-h-display.gl-font-weight-bold.gl-mb-3
+        = s_('BillingPlans|Keep building with GitLab.')
+
+      .gl-text-subtle.gl-my-5.gl-text-lg
+        %p.gl-mb-1
+          = s_('BillingPlans|Your trial has %{days} days left.') % { days: trial_days_remaining }
+        %p.gl-mb-0
+          = s_('BillingPlans|Explore how GitLab Premium and GitLab Duo Agent Platform can help you ship faster.')
+
+      .gl-flex.gl-justify-center.gl-gap-3
+        = render Pajamas::ButtonComponent.new(category: :primary, variant: :confirm, size: :medium, href: buy_now_link, button_options: { data: { testid: 'upgrade-button', track_action: 'click_cta', track_label: 'upgrade' } }) do
+          = _('Upgrade')
+        = render Pajamas::ButtonComponent.new(category: :secondary, variant: :confirm, size: :medium, href: group_billings_path(namespace), button_options: { data: { testid: 'explore-plans-button', track_action: 'click_cta', track_label: 'explore_paid_plans' } }) do
+          = s_('BillingPlans|Explore plans')
+
+    #js-premium-features-section{ "data-provide": dap_credits_card_data.to_json }
+    .gl-text-center.gl-mt-8
+      = render GitlabSubscriptions::ExpertContactComponent.new

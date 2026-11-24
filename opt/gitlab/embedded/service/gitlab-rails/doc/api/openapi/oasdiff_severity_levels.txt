@@ -1,0 +1,15 @@
+api-path-removed-with-deprecation err
+api-removed-with-deprecation err
+api-security-component-oauth-refresh-url-changed err
+api-security-component-oauth-token-url-changed err
+api-security-component-oauth-url-changed err
+new-request-path-parameter err
+request-parameter-became-not-nullable err
+request-parameter-removed err
+request-property-became-not-nullable err
+request-property-removed err
+response-body-type-changed err
+response-media-type-removed err
+response-optional-property-removed err
+response-property-type-changed err
+response-success-status-removed err

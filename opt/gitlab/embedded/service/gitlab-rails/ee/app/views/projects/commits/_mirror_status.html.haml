@@ -1,0 +1,19 @@
+- if @project.mirror? && can?(current_user, :push_code, @project)
+  .gl-justify-between.gl-items-center.gl-px-5.gl-py-4.gl-bg-subtle.gl-border-default.gl-border-1.gl-border-solid.gl-rounded-base{ class: '@md/panel:gl-flex' }
+    %div
+      - import_url = @project.safe_import_url
+      = format(_('This project is mirrored from %{link}.'), link: link_to(import_url, import_url)).html_safe
+
+      = render "shared/mirror_status"
+
+      - if @project.mirror_last_update_succeeded?
+        .gl-text-sm.gl-text-subtle
+          = _('Successfully updated %{last_updated_timeago}.').html_safe % { last_updated_timeago: time_ago_with_tooltip(@project.import_state.last_successful_update_at) }
+
+      - if @ref.present? && @project.mirror_ever_updated_successfully? && @repository.diverged_from_upstream?(@ref)
+        %span.gl-block.has-tooltip{ data: { html: "true", title: branch_diverged_tooltip_message } }
+        = sprite_icon('warning-solid')
+        = _('This branch has diverged from upstream.')
+
+    .project-mirror-button.gl-mt-4{ class: '@md/panel:gl-mt-0' }
+      = render "shared/mirror_update_button"

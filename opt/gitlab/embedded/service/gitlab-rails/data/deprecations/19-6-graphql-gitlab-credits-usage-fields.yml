@@ -1,0 +1,35 @@
+- title: "GraphQL GitLab Credits usage fields"
+  removal_milestone: "20.0"
+  announcement_milestone: "19.6"
+  breaking_change: true
+  window:
+  reporter: sheldonled
+  stage: Fulfillment
+  issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637330
+  impact: low
+  impact_offering: GitLab.com, Dedicated, self-managed
+  scope: instance, group
+  resolution_role: Owner
+  manual_task: true
+  body: |  # (required) Don't change this line.
+    The GitLab Credits usage GraphQL API reports usage for the entire subscription and no longer breaks
+    usage down by wallet. The following fields are deprecated in GitLab 19.6 and will be removed in GitLab 20.0:
+
+    - On `GitlabSubscriptionUsage`: `monthlyWaiver`, `monthlyCommitment`, `overage`, and `paidTierTrial`.
+      Replaced by `creditsUsed` and `dailyUsage`.
+    - On `GitlabSubscriptionUsage`: `lastEventTransactionAt`, `purchaseCreditsPath`,
+      `subscriptionPortalUsageDashboardUrl`, `overageTermsAccepted`, `canAcceptOverageTerms`, and
+      `dapPromoEnabled`. No replacement.
+    - On `GitlabSubscriptionUsage`: `dailyAverage`. It divides by every day in the requested range, including
+      days that have not happened yet. Compute the average from `creditsUsed` and the number of elapsed days
+      in the range instead.
+    - On `GitlabSubscriptionUsageUsersUsage`: `creditsUsed` and `dailyUsage`. Replaced by `creditsUsed` and
+      `dailyUsage` on `GitlabSubscriptionUsage`.
+    - On `GitlabSubscriptionUsageUsersUsage`: `totalUsersUsingCredits`, `totalUsersUsingMonthlyCommitment`, and
+      `totalUsersUsingOverage`. No replacement.
+    - On `GitlabSubscriptionUsageUserUsage`: `creditsUsed`, `monthlyCommitmentCreditsUsed`,
+      `monthlyWaiverCreditsUsed`, `overageCreditsUsed`, and `paidTierTrialCreditsUsed`. Replaced by
+      `totalCreditsUsed`.
+    - On `GitlabSubscriptionUsageUserUsage`: `totalCredits`. No replacement.
+    - On `GitlabSubscriptionUsageUserEvent`: `eventType`. Replaced by `flowType`.
+    - On `GitlabSubscriptionUserCreditsUsage`: `usedFlowTypes`. No replacement.

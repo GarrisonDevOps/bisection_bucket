@@ -1,0 +1,14 @@
+- title = _('Policy details')
+- page_title title
+- add_to_breadcrumbs _('Policy store'), group_security_policy_store_index_path(group)
+- breadcrumb_title title
+- @content_wrapper_class = 'js-security-policies-container-wrapper'
+
+#js-policy-store-detail{ data: { organization_id: group.organization_id,
+  namespace_path: group.full_path,
+  namespace_type: 'group',
+  policy_id: policy_id,
+  can_update_policy: can?(current_user, :update_govern_policy, group).to_s,
+  can_delete_policy: can?(current_user, :delete_govern_policy, group).to_s,
+  list_path: group_security_policy_store_index_path(group),
+  edit_path: edit_group_security_policy_store_path(group, policy_id) } }

@@ -1,0 +1,20 @@
+---
+description: Triggered when a dependency management auto-remediation MR is closed
+internal_events: true
+status: active
+action: close_dependency_management_auto_remediation_mr
+identifiers:
+  - project
+  - namespace
+additional_properties:
+  purl_type:
+    description: The PURL type of the dependency (e.g. gem, npm, pypi)
+  merge_request_id:
+    description: The internal database ID of the closed auto-remediation merge request
+product_group: composition_analysis
+product_categories:
+  - dependency_management
+milestone: "19.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237572
+tiers:
+  - ultimate

@@ -1,0 +1,42 @@
+---
+description: >-
+  A decision in a work item decision log was edited. Fires once per
+  successful edit, whatever fields changed. A failed edit does not fire
+  this event.
+internal_events: true
+status: active
+action: work_item_decision_update
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: work item type
+  property:
+    description: user role
+  source:
+    description: |
+      How the request was authenticated. `ai_workflows`: an agent (Duo
+      workflows or coding agents) using an `ai_workflows`-scoped token.
+      `api`: a human using any other token. `internal`: no token; for
+      decisions this is the web UI. Only `ai_workflows` indicates an agent.
+  work_item_id:
+    description: Id of the work item that owns the decision log.
+  decision_id:
+    description: Id of the decision that was edited.
+  workflow_id:
+    description: |
+      Id of the Duo workflow run that made the request, taken from the
+      `X-Gitlab-Duo-Workflow-Id` header. Omitted when the header is absent or
+      not a positive integer within the bigint range. The header is
+      client-supplied and is not authorized or looked up, so use it for
+      analytics joins only.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263772
+tiers:
+- premium
+- ultimate

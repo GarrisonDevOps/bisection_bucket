@@ -1,0 +1,14 @@
+---
+table_name: todo_review_links
+classes:
+- Todos::ReviewLink
+feature_categories:
+- notifications
+description: The review whose publication raised a review_submitted to-do item, recorded
+  once when the item is created so the item can open exactly that review.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266149
+milestone: '19.6'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  project_id: projects
+table_size: small

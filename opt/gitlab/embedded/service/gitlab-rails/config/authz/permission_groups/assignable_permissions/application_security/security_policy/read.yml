@@ -1,0 +1,10 @@
+---
+name: read_security_policy
+description: Grants the ability to read security policies
+boundaries:
+  - project
+  - group
+available_for:
+  - granular_access_token
+permissions:
+  - read_security_policy

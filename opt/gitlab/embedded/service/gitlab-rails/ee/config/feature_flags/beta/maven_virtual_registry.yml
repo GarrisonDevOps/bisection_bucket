@@ -1,0 +1,10 @@
+---
+name: maven_virtual_registry
+description: Enable maven packages virtual registry
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/14137
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/190356
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/542415
+milestone: '18.1'
+group: group::package registry
+type: beta
+default_enabled: true

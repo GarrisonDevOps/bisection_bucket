@@ -1,0 +1,11 @@
+---
+name: gitlab_apps
+description: Surface GitLab Apps (GitLab Pages sites) from entry points in the GitLab
+  UI.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/24271
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268329
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638552
+milestone: '19.6'
+group: group::planner intelligence
+type: wip
+default_enabled: false

@@ -1,0 +1,24 @@
+- if License.feature_available?(:incident_management)
+  = render ::Layouts::SettingsBlockComponent.new(_('Incident Management Limits'),
+    id: 'js-incident-management-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = _('Limit the number of inbound incident management alerts that can be sent to a project.')
+      = link_to _('Learn more.'), help_page_path('administration/instance_limits.md', anchor: 'limit-inbound-incident-management-alerts'), target: '_blank', rel: 'noopener noreferrer'
+    - c.with_body do
+      = render 'network_incident_management'
+
+- if ::License.feature_available?(:observability) && ::Feature.enabled?(:observability_features, :instance)
+  = render ::Layouts::SettingsBlockComponent.new(_('GitLab Observability Backend requests'),
+    id: 'js-gob-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = _('Disable SSL verification for requests to GitLab Observability Backend')
+    - c.with_body do
+      = render 'gitlab_observability_backend_ssl_verification'
+
+= render 'admin/application_settings/audit_events_api_limits'
+
+= render 'admin/application_settings/orbit_limits'
+
+= render 'admin/application_settings/service_desk_paid_namespace_probation'

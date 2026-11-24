@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Security policies",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "scan_execution_policies_action_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of actions per scan execution policy"
+    },
+    "scan_execution_policies_schedule_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of schedule rules per scan execution policy"
+    },
+    "pipeline_execution_policies_per_configuration_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of pipeline execution policies allowed per security policy configuration"
+    },
+    "scan_execution_policies_per_configuration_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of scan execution policies allowed per security policy configuration"
+    },
+    "approval_policies_per_configuration_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of approval policies allowed per security policy configuration"
+    },
+    "vulnerability_management_policies_per_configuration_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of vulnerability management policies allowed per security policy configuration"
+    },
+    "dependency_firewall_policies_per_configuration_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Maximum number of dependency firewall policies allowed per security policy configuration"
+    },
+    "policy_store_experiment_enabled": {
+      "type": "boolean",
+      "description": "Allow groups to opt in to the experimental Policy Store"
+    }
+  }
+}

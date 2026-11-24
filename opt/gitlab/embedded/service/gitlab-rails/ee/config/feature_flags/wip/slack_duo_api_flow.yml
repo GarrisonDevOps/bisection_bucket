@@ -1,0 +1,10 @@
+---
+name: slack_duo_api_flow
+description: Run the API-only slack_assistant flow for GitLab Duo in Slack instead of the Duo Developer flow
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628428
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254799
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628672
+milestone: '19.5'
+group: group::agent developer
+type: wip
+default_enabled: false

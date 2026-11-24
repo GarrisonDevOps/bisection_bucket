@@ -1,0 +1,11 @@
+= gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-discussion-resolve-limits-settings'), html: { class: 'fieldset-form' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group
+      = f.label :discussions_resolve_limit, _('Maximum requests per minute')
+      = f.number_field :discussions_resolve_limit, min: 0, class: 'form-control gl-form-input'
+      .form-text.gl-text-subtle
+        = _('Set to 0 to disable rate limits.')
+
+  = f.submit _('Save changes'), pajamas_button: true

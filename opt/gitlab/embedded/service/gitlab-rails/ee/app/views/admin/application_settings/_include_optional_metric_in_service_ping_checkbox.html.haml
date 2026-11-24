@@ -1,0 +1,10 @@
+- f = local_assigns.fetch(:form)
+.form-group
+  - optional_metrics_disabled = !@application_setting.usage_ping_enabled? && !@application_setting.usage_ping_generation_enabled?
+  = f.gitlab_ui_checkbox_component :include_optional_metrics_in_service_ping, checkbox_options: { disabled: optional_metrics_disabled } do |c|
+    = c.with_label do
+      = s_('AdminSettings|Include optional data in Service Ping.')
+    = c.with_help_text do
+      = _('Include additional optional data in Service Ping. To enable optional data, first enable Service Ping.')
+      - service_ping_handbook_link = link_to('', 'https://handbook.gitlab.com/handbook/legal/privacy/customer-product-usage-information#service-ping-formerly-known-as-usage-ping', target: '_blank', rel: 'noopener noreferrer')
+      = safe_format(s_('AdminSettings|For more information, see %{link_start}the documentation%{link_end}.'), tag_pair(service_ping_handbook_link, :link_start, :link_end))

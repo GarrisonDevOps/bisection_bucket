@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_applied_any_merge_request_merge_request_approval_policies
+description: Total count of applied any merge request merge request approval policies
+product_group: policy_management
+product_categories:
+- security_policy_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177572
+time_frame: all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: create_approval_rule_from_merge_request_approval_policy
+  filter:
+    label: any_merge_request

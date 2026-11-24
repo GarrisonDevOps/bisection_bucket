@@ -1,0 +1,16 @@
+---
+description: Tracks the number of requests that have exceeded the rate limit for the `POST /code_suggestions/completions` API endpoint.
+internal_events: true
+action: code_suggestions_rate_limit_exceeded
+classification: duo
+extra_properties:
+identifiers:
+- user
+product_group: dap_repository_flows
+product_categories:
+- code_suggestions
+milestone: "16.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/133969
+tiers:
+- premium
+- ultimate

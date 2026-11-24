@@ -1,0 +1,34 @@
+- title = s_('GroupSettings|Secure')
+- breadcrumb_title title
+- page_title title
+
+%h1.gl-sr-only= title
+
+= render 'groups/settings/dependency_firewall', expanded: true
+
+- if ::SecretsManagement::Availability.namespace_configurable?(@group)
+  - sm_heading = s_('SecretsManager|GitLab Secrets Manager')
+  = render ::Layouts::SettingsBlockComponent.new(sm_heading, id: 'js-secrets-manager-settings', expanded: true) do |c|
+    - c.with_heading do
+      %span.gl-inline-flex.gl-items-center.gl-gap-3
+        = sm_heading
+        = render Pajamas::BadgeComponent.new(_('New'), variant: :info)
+    - c.with_description do
+      -# The enrollment toggle only renders on SaaS (isNamespaceEnrollable = root? && .com), so the description tracks that axis.
+      - if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+        = s_('SecretsManager|Enable GitLab Secrets Manager for all groups and projects within this namespace.')
+      - else
+        = s_('SecretsManagerPermissions|Store secrets in the secrets manager, which can then be fetched by any project in this group and its subgroups.')
+      = link_to _('Learn more.'), help_page_path('ci/secrets/secrets_manager/_index.md')
+    - c.with_body do
+      = render 'groups/settings/secret_manager', hide_inline_text: true
+
+- if @group.ai_governance_setting_available?
+  = render ::Layouts::SettingsBlockComponent.new(s_('AiGovernance|AI Governance'), id: 'js-ai-governance-settings-block', expanded: true) do |c|
+    - c.with_description do
+      = s_('AiGovernance|Control AI Governance for this group and its subgroups and projects.')
+    - c.with_body do
+      = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false, alert_options: { class: 'gl-mb-5', data: { testid: 'ai-governance-billing-alert' } }) do |alert|
+        - alert.with_body do
+          = s_('AiGovernance|AI Governance is free during public beta. GitLab notifies you before general availability, so that you have time to start a trial or opt into on-demand billing for GitLab Credits.')
+      = render 'groups/settings/ai_governance'

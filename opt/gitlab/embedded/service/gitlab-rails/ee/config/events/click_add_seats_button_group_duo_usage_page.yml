@@ -1,0 +1,18 @@
+---
+description: Tracks add seats button click on the group duo usage page
+internal_events: true
+action: click_add_seats_button_group_duo_usage_page
+identifiers:
+  - user
+  - namespace
+product_group: activation
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/172431
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "[add_duo_pro_saas | add_duo_pro_sm | add_duo_enterprise_saas | add_duo_enterprise_sm ]"
+  property:
+    description: "usage_quotas_page"

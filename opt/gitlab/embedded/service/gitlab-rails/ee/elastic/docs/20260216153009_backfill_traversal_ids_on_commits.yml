@@ -1,0 +1,9 @@
+---
+name: BackfillTraversalIdsOnCommits
+version: '20260216153009'
+description: Backfills the traversal_ids field on the commits index and removes orphaned commit documents for projects that no longer exist
+group: group::global search
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223656
+obsolete: true
+marked_obsolete_in_milestone: '19.2'

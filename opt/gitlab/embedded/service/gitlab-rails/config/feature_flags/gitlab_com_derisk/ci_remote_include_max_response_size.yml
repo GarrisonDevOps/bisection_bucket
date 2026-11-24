@@ -1,0 +1,10 @@
+---
+name: ci_remote_include_max_response_size
+description: Cap remote include responses at the maximum YAML size
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635523
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269786
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639476
+milestone: '19.6'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

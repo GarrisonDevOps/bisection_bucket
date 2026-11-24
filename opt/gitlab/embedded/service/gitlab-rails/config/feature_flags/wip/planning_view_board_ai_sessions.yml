@@ -1,0 +1,10 @@
+---
+name: planning_view_board_ai_sessions
+description: Show AI session status on work item board cards
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631864
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260805
+rollout_issue_url:
+milestone: '19.6'
+group: group::planning views
+type: wip
+default_enabled: false

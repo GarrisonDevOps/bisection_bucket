@@ -1,0 +1,13 @@
+description: Search audit events
+category: Groups::AuditEventsController
+action: search_audit_event
+extra_properties:
+identifiers:
+product_group: compliance
+product_categories:
+- audit_events
+milestone: "13.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/44888
+tiers:
+- premium
+- ultimate

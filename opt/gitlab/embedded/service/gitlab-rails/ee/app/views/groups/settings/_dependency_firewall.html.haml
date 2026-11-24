@@ -1,0 +1,21 @@
+- return unless @group.dependency_firewall_setting_available?
+- heading = s_('DependencyFirewall|Dependency firewall')
+
+= render ::Layouts::SettingsBlockComponent.new(heading,
+  id: 'js-dependency-firewall-settings',
+  expanded: expanded) do |c|
+  - c.with_heading do
+    %span.gl-inline-flex.gl-items-center.gl-gap-3
+      = heading
+      = render Pajamas::BadgeComponent.new(_('Beta'), variant: :neutral)
+  - c.with_description do
+    = s_('DependencyFirewall|Enable the dependency firewall to protect against malicious and suspicious packages.')
+  - c.with_body do
+    = gitlab_ui_form_for @group, url: group_settings_secure_path(@group, anchor: 'js-dependency-firewall-settings') do |f|
+      = f.hidden_field :dependency_firewall_enabled, class: 'js-setting-input', value: @group.dependency_firewall_enabled
+      = render Pajamas::ToggleComponent.new(classes: 'js-setting-toggle',
+        label: s_('DependencyFirewall|Enable dependency firewall'),
+        label_position: :hidden,
+        is_checked: @group.dependency_firewall_enabled)
+    .gl-mt-5
+      = render ::Security::DependencyFirewall::BetaCreditsAlertComponent.new

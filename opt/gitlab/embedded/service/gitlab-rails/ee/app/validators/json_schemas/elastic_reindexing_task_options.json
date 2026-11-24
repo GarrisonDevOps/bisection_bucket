@@ -1,0 +1,10 @@
+{
+  "description": "Elastic reindexing task metadata",
+  "type": "object",
+  "properties": {
+    "skip_pending_migrations_check": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+---
+name: duo_developer_model_routing
+description: Enables v1 intelligent model routing for Duo Developer flow
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/613150
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254369
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628408
+milestone: '19.5'
+group: group::ai model services
+type: experiment
+default_enabled: false

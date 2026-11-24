@@ -1,0 +1,26 @@
+---
+description: >-
+  A saved, nonempty workplan is displayed in the open workplan panel in view mode,
+  once per panel opening and work item. Includes direct links and display after
+  generation; excludes loading, empty, and editor-only states. Content updates
+  and edit/save cycles do not add views within an already-counted opening;
+  closing and reopening counts again. Measures UI display, not GraphQL content
+  fetches or proof that the content was read.
+internal_events: true
+status: active
+action: view_work_item_workplan
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  work_item_id:
+    description: ID of the work item whose workplan was displayed.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258352
+tiers:
+- premium
+- ultimate

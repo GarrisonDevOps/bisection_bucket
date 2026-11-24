@@ -1,0 +1,8 @@
+- add_to_breadcrumbs _("Security configuration"), project_security_configuration_path(@project)
+- breadcrumb_title s_("APIFuzzing|API Fuzzing Configuration")
+- page_title s_("APIFuzzing|API Fuzzing Configuration")
+
+- content_for :prefetch_asset_tags do
+  - webpack_preload_asset_tag('monaco')
+
+.js-api-fuzzing-configuration{ data: api_fuzzing_configuration_data(@project) }

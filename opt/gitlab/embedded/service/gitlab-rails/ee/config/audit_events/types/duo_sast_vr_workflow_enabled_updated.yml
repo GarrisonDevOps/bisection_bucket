@@ -1,0 +1,10 @@
+---
+name: duo_sast_vr_workflow_enabled_updated
+description: GitLab Duo SAST Vulnerability Resolution Feature enabled setting on project changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/599650
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/238854
+feature_category: vulnerability_management
+milestone: '19.1'
+saved_to_database: true
+streamed: true
+scope: [Project]

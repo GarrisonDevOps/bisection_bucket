@@ -1,0 +1,23 @@
+---
+description: Custom field updated in group settings
+internal_events: true
+status: active
+action: update_custom_field_in_group_settings
+identifiers:
+- namespace
+- user
+additional_properties:
+  label:
+    description: Custom field type
+  property:
+    description: Comma-separated work item type IDs associated with the field
+  field_name:
+    description: Name of the custom field
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227987
+tiers:
+- premium
+- ultimate

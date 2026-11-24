@@ -1,0 +1,11 @@
+---
+name: advanced_search_project_ancestors_via_groups
+description: In advanced search, let projects reached through a group membership grant access to the private
+  ancestor groups of that group, as GroupPolicy has_projects does.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630618
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260603
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638697
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

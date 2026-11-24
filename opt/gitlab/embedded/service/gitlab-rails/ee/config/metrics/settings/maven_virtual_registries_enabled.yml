@@ -1,0 +1,19 @@
+---
+key_path: maven_virtual_registries_enabled
+description: The Maven virtual registry feature is enabled and whether any registries exist on the instance.
+product_group: package_registry
+product_categories:
+  - virtual_registry
+value_type: boolean
+status: active
+milestone: "18.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/211991
+time_frame: none
+data_source: system
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+performance_indicator_type: []
+instrumentation_class: MavenVirtualRegistriesEnabledMetric
+

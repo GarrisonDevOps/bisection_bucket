@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_request_review_duo_code_review_on_mr_by_non_author
+description: Count of total non MR authors that have requested code review from Duo Code Review
+product_group: code_review
+product_categories:
+- code_review_workflow
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/190058
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: request_review_duo_code_review_on_mr_by_non_author

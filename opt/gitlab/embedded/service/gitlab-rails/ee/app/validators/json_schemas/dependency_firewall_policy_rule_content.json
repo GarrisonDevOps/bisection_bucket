@@ -1,0 +1,486 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Dependency firewall policy rule content",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "license",
+        "malicious",
+        "age",
+        "risk_severity",
+        "package_version"
+      ],
+      "description": "Specifies the type of the rule"
+    },
+    "denied": {
+      "type": "array",
+      "description": "Entries that are denied. For 'license' rules, list of license names. For 'malicious' rules, if the package has been flagged as malicious. For 'age' rules, the minimum age a package version must reach. For 'risk_severity' rules, a maximum vulnerability count per severity level. For 'package_version' rules, a package name and exact version. Mutually exclusive with 'allowed'.",
+      "minItems": 1,
+      "maxItems": 1000
+    },
+    "allowed": {
+      "type": "array",
+      "description": "Entries that are allowed. For 'license' rules, list of license names. Mutually exclusive with 'denied'.",
+      "minItems": 1,
+      "maxItems": 1000
+    },
+    "exceptions": {
+      "type": "array",
+      "description": "List of exceptions that bypass this rule. Each entry can specify either a package URL (PURL) or a vulnerability identifier (e.g. CVE).",
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "properties": {
+          "purl": {
+            "type": "string",
+            "pattern": "^pkg:",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "Package URL (PURL) format for the exception"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "Vulnerability identifier (e.g. CVE) for the exception"
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "purl"
+            ]
+          },
+          {
+            "required": [
+              "id"
+            ]
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "type",
+        "denied"
+      ]
+    },
+    {
+      "required": [
+        "type",
+        "allowed"
+      ]
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "license"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "denied": {
+            "items": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255,
+                  "description": "The name of the license (SPDX human-readable name)"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "allowed": {
+            "items": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255,
+                  "description": "The name of the license (SPDX human-readable name)"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "malicious"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "denied"
+        ],
+        "not": {
+          "required": [
+            "allowed"
+          ]
+        },
+        "properties": {
+          "denied": {
+            "items": {
+              "type": "object",
+              "required": [
+                "is_malicious"
+              ],
+              "properties": {
+                "is_malicious": {
+                  "type": "boolean",
+                  "enum": [
+                    true
+                  ],
+                  "description": "Whether the package is flagged by the malicious packages data feed."
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "age"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "denied"
+        ],
+        "not": {
+          "required": [
+            "allowed"
+          ]
+        },
+        "properties": {
+          "denied": {
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "value",
+                "interval"
+              ],
+              "properties": {
+                "value": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Specifies the minimum age number. Package versions younger than this age are denied."
+                },
+                "interval": {
+                  "type": "string",
+                  "enum": [
+                    "day",
+                    "week",
+                    "month"
+                  ],
+                  "description": "Specifies the interval unit for the age value."
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "interval": {
+                        "const": "day"
+                      }
+                    },
+                    "required": [
+                      "interval"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "maximum": 365
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "interval": {
+                        "const": "week"
+                      }
+                    },
+                    "required": [
+                      "interval"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "maximum": 52
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "interval": {
+                        "const": "month"
+                      }
+                    },
+                    "required": [
+                      "interval"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "maximum": 12
+                      }
+                    }
+                  }
+                }
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "risk_severity"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "denied"
+        ],
+        "not": {
+          "required": [
+            "allowed"
+          ]
+        },
+        "properties": {
+          "denied": {
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "required": [
+                "severity",
+                "threshold"
+              ],
+              "properties": {
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ],
+                  "description": "Severity level this count applies to."
+                },
+                "threshold": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Maximum number of vulnerabilities permitted at this severity. Strictly more than this is denied; 0 denies any vulnerability at this severity."
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "dependentSchemas": {
+          "denied": {
+            "properties": {
+              "denied": {
+                "allOf": [
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "severity": {
+                          "const": "critical"
+                        }
+                      },
+                      "required": [
+                        "severity"
+                      ]
+                    },
+                    "minContains": 0,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "severity": {
+                          "const": "high"
+                        }
+                      },
+                      "required": [
+                        "severity"
+                      ]
+                    },
+                    "minContains": 0,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "severity": {
+                          "const": "medium"
+                        }
+                      },
+                      "required": [
+                        "severity"
+                      ]
+                    },
+                    "minContains": 0,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "severity": {
+                          "const": "low"
+                        }
+                      },
+                      "required": [
+                        "severity"
+                      ]
+                    },
+                    "minContains": 0,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "package_version"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "denied"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "allowed"
+              ]
+            },
+            {
+              "required": [
+                "exceptions"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "denied": {
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "version"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255,
+                  "description": "The exact package name to deny."
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255,
+                  "description": "The exact package version to deny."
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20,
+                  "not": {
+                    "pattern": "[\\r\\n]"
+                  },
+                  "description": "Short reason shown to developers in the block message for this entry."
+                },
+                "reference_link": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048,
+                  "pattern": "^https?://.+",
+                  "not": {
+                    "pattern": "[\\r\\n]"
+                  },
+                  "description": "Link to more information about this entry, such as a CVE page. Stored and shown in the UI only."
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

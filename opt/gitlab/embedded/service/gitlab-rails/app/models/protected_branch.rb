@@ -1,0 +1,151 @@
+# frozen_string_literal: true
+
+class ProtectedBranch < ApplicationRecord
+  include ProtectedRef
+  include Gitlab::SQL::Pattern
+  include FromUnion
+  include Presentable
+
+  belongs_to :group, foreign_key: :namespace_id, touch: true, inverse_of: :protected_branches, optional: true
+
+  validates_with ExactlyOnePresentValidator, fields: [:project, :group],
+    message: ->(_fields) { _('must be associated with a Group or a Project') }
+
+  validate :validate_not_subgroup
+  validates :name, uniqueness: { scope: [:project_id, :namespace_id] }, if: :name_changed?
+
+  scope :requiring_code_owner_approval, -> { where(code_owner_approval_required: true) }
+  scope :allowing_force_push, -> { where(allow_force_push: true) }
+  scope :sorted_by_name, -> { order(name: :asc) }
+  scope :sorted_by_name_with_default_first, ->(default_branch) {
+    return sorted_by_name if default_branch.blank?
+
+    order(arel_table[:name].eq(default_branch).desc, arel_table[:name].asc)
+  }
+  scope :sorted_by_namespace_and_name, -> { order(:namespace_id, :name) }
+
+  scope :for_group, ->(group) { where(group: group) }
+  scope :preload_access_levels, -> { preload(:push_access_levels, :merge_access_levels) }
+
+  scope :after_name_and_id, ->(name, id) {
+    return none unless name && id
+
+    where('(name > ?) OR (name = ? AND id > ?)', name, name, id).order(:name, :id)
+  }
+
+  scope :excluding_name, ->(name) { where.not(name: name) if name.present? }
+
+  protected_ref_access_levels :merge, :push
+
+  def self.get_ids_by_name(name)
+    where(name: name).pluck(:id)
+  end
+
+  def self.protected_ref_accessible_to?(ref, user, project:, action:, protected_refs: nil)
+    if project.empty_repo?
+      return true if Ability.allowed?(user, :admin_project, project)
+
+      member_access = project.team.max_member_access(user.id)
+      branch_protection = Gitlab::Access::DefaultBranchProtection.new(
+        project.namespace.default_branch_protection_settings
+      )
+      return true if branch_protection.can_initial_push?(member_access)
+
+      # Allow the initial push to security policy management projects regardless of branch protection settings
+      return true if can_update_security_orchestration_policy_project?(user, project)
+    end
+
+    super
+  end
+
+  # overridden in EE
+  def self.can_update_security_orchestration_policy_project?(user, project)
+    false
+  end
+
+  # Check if branch name is marked as protected in the system
+  def self.protected?(project, ref_name, skip_cache: false)
+    return true if project.empty_repo? && project.default_branch_protected?
+    return false if ref_name.blank?
+
+    # The Redis cache is keyed per ref name, so a bulk push touching many new
+    # refs costs one round trip per ref with no cache hits. There, match against
+    # the preloaded all_protected_branches in Ruby instead (as ProtectedTag does).
+    return matches_protection_rule?(project, ref_name) if skip_cache
+
+    ProtectedBranches::CacheService.new(project).fetch(ref_name) do # rubocop: disable CodeReuse/ServiceClass
+      matches_protection_rule?(project, ref_name)
+    end
+  end
+
+  # Returns whether any protected-branch rule matches the ref. Uses `any?` so it
+  # stops at the first match, rather than `matching` which collects every match.
+  def self.matches_protection_rule?(project, ref_name)
+    protected_refs(project).any? { |protected_ref| protected_ref.matches?(ref_name) }
+  end
+
+  def self.allow_force_push?(project, ref_name)
+    project.all_protected_branches.allowing_force_push.matching(ref_name).any?
+  end
+
+  def self.any_protected?(project, ref_names)
+    protected_refs(project).any? do |protected_ref|
+      ref_names.any? do |ref_name|
+        protected_ref.matches?(ref_name)
+      end
+    end
+  end
+
+  def self.protected_refs(project)
+    project.all_protected_branches
+  end
+
+  # overridden in EE
+  def self.branch_requires_code_owner_approval?(project, branch_name)
+    false
+  end
+
+  def self.by_name(query)
+    return none if query.blank?
+
+    where(fuzzy_arel_match(:name, query.downcase))
+  end
+
+  def self.downcase_humanized_name
+    name.underscore.humanize.downcase
+  end
+
+  def self.default_branch_for(project)
+    return unless project&.default_branch
+
+    project.protected_branches.detect { |branch| branch.name == project.default_branch }
+  end
+
+  def default_branch?
+    return false unless project.present?
+
+    name == project.default_branch
+  end
+
+  def group_level?
+    entity.is_a?(Group)
+  end
+
+  def project_level?
+    entity.is_a?(Project)
+  end
+
+  def entity
+    group || project
+  end
+
+  private
+
+  def validate_not_subgroup
+    return unless group&.subgroup?
+
+    errors.add(:base, _('cannot be associated with a subgroup'))
+  end
+end
+
+ProtectedBranch.prepend_mod

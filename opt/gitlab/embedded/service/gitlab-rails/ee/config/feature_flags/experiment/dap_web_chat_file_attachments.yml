@@ -1,0 +1,10 @@
+---
+name: dap_web_chat_file_attachments
+description: Enables attaching image files to a GitLab Duo Agentic Chat message on the web.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/modelops/applied-ml/code-suggestions/-/work_items/58
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/250665
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627543
+milestone: '19.5'
+group: group::duo chat
+type: experiment
+default_enabled: false

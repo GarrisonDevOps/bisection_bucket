@@ -1,0 +1,179 @@
+# frozen_string_literal: true
+
+module API
+  class ProjectPackages < ::API::Base
+    include Gitlab::Utils::StrongMemoize
+    include PaginationParams
+
+    before do
+      authorize_packages_access!(user_project)
+    end
+
+    feature_category :package_registry
+    urgency :low
+
+    helpers ::API::Helpers::PackagesHelpers
+    helpers ::API::Helpers::Packages::Npm
+    helpers do
+      def package
+        strong_memoize(:package) do # rubocop:disable Gitlab/StrongMemoizeAttr
+          ::Packages::PackageFinder.new(user_project, declared_params[:package_id]).execute
+        end
+      end
+    end
+
+    params do
+      requires :id, types: [String, Integer], desc: 'ID or URL-encoded path of the project.'
+    end
+    resource :projects, requirements: ::API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
+      desc 'List all packages for a project' do
+        detail 'Lists all packages for a specified project. All package types are included in results. ' \
+          'Unauthenticated requests return only packages of public projects. By default, packages with `default`, ' \
+          '`deprecated`, and `error` status are returned. Use the `status` parameter to view other packages. ' \
+          'Packages with `processing` status can contain malformed data or be broken.'
+        success code: 200, model: ::API::Entities::Package
+        failure [
+          { code: 403, message: 'Forbidden' },
+          { code: 404, message: 'Project Not Found' }
+        ]
+        is_array true
+        tags %w[packages]
+      end
+      params do
+        use :pagination
+        optional :order_by, type: String, values: %w[created_at name version type], default: 'created_at',
+          desc: 'Sort results by the specified field.'
+        optional :sort, type: String, values: %w[asc desc], default: 'asc',
+          desc: 'Sort results in ascending or descending order.'
+        optional :package_type, type: String, values: Packages::Package.package_types.keys,
+          desc: 'Filter packages by type.'
+        optional :package_name, type: String,
+          desc: 'Filter packages by name, using a fuzzy search.'
+        optional :package_version, type: String,
+          desc: 'Filter packages by version. When used together with `include_versionless`, versionless packages are not returned.'
+        optional :include_versionless, type: Boolean,
+          desc: 'If `true`, includes versionless packages in the response.'
+        optional :status, type: String, values: Packages::Package.statuses.keys,
+          desc: 'Filter packages by status.'
+      end
+      route_setting :authentication, job_token_allowed: true
+      route_setting :authorization, permissions: :read_package, boundary_type: :project,
+        job_token_policies: :read_packages, allow_public_access_for_enabled_project_features: :package_registry
+      get ':id/packages' do
+        packages = ::Packages::PackagesFinder.new(
+          user_project,
+          declared_params.slice(
+            :order_by, :sort, :package_type, :package_name, :package_version, :include_versionless, :status
+          ).merge(preload_pipelines: false)
+        ).execute
+
+        paginated_packages = paginate(packages)
+
+        present paginated_packages, with: ::API::Entities::Package, user: current_user,
+          namespace: user_project.namespace,
+          last_build_infos: ::Packages::BuildInfo.latest_per_package(paginated_packages.map(&:id))
+      end
+
+      desc 'Retrieve a project package' do
+        detail 'Retrieves a specified project package. Only packages with status `default` or `deprecated` are ' \
+          'returned. ' \
+          'In the response, `creator_id` is the ID of the user who created the package, and is `null` when a ' \
+          'deploy token created the package. For a Conan package, `name` contains the recipe, and ' \
+          '`conan_package_name` contains the package name. Other package types do not have this field. ' \
+          'In `_links`, `web_path` is the path to the package details page in GitLab, and `delete_api_path` ' \
+          'is the API path to delete the package, returned only if you have permission to delete it.'
+        success code: 200, model: ::API::Entities::Package
+        failure [
+          { code: 403, message: 'Forbidden' },
+          { code: 404, message: 'Not Found' }
+        ]
+        tags %w[packages]
+      end
+      params do
+        requires :package_id, type: Integer, desc: 'ID of the package.'
+      end
+      route_setting :authentication, job_token_allowed: true
+      route_setting :authorization, permissions: :read_package, boundary_type: :project,
+        job_token_policies: :read_packages, allow_public_access_for_enabled_project_features: :package_registry
+      get ':id/packages/:package_id' do
+        render_api_error!('Package not found', 404) unless package.detailed_info?
+
+        versions = package.versions.to_a
+
+        present package, with: ::API::Entities::Package, user: current_user, namespace: user_project.namespace,
+          versions: versions,
+          last_build_infos: ::Packages::BuildInfo.latest_per_package([package.id, *versions.map(&:id)])
+      end
+
+      desc 'List all package pipelines' do
+        detail 'Lists all pipelines for a specified package. The results are sorted by `id` in descending order. The ' \
+          'results are paginated and return up to 20 records per page. This feature was introduced in GitLab 16.1.'
+        success code: 200, model: ::API::Entities::Package::Pipeline
+        is_array true
+        failure [
+          { code: 401, message: 'Unauthorized' },
+          { code: 403, message: 'Forbidden' },
+          { code: 404, message: 'Not Found' }
+        ]
+        tags %w[packages]
+      end
+      params do
+        use :pagination
+        requires :package_id, type: Integer, desc: 'ID of the package.'
+        optional :cursor, type: String, desc: 'Cursor for obtaining the next set of records.'
+        # Overrides the original definition to add the `values: 1..20` restriction
+        optional :per_page, type: Integer, default: 20,
+          desc: 'Number of items per page', documentation: { example: 20 },
+          values: 1..20
+      end
+      route_setting :authentication, job_token_allowed: true
+      route_setting :authorization, permissions: :read_package_pipeline, boundary_type: :project,
+        job_token_policies: :read_pipelines, allow_public_access_for_enabled_project_features: :package_registry
+      get ':id/packages/:package_id/pipelines' do
+        not_found!('Package not found') unless package.detailed_info?
+
+        authorize! :read_pipeline, user_project unless current_user&.from_ci_job_token?
+
+        params[:pagination] = 'keyset' # keyset is the only available pagination
+        pipelines = paginate_with_strategies(
+          package.build_infos.without_empty_pipelines,
+          paginator_params: { per_page: declared_params[:per_page], cursor: declared_params[:cursor] }
+        ) do |results|
+          # A pipeline can belong to another project when published with a cross-project CI_JOB_TOKEN.
+          ::Packages::PipelinesFinder.new(results.map(&:pipeline_id)).execute.select do |pipeline|
+            pipeline.project_id == user_project.id || Ability.allowed?(current_user, :read_pipeline, pipeline)
+          end
+        end
+
+        present pipelines, with: ::API::Entities::Package::Pipeline, user: current_user
+      end
+
+      desc 'Delete a project package' do
+        detail 'Deletes a specified project package. If request forwarding is enabled, deleting a package can ' \
+          'introduce a dependency confusion risk. Deleting a package protected by a protection rule is forbidden. ' \
+          'The protection check is behind a feature flag named `packages_protected_packages_delete`, disabled by ' \
+          'default.'
+        success code: 204
+        failure [
+          { code: 403, message: 'Forbidden' },
+          { code: 404, message: 'Not Found' }
+        ]
+        tags %w[packages]
+      end
+      params do
+        requires :package_id, type: Integer, desc: 'ID of the package.'
+      end
+      route_setting :authentication, job_token_allowed: true
+      route_setting :authorization, permissions: :delete_package, boundary_type: :project,
+        job_token_policies: :admin_packages
+      delete ':id/packages/:package_id' do
+        authorize_destroy_package!(user_project)
+
+        destroy_conditionally!(package) do |package|
+          result = ::Packages::MarkPackageForDestructionService.new(container: package, current_user: current_user).execute
+          render_api_error!(result.message, result.http_status) if result.error?
+        end
+      end
+    end
+  end
+end

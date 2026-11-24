@@ -1,0 +1,10 @@
+---
+name: organization_billing
+description: Resolve billing, seats and usage for an Organization through its nominated top-level group's subscription
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635330
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264583
+rollout_issue_url:
+milestone: '19.6'
+group: group::cost management
+type: wip
+default_enabled: false

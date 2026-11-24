@@ -1,0 +1,16 @@
+---
+name: BackfillVulnerabilitiesForSelfManaged
+version: '20251127090000'
+description: Backfills Vulnerabilities Index from PostgreSQL for self-managed instances
+  that already have Elasticsearch enabled
+group: group::security infrastructure
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214393
+obsolete: true
+marked_obsolete_by_url: 
+marked_obsolete_in_milestone: '19.2'
+skippable: true
+skip_condition: This migration runs only on GitLab self-managed instances that have
+  Elasticsearch indexing enabled and the vulnerabilities index available. It is skipped
+  on GitLab.com SaaS and GitLab Dedicated, as the data is already available and being
+  used.

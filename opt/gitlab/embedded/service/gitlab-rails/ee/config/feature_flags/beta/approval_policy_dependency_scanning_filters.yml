@@ -1,0 +1,10 @@
+---
+name: approval_policy_dependency_scanning_filters
+description: Applies dependency_change and dependency_type scanner settings when evaluating merge request approval policies
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635482
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635635
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264451
+milestone: '19.6'
+group: group::policy management
+type: beta
+default_enabled: false

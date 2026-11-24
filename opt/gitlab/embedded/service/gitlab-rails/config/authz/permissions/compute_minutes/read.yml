@@ -1,0 +1,3 @@
+---
+name: read_compute_minutes
+description: Grants the ability to read the compute minutes quota and usage of a namespace

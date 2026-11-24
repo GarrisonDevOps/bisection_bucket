@@ -1,0 +1,11 @@
+---
+name: merge_trains_refresh_time_budget
+description: Cap each merge train refresh pass at a time budget and continue the remaining
+  cars in a new pass
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/24291
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266353
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637133
+milestone: '19.6'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

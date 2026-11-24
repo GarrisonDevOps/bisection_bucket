@@ -1,0 +1,5 @@
+---
+name: ai_flow_enablement
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262262
+milestone: '19.6'
+group: group::code security

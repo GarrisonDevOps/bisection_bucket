@@ -1,0 +1,10 @@
+---
+name: duo_session_restarted
+description: Duo session is restarted at the beginning of its process
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/598749
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254586
+feature_category: duo_agent_platform
+milestone: '19.5'
+saved_to_database: true
+scope: [Project]
+streamed: true

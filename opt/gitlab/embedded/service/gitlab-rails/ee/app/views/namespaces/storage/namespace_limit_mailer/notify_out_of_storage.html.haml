@@ -1,0 +1,15 @@
+- name_link = link_to @namespace.name, @usage_quotas_url
+
+%p
+  = html_escape(s_('NamespaceStorage|You have used %{used_storage_percentage} of the storage quota for %{name_with_link} (%{current_size} of %{limit}).')) % { name_with_link: name_link.html_safe, current_size: number_to_human_size(@current_size), limit: number_to_human_size(@limit), used_storage_percentage: used_storage_percentage(@usage_ratio) }
+
+%p
+  = html_escape(s_('NamespaceStorage|%{name_with_link} is now read-only. Projects under this namespace are locked and actions are restricted.')) % { name_with_link: name_link.html_safe }
+  = link_to s_('NamespaceStorage|Which actions are restricted?'), help_page_url('user/read_only_namespaces.md')
+
+%p
+  = s_('NamespaceStorage|Manage your storage usage or purchase additional storage.')
+  = link_to _('Learn more.'), help_page_url('user/storage_usage_quotas.md', anchor: 'manage-storage-usage')
+
+%p
+  = link_to sprintf('%{link_label} →', { link_label: s_('NamespaceStorage|Buy more storage') }), @buy_storage_url

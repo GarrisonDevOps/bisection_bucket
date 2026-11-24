@@ -1,0 +1,85 @@
+---
+# Any instance below can authenticate with a rotating token instead of a static
+# password (for example Microsoft Entra with Azure Cache for Redis or Azure
+# Managed Redis). Set `username` to the managed identity or service principal
+# object ID and add a `credentials_provider`; the token is fetched and refreshed
+# for you. Requires TLS (rediss://), and must be set on the same instance that
+# supplies the `url`. For example, the `cache` instance (any instance works)
+# nested under its environment:
+#
+#   production:
+#     cache:
+#       url: rediss://cache.example.com:10000
+#       username: "00000000-0000-0000-0000-000000000000"
+#       credentials_provider:
+#         provider: azure
+#         resource: "https://redis.azure.com"
+#
+# Known limitation: pub/sub connections (for example ActionCable) are not
+# proactively re-authenticated, so Redis closes them when the token expires.
+# The client reconnects with a fresh token, but messages published during the
+# brief reconnect gap can be lost.
+#
+development:
+  chat:
+    cluster:
+      - redis://localhost:7001
+  cache:
+    cluster:
+      - redis://localhost:7001
+  concurrency_limit:
+    url: redis://localhost:6379
+  cluster_shared_state:
+    cluster:
+      - redis://localhost:7001
+  feature_flag:
+    cluster:
+      - redis://localhost:7001
+  rate_limiting:
+    cluster:
+      - redis://localhost:7001
+  queues_metadata:
+    cluster:
+      - redis://localhost:7001
+  sessions:
+    cluster:
+      - redis://localhost:7001
+  shared_state:
+    cluster:
+      - redis://localhost:7001
+  workhorse:
+    url: redis://localhost:6379
+
+test:
+  action_cable:
+    url: redis://localhost:6379
+  chat:
+    cluster:
+      - redis://localhost:7001
+  cache:
+    cluster:
+      - redis://localhost:7001
+  concurrency_limit:
+    url: redis://localhost:6379
+  cluster_shared_state:
+    cluster:
+      - redis://localhost:7001
+  feature_flag:
+    cluster:
+      - redis://localhost:7001
+  rate_limiting:
+    cluster:
+      - redis://localhost:7001
+  queues_metadata:
+    cluster:
+      - redis://localhost:7001
+  sessions:
+    cluster:
+      - redis://localhost:7001
+  shared_state:
+    cluster:
+      - redis://localhost:7001
+  # pubsub and workhorse are not redis-cluster compatible
+  # even though they fall-back to shared_state
+  workhorse:
+    url: redis://localhost:6379

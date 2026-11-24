@@ -1,0 +1,57 @@
+---
+description: Tracks duo agent platform session creation
+internal_events: true
+status: active
+action: agent_platform_session_created
+classification: duo
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Flow type, eg. chat
+  property:
+    description: Environment, eg. web
+  value:
+    description: Session id
+  source:
+    description: >-
+      Where the session was triggered from. Mirrors the workflow's source_type:
+      an external system (slack, mcp), a GitLab feature entry point
+      (e.g. merge_request_code_conflict) or the client surface that created it
+      (duo_cli_interactive, duo_cli_run, duo_cli_acp, ide_extension).
+  verification_run:
+    description: Whether the session is a functional verification run, not real user activity. Verification runs are not billed.
+  item_type:
+    description: >-
+      Item type of the flow or agent the session runs, as in trigger_ai_catalog_item.
+      One of foundational_flow, foundational_external_agent, foundational_agent,
+      custom_flow, custom_agent, custom_external_agent. Only set for sessions started over MCP.
+  item_version:
+    description: >-
+      Version of the item. For GitLab flows and agents this can be a version constraint (e.g. "^3.0.0").
+      For custom items it is a semantic version (e.g. "1.0.0"). Only set for sessions started over MCP.
+  item_schema_version:
+    description: Flow Schema version (e.g. "v1"). Only set for sessions started over MCP.
+  custom_item_id:
+    description: Custom item ID. Only set for sessions started over MCP.
+  flow_name:
+    description: >-
+      Foundational flow name (e.g. "developer"). For foundational agents the value is always "chat".
+      Only set for sessions started over MCP.
+  component_name:
+    description: >-
+      Foundational agent reference (e.g. "analytics_agent"). Only set for sessions started over MCP.
+  mcp_client_name:
+    description: For a session started over MCP, the name the MCP client reports, from the clientInfo in the request _meta or else the User-Agent
+  mcp_client_version:
+    description: For a session started over MCP, the version the MCP client reports, from the same source as mcp_client_name
+product_group: agent_execution
+product_categories:
+  - duo_agent_platform
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201505
+tiers:
+  - premium
+  - ultimate

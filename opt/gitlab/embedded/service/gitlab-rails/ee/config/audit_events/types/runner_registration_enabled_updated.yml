@@ -1,0 +1,10 @@
+---
+name: runner_registration_enabled_updated
+description: Setting Runner registration is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164973
+feature_category: runner
+milestone: '17.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

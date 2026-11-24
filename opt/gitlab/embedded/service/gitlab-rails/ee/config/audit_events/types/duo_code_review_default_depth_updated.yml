@@ -1,0 +1,10 @@
+---
+name: duo_code_review_default_depth_updated
+description: GitLab Duo Code Review default review depth setting changed
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/work_items/23598
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265943
+feature_category: dap_code_review
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

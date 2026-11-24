@@ -1,0 +1,23 @@
+.user_new
+  = gitlab_ui_form_for [:admin, @user], html: { class: 'fieldset-form' } do |f|
+    = form_errors(@user)
+
+    = render 'admin/users/account_fields', f: f
+
+    = render 'admin/users/password_fields', f: f
+
+    = render partial: 'access', locals: { f: f }
+
+    = yield :organization_section
+
+    = render_if_exists 'admin/users/namespace_plan_fieldset', f: f
+
+    = render_if_exists 'admin/users/limits', f: f
+
+    = render 'admin/users/profile_fields', f: f
+
+    = render_if_exists 'admin/users/custom_attributes', f: f
+
+    = render 'admin/users/admin_notes', f: f
+
+    = render 'admin/users/form_actions', f: f

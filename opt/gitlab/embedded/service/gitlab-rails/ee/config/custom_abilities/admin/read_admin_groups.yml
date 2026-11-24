@@ -1,0 +1,8 @@
+---
+title: View Groups
+name: read_admin_groups
+description: Read group details in the Admin Area.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/534449
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197777
+feature_category: admin
+milestone: '18.3'

@@ -1,0 +1,261 @@
+# frozen_string_literal: true
+
+# This patches Net::HTTP#connect to handle the hostname override patch,
+# which is needed for Server Side Request Forgery (SSRF)
+# protection. This stopped working in net-http v0.2.2 due to
+# https://github.com/ruby/net-http/pull/36.
+# https://github.com/ruby/net-http/issues/141 is outstanding to make
+# this less hacky, but for now we restore the previous behavior by
+# setting the SNI hostname with the hostname override, if available.
+require 'net/http'
+
+module Net
+  class HTTP < Protocol
+    # rubocop:disable Cop/LineBreakAroundConditionalBlock -- This is upstream code
+    # rubocop:disable Layout/ArgumentAlignment -- This is upstream code
+    # rubocop:disable Layout/AssignmentIndentation -- This is upstream code
+    # rubocop:disable Layout/LineEndStringConcatenationIndentation -- This is upstream code
+    # rubocop:disable Layout/MultilineOperationIndentation -- This is upstream code
+    # rubocop:disable Layout/SpaceInsideBlockBraces -- This is upstream code
+    # rubocop:disable Lint/UnusedBlockArgument -- This is upstream code
+    # rubocop:disable Metrics/AbcSize -- This is upstream code
+    # rubocop:disable Metrics/CyclomaticComplexity -- This is upstream code
+    # rubocop:disable Metrics/PerceivedComplexity -- This is upstream code
+    # rubocop:disable Naming/RescuedExceptionsVariableName -- This is upstream code
+    # rubocop:disable Style/AndOr -- This is upstream code
+    # rubocop:disable Style/BlockDelimiters -- This is upstream code
+    # rubocop:disable Style/EmptyLiteral -- This is upstream code
+    # rubocop:disable Style/IfUnlessModifier -- This is upstream code
+    # rubocop:disable Style/LineEndConcatenation -- This is upstream code
+    # rubocop:disable Style/MultilineIfThen -- This is upstream code
+    # rubocop:disable Style/Next -- This is upstream code
+    # rubocop:disable Style/RescueStandardError -- This is upstream code
+    # rubocop:disable Style/StringConcatenation -- This is upstream code
+
+    attr_accessor :gitlab_candidate_addresses
+
+    def connect
+      if use_ssl?
+        # reference early to load OpenSSL before connecting,
+        # as OpenSSL may take time to load.
+        @ssl_context = OpenSSL::SSL::SSLContext.new
+      end
+
+      if proxy? then
+        conn_addr = proxy_address
+        conn_port = proxy_port
+      else
+        conn_addr = conn_address
+        conn_port = port
+      end
+
+      # Retry across validated candidates so a black-holed first IP (e.g. IPv6 under dual stack) can fall back.
+      candidate_addrs = proxy? ? nil : gitlab_candidate_addresses
+      candidate_addrs = [conn_addr] if candidate_addrs.nil? || candidate_addrs.empty?
+
+      fallback_errors = [
+        Net::OpenTimeout, Errno::ETIMEDOUT, Errno::EHOSTUNREACH,
+        Errno::ENETUNREACH, Errno::EADDRNOTAVAIL, Errno::EAFNOSUPPORT
+      ]
+
+      s = nil
+      candidate_addrs.each_with_index do |addr, index|
+        debug "opening connection to #{addr}:#{conn_port}..."
+        begin
+          s = Timeout.timeout(@open_timeout, Net::OpenTimeout) {
+            TCPSocket.open(addr, conn_port, @local_host, @local_port)
+          }
+          conn_addr = addr
+          break
+        rescue => e
+          retryable = fallback_errors.any? { |klass| e.is_a?(klass) }
+          next if retryable && index < candidate_addrs.length - 1
+
+          raise e, "Failed to open TCP connection to " +
+            "#{addr}:#{conn_port} (#{e.message})"
+        end
+      end
+      s.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+      debug "opened"
+      if use_ssl?
+        if proxy?
+          if @proxy_use_ssl
+            proxy_sock = OpenSSL::SSL::SSLSocket.new(s)
+            ssl_socket_connect(proxy_sock, @open_timeout)
+          else
+            proxy_sock = s
+          end
+          proxy_sock = BufferedIO.new(proxy_sock, read_timeout: @read_timeout,
+                                      write_timeout: @write_timeout,
+                                      continue_timeout: @continue_timeout,
+                                      debug_output: @debug_output)
+          conn_target = conn_address.match?(Resolv::IPv6::Regex) ? "[#{conn_address}]" : conn_address
+          buf = +"CONNECT #{conn_target}:#{@port} HTTP/#{HTTPVersion}\r\n" \
+            "Host: #{conn_target}:#{@port}\r\n"
+          if proxy_user
+            credential = ["#{proxy_user}:#{proxy_pass}"].pack('m0')
+            buf << "Proxy-Authorization: Basic #{credential}\r\n"
+          end
+          buf << "\r\n"
+          proxy_sock.write(buf)
+          HTTPResponse.read_new(proxy_sock).value
+          # assuming nothing left in buffers after successful CONNECT response
+        end
+
+        ssl_parameters = Hash.new
+        iv_list = instance_variables
+        SSL_IVNAMES.each_with_index do |ivname, i|
+          if iv_list.include?(ivname)
+            value = instance_variable_get(ivname)
+            unless value.nil?
+              ssl_parameters[SSL_ATTRIBUTES[i]] = value
+            end
+          end
+        end
+        @ssl_context.set_params(ssl_parameters)
+        unless @ssl_context.session_cache_mode.nil? # a dummy method on JRuby
+          @ssl_context.session_cache_mode =
+              OpenSSL::SSL::SSLContext::SESSION_CACHE_CLIENT |
+                  OpenSSL::SSL::SSLContext::SESSION_CACHE_NO_INTERNAL_STORE
+        end
+        if @ssl_context.respond_to?(:session_new_cb) # not implemented under JRuby
+          @ssl_context.session_new_cb = proc {|sock, sess| @ssl_session = sess }
+        end
+
+        # Still do the post_connection_check below even if connecting
+        # to IP address
+        verify_hostname = @ssl_context.verify_hostname
+
+        # This hack would not be needed with https://github.com/ruby/net-http/issues/141
+        address_to_verify = proxy_decision_host
+
+        # Server Name Indication (SNI) RFC 3546/6066
+        case address_to_verify
+        when Resolv::IPv4::Regex, Resolv::IPv6::Regex
+          # don't set SNI, as IP addresses in SNI is not valid
+          # per RFC 6066, section 3.
+
+          # Avoid openssl warning
+          @ssl_context.verify_hostname = false
+        else
+          ssl_host_address = address_to_verify
+        end
+
+        debug "starting SSL for #{conn_addr}:#{conn_port}..."
+        s = OpenSSL::SSL::SSLSocket.new(s, @ssl_context)
+        s.sync_close = true
+        s.hostname = ssl_host_address if s.respond_to?(:hostname=) && ssl_host_address
+
+        if @ssl_session and
+           Process.clock_gettime(Process::CLOCK_REALTIME) < @ssl_session.time.to_f + @ssl_session.timeout
+          s.session = @ssl_session
+        end
+        ssl_socket_connect(s, @open_timeout)
+        if (@ssl_context.verify_mode != OpenSSL::SSL::VERIFY_NONE) && verify_hostname
+          s.post_connection_check(@address)
+        end
+        debug "SSL established, protocol: #{s.ssl_version}, cipher: #{s.cipher[0]}"
+      end
+      @socket = BufferedIO.new(s, read_timeout: @read_timeout,
+                               write_timeout: @write_timeout,
+                               continue_timeout: @continue_timeout,
+                               debug_output: @debug_output)
+      @last_communicated = nil
+      on_connect
+    rescue => exception
+      if s
+        debug "Conn close because of connect error #{exception}"
+        s.close
+      end
+      raise
+    end
+    private :connect
+
+    # Override upstream's HTTPS proxy selection and destination DNS lookup until both are fixed.
+    # https://github.com/ruby/net-http/blob/v0.9.1/lib/net/http.rb#L1893-L1899
+    # https://gitlab.com/gitlab-com/request-for-help/-/work_items/4801 and https://gitlab.com/gitlab-org/gitlab/-/issues/602538
+    def proxy_uri # rubocop:disable Layout/ClassStructure -- must be public; placed after `private :connect` which only affects connect
+      return if @proxy_uri == false
+
+      @proxy_uri ||= begin
+        scheme = use_ssl? ? "https" : "http"
+
+        if Gitlab::HTTP_V2.proxy_no_dns? || hostname_override
+          resolve_proxy_uri_without_dns(scheme)
+        else
+          # Preserve DNS-based no_proxy CIDR matching for unpinned connections unless explicitly opted out.
+          URI::HTTP.new(scheme, nil, address, port, nil, nil, nil, nil, nil).find_proxy
+        end || false
+      end
+      @proxy_uri || nil
+    end
+
+    def resolve_proxy_uri_without_dns(scheme)
+      name = "#{scheme}_proxy"
+      # CGI may populate HTTP_PROXY from the request's Proxy header; match URI::Generic#find_proxy.
+      proxy = if name == 'http_proxy' && ENV.include?('REQUEST_METHOD')
+                ENV[name] || ENV['CGI_HTTP_PROXY']
+              else
+                ENV[name] || ENV[name.upcase]
+              end
+      return if proxy.to_s.empty?
+
+      # Never proxy localhost names (RFC 6761). Match against the original
+      # hostname so a name-based no_proxy entry still applies when the address
+      # has been pinned to the resolved IP.
+      host = proxy_decision_host.downcase.delete_suffix(".")
+      return if host == "localhost" || host.end_with?(".localhost")
+
+      # Resolve the loopback/CIDR checks against the already-known IP in
+      # `address` (AI_NUMERICHOST only parses numeric IPs, not hostnames), so
+      # CIDR-style no_proxy entries and loopback detection keep working when the
+      # connection is pinned to the resolved IP.
+      addrinfo = numeric_addrinfo(address)
+      return if addrinfo&.ipv4_loopback? || addrinfo&.ipv6_loopback?
+
+      no_proxy = ENV["no_proxy"] || ENV["NO_PROXY"]
+      return if !no_proxy.to_s.empty? && !URI::Generic.use_proxy?(host, addrinfo&.ip_address, port, no_proxy)
+
+      URI.parse(proxy)
+    end
+    private :resolve_proxy_uri_without_dns
+
+    def numeric_addrinfo(host)
+      Addrinfo.getaddrinfo(host, nil, nil, Socket::SOCK_STREAM, nil, Socket::AI_NUMERICHOST).first
+    rescue SocketError
+      nil
+    end
+    private :numeric_addrinfo
+
+    # The original hostname to use for proxy selection and TLS verification.
+    # When DNS-rebind protection pins the connection to the resolved IP, @address
+    # holds the IP and hostname_override holds the original hostname. Using the
+    # hostname ensures name-based no_proxy entries match and SNI/cert checks use
+    # the real host rather than the pinned IP.
+    def proxy_decision_host
+      hostname_override || address
+    end
+    private :proxy_decision_host
+
+    # rubocop:enable Cop/LineBreakAroundConditionalBlock
+    # rubocop:enable Layout/ArgumentAlignment
+    # rubocop:enable Layout/AssignmentIndentation
+    # rubocop:enable Layout/LineEndStringConcatenationIndentation
+    # rubocop:enable Layout/MultilineOperationIndentation
+    # rubocop:enable Layout/SpaceInsideBlockBraces
+    # rubocop:enable Lint/UnusedBlockArgument
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Naming/RescuedExceptionsVariableName
+    # rubocop:enable Style/AndOr
+    # rubocop:enable Style/BlockDelimiters
+    # rubocop:enable Style/EmptyLiteral
+    # rubocop:enable Style/IfUnlessModifier
+    # rubocop:enable Style/LineEndConcatenation
+    # rubocop:enable Style/MultilineIfThen
+    # rubocop:enable Style/Next
+    # rubocop:enable Style/RescueStandardError
+    # rubocop:enable Style/StringConcatenation
+  end
+end

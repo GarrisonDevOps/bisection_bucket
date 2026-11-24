@@ -1,0 +1,11 @@
+<% if @scope.is_a?(::Group) %>
+  <%= _('Your CI runner usage CSV export containing the top %{exported_objects} in the "%{full_path}" group has been added to this email as an attachment.').html_safe % { exported_objects: pluralize(@written_count, 'project'), full_path: @scope.full_path } %>
+<% elsif @scope.is_a?(::Project) %>
+  <%= _('Your CI runner usage CSV export for the "%{full_path}" project has been added to this email as an attachment.').html_safe % { full_path: @scope.full_path } %>
+<% else %>
+  <%= _('Your CI runner usage CSV export of the top %{exported_objects} has been added to this email as an attachment.') %  { exported_objects: pluralize(@written_count, 'project') } %>
+<% end %>
+
+<% if @truncated %>
+  <%= _('This attachment has been truncated to avoid exceeding the maximum allowed attachment size of %{size_limit}. %{written_count} of %{total_count} projects have been included.') % { written_count: @written_count, total_count: @count, size_limit: @size_limit } %>
+<% end %>

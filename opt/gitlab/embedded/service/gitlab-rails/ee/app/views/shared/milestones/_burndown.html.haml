@@ -1,0 +1,25 @@
+- milestone = local_assigns[:milestone]
+
+- has_no_issues = has_no_milestone_issues?(milestone)
+- has_dates = has_defined_dates?(milestone)
+- show_burndown_alert = show_burndown_alert?(milestone)
+- burndown_endpoint = milestone.group_milestone? ? api_v4_groups_milestones_burndown_events_path(id: milestone.group.id, milestone_id: milestone.id) : api_v4_projects_milestones_burndown_events_path(id: milestone.project.id, milestone_id: milestone.timebox_id)
+
+- if show_burndown_alert
+  = render Pajamas::AlertComponent.new(dismissible: false,
+    alert_options: { class: 'gl-mt-3 gl-mb-5',
+    data: { testid: 'no-issues-and-dates-alert' }}) do |c|
+    - c.with_body do
+      - if !has_dates
+        - url = edit_milestone_path(milestone)
+        = safe_format(_('Add a %{link_start}start date and due date%{link_end} to view a burndown chart.'), tag_pair(link_to('', url), :link_start, :link_end))
+      - if has_no_issues
+        = _('Assign some issues to this milestone.')
+
+- elsif can_generate_chart?(milestone)
+  - add_page_startup_graphql_call('burndown_chart/burnup', { id: milestone.to_global_id.to_s, isIteration: false, weight: false })
+  .burndown-chart{ class: '!gl-mb-3', data: { start_date: milestone.start_date.iso8601,
+    due_date: milestone.due_date.iso8601,
+    milestone_id: milestone.to_global_id,
+    is_legacy: legacy_milestone?(milestone),
+    burndown_events_path: expose_url(burndown_endpoint) } }

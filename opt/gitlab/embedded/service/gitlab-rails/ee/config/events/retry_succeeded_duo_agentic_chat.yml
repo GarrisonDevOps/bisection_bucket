@@ -1,0 +1,29 @@
+---
+description: Duo Agentic Chat manual retry completed successfully
+internal_events: true
+status: active
+action: retry_succeeded_duo_agentic_chat
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  value:
+    description: The retry attempt number that succeeded (1 for the first retry, 2 for the second, etc.)
+  session_id:
+    description: Unique identifier of the session where the retry succeeded
+  flow_type:
+    description: Agent or flow where the retry succeeded
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248974
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,10 @@
+---
+name: oauth_dynamic_registration_redirect_uri_limits
+description: Limit the number and length of redirect URIs accepted by OAuth dynamic client registration
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635013
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263981
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635237
+milestone: '19.6'
+group: group::authentication
+type: gitlab_com_derisk
+default_enabled: false

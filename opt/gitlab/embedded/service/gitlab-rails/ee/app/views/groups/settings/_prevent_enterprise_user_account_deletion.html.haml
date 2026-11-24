@@ -1,0 +1,8 @@
+- return unless group.can_configure_enterprise_user_account_deletion?(current_user)
+
+= f.gitlab_ui_checkbox_component :allow_enterprise_user_account_deletion,
+    checkbox_options: { checked: group.namespace_settings.allow_enterprise_user_account_deletion? } do |c|
+  - c.with_label do
+    = s_('GroupSettings|Allow enterprise users to delete their own accounts')
+  - c.with_help_text do
+    = s_("GroupSettings|When disabled, enterprise users in this group cannot delete their own accounts.")

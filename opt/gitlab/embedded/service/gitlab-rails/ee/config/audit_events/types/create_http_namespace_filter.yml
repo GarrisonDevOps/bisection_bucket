@@ -1,0 +1,10 @@
+---
+name: create_http_namespace_filter
+description: A namespace filter for an external audit event destination for a top-level group is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/424176
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/136047
+feature_category: audit_events
+milestone: "16.6"
+saved_to_database: true
+streamed: true
+scope: [Group]

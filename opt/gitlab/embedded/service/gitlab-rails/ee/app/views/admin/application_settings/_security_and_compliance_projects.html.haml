@@ -1,0 +1,11 @@
+= gitlab_ui_form_for @application_setting, url: security_and_compliance_admin_application_settings_path(anchor: 'js-vac-projects-settings'), html: { class: 'fieldset-form' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group
+      = f.label :vac_project_ids_raw, s_('AdminSettings|VAC project IDs' ), class: 'label-bold'
+      = f.text_area :vac_project_ids_raw, class: 'form-control gl-form-input', rows: 5, placeholder: s_('AdminSettings|Example: 123, 456 or one project ID per line')
+      %span.form-text.gl-text-subtle
+        = s_('AdminSettings|Enter project IDs separated by commas or newlines.')
+
+  = f.submit _('Save changes'), pajamas_button: true

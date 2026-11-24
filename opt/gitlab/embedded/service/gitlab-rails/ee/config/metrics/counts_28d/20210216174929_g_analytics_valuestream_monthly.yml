@@ -1,0 +1,23 @@
+---
+data_category: operational
+key_path: redis_hll_counters.analytics.g_analytics_valuestream_monthly
+description: Unique visitors to /groups/:group/-/analytics/value_stream_analytics
+  by month
+product_group: optimize
+product_categories:
+- value_stream_management
+value_type: number
+status: active
+time_frame: 28d
+data_source: redis_hll
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - g_analytics_valuestream
+tiers:
+- premium
+- ultimate
+performance_indicator_type:
+- customer_health_score
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

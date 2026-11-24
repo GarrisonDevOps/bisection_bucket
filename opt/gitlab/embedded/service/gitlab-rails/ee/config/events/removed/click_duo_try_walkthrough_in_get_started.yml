@@ -1,0 +1,13 @@
+---
+description: Tracks clicks on the Try walkthrough link in the Get Started page.
+internal_events: true
+action: click_duo_try_walkthrough_in_get_started
+product_group: activation
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192693
+tiers:
+  - premium
+  - ultimate
+status: removed
+milestone_removed: '19.6'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267245

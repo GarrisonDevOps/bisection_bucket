@@ -1,0 +1,11 @@
+---
+version: 1
+type: AiImpactTable
+data:
+  type: value_stream
+  query:
+    filters:
+      includeMetrics:
+        - vulnerability_critical
+        - vulnerability_high
+options: {}

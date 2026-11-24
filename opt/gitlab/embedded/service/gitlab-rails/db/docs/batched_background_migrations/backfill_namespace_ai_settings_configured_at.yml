@@ -1,0 +1,8 @@
+---
+migration_job_name: BackfillNamespaceAiSettingsConfiguredAt
+description: Backfills missing namespace_ai_settings.configured_at keys with the backfill time
+feature_category: compliance_management
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263729
+milestone: '19.6'
+queued_migration_version: 20261020202846
+gitlab_schema: gitlab_main_org

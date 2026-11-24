@@ -1,0 +1,11 @@
+---
+name: log_archived_project_authorization_grants
+description: Log how many of the project_authorizations grants a permission refresh
+  writes are on archived projects
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637273
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267783
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638266
+milestone: '19.6'
+group: group::authorization
+type: gitlab_com_derisk
+default_enabled: false

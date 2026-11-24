@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_click_rotate_and_fix_leaked_token
+description: Count of all clicks on Rotate and fix for a leaked GitLab personal access token on a vulnerability
+product_group: secrets_manager_application
+product_categories:
+- secrets_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268242
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: click_rotate_and_fix_leaked_token

@@ -1,0 +1,10 @@
+---
+name: fail_fast_cdot_trial_requests
+description: Uses a 1 second timeout with no retries for the CustomersDot trial eligibility and trial types requests, and caches failed eligibility requests for 5 minutes
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635544
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265175
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636177
+milestone: '19.6'
+group: group::acquisition
+type: gitlab_com_derisk
+default_enabled: false

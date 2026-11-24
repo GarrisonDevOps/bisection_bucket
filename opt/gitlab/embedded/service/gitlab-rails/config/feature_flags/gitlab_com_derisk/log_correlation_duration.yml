@@ -1,0 +1,10 @@
+---
+name: log_correlation_duration
+description: Add correlation_duration_s and correlation_depth, the age and the length of a job's call chain, to Sidekiq logs
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/415327
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264654
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636725
+milestone: '19.6'
+group: group::analytics instrumentation
+type: gitlab_com_derisk
+default_enabled: false

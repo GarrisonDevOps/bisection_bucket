@@ -1,0 +1,19 @@
+---
+description: Track number of 'New workspace' button clicks in the workspace feature
+internal_events: true
+action: click_new_workspace_button
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: position of the button
+product_group: remote_development
+product_categories:
+- workspaces
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/193369
+tiers:
+- premium
+- ultimate

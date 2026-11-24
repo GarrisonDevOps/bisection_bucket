@@ -1,0 +1,17 @@
+---
+name: audit_event_streaming_nats_shadow_mode
+description: Runs the NATS audit event streaming consumer in shadow mode, where it
+  drains partitions and performs all per-batch work (destination lookup, event
+  filtering, body building) but skips actual delivery to external destinations,
+  instead sleeping a short simulated latency before acking messages. This allows
+  the consumer to run under real production load to measure per-partition
+  throughput, batch fill, and lag without double-delivering to customer endpoints
+  or requiring them to be reachable. Intended for shadow-mode validation and
+  partition-count tuning before live cutover.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/604456
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257611
+rollout_issue_url:
+milestone: '19.5'
+group: group::compliance
+type: ops
+default_enabled: false

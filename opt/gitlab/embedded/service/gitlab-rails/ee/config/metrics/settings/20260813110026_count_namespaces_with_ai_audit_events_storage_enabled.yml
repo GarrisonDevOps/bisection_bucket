@@ -1,0 +1,18 @@
+---
+key_path: settings.count_namespaces_with_ai_audit_events_storage_enabled
+description: Number of namespaces with AI audit event storage enabled in their settings.
+product_group: compliance
+product_categories:
+- audit_events
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249206
+time_frame: none
+data_source: database
+data_category: optional
+instrumentation_class: CountNamespacesWithAiAuditEventsStorageEnabledMetric
+tiers:
+- premium
+- ultimate

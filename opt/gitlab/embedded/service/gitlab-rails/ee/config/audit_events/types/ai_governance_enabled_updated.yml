@@ -1,0 +1,10 @@
+---
+name: ai_governance_enabled_updated
+description: The umbrella setting for AI Governance features is changed on a group or project
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/632724
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262303
+feature_category: ai_governance
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

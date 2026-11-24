@@ -1,0 +1,16 @@
+---
+description: Track errors for subscription registrations
+internal_events: true
+action: track_subscription_registration_error
+identifiers:
+  - user
+additional_properties:
+  label:
+    description: Error description
+product_group: activation
+milestone: '17.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/165541
+tiers:
+  - free
+  - premium
+  - ultimate

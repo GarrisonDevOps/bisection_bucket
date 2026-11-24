@@ -1,0 +1,14 @@
+---
+description: Tracks when a SMS message fails to sent via Telesign
+action: telesign_sms_delivery_failed
+identifiers:
+- user
+product_group: abuse_engineering
+product_categories:
+- instance_resiliency
+milestone: '16.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169117
+tiers:
+- free
+- premium
+- ultimate

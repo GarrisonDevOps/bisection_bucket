@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_search_mlflow_experiments
+description: Total count of experiment lists and searches with the MLflow-compatible API
+product_group: mlops
+product_categories:
+- mlops
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265948
+time_frame:
+- 7d
+- 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- free
+- premium
+- ultimate
+events:
+- name: search_mlflow_experiments

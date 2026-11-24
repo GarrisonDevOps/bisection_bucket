@@ -1,0 +1,34 @@
+- index = local_assigns.fetch(:index, nil)
+- work_item = local_assigns.fetch(:result, nil)
+- position = index + 1
+
+- if work_item.is_a?(Epic)
+  -# Legacy epic rendering
+  .search-result-row.gl-row.gl-no-gutters.gl-flex.gl-flex-col.gl-mt-5{ class: '!gl-pb-5 !gl-mb-0 @sm/panel:gl-flex-row' }
+    .gl-col-sm-9
+      %span.gl-flex.gl-items-center
+        = gl_badge_tag issuable_state_text(work_item), variant: issuable_state_to_badge_class(work_item)
+        = sprite_icon('eye-slash', css_class: 'gl-fill-icon-subtle gl-ml-2') if work_item.confidential?
+        = link_to group_epic_path(work_item.group, work_item), data: search_result_tracking_attrs(position), class: 'gl-w-full' do
+          %span.term.str-truncated.gl-font-bold.gl-ml-2= simple_search_highlight_and_truncate(work_item.title, @search_term)
+      .gl-text-subtle.gl-mb-3.gl-mt-2.gl-text-sm
+        = work_item.group.full_name
+        &middot;
+        = sprintf(_('created %{work_item_created} by %{author}'), { work_item_created: time_ago_with_tooltip(work_item.created_at, placement: 'bottom'), author: link_to_member(work_item.author, avatar: false) }).html_safe
+      .description.term.gl-px-0.gl-text-sm
+        = highlight_and_truncate_issuable(work_item, @search_term, @search_highlight)
+      - if work_item.labels.any?
+        .gl-mt-3.gl-flex.gl-flex-wrap.gl-gap-2
+          - presented_labels_sorted_by_title(work_item.labels, work_item.group).each do |label|
+            = link_to_label(label)
+
+    .gl-col-sm-3.gl-mt-3.gl-text-right{ class: "@sm/panel:gl-mt-0" }
+      %li.gl-list-none
+        - if work_item.respond_to?(:upvotes_count) && work_item.upvotes_count > 0
+          %span.has-tooltip{ title: _('Upvotes') }
+            = sprite_icon('thumb-up', css_class: "gl-align-middle")
+            = work_item.upvotes_count
+      %span.gl-text-subtle.gl-text-sm= sprintf(_('updated %{time_ago}'), { time_ago: time_ago_with_tooltip(work_item.updated_at, placement: 'bottom') }).html_safe
+- else
+  -# Delegate to CE template for WorkItems and Issues
+  = render_ce 'search/results/work_item', index: index, result: work_item

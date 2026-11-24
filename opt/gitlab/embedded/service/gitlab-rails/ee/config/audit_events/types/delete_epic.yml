@@ -1,0 +1,10 @@
+---
+name: delete_epic
+description: An epic is successfully deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/370487
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/96773
+feature_category: "portfolio_management"
+milestone: "15.4"
+saved_to_database: false
+streamed: true
+scope: [Group]

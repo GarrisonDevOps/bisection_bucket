@@ -1,0 +1,55 @@
+# @feature_category: mcp_server
+query getDuoSession($workflowId: AiDuoWorkflowsWorkflowID!, $artifactLimit: Int!) {
+  duoWorkflowWorkflows(workflowId: $workflowId) {
+    nodes {
+      id
+      statusName
+      webUrl
+      summary
+      archived
+      mergeRequestLinks(linkType: CREATED, first: $artifactLimit) {
+        nodes {
+          mergeRequest {
+            id
+            title
+            webUrl
+          }
+        }
+        pageInfo {
+          hasNextPage
+        }
+      }
+      workItemLinks(linkType: CREATED, first: $artifactLimit) {
+        nodes {
+          workItem {
+            id
+            title
+            webUrl
+          }
+        }
+        pageInfo {
+          hasNextPage
+        }
+      }
+      noteLinks(linkType: CREATED, first: $artifactLimit) {
+        nodes {
+          note {
+            id
+            url
+            body
+          }
+        }
+        pageInfo {
+          hasNextPage
+        }
+      }
+      latestCheckpoint {
+        lastDuoMessage {
+          content
+          role
+          messageType
+        }
+      }
+    }
+  }
+}

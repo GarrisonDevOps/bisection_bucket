@@ -1,0 +1,10 @@
+---
+name: compare_api_diff_timeout_cache
+description: Return 503 from the repository compare API for ten minutes after a comparison times out in Gitaly, instead of retrying the full diff on every request
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635884
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268448
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639295
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,11 @@
+---
+name: search_elastic_bulk_index_replica_reads
+description: Change the Search::Elastic::IndexBulkCronWorker data_consistency to sticky, so incremental advanced
+  search indexing batches are read from caught-up replicas instead of the primary
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635292
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264026
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635285
+milestone: '19.6'
+group: group::global search
+type: worker
+default_enabled: false

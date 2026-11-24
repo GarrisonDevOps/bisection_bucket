@@ -1,0 +1,19 @@
+---
+description: The Laravel template was selected during registration
+action: select_project_template_laravel
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Type of registration. Can be 'invite_registration', 'trial_registration' or 'free_registration'
+product_group: activation
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/152942
+tiers:
+  - premium
+  - ultimate
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263208
+milestone_removed: '19.6'
+status: removed

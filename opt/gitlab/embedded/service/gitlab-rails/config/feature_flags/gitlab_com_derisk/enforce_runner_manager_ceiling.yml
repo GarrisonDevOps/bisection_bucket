@@ -1,0 +1,9 @@
+---
+name: enforce_runner_manager_ceiling
+description: Reject runner manager creation for runners at ci_runner_manager_creation_ceiling
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268813
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638868
+milestone: '19.6'
+group: group::runner core
+type: gitlab_com_derisk
+default_enabled: false

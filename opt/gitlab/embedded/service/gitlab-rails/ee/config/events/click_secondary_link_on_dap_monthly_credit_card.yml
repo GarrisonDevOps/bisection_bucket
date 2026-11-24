@@ -1,0 +1,17 @@
+---
+description: User clicks the secondary link on the DAP monthly credit card on the billing page
+internal_events: true
+action: click_secondary_link_on_dap_monthly_credit_card
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - subscription_management
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225768
+tiers:
+  - free
+additional_properties:
+  property:
+    description: The type of secondary link action (view_usage or learn_more)

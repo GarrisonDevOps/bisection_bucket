@@ -1,0 +1,19 @@
+---
+description: A compliance control status changed from pass to fail
+internal_events: true
+action: g_sscs_compliance_control_status_pass_to_fail
+identifiers:
+  - project
+  - user
+  - namespace
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183256
+tiers:
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: The type of control (internal or external)

@@ -1,0 +1,23 @@
+---
+description: Metrics, parameters or tags are logged to a run with the MLflow-compatible API (runs/log-metric, runs/log-parameter, runs/set-tag, runs/log-batch)
+internal_events: true
+status: active
+action: log_mlflow_run_data
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: 'The endpoint: log_metric, log_parameter, set_tag or log_batch'
+  value:
+    description: Number of metrics, parameters and tags submitted in the request. It can exceed the rows inserted, because duplicate parameters and tags are skipped. A log_batch request with no items sends no event
+product_group: mlops
+product_categories:
+- mlops
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265948
+tiers:
+- free
+- premium
+- ultimate

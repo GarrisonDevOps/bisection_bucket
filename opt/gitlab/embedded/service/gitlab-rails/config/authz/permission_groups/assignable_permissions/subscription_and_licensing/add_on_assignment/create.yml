@@ -1,0 +1,14 @@
+---
+name: create_add_on_assignment
+description: Grants the ability to assign users to seats of a seat-based add-on, such as GitLab Duo Pro or Duo Enterprise, which gives them access to the add-on's features.
+boundaries:
+  - group
+  - instance
+available_for:
+  - granular_access_token
+permissions:
+  - create_add_on_assignment
+assignable_when:
+  - condition: admin
+    boundaries:
+      - instance

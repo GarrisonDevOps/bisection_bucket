@@ -1,0 +1,18 @@
+---
+description: A read of the history of a run metric with the MLflow-compatible API (metrics/get-history) loads its results
+internal_events: true
+status: active
+action: get_mlflow_metric_history
+identifiers:
+- project
+- namespace
+- user
+product_group: mlops
+product_categories:
+- mlops
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265948
+tiers:
+- free
+- premium
+- ultimate

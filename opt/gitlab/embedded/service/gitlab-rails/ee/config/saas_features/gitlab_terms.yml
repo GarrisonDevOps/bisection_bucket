@@ -1,0 +1,5 @@
+---
+name: gitlab_terms
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/165093
+milestone: '17.4'
+group: group::acquisition

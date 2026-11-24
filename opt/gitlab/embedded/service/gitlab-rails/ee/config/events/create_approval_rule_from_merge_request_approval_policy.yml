@@ -1,0 +1,19 @@
+---
+description: Approval Rule created from Merge Request Approval Policy
+internal_events: true
+action: create_approval_rule_from_merge_request_approval_policy
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Type of the Merge Request Approval Policy (scan_finding, license_finding, any_merge_request)
+  enforcement_type:
+    description: Enforcement type of the policy (enforce or warn)
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177572
+tiers:
+- ultimate

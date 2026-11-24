@@ -1,0 +1,31 @@
+---
+description: Duo Agentic Chat user submits a prompt that invokes a slash command
+internal_events: true
+status: active
+action: submit_slash_command_duo_agentic_chat
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: 'The slash command invoked, for example /goal. A flow command is recorded
+      as the bare "/flow:" prefix, since its name is slugified from a customer-defined
+      AI Catalog item'
+  session_id:
+    description: Unique identifier of the session the command was submitted in
+  flow_type:
+    description: Agent or flow the command was submitted in
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259068
+tiers:
+- premium
+- ultimate
+classification: duo

@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_forced_high_temperature_commenting
+description: Count of forced commenting on high temperature comments
+product_group: duo_chat
+product_categories:
+- ai_abstraction_layer
+performance_indicator_type: []
+value_type: number
+status: removed
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177415
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: forced_high_temperature_commenting
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260432
+milestone_removed: '19.6'

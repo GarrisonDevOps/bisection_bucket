@@ -1,0 +1,5 @@
+---
+name: dependency_firewall
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243158
+milestone: '19.2'
+group: group::dependency firewall

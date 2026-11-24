@@ -1,0 +1,38 @@
+---
+description: Searches served by basic search, advanced search or exact code search (Zoekt). Semantic code search emits search_code_with_semantic_search instead.
+internal_events: true
+action: perform_search
+identifiers:
+- user
+additional_properties:
+  label:
+    description: >-
+      Resolved search scope, for example blobs, work_items or merge_requests.
+      The web UI resolves legacy scope names before emitting, so a search for
+      issues is recorded as work_items. The REST API keeps the legacy name and
+      records issues. Use the event category to tell the callers apart:
+      SearchController, API::Search, and the GraphQL blob search resolver.
+  search_type:
+    description: >-
+      Search backend that served the request, for example basic, advanced or
+      zoekt. Zoekt code search from the web UI and from GraphQL API clients is
+      recorded by the GraphQL blob search resolver, once per results page; the
+      scope-count request (getBlobSearchCountQuery) is not recorded.
+  search_level:
+    description: Level the search ran at — project, group or global.
+  property:
+    description: >-
+      Search request ID, used to join this search to its result clicks. Uses the
+      built-in property slot so the ID lands in a dedicated Snowflake column (se_pr)
+      and is queryable without Data team work. Zoekt code searches recorded by the
+      GraphQL blob search resolver carry no ID, so their result clicks cannot be
+      joined to a search.
+product_group: global_search
+product_categories:
+- global_search
+milestone: '17.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/151599
+tiers:
+- free
+- premium
+- ultimate

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "title": "Optional DAST variables",
+  "description": "Optional DAST variables, including name of variable and value for the variable",
+  "additionalProperties": false,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "variable": {
+        "type": "string"
+      },
+      "value": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "variable",
+      "value"
+    ]
+  }
+}

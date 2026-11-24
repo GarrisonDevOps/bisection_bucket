@@ -1,0 +1,8 @@
+- add_to_breadcrumbs _('Geo sites'), admin_geo_nodes_path
+- group_title = @group_replicator_classes.first.replicable_group_title
+- page_title group_title
+
+= render ::Layouts::PageHeadingComponent.new(format(s_('Geo|Geo replication - %{site_name}'), site_name: @target_node.name),
+  description: @group_replicator_classes.first.replicable_group_description)
+
+= render 'shared/geo/replicable_group_overview', title: group_title, items: replicable_group_items(@target_node, @group_replicator_classes)

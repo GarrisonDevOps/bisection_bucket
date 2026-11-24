@@ -1,0 +1,7 @@
+schemaVersion: "%<schema_version>s"
+components:
+  - name: development-environment
+    attributes:
+      gl/inject-editor: true
+    container:
+      image: "registry.gitlab.com/gitlab-org/gitlab-build-images/workspaces/ubuntu-24.04:20261022020504-golang-1.23-node-23.9-yarn-1.22-ruby-3.4.2-rust-1.85-php-8.4.5-java-21.0.6-python-3.13-docker-27.5.1@sha256:973f8fd236fe9f5c47fa44a75b7daaeb767e6490fc140b572ce4c2e44235a334"

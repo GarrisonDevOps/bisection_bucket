@@ -1,0 +1,10 @@
+---
+name: duo_code_review_requested_changes_overridden
+description: A user overrode changes requested by GitLab Duo code review on a merge request
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/work_items/23854
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262385
+feature_category: code_review_workflow
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

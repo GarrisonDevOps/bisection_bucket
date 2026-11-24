@@ -1,0 +1,7 @@
+---
+name: mobile_push_badge_sync
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263212
+milestone: '19.6'
+type: wip
+group: group::work items
+default_enabled: false

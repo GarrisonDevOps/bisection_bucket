@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/config/custom_abilities/type_schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Human readable title for the custom ability"
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique name for the custom ability"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human readable description of this custom ability"
+    },
+    "introduced_by_issue": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to GitLab issue that added this custom ability",
+      "qt-uri-protocols": [
+        "https"
+      ]
+    },
+    "introduced_by_mr": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to GitLab merge request that added this custom ability",
+      "qt-uri-protocols": [
+        "https"
+      ]
+    },
+    "feature_category": {
+      "type": "string",
+      "description": "The feature category of this this custom ability. For example, vulnerability_management"
+    },
+    "milestone": {
+      "type": "string",
+      "description": "Milestone that introduced this custom ability. For example, 15.8",
+      "pattern": "\\A[0-9]+\\.[0-9]+\\z"
+    },
+    "group_ability": {
+      "type": "boolean",
+      "description": "Indicate whether this ability is checked on group level."
+    },
+    "enabled_for_group_access_levels": {
+      "type": "array",
+      "description": "Specifies group access levels where the custom ability is enabled by default",
+      "items": {
+        "enum": [
+          10,
+          15,
+          20,
+          25,
+          30,
+          40,
+          50
+        ]
+      }
+    },
+    "project_ability": {
+      "type": "boolean",
+      "description": "Indicate whether this ability is checked on project level."
+    },
+    "enabled_for_project_access_levels": {
+      "type": "array",
+      "description": "Specifies project access levels where the custom ability is enabled by default",
+      "items": {
+        "enum": [
+          10,
+          15,
+          20,
+          25,
+          30,
+          40,
+          50
+        ]
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "description": "The custom abilities that need to be enabled for this ability."
+    },
+    "group_permissions": {
+      "type": "array",
+      "description": "The raw permissions that get enabled by this ability for a group."
+    },
+    "project_permissions": {
+      "type": "array",
+      "description": "The raw permissions that get enabled by this ability for a project."
+    },
+    "skip_seat_consumption": {
+      "type": "boolean",
+      "description": "Indicate wheter this ability should be skiped when counting licensed users"
+    },
+    "wip": {
+      "type": "boolean",
+      "description": "When true, the ability is excluded from loaded definitions unless the GITLAB_LOAD_WIP_CUSTOM_ABILITIES env var is set. Used while the ability is in development. Remove the key when ready to ship."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "project_ability": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "enabled_for_project_access_levels",
+          "project_permissions"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "group_ability": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "enabled_for_group_access_levels",
+          "group_permissions"
+        ]
+      }
+    }
+  ],
+  "required": [
+    "description",
+    "feature_category",
+    "group_ability",
+    "introduced_by_issue",
+    "introduced_by_mr",
+    "milestone",
+    "name",
+    "project_ability",
+    "title"
+  ],
+  "not": {
+    "properties": {
+      "project_ability": {
+        "enum": [
+          false
+        ]
+      },
+      "group_ability": {
+        "enum": [
+          false
+        ]
+      }
+    }
+  },
+  "title": "GitLabCustomPermission"
+}

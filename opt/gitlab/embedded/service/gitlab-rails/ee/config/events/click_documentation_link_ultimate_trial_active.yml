@@ -1,0 +1,13 @@
+---
+description: Tracks clicks on the documentation link when a ultimate trial is active.
+action: click_documentation_link_ultimate_trial_active
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153166
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: Context around the specific feature for the link

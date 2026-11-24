@@ -1,0 +1,12 @@
+---
+name: analytics_write_buffer_protection
+description: Cap the Redis write buffers behind the analytics tables, PostgreSQL lists
+  and ClickHouse lists, so rows past the cap are dropped and counted instead of
+  growing Redis without bound.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636120
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266191
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636977
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

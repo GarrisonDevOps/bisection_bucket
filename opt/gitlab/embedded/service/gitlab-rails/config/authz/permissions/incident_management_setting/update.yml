@@ -1,0 +1,3 @@
+---
+name: update_incident_management_setting
+description: Grants the ability to update a project's incident management settings, including alert issue creation, email notifications, auto-closing incidents, SLA timers and the PagerDuty webhook token

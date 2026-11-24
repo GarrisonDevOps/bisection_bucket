@@ -1,0 +1,3 @@
+---
+name: delete_sidekiq_concurrency_limit_override
+description: Grants the ability to clear Sidekiq worker concurrency limit overrides

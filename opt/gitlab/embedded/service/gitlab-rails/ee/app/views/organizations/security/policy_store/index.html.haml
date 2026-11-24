@@ -1,0 +1,8 @@
+- page_title _('Policy store')
+
+#js-policy-store{ data: { organization_id: @organization.id,
+  namespace_type: 'organization',
+  empty_list_svg_path: image_path('illustrations/empty-state/empty-secure-add-md.svg'),
+  can_create_policy: can?(current_user, :create_govern_policy, @organization).to_s,
+  new_policy_path: new_security_policy_store_organization_path(@organization),
+  list_path: security_policy_store_organization_path(@organization) } }

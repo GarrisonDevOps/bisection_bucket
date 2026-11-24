@@ -1,0 +1,8 @@
+---
+version: 1
+type: ContributionsMergeRequestsChart
+data:
+  type: contributions
+  query: 
+    metric: 'merge_requests'
+options: {}

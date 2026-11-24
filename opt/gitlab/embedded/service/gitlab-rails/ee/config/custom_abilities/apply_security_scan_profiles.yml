@@ -1,0 +1,16 @@
+---
+title: Apply security scan profiles
+name: apply_security_scan_profiles
+description: Apply security scan profiles.
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/epics/19802
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/215433
+feature_category: security_testing_configuration
+milestone: '18.9'
+group_ability: true
+enabled_for_group_access_levels: [25, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 40, 50]
+project_permissions:
+  - apply_security_scan_profiles
+group_permissions:
+  - apply_security_scan_profiles

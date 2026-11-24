@@ -1,0 +1,10 @@
+---
+name: dependency_firewall_package_version
+description: Gates work in progress on package version rules for the dependency firewall until it is complete
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/22630
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265864
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/591230
+milestone: '19.6'
+group: group::dependency firewall
+type: wip
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: packages_cleanup_policy_maven_snapshot_builds
+description: Apply the package cleanup policy duplicate rule to Maven snapshot builds
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/375065
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266409
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637187
+milestone: '19.6'
+group: group::package registry
+type: beta
+default_enabled: false

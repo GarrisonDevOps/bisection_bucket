@@ -1,0 +1,10 @@
+---
+name: duo_group_agent_readiness_settings
+description: Group GitLab Duo settings readiness section
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629953
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259338
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630145
+milestone: '19.5'
+group: group::dap repository flows
+type: beta
+default_enabled: false

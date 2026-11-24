@@ -1,0 +1,18 @@
+---
+description: A user creates a compliance framework from a template
+internal_events: true
+action: create_compliance_framework_from_template
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Id of created compliance framework
+product_group: compliance
+product_categories:
+  - compliance_management
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234672
+tiers:
+  - premium
+  - ultimate

@@ -1,0 +1,10 @@
+---
+name: wiki_read_unauthenticated_rate_limit_enforce
+description: Enforce the per-project and per-group rate limit on unauthenticated wiki reads
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635643
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266523
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637284
+milestone: '19.6'
+group: group::planner intelligence
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: duo_in_slack_enabled
+description: An Owner or administrator turns on GitLab Duo in Slack for a Slack workspace, so that its sessions run in the group.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/633566
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265962
+feature_category: integrations
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group]

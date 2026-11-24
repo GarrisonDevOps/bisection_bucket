@@ -1,0 +1,12 @@
+---
+migration_job_name: DeleteUploadsLooseFkDeletedRecords
+description: Deletes the pending public.uploads records from loose_foreign_keys_deleted_records.
+  The uploads loose foreign key definition and trigger are removed in the same milestone,
+  so the cleanup worker will never process these records, and pending records prevent
+  partition detachment.
+feature_category: geo_replication
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262302
+milestone: '19.6'
+queued_migration_version: 20261019183014
+gitlab_schema: gitlab_main_cell_local
+finalized_by: # version of the migration that finalized this BBM

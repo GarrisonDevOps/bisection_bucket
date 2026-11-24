@@ -1,0 +1,7 @@
+- return unless ::License.feature_available?(:disable_personal_access_tokens)
+
+- form = local_assigns.fetch(:form)
+
+.form-group
+  = form.label :disable_personal_access_tokens, s_('AccessTokens|Disable access tokens')
+  = form.gitlab_ui_checkbox_component :disable_personal_access_tokens, s_('AccessTokens|Disable access tokens'), help_text: s_('AccessTokens|Disables personal, group, project and impersonation access tokens. This setting also disables personal access tokens for service accounts.')

@@ -1,0 +1,107 @@
+---
+title: Merge request analytics
+description: Get insights into your merge request lifecycle and view trends over time.
+version: '2'
+constraints:
+  feature_flag: gi_migration_merge_request_analytics
+  data:
+  - clickhouse
+filters:
+  scope:
+    enabled: true
+  dateRange:
+    enabled: true
+    defaultOption: 365d
+    options:
+    - 7d
+    - 30d
+    - 90d
+    - 180d
+    - 365d
+    - custom
+    numberOfDaysLimit: 365
+panels:
+- title: Mean time to merge
+  visualization:
+    type: Glql
+    options: {}
+    data:
+      type: glql
+      query:
+        dateField: merged
+        glql: |
+          display: stat
+          mode: analytics
+          query: type = MergeRequest
+          metrics: timeToMergeMean
+          displayConfig:
+            description: Average time from creation to merge.
+  gridAttributes:
+    yPos: 0
+    xPos: 0
+    width: 4
+    height: 14
+- title: Throughput
+  visualization:
+    type: Glql
+    options:
+      showActions: true
+    data:
+      type: glql
+      query:
+        dateField: merged
+        glql: |
+          display: areaChart
+          mode: analytics
+          query: type = MergeRequest
+          dimensions: merged(%{dynamicGranularity})
+          metrics: throughputCount as "Merge requests merged"
+          sort: merged asc
+  gridAttributes:
+    yPos: 14
+    xPos: 0
+    width: 12
+    height: 52
+- title: Merge requests
+  visualization:
+    type: DataTable
+    data:
+      type: merge_requests
+      query:
+        dateRange: 365d
+    options:
+      responsive: false
+      fixed: true
+      stacked: md
+      fields:
+      - key: link
+        label: Merge request
+        component: MergeRequestLink
+        thClass: gl-w-1/4
+      - key: dateMerged
+        label: Date merged
+        thClass: gl-w-1/8
+        component: FormatTime
+      - key: timeToMerge
+        label: Time to merge
+        component: FormatTimeRange
+      - key: milestone
+        label: Milestone
+        component: MilestoneLink
+      - key: commitCount
+        label: Commits
+      - key: pipelinesCount
+        label: Pipelines
+      - key: diffStatsSummary
+        label: Line changes
+        component: DiffLineChanges
+        thClass: gl-w-1/8
+      - key: assignees
+        label: Assignees
+        component: AssigneeAvatars
+        thClass: gl-w-1/8
+  gridAttributes:
+    yPos: 66
+    xPos: 0
+    width: 12
+    height: 110

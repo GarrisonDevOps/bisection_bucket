@@ -1,0 +1,11 @@
+---
+name: audit_event_streaming_fail_on_non_2xx_response
+description: Treat a non-2xx response from an HTTP or Google Cloud Logging audit event
+  streaming destination as a failed delivery
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/633532
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266404
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638681
+milestone: '19.6'
+group: group::compliance
+type: gitlab_com_derisk
+default_enabled: false

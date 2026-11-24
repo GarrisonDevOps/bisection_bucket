@@ -1,0 +1,65 @@
+diff --git a/app/graphql/types/ci/runner_manager_type.rb b/app/graphql/types/ci/runner_manager_type.rb
+index 34364a869358..5e26d79cba8e 100644
+--- a/app/graphql/types/ci/runner_manager_type.rb
++++ b/app/graphql/types/ci/runner_manager_type.rb
+@@ -93,10 +93,6 @@ def job_execution_status
+       # Reads the cached attributes of all managers on the page together, not with one Redis GET per manager.
+       # Yields the preloaded manager: it can be another instance of the same record when a query loads it twice.
+       def with_cached_attributes(&block)
+-        unless Feature.enabled?(:ci_batch_runner_manager_cached_attributes, Feature.current_request)
+-          return yield(runner_manager)
+-        end
+-
+         Gitlab::Graphql::Lazy.with_value(runner_manager_with_cached_attributes, &block)
+       end
+ 
+diff --git a/ee/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb b/ee/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb
+index 4fa9409d7175..a462bdf0fb48 100644
+--- a/ee/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb
++++ b/ee/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb
+@@ -56,20 +56,4 @@ def upgrade_statuses
+     expect(upgrade_statuses).to all(eq('NOT_AVAILABLE'))
+     expect(recorder.by_command('get')).to be_empty
+   end
+-
+-  context 'when ci_batch_runner_manager_cached_attributes is disabled' do
+-    before do
+-      stub_feature_flags(ci_batch_runner_manager_cached_attributes: false)
+-    end
+-
+-    it 'reads the cached version of each manager separately', :aggregate_failures do
+-      expect(RedisCacheable::CachedAttributesReader).not_to receive(:preload)
+-
+-      recorder = run_query
+-
+-      expect(graphql_errors).to be_nil
+-      expect(upgrade_statuses).to all(eq('NOT_AVAILABLE'))
+-      expect(recorder.by_command('get').size).to eq(managers.size)
+-    end
+-  end
+ end
+diff --git a/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb b/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb
+index b06a0ccb1b4c..a4de31072b5f 100644
+--- a/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb
++++ b/spec/requests/api/graphql/ci/runner_manager_cached_attributes_spec.rb
+@@ -119,20 +119,4 @@ def expect_one_preload_of(size)
+       expect(recorder.by_command('get')).to be_empty
+     end
+   end
+-
+-  context 'when ci_batch_runner_manager_cached_attributes is disabled' do
+-    before do
+-      stub_feature_flags(ci_batch_runner_manager_cached_attributes: false)
+-    end
+-
+-    it 'reads the cached attributes of each manager separately', :aggregate_failures do
+-      expect(RedisCacheable::CachedAttributesReader).not_to receive(:preload)
+-
+-      recorder = run_query
+-
+-      expect(graphql_errors).to be_nil
+-      expect(manager_nodes.pluck('version')).to all(eq('14.0.1'))
+-      expect(recorder.by_command('get').size).to eq(manager_nodes.size)
+-    end
+-  end
+ end

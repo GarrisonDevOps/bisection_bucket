@@ -1,0 +1,14 @@
+---
+description: Tracks an AI audit event processed for streaming to configured external audit event streaming destinations. Delivery is not confirmed; per-destination failures are handled internally.
+internal_events: true
+action: stream_ai_audit_event_to_external_destination
+identifiers:
+- project
+- namespace
+product_group: compliance
+product_categories:
+- audit_events
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249199
+tiers:
+- ultimate

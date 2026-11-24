@@ -1,0 +1,18 @@
+---
+description: Admin toggles deletion protection setting in the admin area
+internal_events: true
+status: active
+action: toggle_deletion_protection_on_admin_area
+identifiers:
+  - user
+additional_properties:
+  label:
+    description: The value of the deletion protection setting ('true' or 'false')
+product_group: organizations
+product_categories:
+  - groups_and_projects
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224847
+tiers:
+  - premium
+  - ultimate

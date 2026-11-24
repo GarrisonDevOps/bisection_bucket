@@ -1,0 +1,19 @@
+---
+description: Tracks a batch of AI audit events ingested by the ingest service
+internal_events: true
+action: ingest_ai_audit_events_batch
+classification: duo
+identifiers:
+- project
+product_group: compliance
+product_categories:
+- audit_events
+additional_properties:
+  value:
+    description: Number of events in the batch
+  property:
+    description: Persistence store used (clickhouse or postgresql)
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239886
+tiers:
+- ultimate

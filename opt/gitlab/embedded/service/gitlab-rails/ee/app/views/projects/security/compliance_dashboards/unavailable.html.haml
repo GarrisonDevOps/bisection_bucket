@@ -1,0 +1,14 @@
+- breadcrumb_title _("Compliance center")
+- page_title _("Compliance center")
+- docs_link = help_page_path('user/compliance/compliance_center/_index.md')
+
+= render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-radar-md.svg', primary_button_text: _('Learn more'), primary_button_link: docs_link) do |c|
+  - c.with_title do
+    = _('Compliance center is not available')
+    = render Pajamas::BadgeComponent.new(_('Ultimate'), variant: 'tier', icon: 'license', href: promo_pricing_url, target: '_blank', rel: 'noopener noreferrer')
+
+  - c.with_description do
+    - if in_group
+      = _('Track compliance across your projects. Upgrade to GitLab Ultimate to access the Compliance center.')
+    - else
+      = _('The Compliance center is only available for projects that belong to a group with an Ultimate license.')

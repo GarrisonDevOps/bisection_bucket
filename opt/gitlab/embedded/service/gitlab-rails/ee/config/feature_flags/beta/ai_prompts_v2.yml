@@ -1,0 +1,10 @@
+---
+name: ai_prompts_v2
+description: Use the v2/prompts AIGW endpoint
+feature_issue_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/issues/1174
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196014
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/552131
+milestone: '18.2'
+group: group::ai framework
+type: beta
+default_enabled: false

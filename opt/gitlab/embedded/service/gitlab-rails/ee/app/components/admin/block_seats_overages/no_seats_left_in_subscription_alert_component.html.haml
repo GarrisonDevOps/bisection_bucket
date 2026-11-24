@@ -1,0 +1,7 @@
+%div{ class: [@content_class, 'gl-pt-5!'] }
+  = render Pajamas::AlertComponent.new(title: _('No seats left in subscription'), variant: :warning) do |c|
+    - c.with_body do
+      %p= _('You have used all seats in your subscription, so you cannot add new users.')
+    - c.with_actions do
+      = render Pajamas::ButtonComponent.new(size: :small, variant: :confirm, href: help_page_path('subscriptions/manage_seats.md', anchor: 'buy-more-seats')) do
+        = _('Purchase more seats')

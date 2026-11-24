@@ -1,0 +1,19 @@
+---
+token_type: "Doppler API token"
+class_name: "DopplerPersonalClient"
+partner_name: "doppler"
+endpoint: "https://api.doppler.com/v3/me"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Adp\.pt\.[0-9A-Za-z]{40,44}\z'
+sample_token: "dp.pt.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_doppler_api"
+doc_url: "https://docs.doppler.com/reference/auth-me"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

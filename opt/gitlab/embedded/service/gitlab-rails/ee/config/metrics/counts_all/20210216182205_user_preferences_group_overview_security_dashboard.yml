@@ -1,0 +1,18 @@
+---
+data_category: operational
+key_path: counts.user_preferences_group_overview_security_dashboard
+description: Count of users who set personal preference to see Security Dashboard
+  on Group information page
+product_group: vulnerability_management
+product_categories:
+- vulnerability_management
+value_type: number
+status: active
+time_frame: all
+data_source: database
+instrumentation_class: CountUserPreferencesGroupOverviewSecurityDashboardMetric
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

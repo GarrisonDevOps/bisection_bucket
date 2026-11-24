@@ -1,0 +1,68 @@
+- user_link = tag_pair(link_to('', user_url(@reporter)), :linkStart, :linkEnd)
+- catalog_item_link = tag_pair(link_to('', catalog_item_url), :itemLinkStart, :itemLinkEnd)
+- strong_tag_pair = tag_pair(tag.strong, :strongStart, :strongEnd)
+
+%p= _("Hello Admin,")
+
+%p
+  = safe_format(_("GitLab user %{strongStart}@%{username}%{strongEnd} flagged the AI Catalog item %{strongStart}%{item_name}%{strongEnd} for review."), strong_tag_pair, username: @reporter.username, item_name: @ai_catalog_item.name)
+
+%ul
+  %li
+    = safe_format(_("Catalog item: %{itemLinkStart}%{name}%{itemLinkEnd} (ID: %{id})"), catalog_item_link, name: @ai_catalog_item.name, id: @ai_catalog_item.id)
+  %li
+    = safe_format(_("Reported by: %{linkStart}@%{username}%{linkEnd} at %{time}"), user_link, username: @reporter.username, time: @reported_at.strftime('%Y-%m-%d %H:%M:%S %Z'))
+  %li
+    = _("Reason:")
+    %ul
+      - if @reason.present?
+        %li= @reason
+      - if @message.present?
+        %li= @message
+
+%p= _("If everything looks okay, you can ignore this message.")
+
+%p= _("To delete the item from the UI:")
+
+%ol
+  %li
+    = safe_format(_("Navigate to %{itemLinkStart}%{item_name} in the AI Catalog%{itemLinkEnd}."), catalog_item_link.merge(item_name: @ai_catalog_item.name))
+  %li
+    = safe_format(_("On the upper right, select the overflow menu, then select %{strongStart}Delete%{strongEnd}."), strong_tag_pair)
+  %li
+    = _("On the confirmation dialog, choose a deletion method.")
+  %li
+    = safe_format(_("Select %{strongStart}Delete%{strongEnd}."), strong_tag_pair)
+
+%p= _("You can also use our GraphQL API to remove an item:")
+
+%ul
+  %li
+    = _("Recommended. Permanently delete an item:")
+    %pre{ style: "font-family: Monaco,'Lucida Console','Courier New',Courier,monospace; background-color: #fafafa; border-radius: 4px; overflow: hidden; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-height: 1.4; padding: 16px 8px; color: #333333; margin: 8px 0;" }
+      %code
+        :preserve
+          mutation ai_catalog_item_delete {
+            #{mutation_name}(input: {
+              id: "#{@ai_catalog_item.to_global_id}",
+              forceHardDelete: true
+            }) {
+              errors
+              success
+            }
+          }
+  %li
+    = _("Hide an item from the AI Catalog. The item is not deleted and can still be used:")
+    %pre{ style: "font-family: Monaco,'Lucida Console','Courier New',Courier,monospace; background-color: #fafafa; border-radius: 4px; overflow: hidden; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-height: 1.4; padding: 16px 8px; color: #333333; margin: 8px 0;" }
+      %code
+        :preserve
+          mutation ai_catalog_item_delete {
+            #{mutation_name}(input: {
+              id: "#{@ai_catalog_item.to_global_id}"
+            }) {
+              errors
+              success
+            }
+          }
+
+%p= _("This is an automated message. Please don't reply to this message.")

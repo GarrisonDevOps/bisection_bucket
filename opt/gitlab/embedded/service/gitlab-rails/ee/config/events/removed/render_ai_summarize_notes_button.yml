@@ -1,0 +1,19 @@
+---
+description: This event represents a successful rendering of the AI View Summary button.
+action: render_ai_summarize_notes_button
+internal_events: true
+identifiers:
+  - project
+  - user
+  - namespace
+product_group: activation
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183875
+status: removed
+milestone_removed: '18.11'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228510
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: where the button is rendered

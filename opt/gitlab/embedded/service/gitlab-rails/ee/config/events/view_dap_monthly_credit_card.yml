@@ -1,0 +1,14 @@
+---
+description: User views the DAP monthly credit card on the trial discover page
+internal_events: true
+action: view_dap_monthly_credit_card
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - subscription_management
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231552
+tiers:
+  - free

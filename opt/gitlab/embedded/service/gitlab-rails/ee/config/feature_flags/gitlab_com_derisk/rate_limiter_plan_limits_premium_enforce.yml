@@ -1,0 +1,10 @@
+---
+name: rate_limiter_plan_limits_premium_enforce
+description: Reject Premium plan requests that exceed their tier-aware rate limits
+feature_issue_url: https://gitlab.com/groups/gitlab-com/gl-infra/-/work_items/2122
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253269
+rollout_issue_url: https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/work_items/29691
+milestone: '19.4'
+group: group::Networking & Incident Management
+type: gitlab_com_derisk
+default_enabled: false

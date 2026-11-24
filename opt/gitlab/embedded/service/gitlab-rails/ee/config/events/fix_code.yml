@@ -1,0 +1,21 @@
+---
+description: When a user requests a code fix with the GitLab Duo Chat /fix command
+internal_events: true
+status: active
+# The action name matches the feature's canonical id (unit primitive and
+# register_feature name) so usage traces to one name across ai_usage_events,
+# the GraphQL enum, and the generated FixCodeUserMetrics type.
+action: fix_code
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/246385
+tiers:
+- premium
+- ultimate

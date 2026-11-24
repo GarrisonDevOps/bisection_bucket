@@ -1,0 +1,10 @@
+---
+name: iam_introspect_replicated_refresh_tokens
+description: Ask the IAM Auth Service whether a replicated Doorkeeper refresh token is still active when Rails introspects it. Enable once Workhorse routes every refresh request to IAM Auth and new refresh tokens replicate per token, not only through the reconciliation sweep.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635135
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269577
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639348
+milestone: '19.6'
+group: group::authentication
+type: gitlab_com_derisk
+default_enabled: false

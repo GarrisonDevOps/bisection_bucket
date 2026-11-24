@@ -1,0 +1,25 @@
+---
+description: >-
+  Click Implement on a workplan, or in the Plan dropdown before planning is on,
+  including attempts where the flow request fails.
+internal_events: true
+status: active
+action: click_work_item_workplan_implement
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: 'Surface where Implement was clicked: panel, inline_row, or plan_cta (the Plan dropdown).'
+  value:
+    description: Work item readiness score at the time of the click, from 0 to 100, when available.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264219
+tiers:
+- premium
+- ultimate
+classification: duo

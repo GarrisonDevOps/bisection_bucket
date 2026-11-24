@@ -1,0 +1,203 @@
+# frozen_string_literal: true
+
+module Oauth
+  class DynamicRegistrationsController < ApplicationController
+    include Gitlab::InternalEventsTracking
+
+    feature_category :system_access
+
+    skip_before_action :authenticate_user!, only: [:create]
+    skip_before_action :verify_authenticity_token, only: [:create]
+    # Declared before the checks so it also tracks the 403 when registration is disabled.
+    around_action :track_registration, only: [:create]
+    before_action :check_rate_limit, only: [:create]
+    before_action :check_dynamic_client_registration_enabled, only: [:create]
+
+    RESOURCE_SCOPE_MAP = {
+      '/api/v4/orbit/mcp' => Gitlab::Auth::MCP_ORBIT_SCOPE.to_s,
+      '/api/v4/mcp' => Gitlab::Auth::MCP_SCOPE.to_s
+    }.freeze
+
+    MCP_SCOPES_BY_SPECIFICITY = RESOURCE_SCOPE_MAP.values.freeze
+
+    MAX_REDIRECT_URIS = 100
+    MAX_REDIRECT_URI_LENGTH = 2048
+
+    def self.skip_rate_limit?
+      Rails.env.test? || Rails.env.development?
+    end
+
+    # POST /oauth/register
+    def create
+      client_metadata = Gitlab::Json.safe_parse(request.body.read)
+
+      unless client_metadata.is_a?(Hash)
+        render json: error_data('client metadata must be a JSON object'), status: :bad_request
+        return
+      end
+
+      client_metadata = client_metadata.symbolize_keys
+
+      allowed_params = [:redirect_uris, :client_name, :resource, :scope]
+
+      client_metadata = client_metadata.slice(*allowed_params)
+
+      # Validations here are specific to this controller, not the model
+      validation_error = validate_dynamic_fields(client_metadata)
+      if validation_error
+        render json: validation_error, status: :bad_request
+        return
+      end
+
+      # Dynamic apps are restricted to a single MCP scope derived from the
+      # resource URL or the requested scope (RFC 7591). The resource URL takes
+      # precedence; the scope field is used as a fallback when resource is absent
+      # (e.g. mcp-remote does not send the resource parameter).
+      scopes = resolve_mcp_scope(client_metadata[:resource], client_metadata[:scope])
+
+      redirect_uris = client_metadata[:redirect_uris]
+      redirect_uris = [redirect_uris] if redirect_uris.is_a?(String)
+
+      application = ::Authn::OauthApplication.create(
+        name: "[Unverified Dynamic Application] #{client_metadata[:client_name]}",
+        redirect_uri: Array(redirect_uris).join("\n"),
+        scopes: scopes,
+        confidential: false,
+        dynamic: true,
+        organization: Current.organization
+      )
+
+      if application.persisted?
+        @registered_application = application
+
+        render json: {
+          client_id: application.uid,
+          client_id_issued_at: application.created_at.to_i,
+          redirect_uris: application.redirect_uri.split("\n"),
+          token_endpoint_auth_method: "none",
+          grant_types: ["authorization_code"],
+          require_pkce: true,
+          client_name: application.name,
+          scope: scopes,
+          dynamic: true
+        }, status: :created
+      else
+        error_message = application.errors.full_messages.join(", ")
+
+        render json: error_data(error_message), status: :bad_request
+      end
+    rescue JSON::ParserError => e
+      render json: error_data(e.message), status: :bad_request
+    end
+
+    private
+
+    def track_registration
+      yield
+
+      # Throttled requests are uncapped and have no user or IP, so they would skew the failure rate.
+      # auth.log already records them.
+      return if response.status == 429
+
+      client_info = Gitlab::Mcp::ClientInfo.from_request(nil, user_agent: request.user_agent)
+
+      track_internal_event(
+        'register_oauth_dynamic_application',
+        additional_properties: {
+          response_status: response.status,
+          oauth_application_id: @registered_application&.id,
+          **client_info.to_h
+        }.compact
+      )
+    end
+
+    def resolve_mcp_scope(resource, requested_scope)
+      if resource.present?
+        RESOURCE_SCOPE_MAP.each do |path, scope|
+          return scope if resource.end_with?(path)
+        end
+      end
+
+      scope_from_requested_scopes(requested_scope) || Gitlab::Auth::MCP_SCOPE.to_s
+    end
+
+    def scope_from_requested_scopes(requested_scope)
+      requested = requested_scope.to_s.split
+      recognized = MCP_SCOPES_BY_SPECIFICITY & requested
+      return recognized.first if recognized.size <= 1
+
+      return recognized.first if (requested - MCP_SCOPES_BY_SPECIFICITY).empty?
+
+      Gitlab::Auth::MCP_SCOPE.to_s
+    end
+
+    def validate_dynamic_fields(client_metadata)
+      unless client_metadata[:client_name].present? && (client_metadata[:client_name].length < 200)
+        return error_data("client_name is too long")
+      end
+
+      validate_redirect_uris_size(client_metadata[:redirect_uris])
+    end
+
+    # Anonymous callers can register, so bound how much each registration stores.
+    def validate_redirect_uris_size(redirect_uris)
+      return unless Feature.enabled?(:oauth_dynamic_registration_redirect_uri_limits, :instance)
+
+      redirect_uris = Array(redirect_uris)
+      return error_data("redirect_uris must be an array of strings") unless redirect_uris.all?(String)
+
+      # Doorkeeper splits the stored value on whitespace, so count what it will store.
+      redirect_uris = redirect_uris.flat_map(&:split)
+
+      if redirect_uris.size > MAX_REDIRECT_URIS
+        return error_data("redirect_uris must contain at most #{MAX_REDIRECT_URIS} URIs")
+      end
+
+      return unless redirect_uris.any? { |uri| uri.length > MAX_REDIRECT_URI_LENGTH }
+
+      error_data("each redirect URI must be at most #{MAX_REDIRECT_URI_LENGTH} characters")
+    end
+
+    def error_data(error_description)
+      {
+        error: "invalid_client_metadata",
+        error_description: error_description
+      }
+    end
+
+    def check_rate_limit
+      return if self.class.skip_rate_limit?
+
+      check_rate_limit!(:oauth_dynamic_registration, scope: { ip: request.ip }) do
+        # RFC 6749 section 5.2 / RFC 7591 section 3.2.2 define a JSON
+        # error-response shape for OAuth endpoints; standards-compliant
+        # clients (including the MCP SDK) fail to parse the default
+        # plain-text throttled response.
+        retry_after = Gitlab::ApplicationRateLimiter.period_for(:oauth_dynamic_registration).to_i
+        response.headers['Retry-After'] = retry_after.to_s
+
+        render json: {
+          error: 'temporarily_unavailable',
+          error_description: "Rate limit exceeded, retry after #{retry_after} seconds"
+        }, status: :too_many_requests
+      end
+    end
+
+    def check_dynamic_client_registration_enabled
+      return if ::Gitlab::CurrentSettings.dynamic_client_registration_enabled?
+
+      docs_url = help_page_url(
+        'user/model_context_protocol/mcp_server.md',
+        anchor: 'reuse-a-single-oauth-application'
+      )
+
+      # 403 (not 404) so clients can distinguish "disabled" from "endpoint does not exist" (RFC 7591).
+      render json: {
+        error: "access_denied",
+        error_description: "Dynamic client registration is disabled on this instance. " \
+          "Create an OAuth application and configure your MCP client with its client " \
+          "ID: #{docs_url}"
+      }, status: :forbidden
+    end
+  end
+end

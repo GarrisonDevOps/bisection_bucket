@@ -1,0 +1,17 @@
+---
+description: When files have been excluded from Duo Code Review due to Duo Context Exclusion
+internal_events: true
+action: excluded_files_from_duo_code_review
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200037
+tiers:
+- premium
+- ultimate

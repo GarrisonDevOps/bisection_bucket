@@ -1,0 +1,49 @@
+# frozen_string_literal: true
+
+module Gitlab
+  module BitbucketImport
+    class ProjectCreator
+      attr_reader :repo, :name, :namespace, :current_user, :credentials
+
+      def initialize(repo, name, namespace, current_user, credentials)
+        @repo = repo
+        @name = name
+        @namespace = namespace
+        @current_user = current_user
+        @credentials = credentials
+      end
+
+      def execute
+        url = clone_url
+
+        return unless url
+
+        ::Projects::CreateService.new(
+          current_user,
+          name: name,
+          path: name,
+          description: repo.description,
+          namespace_id: namespace.id,
+          organization_id: namespace.organization_id,
+          visibility_level: repo.private? ? Gitlab::VisibilityLevel::PRIVATE : Gitlab::VisibilityLevel::PUBLIC,
+          import_type: 'bitbucket',
+          import_source: repo.full_name,
+          import_url: url,
+          import_data: { credentials: credentials }
+        ).execute
+      end
+
+      private
+
+      def clone_url
+        if credentials[:email].present? && credentials[:api_token].present?
+          token = "x-bitbucket-api-token-auth:#{credentials[:api_token]}"
+
+          return repo.clone_url(token, auth_type: :basic)
+        end
+
+        repo.clone_url(credentials[:token])
+      end
+    end
+  end
+end

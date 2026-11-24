@@ -1,0 +1,11 @@
+---
+name: approval_policy_selective_code_owner_removals
+description: Enables the policy approval setting to remove only Code Owner approvals
+  (whose files changed) on a new commit in MR Approval Policies
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/14088
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242393
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/604018
+milestone: '19.5'
+group: group::policy management
+type: beta
+default_enabled: false

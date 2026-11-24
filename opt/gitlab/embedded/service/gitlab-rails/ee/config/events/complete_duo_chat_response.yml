@@ -1,0 +1,18 @@
+---
+description: Duo Chat finished a response, with an answer or an error
+internal_events: true
+status: active
+action: complete_duo_chat_response
+classification: duo
+identifiers:
+- user
+- project
+- namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259818
+tiers:
+- premium
+- ultimate

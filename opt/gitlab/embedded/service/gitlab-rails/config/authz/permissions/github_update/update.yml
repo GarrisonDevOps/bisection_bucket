@@ -1,0 +1,3 @@
+---
+name: update_github_update
+description: Grants the ability to request GitHub updates for a project imported with continuous sync

@@ -1,0 +1,5 @@
+- governance_text = s_('AiPowered|Governance')
+- page_title governance_text
+- breadcrumb_title governance_text
+
+#js-governance{ data: { group_id: @group.to_global_id, group_full_path: @group.full_path, ai_audit_events_storage_enabled: @ai_audit_events_storage_enabled.to_s, permitted_tabs: @governance_permitted_tabs.to_json, ai_audit_events_settings_path: group_settings_gitlab_duo_configuration_index_path(@group) } }

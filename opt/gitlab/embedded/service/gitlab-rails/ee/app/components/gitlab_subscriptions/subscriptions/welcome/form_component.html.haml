@@ -1,0 +1,19 @@
+- page_title _('Welcome')
+- content_for :page_specific_javascripts do
+  = render "layouts/google_tag_manager_head"
+  = render "layouts/one_trust"
+  = render "layouts/bizible"
+= render "layouts/google_tag_manager_body"
+
+- content_for :registration_marketing_panel_image, 'subscription/groups'
+- content_for :registration_marketing_panel_heading, s_("InProductMarketing|Let's get set up")
+
+.gl-flex.gl-flex-col.gl-h-full.gl-w-full{ data: { track_action: 'render', track_label: ::Onboarding::SubscriptionRegistration.tracking_label } }
+  .gl-flex.gl-justify-between.gl-items-center.gl-mt-6
+    .gl-flex-1.gl-flex.gl-flex-col.gl-my-8.gl-mx-auto.gl-w-full.registration-form-container
+      %h2.gl-m-0.gl-pb-3
+        = s_('InProductMarketing|Welcome to GitLab')
+      %p.gl-m-0.gl-pb-6
+        = s_('InProductMarketing|Set up your GitLab environment.')
+      .signup-box
+        #js-subscription-welcome-form{ data: { view_model: form_data } }

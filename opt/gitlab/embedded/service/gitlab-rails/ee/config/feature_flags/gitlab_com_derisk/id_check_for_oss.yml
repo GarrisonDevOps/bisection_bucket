@@ -1,0 +1,10 @@
+---
+name: id_check_for_oss
+description: Enables ID check for new customers that using OSS licenses.
+feature_issue_url: https://gitlab.com/gitlab-org/customers-gitlab-com/-/issues/13429
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196296
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/553337
+milestone: '18.2'
+group: Contributor Success
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,2 @@
+(.paths[][] | select(tag == "!!map" and .["x-gitlab-lifecycle"] == "experiment") | .["x-stability-level"]) = "alpha" |
+(.paths[][] | select(tag == "!!map" and .["x-gitlab-lifecycle"] == "beta") | .["x-stability-level"]) = "beta"

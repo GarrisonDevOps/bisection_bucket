@@ -1,0 +1,5 @@
+---
+name: skip_runner_registration_token_disabling
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242670
+milestone: '19.2'
+group: group::runner core

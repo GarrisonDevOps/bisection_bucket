@@ -1,0 +1,22 @@
+---
+token_type: "LangChainAPIKey"
+class_name: "LangchainClient"
+partner_name: "langchain"
+endpoints:
+  - "https://api.smith.langchain.com/api/v1/sessions?limit=1"
+  - "https://eu.api.smith.langchain.com/api/v1/sessions?limit=1"
+http_method: "get"
+auth_style: "header"
+auth_param: "x-api-key"
+token_pattern: '\Alsv2_(?:pt|sk)_[a-f0-9]{32}_[a-f0-9]{10}\z'
+sample_token: "lsv2_pt_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_aaaaaaaaaa"
+rate_limit_key: "partner_langchain_api"
+doc_url: "https://api.smith.langchain.com/redoc#tag/tracer-sessions/operation/read_tracer_sessions_api_v1_sessions_get"
+status_map:
+  "200": "active"
+  "403": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

@@ -1,0 +1,20 @@
+- if @project.feature_available?(:issuable_default_templates)
+  = render ::Layouts::SettingsBlockComponent.new(s_('WorkItem|Default description for work items'),
+    id: 'js-issue-settings',
+    css_class: ('hidden' if @project.project_feature.send(:issues_access_level) == 0),
+    testid: 'issue-template-settings-content',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      - link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: help_page_path('user/project/description_templates.md', anchor: 'set-a-default-template-for-merge-requests-and-issues') }
+      = s_('WorkItem|Set a default description to be used for new work items. %{link_start}What are description templates?%{link_end}').html_safe % { link_start: link_start, link_end: '</a>'.html_safe }
+    - c.with_body do
+      = gitlab_ui_form_for @project, html: { multipart: true, class: "issue-settings-form" }, authenticity_token: true do |f|
+        %input{ type: 'hidden', name: 'update_section', value: 'js-issue-settings' }
+        .row
+          .form-group.gl-col-md-9
+            = f.label :issues_template, s_('WorkItem|Default description for work items')
+            = f.text_area :issues_template, class: "form-control gl-form-input", rows: 3, data: { testid: 'issue-template-field' }
+            .gl-text-subtle
+              - link = link_to('', help_page_path('user/markdown.md'), target: '_blank', rel: 'noopener noreferrer')
+              = safe_format(_('Description parsed with %{link_start}GitLab Flavored Markdown%{link_end}.'), tag_pair(link, :link_start, :link_end))
+        = f.submit _('Save changes'), data: { testid: 'save-issue-template-button' }, pajamas_button: true, aria: { label: _('Save changes for default description template for issues') }

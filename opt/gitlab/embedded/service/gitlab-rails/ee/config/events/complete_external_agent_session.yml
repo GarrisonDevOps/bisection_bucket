@@ -1,0 +1,22 @@
+---
+description: An external coding agent session synced through glab was marked as finished or failed. Not fired for a session that had already ended
+internal_events: true
+status: active
+action: complete_external_agent_session
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: Agent type, for example claude-code
+  property:
+    description: 'Final session status, finished or failed'
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263121
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,9 @@
+---
+name: milestone_destroy_rate_limit
+description: Enforces the per-user rate limit on deleting milestones that have more than 10 issues and merge requests; while disabled, deletes over the limit are only logged
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266700
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637420
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

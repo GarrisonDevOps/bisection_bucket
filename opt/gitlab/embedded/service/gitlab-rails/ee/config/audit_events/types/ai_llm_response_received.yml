@@ -1,0 +1,10 @@
+---
+name: ai_llm_response_received
+description: An LLM response was received by an AI agent.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/591588
+introduced_by_mr: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/merge_requests/4713
+feature_category: duo_agent_platform
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Project, Group]

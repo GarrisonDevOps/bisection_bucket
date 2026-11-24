@@ -1,0 +1,10 @@
+---
+name: enforce_audit_streaming_destination_limits
+description: Blocks audit streaming destination creates over the total cap and create or update calls over the per-user rate limit, instead of only logging them
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636584
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267270
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638126
+milestone: '19.6'
+group: group::compliance
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,11 @@
+- provisioning_group = @user.provisioned_by_group
+- list_item_classes = '!gl-grid @md/panel:gl-grid-cols-3 gl-gap-x-3'
+- return unless provisioning_group
+
+%li{ class: list_item_classes }
+  %span.gl-text-subtle= _("Provisioned by:")
+  .gl-col-span-2
+    %strong
+      = link_to provisioning_group.name, admin_group_path(provisioning_group)
+    %span.light
+      = '(%{gid})' % {gid: provisioning_group.id}

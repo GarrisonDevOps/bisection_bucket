@@ -1,0 +1,16 @@
+- type = local_assigns.fetch(:type)
+- return unless type == :issues || type == :boards || type == :issues_analytics
+
+#js-dropdown-weight.filtered-search-input-dropdown-menu.dropdown-menu
+  %ul{ 'data-dropdown' => true }
+    %li.filter-dropdown-item{ 'data-value' => 'None' }
+      = render Pajamas::ButtonComponent.new(variant: :link) do
+        = _('None')
+    %li.filter-dropdown-item{ 'data-value' => 'Any' }
+      = render Pajamas::ButtonComponent.new(variant: :link) do
+        = _('Any')
+    %li.divider.droplab-item-ignore
+  %ul.filter-dropdown{ data: { dropdown: true, dynamic: true } }
+    %li.filter-dropdown-item{ data: { value: '{{id}}' } }
+      = render Pajamas::ButtonComponent.new(variant: :link) do
+        {{title}}

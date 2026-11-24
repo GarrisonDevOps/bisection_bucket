@@ -1,0 +1,48 @@
+- if ::Gitlab::CurrentSettings.custom_project_templates_enabled?
+  - group_id = params[:namespace_id]
+  - tab_state = project_template_tab_state
+  - show_built_in = tab_state[:show_built_in]
+  - show_instance_tab = tab_state[:show_instance]
+  - activate_group_tab = tab_state[:activate_group]
+  - activate_built_in_tab = tab_state[:activate_built_in]
+  - activate_instance_tab = tab_state[:activate_instance]
+
+  .project-templates-buttons
+    = gl_tabs_nav({ class: 'nav-links scrolling-tabs gl-flex gl-grow gl-flex-nowrap gl-border-0' }) do
+      - if show_built_in
+        = gl_tab_link_to '#built-in', tab_class: 'built-in-tab', item_active: activate_built_in_tab, data: { toggle: 'tab' } do
+          = _('Built-in')
+          = gl_tab_counter_badge Gitlab::ProjectTemplate.all.count + Gitlab::SampleDataTemplate.all.count
+      - if show_instance_tab
+        - project_template_count = current_user.available_custom_project_templates.count
+        = gl_tab_link_to '#custom-instance-project-templates', tab_class: 'custom-instance-project-templates-tab', class: 'js-custom-instance-project-templates-nav-link', item_active: activate_instance_tab, data: { toggle: 'tab', testid: 'instance-templates-tab' } do
+          = _('Instance')
+          = gl_tab_counter_badge(project_template_count, { data: { testid: 'instance-template-tab_badge-content' } })
+
+      = gl_tab_link_to '#custom-group-project-templates', tab_class: 'custom-group-project-templates-tab', class: 'js-custom-group-project-templates-nav-link', item_active: activate_group_tab, data: { toggle: 'tab', testid: 'group-templates-tab' } do
+        = _('Group')
+        - if @parent_group
+          = gl_tab_counter_badge(group_project_templates_count(group_id), { data: { testid: 'group-template-tab-badge-content' } })
+
+  .tab-content
+    - if show_built_in
+      .project-templates-buttons.import-buttons.tab-pane{ class: ('active' if activate_built_in_tab), id: 'built-in' }
+        = render partial: 'projects/project_templates/template', collection: Gitlab::ProjectTemplate.all + Gitlab::SampleDataTemplate.all
+    - if show_instance_tab
+      .project-templates-buttons.import-buttons.tab-pane.js-custom-instance-project-templates-tab-content#custom-instance-project-templates{ class: ('active' if activate_instance_tab), data: { initial_templates: user_available_project_templates_path(current_user) } }
+        = gl_loading_icon(size: 'md', css_class: 'gl-mt-4')
+    - show_group_selector = !@parent_group
+    .project-templates-buttons.import-buttons.tab-pane.js-custom-group-project-templates-tab-content{ class: ('active' if activate_group_tab), id: 'custom-group-project-templates', data: { initial_templates: show_group_selector ? nil : user_available_group_templates_path(current_user, group_id: group_id) } }
+      - if show_group_selector
+        .js-group-templates-group-selector{ data: { new_project_path: new_project_path } }
+      - else
+        = gl_loading_icon(size: 'md', css_class: 'gl-mt-4')
+
+  .project-fields-form
+    = render 'projects/project_templates/project_fields_form'
+    = f.hidden_field(:use_custom_template, value: false)
+    = f.hidden_field(:group_with_project_templates_id, value: nil, class: 'js-project-group-with-project-templates-id')
+    = render 'projects/new_project_fields', f: f, project_name_id: "template-project-name", hide_init_with_readme: true, track_label: "create_from_template"
+
+- else
+  = render_ce 'projects/project_templates', f: f

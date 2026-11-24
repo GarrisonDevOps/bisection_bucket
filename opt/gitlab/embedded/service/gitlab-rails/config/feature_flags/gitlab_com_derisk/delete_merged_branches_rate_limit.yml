@@ -1,0 +1,10 @@
+---
+name: delete_merged_branches_rate_limit
+description: Enforce the per-user rate limit on deleting all merged branches through the API and the UI
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635885
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269510
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639311
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

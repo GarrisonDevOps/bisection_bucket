@@ -1,0 +1,10 @@
+---
+name: skip_noop_integration_jobs
+description: Skip enqueuing Integrations::ExecuteWorker jobs that would do nothing, such as chat or email notifications for pipeline statuses that are never notified
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636614
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266040
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638565
+milestone: '19.6'
+group: group::import
+type: gitlab_com_derisk
+default_enabled: false

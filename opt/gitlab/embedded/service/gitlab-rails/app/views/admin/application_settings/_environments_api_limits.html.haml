@@ -1,0 +1,18 @@
+= render ::Layouts::SettingsBlockComponent.new(_('Environments API rate limits'),
+  id: 'js-environments-api-limits-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = _('Limit the deployment, job, and merge request link rows a user can delete with environments per minute through API requests.')
+    = link_to _('Learn more.'), help_page_path('rate_limits/api/environments.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-environments-api-limits-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+
+      %fieldset
+        .form-group
+          = f.label :environment_delete_rows_limit_per_user, _('Maximum rows deleted with environments per minute per user'), class: 'label-bold'
+          = f.number_field :environment_delete_rows_limit_per_user, min: 0, class: 'form-control gl-form-input'
+          .form-text.gl-text-subtle
+            = _('Set to 0 to disable the limit.')
+
+      = f.submit _('Save changes'), pajamas_button: true

@@ -1,0 +1,12 @@
+- target_types = Notifications::TargetedMessage.target_types.map { |key, _| { value: key, text: key.humanize } }
+- role_options = Notifications::TargetedMessage::ALLOWED_ROLES.map { |level| { value: level, text: Gitlab::Access.human_access(level) } }
+#js-targeted-message-form{ data: { target_types: target_types.to_json,
+                                    form_action: url,
+                                    is_add_form: is_add_form.to_s,
+                                    initial_target_type: @targeted_message.target_type,
+                                    initial_starts_at: @targeted_message.starts_at&.iso8601,
+                                    initial_ends_at: @targeted_message.ends_at&.iso8601,
+                                    max_namespace_ids: Notifications::TargetedMessages::NamespaceIdsBuilder::MAX_NAMESPACE_IDS,
+                                    messages_path: admin_targeted_messages_path,
+                                    role_options: role_options.to_json,
+                                    initial_roles: @targeted_message.roles.to_json } }

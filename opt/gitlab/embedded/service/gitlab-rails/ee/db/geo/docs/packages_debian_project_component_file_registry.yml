@@ -1,0 +1,10 @@
+---
+table_name: packages_debian_project_component_file_registry
+description: Geo registry table for tracking replication and verification of Debian Project Component Files
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228787
+milestone: '19.1'
+feature_categories:
+- geo_replication
+classes:
+- Geo::PackagesDebianProjectComponentFileRegistry
+gitlab_schema: gitlab_geo

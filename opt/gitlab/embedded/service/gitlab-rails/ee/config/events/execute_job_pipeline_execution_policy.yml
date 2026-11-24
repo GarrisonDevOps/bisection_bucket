@@ -1,0 +1,14 @@
+---
+description: Job executed by pipeline execution policy
+internal_events: true
+action: execute_job_pipeline_execution_policy
+identifiers:
+- project
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/159957
+tiers:
+- ultimate

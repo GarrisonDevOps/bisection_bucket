@@ -1,0 +1,15 @@
+# @feature_category: mcp_server
+fragment WorkItemEditionWidgets on WorkItemWidget {
+  ... on WorkItemWidgetHealthStatus {
+    healthStatus
+  }
+  ... on WorkItemWidgetStatus {
+    status {
+      id
+      name
+    }
+  }
+  ... on WorkItemWidgetAgentPlan {
+    readinessScore
+  }
+}

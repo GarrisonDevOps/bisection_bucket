@@ -1,0 +1,9 @@
+---
+name: assign_custom_roles_to_project_links_saas
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/468329
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/173695
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/505998
+milestone: '17.7'
+group: group::authorization
+type: wip
+default_enabled: false

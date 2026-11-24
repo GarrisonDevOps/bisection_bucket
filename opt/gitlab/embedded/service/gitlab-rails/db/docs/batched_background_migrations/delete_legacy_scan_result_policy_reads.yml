@@ -1,0 +1,11 @@
+---
+migration_job_name: DeleteLegacyScanResultPolicyReads
+description: Deletes scan_result_policies rows without approval_policy_rule_id whose
+  approval policy no longer exists, and the unmerged merge request approval rules
+  that reference them.
+feature_category: security_policy_management
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259692
+milestone: '19.6'
+queued_migration_version: 20261016172843
+finalized_by: # version of the migration that finalized this BBM
+gitlab_schema: gitlab_main_org

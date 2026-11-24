@@ -1,0 +1,13 @@
+# @feature_category: mcp_server
+mutation updateMergeRequestNote($input: UpdateNoteInput!) {
+  updateNote(input: $input) {
+    note {
+      id
+      url
+      discussion {
+        id
+      }
+    }
+    errors
+  }
+}

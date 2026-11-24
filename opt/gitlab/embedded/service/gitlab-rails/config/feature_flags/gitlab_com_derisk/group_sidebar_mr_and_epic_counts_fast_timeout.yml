@@ -1,0 +1,11 @@
+---
+name: group_sidebar_mr_and_epic_counts_fast_timeout
+description: Applies the fast read statement timeout to the open merge request and
+  epic counts in the group sidebar
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637820
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269261
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639354
+milestone: '19.6'
+group: group::engagement
+type: gitlab_com_derisk
+default_enabled: false

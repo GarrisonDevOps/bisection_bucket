@@ -1,0 +1,14 @@
+---
+description: User clicks "Resubmit request" CTA on Error State page
+internal_events: true
+action: sm_trial_create_form_resubmit_click
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+  - subscription_management
+milestone: '18.9'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222570'
+tiers:
+  - free

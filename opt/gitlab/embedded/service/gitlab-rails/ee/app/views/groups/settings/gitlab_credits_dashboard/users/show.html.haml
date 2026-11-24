@@ -1,0 +1,7 @@
+- title_text = _('User')
+- page_title title_text
+- breadcrumb_title title_text
+- add_to_breadcrumbs(s_('UsageBilling|GitLab Credits dashboard'), group_settings_gitlab_credits_dashboard_index_path(@group))
+
+#js-group-user-usage-billing-dashboard{ data: { username: @username, namespace_path: @group.full_path,
+  subscription_start_date: @group.gitlab_subscription&.start_date&.iso8601 } }

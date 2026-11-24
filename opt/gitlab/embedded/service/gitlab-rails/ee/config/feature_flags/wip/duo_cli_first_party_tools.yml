@@ -1,0 +1,10 @@
+---
+name: duo_cli_first_party_tools
+description: Lists the GitLab Duo CLI's first-party MCP tools for governance and sends their verdicts in the DWS claim
+feature_issue_url: https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/work_items/3106
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262474
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/636512
+milestone: '19.6'
+group: group::developer clients
+type: wip
+default_enabled: false

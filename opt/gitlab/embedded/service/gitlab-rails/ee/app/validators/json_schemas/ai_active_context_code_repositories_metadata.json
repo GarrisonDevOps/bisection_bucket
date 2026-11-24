@@ -1,0 +1,35 @@
+{
+  "description": "AI ActiveContext Code Repository metadata",
+  "type": "object",
+  "properties": {
+    "delete_reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Reason for delete"
+    },
+    "initial_indexing_last_queued_item": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Last item enqueued from initial indexing"
+    },
+    "incremental_indexing_last_queued_item": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Last item enqueued from incremental indexing"
+    },
+    "last_error": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Most recent error"
+    }
+  },
+  "additionalProperties": false
+}

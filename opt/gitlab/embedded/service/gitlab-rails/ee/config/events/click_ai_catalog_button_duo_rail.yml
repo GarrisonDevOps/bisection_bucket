@@ -1,0 +1,18 @@
+---
+description: AI Catalog button was clicked from the Duo navigation rail
+internal_events: true
+status: active
+action: click_ai_catalog_button_duo_rail
+identifiers:
+- project
+- namespace
+- user
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230643
+tiers:
+- premium
+- ultimate
+classification: duo

@@ -1,0 +1,19 @@
+---
+token_type: "EasyPost test API token"
+class_name: "EasypostTestClient"
+partner_name: "easypost"
+endpoint: "https://api.easypost.com/v2/addresses"
+http_method: "get"
+auth_style: "basic_username"
+token_pattern: '\AEZTK[a-zA-Z0-9]{54}\z'
+sample_token: "EZTKaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_easypost_api"
+doc_url: "https://docs.easypost.com/docs/addresses"
+status_map:
+  "200": "active"
+  "403": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

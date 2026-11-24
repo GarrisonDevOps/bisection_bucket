@@ -1,0 +1,10 @@
+---
+name: ReindexLabelsInWorkItems
+version: '20251024143451'
+description: Reindex work items to ensure label changes trigger Advanced Search updates
+group: group::global search
+milestone: '18.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209618
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/220855
+marked_obsolete_in_milestone: '18.9'

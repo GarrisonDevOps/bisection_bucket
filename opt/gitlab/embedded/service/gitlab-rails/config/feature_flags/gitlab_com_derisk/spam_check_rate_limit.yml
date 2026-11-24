@@ -1,0 +1,10 @@
+---
+name: spam_check_rate_limit
+description: Enforces the per-user rate limit on spam checks that call SpamCheck or Akismet
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636918
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269749
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/640270
+milestone: '19.7'
+group: group::abuse engineering
+type: gitlab_com_derisk
+default_enabled: false

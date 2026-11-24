@@ -1,0 +1,15 @@
+---
+description: Triggered when a user visits the dependency list page.
+internal_events: true
+action: visit_dependency_list
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: vulnerability_management
+product_categories:
+  - dependency_management
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170933
+tiers:
+  - ultimate

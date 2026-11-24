@@ -1,0 +1,9 @@
+---
+name: add_ai_summary_for_new_mr
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/429882
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/142739
+rollout_issue_url: https://gitlab.com/gitlab-com/gl-infra/production/-/issues/17533
+milestone: '16.9'
+group: group::ai coding
+type: development
+default_enabled: true

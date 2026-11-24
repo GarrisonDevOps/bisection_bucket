@@ -1,0 +1,10 @@
+---
+name: CreateSbomOccurrenceRefsIndex
+version: '20260618151203'
+description: Creates the sbom_occurrence_refs Elasticsearch index
+group: group::security infrastructure
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/241326
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

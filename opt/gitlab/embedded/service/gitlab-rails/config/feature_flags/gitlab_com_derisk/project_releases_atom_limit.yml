@@ -1,0 +1,10 @@
+---
+name: project_releases_atom_limit
+description: List only the newest releases in a project's releases Atom feed, and preload only their authors and project.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638260
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269594
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639355
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

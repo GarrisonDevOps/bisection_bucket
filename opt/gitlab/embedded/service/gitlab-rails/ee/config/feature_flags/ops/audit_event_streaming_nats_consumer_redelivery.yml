@@ -1,0 +1,13 @@
+---
+name: audit_event_streaming_nats_consumer_redelivery
+description: Sets the NATS audit event streaming durable consumers to a 2 minute
+  ack deadline, backoff between redeliveries, and at most 10 deliveries. Disable
+  to restore the JetStream defaults (30 second ack deadline, unlimited
+  deliveries) on the next provisioning run.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/17582
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267213
+rollout_issue_url:
+milestone: '19.6'
+group: group::compliance
+type: ops
+default_enabled: false

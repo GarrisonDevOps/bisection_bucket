@@ -1,0 +1,19 @@
+- scopes = local_assigns.fetch(:scopes)
+
+%ul.gl-list-none.gl-p-0.gl-mb-0.gl-space-y-4{ data: { testid: 'granular-scopes' } }
+  - granular_scopes_for_display(scopes).each do |scope|
+    %li
+      .gl-font-bold{ data: { testid: 'granular-scope-heading' } }
+        - if scope.selected_memberships? && scope.namespace
+          %span.gl-font-monospace= scope.namespace.full_path
+          = render Pajamas::BadgeComponent.new(granular_scope_namespace_label(scope.namespace), variant: :neutral, class: 'gl-ml-2')
+        - else
+          = granular_scope_access_text(scope)
+      %ul.gl-mb-0.gl-pl-5
+        - scope.permissions.sort.each do |permission|
+          %li
+            %span.gl-font-bold= permission
+            - description = granular_permission_description(permission)
+            - if description
+              %span.gl-text-subtle
+                (#{description})

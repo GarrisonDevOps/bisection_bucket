@@ -1,0 +1,21 @@
+---
+key_path: counts.projects_with_analytics_dashboard
+description: Count of projects with an analytics dashboard
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+value_type: number
+status: active
+milestone: "16.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/119481
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+tiers:
+- ultimate
+options:
+  events:
+    - project_created_analytics_dashboard

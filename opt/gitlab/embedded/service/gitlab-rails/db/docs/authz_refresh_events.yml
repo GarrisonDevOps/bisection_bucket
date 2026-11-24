@@ -1,0 +1,12 @@
+---
+table_name: authz_refresh_events
+classes:
+- Authz::ProjectAuthorizations::RefreshEvent
+feature_categories:
+- permissions
+description: Queue of targets whose project_authorizations need to be recalculated, written by database triggers
+  on the tables that decide access.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266837
+milestone: '19.6'
+gitlab_schema: gitlab_main_cell_local
+table_size: small

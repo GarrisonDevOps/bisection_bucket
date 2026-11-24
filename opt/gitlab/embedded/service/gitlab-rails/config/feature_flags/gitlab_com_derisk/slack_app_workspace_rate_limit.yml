@@ -1,0 +1,10 @@
+---
+name: slack_app_workspace_rate_limit
+description: Enforce the per-workspace rate limit on GitLab for Slack app requests. When disabled, the limit is evaluated and logged but not enforced.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631397
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264229
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635461
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::ai catalog
+default_enabled: false

@@ -1,0 +1,31 @@
+# @feature_category: mcp_server
+query listDuoSessions(
+  $projectPath: ID
+  $statusGroup: DuoWorkflowStatusGroup
+  $statuses: [DuoWorkflowStatus!]
+  $excludeTypes: [String!]
+  $first: Int
+  $after: String
+) {
+  duoWorkflowWorkflows(
+    projectPath: $projectPath
+    statusGroup: $statusGroup
+    statuses: $statuses
+    excludeTypes: $excludeTypes
+    first: $first
+    after: $after
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      statusName
+      goal
+      workflowDefinition
+      createdAt
+      webUrl
+    }
+  }
+}

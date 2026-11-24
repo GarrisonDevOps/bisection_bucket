@@ -1,0 +1,7 @@
+- if @presenter.custom_active
+  .form-group{ data: { testid: 'vector-storage-reindex-warning' } }
+    = render Pajamas::AlertComponent.new(variant: :warning,
+      title: s_('SemanticSearch|Saving changes replaces the active connection and triggers a full re-index'),
+      dismissible: false) do |alert_c|
+      - alert_c.with_body do
+        %p= s_('SemanticSearch|All existing indexed data will be removed. Semantic search results will be unavailable until re-indexing completes. This process can take several hours depending on your codebase size.')

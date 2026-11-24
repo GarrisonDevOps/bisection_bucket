@@ -1,0 +1,10 @@
+---
+name: authz_refresh_compute_projects
+description: Recalculate project_authorizations from project and project member refresh events instead of dropping them, checked per project
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637587
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269780
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639477
+milestone: '19.6'
+group: group::authorization
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,20 @@
+description: "Click widget link"
+category: default
+action: click_link
+extra_properties:
+identifiers:
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: "14.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/66199
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`trial_status_widget`"
+  property:
+    description: "`voluntary`"
+  value:
+    description: "Remaining trial days"

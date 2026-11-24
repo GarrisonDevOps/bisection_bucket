@@ -1,0 +1,10 @@
+---
+name: record_security_policy_protected_branch_bypass
+description: Record the approval policy protected branch bypass decision on ci_pipeline_metadata when a push pipeline is allowed via the bypass
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/602327
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/246930
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/602327
+milestone: '19.3'
+group: group::security policies
+type: gitlab_com_derisk
+default_enabled: false

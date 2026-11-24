@@ -1,0 +1,18 @@
+---
+title: Read agent artifacts
+name: read_agent_artifacts
+description: Read GitLab Duo Agent Platform artifacts, including audit events and
+  session metadata, that are exposed through the agent artifacts dashboard.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/601058
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237989
+feature_category: compliance_management
+milestone: '19.2'
+group_ability: true
+enabled_for_group_access_levels: [25, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 50]
+requirements: []
+group_permissions:
+  - read_agent_artifacts
+project_permissions:
+  - read_agent_artifacts

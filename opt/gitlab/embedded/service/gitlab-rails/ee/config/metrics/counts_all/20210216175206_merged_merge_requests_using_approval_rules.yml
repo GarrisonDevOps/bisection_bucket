@@ -1,0 +1,18 @@
+---
+data_category: optional
+key_path: counts.merged_merge_requests_using_approval_rules
+description: Count of merge requests merged using approval rules
+product_group: compliance
+product_categories:
+- compliance_management
+value_type: number
+status: broken
+repair_issue_url: https://gitlab.com/gitlab-data/analytics/-/issues/11466
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

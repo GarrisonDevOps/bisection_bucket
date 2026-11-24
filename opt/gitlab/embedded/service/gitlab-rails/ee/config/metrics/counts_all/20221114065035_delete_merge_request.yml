@@ -1,0 +1,19 @@
+---
+key_path: counts.delete_merge_request
+description: "Count of audit events triggered on successful merge request deletion"
+product_group: compliance
+product_categories:
+- audit_events
+value_type: number
+status: active
+milestone: "15.6"
+introduced_by_url: "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/103455"
+time_frame: all
+data_category: optional
+data_source: internal_events
+events:
+- name: trigger_audit_event
+  filter:
+    label: delete_merge_request
+tiers:
+  - ultimate

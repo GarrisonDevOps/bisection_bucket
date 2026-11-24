@@ -1,0 +1,10 @@
+---
+name: ci_runner_tag_filter_by_tag_ids
+description: Filter runners by exact tag names using the looked-up tag IDs and one tagging subquery for all tags.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638241
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269092
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639004
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

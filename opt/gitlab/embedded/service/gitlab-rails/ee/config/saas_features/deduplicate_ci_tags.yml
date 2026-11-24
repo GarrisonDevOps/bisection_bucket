@@ -1,0 +1,5 @@
+---
+name: deduplicate_ci_tags
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/181280
+milestone: '17.10'
+group: group::runner

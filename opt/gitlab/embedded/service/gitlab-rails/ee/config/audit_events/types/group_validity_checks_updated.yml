@@ -1,0 +1,10 @@
+---
+name: group_validity_checks_updated
+description: Validity checks is enabled or disabled for a group and its child groups and projects, except those projects specified as excluded
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/570740
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/205405
+feature_category: secret_detection
+milestone: '18.5'
+saved_to_database: true
+streamed: true
+scope: [Group]

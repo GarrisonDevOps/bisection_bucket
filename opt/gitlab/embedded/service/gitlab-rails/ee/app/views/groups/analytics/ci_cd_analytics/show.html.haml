@@ -1,0 +1,8 @@
+- page_title _("CI/CD Analytics")
+
+= render ::Layouts::PageHeadingComponent.new(_("CI/CD Analytics"))
+- is_root_group = @group && @group.root?
+
+#js-group-ci-cd-analytics-app{ data: { group_full_path: @group.full_path,
+  pipeline_group_usage_quota_path: group_usage_quotas_path(@group, anchor: 'pipelines-quota-tab'),
+  can_view_group_usage_quota: (is_root_group && can?(current_user, :admin_group, @group)).to_s } }

@@ -1,0 +1,27 @@
+---
+key_path: redis_hll_counters.incident_management.issuable_resource_links_total_unique_counts
+description: Counts unique users for linked resources create and delete events
+product_group: platform_insights
+product_categories:
+- incident_management
+value_type: number
+status: active
+milestone: "15.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94048
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+events:
+- name: incident_management_issuable_resource_link_created
+  unique: user.id
+- name: incident_management_issuable_resource_link_deleted
+  unique: user.id
+- name: incident_management_issuable_resource_link_visited
+  unique: user.id
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

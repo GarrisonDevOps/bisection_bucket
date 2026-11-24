@@ -1,0 +1,22 @@
+---
+description: A user clicked a row, a chart slice, or the view-all link on a card of the AI Governance dashboard
+internal_events: true
+status: active
+action: click_card_link_on_ai_governance_dashboard
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: The card the link belongs to. One of audit_trail, agent_inventory, developer_activity, project_exposure, mcp_servers, session_distribution, skillguard, top_tools or tool_calls_by_risk
+  property:
+    description: The link that was clicked. row for a list row, slice for a chart slice or its legend entry, view_all for the card's view-all link
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+tiers:
+- premium
+- ultimate

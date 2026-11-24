@@ -1,0 +1,10 @@
+---
+name: ai_catalog_mcp_servers
+description:
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/20176
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221095
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/587925
+milestone: '18.10'
+group: group::workflow catalog
+type: experiment
+default_enabled: false

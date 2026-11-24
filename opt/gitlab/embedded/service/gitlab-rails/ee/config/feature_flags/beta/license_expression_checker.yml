@@ -1,0 +1,10 @@
+---
+name: license_expression_checker
+description: Use LicenseExpressionChecker (SPDX expression-aware) instead of DeniedLicensesChecker for license approval policies
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/600032
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235969'
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627969
+milestone: '19.1'
+group: group::security policies
+type: beta
+default_enabled: true

@@ -1,0 +1,10 @@
+---
+name: container_virtual_registry_cache_revalidation_fixes
+description: Matches quoted upstream ETags on revalidation, and cleans up the upload when a container virtual registry cache entry with the same digest already exists.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/631818
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266785
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637497
+milestone: '19.6'
+group: group::container registry
+type: gitlab_com_derisk
+default_enabled: false

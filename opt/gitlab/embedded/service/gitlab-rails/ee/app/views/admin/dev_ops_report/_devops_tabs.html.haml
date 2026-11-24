@@ -1,0 +1,8 @@
+- service_ping_enabled = Gitlab::CurrentSettings.usage_ping_enabled
+
+= render ::Layouts::PageHeadingComponent.new(_('DevOps adoption'))
+
+- if !service_ping_enabled
+  #js-devops-service-ping-disabled{ data: { is_admin: current_user&.admin.to_s, enable_service_ping_path: metrics_and_profiling_admin_application_settings_path(anchor: 'js-usage-settings') } }
+- else
+  .js-devops-adoption{ data: { devops_score_metrics: devops_score_metrics(@metric).to_json } }

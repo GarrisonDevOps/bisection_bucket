@@ -1,0 +1,20 @@
+---
+title: Manage group members
+name: admin_group_member
+description: Add or remove users in a group, and assign roles to users. When assigning a role, users with this custom permission must select a role that has the same or fewer permissions as the default role used as the base for their custom role.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/17364
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131914
+feature_category: groups_and_projects
+milestone: '16.5'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: false
+group_permissions:
+  - admin_group_member
+  - admin_member_access_request
+  - admin_service_account_member
+  - destroy_group_member
+  - invite_group_members
+  - read_billable_member
+  - read_member_access_request
+  - update_group_member

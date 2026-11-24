@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Security policy scope",
+  "type": "object",
+  "properties": {
+    "match_mode": {
+      "description": "Specifies how multiple policy scope conditions are combined. Use 'all' to require all specified conditions to be met (more restrictive, default), or 'any' to require at least one condition to be met (more permissive).",
+      "type": "string",
+      "enum": [
+        "all",
+        "any"
+      ]
+    },
+    "compliance_frameworks": {
+      "description": "Specifies for which compliance frameworks this policy should be applied to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "object",
+      "description": "Specifies for which projects this policy should be applied to.",
+      "properties": {
+        "including": {
+          "type": "array",
+          "description": "Specifies projects where this policy should be applied to.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Specifies the ID of the project."
+              }
+            }
+          }
+        },
+        "excluding": {
+          "type": "array",
+          "description": "Specifies projects where this policy should not be applied to.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Specifies the ID of the project."
+              },
+              "type": {
+                "type": "string",
+                "description": "Exclude projects of this type from the policy scope. Set to 'personal' to exclude personal projects or 'archived' to exclude archived projects from policy.",
+                "enum": [
+                  "personal",
+                  "archived"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "groups": {
+      "type": "object",
+      "description": "Specifies for which groups this policy should be applied to.",
+      "properties": {
+        "including": {
+          "type": "array",
+          "description": "Specifies groups where this policy should be applied to.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Specifies the ID of the group."
+              }
+            }
+          }
+        },
+        "excluding": {
+          "type": "array",
+          "description": "Specifies groups where this policy should not be applied to.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Specifies the ID of the group."
+              }
+            }
+          }
+        }
+      }
+    },
+    "business_impact": {
+      "type": "object",
+      "description": "Specifies Business Impact security attributes for policy scoping.",
+      "properties": {
+        "including": {
+          "$ref": "#/$defs/security_attributes_properties_including"
+        },
+        "excluding": {
+          "$ref": "#/$defs/security_attributes_properties_excluding"
+        }
+      }
+    },
+    "application": {
+      "type": "object",
+      "description": "Specifies Application security attributes for policy scoping.",
+      "properties": {
+        "including": {
+          "$ref": "#/$defs/security_attributes_properties_including"
+        },
+        "excluding": {
+          "$ref": "#/$defs/security_attributes_properties_excluding"
+        }
+      }
+    },
+    "business_unit": {
+      "type": "object",
+      "description": "Specifies Business Unit security attributes for policy scoping.",
+      "properties": {
+        "including": {
+          "$ref": "#/$defs/security_attributes_properties_including"
+        },
+        "excluding": {
+          "$ref": "#/$defs/security_attributes_properties_excluding"
+        }
+      }
+    },
+    "exposure": {
+      "type": "object",
+      "description": "Specifies Exposure security attributes for policy scoping.",
+      "properties": {
+        "including": {
+          "$ref": "#/$defs/security_attributes_properties_including"
+        },
+        "excluding": {
+          "$ref": "#/$defs/security_attributes_properties_excluding"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "security_attributes_properties_including": {
+      "type": "array",
+      "description": "Projects with any of these security attributes will match this criterion.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Specifies the ID of the security attribute."
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    "security_attributes_properties_excluding": {
+      "type": "array",
+      "description": "Projects with any of these security attributes will not match this criterion.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Specifies the ID of the security attribute."
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+  }
+}

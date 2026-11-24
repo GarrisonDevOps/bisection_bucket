@@ -1,0 +1,408 @@
+code_generations:
+  title: Code Generation
+  main_feature: Code Suggestions
+  release_state: GA
+  compatible_llms:
+    - codegemma
+    - codellama
+    - codestral
+    - deepseekcoder
+    - mistral
+    - mixtral
+    - llama3
+    - claude_3
+    - gpt
+    - general
+    - qwen
+  unit_primitives:
+    - generate_code
+code_completions:
+  title: Code Completion
+  release_state: GA
+  main_feature: Code Suggestions
+  compatible_llms:
+    - codegemma
+    - codellama
+    - codestral
+    - deepseekcoder
+    - mistral
+    - mixtral
+    - llama3
+    - claude_3
+    - gpt
+    - general
+    - qwen
+  unit_primitives:
+    - complete_code
+    - code_suggestions
+duo_chat:
+  title: General Chat
+  release_state: GA
+  main_feature: GitLab Duo Chat
+  compatible_llms:
+    - mistral
+    - mixtral
+    - codestral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - duo_classic_chat
+    - chat
+    - include_file_context
+    - include_snippet_context
+    - include_merge_request_context
+    - include_issue_context
+    - include_dependency_context
+    - include_local_git_context
+    - include_terminal_context
+    - include_repository_context
+    - include_user_rule_context
+    - include_agent_user_environment_context
+duo_chat_explain_code:
+  title: Code Explanation
+  release_state: GA
+  main_feature: GitLab Duo Chat
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - codestral
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - explain_code
+duo_chat_write_tests:
+  title: Test Generation
+  release_state: GA
+  main_feature: GitLab Duo Chat
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - codestral
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - write_tests
+duo_chat_refactor_code:
+  title: Refactor Code
+  release_state: GA
+  main_feature: GitLab Duo Chat
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - codestral
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - refactor_code
+duo_chat_fix_code:
+  title: Fix Code
+  release_state: GA
+  main_feature: GitLab Duo Chat
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - codestral
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - fix_code
+duo_chat_troubleshoot_job:
+  title: Root Cause Analysis
+  release_state: BETA
+  main_feature: GitLab Duo Chat
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - troubleshoot_job
+duo_chat_explain_vulnerability:
+  title: Vulnerability Explanation
+  release_state: BETA
+  main_feature: Other GitLab Duo features
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - explain_vulnerability
+duo_chat_summarize_comments:
+  title: Discussion Summary
+  release_state: BETA
+  main_feature: GitLab Duo for issues
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - summarize_comments
+generate_commit_message:
+  title: Merge Commit Message Generation
+  release_state: BETA
+  main_feature: GitLab Duo for merge requests
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - generate_commit_message
+summarize_new_merge_request:
+  title: Merge Request Summary
+  release_state: BETA
+  main_feature: GitLab Duo for merge requests
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - summarize_new_merge_request
+resolve_vulnerability:
+  title: Vulnerability Resolution
+  release_state: BETA
+  main_feature: Other GitLab Duo features
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - resolve_vulnerability
+summarize_review:
+  title: Code Review Summary
+  release_state: EXPERIMENT
+  main_feature: GitLab Duo for merge requests
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - summarize_review
+glab_ask_git_command:
+  title: GitLab Duo for CLI
+  release_state: BETA
+  main_feature: Other GitLab Duo features
+  compatible_llms:
+    - mistral
+    - mixtral
+    - claude_3
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - glab_ask_git_command
+review_merge_request:
+  title: Non-Agentic Code Review
+  release_state: GA
+  main_feature: GitLab Duo for merge requests
+  compatible_llms:
+    - claude_3
+    - mistral
+    - mixtral
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives:
+    - review_merge_request
+review_merge_request_dap:
+  title: Agentic Code Review
+  release_state: GA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - mistral
+    - mixtral
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives: []
+review_merge_request_dap_standard:
+  title: Standard Code Review
+  release_state: BETA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - mistral
+    - mixtral
+    - gpt
+    - llama3
+    - general
+    - qwen
+  unit_primitives: []
+duo_agent_platform:
+  title: "Agents & flows"
+  release_state: GA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+    - mistral
+    - gemini
+    - qwen
+  unit_primitives:
+    - duo_workflow_execute_workflow
+    - duo_agent_platform
+duo_agent_platform_agentic_chat:
+  title: Agentic Chat
+  release_state: GA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+    - mistral
+    - gemini
+    - qwen
+  unit_primitives:
+    - duo_chat
+duo_developer:
+  title: Duo Developer
+  release_state: GA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+    - mistral
+    - gemini
+    - qwen
+  unit_primitives: []
+sast_vulnerability_fp_detection:
+  title: SAST Vulnerability False Positive Detection
+  release_state: BETA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+  unit_primitives: []
+sast_vulnerability_resolution:
+  title: SAST Vulnerability Resolution
+  release_state: BETA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+  unit_primitives: []
+secret_vulnerability_fp_detection:
+  title: Secret Vulnerability False Positive Detection
+  release_state: GA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+  unit_primitives: []
+security_review:
+  title: Security Review
+  release_state: BETA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+  unit_primitives: []
+bl_security:
+  title: Business Logic Security Scan
+  release_state: BETA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+  unit_primitives: []
+resolve_dependency_bump:
+  title: Resolve Dependency Bump Breaking Changes
+  release_state: BETA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+  unit_primitives: []
+recommend_reviewers_assign:
+  title: Recommend Reviewers
+  release_state: GA
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+    - mistral
+    - gemini
+    - qwen
+  unit_primitives: []
+risk_classification:
+  title: Risk Assessment
+  release_state: EXPERIMENT
+  main_feature: GitLab Duo Agent Platform
+  compatible_llms:
+    - claude_3
+    - gpt
+    - general
+    - mistral
+    - gemini
+    - qwen
+  unit_primitives: []
+embeddings_code:
+  title: Code Embeddings
+  release_state: BETA
+  main_feature: Semantic Code Search
+  compatible_llms:
+    - embedding
+  unit_primitives:
+    - generate_embeddings_codebase
+feature_discovery_search:
+  title: Feature Discovery Search
+  release_state: EXPERIMENT
+  main_feature: Feature Discovery
+  compatible_llms:
+    - gemini
+  unit_primitives:
+    - feature_discovery_search

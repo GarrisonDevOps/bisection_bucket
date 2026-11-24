@@ -1,0 +1,10 @@
+---
+name: lock_member_creation
+description: Lock the group or project while adding members, so concurrent adds cannot create duplicate membership rows.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/565350
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266520
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637467
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::authorization
+default_enabled: false

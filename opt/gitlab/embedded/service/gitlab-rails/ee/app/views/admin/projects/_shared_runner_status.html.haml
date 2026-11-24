@@ -1,0 +1,13 @@
+- if project.builds_enabled?
+  %li{ class: '!gl-px-5' }
+    %span.light
+      = _('Instance Runners:')
+    %strong
+      - if project.shared_runners_enabled?
+        = _('Enabled')
+        - if project.shared_runners_minutes_limit_enabled?
+          = sprintf(_('(Limited to %{quota} compute minutes per month)'), { quota: project.ci_minutes_usage.quota.total })
+        - else
+          = _('(Unlimited compute minutes)')
+      - else
+        = _('Disabled')

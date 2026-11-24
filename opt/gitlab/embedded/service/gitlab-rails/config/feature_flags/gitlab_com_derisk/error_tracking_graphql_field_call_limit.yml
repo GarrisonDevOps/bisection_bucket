@@ -1,0 +1,10 @@
+---
+name: error_tracking_graphql_field_call_limit
+description: Limit how many times one GraphQL operation can request the Sentry error tracking fields
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638963
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269123
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639014
+milestone: '19.6'
+group: group::platform insights
+type: gitlab_com_derisk
+default_enabled: false

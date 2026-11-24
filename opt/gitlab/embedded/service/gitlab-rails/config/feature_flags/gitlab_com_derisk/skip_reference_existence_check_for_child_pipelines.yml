@@ -1,0 +1,10 @@
+---
+name: skip_reference_existence_check_for_child_pipelines
+description: Create child pipelines on merge request refs without checking that the parent's ref still exists
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/428852
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262664
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/569488
+milestone: '19.6'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

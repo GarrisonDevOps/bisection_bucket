@@ -1,0 +1,6 @@
+.form-group
+  = form.label :shared_runners_minutes, _('Compute quota'), class: 'label-bold'
+  = form.number_field :shared_runners_minutes, class: 'form-control gl-form-input'
+  .form-text.gl-text-subtle
+    = _('The maximum compute minutes that jobs in a namespace can use on instance runners each month. 0 for unlimited.')
+    = link_to _('What is a compute quota?'), help_page_path('ci/pipelines/compute_minutes.md'), target: '_blank', rel: 'noopener noreferrer'

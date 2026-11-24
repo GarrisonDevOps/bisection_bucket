@@ -1,0 +1,71 @@
+- return unless can?(current_user, :read_target_branch_rule, @project)
+
+= render ::Layouts::SettingsSectionComponent.new(_('Merge request branch workflow'),
+  id: 'target-branch-rules',
+  options: { class: 'merge-requests-feature' }) do |c|
+  - c.with_body do
+    = render ::Layouts::CrudComponent.new(_("Branch target"),
+      icon: 'branch',
+      count: @target_branch_rules&.total_count,
+      options: { class: 'js-toggle-container' },
+      form_options: { class: 'gl-hidden js-toggle-content' }) do |c|
+      - c.with_description do
+        = _('Create a merge request branch target.')
+        = link_to help_page_url('user/project/repository/branches/_index.md', anchor: 'configure-workflows-for-target-branches'), target: '_blank', rel: 'noopener noreferrer' do
+          = _("Learn more.")
+
+      - c.with_actions do
+        - if can?(current_user, :admin_target_branch_rule, @project)
+          = render Pajamas::ButtonComponent.new(size: :small, button_options: { class: 'js-toggle-button js-toggle-content' }) do
+            = _('Add branch target')
+
+      - c.with_form do
+        - if can?(current_user, :admin_target_branch_rule, @project)
+          = gitlab_ui_form_for @project.target_branch_rules.new, url: project_target_branch_rules_path(@project) do |f|
+            %h4.gl-mt-0= _("Add branch target")
+            .form-group.row
+              = f.label :name, _('Branch name pattern'), class: 'gl-col-sm-12'
+              .gl-col-sm-6
+                = f.text_field :name, class: 'form-control gl-form-input', placeholder: _('eg. dev/*')
+                .form-text.gl-text-subtle
+                  = _('Branches matching this string are retargeted. Wildcards are supported, and names are case-sensitive.')
+            .form-group.row
+              = f.label :target_branch, _("Target branch"), class: 'gl-col-sm-12'
+              .gl-col-sm-6
+                = f.hidden_field :target_branch
+                #js-target-branch{ data: { project_id: @project.id } }
+                .form-text.gl-text-subtle
+                  = _('The branch to merge into.')
+            = f.submit _('Save'), pajamas_button: true
+            = render Pajamas::ButtonComponent.new(button_options: { type: 'reset', class: 'gl-ml-2 js-toggle-button' }) do
+              = _('Cancel')
+
+      - c.with_body do
+        - if @target_branch_rules&.empty?
+          .gl-text-subtle
+            = _("There are currently no merge request branch targets")
+        - else
+          %table.table.b-table.gl-table.b-table-stacked-md
+            %colgroup
+              %col{ width: "30%" }
+              %col
+              %col{ width: "100px" }
+            %thead
+              %tr
+                %th
+                  = _("Branch name pattern")
+                %th
+                  = _('Target branch')
+                %th.gl-text-right
+                  = _('Actions')
+            %tbody
+              - @target_branch_rules&.each do |rule|
+                %tr
+                  %td.ref-name{ class: "!gl-align-middle" }= rule.name
+                  %td.ref-name{ class: "!gl-align-middle" }= rule.target_branch
+                  %td{ class: "!gl-align-middle gl-text-right" }
+                    - if can?(current_user, :admin_target_branch_rule, @project)
+                      = render Pajamas::ButtonComponent.new(href: project_target_branch_rule_path(@project, rule), method: :delete, icon: 'remove', category: 'tertiary', button_options: { class: 'has-tooltip gl-ml-2 -gl-my-3', title: 'Delete', data: { confirm: _('Are you sure you want to delete this branch target?'), confirm_btn_variant: 'danger' } })
+
+            - if @target_branch_rules
+              = paginate @target_branch_rules, theme: 'gitlab'

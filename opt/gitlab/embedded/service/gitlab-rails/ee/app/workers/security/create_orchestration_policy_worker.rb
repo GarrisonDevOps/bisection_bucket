@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+module Security
+  class CreateOrchestrationPolicyWorker # rubocop:disable Scalability/IdempotentWorker
+    include ApplicationWorker
+
+    data_consistency :always
+    include CronjobQueue # rubocop:disable Scalability/CronWorkerContext -- This worker does not perform work scoped to a context
+
+    feature_category :security_policy_management
+
+    def perform
+      Security::OrchestrationPolicyConfiguration
+        .with_outdated_configuration
+        .with_source_namespace
+        .each_batch do |configurations|
+        configurations.each do |configuration|
+          Security::SyncScanPoliciesWorker.perform_debounced(configuration)
+        end
+      end
+    end
+  end
+end

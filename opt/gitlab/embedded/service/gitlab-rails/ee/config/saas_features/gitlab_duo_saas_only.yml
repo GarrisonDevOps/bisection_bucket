@@ -1,0 +1,5 @@
+---
+name: gitlab_duo_saas_only
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/147833
+milestone: '16.11'
+group: group::ai framework

@@ -1,0 +1,25 @@
+---
+key_path: counts.count_total_apply_filter_on_ai_governance_dashboard_agent_class
+description: Count of agent type filter changes on the AI Governance dashboard, over
+  the last 7 days, the last 28 days and all time
+product_group: ai_governance
+product_categories:
+- ai_governance
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262793
+time_frame:
+- 7d
+- 28d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: apply_filter_on_ai_governance_dashboard
+  filter:
+    label: agent_class

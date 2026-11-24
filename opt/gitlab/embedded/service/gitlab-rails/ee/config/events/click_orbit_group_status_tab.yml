@@ -1,0 +1,14 @@
+---
+description: User clicks the Group status tab on the Orbit dashboard
+internal_events: true
+action: click_orbit_group_status_tab
+identifiers:
+- user
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261394
+tiers:
+- premium
+- ultimate

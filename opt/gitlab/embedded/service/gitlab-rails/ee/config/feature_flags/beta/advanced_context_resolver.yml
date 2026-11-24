@@ -1,0 +1,9 @@
+---
+name: advanced_context_resolver
+feature_issue_url: https://gitlab.com/groups/gitlab-org/editor-extensions/-/epics/55
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154935
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/464767
+milestone: '17.1'
+group: group::editor extensions
+type: beta
+default_enabled: true

@@ -1,0 +1,17 @@
+---
+description: An issue has been removed from an epic
+internal_events: true
+action: g_project_management_epic_issue_removed
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132024
+tiers:
+- premium
+- ultimate

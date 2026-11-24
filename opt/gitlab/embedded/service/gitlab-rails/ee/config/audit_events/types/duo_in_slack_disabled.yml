@@ -1,0 +1,10 @@
+---
+name: duo_in_slack_disabled
+description: GitLab Duo is turned off for a Slack workspace, by an Owner, an administrator, or the system when the claim is no longer valid.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/633566
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265962
+feature_category: integrations
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group]

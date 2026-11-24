@@ -1,0 +1,8 @@
+-# Copy is duplicated in the dashboard's Vue banner (dependency_firewall/components/app.vue); keep both in sync (shared msgids).
+= render Pajamas::AlertComponent.new(variant: :warning,
+  title: s_('DependencyFirewall|Charges may be incurred at the end of beta'),
+  dismissible: false,
+  alert_options: { data: { testid: 'ga-billing-alert' } }) do |alert|
+  - alert.with_body do
+    - credits_link = link_to('', help_page_path('subscriptions/gitlab_credits.md'), target: '_blank', rel: 'noopener noreferrer')
+    = safe_format(s_("DependencyFirewall|Dependency Firewall is free during the beta period. Once generally available, it will be a paid feature billed through %{linkStart}GitLab Credits%{linkEnd}. You'll need to opt in before anything is charged, and we'll give you advance notice ahead of general availability."), tag_pair(credits_link, :linkStart, :linkEnd))

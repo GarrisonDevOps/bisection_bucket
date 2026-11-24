@@ -1,0 +1,21 @@
+---
+key_path: redis_hll_counters.count_distinct_user_id_from_user_submitted_gitlab_duo_query_from_data_explorer
+description: Count of unique users who submitted a GitLab Duo natural language query from the data explorer.
+product_group: platform_insights
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/145463
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: user_submitted_gitlab_duo_query_from_data_explorer
+  unique: user.id

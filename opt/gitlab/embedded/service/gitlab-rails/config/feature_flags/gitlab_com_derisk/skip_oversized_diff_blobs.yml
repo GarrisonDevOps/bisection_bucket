@@ -1,0 +1,10 @@
+---
+name: skip_oversized_diff_blobs
+description: Load only the metadata of merge request diff blobs above 50 MB and show them as too large, so the rest of the diff renders.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/591927
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258929
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631694
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

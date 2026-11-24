@@ -1,0 +1,25 @@
+---
+key_path: counts.count_total_failed_workspaces_created_by_failed_params_validation
+description: Count of Total Failed Workspaces Created By Failed Params Validation
+product_group: remote_development
+product_categories:
+- workspaces
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/188226
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: create_workspace_result
+  filter:
+    label: failed
+    property: WorkspaceCreateParamsValidationFailed

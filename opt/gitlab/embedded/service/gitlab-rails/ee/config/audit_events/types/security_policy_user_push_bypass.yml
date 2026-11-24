@@ -1,0 +1,11 @@
+---
+name: security_policy_user_push_bypass
+description: Branch push that is blocked by a security policy is bypassed for configured
+  users
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/549797
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201001
+feature_category: security_policy_management
+milestone: '18.4'
+saved_to_database: true
+streamed: true
+scope: [Project]

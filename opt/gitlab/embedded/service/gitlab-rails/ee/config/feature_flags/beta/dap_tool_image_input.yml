@@ -1,0 +1,10 @@
+---
+name: dap_tool_image_input
+description: Gates tool-read image support in Duo Agent Platform flows (read_file returns actual images, including issue and MR uploads, instead of refusing binary files)
+feature_issue_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/work_items/2819
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254060
+rollout_issue_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/work_items/2806
+milestone: '19.5'
+group: group::agent developer
+type: beta
+default_enabled: true

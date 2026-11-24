@@ -1,0 +1,30 @@
+---
+description: >-
+  Tracks a duo agent platform session that pauses to wait for user input.
+  Not sent for chat or interactive Duo CLI sessions (including ACP),
+  which wait for input after every reply.
+internal_events: true
+status: active
+action: agent_platform_session_input_required
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Flow type, eg. workplan/v1
+  property:
+    description: Environment, eg. web
+  value:
+    description: Session id
+  verification_run:
+    description: Whether the session is a functional verification run, not real user activity. Verification runs are not billed.
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265289
+tiers:
+- premium
+- ultimate

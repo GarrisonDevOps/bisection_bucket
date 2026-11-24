@@ -1,0 +1,3 @@
+---
+name: stop_github_update
+description: Grants the ability to stop GitHub updates for a project imported with continuous sync

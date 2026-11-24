@@ -1,0 +1,12 @@
+---
+name: user_enable_passkey
+description:
+  A user enables passkey.
+  Group scope is only available for enterprise users.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/569463
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214530
+feature_category: system_access
+milestone: '18.7'
+saved_to_database: true
+streamed: true
+scope: [User, Group]

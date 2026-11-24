@@ -1,0 +1,10 @@
+---
+name: todos_list_api_rate_limit
+description: Enforce the per-user rate limit on listing to-do items with the REST API
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636103
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265469
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636396
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

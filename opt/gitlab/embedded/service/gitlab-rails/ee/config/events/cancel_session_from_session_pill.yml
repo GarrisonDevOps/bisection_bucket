@@ -1,0 +1,29 @@
+---
+description: Duo Agentic Chat user clicks the cancel button on a pinned active session pill
+internal_events: true
+status: active
+action: cancel_session_from_session_pill
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  workflow_id:
+    description: Workflow identifier associated with the pill being cancelled
+  session_id:
+    description: Unique identifier of the chat session where the pill was cancelled
+  flow_type:
+    description: Agent or flow type associated with the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- duo_chat
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257386
+tiers:
+- premium
+- ultimate
+classification: duo

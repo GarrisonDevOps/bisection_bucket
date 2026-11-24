@@ -1,0 +1,20 @@
+---
+data_category: operational
+key_path: usage_activity_by_stage.secure.project_apifuzzer_fuzz_dnd_jobs
+description: Distinct count of API fuzzer jobs per project
+product_group: dynamic_analysis
+product_categories:
+- fuzz_testing
+value_type: number
+status: active
+time_frame:
+- all
+- 28d
+instrumentation_class: CountProjectsCreatingCiBuildsMetric
+options:
+  secure_type: apifuzzer_fuzz_dnd
+data_source: database
+tiers:
+- ultimate
+milestone: "<18.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197151

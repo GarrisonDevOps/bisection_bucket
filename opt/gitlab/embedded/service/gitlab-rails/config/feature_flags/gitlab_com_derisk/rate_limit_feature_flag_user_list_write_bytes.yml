@@ -1,0 +1,10 @@
+---
+name: rate_limit_feature_flag_user_list_write_bytes
+description: Enforces the per-user rate limit on the bytes of feature flag user lists written through the REST API; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638255
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269126
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639017
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

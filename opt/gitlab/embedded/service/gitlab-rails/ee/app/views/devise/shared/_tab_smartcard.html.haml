@@ -1,0 +1,2 @@
+- if smartcard_enabled?
+  = gl_tab_link_to _('Smartcard'), '#smartcard', { item_active: form_based_auth_provider_has_active_class?(:smartcard), data: { toggle: 'tab' } }

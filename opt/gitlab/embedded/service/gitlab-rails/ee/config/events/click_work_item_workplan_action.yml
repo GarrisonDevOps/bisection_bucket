@@ -1,0 +1,30 @@
+---
+description: >-
+  A user clicked a button that starts or resumes workplan generation for a work
+  item. Sent on click, before the request is made, so it also counts clicks
+  whose run does not start.
+internal_events: true
+status: active
+action: click_work_item_workplan_action
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: |
+      The action clicked. One of `plan` (the Plan button that turns on AI
+      planning), `generate`, `regenerate`, `retry` (Try again after a failed
+      run) or `continue` (resume a run that waits for input).
+  property:
+    description: |
+      Where the button is. One of `plan_cta`, `inline_row` (the workplan row
+      in the work item) or `panel` (the open workplan panel).
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263716
+tiers:
+- premium
+- ultimate

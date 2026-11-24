@@ -1,0 +1,4 @@
+---
+name: update_git_rate_limit
+description: Grants the ability to set per-project thresholds for the Git HTTP and
+  Git-LFS request throttles

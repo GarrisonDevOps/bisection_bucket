@@ -1,0 +1,10 @@
+---
+name: duo_admin_access_rules_subgroups
+description: Allow administrators to select subgroups, not only top-level groups, in the GitLab Duo "Restrict access based on group membership" setting
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23483
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255453
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628453
+milestone: '19.5'
+group: group::ai control plane
+type: beta
+default_enabled: true

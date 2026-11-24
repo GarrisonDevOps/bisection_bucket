@@ -1,0 +1,17 @@
+data_category: optional
+key_path: counts.users_clicking_license_testing_visiting_external_website
+description: Total number of clicks on licence-compliance details to visit external information website
+product_group: composition_analysis
+value_type: number
+status: removed
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/152166
+milestone_removed: '17.1'
+milestone: '14.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/76917
+time_frame: all
+data_source: internal_events
+events:
+  - name: click_external_link_license_compliance
+tiers:
+  - premium
+  - ultimate

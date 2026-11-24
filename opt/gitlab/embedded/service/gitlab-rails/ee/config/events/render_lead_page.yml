@@ -1,0 +1,12 @@
+---
+description: Render lead page
+internal_events: true
+action: render_lead_page
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+milestone: '17.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/179844
+tiers:
+  - ultimate

@@ -1,0 +1,13 @@
+---
+title: Delete project
+name: remove_project
+description: Allows deletion of projects.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/425959
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/139696
+feature_category: groups_and_projects
+milestone: '16.8'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [50]
+project_permissions:
+  - remove_project

@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.quickactions.i_quickactions_clear_health_status
+description: Count of unique active users using the `/clear_health_status` quick action
+product_group: work_items
+product_categories:
+- team_planning
+value_type: number
+status: active
+milestone: "14.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/77215
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - i_quickactions_clear_health_status
+performance_indicator_type: []
+tiers:
+- ultimate

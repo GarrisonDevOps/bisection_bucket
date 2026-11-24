@@ -1,0 +1,19 @@
+---
+description: Tracks when Restricted Access is enabled. On GitLab.com, includes namespace context for per-group tracking. On self-managed, tracks instance-level Restricted Access enablement.
+internal_events: true
+action: restricted_access_enabled
+product_group: seat_management
+product_categories:
+  - seat_cost_management
+milestone: "18.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221781
+tiers:
+  - premium
+  - ultimate
+identifiers:
+  - namespace
+additional_properties:
+  subscription_tier:
+    description: The subscription tier of the namespace (Premium/Ultimate)
+  seat_count:
+    description: Current number of billable seats in the namespace

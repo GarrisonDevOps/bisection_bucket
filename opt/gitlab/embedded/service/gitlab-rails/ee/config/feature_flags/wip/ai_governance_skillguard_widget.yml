@@ -1,0 +1,9 @@
+---
+name: ai_governance_skillguard_widget
+description: Show the SkillGuard risky-skills card on the AI Governance dashboard
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629070
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255588
+milestone: '19.5'
+group: group::ai governance
+type: wip
+default_enabled: false

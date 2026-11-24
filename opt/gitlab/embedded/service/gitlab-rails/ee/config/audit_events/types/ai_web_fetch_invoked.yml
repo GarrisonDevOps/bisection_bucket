@@ -1,0 +1,10 @@
+---
+name: ai_web_fetch_invoked
+description: A web page was fetched by an AI agent in GitLab Duo Chat.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/604065
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258921
+feature_category: duo_agent_platform
+milestone: '19.5'
+saved_to_database: true
+streamed: true
+scope: [Project, Group]

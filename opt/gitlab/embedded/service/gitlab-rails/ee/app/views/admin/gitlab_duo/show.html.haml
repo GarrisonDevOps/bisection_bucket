@@ -1,0 +1,9 @@
+-# EE:Self Managed
+- gitlab_duo_text = _('GitLab Duo')
+- page_title gitlab_duo_text
+- breadcrumb_title gitlab_duo_text
+
+- if !Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+  = render_if_exists 'shared/ai_model_deprecation_alert'
+
+#js-gitlab-duo-admin-page{ data: Admin::AiPresenter.new(current_user).settings }

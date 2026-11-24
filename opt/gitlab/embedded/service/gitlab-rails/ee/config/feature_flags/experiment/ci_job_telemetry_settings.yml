@@ -1,0 +1,10 @@
+---
+name: ci_job_telemetry_settings
+description: Gates the CI job telemetry OTEL endpoint application setting
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/591941
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230213
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/596495
+milestone: '19.0'
+group: group::ci platform
+type: experiment
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+table_name: virtual_registries_packages_maven_cache_remote_entry_registry
+description: The registry table to track replication and verification of VirtualRegistries::Packages::Maven::Cache::Remote::Entry objects
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222656
+milestone: '18.10'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::VirtualRegistriesPackagesMavenCacheRemoteEntryRegistry
+gitlab_schema: gitlab_geo

@@ -1,0 +1,10 @@
+---
+name: ai_catalog_flow_sub_agent_refused
+description: A session asked for an AI Catalog sub-agent and GitLab refused it. The user cannot read it, it is outside the group hierarchy of the flow, it is not visible to the flow, it has no released version, or custom agents are turned off
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/628315
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263003
+feature_category: ai_catalog_curation
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

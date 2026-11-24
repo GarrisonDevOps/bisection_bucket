@@ -1,0 +1,11 @@
+---
+name: IndexWorkItemsMilestoneState
+version: '20250717120142'
+description: Adds milestone state to work items index to be able to perform a proper
+  search on upcoming and started milestones.
+group: group::global search
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198100
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213096
+marked_obsolete_in_milestone: '18.7'

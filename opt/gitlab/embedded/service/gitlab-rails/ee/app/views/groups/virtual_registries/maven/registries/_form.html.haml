@@ -1,0 +1,18 @@
+= gitlab_ui_form_for @maven_registry, as: :maven_registry, url: url, html: { class: 'js-quick-submit gl-w-9/12' } do |f|
+  = form_errors(@maven_registry)
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: "gl-form-input form-control", required: true, autofocus: true
+
+  .form-group
+    = f.label :description, _("Description (optional)")
+    = f.text_area :description, class: "gl-form-input form-control", rows: 2
+  .gl-flex.gl-gap-3
+    - if @maven_registry.persisted?
+      = f.submit _('Save changes'), pajamas_button: true
+    - else
+      = f.submit s_('VirtualRegistry|Create registry'), pajamas_button: true
+    = render Pajamas::ButtonComponent.new(href: cancel_path) do
+      = _('Cancel')
+

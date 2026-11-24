@@ -1,0 +1,10 @@
+---
+name: stale_runner_manager_cleanup_by_partition
+description: Delete stale runner managers from every runner type partition, with a configurable budget and loose foreign key back-pressure
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636728
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268830
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638874
+milestone: '19.6'
+group: group::runner core
+type: gitlab_com_derisk
+default_enabled: false

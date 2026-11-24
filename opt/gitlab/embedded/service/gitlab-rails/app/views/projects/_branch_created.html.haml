@@ -1,0 +1,10 @@
+= render Pajamas::AlertComponent.new(variant: :success,
+  alert_options: { class: 'gl-mt-3', data: { testid: 'branch-created-alert' } }) do |c|
+  - c.with_body do
+    - branch_link = render('projects/branch_name_with_copy', project: @project, branch_name: branch_name)
+    = safe_format(_('Branch %{branch_name} was created.'), branch_name: branch_link)
+
+  - if create_mr_button?(source_project: @project, from: branch_name)
+    - c.with_actions do
+      = render Pajamas::ButtonComponent.new(size: :small, variant: :confirm, href: create_mr_path(from: branch_name, source_project: @project), button_options: { data: { testid: 'create-merge-request-button' } }) do
+        = _('Create merge request')

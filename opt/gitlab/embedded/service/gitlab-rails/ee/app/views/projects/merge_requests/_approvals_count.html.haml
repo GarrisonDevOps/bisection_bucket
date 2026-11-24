@@ -1,0 +1,17 @@
+- if merge_request.approval_needed?
+  - approved = merge_request.approved?
+  - self_approved = merge_request.approved_by?(current_user)
+  - given = merge_request.approvals_given
+  - required = merge_request.approvals_required
+
+  - approved_text = _("Required approvals (%{approvals_given} of %{required} given, you've approved)") % { approvals_given: given, required: required }
+  - unapproved_text = _("Required approvals (%{approvals_given} of %{required} given)") % { approvals_given: given, required: required }
+  - approval_tooltip = self_approved ? approved_text : unapproved_text
+  - approval_icon = approved ? 'check' : 'approval'
+  - approval_icon = self_approved ? 'approval-solid' : approval_icon
+  - badge_variant = approved ? :success : :neutral
+  - badge_label = approved ? _("Approved") : _("%{approvals_given} of %{required} Approvals") % { approvals_given: given, required: required }
+
+  %li.gl-flex{ class: '!gl-mr-0' }= render Pajamas::BadgeComponent.new(badge_label, variant: badge_variant, icon: approval_icon, title: approval_tooltip, class: 'has-tooltip', data: { 'testid': 'mr-approvals' })
+- else
+  = render_ce "projects/merge_requests/approvals_count", merge_request: merge_request

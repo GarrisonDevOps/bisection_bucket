@@ -1,0 +1,4 @@
+---
+name: Artifact Registry Role Assignment
+description: A role a user holds on an Artifact Registry resource, such as the organization's registry namespace
+feature_category: artifact_registry

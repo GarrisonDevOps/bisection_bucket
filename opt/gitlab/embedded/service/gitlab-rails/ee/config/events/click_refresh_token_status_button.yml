@@ -1,0 +1,19 @@
+---
+description: Triggering refresh of token status via the UI
+internal_events: true
+status: active
+action: click_refresh_token_status_button
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Which UI did the button get clicked from (VulnerabilityDetails || SecurityDashboard)
+product_group: secret_detection
+product_categories:
+  - secret_detection
+milestone: '18.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/208574
+tiers:
+  - ultimate

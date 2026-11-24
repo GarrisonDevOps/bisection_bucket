@@ -1,0 +1,20 @@
+---
+description: Secret detection findings processed by UpdateTokenStatusService to verify token validity status
+internal_events: true
+status: active
+action: number_of_tokens_processed_by_token_status_service
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Type of pipeline that triggered token status processing (security or vulnerability)
+  value:
+    description: Number of secret detection findings sent to UpdateTokenStatusService for processing
+product_group: secret_detection
+product_categories:
+- secret_detection
+milestone: '18.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207996
+tiers:
+- ultimate

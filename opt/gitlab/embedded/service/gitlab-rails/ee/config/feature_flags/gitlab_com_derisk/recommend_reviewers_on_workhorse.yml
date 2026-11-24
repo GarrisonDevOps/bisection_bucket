@@ -1,0 +1,10 @@
+---
+name: recommend_reviewers_on_workhorse
+description: Run the Recommend Reviewers flow on Workhorse with no coding environment instead of in CI
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635674
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267985
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636378
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,17 @@
+---
+description: Project runner provisioned in Google Cloud through GRIT
+internal_events: true
+action: provision_project_runner_on_google_cloud
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: runner_core
+product_categories:
+  - runner_core
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/146063
+tiers:
+  - free
+  - premium
+  - ultimate

@@ -1,0 +1,16 @@
+- return unless onboarding_status_presenter.show_joining_project?
+
+.row
+  .form-group.gl-col-sm-12
+    = f.label :onboarding_status_joining_project, _('What would you like to do?')
+    .gl-flex.gl-flex-col
+      .gl-grow.gl-mb-2
+        = f.gitlab_ui_radio_component :onboarding_status_joining_project, false, _('Create a new project'),
+          help_text: _('Build a new repository or import existing work.'),
+          radio_options: { required: true, class: 'js-track-error',
+            data: { track_action_for_errors: onboarding_status_presenter.tracking_label } },
+          label_options: { data: { testid: 'create-a-new-project-radio' } }
+      .gl-grow
+        = f.gitlab_ui_radio_component :onboarding_status_joining_project, true, _('Join an existing project'),
+        help_text: _('Connect with your team and collaborate on a project.'),
+          radio_options: { required: true }

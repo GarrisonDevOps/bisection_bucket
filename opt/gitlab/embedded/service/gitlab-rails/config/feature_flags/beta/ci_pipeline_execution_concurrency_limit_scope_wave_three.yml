@@ -1,0 +1,12 @@
+---
+name: ci_pipeline_execution_concurrency_limit_scope_wave_three
+description: Caps each top-level group at a share of the Sidekiq concurrency limit of
+  PipelineProcessWorker, Ci::ArchiveTraceWorker, Ci::BuildTraceChunkFlushWorker and
+  Ci::ExecuteBuildHooksWorker.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/24422
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269313
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639186
+milestone: '19.6'
+group: group::pipeline execution
+type: beta
+default_enabled: false

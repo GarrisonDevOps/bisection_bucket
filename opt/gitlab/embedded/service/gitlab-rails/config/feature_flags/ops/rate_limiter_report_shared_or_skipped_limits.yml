@@ -1,0 +1,10 @@
+---
+name: rate_limiter_report_shared_or_skipped_limits
+description: Reports rate-limit calls whose scope has no value for any rule characteristic, or that pass resource for a rule without count_distinct. Turn off to stop the error-tracking events without a deploy.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637551
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268219
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638589
+milestone: '19.6'
+group: group::Networking & Incident Management
+type: ops
+default_enabled: true

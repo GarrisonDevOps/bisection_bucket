@@ -1,0 +1,41 @@
+- page_title _('Domain Verification')
+
+= render ::Layouts::IndexLayout.new(heading: _('Domain Verification')) do |layout|
+  - layout.with_description do
+    = s_('DomainVerification|The following domains are configured for projects in this group. Users with email addresses that match a verified domain do not need to confirm their account.')
+    = link_to s_('DomainVerification|How do I configure a domain?'), help_page_path('user/enterprise_user/_index.md', anchor: 'manage-group-domains')
+
+  = render ::Layouts::CrudComponent.new(_('Domains'),
+    icon: 'link',
+    count: @domains.size) do |c|
+    - c.with_actions do
+      = render Pajamas::ButtonComponent.new(size: :small, href: new_group_settings_domain_verification_path(@group)) do
+        = s_("DomainVerification|Add Domain")
+    - c.with_body do
+      .table-holder
+        %table.table.b-table.gl-table.b-table-stacked-md{ role: 'table' }
+          %thead
+            %tr
+              %th= _('Domain')
+              %th= _('Source project')
+              %th= _('Verification status')
+              %th.gl-text-right= _('Actions')
+          %tbody
+            %tr.js-domain-empty-state{ class: @domains.empty? ? '' : '!gl-hidden' }
+              %td{ colspan: 4, class: '!gl-py-6 !gl-text-center' }
+                = s_("DomainVerification|No domains configured. Create a domain in a project in this group hierarchy.")
+            - @domains.each do |domain|
+              %tr.js-domain-row{ id: "domain#{domain.id}" }
+                %td{ class: '!gl-align-middle', data: { label: _('Domain') } }
+                  = domain.domain
+                %td{ class: '!gl-align-middle', data: { label: _('Source project') } }
+                  - project = domain.project
+                  = link_to project.full_path, project_path(project)
+                %td{ class: '!gl-align-middle', data: { label: _('Verification status') } }
+                  = domain.verified? ? _('Verified') : _('Unverified')
+                %td{ data: { label: _('Actions') } }
+                  .btn-group.gl-float-right.-gl-mt-2.-gl-mb-2{ class: '!gl-text-left !gl-pl-0' }
+                    - if can_verify_group_domain?(domain)
+                      = render Pajamas::ButtonComponent.new(icon: "redo", href: verify_group_settings_domain_verification_path(@group, domain), button_options: { data: { method: :post } })
+                    = render Pajamas::ButtonComponent.new(icon: "pencil", href: group_settings_domain_verification_path(@group, domain))
+                    = render Pajamas::ButtonComponent.new(category: :secondary, variant: :danger, icon: "remove", href: group_settings_domain_verification_path(@group, domain), button_options: { data: { confirm: s_("DomainVerification|Are you sure you want to delete this domain?"), confirm_btn_variant: "danger", remote: true, method: :delete, title: s_("DomainVerification|Delete domain") }, 'aria-label': s_("DomainVerification|Delete domain"), class: "js-remove-domain" })

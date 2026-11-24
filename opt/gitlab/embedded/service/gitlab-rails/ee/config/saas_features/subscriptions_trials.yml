@@ -1,0 +1,5 @@
+---
+name: subscriptions_trials
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/15490
+milestone: '12.3'
+group: group::acquisition

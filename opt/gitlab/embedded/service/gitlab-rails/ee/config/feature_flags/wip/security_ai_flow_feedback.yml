@@ -1,0 +1,10 @@
+---
+name: security_ai_flow_feedback
+description: Lets users submit feedback on AI flow results, such as SAST false positive detection, as internal events
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636350
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265540
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636355
+milestone: '19.6'
+group: group::agentic security flows
+type: wip
+default_enabled: false

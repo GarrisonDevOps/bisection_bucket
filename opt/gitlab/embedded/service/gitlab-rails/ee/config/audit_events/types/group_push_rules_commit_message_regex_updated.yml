@@ -1,0 +1,10 @@
+---
+name: group_push_rules_commit_message_regex_updated
+description: A group's push rules settings is changed for commit message regex
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/369341
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/105791
+feature_category: source_code_management
+milestone: '15.7'
+saved_to_database: true
+streamed: true
+scope: [Group]

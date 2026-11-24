@@ -1,0 +1,10 @@
+---
+name: pages_domain_deleted
+description: A Pages domain is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/545633
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249228
+feature_category: pages
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Project]

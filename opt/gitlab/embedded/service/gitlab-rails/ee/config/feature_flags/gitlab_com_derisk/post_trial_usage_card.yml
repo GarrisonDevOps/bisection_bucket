@@ -1,0 +1,10 @@
+---
+name: post_trial_usage_card
+description: Shows Free group owners a dismissible card on the Billing page with the seats, compute minutes and GitLab Credits their group used during an Ultimate trial that ended in the last 45 days
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/625030
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265235
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636216
+milestone: '19.6'
+group: group::engagement
+type: gitlab_com_derisk
+default_enabled: false

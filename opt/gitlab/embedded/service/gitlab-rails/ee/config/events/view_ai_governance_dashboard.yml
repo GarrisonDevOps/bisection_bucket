@@ -1,0 +1,17 @@
+---
+description: A user viewed the AI Governance dashboard. Fires each time the Dashboard tab is shown, including a return to it from another tab
+internal_events: true
+status: active
+action: view_ai_governance_dashboard
+identifiers:
+- user
+- namespace
+- project
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+tiers:
+- premium
+- ultimate

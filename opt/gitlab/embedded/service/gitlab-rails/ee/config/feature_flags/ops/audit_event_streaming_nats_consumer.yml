@@ -1,0 +1,14 @@
+---
+name: audit_event_streaming_nats_consumer
+description: Kill switch for the NATS audit event streaming consumer
+  (AuditEvents::Streaming::NatsConsumerWorker). Allows the consumer to be
+  deployed dark and paused operationally without unconfiguring NATS.
+  Unconsumed messages remain in the JetStream stream and are drained once
+  the flag is re-enabled.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/17582
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251632
+rollout_issue_url:
+milestone: '19.4'
+group: group::compliance
+type: ops
+default_enabled: false

@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User preference for mobile push working hours",
+  "description": "Daily window in minutes after local midnight, the weekdays it applies to and the IANA zone it is defined in. Keys are the store keys of the jsonb_accessor in UserPreference.",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean"
+    },
+    "start": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1439
+    },
+    "end": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1439
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "time_zone": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 64
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+- content_for(:title, 'Access Denied')
+- content_for(:body_class, '!gl-bg-default')
+
+.gl-max-w-80.gl-mx-auto.gl-text-center
+  = image_tag('illustrations/empty-state/empty-access-md.svg', alt: '403', lazy: false)
+  %h1.gl-text-size-h-display
+    = s_('DuoProTrial|You do not have access to trial GitLab Duo')
+  .gl-mt-3
+    = s_('DuoProTrial|To start a GitLab Duo trial, you must have the Owner role of a top-level group that has an active subscription or trial.')
+  .gl-mt-3.gl-flex.gl-items-center.gl-justify-center.gl-flex-col.gl-gap-3{ class: '@sm/panel:gl-flex-row' }
+    .gl-w-full{ class: '@sm/panel:gl-w-auto' }
+      .js-go-back
+    %form.gl-w-full{ class: '@sm/panel:gl-w-auto', action: destroy_user_session_path, method: :post }
+      = render Pajamas::ButtonComponent.new(type: :submit, button_options: { class: 'gl-w-full' }) do
+        = s_('DuoProTrial|Sign in with a different account')

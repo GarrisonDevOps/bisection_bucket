@@ -1,0 +1,5 @@
+- form = local_assigns.fetch(:form)
+
+#js-admin-settings-user-private-profile-restrictions
+  = form.hidden_field :make_profile_private, data: { js_name: 'allowPrivateProfiles' }
+  = form.hidden_field :user_defaults_to_private_profile, data: { js_name: 'defaultToPrivateProfiles' }

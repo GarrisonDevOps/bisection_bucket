@@ -1,0 +1,10 @@
+---
+name: ci_instance_variable_created
+description: A CI/CD variable is created for an instance
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/8070
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131882
+feature_category: continuous_integration
+milestone: '16.5'
+saved_to_database: true
+streamed: true
+scope: [Instance]

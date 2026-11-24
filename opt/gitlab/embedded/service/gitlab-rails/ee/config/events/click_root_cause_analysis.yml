@@ -1,0 +1,19 @@
+---
+description: Tracks clicks on the root cause analysis button
+internal_events: true
+action: click_root_cause_analysis
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Page where button is located. Can be `jobs_show` or `pipelines_index_failed_job_details`
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177098
+tiers:
+- premium
+- ultimate

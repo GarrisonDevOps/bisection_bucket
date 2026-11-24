@@ -1,0 +1,31 @@
+---
+title: Manage push rules
+name: admin_push_rules
+description: Configure push rules for repositories at the group or project level.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/421786
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/147872
+feature_category: source_code_management
+milestone: '16.11'
+group_ability: true
+enabled_for_group_access_levels: [40, 50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - admin_push_rules
+  - change_commit_committer_check
+  - change_commit_committer_name_check
+  - change_push_rules
+  - change_reject_non_dco_commits
+  - change_reject_unsigned_commits
+  - read_commit_committer_check
+  - read_commit_committer_name_check
+  - read_reject_non_dco_commits
+  - read_reject_unsigned_commits
+group_permissions:
+  - admin_push_rules
+  - change_commit_committer_check
+  - change_commit_committer_name_check
+  - change_push_rules
+  - change_reject_non_dco_commits
+  - change_reject_unsigned_commits

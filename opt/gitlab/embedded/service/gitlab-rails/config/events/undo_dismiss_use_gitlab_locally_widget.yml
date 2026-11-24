@@ -1,0 +1,15 @@
+---
+description: When a user selects Undo after removing the Use GitLab locally widget from the personal homepage
+internal_events: true
+action: undo_dismiss_use_gitlab_locally_widget
+identifiers:
+- user
+product_group: activation
+product_categories:
+- navigation
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265799
+tiers:
+- free
+- premium
+- ultimate

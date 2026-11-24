@@ -1,0 +1,16 @@
+- label = local_assigns.fetch(:label)
+- title = local_assigns.fetch(:title)
+- description = local_assigns.fetch(:description)
+- help_link_text = local_assigns.fetch(:help_link_text)
+- help_path = local_assigns.fetch(:help_path)
+- testid = local_assigns.fetch(:testid)
+- content = capture do
+  %p.gl-mb-3= description
+  = link_to(help_link_text, help_path, target: '_blank', rel: 'noopener noreferrer', class: 'gl-link gl-block')
+  - if can?(current_user, :read_project_member, @project)
+    = link_to(s_('ProjectPage|View project members'), project_project_members_path(@project), class: 'gl-link gl-block gl-mt-2')
+
+%li.gl-leading-1
+  = render Pajamas::ButtonComponent.new(variant: :link, icon: 'lock',
+    button_options: { class: 'gl-text-default', data: { testid: testid, toggle: 'popover', html: 'true', triggers: 'click blur', placement: 'bottom', container: 'body', title: title, content: content } }) do
+    = label

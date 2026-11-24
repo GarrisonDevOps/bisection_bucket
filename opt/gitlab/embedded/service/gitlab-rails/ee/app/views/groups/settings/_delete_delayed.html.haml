@@ -1,0 +1,8 @@
+- remove_form_id = local_assigns.fetch(:remove_form_id, nil)
+- linked_configurations = security_configurations_preventing_group_deletion(@group)
+
+- if linked_configurations[:limited_configurations].empty?
+  = render_ce 'groups/settings/delete_delayed', remove_form_id: remove_form_id
+- else
+  = form_tag(@group, method: :delete, id: remove_form_id) do
+    = render_if_exists 'groups/settings/delete_button_with_security_policies', linked_configurations: linked_configurations

@@ -1,0 +1,10 @@
+---
+name: todo_for_comment
+description: Lets a user add a to-do item for a specific comment in a discussion thread on an issue or merge request.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/628762
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251726
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639189
+milestone: '19.6'
+group: group::personal productivity
+type: beta
+default_enabled: false

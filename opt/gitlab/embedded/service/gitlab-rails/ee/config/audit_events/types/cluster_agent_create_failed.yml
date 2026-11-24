@@ -1,0 +1,10 @@
+---
+name: cluster_agent_create_failed
+description: A user attempts to create a cluster agent but it failed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/462749
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/159593
+feature_category: deployment_management
+milestone: '17.3'
+saved_to_database: true
+streamed: true
+scope: [Project]

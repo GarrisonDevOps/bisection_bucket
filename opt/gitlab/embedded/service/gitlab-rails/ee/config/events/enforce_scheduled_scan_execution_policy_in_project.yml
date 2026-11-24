@@ -1,0 +1,23 @@
+---
+description: Active Scan Execution Policy enforcing scheduled scans to run
+internal_events: true
+action: enforce_scheduled_scan_execution_policy_in_project
+identifiers:
+- project
+- namespace
+additional_properties:
+  value:
+    description: Number of enforced scans
+  label:
+    description: Result of creating a pipeline
+  property:
+    description: Source of the policy (project or group)
+  time_window:
+    description: Whether the time_window was used to distribute the scheduled scans or not
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170449
+tiers:
+- ultimate

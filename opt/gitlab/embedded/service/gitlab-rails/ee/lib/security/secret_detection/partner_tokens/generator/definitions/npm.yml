@@ -1,0 +1,25 @@
+# 403 is deliberately unmapped: npm granular tokens can carry IP
+# allowlists, and a restricted-but-live token must never read as inactive.
+---
+token_type: "npm access token"
+class_name: "NpmClient"
+# The vendor spells itself lowercase; without this the class name would
+# derive 'Npm' into user-facing error messages.
+partner_name: "npm"
+endpoint: "https://registry.npmjs.org/-/whoami"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Anpm_[A-Za-z0-9]{36}\z'
+# Filler characters only, never a real credential; low entropy also keeps
+# the committed sample below the secrets-detection pre-commit threshold.
+sample_token: "npm_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_npm_api"
+doc_url: "https://docs.npmjs.com/cli/v11/commands/npm-whoami"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

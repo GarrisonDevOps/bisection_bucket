@@ -1,0 +1,11 @@
+- page_title _('Webhooks')
+- add_page_specific_style 'page_bundles/settings'
+-# rubocop:disable Gitlab/AvoidOrganizationUrlRoutes -- org admin routes have no global equivalent
+- form_url = organization_admin_settings_hooks_path(@organization)
+-# rubocop:enable Gitlab/AvoidOrganizationUrlRoutes
+
+= render ::Layouts::SettingsSectionComponent.new(page_title) do |c|
+  - c.with_description do
+    = render 'shared/web_hooks/description', hook: @hook
+  - c.with_body do
+    = render 'shared/web_hooks/index', hooks: @hooks, title: page_title, partial: 'shared/web_hooks/form', url: form_url, organization: @organization

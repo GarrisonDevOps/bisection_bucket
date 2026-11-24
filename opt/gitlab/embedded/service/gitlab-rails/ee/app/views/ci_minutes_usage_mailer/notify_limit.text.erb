@@ -1,0 +1,3 @@
+<%= s_("Pipelines|The %{namespace_name} (%{namespace_url}) namespace has %{current_balance} / %{total} (%{percentage}%%) shared runner compute minutes remaining. For more details, see usage statistics: %{usage_statistics_link}") % { namespace_name: @namespace.name, namespace_url: group_url(@namespace), usage_statistics_link: group_usage_quotas_url(@namespace, anchor: 'pipelines-quota-tab'), current_balance: @current_balance, total: @total, percentage: @percentage } %>
+
+<%= s_("Pipelines|When all compute minutes are used up, no new jobs or pipelines will run in this namespace's projects. To avoid any interruption of service you can buy additional compute minutes: %{buy_link}") % { buy_link: buy_additional_minutes_url(@namespace) } %>

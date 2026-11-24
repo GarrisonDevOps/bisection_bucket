@@ -1,0 +1,10 @@
+---
+name: member_updated
+description: A member's default or custom role or expiration date is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/374112
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/109711
+feature_category: permissions
+milestone: '15.9'
+saved_to_database: true
+streamed: true
+scope: ["Group", "Project"]

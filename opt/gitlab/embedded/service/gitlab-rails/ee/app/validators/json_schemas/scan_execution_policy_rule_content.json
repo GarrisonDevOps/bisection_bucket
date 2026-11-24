@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Scan execution rules",
+  "type": "object",
+  "oneOf": [
+    {
+      "required": [
+        "branches"
+      ]
+    },
+    {
+      "required": [
+        "branch_type"
+      ]
+    },
+    {
+      "required": [
+        "agents"
+      ]
+    }
+  ],
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "description": "Specifies when this policy should be enforced. `pipeline` indicates that given policy should be enforced for the pipeline started for the branch matching one of the defined in `branches` field. `schedule` indicates that given policy should execute defined `actions` on specified `cadence`.",
+      "enum": [
+        "pipeline",
+        "schedule"
+      ],
+      "type": "string"
+    },
+    "branches": {
+      "type": "array",
+      "additionalItems": false,
+      "description": "Used to specify a list of branches that should enforce this policy. Supports wildcard (ie. `*` or `release-*`). Supported only when `type` is set to `pipeline`.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "branch_type": {
+      "type": "string",
+      "description": "Which types of branches to scan.",
+      "enum": [
+        "default",
+        "protected",
+        "all",
+        "target_default",
+        "target_protected"
+      ]
+    },
+    "branch_exceptions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "full_path": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "name",
+              "full_path"
+            ]
+          }
+        ]
+      }
+    },
+    "cadence": {
+      "description": "Specifies when this policy should schedule a new pipeline with enforced `actions`. Uses cron expression as a format (ie. `0 22 * * 1-5`). Supported only when `type` is set to `schedule`.",
+      "type": "string",
+      "pattern": "(@(yearly|annually|monthly|weekly|daily|midnight|noon|hourly))|(((\\*|(\\-?\\d+\\,?)+)(\\/\\d+)?|last|L|(sun|mon|tue|wed|thu|fri|sat|SUN|MON|TUE|WED|THU|FRI|SAT\\-|\\,)+|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|\\-|\\,)+)\\s?){5,6}"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "Time zone to apply to the cadence. Value must be an IANA Time Zone Database identifier, for example: `America/New_York`."
+    },
+    "time_window": {
+      "description": "Specifies for how long the scheduled scans are allowed to run",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "distribution": {
+          "description": "Specifies how the scheduled scans should be distributed.",
+          "type": "string",
+          "enum": [
+            "random"
+          ]
+        },
+        "value": {
+          "description": "Specifies the time window in seconds. Min: 1 hour, Max: 30 days. Capped to not exceed the schedule interval.",
+          "type": "integer",
+          "minimum": 3600,
+          "maximum": 2629746
+        }
+      },
+      "required": [
+        "distribution",
+        "value"
+      ]
+    },
+    "agents": {
+      "type": "object",
+      "description": "Specifies names of the GitLab agents where cluster image scanning will run.",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$": {
+          "type": "object",
+          "description": "Specifies the name of the Kubernetes cluster configured for your project in GitLab.",
+          "additionalProperties": false,
+          "properties": {
+            "namespaces": {
+              "type": "array",
+              "description": "Specifies Kubernetes namespaces where resources will be scanned.",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "pipeline_sources": {
+      "type": "object",
+      "description": "Specifies which pipeline sources this policy should be applied to (only for pipeline type).",
+      "properties": {
+        "including": {
+          "type": "array",
+          "description": "Which pipeline source to apply scan to (only for pipeline type).",
+          "items": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "push",
+              "web",
+              "trigger",
+              "schedule",
+              "api",
+              "external",
+              "pipeline",
+              "chat",
+              "merge_request_event",
+              "external_pull_request_event"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "if": {
+    "properties": {
+      "type": {
+        "const": "schedule"
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "cadence"
+    ]
+  },
+  "additionalProperties": false
+}

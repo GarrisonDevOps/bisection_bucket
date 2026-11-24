@@ -1,0 +1,18 @@
+- project = local_assigns.fetch(:project)
+- import_sync_repository = project.import_sync_repository if project.github_import?
+
+- if can?(current_user, :read_github_update, project) && show_github_updates_settings?(import_sync_repository)
+  -# The panel shows the same status, and the banner would stay stale after a stop on this page.
+  - @hide_github_updates_notice = true
+  = render ::Layouts::SettingsBlockComponent.new(s_('GithubUpdatesSettings|GitHub updates'),
+    id: 'github-updates',
+    testid: 'github-updates-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = s_('GithubUpdatesSettings|Keep this project updated with changes from GitHub, or stop updates to make changes in GitLab.')
+    - c.with_body do
+      = render ::Layouts::CrudComponent.new(s_('GithubUpdatesSettings|Updates from GitHub')) do |crud|
+        - crud.with_body do
+          #js-github-updates-settings{ data: github_updates_settings_data(project, import_sync_repository) }
+            %p.gl-mb-0.gl-text-subtle
+              = s_('GithubUpdatesSettings|Loading GitHub update settings…')

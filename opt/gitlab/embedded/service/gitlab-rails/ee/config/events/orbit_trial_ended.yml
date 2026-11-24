@@ -1,0 +1,14 @@
+---
+description: An Orbit trial of a top-level group ended, and GitLab turned off Orbit
+internal_events: true
+action: orbit_trial_ended
+identifiers:
+- namespace
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259182
+tiers:
+- premium
+- ultimate

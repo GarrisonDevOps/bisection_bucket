@@ -1,0 +1,10 @@
+- return unless @project&.ci_cancellation_restriction&.feature_available?
+
+- form = local_assigns.fetch(:form)
+
+.form-group{ data: { testid: 'pipeline-cancel-restrictions' } }
+  = form.label :restrict_pipeline_cancellation_role, class: 'label-bold' do
+    = _('Minimum role required to cancel a pipeline or job')
+  = form.gitlab_ui_radio_component :restrict_pipeline_cancellation_role, :developer, s_('CICD|Developer')
+  = form.gitlab_ui_radio_component :restrict_pipeline_cancellation_role, :maintainer, s_('CICD|Maintainer')
+  = form.gitlab_ui_radio_component :restrict_pipeline_cancellation_role, :no_one, s_('CICD|Pipelines and jobs cannot be cancelled')

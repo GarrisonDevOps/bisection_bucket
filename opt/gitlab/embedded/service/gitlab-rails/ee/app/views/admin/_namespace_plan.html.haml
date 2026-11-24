@@ -1,0 +1,8 @@
+- return unless ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+
+.form-group.gl-form-group{ role: 'group' }
+  = f.label :plan, class: 'gl-block col-form-label'
+  = f.fields_for :gitlab_subscription do |f|
+    = f.select :hosted_plan_name_uid, ::GitlabSubscriptions::SystemDefined::Plan.all.map { |plan| [plan.title, plan.plan_name_uid_before_type_cast] },
+      { include_blank: _('No plan') },
+      class: 'gl-form-select custom-select', data: { testid: 'plan-dropdown' }

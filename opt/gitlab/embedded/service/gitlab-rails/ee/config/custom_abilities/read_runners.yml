@@ -1,0 +1,18 @@
+---
+title: View runners
+name: read_runners
+description: Allows read-only access to group or project runners,
+  including the runner fleet dashboard.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/468202
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/156798
+feature_category: runner
+milestone: '17.2'
+group_ability: true
+enabled_for_group_access_levels: [25, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 40, 50]
+group_permissions:
+  - read_group_all_available_runners
+  - read_runners
+project_permissions:
+  - read_runners

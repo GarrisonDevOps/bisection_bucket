@@ -1,0 +1,10 @@
+---
+name: duo_tool_call_denied
+description: A single tool call was denied in a Duo workflow session (approval_scope once)
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/628438
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255538
+feature_category: duo_agent_platform
+milestone: '19.5'
+saved_to_database: false
+streamed: true
+scope: [Group, Project]

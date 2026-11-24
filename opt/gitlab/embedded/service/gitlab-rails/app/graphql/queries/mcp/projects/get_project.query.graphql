@@ -1,0 +1,22 @@
+# @feature_category: mcp_server
+query mcpGetProject($fullPath: ID!, $includeWorkItemTypes: Boolean = false) {
+  project(fullPath: $fullPath) {
+    id
+    fullPath
+    visibility
+    webUrl
+    repository {
+      rootRef
+    }
+    workItemTypes @include(if: $includeWorkItemTypes) {
+      nodes {
+        id
+        name
+        iconName
+        widgetDefinitions {
+          type
+        }
+      }
+    }
+  }
+}

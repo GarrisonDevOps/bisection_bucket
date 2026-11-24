@@ -1,0 +1,5 @@
+---
+name: enforce_language_server_version_on_dedicated
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260323
+milestone: '19.6'
+group: group::editor extensions

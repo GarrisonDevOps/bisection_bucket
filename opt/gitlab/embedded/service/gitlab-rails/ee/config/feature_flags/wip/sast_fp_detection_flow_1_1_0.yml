@@ -1,0 +1,10 @@
+---
+name: sast_fp_detection_flow_1_1_0
+description: Runs SAST false-positive detection with flow 1.1.0-dev, which passes the scanner's identifiers and code flows to the FP agent.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633792
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264179
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636992
+milestone: '19.6'
+group: group::agentic security flows
+type: wip
+default_enabled: false

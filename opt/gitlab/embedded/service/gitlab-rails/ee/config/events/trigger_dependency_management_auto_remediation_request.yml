@@ -1,0 +1,18 @@
+---
+description: Triggered when a dependency management auto-remediation request is dispatched
+internal_events: true
+status: active
+action: trigger_dependency_management_auto_remediation_request
+identifiers:
+  - project
+  - namespace
+additional_properties:
+  purl_type:
+    description: The PURL type of the dependency (e.g. gem, npm, pypi)
+product_group: composition_analysis
+product_categories:
+  - dependency_management
+milestone: "19.1"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237571
+tiers:
+  - ultimate

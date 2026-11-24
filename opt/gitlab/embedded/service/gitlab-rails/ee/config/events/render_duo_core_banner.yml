@@ -1,0 +1,13 @@
+---
+description: Render duo core banner
+internal_events: true
+action: render_duo_core_banner
+identifiers:
+  - namespace
+  - user
+product_group: activation
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192008
+tiers:
+  - premium
+  - ultimate

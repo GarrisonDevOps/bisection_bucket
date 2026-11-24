@@ -1,0 +1,10 @@
+---
+name: ci_job_telemetry
+description: Enables job telemetry feature negotiation in CI job requests
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/590588
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224252
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/590939
+milestone: '18.10'
+group: group::ci platform
+type: beta
+default_enabled: false

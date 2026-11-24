@@ -1,0 +1,9 @@
+---
+name: activate_nonbillable_users_over_instance_user_cap
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/361563
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/142468
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/439520
+milestone: '16.9'
+group: group::utilization
+type: wip
+default_enabled: false

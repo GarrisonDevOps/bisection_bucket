@@ -1,0 +1,16 @@
+---
+description: User clicks Invite members in the sidebar of the top-level group overview page
+internal_events: true
+action: click_invite_members_on_group_overview
+identifiers:
+- namespace
+- user
+product_group: acquisition
+product_categories:
+- onboarding
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265967
+tiers:
+- free
+- premium
+- ultimate

@@ -1,0 +1,21 @@
+---
+token_type: "PostHogPersonalAPIkey"
+class_name: "PosthogClient"
+partner_name: "posthog"
+endpoints:
+  - "https://us.posthog.com/api/users/@me/"
+  - "https://eu.posthog.com/api/users/@me/"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Aphx_[0-9A-Za-z]{43}\z'
+sample_token: "phx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_posthog_api"
+doc_url: "https://posthog.com/docs/api/user#get-api-users-uuid"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

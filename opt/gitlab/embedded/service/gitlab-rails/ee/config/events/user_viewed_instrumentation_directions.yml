@@ -1,0 +1,16 @@
+---
+description: User viewed analytics instrumentation directions
+internal_events: true
+action: user_viewed_instrumentation_directions
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: platform_insights
+product_categories:
+- product_analytics
+milestone: "16.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131168
+tiers:
+- ultimate

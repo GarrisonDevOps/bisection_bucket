@@ -1,0 +1,15 @@
+---
+description: Render Duo Enterprise trial page
+internal_events: true
+action: render_duo_enterprise_trial_page
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161491
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258835
+milestone_removed: '19.6'
+status: removed
+tiers:
+  - ultimate

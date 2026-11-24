@@ -1,0 +1,11 @@
+---
+name: token_exchange_autoflow_audience
+description: Lets selected users mint gitlab-autoflow tokens through the token exchange
+  API
+feature_issue_url: https://gitlab.com/gitlab-org/cluster-integration/gitlab-agent/-/work_items/1200
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267945
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638596
+milestone: '19.6'
+group: group::workflow engine
+type: gitlab_com_derisk
+default_enabled: false

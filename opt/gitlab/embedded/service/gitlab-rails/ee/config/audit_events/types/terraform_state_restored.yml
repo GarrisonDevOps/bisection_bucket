@@ -1,0 +1,11 @@
+---
+name: terraform_state_restored
+description: Terraform state restored from soft deletion
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/621469
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259091
+feature_category: infrastructure_as_code
+milestone: '19.5'
+saved_to_database: true
+streamed: true
+scope:
+  - Project

@@ -1,0 +1,11 @@
+- candidates = orbit_billable_namespace_candidates
+-# The Orbit dashboard links to this id when a billing group is missing.
+.form-group{ id: 'orbit-default-group' }
+  .js-listbox-input{ data: { label: s_('Preferences|Default group'),
+    label_description: s_('Preferences|Usage from Orbit is assigned to this group.'),
+    name: 'user[knowledge_graph_governing_namespace_id]',
+    items: candidates.map { |candidate| { value: candidate.id.to_s, text: candidate.name } }.to_json,
+    value: current_user.user_preference.knowledge_graph_governing_namespace_with_fallback&.id&.to_s,
+    default_toggle_text: s_('Preferences|Select a group'),
+    block: true.to_s,
+    toggle_class: 'gl-form-input-xl' } }

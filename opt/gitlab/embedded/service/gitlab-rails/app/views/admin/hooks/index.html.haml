@@ -1,0 +1,9 @@
+- page_title @hook.pluralized_name
+
+= render ::Layouts::SettingsSectionComponent.new(page_title, options: { data: { event_tracking_load: 'true', event_tracking: 'view_admin_hooks_pageload' } }) do |c|
+  - c.with_description do
+    = render 'shared/web_hooks/description', hook: @hook
+  - c.with_body do
+    = render 'shared/web_hooks/index', hooks: @hooks, title: @hook.pluralized_name, partial: 'shared/web_hooks/form', url: admin_hooks_path
+
+= render 'shared/file_hooks/index'

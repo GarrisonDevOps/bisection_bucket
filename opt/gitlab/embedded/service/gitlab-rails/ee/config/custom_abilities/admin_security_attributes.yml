@@ -1,0 +1,20 @@
+---
+title: Manage security attributes
+name: admin_security_attributes
+description: Manage the security categories and attributes. Also requires the `read_security_attribute` permission.
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/epics/18010
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195554
+feature_category: security_asset_inventories
+milestone: '18.2'
+group_ability: true
+enabled_for_group_access_levels: [25, 40, 50]
+requirements:
+  - read_security_attribute
+project_ability: true
+enabled_for_project_access_levels: [25, 40, 50]
+project_permissions:
+  - admin_security_attributes
+  - read_security_attribute
+group_permissions:
+  - admin_security_attributes
+  - read_security_attribute

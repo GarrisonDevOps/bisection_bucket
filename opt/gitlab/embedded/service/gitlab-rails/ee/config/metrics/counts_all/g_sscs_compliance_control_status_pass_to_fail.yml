@@ -1,0 +1,22 @@
+---
+key_path: counts.g_sscs_compliance_control_status_pass_to_fail
+description: Count of when a compliance requirements control transitions from 'pass' to 'fail' status (indicating that a previously compliant control in a project's compliance framework has become non-compliant and may require remediation action)
+product_group: compliance
+product_categories:
+- compliance_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183256
+time_frame:
+  - 28d
+  - 7d
+  - all
+data_source: internal_events
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+events:
+  - name: g_sscs_compliance_control_status_pass_to_fail

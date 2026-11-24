@@ -1,0 +1,21 @@
+---
+description: Trial user clicks Purchase credits on the card shown in Duo Agentic Chat after selecting a model that requires purchased GitLab Credits
+internal_events: true
+status: active
+action: click_duo_agentic_gated_model_purchase_credits
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Reference of the credit-gated model the user selected (for example, claude_fable_5_1)
+  property:
+    description: Surface where the event happened (chat)
+product_group: duo_chat
+product_categories:
+  - duo_agent_platform
+  - activation
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260669
+tiers:
+  - free

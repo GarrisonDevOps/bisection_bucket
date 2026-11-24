@@ -1,0 +1,18 @@
+---
+description: User started the triage and remediation wizard from the approach selection step
+internal_events: true
+action: start_triage_and_remediation_wizard
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The chosen setup approach. One of "quick" or "advanced".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267364
+tiers:
+- ultimate

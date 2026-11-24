@@ -1,0 +1,10 @@
+---
+name: vsa_stage_metrics_rate_limit
+description: Gates the per user rate limit on the GraphQL value stream stage metrics field
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636169
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270350
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639788
+milestone: '19.7'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

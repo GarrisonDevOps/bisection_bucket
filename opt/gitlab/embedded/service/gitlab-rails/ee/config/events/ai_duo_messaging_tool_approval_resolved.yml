@@ -1,0 +1,22 @@
+---
+description: User resolved a Duo agent tool approval request (approve or deny) from a messaging surface (for example Slack). One event is recorded per applied decision; refused clicks (wrong user, stale request, session not approvable) are not recorded.
+internal_events: true
+action: ai_duo_messaging_tool_approval_resolved
+identifiers:
+  - user
+  - namespace
+product_group: ai_catalog
+product_categories:
+- duo_agent_platform
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255538
+tiers:
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: The decision (approved or denied)
+  value:
+    description: The workflow ID the decision was applied to
+  property:
+    description: The messaging surface the decision came from (for example slack)

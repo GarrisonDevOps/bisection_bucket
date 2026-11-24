@@ -1,0 +1,10 @@
+---
+name: log_runner_version_update_limit
+description: Log runner version updates that exceed 50 distinct versions per runner per hour
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636748
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267906
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638348
+milestone: '19.6'
+group: group::runner core
+type: gitlab_com_derisk
+default_enabled: false

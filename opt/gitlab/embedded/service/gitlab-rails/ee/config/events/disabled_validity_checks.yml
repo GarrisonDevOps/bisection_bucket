@@ -1,0 +1,15 @@
+---
+description: Tracks each time the Validity Check security configuration setting is changed from enabled to disabled
+internal_events: true
+status: active
+action: disabled_validity_checks
+identifiers:
+- project
+- namespace
+product_group: secret_detection
+product_categories:
+- secret_detection
+milestone: '18.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212208
+tiers:
+- ultimate

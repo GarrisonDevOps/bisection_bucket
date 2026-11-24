@@ -1,0 +1,15 @@
+---
+key_path: counts.dast_on_demand_pipelines
+description: Count of all on-demand DAST pipelines
+product_group: dynamic_analysis
+product_categories:
+- dynamic_application_security_testing
+value_type: number
+status: active
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+- ultimate
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

@@ -1,0 +1,18 @@
+---
+description: Hover on Team requests icon in the Duo core sidebar widget
+internal_events: true
+status: removed
+milestone_removed: '18.7'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214108
+action: hover_team_requests_in_duo_agent_platform_widget_in_sidebar
+identifiers:
+- namespace
+- user
+product_group: activation
+product_categories:
+- activation
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/204778
+tiers:
+- premium
+- ultimate

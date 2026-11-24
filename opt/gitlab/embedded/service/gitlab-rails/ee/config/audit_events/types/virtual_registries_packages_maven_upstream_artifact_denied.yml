@@ -1,0 +1,10 @@
+---
+name: virtual_registries_packages_maven_upstream_artifact_denied
+description: A virtual registry Maven upstream denied an artifact due to filtration rules
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/585125
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225335
+feature_category: virtual_registry
+milestone: '18.10'
+saved_to_database: true
+streamed: true
+scope: [Group]

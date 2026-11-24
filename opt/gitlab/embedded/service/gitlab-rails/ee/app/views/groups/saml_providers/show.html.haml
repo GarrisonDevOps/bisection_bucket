@@ -1,0 +1,56 @@
+- page_title s_('GroupSAML|SAML Single Sign On Settings')
+%section.row.gl-mt-3
+  .gl-col-lg-3.gl-mb-3
+    %h4.page-title
+      = s_("GroupSAML|SAML Single Sign On")
+    %p
+      = s_("GroupSAML|Manage your group’s membership while adding another level of security with SAML.")
+    = external_link _('Learn more'), help_page_path('user/group/saml_sso/_index.md')
+  .gl-col-lg-9
+    = render 'info'
+%section{ class: "row !gl-border-t !gl-mt-6" }
+  .gl-col-lg-3.gl-mb-3
+    %h4.page-title
+      = s_('GroupSAML|Configuration')
+  .gl-col-lg-9
+    = render 'form', group: @group, saml_provider: @saml_provider
+- if @saml_response_check
+  #response{ class: "!gl-pt-5" }
+    %section{ class: "row !gl-border-t !gl-mt-6" }
+      .gl-col-lg-3.gl-mb-3
+        %h4.page-title
+          = s_('GroupSAML|SAML Response Output')
+      .gl-col-lg-9
+        = render 'response_debug'
+%section{ class: "row !gl-border-t !gl-mt-6" }
+  .gl-col-lg-3.gl-mb-3
+    %h4.page-title
+      = s_('GroupSAML|SCIM Token')
+  .gl-col-lg-9
+    #js-scim-token-app{ data: { endpoint_url: @scim_token_url, generate_token_path: group_scim_oauth_path, saml_provider_enabled: @saml_provider_enabled.to_s } }
+    - if saml_restricted_access_warning?(@group)
+      .gl-mt-3.gl-flex.gl-gap-3
+        = sprite_icon('warning', css_class: 'gl-mt-1 gl-text-warning gl-flex-shrink-0')
+        %div
+          %strong= s_('GroupSAML|Restricted access is active')
+          .gl-text-subtle= saml_restricted_access_warning
+- if @microsoft_application
+  %section{ class: "row !gl-border-t !gl-mt-6" }
+    .gl-col-lg-3.gl-mb-3
+      %h4.page-title
+        = s_('Microsoft|Microsoft Azure Integration')
+      %p
+        = s_('Microsoft|Sync group memberships from Microsoft Azure when SAML response includes an overage claim.')
+        = link_to _('Learn more.'), help_page_path('user/group/saml_sso/group_sync.md'), target: '_blank', rel: 'noopener noreferrer'
+    .gl-col-lg-9
+      = render 'microsoft_application'
+%section{ class: "row !gl-border-t !gl-mt-6" }
+  .gl-col-lg-3.gl-mb-3
+    %h4.page-title
+      = s_('GroupSAML|Members')
+  .gl-col-lg-9
+    .js-saml-members.gl-mt-3{ data: { group_id: @group.id } }
+      .animation-container
+        .skeleton-line-1
+        .skeleton-line-2
+        .skeleton-line-3

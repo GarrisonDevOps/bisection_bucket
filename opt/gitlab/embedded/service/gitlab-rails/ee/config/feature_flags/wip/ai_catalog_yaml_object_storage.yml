@@ -1,0 +1,10 @@
+---
+name: ai_catalog_yaml_object_storage
+description: Store AI Catalog YAML definitions in object storage instead of inline JSONB
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/591638
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228122
+rollout_issue_url:
+milestone: '18.11'
+group: group::workflow catalog
+type: wip
+default_enabled: false

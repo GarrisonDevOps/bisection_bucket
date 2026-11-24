@@ -1,0 +1,10 @@
+---
+name: member_role_created
+description: A custom role is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/388934
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/137087
+feature_category: permissions
+milestone: '16.7'
+saved_to_database: true
+streamed: true
+scope: [Group, Instance]

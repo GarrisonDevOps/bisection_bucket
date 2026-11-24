@@ -1,0 +1,5 @@
+---
+name: allow_personal_snippets
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200575
+milestone: '18.5'
+group: group::source code

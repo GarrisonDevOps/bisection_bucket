@@ -1,0 +1,10 @@
+---
+name: commit_stats_failure_handling
+description: Handle commit stats timeouts
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/635511
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266183
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636984
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

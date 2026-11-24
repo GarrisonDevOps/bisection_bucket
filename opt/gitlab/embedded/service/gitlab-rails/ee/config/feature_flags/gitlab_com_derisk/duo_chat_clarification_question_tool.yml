@@ -1,0 +1,10 @@
+---
+name: duo_chat_clarification_question_tool
+description: Controls the enablement of the clarification_question tool in Duo Workflow Service
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/600650
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236966
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/600653
+milestone: '19.1'
+group: group::duo chat
+type: gitlab_com_derisk
+default_enabled: false

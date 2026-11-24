@@ -1,0 +1,10 @@
+---
+name: require_sandbox_updated
+description: In a group, the setting that stops flows from running when the execution environment sandbox is unavailable is changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/607753
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262117
+feature_category: duo_agent_platform
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Group]

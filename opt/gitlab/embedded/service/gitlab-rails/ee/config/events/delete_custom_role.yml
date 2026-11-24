@@ -1,0 +1,14 @@
+---
+description: Regular custom role deletion
+internal_events: true
+status: active
+action: delete_custom_role
+identifiers:
+- user
+product_group: authorization
+product_categories:
+- permissions
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196237
+tiers:
+- ultimate

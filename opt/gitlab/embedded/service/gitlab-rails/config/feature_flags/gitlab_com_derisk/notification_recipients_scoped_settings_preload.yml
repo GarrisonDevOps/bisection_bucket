@@ -1,0 +1,11 @@
+---
+name: notification_recipients_scoped_settings_preload
+description: Load only the notification settings that apply to the event when building
+  notification recipients
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635895
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269202
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639143
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

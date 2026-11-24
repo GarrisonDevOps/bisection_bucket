@@ -1,0 +1,10 @@
+---
+name: packages_api_throttle_extended_paths
+description: Counts the package list, detail, delete, pipelines and package_files API routes under the packages API rate limits instead of the general API rate limits. On GitLab.com, once the edge rate-limit bypass for Package Registry is removed, disabling this flag moves those routes to the stricter general API limits.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634703
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267866
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638312
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

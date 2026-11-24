@@ -1,0 +1,14 @@
+---
+description: A delta sync run for one registry read every data file but at least one slice failed to persist, so the checkpoint did not advance, in the v3 package metadata sync for licenses
+internal_events: true
+action: sync_pmdb_v3_licenses_delta_not_persisted
+additional_properties:
+  label:
+    description: purl_type of the sync_config (e.g. npm, pypi, gem)
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252822
+tiers:
+- ultimate

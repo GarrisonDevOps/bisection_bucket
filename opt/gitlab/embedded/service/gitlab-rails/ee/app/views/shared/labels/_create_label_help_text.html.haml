@@ -1,0 +1,14 @@
+- if @label.respond_to?(:subject) && @label.subject.feature_available?(:scoped_labels)
+  - docs_url = help_page_path('user/project/labels.md', anchor: 'scoped-labels')
+  - docs_link_start = "<a href='#{docs_url}' target='_blank' rel='noreferrer noopener'>".html_safe
+  - docs_link_end = '</a>'.html_safe
+  - docs_link_placeholders = { link_start: docs_link_start,
+    link_end: docs_link_end,
+    code_start: "<code>".html_safe,
+    code_end: "</code>".html_safe }
+
+  .gl-col-12.form-text.gl-text-subtle
+    .js-has-scoped-labels.hidden
+      = _('Using %{code_start}::%{code_end} denotes a %{link_start}scoped label set%{link_end}').html_safe % docs_link_placeholders
+    .js-use-scoped-labels
+      = _('Use %{code_start}::%{code_end} to create a %{link_start}scoped label set%{link_end} (eg. %{code_start}priority::1%{code_end})').html_safe % docs_link_placeholders

@@ -1,0 +1,10 @@
+- return unless License.feature_available?(:code_owner_approval_required)
+
+- code_owner_approval_required = f.object.default_branch_protection_defaults['code_owner_approval_required']
+= render Pajamas::CheckboxTagComponent.new(name: "#{field}[default_branch_protection_defaults][code_owner_approval_required]",
+  label_options: { class: "gl-mt-5" },
+  checked: code_owner_approval_required) do |c|
+  - c.with_label do
+    = s_("ProtectedBranch|Require approval from code owners")
+  - c.with_help_text do
+    = s_("ProtectedBranch|Reject code pushes that change files listed in the CODEOWNERS file.")

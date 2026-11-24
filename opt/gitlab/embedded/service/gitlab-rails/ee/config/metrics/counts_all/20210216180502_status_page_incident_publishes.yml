@@ -1,0 +1,18 @@
+---
+data_category: optional
+key_path: counts.status_page_incident_publishes
+description: Cumulative count of usages of publish operation
+product_group: platform_insights
+product_categories:
+- incident_management
+value_type: number
+status: active
+time_frame: all
+data_source: internal_events
+events:
+  - name: status_page_incident_published
+tiers:
+  - ultimate
+performance_indicator_type: []
+milestone: '<13.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

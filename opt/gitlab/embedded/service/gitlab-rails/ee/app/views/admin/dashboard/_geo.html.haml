@@ -1,0 +1,7 @@
+- return unless Gitlab::Geo.enabled?
+
+%p.gl-py-4.gl-m-0.gl-border-b
+  = _('Geo')
+  %span.gl-float-right.gl-font-monospace
+    = pluralize(GeoNode.count, _('site'))
+    = render Pajamas::ButtonComponent.new(icon: 'settings', category: :tertiary, size: :small, href: admin_geo_nodes_path, button_options: { title: _('Configure'), class: 'gl-ml-2 has-tooltip', aria: { label: _('Configure') } })

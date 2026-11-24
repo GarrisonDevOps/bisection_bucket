@@ -1,0 +1,10 @@
+---
+name: govern_policy_violation_detected
+description: A settings enforcement policy detected a violation on a governed project
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/630148
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263547
+milestone: '19.6'
+feature_category: security_policy_management
+saved_to_database: false
+streamed: true
+scope: [Group, Instance]

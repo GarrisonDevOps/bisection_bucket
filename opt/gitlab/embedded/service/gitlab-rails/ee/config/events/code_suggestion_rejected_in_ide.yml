@@ -1,0 +1,50 @@
+---
+description: Tracks the number of rejected code suggestions. Important for AI analytics
+internal_events: true
+action: code_suggestion_rejected_in_ide
+classification: duo
+additional_properties:
+  label:
+    description: not actually used - to be fixed in https://gitlab.com/gitlab-org/gitlab/-/issues/501387
+  property:
+    description: not actually used - to be fixed in https://gitlab.com/gitlab-org/gitlab/-/issues/501387
+  unique_tracking_id:
+    description: unique tracking id of the event
+  timestamp:
+    description: timestamp of the event
+  language:
+    description: programming language used for the suggestion
+  suggestion_size:
+    description: size of the suggestion
+  ide_name:
+    description: IDE name
+  ide_vendor:
+    description: IDE vendor
+  ide_version:
+    description: IDE version
+  extension_name:
+    description: IDE extension name
+  extension_version:
+    description: IDE extension version
+  language_server_version:
+    description: IDE language server version
+  model_name:
+    description: Used LLM model
+  model_engine:
+    description: Used LLM engine
+identifiers:
+  - user
+  - project
+product_group: dap_repository_flows
+product_categories:
+- code_suggestions
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153881
+tiers:
+  - premium
+  - ultimate
+extra_trackers:
+  - tracking_class: Gitlab::Tracking::AiTracking
+    protected_properties:
+      branch_name:
+        description: The name of the git branch for the event

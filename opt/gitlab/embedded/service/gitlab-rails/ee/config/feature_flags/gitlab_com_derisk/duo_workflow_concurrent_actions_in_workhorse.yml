@@ -1,0 +1,10 @@
+---
+name: duo_workflow_concurrent_actions_in_workhorse
+description: 'Lets Workhorse run up to 8 of the Duo Workflow actions it executes itself concurrently'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634393
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264362
+rollout_issue_url:
+milestone: '19.6'
+group: group::agent foundations
+type: gitlab_com_derisk
+default_enabled: false

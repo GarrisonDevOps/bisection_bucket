@@ -1,0 +1,13 @@
+---
+title: Archive subgroup
+name: archive_subgroup
+description: Ability to archive or unarchive a subgroup. This ability does not allow archiving top-level groups. Archiving unlinks projects from their fork networks and closes their open cross-fork merge requests, and unarchiving does not restore either.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/631036
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257968
+feature_category: groups_and_projects
+milestone: '19.6'
+group_ability: true
+project_ability: false
+enabled_for_group_access_levels: [50]
+group_permissions:
+  - _archive_subgroup

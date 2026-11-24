@@ -1,0 +1,7 @@
+- page_title _('Automate')
+- @skip_current_level_breadcrumb = true
+
+- if dap_identity_verification_required?(@group)
+  .js-duo-agents-platform-verification-alert{ data: duo_agents_platform_identity_verification_data(@group) }
+- else
+  #js-duo-agents-platform-page{ data: duo_agents_group_data(@group) }

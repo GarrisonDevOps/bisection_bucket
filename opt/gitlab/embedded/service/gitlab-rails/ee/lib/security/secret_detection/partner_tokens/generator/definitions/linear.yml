@@ -1,0 +1,24 @@
+---
+token_type: "Linear API token"
+class_name: "LinearClient"
+partner_name: "linear"
+endpoint: "https://api.linear.app/graphql?query=%7Bviewer%7Bid%7D%7D"
+http_method: "get"
+auth_style: "header"
+auth_param: "Authorization"
+token_pattern: '\Alin_api_[a-zA-Z0-9]{40}\z'
+sample_token: "lin_api_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_linear_api"
+doc_url: "https://linear.app/developers/graphql#authentication"
+# Linear's Apollo server blocks GET queries without this header (CSRF
+# prevention), returning 400 for live and dead tokens alike.
+extra_headers:
+  apollo-require-preflight: "true"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

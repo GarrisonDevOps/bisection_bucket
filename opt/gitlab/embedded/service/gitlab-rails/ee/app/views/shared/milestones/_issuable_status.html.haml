@@ -1,0 +1,14 @@
+- return unless issuable.respond_to?(:namespace)
+- return unless issuable.respond_to?(:status_with_fallback)
+- return unless issuable.namespace&.root_ancestor&.licensed_feature_available?(:work_item_status)
+
+- status = issuable&.status_with_fallback
+- return unless status.present?
+
+- category_icon = status.icon_name
+.work-item-status.gl-inline-flex.gl-items-center.gl-rounded-pill.gl-bg-strong.gl-py-1.gl-px-2.gl-text-sm.gl-text-strong
+  - if category_icon.present?
+    %span.gl-flex.gl-items-center.gl-justify-center{ style: "color: #{status.color}" }
+      = sprite_icon(category_icon, css_class: 'gl-shrink-0 gl-icon !gl-w-4 !gl-h-4 gl-fill-current !gl-align-middle')
+  %span.gl-ml-2
+    = status.name

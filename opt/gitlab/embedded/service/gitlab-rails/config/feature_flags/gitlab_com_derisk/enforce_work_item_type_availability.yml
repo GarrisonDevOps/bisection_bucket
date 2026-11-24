@@ -1,0 +1,10 @@
+---
+name: enforce_work_item_type_availability
+description: Reject creating a work item with a disabled or archived work item type
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260607
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635662
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,17 @@
+---
+description: Job executed by scheduled pipeline execution policy
+internal_events: true
+action: execute_job_scheduled_pipeline_execution_policy
+identifiers:
+- project
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189776
+tiers:
+- ultimate
+additional_properties:
+  label:
+    description: Status of the pipeline creation success or error.

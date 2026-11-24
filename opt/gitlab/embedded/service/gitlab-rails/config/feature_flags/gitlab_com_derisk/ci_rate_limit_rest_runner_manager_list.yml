@@ -1,0 +1,10 @@
+---
+name: ci_rate_limit_rest_runner_manager_list
+description: Enforces the per-user rate limit on the runner managers listed through the REST API; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638238
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269229
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639087
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

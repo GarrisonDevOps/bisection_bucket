@@ -1,0 +1,23 @@
+---
+description: Tracks when a model selection feature  is updated
+internal_events: true
+action: update_model_selection_feature
+classification: duo
+identifiers:
+- user
+additional_properties:
+  label:
+    description: The identifier of the selected LLM (e.g. claude_sonnet_3_7_20250219, etc.)
+  property:
+    description: The feature being changed (eg. code_generations, summarize_review, etc.)
+  selection_scope_gid:
+    description: The global id of scope of the model being selected, it can be a namespace, project or user
+
+product_group: ai_model_services
+product_categories:
+- self-hosted_models
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195118
+tiers:
+- premium
+- ultimate

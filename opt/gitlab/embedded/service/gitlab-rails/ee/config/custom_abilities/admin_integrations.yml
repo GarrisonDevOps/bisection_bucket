@@ -1,0 +1,19 @@
+---
+title: Manage integrations
+name: admin_integrations
+description: Create, read, update, and delete integrations with external applications.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/460522
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154601
+feature_category: integrations
+milestone: '17.1'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - admin_integrations
+  - delete_integration
+group_permissions:
+  - admin_integrations
+  - delete_integration

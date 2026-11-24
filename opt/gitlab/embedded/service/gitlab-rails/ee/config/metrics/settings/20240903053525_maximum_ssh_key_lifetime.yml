@@ -1,0 +1,18 @@
+---
+key_path: settings.maximum_ssh_key_lifetime
+description: The maximum ssh key lifetime value, null if no value is set.
+product_group: authentication
+product_categories:
+- system_access
+value_type: number
+status: active
+milestone: "17.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164841
+time_frame: none
+data_source: system
+data_category: optional
+instrumentation_class: MaximumSshKeysLifetimeEnabledMetric
+performance_indicator_type: 
+- lighthouse
+tiers:
+- ultimate

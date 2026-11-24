@@ -1,0 +1,9 @@
+---
+name: dependency_paths
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/519962
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/181949
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/520269
+milestone: '17.10'
+group: group::security insights
+type: beta
+default_enabled: true

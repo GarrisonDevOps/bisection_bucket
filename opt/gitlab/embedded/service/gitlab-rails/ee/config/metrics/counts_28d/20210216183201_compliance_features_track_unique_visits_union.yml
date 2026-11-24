@@ -1,0 +1,32 @@
+---
+data_category: operational
+key_path: counts_monthly.aggregated_metrics.compliance_features_track_unique_visits_union
+description: Removed as duplicate of redis_hll_counters.compliance.compliance_total_unique_counts_monthly
+product_group: compliance
+product_categories:
+- compliance_management
+- audit_events
+value_type: number
+status: removed
+time_frame: 28d
+instrumentation_class: RedisHLLMetric
+data_source: redis_hll
+events:
+- name: g_compliance_audit_events
+  unique: user.id
+- name: g_compliance_dashboard
+  unique: user.id
+- name: i_compliance_audit_events
+  unique: user.id
+- name: a_compliance_audit_events_api
+  unique: user.id
+- name: i_compliance_credential_inventory
+  unique: user.id
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/62413
+milestone_removed: "17.0"
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/150678

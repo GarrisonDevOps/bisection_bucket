@@ -1,0 +1,12 @@
+---
+table_name: tanuki_bot_mvc
+classes:
+- Embedding::TanukiBotMvc
+feature_categories:
+- global_search
+description:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/118195
+milestone: '16.0'
+gitlab_schema: gitlab_embedding
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135461
+removed_in_milestone: 16.6

@@ -1,0 +1,13 @@
+---
+name: enforce_files_api_rate_limit
+description: >
+  When enabled, the files API Rack::Attack and LabKit throttles enforce rate limits
+  (returns 429). When disabled, the files API throttles do not match, so
+  requests are counted under the general API throttles instead.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635882
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267905
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638612
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

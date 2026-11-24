@@ -1,0 +1,10 @@
+---
+name: iam_replication_reconciliation_oauth_access_tokens
+description: Runs the Layer 4 IAM reconciliation sweep for OAuth refresh tokens.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634258
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267913
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638573
+milestone: '19.6'
+group: group::authentication
+type: ops
+default_enabled: false

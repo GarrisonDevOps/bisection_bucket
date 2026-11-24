@@ -1,0 +1,21 @@
+---
+description: Tracks when a self-hosted AI features switches to a vendored model
+internal_events: true
+status: active
+action: update_self_hosted_ai_feature_to_vendored_model
+classification: duo
+identifiers:
+- user
+additional_properties:
+  label:
+    description: name of the vendored model (will be set to `gitlab_default` when the gitlab default model is selected)
+  property:
+    description: name of the AI feature
+product_group: ai_model_services
+product_categories:
+- self-hosted_models
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200463
+tiers:
+- premium
+- ultimate

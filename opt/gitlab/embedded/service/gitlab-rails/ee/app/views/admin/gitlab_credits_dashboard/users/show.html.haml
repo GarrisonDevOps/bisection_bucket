@@ -1,0 +1,7 @@
+- title_text = _('User')
+- page_title title_text
+- breadcrumb_title title_text
+- add_to_breadcrumbs(s_('UsageBilling|GitLab Credits dashboard'), admin_gitlab_credits_dashboard_index_path)
+
+#js-instance-user-usage-billing-dashboard{ data: { username: @username,
+  subscription_start_date: License.billable_license&.starts_at&.iso8601 } }

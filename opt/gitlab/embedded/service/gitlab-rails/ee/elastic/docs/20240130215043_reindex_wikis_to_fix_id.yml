@@ -1,0 +1,10 @@
+---
+name: ReindexWikisToFixId
+version: '20240130215043'
+description: Reindex all wikis to adopt new structure(g_ or p_) of id
+group: group::global search
+milestone: '16.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143273
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169306
+marked_obsolete_in_milestone: '17.6'

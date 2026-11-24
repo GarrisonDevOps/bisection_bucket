@@ -1,0 +1,15 @@
+---
+description: Usage of the GET /groups/:id/enterprise_users API
+internal_events: true
+action: use_get_group_enterprise_users_api
+identifiers:
+- namespace
+- user
+product_group: authentication
+product_categories:
+- system_access
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/191615/
+tiers:
+- premium
+- ultimate

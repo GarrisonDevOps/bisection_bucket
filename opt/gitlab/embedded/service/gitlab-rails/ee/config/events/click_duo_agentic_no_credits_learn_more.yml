@@ -1,0 +1,21 @@
+---
+description: User clicks learn more link in Duo Agentic Chat no credits empty state
+internal_events: true
+status: active
+action: click_duo_agentic_no_credits_learn_more
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Subscription type or enablement type (trial, paid, or free_addon)
+product_group: duo_chat
+product_categories:
+  - duo_agent_platform
+  - activation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221113
+tiers:
+  - free
+  - premium
+  - ultimate

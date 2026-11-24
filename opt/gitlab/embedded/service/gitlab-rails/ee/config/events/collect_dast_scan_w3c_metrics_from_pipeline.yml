@@ -1,0 +1,40 @@
+---
+description: The event tracks DAST W3C metrics
+internal_events: true
+action: collect_dast_scan_w3c_metrics_from_pipeline
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: dynamic_analysis
+product_categories:
+  - vulnerability_management
+milestone: '18.4'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203849'
+tiers:
+  - ultimate
+additional_properties:
+  property:
+    description: "a UUID that identifies a scan"
+  value:
+    description: "service worker presence"
+  label:
+    description: "web transport presence"
+  svg_usage:
+    description: "svg presence"
+  file_api_usage:
+    description: "file api presence"
+  web_rtc_usage:
+    description: "web-rtc api presence"
+  web_authentication_usage:
+    description: "web authentication api presence"
+  wasm_usage:
+    description: "webassembly presence"
+  web_share_api_usage:
+    description: "web share api presence"
+  trusted_types_usage:
+    description: "trusted types presence"
+  editcontext_api_usage:
+    description: "editcontext api presence"
+  wai_aria_usage:
+    description: "wai-aria attributes presence"

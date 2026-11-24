@@ -1,0 +1,22 @@
+---
+description: A user followed a user or project link from the AI audit events report, from the sessions table or from the audit events in the session drawer
+internal_events: true
+status: active
+action: click_linked_item_on_ai_audit_events_report
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: The kind of item the link points to. user or project
+  property:
+    description: Where the link was clicked. table for the sessions table, drawer for the session drawer
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Vulnerabilities::ArchivedRecord#data schema",
+  "description": "The schema validates the content of the Vulnerabilities::ArchivedRecord#data attribute",
+  "additionalProperties": false,
+  "properties": {
+    "report_type": {
+      "type": "string"
+    },
+    "scanner": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": ["null", "string"]
+    },
+    "severity": {
+      "type": "string"
+    },
+    "cve_value": {
+      "type": ["null", "string"]
+    },
+    "cwe_value": {
+      "type": ["null", "string"]
+    },
+    "other_identifiers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dismissed_at": {
+      "type": ["null", "date-time"]
+    },
+    "dismissed_by": {
+      "type": ["null", "string"]
+    },
+    "resolved_at": {
+      "type": ["null", "date-time"]
+    },
+    "resolved_by": {
+      "type": ["null", "string"]
+    },
+    "confirmed_at": {
+      "type": ["null", "date-time"]
+    },
+    "confirmed_by": {
+      "type": ["null", "string"]
+    },
+    "created_at": {
+      "type": "date-time"
+    },
+    "location": true,
+    "related_issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ]
+      }
+    },
+    "related_mrs": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "resolved_on_default_branch": {
+      "type": "boolean"
+    },
+    "notes_summary": {
+      "type": "string"
+    },
+    "full_path": {
+      "type": "string"
+    },
+    "cvss": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "vendor": {
+            "type": "string"
+          },
+          "vector": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "vendor",
+          "vector"
+        ]
+      }
+    },
+    "dismissal_reason": {
+      "type": ["null", "string"]
+    }
+  },
+  "required": [
+    "report_type",
+    "scanner",
+    "state",
+    "title",
+    "description",
+    "severity",
+    "cve_value",
+    "cwe_value",
+    "other_identifiers",
+    "created_at",
+    "location",
+    "resolved_on_default_branch",
+    "notes_summary",
+    "full_path",
+    "cvss",
+    "dismissal_reason"
+  ]
+}

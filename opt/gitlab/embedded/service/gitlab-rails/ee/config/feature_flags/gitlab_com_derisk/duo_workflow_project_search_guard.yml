@@ -1,0 +1,15 @@
+---
+name: duo_workflow_project_search_guard
+description: >-
+  Guards Duo Workflow session search: enforces a 3-character minimum per
+  search word, caps the number of words at 10, bounds the scan to sessions
+  created in the last 30 days, and applies a per-user-per-project rate limit
+  to project-scoped searches. Disabling this flag restores the previous
+  unbounded behaviour.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635083
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264017
+rollout_issue_url: ''
+milestone: '19.6'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

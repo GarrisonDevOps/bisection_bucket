@@ -1,0 +1,9 @@
+- title = _('Analytics settings')
+- breadcrumb_title title
+- page_title title
+
+%h1.gl-sr-only= page_title
+
+= render 'analytics_dashboards' if group_analytics_dashboard_available?(current_user, @group)
+= render 'value_stream_dashboard' if can?(current_user, :modify_value_stream_dashboard_settings, @group)
+= render 'insights' if @group.insights_available?

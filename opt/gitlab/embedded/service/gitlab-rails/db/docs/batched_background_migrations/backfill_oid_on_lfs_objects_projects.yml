@@ -1,0 +1,8 @@
+---
+migration_job_name: BackfillOidOnLfsObjectsProjects
+description: Backfill lfs_objects_projects.oid from related lfs_object
+feature_category: source_code_management
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207128
+milestone: '19.6'
+queued_migration_version: 20261026234811
+finalized_by: # re-queued by RequeueBackfillOidOnLfsObjectsProjects; empty until re-finalized

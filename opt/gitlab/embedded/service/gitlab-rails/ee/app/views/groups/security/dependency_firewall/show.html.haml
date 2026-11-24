@@ -1,0 +1,5 @@
+- breadcrumb_title s_('DependencyFirewall|Dependency firewall')
+- page_title s_('DependencyFirewall|Dependency firewall')
+- dashboard_data = { namespace_type: 'group', full_path: @group.full_path, new_policy_path: new_group_security_policy_path(@group, type: 'dependency_firewall_policy'), disable_new_policy: (!can_create_or_modify_security_policy?(@group)).to_s, dashboard_v2_enabled: Security::DependencyFirewall::Availability.group_dashboard_v2_enabled?(@group).to_s }
+
+#js-dependency-firewall-dashboard{ data: dashboard_data }

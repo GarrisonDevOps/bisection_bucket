@@ -1,0 +1,16 @@
+---
+name: BackfillReachabilityInVulnerabilities
+version: '20250702131958'
+description: Backfills Vulnerabilities Index from PostgreSQL to backfill reachability
+group: group::security infrastructure
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198141
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209384
+marked_obsolete_in_milestone: '18.6'
+skippable: true
+skip_condition: >-
+  This migration will run on SaaS and Dedicated GitLab instances. For
+  Self-managed instances decision is awaited and is tracked in https://gitlab.com/gitlab-org/gitlab/-/issues/525484.
+  For Self-managed this migration will be skipped and can be introduced later based
+  on product direction.

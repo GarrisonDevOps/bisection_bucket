@@ -1,0 +1,11 @@
+---
+name: zoekt_search_empty_repo_without_fallback
+description: Search a project with an empty repository with Zoekt, returning no results,
+  instead of falling back to advanced or basic search.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636136
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269289
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639156
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

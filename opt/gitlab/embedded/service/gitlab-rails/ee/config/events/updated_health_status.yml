@@ -1,0 +1,10 @@
+---
+description: Tracks updates to the health status of work items.
+action: updated_health_status
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '15.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106683
+tiers:
+  - ultimate

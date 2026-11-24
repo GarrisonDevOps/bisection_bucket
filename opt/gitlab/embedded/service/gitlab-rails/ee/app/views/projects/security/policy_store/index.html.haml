@@ -1,0 +1,11 @@
+- title = _('Policy store')
+- page_title title
+- breadcrumb_title title
+- @content_wrapper_class = 'js-security-policies-container-wrapper'
+
+-# No new_policy_path or list_path: policies are authored at the organization or
+-# group, so the project surface is a read-only list with no detail page.
+#js-policy-store{ data: { namespace_path: project.full_path,
+  namespace_type: 'project',
+  organization_id: project.organization_id,
+  empty_list_svg_path: image_path('illustrations/empty-state/empty-secure-add-md.svg') } }

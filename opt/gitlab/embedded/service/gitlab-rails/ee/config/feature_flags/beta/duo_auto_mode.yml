@@ -1,0 +1,10 @@
+---
+name: duo_auto_mode
+description: Gates advertisement of the Duo auto mode capability to clients, controlled by the duo_auto_mode_enabled cascading setting.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/618088
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255441
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/629172
+milestone: '19.5'
+group: group::developer clients
+type: beta
+default_enabled: true

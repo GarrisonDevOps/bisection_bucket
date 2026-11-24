@@ -1,0 +1,69 @@
+- namespace_id = local_assigns.fetch(:destination_namespace_id, nil)
+
+.project-import
+  .gl-mb-5.gl-flex.gl-justify-end
+    = link_to _('History'), import_history_index_path, class: 'gl-link'
+
+  %h5.gl-sr-only= _("Import project from")
+  .gl-grid.gl-grid-cols-1.gl-gap-6{ class: '@sm/panel:gl-grid-cols-2 @lg/panel:gl-grid-cols-3' }
+    - if github_import_enabled?
+      = render Import::ActionCardComponent.new(title: 'GitHub', description: s_('ImportProjects|Repositories, issues, and pull requests'),
+        icon: 'github', href: new_import_github_path(namespace_id: namespace_id),
+        link_options: { class: 'js-import-github js-import-project-btn',
+          data: { platform: 'github', **tracking_attrs_data('import_project', 'click_button', 'github') } })
+
+    - if bitbucket_import_enabled?
+      = render Import::ActionCardComponent.new(title: 'Bitbucket Cloud', description: s_('ImportProjects|Repositories and pull requests'),
+        icon: 'bitbucket', href: status_import_bitbucket_path(namespace_id: namespace_id),
+        link_options: { class: "import_bitbucket js-import-project-btn #{'js-how-to-import-link' unless bitbucket_import_configured?}",
+          data: { modal_title: _("Import projects from Bitbucket"), modal_message: import_from_bitbucket_message,
+            platform: 'bitbucket_cloud', **tracking_attrs_data('import_project', 'click_button', 'bitbucket_cloud') } })
+
+    - if git_import_enabled?
+      = render Import::ActionCardComponent.new(title: _('Repository by URL'), description: s_('ImportProjects|Code only, from any Git URL'),
+        icon: 'link', href: new_import_url_path(namespace_id: namespace_id),
+        link_options: { class: 'js-import-project-btn',
+          data: { testid: 'new-project-import-url-button', platform: 'repo_url',
+            **tracking_attrs_data('import_project', 'click_button', 'repo_url') } })
+
+    - if bitbucket_server_import_enabled?
+      = render Import::ActionCardComponent.new(title: 'Bitbucket Server', description: s_('ImportProjects|Repositories and pull requests'),
+        icon: 'bitbucket', href: status_import_bitbucket_server_path(namespace_id: namespace_id),
+        link_options: { class: 'import_bitbucket js-import-project-btn',
+          data: { platform: 'bitbucket_server', **tracking_attrs_data('import_project', 'click_button', 'bitbucket_server') } })
+
+    - if gitea_import_enabled?
+      = render Import::ActionCardComponent.new(title: 'Gitea', description: s_('ImportProjects|Repositories, issues, and pull requests'),
+        icon: 'gitea', href: new_import_gitea_path(namespace_id: namespace_id),
+        link_options: { class: 'import_gitea js-import-project-btn',
+          data: { platform: 'gitea', **tracking_attrs_data('import_project', 'click_button', 'gitea') } })
+
+    - if fogbugz_import_enabled?
+      = render Import::ActionCardComponent.new(title: 'FogBugz', description: s_('ImportProjects|Cases and comments, no repository'),
+        icon: 'bug', href: new_import_fogbugz_path(namespace_id: namespace_id),
+        link_options: { class: 'import_fogbugz js-import-project-btn',
+          data: { platform: 'fogbugz', **tracking_attrs_data('import_project', 'click_button', 'fogbugz') } })
+
+    - if gitlab_project_import_enabled?
+      -# project_new.js rewrites href from data-href on click to add the namespace, name and path
+      = render Import::ActionCardComponent.new(title: _('GitLab export'), description: s_('ImportProjects|A project restored from an export file'),
+        icon: 'tanuki', href: '#',
+        link_options: { class: 'js-import-gitlab-project-btn js-import-project-btn',
+          data: { testid: 'gitlab-import-button', href: new_import_gitlab_project_path,
+            platform: 'gitlab_export', **tracking_attrs_data('import_project', 'click_button', 'gitlab_export') } })
+
+    - if manifest_import_enabled?
+      = render Import::ActionCardComponent.new(title: _('Manifest file'), description: s_('ImportProjects|Many repositories from a single file'),
+        icon: 'doc-text', href: new_import_manifest_path(namespace_id: namespace_id),
+        link_options: { class: 'import_manifest js-import-project-btn',
+          data: { platform: 'manifest_file', **tracking_attrs_data('import_project', 'click_button', 'manifest_file') } })
+
+    = render_if_exists "projects/gitee_import_button", namespace_id: namespace_id, track_label: 'import_project'
+
+  %hr.gl-my-5
+
+  .gl-flex.gl-items-start.gl-gap-2.gl-text-subtle
+    = sprite_icon('bulb', css_class: 'gl-mt-1 gl-shrink-0')
+    %p.gl-mb-0
+      - docs_link = link_to('', help_page_path('user/group/import/_index.md'), target: '_blank', rel: 'noopener noreferrer', aria: { label: _('Learn more about importing GitLab projects by using direct transfer') })
+      = safe_format(s_('ImportProjects|Moving projects between GitLab instances? %{link_start}Direct transfer%{link_end} is recommended, and moves whole groups at once.'), tag_pair(docs_link, :link_start, :link_end))

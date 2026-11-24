@@ -1,0 +1,10 @@
+# We are extending the original rubocop file for background migrations
+# .rubocop.yml file.
+---
+inherit_from: ../../../../../lib/gitlab/background_migration/.rubocop.yml
+
+Migration/BatchedMigrationBaseClass:
+  Enabled: false
+
+BackgroundMigration/AvoidSilentRescueExceptions:
+  Enabled: false

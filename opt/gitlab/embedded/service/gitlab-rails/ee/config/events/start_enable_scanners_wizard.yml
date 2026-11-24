@@ -1,0 +1,18 @@
+---
+description: User started the enable scanners wizard from the approach selection step
+internal_events: true
+action: start_enable_scanners_wizard
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: The chosen setup approach. One of "quick" or "advanced".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242094
+tiers:
+- ultimate

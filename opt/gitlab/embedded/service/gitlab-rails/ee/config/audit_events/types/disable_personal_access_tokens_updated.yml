@@ -1,0 +1,10 @@
+---
+name: disable_personal_access_tokens_updated
+description: Setting Disable personal access tokens is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164973
+feature_category: system_access
+milestone: '17.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

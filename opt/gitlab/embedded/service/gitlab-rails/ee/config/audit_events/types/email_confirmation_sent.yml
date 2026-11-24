@@ -1,0 +1,10 @@
+---
+name: email_confirmation_sent
+description: Users add or change an email address and it must be confirmed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/377625
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/129261
+feature_category: user_profile
+milestone: '16.3'
+saved_to_database: false
+streamed: true
+scope: [User]

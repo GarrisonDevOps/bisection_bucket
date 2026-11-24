@@ -1,0 +1,10 @@
+---
+name: policy_warn_mode_push_settings_overrides
+description: Approval settings from a security policy in warn mode will override branch protections
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/563867
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209501
+milestone: '18.7'
+feature_category: security_policy_management
+saved_to_database: false
+streamed: true
+scope: [Project]

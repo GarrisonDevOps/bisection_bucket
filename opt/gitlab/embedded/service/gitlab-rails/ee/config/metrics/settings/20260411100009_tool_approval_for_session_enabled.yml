@@ -1,0 +1,18 @@
+---
+key_path: settings.tool_approval_for_session_enabled
+description: Tracks whether tool call approval for agent sessions is enabled at the instance level on a Self-Managed instance
+product_group: agent_execution
+product_categories:
+  - duo_service_infra
+value_type: boolean
+status: active
+milestone: "19.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230999
+time_frame: none
+data_source: system
+instrumentation_class: ToolApprovalForSessionEnabledMetric
+data_category: operational
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

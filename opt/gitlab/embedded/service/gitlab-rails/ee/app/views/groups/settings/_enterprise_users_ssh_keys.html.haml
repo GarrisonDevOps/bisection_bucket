@@ -1,0 +1,8 @@
+- return unless group.disable_ssh_keys_available?
+
+= f.gitlab_ui_checkbox_component :disable_ssh_keys, checkbox_options: { checked: group.disable_ssh_keys? } do |c|
+  - c.with_label do
+    = s_('GroupSettings|Disable SSH Keys')
+  - c.with_help_text do
+    - learn_more_link = link_to(_('Learn more'), help_page_path('user/ssh_advanced.md', anchor: 'disable-ssh-keys-for-enterprise-users'))
+    = safe_format(s_("GroupSettings|If enabled, enterprise users cannot use SSH Keys. %{learn_more_link}."), learn_more_link: learn_more_link)

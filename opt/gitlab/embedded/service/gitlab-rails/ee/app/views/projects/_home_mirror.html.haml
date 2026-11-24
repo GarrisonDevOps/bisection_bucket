@@ -1,0 +1,6 @@
+- if @project.mirror? && can?(current_user, :push_code, @project)
+  %p{ class: 'gl-text-subtle gl-mt-2 gl-mb-0' }
+    - import_url = @project.safe_import_url
+    = format(_('Mirrored from %{link}.'), link: link_to(import_url, import_url)).html_safe
+    %br
+    = render "shared/mirror_status"

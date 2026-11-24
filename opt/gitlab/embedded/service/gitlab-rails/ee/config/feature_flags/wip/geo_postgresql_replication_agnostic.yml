@@ -1,0 +1,9 @@
+---
+name: geo_postgresql_replication_agnostic
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/13721
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167925
+rollout_issue_url:
+milestone: '17.5'
+group: group::geo
+type: wip
+default_enabled: false

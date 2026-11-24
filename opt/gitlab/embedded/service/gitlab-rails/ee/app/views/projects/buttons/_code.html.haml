@@ -1,0 +1,12 @@
+- project = project || @project
+- ref = local_assigns.fetch(:ref) || ''
+- ref_type = local_assigns.fetch(:ref_type) || ''
+
+- if can?(current_user, :download_code, @project)
+  .git-clone-holder.js-git-clone-holder
+    #js-code-dropdown{ data: compact_code_dropdown_data(project, ref, ref_type).merge(
+      kerberos_url: alternative_kerberos_url? ? project.kerberos_url_to_repo : '',
+      project_id: @project.id,
+      project_path: @project.full_path
+    ).merge(vue_tree_workspace_data)
+    }

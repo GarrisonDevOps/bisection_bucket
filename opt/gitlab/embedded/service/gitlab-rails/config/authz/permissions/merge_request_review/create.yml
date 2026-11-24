@@ -1,0 +1,3 @@
+---
+name: create_merge_request_review
+description: Grants the ability to submit a review on a merge request

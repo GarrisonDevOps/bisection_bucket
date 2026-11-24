@@ -1,0 +1,11 @@
+---
+name: AddFieldsToProjectsIndex
+version: '20240130154724'
+description: Adds repository_languages, forked, owner_id and mirror fields to the
+  projects index
+group: group::global search
+milestone: '16.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143771
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169304
+marked_obsolete_in_milestone: '17.6'

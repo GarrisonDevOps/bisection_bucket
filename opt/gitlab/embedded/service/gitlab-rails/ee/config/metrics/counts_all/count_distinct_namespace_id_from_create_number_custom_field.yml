@@ -1,0 +1,24 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_from_create_number_custom_field
+description: Count of unique namespaces where number custom fields were created
+product_group: work_items
+product_categories:
+- team_planning
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184587
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: create_custom_field_in_group_settings
+  unique: namespace.id
+  filter:
+    label: number

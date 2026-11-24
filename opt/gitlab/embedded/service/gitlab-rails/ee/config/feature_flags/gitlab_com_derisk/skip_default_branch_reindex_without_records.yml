@@ -1,0 +1,11 @@
+---
+name: skip_default_branch_reindex_without_records
+description: Skip queueing the default branch Elasticsearch reindex workers for projects
+  that have no vulnerability reads or SBOM occurrence refs to reindex.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637719
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268725
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638805
+milestone: '19.6'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,14 @@
+---
+description: User clicks the Learn more link on the free tier purchase commitment card on the billing page
+internal_events: true
+action: click_learn_more_link_free_tier_purchase_commitment
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - subscription_management
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226401
+tiers:
+  - free

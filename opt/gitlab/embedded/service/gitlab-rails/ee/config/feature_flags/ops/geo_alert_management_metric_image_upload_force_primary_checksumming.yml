@@ -1,0 +1,9 @@
+---
+name: geo_alert_management_metric_image_upload_force_primary_checksumming
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/589925
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236178
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/589924
+milestone: '19.1'
+group: group::geo
+type: ops
+default_enabled: true

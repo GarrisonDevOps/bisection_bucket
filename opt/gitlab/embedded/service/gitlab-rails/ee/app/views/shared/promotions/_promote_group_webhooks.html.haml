@@ -1,0 +1,14 @@
+- add_page_specific_style 'page_bundles/promotions'
+
+- title = s_('Promotions|Add Group Webhooks and GitLab Enterprise Edition.')
+- if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+  - title = s_('Promotions|Upgrade your plan to activate Group Webhooks.')
+
+= render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-radar-md.svg',
+  title: title) do |c|
+
+  - c.with_description do
+    = s_('Promotions|Webhooks allow you to trigger a URL if, for example, new code is pushed or a new issue is created. You can configure webhooks to listen for specific events like pushes, issues or merge requests. Group webhooks will apply to all projects in a group, allowing you to standardize webhook functionality across your entire group.')
+    = link_to _('Read more'), help_page_path('user/project/integrations/webhooks.md'), target: '_blank', rel: 'noopener noreferrer'
+    .gl-mt-5
+      = render 'shared/promotions/promotion_link_project', location: :group_webhooks

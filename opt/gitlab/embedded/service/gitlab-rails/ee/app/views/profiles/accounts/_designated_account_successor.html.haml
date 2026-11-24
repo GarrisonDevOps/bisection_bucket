@@ -1,0 +1,66 @@
+- learn_more_link = link_to('', help_page_path('user/profile/account/account_succession.md'), target: '_blank', rel: 'noreferrer')
+- account_successor = designated_account_successor || Users::DesignatedBeneficiary.new(type: 'successor')
+- form_expanded = account_successor.errors.any?
+
+= render ::Layouts::CrudComponent.new(s_('Profiles|Designated account successor'),
+  description: safe_format(s_('Profiles|Assign an individual who has legal authority to assume ownership of your GitLab account upon your death. %{link_start}Learn more%{link_end}.'), tag_pair(learn_more_link, :link_start, :link_end)),
+  form_options: { class: form_expanded ? '' : 'gl-hidden js-toggle-content' },
+  options: { class: 'gl-mt-5 js-toggle-container js-token-card' }) do |c|
+
+  - c.with_actions do
+    - unless account_successor.persisted?
+      = render Pajamas::ButtonComponent.new(button_options: { class: 'js-toggle-button js-toggle-content' }) do
+        = s_('Profiles|Add account successor')
+
+  - c.with_form do
+    - url = account_successor.persisted? ? profile_designated_beneficiary_path(account_successor) : profile_designated_beneficiaries_path
+    = gitlab_ui_form_for account_successor, url: url, html: { class: 'gl-show-field-errors', autocomplete: 'off', aria: { live: 'assertive' }} do |f|
+      = f.hidden_field :type, value: 'successor'
+
+      .form-group
+        = f.label :name, s_('Profiles|Full name'), class: 'label-bold'
+        = f.text_field :name, class: 'form-control gl-form-input gl-form-input-xl js-validate-length',
+          title: s_('Profiles|Full name is required.'),
+          required: true,
+          data: { max_length: 255, max_length_message: s_('Profiles|Full name is too long (maximum is 255 characters).') }
+
+      .form-group
+        = f.label :relationship, s_('Profiles|Relationship with you'), class: 'label-bold'
+        = f.text_field :relationship, class: 'form-control gl-form-input gl-form-input-xl js-validate-length',
+          title: s_('Profiles|Relationship is required.'),
+          required: true,
+          data: { max_length: 255, max_length_message: s_('Profiles|Relationship is too long (maximum is 255 characters).') }
+
+      .form-group
+        = f.label :email, s_('Profiles|Email address (optional)'), class: 'label-bold'
+        = f.email_field :email, class: 'form-control gl-form-input gl-form-input-xl js-validate-length',
+          pattern: '.+\.[a-zA-Z]{2,}',
+          title: s_('Profiles|Provide a valid email address.'),
+          data: { max_length: 255, max_length_message: s_('Profiles|Email address is too long (maximum is 255 characters).') }
+
+      = render Pajamas::ButtonComponent.new(variant: :confirm, type: :submit) do
+        = account_successor.persisted? ? s_('Profiles|Update account successor') : s_('Profiles|Add account successor')
+
+      = render Pajamas::ButtonComponent.new(type: :reset, button_options: { class: 'gl-ml-2 js-toggle-button' }) do
+        = _('Cancel')
+
+  - c.with_body do
+    - if account_successor.persisted?
+      .table-holder
+        %table.table.b-table.gl-table.b-table-stacked-md{ role: 'table' }
+          %thead
+            %tr
+              %th{ class: 'gl-w-1/4' }= s_('Profiles|Full name')
+              %th{ class: 'gl-w-1/4' }= s_('Profiles|Relationship')
+              %th{ class: 'gl-w-1/4' }= s_('Profiles|Email address')
+              %th= _('Actions')
+          %tbody
+            %tr
+              %td{ data: { label: s_('Profiles|Full name') } }= account_successor.name
+              %td{ data: { label: s_('Profiles|Relationship') } }= account_successor.relationship
+              %td{ data: { label: s_('Profiles|Email address') } }= account_successor.email
+              %td{ data: { label: _('Actions') }, class: '!gl-py-3' }
+                = render Pajamas::ButtonComponent.new(icon: 'remove', href: profile_designated_beneficiary_path(account_successor), method: :delete, button_options: { title: _('Delete'), class: 'has-tooltip', data: { title: s_('Profiles|Delete account successor?'), confirm: s_('Profiles|This will permanently delete the designated account successor.'), confirm_btn_variant: 'danger' }, aria: { label: s_('Profiles|Delete account successor') }})
+                = render Pajamas::ButtonComponent.new(icon: 'pencil', button_options: { title: _('Edit'), class: 'gl-ml-2 js-toggle-button js-toggle-content has-tooltip' })
+    - else
+      = s_('Profiles|No designated account successor assigned.')

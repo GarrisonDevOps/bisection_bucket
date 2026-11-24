@@ -1,0 +1,15 @@
+.gl-max-w-62.gl-mx-auto.gl-mt-11
+  .gl-text-center.gl-mb-5
+    %h1.gl-text-size-h1-xl.gl-m-0.gl-mb-5
+      = s_('Trial|Start your free Ultimate trial!')
+    %p.gl-m-0.gl-text-lg.gl-text-subtle
+      = s_('Trial|We need a few more details from you to activate your trial for your GitLab instance.')
+    %p.gl-m-0.gl-my-5.gl-italic.gl-text-sm.gl-text-subtle.gl-leading-20
+      = s_('Trial|Note: You must have an internet connection.')
+
+  = render Pajamas::CardComponent.new(card_options: { class: 'gl-border-none' }, body_options: { class: 'gl-p-6 !gl-bg-default gl-border gl-rounded-base' }) do |c|
+    - c.with_body do
+      #js-start-trial-form{ data: { view_model: form_data } }
+
+  %p.gl-text-center.gl-text-sm.gl-text-subtle.gl-mt-3
+    = helpers.safe_format(s_("Trial|Having trouble with this form? You can also request a trial on %{link}."), { link: link_to('GitLab.com', promo_url(path: '/free-trial', query: { hosted: 'self-managed' }), data: { event_tracking: 'sm_trial_create_form_com_click' }) }).html_safe

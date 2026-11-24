@@ -1,0 +1,37 @@
+- return unless merge_trains_available?(@project)
+- merge_trains_help_link_url = help_page_path('ci/pipelines/merge_trains.md')
+- merge_trains_help_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: merge_trains_help_link_url }
+
+- terms_link = '<a href="https://about.gitlab.com/handbook/legal/testing-agreement/" target="_blank" rel="noopener noreferrer">GitLab Testing Agreement</a>'.html_safe
+
+- skip_trains_help_text1 = s_('ProjectSettings|This feature is an experiment. When you enable this, you accept the %{link}.') % { link: terms_link }
+- skip_trains_help_text2 = s_('ProjectSettings|When selected, merge requests merge immediately without restarting other train pipelines. ')
+- skip_trains_help_text3 = s_('ProjectSettings|Commits in earlier merge train pipelines might not be validated against the merged commits. ')
+- full_skip_trains_help_test = (skip_trains_help_text1 + "<br />" + skip_trains_help_text2 + "<br />" + skip_trains_help_text3 + "<br />").html_safe
+
+.gl-pl-6
+  = form.gitlab_ui_checkbox_component :merge_trains_enabled,
+    s_('ProjectSettings|Enable merge trains'),
+    help_text: s_('ProjectSettings|Merge requests approved for merge are queued, and pipelines validate the combined results of the source and target branches before merge. %{link_start}What are merge trains?%{link_end}').html_safe % { link_start: merge_trains_help_link_start, link_end: '</a>'.html_safe },
+    checkbox_options: { class: 'js-merge-options-merge-trains', data: { testid: 'merge-trains-checkbox' } }
+  - plan_limit = @project.actual_limits.max_pipelines_per_merge_train
+  .form-group.gl-mt-3
+    = form.label :max_pipelines_per_merge_train, s_('ProjectSettings|Maximum parallel pipelines per merge train'), class: 'label-bold'
+    = form.number_field :max_pipelines_per_merge_train, class: 'form-control gl-form-input', min: 1, max: plan_limit
+    .form-text.gl-text-subtle= s_('ProjectSettings|Instance limit: %{limit}. Set a value between 1 and %{limit}, or leave empty to use the instance limit.') % { limit: plan_limit }
+  - if Feature.enabled?(:merge_trains_skip_train)
+    = form.gitlab_ui_checkbox_component :merge_trains_skip_train_allowed,
+      s_('ProjectSettings|Merge immediately without restarting the merge train'),
+      help_text: full_skip_trains_help_test,
+      checkbox_options: { class: 'js-merge-options-merge-trains-skip-train-allowed' }
+  .form-group.gl-mt-3
+    = form.label :merge_train_enforcement, s_('ProjectSettings|Merge train enforcement'), class: 'label-bold'
+    = form.gitlab_ui_radio_component :merge_train_enforcement, :allow_bypass,
+      s_('ProjectSettings|Allow bypass'),
+      help_text: s_('ProjectSettings|Users with permission to merge can bypass the merge train through the UI or API.')
+    = form.gitlab_ui_radio_component :merge_train_enforcement, :enforce_for_all_users,
+      s_('ProjectSettings|Enforce for all users'),
+      help_text: s_('ProjectSettings|All merge requests must go through the merge train. You cannot bypass the merge train through the UI or API. To merge through the API, use auto-merge instead.')
+    = form.gitlab_ui_radio_component :merge_train_enforcement, :enforce_with_owner_override,
+      s_('ProjectSettings|Enforce with Owner override'),
+      help_text: s_('ProjectSettings|All merge requests must go through the merge train. Owners and administrators can bypass the merge train for individual merge requests through the UI or API.')

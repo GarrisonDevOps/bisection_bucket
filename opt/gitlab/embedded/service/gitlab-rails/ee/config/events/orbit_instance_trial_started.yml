@@ -1,0 +1,14 @@
+---
+description: An administrator started the instance-wide Orbit trial on a GitLab Self-Managed or GitLab Dedicated instance
+internal_events: true
+action: orbit_instance_trial_started
+identifiers:
+- user
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261678
+tiers:
+- premium
+- ultimate

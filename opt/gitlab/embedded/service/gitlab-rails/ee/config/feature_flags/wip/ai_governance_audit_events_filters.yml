@@ -1,0 +1,10 @@
+---
+name: ai_governance_audit_events_filters
+description: Filters for AI Governance Audit events that need backend arguments not yet on
+  master, such as agent type, and the dashboard links that use them
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637206
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261757
+milestone: '19.6'
+group: group::ai governance
+type: wip
+default_enabled: false

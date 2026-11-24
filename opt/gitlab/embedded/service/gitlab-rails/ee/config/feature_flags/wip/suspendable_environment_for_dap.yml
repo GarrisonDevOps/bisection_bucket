@@ -1,0 +1,10 @@
+---
+name: suspendable_environment_for_dap
+description: Enables suspendable CI environments for Duo Agent Platform workloads, so a resumed workflow reuses the environment left behind by its previous run instead of provisioning a fresh one.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/612876
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252787
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630540
+milestone: '19.5'
+group: group::agent execution
+type: wip
+default_enabled: false

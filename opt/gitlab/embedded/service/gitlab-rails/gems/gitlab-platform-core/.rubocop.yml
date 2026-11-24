@@ -1,0 +1,34 @@
+inherit_from:
+  - ../config/rubocop.yml
+
+Gemfile/MissingFeatureCategory:
+  Enabled: false
+
+# Mirrors the monolith's global settings, so that moving a file into this gem
+# does not change which cops apply to it. See the root `.rubocop.yml`.
+Fips/OpenSSL:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Exclude:
+    - spec/**/*_spec.rb
+
+# Debt inherited with the moved files, previously held in `.rubocop_todo/`.
+Rails/TimeZone:
+  Exclude:
+    - lib/gitlab/loop_helpers.rb
+
+RSpec/NamedSubject:
+  Exclude:
+    - spec/gitlab/loop_helpers_spec.rb
+
+Style/RedundantParentheses:
+  Exclude:
+    - spec/gitlab/loop_helpers_spec.rb
+
+Layout/LineEndStringConcatenationIndentation:
+  Exclude:
+    - spec/gitlab/insecure_key_fingerprint_spec.rb

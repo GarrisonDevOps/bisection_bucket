@@ -1,0 +1,35 @@
+# @feature_category: mcp_server
+query listVulnerabilities(
+  $fullPath: ID!
+  $severity: [VulnerabilitySeverity!]
+  $reportType: [VulnerabilityReportType!]
+  $state: [VulnerabilityState!]
+  $first: Int
+  $after: String
+) {
+  project(fullPath: $fullPath) {
+    id
+    vulnerabilities(
+      severity: $severity
+      reportType: $reportType
+      state: $state
+      first: $first
+      after: $after
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        title
+        severity
+        state
+        reportType
+        webUrl
+        detectedAt
+        resolvedAt
+      }
+    }
+  }
+}

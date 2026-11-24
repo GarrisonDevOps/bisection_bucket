@@ -1,0 +1,10 @@
+---
+name: dap_session_load_more_messages
+description: Loads only the newest page of messages on the session details page, with a Load earlier messages button for older ones.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635073
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265566
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636541
+milestone: '19.6'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

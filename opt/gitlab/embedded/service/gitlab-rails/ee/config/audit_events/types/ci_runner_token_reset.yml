@@ -1,0 +1,10 @@
+---
+name: ci_runner_token_reset
+description: A runner's token is reset
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/355637
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/85535
+feature_category: runner
+milestone: '15.0'
+saved_to_database: true
+streamed: true
+scope: [Instance, Group, Project]

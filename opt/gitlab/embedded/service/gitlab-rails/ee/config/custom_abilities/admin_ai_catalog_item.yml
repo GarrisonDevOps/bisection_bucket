@@ -1,0 +1,16 @@
+---
+title: Manage AI catalog items
+name: admin_ai_catalog_item
+description: Create, edit, and delete custom agents and flows in the AI catalog.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/578558
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234759
+feature_category: duo_agent_platform
+milestone: '19.0'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - admin_ai_catalog_item
+  - create_ai_catalog_flow
+  - create_ai_catalog_agent

@@ -1,0 +1,22 @@
+---
+data_category: subscription
+key_path: license_billable_users
+name: billable_users
+description: Number of all billable users (active users excluding bots and guests).
+product_group: provision
+product_categories:
+- plan_provisioning
+value_type: number
+status: active
+milestone: "14.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/62850
+time_frame: all
+data_source: license
+instrumentation_class: LicenseMetric
+options:
+  attribute: daily_billable_users_count
+tiers:
+- premium
+- ultimate
+performance_indicator_type:
+- lighthouse

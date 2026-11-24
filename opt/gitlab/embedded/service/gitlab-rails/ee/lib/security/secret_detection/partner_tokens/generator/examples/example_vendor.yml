@@ -1,0 +1,47 @@
+# Example vendor definition: the reviewed output of the AI-assisted rule development
+# process for a fictional vendor. An LLM reads the vendor's validation-API docs
+# and emits this data; a human reviews it; the generator turns it into a
+# verifier + spec (see VendorDefinition for the contract and validations).
+#
+# One file describes one token type. A vendor with several token types gets one
+# definition (and one generated client class) per type, so every client verifies
+# exactly the format it accepts -- and each type carries its own full endpoint,
+# the way GitHub's hand-written verifiers use a different path per type.
+---
+token_type: "Acme API token"
+class_name: "AcmeClient"
+endpoint: "https://api.acme.dev/v1/whoami"
+# A vendor with separate regional stacks lists every host instead of endpoint.
+# The client tries them in order and reports inactive only when each one
+# returns the dead code, so a live token is never misreported from the wrong region.
+# endpoints:
+#   - "https://api.acme.dev/v1/whoami"
+#   - "https://api.eu.acme.dev/v1/whoami"
+http_method: "get"
+auth_style: "bearer"
+# For a vendor that wants a scheme in front of the token, such as
+# "Authorization: AccessKey <token>", use the header style with a quoted prefix.
+# auth_style: "header"
+# auth_param: "Authorization"
+# auth_prefix: "AccessKey "
+token_pattern: '\Aacme_[a-z0-9]{20}\z'
+# Filler characters only, never a real credential. The generated spec uses
+# this to drive the client, and it must match token_pattern.
+sample_token: "acme_aaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_acme_api"
+doc_url: "https://docs.acme.dev/api/authentication"
+# Optional fixed headers the vendor needs on every request, such as an API
+# version. Quote each value: an unquoted 2024-01-01 fails to load (YAML reads it as a Date).
+# extra_headers:
+#   Acme-Version: "2024-01-01"
+# Map a code only when it always means that outcome for this vendor. Unmapped
+# codes fall through to unknown. A vendor whose codes depend on the response
+# body (OpenAI returns 401 for live keys as well as dead ones) needs a
+# hand-written client instead of a generated one.
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"

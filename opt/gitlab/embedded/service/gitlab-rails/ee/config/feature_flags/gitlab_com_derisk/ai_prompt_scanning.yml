@@ -1,0 +1,10 @@
+---
+name: ai_prompt_scanning
+description: Controls whether prompt injection scanning is enabled.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/584247
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216699
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/584290
+milestone: '18.8'
+group: group::agent foundations
+type: gitlab_com_derisk
+default_enabled: false

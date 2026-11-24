@@ -1,0 +1,19 @@
+---
+description: Created CI Job Artifacts for Repository X-Ray
+internal_events: true
+action: ci_repository_xray_artifact_created
+classification: duo
+identifiers:
+- project
+- user
+product_group: dap_repository_flows
+product_categories:
+- code_suggestions
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/185189
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235101
+milestone_removed: '19.0'
+status: removed
+tiers:
+- premium
+- ultimate

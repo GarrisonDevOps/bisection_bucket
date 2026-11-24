@@ -1,0 +1,10 @@
+---
+name: group_ci_cd_analytics_pipelines_ff
+description: CI/CD Analytics for Pipelines at Group Level
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/21197
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226873
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/594595
+milestone: '18.10'
+group: group::ci platform
+type: wip
+default_enabled: false

@@ -1,0 +1,16 @@
+---
+table_name: push_rules
+classes:
+- PushRule
+feature_categories:
+- source_code_management
+description: Stores project push rules enforcing commit message regex, committer
+  identity, signed commits, DCO, branch names, file names, and file size limits.
+  Instance-level rules live in organization_push_rules and group-level rules in
+  group_push_rules.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/commit/1b98b5ab97ce3e9997df542059cbf3c6ce0bf0e1
+milestone: '8.10'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  project_id: projects
+table_size: small

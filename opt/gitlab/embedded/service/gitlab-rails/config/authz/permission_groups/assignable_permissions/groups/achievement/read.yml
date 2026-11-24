@@ -1,0 +1,11 @@
+---
+name: read_achievement
+description: Grants the ability to read achievements and awarded achievements
+boundaries:
+  - group
+  - user
+available_for:
+  - granular_access_token
+permissions:
+  - read_achievement
+  - read_user_achievement

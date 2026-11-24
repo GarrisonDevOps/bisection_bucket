@@ -1,0 +1,16 @@
+---
+data_category: optional
+key_path: counts.dependency_list_usages_total
+description: Count to Dependency List page views
+product_group: composition_analysis
+value_type: number
+status: removed
+milestone_removed: "14.9"
+time_frame: all
+data_source: redis
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332
+removed_by_url:

@@ -1,0 +1,21 @@
+---
+description: Tracks when user clicks popover cta on trial expired modal
+internal_events: true
+status: active
+action: click_cta_premium_feature_popover_end_of_trial_modal
+identifiers:
+- project
+- namespace
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213711
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  property:
+    description: The feature that is being hovered over

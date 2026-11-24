@@ -1,0 +1,18 @@
+#js-repository-blob-header-app{ data: vue_tree_header_app_data(project, repository, ref, ref_type) }
+
+- if project.forked?
+  #js-fork-info{ data: vue_fork_divergence_data(project, ref) }
+
+.gl-bg-subtle.gl-border.gl-rounded-lg.gl-overflow-clip
+  #js-last-commit.gl-flex.gl-items-center.gl-justify-center.gl-m-auto{ data: {ref_type: ref_type.to_s, history_link: project_commits_path(project, ref)} }
+    .gl-flex.gl-grow.gl-items-center.gl-gap-3.gl-p-4{ aria: { hidden: 'true' } }
+      .gl-animate-skeleton-loader.gl-h-7.gl-w-7.gl-shrink-0.gl-rounded-full
+      .gl-flex.gl-grow.gl-flex-col.gl-gap-2
+        .gl-animate-skeleton-loader.gl-h-4.gl-w-30.gl-max-w-full.gl-rounded-default
+        .gl-animate-skeleton-loader.gl-h-3.gl-w-20.gl-max-w-full.gl-rounded-default
+  - if project.licensed_feature_available?(:code_owners)
+    #js-code-owners{ data: { branch: ref, can_view_branch_rules: can_view_branch_rules?, branch_rules_path: branch_rules_path } }
+  -# Renders the auxiliary viewer when the file tree navigates to a blob without a page reload.
+  #js-blob-auxiliary-viewer
+
+#js-tree-list{ data: vue_file_list_data(project, ref) }

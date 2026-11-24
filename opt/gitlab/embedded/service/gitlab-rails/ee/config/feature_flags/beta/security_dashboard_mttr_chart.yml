@@ -1,0 +1,10 @@
+---
+name: security_dashboard_mttr_chart
+description: Enables the MTTR over time panel on the organization, group, and project security dashboards.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/19830
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253639
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/626729
+milestone: '19.4'
+type: beta
+group: group::vulnerability management
+default_enabled: true

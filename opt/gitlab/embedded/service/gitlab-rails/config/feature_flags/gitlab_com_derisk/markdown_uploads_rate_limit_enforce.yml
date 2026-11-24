@@ -1,0 +1,10 @@
+---
+name: markdown_uploads_rate_limit_enforce
+description: Enforce the per-user daily byte budget on Markdown uploads
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637472
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269433
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639259
+milestone: '19.6'
+group: group::planner intelligence
+type: gitlab_com_derisk
+default_enabled: false

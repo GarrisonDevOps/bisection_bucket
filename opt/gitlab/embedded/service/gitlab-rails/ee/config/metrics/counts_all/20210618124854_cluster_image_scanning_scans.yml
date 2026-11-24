@@ -1,0 +1,16 @@
+---
+key_path: usage_activity_by_stage.secure.cluster_image_scanning_scans
+description: 'Counts cluster image scanning jobs'
+product_group: composition_analysis
+value_type: number
+status: removed
+milestone_removed: '15.5'
+removed_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/98858'
+milestone: "14.1"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/64877
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+- ultimate
+performance_indicator_type: []

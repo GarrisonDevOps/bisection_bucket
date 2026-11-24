@@ -1,0 +1,10 @@
+---
+name: ci_runner_created
+description: Triggered when a runner is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/503315
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/173885
+feature_category: fleet_visibility
+milestone: '17.8'
+saved_to_database: true
+streamed: true
+scope: [Instance, Group, Project]

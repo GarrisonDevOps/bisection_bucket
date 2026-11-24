@@ -1,0 +1,10 @@
+---
+name: ai_flow_trigger_chaining_root_namespace_check
+description: Rejects a workflow whose parent workflow belongs to a different top-level namespace.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630476
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268425
+rollout_issue_url:
+milestone: '19.6'
+group: group::agent foundations
+type: wip
+default_enabled: false

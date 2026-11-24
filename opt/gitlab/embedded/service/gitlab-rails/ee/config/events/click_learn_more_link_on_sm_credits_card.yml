@@ -1,0 +1,18 @@
+---
+description: User clicks the learn more link on the self-managed credits card on the admin subscriptions page
+internal_events: true
+action: click_learn_more_link_on_sm_credits_card
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - subscription_management
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237123
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: Identifies the link clicked; always "learn_more" for this event

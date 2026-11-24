@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_find_no_issues_duo_code_review_after_review
+description: Count of code reviews performed by Duo Code Review with no issues found
+product_group: code_review
+product_categories:
+- code_review_workflow
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/191057
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: find_no_issues_duo_code_review_after_review

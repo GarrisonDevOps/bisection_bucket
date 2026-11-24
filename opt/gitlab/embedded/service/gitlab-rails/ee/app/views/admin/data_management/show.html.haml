@@ -1,0 +1,8 @@
+- model_name = ::Gitlab::Geo::ModelMapper.convert_to_name(@model.class)
+
+- add_to_breadcrumbs _('Data management'), admin_data_management_path
+- add_to_breadcrumbs model_name.titleize.pluralize, "#{admin_data_management_path}/#{model_name.pluralize}"
+- breadcrumb_title @model.id.to_s
+- page_title "#{model_name.titleize}/#{@model.id}"
+
+#js-admin-data-management-item{ data: admin_data_management_item_app_data(@model) }

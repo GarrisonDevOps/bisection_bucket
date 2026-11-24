@@ -1,0 +1,11 @@
+---
+name: packages_discard_unstored_direct_uploads
+description: Delete the pending direct upload entry and object when a package upload
+  request ends without storing the file
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636473
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268133
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638489
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,21 @@
+---
+description: Track usage of Duo Troubleshoot Job feature.
+internal_events: true
+action: troubleshoot_job
+classification: duo
+additional_properties:
+  label:
+    description: not actually used - to be fixed in https://gitlab.com/gitlab-org/gitlab/-/issues/501387
+  property:
+    description: not actually used - to be fixed in https://gitlab.com/gitlab-org/gitlab/-/issues/501387
+identifiers:
+  - user
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+- chat_engine
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/187848
+tiers:
+  - premium
+  - ultimate

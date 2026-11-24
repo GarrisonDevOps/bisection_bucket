@@ -1,0 +1,63 @@
+# @feature_category: mcp_server
+query listTodos(
+  $state: [TodoStateEnum!]
+  $action: [TodoActionEnum!]
+  $type: [TodoTargetEnum!]
+  $authorId: [ID!]
+  $projectId: [ID!]
+  $groupId: [ID!]
+  $first: Int
+  $after: String
+) {
+  currentUser {
+    id
+    todos(
+      state: $state
+      action: $action
+      type: $type
+      authorId: $authorId
+      projectId: $projectId
+      groupId: $groupId
+      first: $first
+      after: $after
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        action
+        state
+        body
+        createdAt
+        targetType
+        targetUrl
+        targetEntity {
+          name
+          ... on Issue {
+            iid
+          }
+          ... on MergeRequest {
+            iid
+          }
+          ... on WorkItem {
+            iid
+          }
+        }
+        author {
+          id
+          username
+        }
+        project {
+          id
+          fullPath
+        }
+        group {
+          id
+          fullPath
+        }
+      }
+    }
+  }
+}

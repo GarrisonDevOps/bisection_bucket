@@ -1,0 +1,18 @@
+---
+key_path: analytics_counts_visits.g_metrics_comparison_page
+description: 'Total number of visits to value stream dashboards page'
+product_group: optimize
+value_type: number
+status: removed
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154211
+milestone_removed: "17.1"
+milestone: "15.11"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/114786
+time_frame: all
+data_source: internal_events
+data_category: optional
+events:
+  - name: value_streams_dashboard_viewed
+performance_indicator_type: []
+tiers:
+- ultimate

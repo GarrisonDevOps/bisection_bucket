@@ -1,0 +1,52 @@
+
+title: Merge request analytics
+description: Get insights into your merge request lifecycle and view trends over time.
+filters:
+  dateRange:
+    enabled: true
+    defaultOption: 365d
+    options:
+      - 7d
+      - 30d
+      - 90d
+      - 180d
+      - 365d
+      - custom
+    numberOfDaysLimit: 365
+  filteredSearch:
+    enabled: true
+    options:
+      - token: source_branch
+      - token: target_branch
+      - token: milestone
+      - token: label
+      - token: author
+        operator: is
+      - token: assignee
+        operator: is
+        unique: true
+panels:
+  - title: Mean time to merge
+    visualization: mean_time_to_merge
+    gridAttributes:
+      width: 3
+      height: 1
+      yPos: 0
+      xPos: 0
+    queryOverrides: {}
+  - title: Throughput
+    visualization: merge_requests_over_time
+    gridAttributes:
+      width: 12
+      height: 4
+      yPos: 1
+      xPos: 0
+    queryOverrides: {}
+  - title: Merge Requests
+    visualization: merge_requests_throughput_table
+    gridAttributes:
+      width: 12
+      height: 13
+      yPos: 2
+      xPos: 4
+    queryOverrides: {}

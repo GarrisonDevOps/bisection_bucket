@@ -1,0 +1,6 @@
+- add_to_breadcrumbs s_('Organization|Organization access'), access_organization_path(@organization)
+- breadcrumb_title s_('ArtifactRegistry|Artifact Registry')
+- page_title s_('ArtifactRegistry|Artifact Registry'), s_('Organization|Organization access')
+
+-# https://gitlab.com/gitlab-org/gitlab/-/work_items/629716 sets can_invite_members from the real check.
+#js-organization-access-artifact-registry{ data: { organization_path: @organization.path, organization_gid: @organization.to_global_id.to_s, can_invite_members: 'true' } }

@@ -1,0 +1,10 @@
+---
+name: protected_environment_approval_rule_reassigned
+description: A protected environment's sole approval rule is reassigned to an access-level fallback after its sole user or group approver is permanently deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/600088
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/issues/600088
+feature_category: environment_management
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: ["Project", "Group"]

@@ -1,0 +1,10 @@
+---
+name: ai_catalog_version_restore
+description: Allow item owners to restore an older released version as the new latest version with deprecation support
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/601095
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/238902
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/601892
+milestone: '19.1'
+group: group::workflow catalog
+type: wip
+default_enabled: false

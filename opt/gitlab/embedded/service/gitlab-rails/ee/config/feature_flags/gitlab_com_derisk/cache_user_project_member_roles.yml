@@ -1,0 +1,10 @@
+---
+name: cache_user_project_member_roles
+description: Create/update/destroy users' user_project_member_roles records when member roles are assigned in projects
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/569796
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206819
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/572176
+milestone: '18.5'
+group: group::authorization
+type: gitlab_com_derisk
+default_enabled: false

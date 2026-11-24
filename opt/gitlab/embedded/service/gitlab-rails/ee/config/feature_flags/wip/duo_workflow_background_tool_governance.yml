@@ -1,0 +1,10 @@
+---
+name: duo_workflow_background_tool_governance
+description: Enforces HITL AI tool governance rules for Duo flows running in the background
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/604842
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245926
+rollout_issue_url:
+milestone: '19.3'
+group: group::compliance
+type: wip
+default_enabled: false

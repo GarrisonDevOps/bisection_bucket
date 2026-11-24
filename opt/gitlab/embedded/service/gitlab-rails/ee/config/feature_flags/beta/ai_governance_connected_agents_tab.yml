@@ -1,0 +1,10 @@
+---
+name: ai_governance_connected_agents_tab
+description: Show the Connected agents tab, which lists each external agent connection, on the AI Governance page
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633495
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639518
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267356
+milestone: '19.6'
+group: group::ai governance
+type: beta
+default_enabled: false

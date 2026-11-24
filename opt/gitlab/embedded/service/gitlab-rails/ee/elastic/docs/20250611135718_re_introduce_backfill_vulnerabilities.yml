@@ -1,0 +1,15 @@
+---
+name: ReIntroduceBackfillVulnerabilities
+version: '20250611135718'
+description: Backfills Vulnerabilities Index from PostgreSQL after fixing sync issues
+group: group::security infrastructure
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/194116
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209382
+marked_obsolete_in_milestone: '18.6'
+skippable: true
+skip_condition: This migration will run on SaaS and Dedicated GitLab instances. For
+  Self-managed instances decision is awaited and is tracked in https://gitlab.com/gitlab-org/gitlab/-/issues/525484.
+  For Self-managed this migration will be skipped and can be introduced later based
+  on product direction.

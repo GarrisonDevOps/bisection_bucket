@@ -1,0 +1,10 @@
+---
+name: ai_governance_mcp_server_activity
+description: Show the MCP server activity card on the AI Governance dashboard
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/618957
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251759
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/627998
+milestone: '19.4'
+group: group::ai governance
+type: beta
+default_enabled: true

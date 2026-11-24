@@ -1,0 +1,10 @@
+---
+name: store_scans_reentrant_lease
+description: Let a retry of Security::StoreScansWorker take back the store lease that its own interrupted run still holds, and renew the lease while it stores scans
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636006
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266153
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637028
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::security foundations
+default_enabled: false

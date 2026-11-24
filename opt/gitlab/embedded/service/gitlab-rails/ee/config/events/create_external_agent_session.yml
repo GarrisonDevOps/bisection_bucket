@@ -1,0 +1,22 @@
+---
+description: glab synced an external coding agent session to GitLab for the first time. This can be long after the session started, for example glab govern setup uploads Codex and Cursor sessions from up to 89 days back. Not fired when an existing session is returned for the same idempotency key
+internal_events: true
+status: active
+action: create_external_agent_session
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: Agent type, for example claude-code
+  property:
+    description: 'How the session was synced, one of hook, fallback, or manual'
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263121
+tiers:
+- premium
+- ultimate

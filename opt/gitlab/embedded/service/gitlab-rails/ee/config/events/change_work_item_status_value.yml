@@ -1,0 +1,20 @@
+---
+description: Status value of a work item was changed
+internal_events: true
+status: active
+action: change_work_item_status_value
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Status category
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197104
+tiers:
+- premium
+- ultimate

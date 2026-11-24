@@ -1,0 +1,10 @@
+---
+name: duo_chat_tool_call_limits
+description: Limits how many tool calls Agentic Chat runs in one model call and while answering one user message.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635166
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265812
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636691
+milestone: '19.6'
+group: group::duo chat
+type: gitlab_com_derisk
+default_enabled: false

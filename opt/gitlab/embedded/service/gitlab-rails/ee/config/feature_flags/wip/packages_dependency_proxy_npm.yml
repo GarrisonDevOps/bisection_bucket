@@ -1,0 +1,9 @@
+---
+name: packages_dependency_proxy_npm
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/3608
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/144320
+rollout_issue_url:
+milestone: '16.11'
+group: group::package registry
+type: wip
+default_enabled: false

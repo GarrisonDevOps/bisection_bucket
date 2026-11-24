@@ -1,0 +1,11 @@
+---
+name: todos_pending_count_invalidate_on_write
+description: Expire a user's cached pending to-do count when their to-do items are
+  resolved or restored, instead of recounting it right away
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635768
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270101
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639664
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

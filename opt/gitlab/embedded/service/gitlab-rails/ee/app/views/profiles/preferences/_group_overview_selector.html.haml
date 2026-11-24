@@ -1,0 +1,8 @@
+- return unless group_overview_content_preference?
+
+.form-group
+  = f.label :group_view, class: 'label-bold' do
+    = _('Group overview content')
+  = f.select :group_view, group_view_choices, {}, class: 'gl-form-select custom-select gl-block gl-form-input-xl'
+  .form-text.gl-text-subtle
+    = _('Choose what content you want to see on a group’s overview page.')

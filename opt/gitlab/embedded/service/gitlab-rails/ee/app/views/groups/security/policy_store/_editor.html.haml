@@ -1,0 +1,5 @@
+-# locals: group, policy_id (optional)
+#js-policy-store{ data: { namespace_path: group.full_path,
+  organization_id: group.organization_id,
+  list_path: group_security_policy_store_index_path(group),
+  policy_id: local_assigns[:policy_id] } }

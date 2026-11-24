@@ -1,0 +1,10 @@
+---
+name: user_records_migrated_to_ghost
+description: Event triggered when user records are migrated to a ghost user during batch processing
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/567635
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203756
+feature_category: user_management
+milestone: '18.4'
+saved_to_database: true
+streamed: true
+scope: [User]

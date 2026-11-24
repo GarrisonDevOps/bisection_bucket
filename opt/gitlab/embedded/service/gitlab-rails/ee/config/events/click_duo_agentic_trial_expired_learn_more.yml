@@ -1,0 +1,16 @@
+---
+description: User clicks "Learn more" button in trial expired AI panel
+internal_events: true
+status: active
+action: click_duo_agentic_trial_expired_learn_more
+identifiers:
+  - user
+  - namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225758
+tiers:
+- free
+classification: duo

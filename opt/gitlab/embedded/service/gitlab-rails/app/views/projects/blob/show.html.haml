@@ -1,0 +1,30 @@
+- breadcrumb_title _('Repository')
+- add_page_specific_style 'page_bundles/tree'
+- @content_class = "repository-max-width"
+
+- if @gitaly_unavailable
+  = render 'shared/errors/gitaly_unavailable', reason: s_('Blob|Unable to load file content')
+- else
+  - page_title @blob.path, @ref
+  - content_for :prefetch_asset_tags do
+    - webpack_preload_asset_tag('monaco', prefetch: true)
+  -# Must match the getBlobInfo variables in blob_content_viewer.vue, or the app ignores this response
+  - add_page_startup_graphql_call('repository/blob_info', { projectPath: @project.full_path, ref: current_ref, refType: ExtractsRef::RefExtractor.ref_type(params[:ref_type])&.upcase, filePath: [@blob.path], shouldFetchRawText: true })
+
+  = render 'projects/last_push'
+
+  .gl-flex.navigation-root
+    -# The single repository app renders the file tree browser itself.
+    - unless repository_single_vue_app_enabled?(@project)
+      -# Pre-reserve width to prevent CLS; must match TREE_WIDTH in file_tree_browser.vue
+      #js-file-browser{ style: 'width:320px' }
+    #tree-holder.tree-holder.gl-w-full.gl-min-w-0.gl-flex.gl-flex-col.gl-gap-5
+      - if repository_single_vue_app_enabled?(@project)
+        = render 'projects/repository_app', project: @project, ref: @ref, ref_type: @ref_type, blob: @blob
+      - else
+        = render 'blob', blob: @blob
+
+  = render 'shared/web_ide_path'
+
+  -# https://gitlab.com/gitlab-org/gitlab/-/issues/408388#note_1578533983
+  #js-ambiguous-ref-modal{ data: { ambiguous: @is_ambiguous_ref.to_s, ref: current_ref } }

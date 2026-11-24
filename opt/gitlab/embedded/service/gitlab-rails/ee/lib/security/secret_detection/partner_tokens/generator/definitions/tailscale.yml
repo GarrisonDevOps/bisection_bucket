@@ -1,0 +1,20 @@
+---
+token_type: "TailscaleApiAccessToken"
+class_name: "TailscaleClient"
+partner_name: "tailscale"
+endpoint: "https://api.tailscale.com/api/v2/tailnet/-/devices"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Atskey-api-[A-Za-z0-9]{12}CNTRL-[A-Za-z0-9]{32,33}\z'
+sample_token: "tskey-api-aaaaaaaaaaaaCNTRL-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_tailscale_api"
+doc_url: "https://tailscale.com/api"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "403": "unknown"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

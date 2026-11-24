@@ -1,0 +1,14 @@
+---
+description: Tracks when an SM admin user clicks explore plans from the admin dashboard
+internal_events: true
+status: active
+action: click_explore_plans_cta_sm_admin_dashboard
+identifiers:
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214583
+tiers:
+- free

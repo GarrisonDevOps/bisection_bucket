@@ -1,0 +1,27 @@
+- page_title _('Welcome')
+- content_for :page_specific_javascripts do
+  = render "layouts/google_tag_manager_head"
+  = render "layouts/one_trust"
+  = render "layouts/bizible"
+= render "layouts/google_tag_manager_body"
+
+- content_for :registration_marketing_panel_image, 'subscription/groups'
+- content_for :registration_marketing_panel_heading, s_("InProductMarketing|Let's get set up")
+
+.gl-max-w-62.gl-mx-auto.gl-text-center{ class: extra_top_classes }
+  .svg-content
+    = image_tag(image_path('illustrations/status/status-alert-md.svg'), alt: _('Status alert'), size: 144)
+  %h1.gl-text-size-h-display
+    = _('Registration unsuccessful')
+  %p
+    = _("We're sorry, your registration could not be completed. Please resubmit below to complete your setup.")
+
+  %p
+    = content
+
+  = form_tag submit_path, method: submit_method, data: { testid: 'premium-resubmit-form' } do
+    - hidden_fields.each do |field, value|
+      = hidden_field_tag(field, value)
+
+    = render Pajamas::ButtonComponent.new(type: :submit, variant: :confirm, button_options: { class: 'gl-w-full', data: resubmit_button_data }) do
+      = _('Resubmit request')

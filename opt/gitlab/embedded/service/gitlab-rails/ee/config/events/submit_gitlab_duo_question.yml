@@ -1,0 +1,22 @@
+---
+description: This event represents a successful submission of a GitLab Duo question by a user.
+action: submit_gitlab_duo_question
+classification: duo
+internal_events: true
+identifiers:
+- project
+- user
+- namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: "16.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/128503
+tiers:
+- premium
+- ultimate
+additional_properties:
+  property:
+    description: Ai Action request Id that can be used to connect this event to others that happen when request is resolved.
+  label:
+    description: Which predefined prompt user picked

@@ -1,0 +1,27 @@
+---
+description: Duo Agent Platform reported the tokens that one session checkpoint used, per model
+internal_events: true
+status: active
+action: report_agent_platform_token_usage
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Flow type, eg. chat
+  property:
+    description: Environment, eg. web
+  value:
+    description: Session id
+  verification_run:
+    description: Whether the session is a functional verification run, not real user activity. Verification runs are not billed.
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262229
+tiers:
+- premium
+- ultimate

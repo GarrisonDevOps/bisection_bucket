@@ -1,0 +1,10 @@
+---
+name: scanner_wizard_attach_modes
+description: Show the mode step in Quick setup of the scanner enablement wizard, and pass the chosen attach mode.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635247
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264122
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635556
+milestone: '19.6'
+group: group::security controls
+type: beta
+default_enabled: true

@@ -1,0 +1,19 @@
+---
+description: User selects a group from the Configure dropdown on the Orbit dashboard
+internal_events: true
+action: click_orbit_configure_group
+identifiers:
+- user
+- namespace
+- project
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237283
+status: removed
+milestone_removed: '19.6'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260936
+tiers:
+- premium
+- ultimate

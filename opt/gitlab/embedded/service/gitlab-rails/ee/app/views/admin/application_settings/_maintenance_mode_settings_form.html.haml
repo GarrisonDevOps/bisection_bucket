@@ -1,0 +1,11 @@
+- return unless RegistrationFeatures::MaintenanceMode.feature_available?
+
+= render ::Layouts::SettingsBlockComponent.new(_('Maintenance mode'),
+  id: 'js-maintenance-mode-toggle',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = _('Prevent users from performing write operations while GitLab maintenance is in progress.')
+    = link_to _('Learn more.'), help_page_path('administration/maintenance_mode/_index.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    #js-maintenance-mode-settings{ data: { "maintenance-enabled" => @application_setting.maintenance_mode.to_s,
+      "banner-message" => @application_setting.maintenance_mode_message } }

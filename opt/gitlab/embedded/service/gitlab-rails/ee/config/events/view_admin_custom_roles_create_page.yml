@@ -1,0 +1,14 @@
+---
+description: Custom roles create page visited
+internal_events: true
+status: active
+action: view_admin_custom_roles_create_page
+identifiers:
+- user
+product_group: authorization
+product_categories:
+- permissions
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/194775
+tiers:
+- ultimate

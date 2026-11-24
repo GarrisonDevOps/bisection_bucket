@@ -1,0 +1,17 @@
+:ruby
+  title = _("Merge requests")
+  page_title title
+  @breadcrumb_link = merge_requests_dashboard_path(assignee_username: current_user.username)
+  add_page_specific_style 'page_bundles/issuable_list'
+
+= render_dashboard_ultimate_trial(current_user)
+
+= render_if_exists 'shared/dashboard/saml_reauth_notice',
+  groups_requiring_saml_reauth: user_groups_requiring_reauth
+
+#js-merge-request-dashboard{ data: merge_request_dashboard_search_data.merge({
+  base_path: merge_requests_dashboard_path,
+  initial_data: merge_request_dashboard_data.to_json,
+  list_type: current_user.merge_request_dashboard_list_type,
+  show_drafts: merge_request_dashboard_show_drafts?.to_s
+}) }

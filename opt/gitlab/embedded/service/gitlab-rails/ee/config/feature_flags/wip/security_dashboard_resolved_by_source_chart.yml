@@ -1,0 +1,11 @@
+---
+name: security_dashboard_resolved_by_source_chart
+description: Enables the vulnerabilities resolved by source panel and its securityMetrics
+  field on the organization, group, and project security dashboards.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/22408
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268526
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638039
+milestone: '19.6'
+group: group::vulnerability management
+type: wip
+default_enabled: false

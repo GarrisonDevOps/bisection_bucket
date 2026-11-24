@@ -1,0 +1,16 @@
+---
+description: An epic's fixed start date has been updated
+internal_events: true
+action: g_project_management_users_updating_fixed_epic_start_date
+extra_properties:
+identifiers:
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131896
+tiers:
+- premium
+- ultimate

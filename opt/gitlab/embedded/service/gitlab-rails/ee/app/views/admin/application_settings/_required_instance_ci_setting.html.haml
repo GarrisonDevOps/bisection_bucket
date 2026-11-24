@@ -1,0 +1,19 @@
+- if License.feature_available?(:required_ci_templates) && Feature.enabled?(:required_pipelines, @project)
+  = render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|Required pipeline configuration'),
+    id: 'js-required-pipeline-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      - config_link = link_to('', help_page_path('administration/settings/continuous_integration.md', anchor: 'required-pipeline-configuration-deprecated'))
+      = safe_format(s_('AdminSettings|Set a CI/CD template as the required pipeline configuration for all projects in the instance. Project CI/CD configuration merges into the required pipeline configuration when the pipeline runs. %{link_start}What is a required pipeline configuration?%{link_end}'), tag_pair(config_link, :link_start, :link_end))
+    - c.with_body do
+      %p
+        - instance_link = link_to('', help_page_path('administration/settings/instance_template_repository.md'))
+        = safe_format(s_('AdminSettings|The template for the required pipeline configuration can be one of the GitLab-provided templates, or a custom template added to an instance template repository. %{link_start}How do I create an instance template repository?%{link_end}'), tag_pair(instance_link, :link_start, :link_end))
+      = gitlab_ui_form_for @application_setting, url: ci_cd_admin_application_settings_path(anchor: 'js-required-pipeline-settings'), html: { class: 'fieldset-form' } do |f|
+        = form_errors(@application_setting)
+
+        .form-group.gl-col-md-9.gl-p-0
+          = f.label :required_instance_ci_template, s_('AdminSettings|Select a CI/CD template')
+          .js-ci-template-dropdown{ data: { gitlab_ci_ymls: gitlab_ci_ymls(@project).to_json, value: @application_setting.required_instance_ci_template } }
+
+        = f.submit _('Save changes'), pajamas_button: true

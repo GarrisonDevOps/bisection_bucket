@@ -1,0 +1,12 @@
+- page_title _('Productivity Analytics')
+- data_attributes = @request_params.valid? ? @request_params.to_data_attributes : @request_params.to_default_data_attributes
+- filtered_search_class = "gl-bg-transparent"
+
+#js-productivity-analytics{ data: data_attributes.merge(hide_group_drop_down: 'true') }
+  = render ::Layouts::PageHeadingComponent.new(_('Productivity Analytics'))
+  %div{ class: "row-content-block second-block gl-flex gl-flex-col @lg/panel:gl-flex-row gl-mt-5 gl-py-3 gl-px-5" }
+    .js-group-project-select-container
+    .js-search-bar.filter-container.hide.gl-mr-0{ class: "gl-w-100 @lg/panel:gl-mr-5 @lg/panel:gl-w-1/2" }
+      = render 'shared/issuable/search_bar', type: :productivity_analytics, placeholder: _('Filter results…'), filtered_search_class: filtered_search_class
+    .js-timeframe-container{ data: { start_date: ProductivityAnalytics.start_date } }
+  .js-productivity-analytics-app-container{ data: { endpoint: group_analytics_productivity_analytics_path(@group), empty_state_svg_path: image_path('illustrations/empty-state/empty-dashboard-md.svg'), no_access_svg_path: image_path('illustrations/status/status-fail-md.svg') } }

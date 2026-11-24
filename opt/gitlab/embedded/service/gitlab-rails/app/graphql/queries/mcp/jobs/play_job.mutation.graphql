@@ -1,0 +1,20 @@
+# @feature_category: mcp_server
+mutation playPipelineJob($input: JobPlayInput!) {
+  jobPlay(input: $input) {
+    job {
+      id
+      name
+      status
+      stage {
+        id
+        name
+      }
+      pipeline {
+        id
+        path
+      }
+      webPath
+    }
+    errors
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: policy_warn_mode_merge_request_approval
+description: A merge request approval would have been prevented by a security policy in warn mode.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/563867
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210351
+milestone: '18.6'
+feature_category: security_policy_management
+saved_to_database: true
+streamed: true
+scope: [Project]

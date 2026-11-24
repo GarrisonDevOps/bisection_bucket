@@ -1,0 +1,17 @@
+---
+description: An epic has been set to confidential
+internal_events: true
+action: g_project_management_users_setting_epic_confidential
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132027
+tiers:
+- premium
+- ultimate

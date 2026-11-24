@@ -1,0 +1,29 @@
+---
+description: Tracks MCP tool call start event
+internal_events: true
+action: start_mcp_tool_call
+classification: duo
+identifiers:
+- user
+- namespace
+product_group: ai_model_services
+product_categories:
+- duo_agent_platform
+extra_trackers:
+- tracking_class: Gitlab::Tracking::AiTracking
+additional_properties:
+  request_id:
+    description: JSON-RPC request id of the tool call. The MCP Server is stateless and does not issue session ids.
+  tool_name:
+    description: Name of the MCP tool being called
+  canonical_tool_name:
+    description: Canonical name of the MCP tool when the call used an alias. Not set when the call used the canonical name.
+  mcp_client_name:
+    description: The MCP client name, from the clientInfo in the request _meta or else the User-Agent
+  mcp_client_version:
+    description: The MCP client version, from the same source as mcp_client_name
+milestone: '18.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/issues/574629
+tiers:
+- premium
+- ultimate

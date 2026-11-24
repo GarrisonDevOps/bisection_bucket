@@ -1,0 +1,10 @@
+- page_title _('Import repository')
+
+- ci_cd_only = params[:ci_cd_only].present?
+- git_timeout = time_interval_in_words(::Gitlab.config.gitlab_shell.git_timeout)
+- @repository_mirrors_available = 'false'
+- render_if_exists('import/url/repository_mirrors_data')
+
+= render ::Layouts::PageHeadingComponent.new(_('Import repository'))
+
+.js-vue-import-by-url-to-project-root{ data: import_by_url_data_attributes(@project, ci_cd_only, git_timeout, @repository_mirrors_available) }

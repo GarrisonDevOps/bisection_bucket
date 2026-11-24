@@ -1,0 +1,17 @@
+---
+description: A user opened the Code Navigation panel in the repository file viewer
+internal_events: true
+status: active
+action: open_code_navigation_panel
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252848
+tiers:
+- premium
+- ultimate

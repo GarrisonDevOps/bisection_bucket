@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Schema for compliance framework template files",
+  "type": "object",
+  "required": [
+    "version",
+    "name",
+    "description",
+    "color",
+    "requirements"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{3,8}$",
+      "maxLength": 10
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/requirement"
+      }
+    }
+  },
+  "$defs": {
+    "requirement": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "controls"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "controls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/control"
+          }
+        }
+      }
+    },
+    "control": {
+      "type": "object",
+      "required": [
+        "name",
+        "control_type",
+        "expression"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "control_type": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "external"
+          ]
+        },
+        "expression": {
+          "type": "object",
+          "required": [
+            "operator",
+            "field",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "type": "string",
+              "minLength": 1
+            },
+            "field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {}
+          }
+        }
+      }
+    }
+  }
+}

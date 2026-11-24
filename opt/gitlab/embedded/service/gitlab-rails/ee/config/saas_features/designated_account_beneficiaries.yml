@@ -1,0 +1,5 @@
+---
+name: designated_account_beneficiaries
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209492
+milestone: '18.6'
+group: group::authentication

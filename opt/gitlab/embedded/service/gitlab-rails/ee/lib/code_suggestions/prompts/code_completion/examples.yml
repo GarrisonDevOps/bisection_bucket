@@ -1,0 +1,199 @@
+Ruby:
+  - example: "def filter_by_iid(items, iid)
+      items.where(iid: iid)
+    end
+
+    def filter_by_title<cursor>
+
+    def filter_by_search(items, text)
+      items.search(text)
+    end
+    "
+    response: "<new_code>(items, title)
+      items.where(title: title)
+    end"
+  - example: "module Resolvers
+                module DesignManagement
+                  class DesignResolver < BaseResolver
+                    type ::Types::DesignManagement::DesignType, null: true
+
+                    requires_argument!
+
+                    argument :id, ::Types::GlobalIDType[::DesignManagement::Design],
+                             required: false,
+                             description: 'Find a design by its ID.'
+
+                    argument :filename, GraphQL::Types::String,
+                             required: false,
+                             description: 'Find a design by its filename.'
+
+                    def resolve(filename: nil, <cursor>
+                    end
+
+                    def self.single
+                      self
+                    end
+    "
+    response: "<new_code>id: nil)
+      params = parse_args(filename, id)
+
+      build_finder(params).execute.first"
+  - example: "def can_access_parame<cursor>
+    end"
+    response: "<new_code>ter_list?(current_user)
+      can?(current_user, :access_parameter_list)"
+  - example: "module ProgrammingLanguage
+                attr_accessor :name
+
+                def print_de<cursor>
+                end
+              end"
+    response: |-
+      <new_code>bug
+        print "Name - #{name}"
+  - example: |-
+      module Comments
+        COMMENT_LIMIT = 25.freeze
+
+        attr_accessor :comments
+
+        def too_many_comments?
+         <cursor>
+        end
+      end
+    response: |-
+      <new_code>comments.length > COMMENT_LIMIT
+
+TypeScript:
+  - example: "function usernamesToEmails(usernames: string[]): str
+              <cursor>
+            }"
+    response: "<new_code>ing[] {
+    usernames.map(username => `${username}@domain.com`);"
+  - example: "const filterBlcokedDomain = (users: any[]) => <cursor>"
+    response: "<new_code>{
+              return users.filter(user => !user.email.includes('@blocked.com'));
+            };"
+  - example: "class GitLabAPI {
+                   static async fetchPipelines(projectId: string) {
+                     const api_url= `https://gitlab.com/api/v4/projects/${projectId}/pipelines`;
+                     <cursor>"
+    response: "<new_code>const response = await fetch(api_url);
+                      return await response.json();
+                    }
+                  }"
+  - example: |-
+      class Prices {
+        static const highestPr<cursor>
+        }
+      }
+    response: |-
+      <new_code>ice(prices)
+      return Math.max(...prices);
+Python:
+- example: "def process_data(data):
+                 <cursor>"
+  response: |-
+    <new_code>
+        cleaned_data = []
+        for row in data:
+          cleaned_row = clean_row(row)
+          if cleaned_row:
+            cleaned_data.append(cleaned_row)
+        return cleaned_data
+- example: "import pandas as pd
+
+             df = pd.read_csv('data.csv')
+             <cursor>"
+  response: |-
+    <new_code>
+    df.dropna(inplace=True)
+    df = df[df['column'] > 0]
+    print(df.shape)
+- example: "class Model():
+              def __init__(self):
+                self.loss = 0
+
+              def train_step(self, x, y):
+                  <cursor>"
+  response: |-
+        <new_code>y_pred = self.predict(x)
+        loss = self.loss_fn(y_pred, y)
+        self.loss += loss
+
+        return loss
+- example: |-
+    def print_custo<cursor>
+    end
+  response: |-
+    <new_code>mer(customer)
+    puts f'{customer.name} - {customer.email}'
+Go:
+- example: |
+    package main
+
+    import "net/http"
+
+    func main() {
+      http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) <cursor>
+
+      http.ListenAndServe(":8080", nil)
+    }
+  response: |
+      <new_code>{
+        w.Write([]byte("Hello World"))
+      })
+- example: |
+    package main
+
+    import "fmt"
+
+    type User struct <cursor>
+
+    func main() {
+      user := User{Name: "John Doe", Email: "john@doe.com"}
+
+      fmt.Println(user)
+
+      fmt.Println("User Name:", user.Name)
+      fmt.Println("User Email:", user.Email)
+    }
+  response: |
+    <new_code>{
+      Name string
+      Email string
+    }
+- example: |
+    package main
+
+    import "fmt"
+
+    type User struct {
+      Name string
+      Email string
+    }
+
+    func printUser(<cursor>)
+
+    func main() {
+      user := User{Name: "John Doe", Email: "john@doe.com"}
+    }
+  response: |
+     <new_code>user User
+- example: |
+    package events
+
+    import "time"
+
+    type Event struct {
+      Name string
+      CreatedAt time.Time
+    }
+
+    const eventMaxDuration = 1000
+
+    func (e *Event) fresh() <cursor>
+  response: |
+    <new_code> bool {
+      return time.Since(e.CreatedAt) < eventMaxDuration
+    }

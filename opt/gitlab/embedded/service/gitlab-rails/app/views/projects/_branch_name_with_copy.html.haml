@@ -1,0 +1,3 @@
+%strong.gl-inline-flex{ class: 'gl-max-w-1/2', data: { toggle: 'tooltip' }, title: branch_name }
+  = link_to branch_name, project_commits_path(project, branch_name), class: 'ref-name gl-truncate'
+%span.gl-ml-1= clipboard_button(text: branch_name, title: s_('LastPushEvent|Copy branch name'), variant: :default, category: :tertiary, size: :small)

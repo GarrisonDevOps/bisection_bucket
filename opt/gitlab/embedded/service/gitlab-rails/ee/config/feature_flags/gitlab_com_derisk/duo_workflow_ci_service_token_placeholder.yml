@@ -1,0 +1,10 @@
+---
+name: duo_workflow_ci_service_token_placeholder
+description: Gives Duo Agent Platform CI jobs a placeholder instead of a usable Duo Workflow Service token
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/623436
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266346
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637141
+milestone: '19.6'
+group: group::ai control plane
+type: gitlab_com_derisk
+default_enabled: false

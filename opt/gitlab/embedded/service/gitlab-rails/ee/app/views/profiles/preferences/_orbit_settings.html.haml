@@ -1,0 +1,16 @@
+.form-group
+  %p.gl-text-subtle.gl-mb-3
+    = s_('Preferences|Orbit powers GitLab Duo chat and agents across your projects. Choose which Orbit-powered features to use.')
+  %div{ data: { testid: 'orbit-subsettings' } }
+    = f.gitlab_ui_checkbox_component :orbit_agentic_chat_enabled,
+      s_('Preferences|Agentic Chat'),
+      help_text: s_('Preferences|Make Orbit tools available in agentic chat.')
+    = f.gitlab_ui_checkbox_component :orbit_agent_enabled,
+      s_('Preferences|Orbit Agent'),
+      help_text: s_('Preferences|Make the standalone Orbit agent available in GitLab Duo.')
+    = f.gitlab_ui_checkbox_component :orbit_other_foundational_agents_enabled,
+      s_('Preferences|Other Foundational Agents'),
+      help_text: s_('Preferences|Make Orbit tools available to non-chat foundational agents (e.g. software development, security analyst).')
+    = f.gitlab_ui_checkbox_component :orbit_custom_agents_enabled,
+      s_('Preferences|Custom Agents'),
+      help_text: s_('Preferences|Make Orbit tools available to user-built custom agents.')

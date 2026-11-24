@@ -1,0 +1,5 @@
+---
+name: redirect_sign_in_when_login_not_found
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216203
+milestone: '18.8'
+group: group::organizations

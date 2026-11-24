@@ -1,0 +1,10 @@
+---
+name: variable_viewed_graphql
+description: A CI/CD variable value is accessed with GraphQL
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/606386
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240847
+feature_category: ci_variables
+milestone: "19.4"
+saved_to_database: false
+streamed: true
+scope: [Project, Group]

@@ -1,0 +1,20 @@
+---
+key_path: counts.count_distinct_namespaces_with_ai_tool_rules
+description: Count of distinct namespaces (top-level groups in practice) with at least
+  one AI tool rule configured. Rule rows persist even when later reverted to default
+  values, so this counts namespaces that have ever configured a rule
+product_group: compliance
+product_categories:
+  - duo_agent_platform
+value_type: number
+status: active
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248706
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+performance_indicator_type: []
+instrumentation_class: CountDistinctNamespacesWithAiToolRulesMetric

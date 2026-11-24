@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+module Geo
+  class <%= state_class_name %> < ApplicationRecord
+    include ::Geo::VerificationStateDefinition
+
+    self.primary_key = :<%= foreign_key_name %>
+
+    belongs_to :<%= file_name %>, inverse_of: :<%= file_name %>_state, class_name: '<%= state_belongs_to_class %>'
+
+    validates :verification_state, :<%= file_name %>, presence: true
+  end
+end

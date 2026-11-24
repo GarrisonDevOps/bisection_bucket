@@ -1,0 +1,49 @@
+- presenter = local_assigns.fetch(:presenter)
+- collection_key = local_assigns.fetch(:collection_key)
+
+- return unless presenter.user_can_update_model? && presenter.show_batch_size_forms?
+
+= render Pajamas::CardComponent.new do |card|
+  - card.with_body do
+    - if presenter.current_model_batch_size_editable?
+      %h3.gl-heading-4= s_('SemanticSearch|Update batch size for embedding requests on current model')
+      = gitlab_ui_form_with method: :put,
+        url: update_embeddings_request_batch_size_admin_application_settings_semantic_search_embedding_path(collection_key),
+        data: { testid: 'semantic-search-current-model-batch-size-form' } do |f|
+        .form-group
+          = f.label :current_model_embeddings_request_batch_size, s_('SemanticSearch|Update batch size'), class: 'label-bold'
+          = f.number_field :current_model_embeddings_request_batch_size,
+            value: embeddings_request_batch_size(presenter.current_model),
+            placeholder: s_('SemanticSearch|%{default_batch_size} (Default)') % { default_batch_size: default_embeddings_request_batch_size(presenter.current_model) },
+            step: 1,
+            min: 1,
+            class: 'form-control',
+            disabled: presenter.disable_inputs?,
+            data: { testid: 'semantic-search-current-model-batch-size-input' }
+          .form-text.gl-text-subtle= s_('SemanticSearch|Update the batch size without changing the embedding model.')
+        .gl-flex.gl-gap-2.gl-justify-end
+          = render Pajamas::ButtonComponent.new(type: :button,
+              variant: :confirm,
+              disabled: presenter.disable_inputs?,
+              button_options: { id: 'update-current-model-batch-size-button', class: 'gl-shrink-0', data: { testid: 'semantic-search-update-current-model-batch-size-button' } }) do
+            = s_('SemanticSearch|Update batch size')
+    - if presenter.next_model_batch_size_editable?
+      %h3.gl-heading-4= s_('SemanticSearch|Update batch size for embedding requests on next model')
+      = gitlab_ui_form_with method: :put,
+        url: update_embeddings_request_batch_size_admin_application_settings_semantic_search_embedding_path(collection_key),
+        data: { testid: 'semantic-search-next-model-batch-size-form' } do |f|
+        .form-group
+          = f.label :next_model_embeddings_request_batch_size, s_('SemanticSearch|Update batch size'), class: 'label-bold'
+          = f.number_field :next_model_embeddings_request_batch_size,
+            value: embeddings_request_batch_size(presenter.next_model),
+            placeholder: s_('SemanticSearch|%{default_batch_size} (Default)') % { default_batch_size: default_embeddings_request_batch_size(presenter.next_model) },
+            step: 1,
+            min: 1,
+            class: 'form-control',
+            data: { testid: 'semantic-search-next-model-batch-size-input' }
+          .form-text.gl-text-subtle= s_('SemanticSearch|Update the batch size without changing the embedding model.')
+        .gl-flex.gl-gap-2.gl-justify-end
+          = render Pajamas::ButtonComponent.new(type: :button,
+              variant: :confirm,
+              button_options: { id: 'update-next-model-batch-size-button', class: 'gl-shrink-0', data: { testid: 'semantic-search-update-next-model-batch-size-button' } }) do
+            = s_('SemanticSearch|Update batch size')

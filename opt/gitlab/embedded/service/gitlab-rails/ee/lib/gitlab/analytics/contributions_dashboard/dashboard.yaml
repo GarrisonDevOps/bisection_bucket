@@ -1,0 +1,42 @@
+title: Contributions Dashboard
+description: Contribution analytics for issues, merge requests and push events.
+version: '2'
+status: experiment
+filters:
+  dateRange:
+    enabled: true
+    options:
+      - 7d
+      - 30d
+      - 90d
+      - custom
+    numberOfDaysLimit: 90
+panels:
+  - title: 'Pushes'
+    visualization: pushes
+    gridAttributes:
+      yPos: 0
+      xPos: 0
+      width: 12
+      height: 4
+  - title: 'Merge Requests'
+    visualization: merge_requests
+    gridAttributes:
+      yPos: 4
+      xPos: 0
+      width: 12
+      height: 4
+  - title: 'Issues'
+    visualization: issues
+    gridAttributes:
+      yPos: 8
+      xPos: 0
+      width: 12
+      height: 4
+  - title: 'Contributions by user'
+    visualization: contributions_by_user
+    gridAttributes:
+      yPos: 12
+      xPos: 0
+      width: 12
+      height: 8

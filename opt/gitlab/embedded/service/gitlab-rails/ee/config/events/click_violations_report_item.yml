@@ -1,0 +1,17 @@
+---
+description: A user clicks violations report item
+internal_events: true
+action: click_violations_report_item
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Id of clicked violation
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175130
+tiers:
+  - ultimate

@@ -1,0 +1,22 @@
+---
+description: glab posted a batch of audit events for an external coding agent session, and GitLab accepted it. glab can send the same events again, for example after a timeout or when two syncs overlap, so this counts upload requests, not unique events
+internal_events: true
+status: active
+action: post_external_agent_audit_events
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: 'Agent type, for example claude-code'
+  value:
+    description: 'Number of audit events accepted for storage, after malformed events and unknown event types are dropped, including any that GitLab already stored'
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263121
+tiers:
+- premium
+- ultimate

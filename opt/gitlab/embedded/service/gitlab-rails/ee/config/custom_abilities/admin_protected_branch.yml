@@ -1,0 +1,28 @@
+---
+title: Manage Protected Branches
+name: admin_protected_branch
+description: Create, read, update, and delete protected branches and branch rules
+  for a project. Branch rules must target a branch name or pattern.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/448823
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/162208
+feature_category: source_code_management
+milestone: '17.4'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - _delete_protected_branch_rule
+  - _read_protected_branch_rule
+  - _update_protected_branch_rule
+  - admin_protected_branch
+  - create_branch_rule
+  - create_protected_branch
+  - delete_branch_rule
+  - delete_protected_branch
+  - destroy_protected_branch
+  - read_branch_rule
+  - read_protectable_branch
+  - read_protected_branch
+  - update_branch_rule
+  - update_protected_branch

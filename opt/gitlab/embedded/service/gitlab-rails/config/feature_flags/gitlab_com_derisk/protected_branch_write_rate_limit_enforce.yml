@@ -1,0 +1,10 @@
+---
+name: protected_branch_write_rate_limit_enforce
+description: Rejects protected branch writes over the limit. Without it the staged rule counts on its log twin only.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636102
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267714
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/638223
+milestone: '19.6'
+group: group::repository services
+type: gitlab_com_derisk
+default_enabled: false

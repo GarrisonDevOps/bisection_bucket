@@ -1,0 +1,10 @@
+---
+name: variable_viewed_api
+description: A CI/CD variable is accessed with the API
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/555960
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197385
+feature_category: ci_variables
+milestone: "18.3"
+saved_to_database: false
+streamed: true
+scope: [Project, Group]

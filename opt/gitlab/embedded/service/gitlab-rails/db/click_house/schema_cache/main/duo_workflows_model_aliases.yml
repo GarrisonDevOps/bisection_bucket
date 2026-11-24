@@ -1,0 +1,26 @@
+---
+name: duo_workflows_model_aliases
+engine: ReplacingMergeTree
+engine_full: ReplacingMergeTree(version, deleted) ORDER BY model_used SETTINGS index_granularity
+  = 8192
+primary_key: model_used
+sorting_key: model_used
+settings:
+  index_granularity: '8192'
+columns:
+- name: model_used
+  type: String
+  is_in_sorting_key: true
+  is_in_primary_key: true
+- name: model_key
+  type: String
+- name: hosting
+  type: LowCardinality(String)
+- name: version
+  type: DateTime64(6, 'UTC')
+  default_kind: DEFAULT
+  default_expression: now64(6, 'UTC')
+- name: deleted
+  type: Bool
+  default_kind: DEFAULT
+  default_expression: 'false'

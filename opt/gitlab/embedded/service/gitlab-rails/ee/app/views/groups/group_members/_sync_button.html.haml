@@ -1,0 +1,14 @@
+.gl-flex.gl-flex-wrap.gl-items-center.gl-gap-4
+  - if @group.ldap_sync_started?
+    = render Pajamas::ButtonComponent.new(size: :small, icon: 'retry', icon_classes: 'gl-animate-spin', button_options: { disabled: true }) do
+      = _('Syncing…')
+      %span= _('Refresh the page to view sync status')
+  - elsif @group.ldap_sync_pending?
+    = render Pajamas::ButtonComponent.new(size: :small, icon: 'retry', icon_classes: 'gl-animate-spin', button_options: { disabled: true }) do
+      = _('Pending sync…')
+      %span= _('Refresh the page to view sync status')
+  - else
+    = render Pajamas::ButtonComponent.new(size: :small, icon: 'retry', variant: :confirm, button_options: { class: 'js-ldap-sync-now-button', data: ldap_sync_now_button_data(@group) }) do
+      = _('Sync changes')
+    - if @group.ldap_sync_ready? && @group.ldap_sync_last_successful_update_at
+      %span= _('Successfully synced %{synced_timeago}.').html_safe % { synced_timeago: time_ago_with_tooltip(@group.ldap_sync_last_successful_update_at) }

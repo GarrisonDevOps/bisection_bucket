@@ -1,0 +1,44 @@
+---
+description: >-
+  The workplan flow posted a GitLab Duo question on a work item. A question
+  whose payload parses is recorded as an open decision in the decision log.
+  A question whose payload does not parse records no decision.
+internal_events: true
+status: active
+action: work_item_duo_question_create
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: |
+      `valid` when the question payload parsed and an open decision was
+      created, `invalid` when the note carried a question payload that did not
+      parse, so no decision was created.
+  property:
+    description: user role
+  source:
+    description: |
+      How the request was authenticated. `ai_workflows`: an agent (Duo
+      workflows or coding agents) using an `ai_workflows`-scoped token.
+      `api`: a human using any other token. `internal`: no token.
+  work_item_id:
+    description: Id of the work item that owns the decision log.
+  decision_id:
+    description: Id of the open decision created for the question. Omitted for `invalid`.
+  workflow_id:
+    description: Id of the workplan flow run that posted the question.
+  value:
+    description: |
+      Number of options the question offers, as the flow wrote them, before
+      options that fail validation are dropped and the rest are capped at 5
+      for the decision. 0 for open questions. Omitted for `invalid`.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267241
+tiers:
+- premium
+- ultimate

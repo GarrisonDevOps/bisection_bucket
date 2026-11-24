@@ -1,0 +1,14 @@
+- title = s_('VirtualRegistry|Edit registry')
+- add_to_breadcrumbs s_('VirtualRegistry|Virtual registry'), group_virtual_registries_path(@group)
+- add_to_breadcrumbs s_('VirtualRegistry|Maven registries'), group_virtual_registries_maven_registries_and_upstreams_path(@group)
+- add_to_breadcrumbs @maven_registry.id.to_s, group_virtual_registries_maven_registry_path(@group, @maven_registry)
+- breadcrumb_title _('Edit')
+- page_title title
+
+= render ::Layouts::PageHeadingComponent.new(title) do |c|
+  - if can_destroy_virtual_registry?(@group)
+    - c.with_actions do
+      = render Pajamas::ButtonComponent.new(variant: :danger, category: :tertiary, button_options: { class: 'js-confirm-modal-button', data: delete_registry_modal_data(@group, @maven_registry) }) do
+        = s_('VirtualRegistry|Delete registry')
+
+= render 'form', url: group_virtual_registries_maven_registry_path(@group, @maven_registry), cancel_path: group_virtual_registries_maven_registry_path(@group, @maven_registry)

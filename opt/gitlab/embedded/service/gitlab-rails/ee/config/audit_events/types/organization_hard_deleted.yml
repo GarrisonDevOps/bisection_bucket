@@ -1,0 +1,10 @@
+---
+name: organization_hard_deleted
+description: An organization is hard-deleted (the database record is destroyed)
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/594310
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/238553
+feature_category: "organization"
+milestone: "19.1"
+saved_to_database: true
+streamed: true
+scope: [Instance]

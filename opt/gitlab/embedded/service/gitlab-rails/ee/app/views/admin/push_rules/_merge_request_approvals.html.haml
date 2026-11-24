@@ -1,0 +1,15 @@
+- return unless License.feature_available?(:admin_merge_request_approvers_rules)
+
+= render ::Layouts::SettingsBlockComponent.new(_('Merge request approvals'),
+  id: 'js-merge-request-approval-settings',
+  testid: 'merge-request-approval-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    - link = link_to('', help_page_path('user/compliance/compliance_center/compliance_violations_report.md', anchor: 'separation-of-duties'), target: '_blank', rel: 'noopener noreferrer')
+    = safe_format(s_('MergeRequestApprovals|Enforce %{link_start}separation of duties%{link_end} for all projects.'), tag_pair(link, :link_start, :link_end))
+    = link_to _("Learn more."), help_page_path("user/project/merge_requests/approvals/_index.md"), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: general_admin_application_settings_path(anchor: 'js-merge-request-approval-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+      = render 'merge_request_approvals_fields', f: f
+      = f.submit _('Save changes'), pajamas_button: true

@@ -1,0 +1,10 @@
+---
+table_name: design_management_action_upload_registry
+description: Geo registry table for tracking replication and verification of Design Management Action Uploads
+introduced_by_url:
+milestone: '18.11'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::DesignManagementActionUploadRegistry
+gitlab_schema: gitlab_geo

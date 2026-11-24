@@ -1,0 +1,5 @@
+---
+name: marketing_google_tag_manager
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/38395
+milestone: '13.6'
+group: group::dex

@@ -1,0 +1,16 @@
+---
+description: Triggered when any Insights chart item is clicked.
+internal_events: true
+action: insights_chart_item_clicked
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: optimize
+product_categories:
+- value_stream_management
+milestone: "16.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/139277
+tiers:
+- ultimate

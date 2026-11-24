@@ -1,0 +1,17 @@
+---
+description: When a user posts a thumbs down on a Duo Code Review comment
+internal_events: true
+action: react_thumbs_down_on_duo_code_review_comment
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/190553
+tiers:
+- premium
+- ultimate

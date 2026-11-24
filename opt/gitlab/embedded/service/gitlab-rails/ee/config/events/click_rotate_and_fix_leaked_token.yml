@@ -1,0 +1,16 @@
+---
+description: Click Rotate and fix on a secret detection vulnerability with an active GitLab personal access token, opening the rotation dialog
+internal_events: true
+status: active
+action: click_rotate_and_fix_leaked_token
+identifiers:
+- project
+- namespace
+- user
+product_group: secrets_manager_application
+product_categories:
+- secrets_management
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268242
+tiers:
+- ultimate

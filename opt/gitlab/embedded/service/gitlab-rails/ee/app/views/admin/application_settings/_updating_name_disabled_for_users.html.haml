@@ -1,0 +1,7 @@
+- return unless ::License.feature_available?(:disable_name_update_for_users)
+
+- form = local_assigns.fetch(:form)
+
+= form.gitlab_ui_checkbox_component :updating_name_disabled_for_users, _("Prevent users from changing their profile name")
+
+

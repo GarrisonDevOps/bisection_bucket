@@ -1,0 +1,16 @@
+---
+title: Delete security scan profiles
+name: delete_security_scan_profiles
+description: Delete security scan profiles.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/607385
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249575
+feature_category: security_testing_configuration
+milestone: '19.3'
+group_ability: true
+enabled_for_group_access_levels: [25, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 40, 50]
+project_permissions:
+  - delete_security_scan_profiles
+group_permissions:
+  - delete_security_scan_profiles

@@ -1,0 +1,8 @@
+---
+version: 1
+type: SingleStat
+data:
+  type: ai_impact_over_time
+  query:
+    metric: duo_agent_platform_agent_flows_users_count
+options: {}

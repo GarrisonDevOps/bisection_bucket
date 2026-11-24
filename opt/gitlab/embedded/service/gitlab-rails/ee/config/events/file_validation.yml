@@ -1,0 +1,16 @@
+---
+description: Track syntax errors found while parsing CODEOWNER files.
+action: file_validation
+identifiers:
+- project
+product_group: source_code
+product_categories:
+- source_code_management
+milestone: '16.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/123025
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Validation error type. Can be `invalid_section_owner_format`, `missing_entry_owner`, `invalid_approval_requirement`, `missing_section_name` or `invalid_entry_owner_format`

@@ -1,0 +1,9 @@
+---
+name: log_runner_manager_cap
+description: Log runners whose runner managers exceed ci_max_runner_managers_per_runner or reach ci_runner_manager_creation_ceiling
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267942
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638591
+milestone: '19.6'
+group: group::runner core
+type: gitlab_com_derisk
+default_enabled: false

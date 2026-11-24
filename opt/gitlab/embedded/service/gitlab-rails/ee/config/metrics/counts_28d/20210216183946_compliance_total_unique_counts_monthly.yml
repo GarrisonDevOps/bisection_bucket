@@ -1,0 +1,34 @@
+---
+data_category: optional
+key_path: redis_hll_counters.compliance.compliance_total_unique_counts_monthly
+description: Unique count of compliance actions in a given month
+product_group: compliance
+product_categories:
+- compliance_management
+value_type: number
+status: removed
+repair_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/378091
+time_frame: 28d
+data_source: redis_hll
+instrumentation_class: RedisHLLMetric
+events:
+- name: g_compliance_dashboard
+  unique: user.id
+- name: g_compliance_audit_events
+  unique: user.id
+- name: i_compliance_audit_events
+  unique: user.id
+- name: i_compliance_credential_inventory
+  unique: user.id
+- name: a_compliance_audit_events_api
+  unique: user.id
+tiers:
+- premium
+- ultimate
+performance_indicator_type:
+- gmau
+- paid_gmau
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332
+milestone_removed: "17.8"
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175901

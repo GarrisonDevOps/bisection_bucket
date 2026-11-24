@@ -1,0 +1,10 @@
+---
+name: destroyed_compliance_requirement
+description: A compliance framework requirement is destroyed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/470695
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170380
+milestone: '17.7'
+feature_category: compliance_management
+saved_to_database: true
+streamed: true
+scope: [Group]

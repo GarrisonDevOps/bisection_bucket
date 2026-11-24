@@ -1,0 +1,9 @@
+---
+name: packages_workhorse_maximum_size_for_all_uploads
+description: Send the maximum package file size to Workhorse for package uploads that send a length, with the Rails error response for a file over it
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265805
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636673
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

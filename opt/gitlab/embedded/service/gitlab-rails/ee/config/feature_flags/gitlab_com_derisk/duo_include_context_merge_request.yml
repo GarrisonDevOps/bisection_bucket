@@ -1,0 +1,9 @@
+---
+name: duo_include_context_merge_request
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/477258
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161898
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/508757
+milestone: '17.7'
+group: group::duo chat
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: ldap_group_link_removed
+description: An LDAP Group Link is removed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/8072
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252957
+feature_category: system_access
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

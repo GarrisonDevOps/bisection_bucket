@@ -1,0 +1,17 @@
+---
+key_path: ci_cd_catalog_projects_allowlist_configured
+description: Whether CI/CD Catalog publishing allowlist is configured with at least one entry.
+product_group: pipeline_authoring
+product_categories:
+  - pipeline_composition
+value_type: boolean
+status: active
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219891
+time_frame: none
+data_source: system
+data_category: optional
+instrumentation_class: CiCdCatalogProjectsAllowlistConfiguredMetric
+tiers:
+  - premium
+  - ultimate

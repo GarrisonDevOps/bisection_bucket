@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: counts.user_preferences_group_overview_details
+description: Count of users who set personal preference to see Details on Group information
+  page
+product_group: organizations
+product_categories:
+- groups_and_projects
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

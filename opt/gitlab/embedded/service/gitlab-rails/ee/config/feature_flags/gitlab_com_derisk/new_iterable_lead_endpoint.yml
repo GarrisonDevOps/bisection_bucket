@@ -1,0 +1,10 @@
+---
+name: new_iterable_lead_endpoint
+description: Sends iterable lead creation to the new CustomersDot leads/gitlab_com/iterables endpoint instead of the legacy trials/create_iterable endpoint.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/582577
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/218698
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/608866
+milestone: '19.5'
+group: group::acquisition
+type: gitlab_com_derisk
+default_enabled: false

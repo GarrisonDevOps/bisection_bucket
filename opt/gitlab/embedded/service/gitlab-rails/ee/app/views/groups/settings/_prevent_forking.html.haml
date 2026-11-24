@@ -1,0 +1,6 @@
+%h5= _('Prevent project forking outside current group')
+
+.form-group.gl-mb-3
+  = f.gitlab_ui_checkbox_component :prevent_forking_outside_group,
+      s_('GroupSettings|Prevent forking outside of the group'),
+      checkbox_options: { disabled: !can_change_prevent_forking?(current_user, group), data: { testid: 'prevent-forking-outside-group-checkbox' }, checked: group.prevent_forking_outside_group? }

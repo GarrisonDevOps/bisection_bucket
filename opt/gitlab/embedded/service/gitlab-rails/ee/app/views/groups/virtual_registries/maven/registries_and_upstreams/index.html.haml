@@ -1,0 +1,18 @@
+- add_to_breadcrumbs s_('VirtualRegistry|Virtual registry'), group_virtual_registries_path(@group)
+- title = s_('VirtualRegistry|Maven virtual registries')
+- breadcrumb_title s_('VirtualRegistry|Maven registries and upstreams')
+- page_title title
+
+= render ::Layouts::IndexLayout.new(heading: title) do |layout|
+  - layout.with_description do
+    = s_('VirtualRegistry|You can add up to 20 registries per top-level group.')
+  - if can_create_virtual_registry?(@group)
+    - layout.with_actions do
+      - if max_maven_registries_count_exceeded?(@group)
+        %span
+          = s_('VirtualRegistry|Maximum number of registries reached.')
+      - else
+        = render Pajamas::ButtonComponent.new(variant: :confirm, href: new_group_virtual_registries_maven_registry_path(@group)) do
+          = s_('VirtualRegistry|Create registry')
+
+  #js-vue-maven-virtual-registries-and-upstreams{ "data-provide": maven_registries_and_upstreams_data(@group) }

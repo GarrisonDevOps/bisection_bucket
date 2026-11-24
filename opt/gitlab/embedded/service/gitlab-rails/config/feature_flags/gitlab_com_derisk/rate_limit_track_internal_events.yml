@@ -1,0 +1,10 @@
+---
+name: rate_limit_track_internal_events
+description: Rate limits events accepted by the POST /usage_data track and increment endpoints per user
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635568
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264988
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636059
+milestone: '19.6'
+group: group::analytics instrumentation
+type: gitlab_com_derisk
+default_enabled: false

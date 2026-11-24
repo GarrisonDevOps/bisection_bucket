@@ -1,0 +1,18 @@
+---
+key_path: settings.count_projects_duo_features_enabled
+description: Count how many projects have their Duo enabled
+product_group: provision
+product_categories:
+- duo_service_infra
+value_type: number
+status: active
+milestone: "18.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196194
+time_frame: none
+data_source: database
+instrumentation_class: CountProjectsDuoFeaturesEnabledMetric
+data_category: optional
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

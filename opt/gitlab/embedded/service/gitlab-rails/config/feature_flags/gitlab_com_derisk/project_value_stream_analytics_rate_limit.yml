@@ -1,0 +1,10 @@
+---
+name: project_value_stream_analytics_rate_limit
+description: Gates the per project rate limit on the project value stream analytics JSON endpoints
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636168
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267823
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639048
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,6 @@
+---
+BUNDLE_BUILD__GPGME: "--use-system-libraries"
+BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries --with-xml2-include=/opt/gitlab/embedded/include/libxml2 --with-xslt-include=/opt/gitlab/embedded/include/libxslt"
+BUNDLE_BUILD__RUBY___MAGIC: "--with-magic-flags=--disable-zstdlib"
+BUNDLE_FROZEN: "true"
+BUNDLE_WITHOUT: "development:test"

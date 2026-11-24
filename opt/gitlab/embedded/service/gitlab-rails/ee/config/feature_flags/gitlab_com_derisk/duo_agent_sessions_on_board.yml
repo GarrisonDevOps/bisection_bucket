@@ -1,0 +1,10 @@
+---
+name: duo_agent_sessions_on_board
+description: Show a session badge on issue board cards indicating Duo Agent session activity.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/600601
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237105
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/600751
+milestone: '19.1'
+group: group::agent foundations
+type: gitlab_com_derisk
+default_enabled: false

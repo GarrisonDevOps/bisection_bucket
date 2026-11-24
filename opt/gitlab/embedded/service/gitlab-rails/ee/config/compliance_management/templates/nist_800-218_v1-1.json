@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "name": "NIST SP 800-218",
+  "description": "NIST SP 800-218 compliance requirements",
+  "color": "#1F3264",
+  "requirements": [
+    {
+      "name": "PO.1.1 Define Security Requirements for Software Development",
+      "description": "PO.1.1: Identify and document all security requirements for the organization's software development infrastructures and processes, and maintain the requirements over time.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "PW.4 Reuse Existing, Well-Secured Software When Feasible Instead of Duplicating Functionality",
+      "description": "PW.4.1: Acquire and maintain well-secured software components (e.g., software libraries, modules, middleware, frameworks) from commercial, open-source, and other third-party developers for use by the organization's software. PW.4.4: Verify that acquired commercial, open-source, and all other third-party software components comply with the requirements, as defined by the organization, throughout their life cycles.",
+      "controls": [
+        {
+          "name": "scanner_license_compliance_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_license_compliance_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "PW.5.1 Create Source Code by Adhering to Secure Coding Practices",
+      "description": "PW.5.1: Follow all secure coding practices that are appropriate to the development languages and environment to meet the organization's requirements.",
+      "controls": [
+        {
+          "name": "scanner_code_quality_running",
+          "control_type": "internal",
+          "expression": {
+            "operator": "=",
+            "field": "scanner_code_quality_running",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "PW.7 Review and/or Analyze Human-Readable Code to Identify Vulnerabilities and Verify Compliance with Security Requirements",
+      "description": "PW.7.1: Implement code review (manual inspection) and/or code analysis (tool-based scanning) according to organizational needs. Perform these reviews based on secure coding standards and track all discovered issues in the development workflow system.",
+      "controls": [
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "PW.8 Test Executable Code to Identify Vulnerabilities and Verify Compliance with Security Requirements",
+      "description": "PW.8.2: Scope the testing, design the tests, perform the testing, and document the results, including recording and triaging all discovered issues and recommended remediations in the development team's workflow or issue tracking system.",
+      "controls": [
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "RV.1 Identify and Confirm Vulnerabilities on an Ongoing Basis",
+      "description": "RV.1.1: Gather information from software acquirers, users, and public sources on potential vulnerabilities in the software and third-party components that the software uses, and investigate all credible reports.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

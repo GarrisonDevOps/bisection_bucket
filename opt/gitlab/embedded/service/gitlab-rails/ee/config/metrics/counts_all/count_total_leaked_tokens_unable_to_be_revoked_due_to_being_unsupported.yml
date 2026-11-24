@@ -1,0 +1,23 @@
+---
+key_path: counts.count_total_leaked_tokens_unable_to_be_revoked_due_to_being_unsupported
+description: Count of leaked tokens that cannot be automatically be revoked because they are unsupported.
+product_group: secret_detection
+product_categories:
+- vulnerability_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184247
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: leaked_token_unable_to_be_revoked_after_vulnerability_report_is_ingested
+  filter:
+    property: unsupported

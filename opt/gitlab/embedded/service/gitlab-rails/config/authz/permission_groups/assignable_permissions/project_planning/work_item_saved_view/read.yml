@@ -1,0 +1,10 @@
+---
+name: read_work_item_saved_view
+description: Grants the ability to read work item saved views
+boundaries:
+  - group
+  - project
+available_for:
+  - granular_access_token
+permissions:
+  - read_work_item_saved_view

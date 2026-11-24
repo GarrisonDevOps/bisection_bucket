@@ -1,0 +1,28 @@
+---
+description: User clicks the Upgrade subscription button rendered under a Duo Agentic Chat tier_access_denied message
+internal_events: true
+status: active
+action: click_upgrade_subscription_duo_chat_tier_access_denied
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Required plan for the denied feature (premium_plan, ultimate_plan, or unknown_plan when not provided)
+  session_id:
+    description: Unique identifier of the session where the button was clicked
+  flow_type:
+    description: Agent or flow active in the session
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+  - chat_engine
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233681
+tiers:
+  - free
+  - premium
+  - ultimate

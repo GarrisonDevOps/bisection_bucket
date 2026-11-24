@@ -1,0 +1,10 @@
+---
+name: geo_supply_chain_attestation_force_primary_checksumming
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/571772
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/215606
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/579710
+milestone: '18.7'
+group: group::build security
+type: ops
+default_enabled: false

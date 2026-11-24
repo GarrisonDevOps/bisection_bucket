@@ -1,0 +1,22 @@
+---
+description: User revokes one or more Artifact Registry roles in an organization, with the single or bulk mutation
+internal_events: true
+status: active
+action: revoke_artifact_registry_role
+identifiers:
+- user
+additional_properties:
+  property:
+    description: "'other' when any assignee is not the user who made the request, otherwise 'self'"
+  value:
+    description: >-
+      Number of Artifact Registry roles requested to revoke. IAM returns success
+      for an assignment that does not exist, so this can exceed the roles removed.
+product_group: container_registry
+product_categories:
+- artifact_registry
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265602
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_cancel_rotate_leaked_token_modal
+description: Count of all closes of the dialog that rotates a leaked GitLab personal access token without confirming it
+product_group: secrets_manager_application
+product_categories:
+- secrets_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268242
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: cancel_rotate_leaked_token_modal

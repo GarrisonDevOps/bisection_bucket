@@ -1,0 +1,22 @@
+---
+data_category: standard
+key_path: duo_seats.pro_assigned
+description: The number of Duo Pro seats assigned to users
+product_group: provision
+product_categories:
+- add-on_provisioning
+- seat_cost_management
+value_type: number
+status: active
+milestone: "17.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/166887
+time_frame: none
+data_source: system
+instrumentation_class: DuoSeatsMetric
+options:
+  subscription_type: pro
+  seats_type: assigned
+tiers:
+  - premium
+  - ultimate
+performance_indicator_type: []

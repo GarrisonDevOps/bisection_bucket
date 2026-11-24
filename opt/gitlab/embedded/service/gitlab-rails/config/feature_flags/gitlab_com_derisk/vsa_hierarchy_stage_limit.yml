@@ -1,0 +1,10 @@
+---
+name: vsa_hierarchy_stage_limit
+description: Reject new Value Stream Analytics stages once a top-level namespace hierarchy holds the maximum number of stages
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636175
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267098
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638599
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

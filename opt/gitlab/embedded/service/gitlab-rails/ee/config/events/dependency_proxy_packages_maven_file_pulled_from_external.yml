@@ -1,0 +1,17 @@
+---
+description: A file was pulled through the Maven dependency proxy using the external registry.
+internal_events: true
+action: dependency_proxy_packages_maven_file_pulled_from_external
+identifiers:
+- project
+- user
+- namespace
+product_group: package_registry
+product_categories:
+- virtual_registry
+- package_registry
+milestone: "16.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/137783
+tiers:
+- premium
+- ultimate

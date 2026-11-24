@@ -1,0 +1,25 @@
+---
+description: Tracks duo agent platform session failures. Important for Duo Agent Platform analytics
+internal_events: true
+status: active
+action: cleanup_stuck_agent_platform_session
+classification: duo
+identifiers:
+- project
+- user
+- namespace
+additional_properties:
+  label:
+    description: Flow type, eg. chat
+  property:
+    description: Why the session was force-failed, eg. no_activity
+  value:
+    description: id of the session
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/199917
+tiers:
+- premium
+- ultimate

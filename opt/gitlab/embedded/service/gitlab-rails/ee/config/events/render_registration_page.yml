@@ -1,0 +1,14 @@
+---
+description: Tracks when the registration page is rendered
+action: render_registration_page
+identifiers:
+product_group: acquisition
+milestone: '17.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167137
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Can be `trial_registration`, `invite_registration`, `subscription_registration` or `free_registration`

@@ -1,0 +1,30 @@
+---
+description: The event tracks DAST form hashing feature metrics
+internal_events: true
+action: collect_dast_scan_ff_form_hashing_metrics_from_pipeline
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: dynamic_analysis
+product_categories:
+  - vulnerability_management
+milestone: '18.1'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189956'
+tiers:
+  - ultimate
+additional_properties:
+  property:
+    description: "a UUID that identifies a scan"
+  value:
+    description: "total number of forms found with feature"
+  label:
+    description: "total number of pages found with feature"
+  forms_per_minute:
+    description: "average number of forms processed per minute with the feature enabled"
+  max_crawl_depth:
+    description: "maximum depth reached by the crawler with the feature enabled"
+  average_form_depth:
+    description: "average depth in the crawl path where forms were found with the feature enabled"
+  crawl_surface_area:
+    description: "total number of potential attack vectors discovered with the feature enabled"

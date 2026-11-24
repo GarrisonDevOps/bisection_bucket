@@ -1,0 +1,10 @@
+---
+name: web_search_enabled_updated
+description: In a group, the setting that allows web search in GitLab Duo Chat is changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/587234
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253643
+feature_category: chat_engine
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

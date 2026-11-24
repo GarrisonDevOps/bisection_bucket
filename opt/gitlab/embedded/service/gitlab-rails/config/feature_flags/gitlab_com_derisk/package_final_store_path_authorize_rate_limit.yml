@@ -1,0 +1,10 @@
+---
+name: package_final_store_path_authorize_rate_limit
+description: Enforces the per-actor rate limit on package upload authorizations that use a final store path; while disabled, requests over the limit are only logged
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270135
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639677
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

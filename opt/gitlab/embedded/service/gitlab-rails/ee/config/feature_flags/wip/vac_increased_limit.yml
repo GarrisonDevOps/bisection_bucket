@@ -1,0 +1,10 @@
+---
+name: vac_increased_limit
+description: 'Allows increased tracked refs limit (1000) for specific projects'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/596736
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236282
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/600292
+milestone: '19.1'
+group: group::security infrastructure
+type: wip
+default_enabled: false

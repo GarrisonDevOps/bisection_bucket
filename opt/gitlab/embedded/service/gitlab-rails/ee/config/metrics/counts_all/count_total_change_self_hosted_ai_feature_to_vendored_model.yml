@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_update_self_hosted_ai_feature_to_vendored_model
+description: Count of self-hosted AI features that have been switched to use "Vendored" model
+product_group: ai_model_services
+product_categories:
+- self-hosted_models
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200463
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: update_self_hosted_ai_feature_to_vendored_model

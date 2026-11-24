@@ -1,0 +1,10 @@
+---
+name: enforce_ai_users_per_ip_limit
+description: Rejects Duo token requests when the distinct non-paying users per IP limit is exceeded
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/24032
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265402
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636391
+milestone: '19.6'
+group: group::ai core infra
+type: gitlab_com_derisk
+default_enabled: false

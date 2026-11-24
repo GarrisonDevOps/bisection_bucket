@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_export_runner_usage_by_project_as_csv_on_instance
+description: Count of runner usage CSV report exports from instance dashboard
+product_group: runner_core
+product_categories:
+- fleet_visibility
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '16.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157197
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: export_runner_usage_by_project_as_csv
+  filter:
+    label: instance

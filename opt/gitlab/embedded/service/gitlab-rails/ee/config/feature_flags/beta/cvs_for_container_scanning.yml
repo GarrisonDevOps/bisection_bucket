@@ -1,0 +1,9 @@
+---
+name: cvs_for_container_scanning
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/8026
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/165368
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/483636
+milestone: '17.4'
+group: group::composition analysis
+type: beta
+default_enabled: false

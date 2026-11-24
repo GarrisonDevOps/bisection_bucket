@@ -1,0 +1,10 @@
+---
+name: RemoveWorkItemAccessLevelFromWorkItem
+version: '20240814231502'
+description: Remove work_item_access_level from work_item index
+group: group::global search
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/162753
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178354
+marked_obsolete_in_milestone: '17.9'

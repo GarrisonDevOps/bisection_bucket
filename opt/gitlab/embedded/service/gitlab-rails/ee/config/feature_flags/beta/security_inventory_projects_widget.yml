@@ -1,0 +1,10 @@
+---
+name: security_inventory_projects_widget
+description: Show the Projects summary widget on the group Security Inventory page
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632028
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260665
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632851
+milestone: '19.6'
+group: group::security controls
+type: beta
+default_enabled: true

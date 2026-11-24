@@ -1,0 +1,19 @@
+---
+key_path: usage_activity_by_stage.count_distinct_report_types_with_resolved_vulnerabilities_per_project_metric
+description: Count of distinct report types with resolved vulnerabilities grouped by project
+product_group: code_scanning
+product_categories:
+- static_application_security_testing
+- secret_detection
+- software_composition_analysis
+- dynamic_application_security_testing
+value_type: number
+status: active
+milestone: '17.2'
+instrumentation_class: CountDistinctReportTypesWithResolvedVulnerabilitiesPerProjectMetric
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154472
+time_frame: 28d
+data_source: database
+data_category: optional
+tiers:
+- ultimate

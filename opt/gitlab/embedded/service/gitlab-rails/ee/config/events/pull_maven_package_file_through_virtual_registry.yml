@@ -1,0 +1,18 @@
+---
+description: Maven package file pulled through a maven virtual registry
+internal_events: true
+action: pull_maven_package_file_through_virtual_registry
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Whether the upstream or the cache was used to fulfill the file request (one of from_upstream, from_cache)
+product_group: package_registry
+product_categories:
+  - virtual_registry
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192689
+tiers:
+  - premium
+  - ultimate

@@ -1,0 +1,10 @@
+---
+name: product_analytics_settings_update
+description: Product analytics settings are changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/463318
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154101
+feature_category: product_analytics_data_management
+milestone: '17.1'
+saved_to_database: true
+streamed: true
+scope: [Project]

@@ -1,0 +1,21 @@
+---
+key_path: counts.projects_google_cloud_platform_artifact_registry_active
+description: Count of projects with the Google Artifact Registry enabled.
+product_group: container_registry
+product_categories:
+- container_registry
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: "16.11"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/148414
+time_frame: all
+data_source: database
+instrumentation_class: ActiveProjectIntegrationsMetric
+options:
+  type: google_cloud_platform_artifact_registry
+data_category: optional
+tiers:
+- free
+- premium
+- ultimate

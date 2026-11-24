@@ -1,0 +1,10 @@
+---
+name: active_context_code_push_indexing_delay
+description: Delay push-triggered ActiveContext code indexing so bursts of pushes fold into one run
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635319
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265341
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636287
+milestone: '19.6'
+group: group::ai core infra
+type: gitlab_com_derisk
+default_enabled: false

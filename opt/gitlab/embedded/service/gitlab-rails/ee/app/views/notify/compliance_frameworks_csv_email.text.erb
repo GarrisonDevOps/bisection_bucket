@@ -1,0 +1,6 @@
+<%= s_('ComplianceFrameworks|A compliance frameworks CSV export for the group "%{group_name}" is attached to this email.') % { group_name: @group.name } %>
+
+<% if @truncated %>
+<%= s_("ComplianceFrameworks|Note: This report was truncated to adhere to filesize limits of %{size}.") % { size: number_to_human_size(ComplianceManagement::Frameworks::ExportService::TARGET_FILESIZE) } %>
+<% end %>
+

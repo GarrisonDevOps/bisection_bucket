@@ -1,0 +1,5 @@
+- return unless slack_mcp_server_configurable?
+
+= render Pajamas::AlertComponent.new(variant: :warning, dismissible: false, alert_options: { class: 'gl-mb-5' }) do |c|
+  - c.with_body do
+    = s_('SlackIntegration|Saving these settings also configures the Slack MCP server, which lets GitLab Duo read public Slack channels and threads. If a Slack MCP server already exists, its client ID and client secret are replaced with the ones above.')

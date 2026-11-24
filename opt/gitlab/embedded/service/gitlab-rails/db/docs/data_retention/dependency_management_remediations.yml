@@ -1,0 +1,11 @@
+---
+exclude:
+  reason: transient_data
+# PruneRemediationsWorker deletes rows by rule rather than age, and a dismissal
+# is kept for as long as its version is installed, so rows have no fixed lifetime.
+retention_window: -1
+enforcement_strategy: none
+enforcing: false
+pause_mechanism:
+  type: none
+work_item: https://gitlab.com/gitlab-org/gitlab/-/work_items/606933

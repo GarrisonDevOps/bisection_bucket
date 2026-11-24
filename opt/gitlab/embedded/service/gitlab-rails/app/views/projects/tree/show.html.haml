@@ -1,0 +1,26 @@
+- add_page_specific_style 'page_bundles/tree'
+- breadcrumb_title _("Repository")
+- page_title @path.presence || _("Files"), @ref
+- @content_class = "repository-max-width"
+
+- if @gitaly_unavailable
+  = render 'shared/errors/gitaly_unavailable', reason: s_('Tree|Unable to load repository files')
+- else
+  -# Must match the pathLastCommit variables in last_commit.vue, or the app ignores this response
+  - add_page_startup_graphql_call('repository/path_last_commit', { projectPath: @project.full_path, ref: current_ref, path: @path, refType: ExtractsRef::RefExtractor.ref_type(params[:ref_type])&.upcase })
+  - add_page_startup_graphql_call('repository/permissions', { projectPath: @project.full_path })
+
+  = content_for :meta_tags do
+    = auto_discovery_link_tag(:atom, project_commits_url(@project, @ref, rss_url_options), title: "#{@project.name}:#{@ref} commits")
+
+  - if flash[:branch_created]
+    = render 'projects/branch_created', branch_name: flash[:branch_created]
+  - else
+    = render 'projects/last_push'
+
+  = render 'projects/files', commit: @last_commit, project: @project, ref: @ref, content_url: project_tree_path(@project, @id, ref_type: @ref_type)
+
+  = render 'shared/web_ide_path'
+
+  -# https://gitlab.com/gitlab-org/gitlab/-/issues/408388#note_1578533983
+  #js-ambiguous-ref-modal{ data: { ambiguous: @is_ambiguous_ref.to_s, ref: current_ref } }

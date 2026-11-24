@@ -1,0 +1,20 @@
+---
+key_path: counts.count_projects_with_dependency_scanning_scan_profiles
+description: Count of projects with Dependency Scanning scan profiles.
+product_group: security_controls
+product_categories:
+- security_testing_configuration
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/220222
+time_frame:
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountProjectsWithScanProfiles
+tiers:
+- ultimate
+options:
+  scan_type: dependency_scanning

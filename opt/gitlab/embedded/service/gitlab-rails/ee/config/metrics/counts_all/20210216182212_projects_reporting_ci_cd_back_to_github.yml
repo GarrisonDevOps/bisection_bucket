@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: counts.projects_reporting_ci_cd_back_to_github
+description: Projects with a GitHub service pipeline enabled
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

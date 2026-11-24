@@ -1,0 +1,7 @@
+---
+version: 1
+type: AiImpactTable
+data:
+  type: value_stream
+  query: {}
+options: {}

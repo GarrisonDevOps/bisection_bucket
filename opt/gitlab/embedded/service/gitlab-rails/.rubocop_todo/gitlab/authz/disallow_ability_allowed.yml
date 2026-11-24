@@ -1,0 +1,9 @@
+---
+Gitlab/Authz/DisallowAbilityAllowed:
+  Exclude:
+    - 'ee/app/policies/compliance_management/compliance_framework/project_control_compliance_status_policy.rb'
+    - 'ee/app/policies/compliance_management/projects/compliance_violation_policy.rb'
+    - 'ee/app/policies/ee/project_policy.rb'
+    - 'ee/app/policies/merge_requests/compliance_violation_policy.rb'
+    - 'ee/app/policies/projects/compliance_standards/adherence_policy.rb'
+    - 'ee/app/policies/vulnerabilities/merge_request_link_policy.rb'

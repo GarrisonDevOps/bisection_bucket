@@ -1,0 +1,14 @@
+---
+description: Admin custom role creation
+internal_events: true
+status: active
+action: create_admin_custom_role
+identifiers:
+- user
+product_group: authorization
+product_categories:
+- permissions
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/199916
+tiers:
+- ultimate

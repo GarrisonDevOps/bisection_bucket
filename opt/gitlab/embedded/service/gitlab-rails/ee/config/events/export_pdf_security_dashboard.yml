@@ -1,0 +1,23 @@
+---
+description: Triggered when a security dashboard PDF report is exported
+internal_events: true
+status: active
+action: export_pdf_security_dashboard
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Indicates whether the PDF export is for a project or a group security dashboard.
+  property:
+    description: Status of the export operation, either "success" or "error".
+  file_size:
+    description: PDF export file size
+product_group: vulnerability_management
+product_categories:
+  - vulnerability_management
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196921
+tiers:
+  - ultimate

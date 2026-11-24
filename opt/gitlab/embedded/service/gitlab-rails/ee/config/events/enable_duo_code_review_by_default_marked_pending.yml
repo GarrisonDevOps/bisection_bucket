@@ -1,0 +1,19 @@
+---
+description: When a namespace is marked as pending automatic Duo Code Review enablement after it acquires its first Duo add-on
+internal_events: true
+action: enable_duo_code_review_by_default_marked_pending
+classification: duo
+identifiers:
+- namespace
+additional_properties:
+  label:
+    description: The name of the add-on whose purchase triggered the change
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255855
+tiers:
+- free
+- premium
+- ultimate

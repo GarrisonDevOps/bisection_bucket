@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "name": "CIS CSC v8.1",
+  "description": "CIS CSC v8.1 compliance requirements",
+  "color": "#003366",
+  "requirements": [
+    {
+      "name": "6.7 Centralize Access Control",
+      "description": "Centralize access control for all enterprise assets through a directory service or SSO provider, where supported.",
+      "controls": [
+        {
+          "name": "auth_sso_enabled",
+          "control_type": "internal",
+          "expression": {
+            "operator": "=",
+            "field": "auth_sso_enabled",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "7.5 Perform Automated Vulnerability Scans of Internal Enterprise Assets",
+      "description": "Perform automated vulnerability scans of internal enterprise assets on a quarterly, or more frequent, basis. Conduct both authenticated and unauthenticated scans.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "7.6 Perform Automated Vulnerability Scans of Externally-Exposed Enterprise Assets",
+      "description": "Perform automated vulnerability scans of externally-exposed enterprise assets. Perform scans on a monthly, or more frequent, basis.",
+      "controls": [
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "16.12 Implement Code-Level Security Checks",
+      "description": "Apply static and dynamic analysis tools within the application lifecycle to verify that secure coding practices are being followed.",
+      "controls": [
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

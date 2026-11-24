@@ -1,0 +1,16 @@
+---
+version: 1
+type: DataTable
+data:
+  type: ai_agent_platform_flows_usage_by_user
+  query: {}
+options:
+  fields:
+    - key: 'user'
+      component: 'UserLink'
+    - key: 'flowType'
+      label: 'Flow name'
+    - key: 'sessionsCount'
+      label: 'Number of times triggered'
+      thClass: "gl-text-right"
+      tdClass: "gl-text-right"

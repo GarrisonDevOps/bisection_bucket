@@ -1,0 +1,12 @@
+---
+name: AddOrganizationFieldsToMergeRequests
+version: '20261015120002'
+description: Adds organization_id and organization_traversal_ids to the merge requests
+  ES index mapping so merge request search results can be scoped to an organization and
+  its namespace hierarchy
+group: group::global search
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262373
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

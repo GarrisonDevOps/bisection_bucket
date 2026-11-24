@@ -1,0 +1,21 @@
+---
+description: Track when Secret Push Protection encounters too many changed paths during scanning
+internal_events: true
+status: active
+action: spp_too_many_changed_paths_error_encountered
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  value:
+    description: changed paths count
+  label:
+    description: changed paths error message
+product_group: secret_detection
+product_categories:
+- secret_detection
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221623
+tiers:
+- ultimate

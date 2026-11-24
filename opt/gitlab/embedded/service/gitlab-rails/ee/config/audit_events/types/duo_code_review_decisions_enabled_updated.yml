@@ -1,0 +1,10 @@
+---
+name: duo_code_review_decisions_enabled_updated
+description: GitLab Duo code review decisions setting on group changed
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/work_items/21939
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254100
+feature_category: code_review_workflow
+milestone: '19.5'
+saved_to_database: true
+streamed: true
+scope: [Group]

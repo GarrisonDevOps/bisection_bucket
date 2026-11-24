@@ -1,0 +1,47 @@
+- page_title s_('SemanticSearch|Vector storage')
+- breadcrumb_title s_('SemanticSearch|Vector storage')
+- add_to_breadcrumbs _('Search'), search_admin_application_settings_path(anchor: 'js-semantic-search-settings')
+- add_page_specific_style 'page_bundles/settings'
+
+= render ::Layouts::SettingsBlockComponent.new(s_('SemanticSearch|Vector storage'),
+  testid: 'vector-storage-settings',
+  expanded: true) do |c|
+  - c.with_description do
+    = s_('SemanticSearch|Connect a vector store to index and store embeddings.')
+  - c.with_body do
+    = render Pajamas::CardComponent.new do |card|
+      - card.with_body do
+        - settings_link = link_to(s_('SemanticSearch|Search settings'), search_admin_application_settings_path(anchor: 'js-semantic-search-settings'))
+        - if @presenter.advanced_search_configured?
+          .gl-py-2
+            .gl-flex.gl-items-center.gl-gap-2.gl-mb-4
+              %h3.gl-heading-3.gl-m-0= s_('SemanticSearch|Advanced Search cluster')
+              - if @presenter.using_advanced_search
+                = render Pajamas::BadgeComponent.new(s_('SemanticSearch|In use'), variant: :success)
+            %p.gl-text-subtle.gl-mb-4= s_('SemanticSearch|Reuse your existing Advanced Search configuration.')
+            = form_tag admin_search_vector_storage_use_advanced_search_cluster_for_semantic_search_path, method: :post do
+              = render Pajamas::ButtonComponent.new(variant: :confirm, type: :submit, disabled: @presenter.using_advanced_search || @presenter.custom_active, button_options: { data: { testid: 'advanced-search-submit-button' } }) do
+                = s_('SemanticSearch|Connect')
+            - if @presenter.custom_active
+              .gl-mt-3
+                = render Pajamas::AlertComponent.new(variant: :info, dismissible: false) do |alert_c|
+                  - alert_c.with_body do
+                    = safe_format(s_('SemanticSearch|Semantic search is already configured. Go to %{link_start}Search settings%{link_end} to disable it and switch to the Advanced Search cluster.'), tag_pair(settings_link, :link_start, :link_end))
+          %hr.gl-my-4
+        .gl-mb-6
+          .gl-flex.gl-items-center.gl-gap-2.gl-mb-4
+            %h3#adapter-section-heading.gl-heading-3.gl-m-0= s_('SemanticSearch|Custom connection')
+            - if @presenter.custom_active
+              = render Pajamas::BadgeComponent.new(s_('SemanticSearch|In use'), variant: :success)
+          %p.gl-text-subtle.gl-mb-4= s_('SemanticSearch|Select the search adapter to use for vector storage.')
+          .form-group.gl-m-0
+            - adapter_options = options_for_select([[s_('SemanticSearch|Elasticsearch'), 'elasticsearch'], [s_('SemanticSearch|OpenSearch'), 'opensearch'], [s_('SemanticSearch|PostgreSQL'), 'postgresql']], @presenter.effective_adapter_name)
+            = select_tag 'adapter', adapter_options, class: 'form-control gl-max-w-34 js-adapter-select', disabled: @presenter.inputs_disabled, data: { testid: 'adapter-select' }, aria: { labelledby: 'adapter-section-heading' }
+          - if @presenter.using_advanced_search
+            .gl-mt-3
+              = render Pajamas::AlertComponent.new(variant: :info, dismissible: false) do |alert_c|
+                - alert_c.with_body do
+                  = safe_format(s_('SemanticSearch|Semantic search is already configured. Go to %{link_start}Search settings%{link_end} to disable it and configure a custom adapter.'), tag_pair(settings_link, :link_start, :link_end))
+        = render 'elasticsearch_section'
+        = render 'opensearch_section'
+        = render 'postgresql_section'

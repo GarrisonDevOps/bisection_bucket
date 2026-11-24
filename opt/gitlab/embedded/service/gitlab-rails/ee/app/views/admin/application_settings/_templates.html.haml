@@ -1,0 +1,20 @@
+- if License.feature_available?(:custom_file_templates)
+  = render ::Layouts::SettingsBlockComponent.new(_('Templates'),
+    id: 'js-templates-settings',
+    testid: 'templates-settings',
+    expanded: expanded) do |c|
+    - c.with_description do
+      = _('Select a repository containing templates for common files.')
+      = link_to _('What templates can I create?'), help_page_path('administration/settings/instance_template_repository.md', anchor: 'supported-file-types-and-locations'), target: '_blank', rel: 'noopener noreferrer'
+    - c.with_body do
+      = gitlab_ui_form_for @application_setting, url: templates_admin_application_settings_path, html: { class: 'fieldset-form' } do |f|
+        = form_errors(@application_setting)
+
+        .js-vue-project-select{ data: { label: _('Select a template repository'),
+          input_name: 'application_setting[file_template_project_id]',
+          input_id: 'application_setting[file_template_project_id]',
+          order_by: 'last_activity_at',
+          with_shared: true.to_s,
+          selected: @application_setting.file_template_project_id } }
+        %p.-gl-mt-5= s_('TemplateRepository|Create common files more quickly, and standardize their format.')
+        = f.submit _('Save changes'), pajamas_button: true

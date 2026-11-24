@@ -1,0 +1,13 @@
+---
+table_name: schema_migrations
+classes:
+- ActiveRecord::SchemaMigration
+- Embedding::SchemaMigration
+- Geo::TrackingBase::SchemaMigration
+feature_categories:
+- database
+description: An internal table used by ActiveRecord to keep track of which migrations
+  have been applied to the database.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/118156
+milestone: '16.0'
+gitlab_schema: gitlab_internal

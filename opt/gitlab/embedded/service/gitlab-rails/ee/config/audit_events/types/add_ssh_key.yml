@@ -1,0 +1,10 @@
+---
+name: add_ssh_key
+description: An SSH key is added to a user's profile. Group scope is only available for enterprise users.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/361778
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195379
+feature_category: user_profile
+milestone: '18.2'
+saved_to_database: true
+streamed: true
+scope: [User, Group]

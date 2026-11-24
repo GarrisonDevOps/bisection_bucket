@@ -1,0 +1,2 @@
+- @hide_flash = flash[:notice].to_s == EE::ApplicationSetting::ERROR_NO_SEATS_AVAILABLE
+= render Admin::BlockSeatsOverages::NoSeatsLeftInSubscriptionAlertComponent.new(flash[:notice])

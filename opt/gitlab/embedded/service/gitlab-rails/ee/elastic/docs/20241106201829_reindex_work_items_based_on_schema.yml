@@ -1,0 +1,10 @@
+---
+name: ReindexWorkItemsBasedOnSchema
+version: '20241106201829'
+description: Reindexes work items index to fix correct_work_item_type_id and visibility_level
+group: group::global search
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/171921
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/180211
+marked_obsolete_in_milestone: '17.9'

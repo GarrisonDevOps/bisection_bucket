@@ -1,0 +1,7 @@
+- seat_utilization_text = s_('UsageQuota|Seat utilization')
+- page_title seat_utilization_text
+- breadcrumb_title seat_utilization_text
+- add_to_breadcrumbs _('GitLab Duo'), group_settings_gitlab_duo_path(@group)
+- content_for :reload_on_member_invite_success, true
+
+#js-gitlab-duo-usage-settings{ data: code_suggestions_usage_app_data(@group).merge({ is_standalone_page: 'true' }) }

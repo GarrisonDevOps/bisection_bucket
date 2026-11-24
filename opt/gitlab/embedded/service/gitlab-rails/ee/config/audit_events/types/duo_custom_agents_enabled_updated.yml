@@ -1,0 +1,10 @@
+---
+name: duo_custom_agents_enabled_updated
+description: GitLab Duo custom agents enabled setting on group changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/594615
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233219
+feature_category: ai_catalog_curation
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Group]

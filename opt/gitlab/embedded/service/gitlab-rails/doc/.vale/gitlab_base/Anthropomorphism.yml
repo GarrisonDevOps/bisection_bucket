@@ -1,0 +1,23 @@
+---
+name: gitlab_base.Anthropomorphism
+description: |
+  Checks for anthropomorphic language that attributes human qualities such as
+  perception, intent, or awareness to software, systems, or data.
+extends: existence
+message: "Avoid anthropomorphism: '%s' attributes a human quality to a non-human subject. Replace the anthropomorphic verb with the system's input, rule, action, or observable result."
+ignorecase: true
+nonword: true
+vocab: false
+level: warning
+link: https://docs.gitlab.com/development/documentation/styleguide/language/#anthropomorphisms
+raw:
+  - '\b('
+  - 'tool|service|server|pipeline|runner|agent|function|command'
+  - '|process|request|validator|parser|worker|cache|proxy|client'
+  - '|API|application|integration|container|node|cluster|instance|queue'
+  - '|token|setting|policy|flag|variable|parameter|header|log'
+  - '|component|database|branch|resource|file|policies|proxies'
+  - ')(s|es)?\s+('
+  - 'understands?|thinks?|decides?|knows?|sees?|looks? at|feels?'
+  - '|experiences?|chooses?|assumes?|remembers?|tells?|asks?|needs?'
+  - ')\b'

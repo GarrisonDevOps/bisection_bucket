@@ -1,0 +1,10 @@
+---
+name: create_ai_catalog_mcp_server
+description: A user creates an AI Catalog MCP server.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/590708
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227051
+feature_category: workflow_catalog
+milestone: '18.11'
+saved_to_database: true
+streamed: true
+scope: [Instance]

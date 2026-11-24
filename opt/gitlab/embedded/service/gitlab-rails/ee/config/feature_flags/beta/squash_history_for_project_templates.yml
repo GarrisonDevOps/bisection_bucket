@@ -1,0 +1,10 @@
+---
+name: squash_history_for_project_templates
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/351032
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226117
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/592950
+milestone: '18.10'
+group: group::source code
+type: beta
+default_enabled: true

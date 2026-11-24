@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_duo_enterprise_trial_registration_failure
+description: Total count of Duo Enterprise trial failures
+product_group: acquisition
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: removed
+milestone_removed: '19.6'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258835
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/160106
+time_frame: all
+data_source: internal_events
+data_category: optional
+tiers:
+  - ultimate
+events:
+  - name: duo_enterprise_trial_registration_failure

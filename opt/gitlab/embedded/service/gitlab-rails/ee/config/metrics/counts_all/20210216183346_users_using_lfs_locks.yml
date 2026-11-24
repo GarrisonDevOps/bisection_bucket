@@ -1,0 +1,18 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage.create.users_using_lfs_locks
+description: Number of unique users who have locked files or directories using LFS
+  via the command line
+product_group: source_code
+product_categories:
+- source_code_management
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

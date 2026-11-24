@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_code_suggestions_connection_details_rate_limit_exceeded
+description: Count of the number of requests that have exceeded the rate limit for the `POST /code_suggestions/connection_details` API endpoint.
+product_group: dap_repository_flows
+product_categories:
+- code_suggestions
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197494
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: code_suggestions_connection_details_rate_limit_exceeded

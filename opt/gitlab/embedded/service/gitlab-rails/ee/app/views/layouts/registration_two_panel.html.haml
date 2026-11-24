@@ -1,0 +1,21 @@
+- content_for :body_class, '!gl-bg-default'
+- add_page_specific_style 'page_bundles/registration_two_panel'
+- page_classes = [user_application_color_mode]
+- page_classes << 'with-performance-bar' if performance_bar_enabled?
+- body_classes = [system_message_class, @body_class, content_for(:body_class)]
+
+!!! 5
+%html.gl-h-full{ lang: I18n.locale, class: page_classes }
+  = render "layouts/head"
+  %body.gl-h-full{ data: body_data, class: body_classes }
+    = header_message
+    = render "layouts/init_client_detection_flags"
+    = render 'peek/bar'
+    = render 'layouts/published_experiments'
+    .gl-flex.gl-flex-col.gl-min-h-screen
+      .gl-flex.gl-flex-1.gl-p-8.gl-gap-8
+        .gl-flex-1.gl-flex.gl-flex-col.gl-items-center.gl-min-w-0{ class: 'gl-@container/panel' }
+          = render "layouts/flash"
+          = yield
+        .gl-flex-1.gl-hidden.gl-sticky.gl-top-8.gl-self-start.registration-right-panel{ class: 'lg:gl-block' }
+          = render 'layouts/registration_right_panel'

@@ -1,0 +1,5 @@
+- project = local_assigns.fetch(:project)
+
+- if project.jira_issue_association_required_to_merge_enabled?
+  = form.fields_for :project_setting do |settings|
+    = settings.gitlab_ui_checkbox_component :prevent_merge_without_jira_issue, s_('ProjectSettings|Require an associated issue from Jira')

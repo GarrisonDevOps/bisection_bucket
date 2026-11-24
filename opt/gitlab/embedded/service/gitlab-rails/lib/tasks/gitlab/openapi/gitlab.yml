@@ -1,0 +1,21 @@
+# Config used to generate the OpenAPI docs, so they don't depend on the local gitlab.yml.
+# Enable features that add accepted values to the API, so the docs list them all.
+defaults: &defaults
+  registry:
+    enabled: true
+  dependency_proxy:
+    enabled: true
+  # Machine-specific, so found at load time. Doesn't affect the docs.
+  git:
+    bin_path: <%= ENV['PATH'].to_s.split(File::PATH_SEPARATOR).map { |dir| File.join(dir, 'git') }.find { |path| File.executable?(path) } || '/usr/bin/git' %>
+  # Not used for generation. Rails won't boot without a storage.
+  repositories:
+    storages:
+      default:
+        gitaly_address: unix:/tmp/gitaly.socket
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults

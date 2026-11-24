@@ -1,0 +1,3 @@
+---
+name: verify_secret_detection_raw_token
+description: Grants the ability to verify whether raw tokens found outside GitLab are active

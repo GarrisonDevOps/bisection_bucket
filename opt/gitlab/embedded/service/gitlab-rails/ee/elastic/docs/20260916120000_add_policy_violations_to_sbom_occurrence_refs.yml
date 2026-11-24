@@ -1,0 +1,11 @@
+---
+name: AddPolicyViolationsToSbomOccurrenceRefs
+version: '20260916120000'
+description: Adds the policy_violations field to the sbom_occurrence_refs index so the dependency
+  list can filter on dependencies dismissed in a merge request
+group: group::security foundations
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255926
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

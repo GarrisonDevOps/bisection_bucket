@@ -1,0 +1,9 @@
+---
+name: geo_proxy_push_ssh_to_primary
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/466031
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/155590
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/466057
+milestone: '17.2'
+group: group::source code
+type: beta
+default_enabled: true

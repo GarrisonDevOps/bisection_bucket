@@ -1,0 +1,6 @@
+-# The component renders nothing when the user has no Duo access, so the bundle
+-# is requested only on the pages that actually mount the panel.
+- panel = render DuoChatPanel::Component.new(user: current_user, project: @project, group: @group, controller_name: controller_name)
+= panel
+- if panel.present?
+  = webpack_bundle_tag 'duo_panel'

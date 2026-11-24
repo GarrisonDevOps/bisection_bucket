@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+if [[ "${1:-}" == "--debug" ]]; then
+  set -x
+  shift
+fi
+
+create_google_cloud_resources() {
+  <% oidc_claim_grants.each do |oidc_claim_grant| %>
+    PRINCIPAL="principalSet://<%= identity_provider %>/attribute.<%= oidc_claim_grant[:claim_name] %>/<%= oidc_claim_grant[:claim_value] %>"
+
+    gcloud projects add-iam-policy-binding '<%= google_cloud_artifact_registry_project_id %>' \
+           --member=$PRINCIPAL --role='<%= oidc_claim_grant[:iam_role] %>'
+  <% end %>
+}
+
+create_google_cloud_resources

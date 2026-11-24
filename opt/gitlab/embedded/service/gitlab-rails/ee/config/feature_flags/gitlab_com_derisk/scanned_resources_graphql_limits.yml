@@ -1,0 +1,10 @@
+---
+name: scanned_resources_graphql_limits
+description: Limit the size and number of DAST and API fuzzing artifacts parsed for the scannedResources and scannedResourcesCount GraphQL fields, and rate limit them per user.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637250
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269459
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639273
+milestone: '19.6'
+group: group::dynamic analysis
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,16 @@
+---
+description: Tracks when a registration form is rendered, from the frontend so it can be joined with page view data
+internal_events: true
+action: render_registration_form
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235676
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: Identifies the registration flow the form belongs to, for example `premium_subscription_com`.

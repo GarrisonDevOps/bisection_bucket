@@ -1,0 +1,10 @@
+---
+name: duo_code_review_standard_flow
+description: Route Duo Code Review to the Standard agentic code review flow
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627566
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253786
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/627796
+milestone: '19.4'
+group: group::code review
+type: beta
+default_enabled: false

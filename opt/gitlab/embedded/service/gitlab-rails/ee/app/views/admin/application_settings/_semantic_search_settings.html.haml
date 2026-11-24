@@ -1,0 +1,73 @@
+= render ::Layouts::SettingsBlockComponent.new(_('Semantic search'),
+  id: 'js-semantic-search-settings',
+  testid: 'semantic-search-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = _('Configure settings for semantic search.')
+    = link_to _('Learn more.'), help_page_path('user/gitlab_duo/semantic_code_search.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    - has_active_connection = @active_context_connection.present?
+    - card_header_options = { class: 'gl-flex gl-items-center gl-justify-between' }
+    - card_body_options = { class: 'gl-flex gl-items-center gl-justify-between' }
+    = render Pajamas::CardComponent.new(header_options: card_header_options, body_options: card_body_options) do |card|
+      - card.with_header do
+        %div
+          .gl-flex.gl-items-center.gl-gap-2
+            %h4.gl-text-base.gl-leading-24.gl-m-0= s_('SemanticSearch|Status')
+            - if has_active_connection
+              = render Pajamas::BadgeComponent.new(s_('SemanticSearch|Enabled'), variant: :success)
+            - else
+              = render Pajamas::BadgeComponent.new(s_('SemanticSearch|Disabled'), variant: :neutral)
+          %p.gl-text-subtle.gl-m-0= s_('SemanticSearch|Current status of semantic code search.')
+        = render Pajamas::ButtonComponent.new(variant: :danger, button_options: { 'aria-label': s_('SemanticSearch|Disable'), data: { confirm: s_('SemanticSearch|This action is destructive. Disabling semantic search will remove all indexed data. If you reconnect in the future, a full index will be performed.'), confirm_btn_variant: 'danger', method: :post } }, href: admin_search_vector_storage_disable_semantic_search_path, disabled: !has_active_connection) do
+          = s_('SemanticSearch|Disable')
+      - card.with_body do
+        .gl-display-block.gl-w-full
+          .gl-flex.gl-items-center.gl-justify-between
+            %div
+              %h4.gl-text-base.gl-leading-24.gl-m-0= s_('SemanticSearch|Vector storage')
+              %p.gl-text-subtle.gl-m-0= s_('SemanticSearch|Connect a vector store to index and store embeddings.')
+            = render Pajamas::ButtonComponent.new(variant: :confirm, href: search_vector_storage_admin_application_settings_path) do
+              = s_('SemanticSearch|Configure')
+          - @semantic_search_embedding_models&.each do |collection_key, embedding_model|
+            %hr.gl-my-5
+            .gl-flex.gl-items-center.gl-justify-between{ data: { testid: "semantic-search-model-#{collection_key}" } }
+              - current_model = embedding_model&.[](:current_model)
+              - next_model = embedding_model&.[](:next_model)
+              - feature_setting_allowed = embedding_model&.[](:feature_setting_allowed)
+              %div
+                %h4.gl-text-base.gl-leading-24.gl-m-0= s_('SemanticSearch|%{collection} embeddings').html_safe % { collection: collection_name(collection_key) }
+                - if has_active_connection
+                  - if embedding_model
+                    %div
+                      %p.gl-text-subtle.gl-m-0
+                        - if current_model
+                          = embedding_model_display_name(current_model)
+                        - else
+                          = s_('SemanticSearch|An embedding model is not configured.')
+                      - if next_model
+                        %p.gl-text-subtle.gl-m-0
+                          = s_('SemanticSearch|Switching to: %{model_name}') % { model_name: embedding_model_display_name(next_model) }
+                  - else
+                    %p.gl-text-subtle.gl-m-0
+                      = s_('SemanticSearch|Embedding model configuration is not available. Ensure %{coll_name} collection exists.') % { coll_name: collection_name(collection_key) }
+                - else
+                  %p.gl-text-subtle.gl-m-0
+                    = s_('SemanticSearch|Embedding model configuration is not available. The connection is not configured.')
+              - if @user_can_update_semantic_search_model && embedding_model
+                - if feature_setting_allowed
+                  = render Pajamas::ButtonComponent.new(variant: :confirm,
+                      disabled: next_model.present?,
+                      button_options: { data: { testid: "configure-semantic-search-embeddings-#{collection_key}" } },
+                      href: admin_application_settings_semantic_search_embedding_path(collection_key.to_s)) do
+                    = current_model ? s_('SemanticSearch|Change model') : s_('SemanticSearch|Set model')
+                - else
+                  .gl-text-subtle{ data: { testid: "configure-semantic-search-embeddings-#{collection_key}-disallowed" } }
+                    - if current_model
+                      %p.gl-m-0= s_('SemanticSearch|Configuration is not allowed, and indexing is disabled.')
+                    - else
+                      %p.gl-m-0= s_('SemanticSearch|Configuration is not allowed.')
+                    %p.gl-m-0
+                      - turn_on_beta_models_link = link_to('', help_page_path('administration/gitlab_duo_self_hosted/configure_duo_features.md', anchor: 'turn-on-self-hosted-beta-models-and-features'), target: '_blank', rel: 'noopener noreferrer')
+                      = safe_format(s_('SemanticSearch|Ensure self-hosted beta models and features are %{turn_on_beta_models_link_start}turned on%{turn_on_beta_models_link_end}.'),
+                        tag_pair(turn_on_beta_models_link, :turn_on_beta_models_link_start, :turn_on_beta_models_link_end))

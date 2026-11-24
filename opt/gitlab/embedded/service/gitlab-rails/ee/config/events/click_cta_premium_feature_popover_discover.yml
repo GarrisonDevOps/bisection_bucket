@@ -1,0 +1,21 @@
+---
+description: Tracks when user clicks learn more button on premium feature popover on discover page
+internal_events: true
+status: active
+action: click_cta_premium_feature_popover_discover
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219412
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: The feature that was clicked

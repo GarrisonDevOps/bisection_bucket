@@ -1,0 +1,3 @@
+---
+name: reset_runner_authentication_token
+description: Grants the ability to reset runner authentication tokens

@@ -1,0 +1,197 @@
+---
+title: DORA metrics
+description: View current DORA metric performance and historical trends to analyze
+  DevOps efficiency over time.
+version: '2'
+constraints:
+  feature_flag: gi_migration_dora_metrics
+filters:
+  scope:
+    enabled: true
+  dateRange:
+    enabled: true
+    defaultOption: 180d
+    options:
+    - 7d
+    - 30d
+    - 90d
+    - 180d
+    - custom
+    numberOfDaysLimit: 180
+panels:
+- title: Deployment frequency average
+  visualization:
+    type: SingleStat
+    data:
+      type: dora_metrics
+      query:
+        metric: deployment_frequency
+        dateRange: 180d
+        interval: ALL
+    options:
+      unit: per_day
+      decimalPlaces: 1
+  gridAttributes:
+    yPos: 0
+    xPos: 0
+    width: 3
+    height: 14
+  options: {}
+- title: Change failure rate
+  visualization:
+    type: SingleStat
+    data:
+      type: dora_metrics
+      query:
+        metric: change_failure_rate
+        dateRange: 180d
+        interval: ALL
+    options:
+      unit: percent
+      decimalPlaces: 1
+  gridAttributes:
+    yPos: 0
+    xPos: 3
+    width: 3
+    height: 14
+  options: {}
+- title: Time to restore service median
+  visualization:
+    type: SingleStat
+    data:
+      type: dora_metrics
+      query:
+        metric: time_to_restore_service
+        dateRange: 180d
+        interval: ALL
+    options:
+      unit: days
+      decimalPlaces: 1
+  gridAttributes:
+    yPos: 0
+    xPos: 6
+    width: 3
+    height: 14
+  options: {}
+- title: Lead time for changes median
+  visualization:
+    type: SingleStat
+    data:
+      type: dora_metrics
+      query:
+        metric: lead_time_for_changes
+        dateRange: 180d
+        interval: ALL
+    options:
+      unit: days
+      decimalPlaces: 1
+  gridAttributes:
+    yPos: 0
+    xPos: 9
+    width: 3
+    height: 14
+  options: {}
+- title: Deployment frequency over time
+  visualization:
+    type: LineChart
+    data:
+      type: dora_metrics
+      query:
+        metric: deployment_frequency
+        dateRange: 180d
+        interval: DAILY
+    options:
+      xAxis:
+        name: Date
+        type: time
+      yAxis:
+        name: Number of deployments
+        type: value
+      includeLegendAvgMax: false
+      chartTooltip:
+        titleFormatter: DATE
+        valueUnit: PER_DAY
+  gridAttributes:
+    yPos: 14
+    xPos: 0
+    width: 6
+    height: 52
+  options: {}
+- title: Change failure rate over time
+  visualization:
+    type: LineChart
+    data:
+      type: dora_metrics
+      query:
+        metric: change_failure_rate
+        dateRange: 180d
+        interval: DAILY
+    options:
+      xAxis:
+        name: Date
+        type: time
+      yAxis:
+        name: Percentage of failed deployments
+        type: value
+      includeLegendAvgMax: false
+      chartTooltip:
+        titleFormatter: DATE
+        valueUnit: PERCENT
+  gridAttributes:
+    yPos: 14
+    xPos: 6
+    width: 6
+    height: 52
+  options: {}
+- title: Time to restore service over time
+  visualization:
+    type: LineChart
+    data:
+      type: dora_metrics
+      query:
+        metric: time_to_restore_service
+        dateRange: 180d
+        interval: DAILY
+    options:
+      xAxis:
+        name: Date
+        type: time
+      yAxis:
+        name: Days for an open incident
+        type: value
+      includeLegendAvgMax: false
+      chartTooltip:
+        titleFormatter: DATE
+        valueUnit: TIME_INTERVAL
+  gridAttributes:
+    yPos: 66
+    xPos: 0
+    width: 6
+    height: 52
+  options: {}
+- title: Lead time for changes over time
+  visualization:
+    type: LineChart
+    data:
+      type: dora_metrics
+      query:
+        metric: lead_time_for_changes
+        dateRange: 180d
+        interval: DAILY
+    options:
+      xAxis:
+        name: Date
+        type: time
+      yAxis:
+        name: Time from merge to deploy
+        type: value
+      includeLegendAvgMax: false
+      chartTooltip:
+        titleFormatter: DATE
+        valueUnit: TIME_INTERVAL
+  gridAttributes:
+    yPos: 66
+    xPos: 6
+    width: 6
+    height: 52
+  options: {}

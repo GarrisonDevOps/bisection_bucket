@@ -1,0 +1,3 @@
+<%= s_("Pipelines|The %{namespace_name} (%{namespace_url}) namespace has reached its shared runner compute minutes quota. For more details, see usage statistics: %{usage_statistics_url}") % { namespace_name: @namespace.name, namespace_url: group_url(@namespace), usage_statistics_url: group_usage_quotas_url(@namespace, anchor: 'pipelines-quota-tab') } %>
+
+<%= s_("Pipelines|To run new jobs and pipelines in this namespace's projects, buy additional compute minutes: %{buy_additional_minutes_url}") % { buy_additional_minutes_url: buy_additional_minutes_url(@namespace) } %>

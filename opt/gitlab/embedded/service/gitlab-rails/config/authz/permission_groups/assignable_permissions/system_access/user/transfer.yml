@@ -1,0 +1,11 @@
+---
+name: transfer_user
+description: Grants the ability to transfer ownership of users to an organization
+boundaries:
+  - instance
+available_for:
+  - granular_access_token
+permissions:
+  - transfer_user
+assignable_when:
+  - condition: admin

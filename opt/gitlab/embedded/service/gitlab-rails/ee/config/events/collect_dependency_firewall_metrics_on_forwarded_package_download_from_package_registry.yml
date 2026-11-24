@@ -1,0 +1,26 @@
+---
+description: Metric collected when a package download is forwarded by the Dependency Firewall from the Package Registry
+internal_events: true
+action: collect_dependency_firewall_metrics_on_forwarded_package_download_from_package_registry
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: package_registry
+product_categories:
+  - dependency_firewall
+milestone: '18.9'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221896'
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: The outcome enum. Either 'allowed', 'blocked-license', 'blocked-vulnerability', 'blocked-malicious', 'warn-license', 'warn-vulnerability', or 'warn-malicious'
+  property:
+    description: The cache status (1 for hit, 0 for miss)
+  value:
+    description: The runtime in milliseconds
+  purl:
+    description: The package URL (purl)
+  session_id:
+    description: Client-supplied identifier grouping all evaluations from a single package-manager invocation. Present only for API-driven evaluations.

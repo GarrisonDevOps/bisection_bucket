@@ -1,0 +1,19 @@
+---
+description: Custom work item type name or icon updated
+internal_events: true
+status: active
+action: update_work_item_type
+identifiers:
+- namespace
+- user
+additional_properties:
+  label:
+    description: Name of the updated work item type
+product_group: work_items
+product_categories:
+  - team_planning
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227987
+tiers:
+  - premium
+  - ultimate

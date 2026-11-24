@@ -1,0 +1,16 @@
+description: "Show \"Paid feature highlight\" popover"
+category: default
+action: popover_shown
+extra_properties:
+identifiers:
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: "14.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/62525
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`feature_highlight_popover:[feature_name]`"

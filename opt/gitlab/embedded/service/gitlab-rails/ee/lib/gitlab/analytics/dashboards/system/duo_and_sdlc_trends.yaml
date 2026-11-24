@@ -1,0 +1,513 @@
+---
+title: GitLab Duo and SDLC trends
+description: Visualize Duo usage and development trends side-by-side.
+version: '2'
+constraints:
+  data:
+    - clickhouse
+filters:
+  dateRange:
+    enabled: false
+  scope:
+    requirePermissions:
+    - readProAiAnalytics
+panels:
+- title: "GitLab Duo users"
+  tooltip:
+    description: Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature.
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+      showTrends: true
+    data:
+      type: glql
+      query:
+        dateField: timestamp
+        glql: |
+          display: stat
+          mode: analytics
+          query: type = AiUsageEvent
+          metrics: usersCount
+          displayConfig:
+            description: Last 30 days
+  gridAttributes:
+    yPos: 0
+    xPos: 0
+    width: 4
+    height: 14
+- title: "GitLab Duo power users"
+  visualization:
+    type: SingleStat
+    data:
+      type: ai_impact_over_time
+      query:
+        metric: duo_power_users_count
+    options: {}
+  gridAttributes:
+    yPos: 0
+    xPos: 4
+    width: 4
+    height: 14
+  options: {}
+- title: "GitLab Duo agent/flow users"
+  tooltip:
+    description: Number of users who used at least one GitLab Duo agent or flow.
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+      showTrends: true
+    data:
+      type: glql
+      query:
+        dateField: created
+        glql: |
+          display: stat
+          mode: analytics
+          query: type = AgentPlatformSession
+          metrics: usersCount
+          displayConfig:
+            description: Last 30 days
+  gridAttributes:
+    yPos: 0
+    xPos: 8
+    width: 4
+    height: 14
+  options: {}
+- title: "GitLab Duo Agent Chat sessions"
+  tooltip:
+    description: Number of chat sessions in Duo Agent Platform.
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+      showTrends: true
+    data:
+      type: glql
+      query:
+        dateField: created
+        glql: |
+          display: stat
+          mode: analytics
+          query: type = AgentPlatformSession and flowType = "chat"
+          metrics: totalCount
+          displayConfig:
+            description: Last 30 days
+  gridAttributes:
+    yPos: 14
+    xPos: 0
+    width: 4
+    height: 16
+  options: {}
+- title: "Pipelines using GitLab Duo features"
+  visualization:
+    type: SingleStat
+    data:
+      type: ai_impact_over_time
+      query:
+        metric: duo_pipelines_rate
+    options:
+      unit: percent
+      decimalPlaces: 1
+  gridAttributes:
+    yPos: 14
+    xPos: 4
+    width: 4
+    height: 16
+  options: {}
+- title: "GitLab Duo Agent Platform flow usage"
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+    data:
+      type: glql
+      query:
+        dateField: created
+        glql: |
+          display: table
+          mode: analytics
+          query: type = AgentPlatformSession
+          dimensions: flowType as "Flow"
+          metrics: totalCount as "Number of sessions", durationQuantile(0.5) as "Median duration", usersCount as "Unique users", completionRate as "Completion rate"
+          sort: totalCount desc
+          displayConfig:
+            description: Last 30 days
+  gridAttributes:
+    yPos: 30
+    xPos: 0
+    width: 8
+    height: 52
+  options: {}
+- title: "Pipelines using GitLab Duo Agent Platform over time"
+  visualization:
+    type: LineChart
+    data:
+      type: finished_pipelines_using_dap_over_time
+      query: {}
+    options:
+      xAxis:
+        name: Month
+        type: category
+      yAxis:
+        name: Pipelines
+        type: value
+      includeLegendAvgMax: false
+      chartTooltip:
+        valueUnit: COUNT
+  gridAttributes:
+    yPos: 30
+    xPos: 8
+    width: 4
+    height: 52
+  options: {}
+- title: "Returning GitLab Duo users by feature"
+  visualization:
+    type: LineChart
+    data:
+      type: duo_feature_user_retention_over_time
+      query: {}
+    options:
+      xAxis:
+        name: Date
+        type: time
+      yAxis:
+        name: "User retention (%)"
+        type: value
+        valueUnit: PERCENT
+      includeLegendAvgMax: false
+      chartTooltip:
+        titleFormatter: DATE
+        valueUnit: PERCENT
+  gridAttributes:
+    yPos: 82
+    xPos: 0
+    width: 12
+    height: 52
+  options: {}
+- title: "GitLab Duo usage metrics for the %{namespaceName} %{namespaceType}"
+  visualization:
+    type: AiImpactTable
+    data:
+      type: value_stream
+      query:
+        filters:
+          includeMetrics:
+          - duo_used_count
+          - code_suggestions_users_count
+          - code_suggestions_acceptance_rate
+          - duo_chat_users_count
+          - duo_rca_users_count
+          - duo_review_requests_count
+          - duo_review_comment_count
+          - duo_agent_platform_flows
+          - duo_agent_platform_chats
+    options: {}
+  gridAttributes:
+    yPos: 134
+    xPos: 0
+    width: 12
+    height: 63
+  options: {}
+- title: "Development metrics for the %{namespaceName} %{namespaceType}"
+  visualization:
+    type: AiImpactTable
+    data:
+      type: value_stream
+      query:
+        filters:
+          includeMetrics:
+          - deployment_frequency
+          - merge_request_throughput
+          - median_time_to_merge
+          - contributor_count
+          - vulnerability_critical
+    options: {}
+  gridAttributes:
+    yPos: 197
+    xPos: 0
+    width: 12
+    height: 44
+  options: {}
+- title: "Pipeline metrics for the %{namespaceName} %{namespaceType}"
+  visualization:
+    type: AiImpactTable
+    data:
+      type: value_stream
+      query:
+        filters:
+          includeMetrics:
+          - pipeline_count
+          - pipeline_duration_median
+          - pipeline_success_rate
+          - pipeline_failed_rate
+          - pipeline_other_rate
+    options: {}
+  gridAttributes:
+    yPos: 241
+    xPos: 0
+    width: 12
+    height: 39
+  options: {}
+- title: "GitLab Duo usage by user"
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+    data:
+      type: glql
+      query:
+        dateField: timestamp
+        dateRange: 30d
+        glql: |
+          display: table
+          mode: analytics
+          query: type = AiUsageEvent
+          dimensions: user
+          metrics: totalCount as "Total events"
+          # pages re-run the query with OFFSET, so ties need a stable second key
+          sort: totalCount desc, user asc
+          # one page of six rows fits the tile, so Previous and Next stay visible
+          limit: 6
+  gridAttributes:
+    yPos: 280
+    xPos: 0
+    width: 4
+    height: 52
+- title: "GitLab Duo Code Review usage by user"
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+    data:
+      type: glql
+      query:
+        dateField: timestamp
+        dateRange: 30d
+        glql: |
+          display: table
+          mode: analytics
+          query: type = AiUsageEvent and event in ("request_review_duo_code_review_on_mr_by_author", "react_thumbs_up_on_duo_code_review_comment", "react_thumbs_down_on_duo_code_review_comment")
+          dimensions: user
+          metrics: totalCount(event="request_review_duo_code_review_on_mr_by_author") as "Requested", totalCount(event=["react_thumbs_up_on_duo_code_review_comment", "react_thumbs_down_on_duo_code_review_comment"]) as "Reactions"
+          # pages re-run the query with OFFSET, so ties need a stable second key
+          sort: Requested desc, user asc
+          # one page of six rows fits the tile, so Previous and Next stay visible
+          limit: 6
+  gridAttributes:
+    yPos: 280
+    xPos: 4
+    width: 4
+    height: 52
+- title: "GitLab Duo Root Cause Analysis usage by user"
+  visualization:
+    type: Glql
+    options:
+      showActions: false
+    data:
+      type: glql
+      query:
+        dateField: timestamp
+        dateRange: 30d
+        glql: |
+          display: table
+          mode: analytics
+          query: type = AiUsageEvent and event = "troubleshoot_job"
+          dimensions: user
+          metrics: totalCount as "Usage"
+          # pages re-run the query with OFFSET, so ties need a stable second key
+          sort: totalCount desc, user asc
+          # one page of six rows fits the tile, so Previous and Next stay visible
+          limit: 6
+  gridAttributes:
+    yPos: 280
+    xPos: 8
+    width: 4
+    height: 52
+- title: Flows usage by user
+  visualization:
+    type: DataTable
+    data:
+      type: ai_agent_platform_flows_usage_by_user
+      query: {}
+    options:
+      fields:
+      - key: user
+        component: UserLink
+      - key: flowType
+        label: Flow name
+      - key: sessionsCount
+        label: Number of times triggered
+        thClass: gl-text-right
+        tdClass: gl-text-right
+  gridAttributes:
+    yPos: 332
+    xPos: 0
+    width: 6
+    height: 52
+  options: {}
+- title: "GitLab Duo Code Suggestions usage by user"
+  visualization:
+    type: DataTable
+    data:
+      type: user_ai_usage_data
+      query:
+        sortBy: codeSuggestionShownInIdeEventCount
+        sortDesc: true
+    options:
+      refetchOnSort: true
+      fields:
+      - key: user
+        component: UserLink
+      - key: codeSuggestionShownInIdeEventCount
+        label: Suggestions shown
+        thAlignRight: true
+        thClass: gl-w-1/20 gl-text-right
+        tdClass: gl-text-right
+        sortable: true
+      - key: codeSuggestionAcceptedInIdeEventCount
+        label: Suggestions accepted
+        thAlignRight: true
+        thClass: gl-w-1/20 gl-text-right
+        tdClass: gl-text-right
+        sortable: true
+      - key: codeSuggestionsAcceptanceRate
+        label: Acceptance rate (%)
+        component: CalculatePercent
+        thAlignRight: true
+        thClass: gl-text-right
+        tdClass: gl-text-right
+  gridAttributes:
+    yPos: 332
+    xPos: 6
+    width: 6
+    height: 52
+- title: "GitLab Duo Code Suggestions acceptance by language"
+  visualization:
+    type: BarChart
+    data:
+      type: code_suggestions_acceptance_by_language
+      query: {}
+    options:
+      xAxis:
+        name: Suggestions accepted
+        type: value
+      yAxis:
+        name: ''
+        type: category
+      chartTooltip:
+        titleFormatter: VALUE_ONLY
+        valueUnit: COUNT
+        contextualData:
+        - key: shownCount
+          label: Suggestions shown
+          unit: COUNT
+        - key: acceptanceRate
+          label: Acceptance rate
+          unit: PERCENT
+  gridAttributes:
+    yPos: 384
+    xPos: 0
+    width: 4
+    height: 39
+  options: {}
+- title: "GitLab Duo Code Suggestions acceptance by IDE"
+  visualization:
+    type: BarChart
+    data:
+      type: code_suggestions_acceptance_by_ide
+      query: {}
+    options:
+      xAxis:
+        name: Suggestions accepted
+        type: value
+      yAxis:
+        name: ''
+        type: category
+      chartTooltip:
+        titleFormatter: VALUE_ONLY
+        valueUnit: COUNT
+        contextualData:
+        - key: shownCount
+          label: Suggestions shown
+          unit: COUNT
+        - key: acceptanceRate
+          label: Acceptance rate
+          unit: PERCENT
+  gridAttributes:
+    yPos: 384
+    xPos: 4
+    width: 4
+    height: 39
+  options: {}
+- title: "GitLab Duo Code Review requests by role"
+  visualization:
+    type: StackedColumnChart
+    data:
+      type: code_review_requests_by_role_over_time
+      query:
+        dateRange: 180d
+    options:
+      xAxis:
+        name: Month
+        type: category
+      yAxis:
+        name: GitLab Duo Code Review Requests
+        type: value
+      chartTooltip:
+        valueUnit: COUNT
+      presentation: tiled
+      includeLegendAvgMax: false
+  gridAttributes:
+    yPos: 384
+    xPos: 8
+    width: 4
+    height: 39
+  options: {}
+- title: "GitLab Duo Code Review comments sentiment"
+  visualization:
+    type: AreaChart
+    data:
+      type: code_review_comments_sentiment_over_time
+      query:
+        dateRange: 180d
+    options:
+      xAxis:
+        name: Month
+        type: category
+      yAxis:
+        name: ''
+        type: value
+      chartTooltip:
+        valueUnit: PERCENT
+      includeLegendAvgMax: false
+  gridAttributes:
+    yPos: 423
+    xPos: 0
+    width: 6
+    height: 52
+  options: {}
+- title: "Code generation volume trends"
+  visualization:
+    type: AreaChart
+    data:
+      type: code_generation_volume_over_time
+      query:
+        dateRange: 180d
+    options:
+      xAxis:
+        name: Month
+        type: category
+      yAxis:
+        name: Lines of Code
+        type: value
+      includeLegendAvgMax: false
+      chartTooltip:
+        valueUnit: COUNT
+  gridAttributes:
+    yPos: 423
+    xPos: 6
+    width: 6
+    height: 52
+  options: {}

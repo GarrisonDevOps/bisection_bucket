@@ -1,0 +1,13 @@
+- if Gitlab::Saas.feature_available?(:repositories_web_based_commit_signing)
+  = render ::Layouts::SettingsBlockComponent.new(_('General'),
+    id: 'js-general-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = s_('Repository|Configure general repository settings.')
+    - c.with_body do
+      #js-web-based-commit-signing-settings-project{ data: {
+        full_path: project.full_path,
+        level_id: project.id,
+        can_admin_group: can?(current_user, :admin_group, project.namespace).to_s,
+        group_settings_repository_path: group_settings_repository_path(project.namespace),
+      } }

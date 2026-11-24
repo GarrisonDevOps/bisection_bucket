@@ -1,0 +1,10 @@
+---
+name: geo_packages_debian_project_component_file_replication
+description: Enable Geo replication and verification for Packages::Debian::ProjectComponentFile.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/333611
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228959
+rollout_issue_url:
+milestone: '19.1'
+group: group::geo
+type: ops
+default_enabled: false

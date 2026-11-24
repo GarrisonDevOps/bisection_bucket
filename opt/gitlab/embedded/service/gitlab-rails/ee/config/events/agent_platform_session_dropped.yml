@@ -1,0 +1,29 @@
+---
+description: Tracks duo agent platform session drop
+internal_events: true
+status: active
+action: agent_platform_session_dropped
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Flow type, eg. chat
+  property:
+    description: Environment, eg. web
+  value:
+    description: Session id
+  verification_run:
+    description: Whether the session is a functional verification run, not real user activity. Verification runs are not billed.
+  drop_reason:
+    description: Why the session was force-failed, eg. no_status_reported. Absent when the session was not force-failed.
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '18.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206743
+tiers:
+- premium
+- ultimate

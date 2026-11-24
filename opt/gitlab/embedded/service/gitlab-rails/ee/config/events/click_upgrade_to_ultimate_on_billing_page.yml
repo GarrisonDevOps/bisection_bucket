@@ -1,0 +1,14 @@
+---
+description: User clicks the Upgrade to Ultimate button on the billing page
+internal_events: true
+action: click_upgrade_to_ultimate_on_billing_page
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - subscription_management
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225768
+tiers:
+  - free

@@ -1,0 +1,11 @@
+---
+description: Tracks page views within the application.
+action: pageview
+product_group: acquisition
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/155902
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: hardcoded value duo_pro_add_on_tab_expired_trial

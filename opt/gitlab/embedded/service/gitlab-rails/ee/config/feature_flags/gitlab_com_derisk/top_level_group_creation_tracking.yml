@@ -1,0 +1,11 @@
+---
+name: top_level_group_creation_tracking
+description: Count top-level groups against a lifetime count that survives deletion, count promotions against the
+  user moving the group, and count service account groups against the human who created the service account.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23461
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257109
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638942
+milestone: '19.6'
+group: group::abuse engineering
+type: gitlab_com_derisk
+default_enabled: false

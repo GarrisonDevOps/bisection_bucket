@@ -1,0 +1,10 @@
+---
+name: ReindexWikiToUpdateAnalyzerForContent
+version: '20250113152652'
+description: Re-index wiki content to support the new analyzer
+group: group::global search
+milestone: '17.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177223
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/188694
+marked_obsolete_in_milestone: '18.0'

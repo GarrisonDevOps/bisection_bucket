@@ -1,0 +1,10 @@
+---
+name: dast_configuration_rate_limit
+description: Rate limit views of the DAST configuration page per user, because each view expands the project's CI config.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637251
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269404
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639249
+milestone: '19.6'
+group: group::dynamic analysis
+type: gitlab_com_derisk
+default_enabled: false

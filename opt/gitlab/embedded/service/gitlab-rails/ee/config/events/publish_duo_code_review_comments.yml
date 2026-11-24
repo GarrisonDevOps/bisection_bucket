@@ -1,0 +1,20 @@
+---
+description: When the PublishCommentsWorker processes Duo Code Review comments
+internal_events: true
+action: publish_duo_code_review_comments
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  status:
+    description: The processing status (succeeded, failed, retried, or exhausted)
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/241133
+tiers:
+- premium
+- ultimate

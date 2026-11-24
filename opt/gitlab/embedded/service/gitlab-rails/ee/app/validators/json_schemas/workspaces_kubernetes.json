@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "This schema contains the objects created by devfile-gem in the order they are supposed to appear.",
+  "type": "array",
+  "items": {
+    "anyOf": [
+      {
+        "$ref": "#/definitions/workspace_inventory_config_map"
+      },
+      {
+        "$ref": "#/definitions/deployment"
+      },
+      {
+        "$ref": "#/definitions/service"
+      },
+      {
+        "$ref": "#/definitions/persistent_volume_claim"
+      },
+      {
+        "$ref": "#/definitions/service_account"
+      },
+      {
+        "$ref": "#/definitions/network_policy"
+      },
+      {
+        "$ref": "#/definitions/scripts_config_map"
+      },
+      {
+        "$ref": "#/definitions/secrets_inventory_config_map"
+      },
+      {
+        "$ref": "#/definitions/resource_quota"
+      },
+      {
+        "$ref": "#/definitions/env_var_secret"
+      },
+      {
+        "$ref": "#/definitions/file_secret"
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "workspace_inventory_config_map": {
+      "allOf": [
+        {
+          "$ref": "./workspaces_kubernetes_ConfigMap.json"
+        },
+        {
+          "properties": {
+            "metadata": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^.*workspace-inventory$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "deployment": {
+      "$ref": "./workspaces_kubernetes_Deployment.json"
+    },
+    "service": {
+      "$ref": "./workspaces_kubernetes_Service.json"
+    },
+    "persistent_volume_claim": {
+      "$ref": "./workspaces_kubernetes_PersistentVolumeClaim.json"
+    },
+    "service_account": {
+      "$ref": "./workspaces_kubernetes_ServiceAccount.json"
+    },
+    "network_policy": {
+      "$ref": "./workspaces_kubernetes_NetworkPolicy.json"
+    },
+    "scripts_config_map": {
+      "allOf": [
+        {
+          "$ref": "./workspaces_kubernetes_ConfigMap.json"
+        },
+        {
+          "properties": {
+            "metadata": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^.*scripts-configmap$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "secrets_inventory_config_map": {
+      "allOf": [
+        {
+          "$ref": "./workspaces_kubernetes_ConfigMap.json"
+        },
+        {
+          "properties": {
+            "metadata": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^.*secrets-inventory$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "resource_quota": {
+      "$ref": "./workspaces_kubernetes_ResourceQuota.json"
+    },
+    "env_var_secret": {
+      "allOf": [
+        {
+          "$ref": "./workspaces_kubernetes_Secret.json"
+        },
+        {
+          "properties": {
+            "metadata": {
+              "properties": {
+                "name": {
+                  "pattern": "^.*env-var$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "file_secret": {
+      "allOf": [
+        {
+          "$ref": "./workspaces_kubernetes_Secret.json"
+        },
+        {
+          "properties": {
+            "metadata": {
+              "properties": {
+                "name": {
+                  "pattern": "^.*file$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: ci_runners_bulk_deleted
+description: Runners are deleted in bulk
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/503315
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/173886
+feature_category: fleet_visibility
+milestone: '17.7'
+saved_to_database: true
+streamed: true
+scope: [User]

@@ -1,0 +1,37 @@
+---
+title: Manage runners
+name: admin_runners
+description: Create, view, edit, and delete group or project Runners. Includes configuring
+  Runner settings.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/442851
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/151825
+feature_category: runner
+milestone: '17.1'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements:
+  - read_runners
+project_permissions:
+  - assign_runner
+  - clear_runner_cache
+  - create_runners
+  - delete_runner
+  - read_runner
+  - read_runner_job
+  - read_runners
+  - unassign_runner
+  - update_runner
+  - update_runners_setting
+group_permissions:
+  - assign_runner
+  - create_runners
+  - delete_runner
+  - read_group_all_available_runners
+  - read_runner
+  - read_runner_job
+  - read_runners
+  - unassign_runner
+  - update_runner
+  - update_runners_setting

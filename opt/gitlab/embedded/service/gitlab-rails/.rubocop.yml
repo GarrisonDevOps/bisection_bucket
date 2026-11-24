@@ -1,0 +1,1898 @@
+inherit_gem:
+  gitlab-styles:
+    - rubocop-default.yml
+
+plugins:
+  # Always load these cop even if disabled by default so RuboCop knows about rules in TODOs.
+  - rubocop-internal_affairs
+
+require:
+  - ./rubocop/rubocop
+  - rubocop-rspec
+
+inherit_from:
+  <% unless ENV['REVEAL_RUBOCOP_TODO'] == '1' %>
+    <% Dir.glob('.rubocop_todo/**/*.yml').each do |rubocop_todo_yaml| %>
+  - '<%= rubocop_todo_yaml %>'
+    <% end %>
+  <% end %>
+  - ./rubocop/rubocop-migrations.yml
+  - ./rubocop/rubocop-usage-data.yml
+  - ./rubocop/rubocop-code_reuse.yml
+  <% Dir.glob('jh/rubocop/**/*.yml').each do |jh_rubocop_yaml| %>
+  - '<%= jh_rubocop_yaml %>'
+  <% end %>
+  <%# Optional local override, applied only when the file exists. Keep it out of %>
+  <%# version control (see .gitignore). See doc/development/rubocop_development_guide.md. %>
+  <% if File.exist?('.rubocop.local.yml') %>
+  - ./.rubocop.local.yml
+  <% end %>
+
+inherit_mode:
+  merge:
+    - Include
+    - Exclude
+    - AllowedPatterns
+
+AllCops:
+  # The oldest supported Ruby version.
+  TargetRubyVersion: 3.2
+  TargetRailsVersion: 7.0
+  DefaultFormatter: <%= ENV['CI'] == '1' ? 'clang' : 'progress' %>
+  Exclude:
+    - 'gems/**/*'
+    - 'qa/gems/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'db/fixtures/**/*'
+    - 'tmp/**/*'
+    - 'bin/**/*'
+    - 'generator_templates/**/*'
+    - 'builds/**/*'
+    - 'file_hooks/**/*'
+    - 'workhorse/**/*'
+    - 'shared/packages/**/*'
+    - 'spec/support/*.git/**/*'  # e.g. spec/support/gitlab-git-test.git
+    # projects_controller.rb is used for testing LLM response and is very sensitive to whitespaces.
+    - 'ee/spec/fixtures/llm/projects_controller.rb'
+    # Shell scripts without extensions that RuboCop would otherwise try to parse as Ruby.
+    - 'scripts/generate_event_doc'
+  # Use absolute path to avoid orphan directories with changed workspace root.
+  CacheRootDirectory: <%= Dir.getwd %>/tmp
+  MaxFilesInCache: 1_000_000
+  NewCops: disable
+  SuggestExtensions: false
+
+Rails:
+  Exclude:
+    # User defined excludes on top (department) level don't cancel default
+    # includes set by child cops. Directories below are not affected (tested
+    # manually). Watch https://github.com/rubocop/rubocop/issues/11148 to
+    # know when this comment can be removed.
+    - 'danger/**/*'
+    - 'tooling/danger/**/*'
+    - 'rubocop/**/*'
+
+Rails/Date:
+  Exclude:
+    # See https://gitlab.com/gitlab-org/gitlab/-/issues/502580
+    - danger/database/Dangerfile
+
+Rails/Pluck:
+  Exclude:
+    # See https://gitlab.com/gitlab-org/gitlab/-/issues/502580
+    - 'tooling/danger/**/*'
+  # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94047#note_1179689274
+  AutoCorrect: false
+
+Rails/Inquiry:
+  Enabled: false
+
+# Disabled by default and enabled via `.rubocop/internal_affairs.yml`.
+InternalAffairs:
+  Enabled: false
+
+RSpec:
+  Language:
+    Includes:
+      Examples:
+        - run_permission_checks
+        - run_group_permission_checks
+        - it_should_email!
+        - it_should_not_email!
+
+Metrics/ParameterLists:
+  Exclude:
+    # See https://gitlab.com/gitlab-org/gitlab/-/issues/356771
+    - 'app/components/**/*'
+
+Cop/AvoidKeywordArgumentsInSidekiqWorkers:
+  Enabled: true
+  Include:
+    - 'app/workers/**/*'
+    - 'ee/app/workers/**/*'
+
+Cop/StaticTranslationDefinition:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/SaasFeatureAvailableOutsideEe:
+  Enabled: true
+  Exclude:
+    - 'ee/**/*'
+
+InternalAffairs/DeprecateCopHelper:
+  Enabled: true
+  Include:
+    - spec/rubocop/**/*.rb
+
+# Override the default Include path since GitLab's cops live under rubocop/cop/
+# rather than the standard lib/rubocop/cop/ path (added in rubocop 1.81.7).
+InternalAffairs/OnSendWithoutOnCSend:
+  Enabled: true
+  Include:
+    - 'rubocop/cop/**/*.rb'
+
+Layout/LineLength:
+  AllowedPatterns: ['^RSpec\.describe\s.*\sdo']
+  Exclude:
+    - 'ee/spec/controllers/concerns/routable_actions_spec.rb'
+    - 'ee/spec/lib/gitlab/auth/group_saml/sso_enforcer_spec.rb'
+
+Lint/Debugger:
+  DebuggerMethods:
+    PryShell:
+      binding.pry_shell
+
+Lint/EmptyFile:
+  Exclude:
+    - 'db/seeds.rb'
+    - 'ee/db/embedding/seeds.rb'
+    - 'ee/db/geo/seeds.rb'
+
+# This file has a lot of these, and how we name classes here is essential for how we
+# implement migration versions
+Naming/ClassAndModuleCamelCase:
+  Exclude:
+    - 'lib/gitlab/database/migration.rb'
+
+# This cop checks whether some constant value isn't a
+# mutable literal (e.g. array or hash).
+Style/MutableConstant:
+  Exclude:
+    - 'db/migrate/**/*'
+    - 'db/post_migrate/**/*'
+    - 'ee/db/migrate/**/*'
+    - 'ee/db/post_migrate/**/*'
+    - 'ee/db/geo/migrate/**/*'
+
+# TODO: Move this to gitlab-styles
+Style/SafeNavigation:
+  Enabled: false
+
+Style/AccessModifierDeclarations:
+  AllowModifiersOnSymbols: true
+
+# Frozen String Literal
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always_true
+
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_builtin_english_names
+
+Style/SignalException:
+  Exclude:
+    # Danger defines its own `fail` method
+    - '**/*/Dangerfile'
+    - 'tooling/danger/**/*.rb'
+
+# See https://gitlab.com/groups/gitlab-org/-/epics/5076
+RSpec/RailsControllerTesting:
+  Enabled: true
+  Include:
+    - '{,ee/,jh/}spec/controllers/**/*'
+    - '{,ee/,jh/}spec/requests/**/*'
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - 'qa/**/*'
+    - 'spec/frontend/fixtures/*'
+    - 'ee/spec/frontend/fixtures/*'
+    - 'spec/requests/api/v3/*'
+    - 'spec/fixtures/**/*'
+  CustomTransform:
+    HTTPartyBasicAuth: httparty_basic_auth
+
+RSpec/SpecFilePathSuffix:
+  Exclude:
+    - 'qa/**/*'
+    - 'spec/frontend/fixtures/**/*'
+    - 'ee/spec/frontend/fixtures/**/*'
+    - 'spec/requests/api/v3/*'
+    - 'spec/fixtures/**/*'
+
+# Configuration parameters: AllowSubject.
+RSpec/MultipleMemoizedHelpers:
+  Max: 25
+  AllowSubject: true
+
+Capybara/TestidFinders:
+  Include:
+    - 'spec/features/**/*'
+    - 'ee/spec/features/**/*'
+
+Naming/FileName:
+  ExpectMatchingDefinition: true
+  CheckDefinitionPathHierarchy: false
+  Exclude:
+    - '**/*/*.builder'
+    - 'ee/bin/*'
+    - 'config.ru'
+    - 'config/**/*'
+    - 'ee/config/**/*'
+    - 'jh/config/**/*'
+    - 'db/**/*'
+    - 'ee/active_context/migrate/*'
+    - 'ee/db/**/*'
+    - 'ee/elastic/migrate/*'
+    - 'lib/tasks/**/*.rake'
+    - 'ee/lib/tasks/**/*.rake'
+    - 'lib/generators/**/*'
+    - 'ee/lib/generators/**/*'
+    - 'scripts/**/*'
+    - 'spec/**/*'
+    - 'tooling/bin/**/*'
+    - 'ee/spec/**/*'
+    - 'jh/spec/**/*'
+    - 'qa/bin/*'
+    - 'qa/spec/**/*'
+    - 'qa/qa/factories/**/*'
+    - 'qa/qa/ee/factories/**/*'
+    - 'qa/qa/specs/**/*'
+    - 'qa/tasks/**/*.rake'
+    - '**/*.ru'
+
+  IgnoreExecutableScripts: true
+  AllowedAcronyms:
+    - EE
+    - JSON
+    - LDAP
+    - SAML
+    - SSO
+    - IO
+    - HMAC
+    - QA
+    - ENV
+    - STL
+    - PDF
+    - SVG
+    - CTE
+    - DN
+    - RSA
+    - CI
+    - CD
+    - OAuth
+    - CSP
+    - CSV
+    - SCA
+    - SAN
+    - CIDR
+    - SPDX
+    - MR
+    - JWT
+    - HLL
+    - GPG
+    - OTP
+    - GID
+    - AR
+    - RSpec
+    - ECDSA
+    - ED25519
+    - GitLab
+    - JavaScript
+    - VSCode
+    - JetBrains
+    # default ones:
+    - CLI
+    - DSL
+    - ACL
+    - API
+    - ASCII
+    - CPU
+    - CSS
+    - DNS
+    - EOF
+    - GUID
+    - HTML
+    - HTTP
+    - HTTPS
+    - ID
+    - IP
+    - JSON
+    - LHS
+    - QPS
+    - RAM
+    - RHS
+    - RPC
+    - SLA
+    - SMTP
+    - SQL
+    - SSH
+    - TCP
+    - TLS
+    - TTL
+    - UDP
+    - UI
+    - UID
+    - UUID
+    - URI
+    - URL
+    - UTF8
+    - VM
+    - XML
+    - XMPP
+    - XSRF
+    - XSS
+    - GRPC
+
+# Check for the use of before with let_it_be when using "add_role" methods
+# e.g. add_guest, add_reporter, add_developer
+RSpec/BeforeAllRoleAssignment:
+  Enabled: true
+
+Rails/ApplicationRecord:
+  Enabled: true
+  Exclude:
+    # Models in database migrations should not subclass from ApplicationRecord
+    # as they need to be as decoupled from application code as possible
+    - db/**/*.rb
+    - lib/gitlab/background_migration/**/*.rb
+    - ee/lib/ee/gitlab/background_migration/**/*.rb
+    - lib/gitlab/database/**/*.rb
+    - spec/**/*.rb
+    - ee/db/**/*.rb
+    - ee/spec/**/*.rb
+
+Rails/ActiveRecordCallbacksOrder:
+  Include:
+    - app/models/**/*.rb
+    - ee/app/models/**/*.rb
+
+# We disable this since network latency isn't an issue and schema changes execute in a few milliseconds.
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/136251#note_1638949892.
+Rails/BulkChangeTable:
+  Enabled: false
+
+Cop/DefaultScope:
+  Enabled: true
+
+Rails/FindBy:
+  Enabled: true
+  Include:
+    - 'ee/app/**/*.rb'
+    - 'ee/lib/**/*.rb'
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Rails/InverseOf:
+  Include:
+    - app/models/**/*.rb
+    - ee/app/models/**/*.rb
+
+Rails/MigrationTimestamp:
+  Enabled: true
+  Include:
+    - db/migrate/*.rb
+    - db/post_migrate/*.rb
+    - ee/db/geo/migrate/*.rb
+    - ee/db/geo/post_migrate/*.rb
+
+# This is currently exiting with a rubocop exception error and should be
+# resolved hopefully a future update
+# An error occurred while Rails/UniqueValidationWithoutIndex cop was inspecting
+# app/models/abuse_report.rb:15:2.
+# To see the complete backtrace run rubocop -d.
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+Rails/HelperInstanceVariable:
+  Include:
+    - app/helpers/**/*.rb
+    - ee/app/helpers/**/*.rb
+
+Rails/MailerName:
+  Exclude:
+    # See for the context on why it's excluded https://gitlab.com/gitlab-org/gitlab/-/issues/239356#note_956419227
+    - 'app/mailers/notify.rb'
+
+
+Rails/RakeEnvironment:
+  # Context on why it's disabled: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/93419#note_1048223982
+  Enabled: false
+
+Rails/RenderInline:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94064#note_1157289970
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/96675#note_1094403693
+Rails/WhereExists:
+  Enabled: false
+
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94061#note_1160343775
+Rails/SkipsModelValidations:
+  Enabled: false
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/378105#note_1138487716
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94019#note_1139714728
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/AvoidTimeComparison:
+  Enabled: true
+
+# GitLab ###################################################################
+
+Gitlab/ModuleWithInstanceVariables:
+  Enable: true
+  Exclude:
+    # We ignore Rails helpers right now because it's hard to workaround it
+    - app/helpers/**/*_helper.rb
+    - ee/app/helpers/**/*_helper.rb
+    # We ignore Rails mailers right now because it's hard to workaround it
+    - app/mailers/emails/**/*.rb
+    - ee/**/emails/**/*.rb
+    # We ignore spec helpers because it usually doesn't matter
+    - spec/support/**/*.rb
+    - features/steps/**/*.rb
+    # EE extensions for controllers are allowed to set instance variables to be used in the views
+    - ee/app/controllers/**/*.rb
+
+Gitlab/ConstGetInheritFalse:
+  Enabled: true
+  Exclude:
+    - 'qa/bin/*'
+
+Gitlab/ChangeTimezone:
+  Enabled: true
+  Exclude:
+    - config/initializers/time_zone.rb
+
+Gitlab/HTTParty:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/Json:
+  Enabled: true
+  Exclude:
+    - 'qa/**/*'
+    - 'scripts/**/*'
+    - 'lib/quality/**/*'
+    - 'tooling/danger/**/*'
+
+Gitlab/JsonSafeParse:
+  Description: 'Prefer Gitlab::Json.safe_parse over Gitlab::Json.parse for untrusted input'
+  Enabled: true
+  SafeAutoCorrect: false # Default parse_limits may not work always
+
+Gitlab/AvoidUploadedFileFromParams:
+  Enabled: true
+  Exclude:
+    - 'lib/gitlab/middleware/multipart.rb'
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/EventStoreSubscriber:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/EventStoreCloudEventInheritance:
+  Enabled: true
+  Include:
+    - 'app/events/**/*.rb'
+    - 'ee/app/events/**/*.rb'
+    - 'lib/gitlab/event_store/**/*.rb'
+  Exclude:
+    - 'lib/gitlab/event_store/cloud_event.rb'
+
+Gitlab/EventStoreDocRequired:
+  Enabled: true
+  Include:
+    - 'app/events/**/*.rb'
+    - 'ee/app/events/**/*.rb'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/496562
+Gitlab/Ai/OrderConstants:
+  Enabled: true
+  Include:
+   - 'ee/lib/ai/context/dependencies/config_files/constants.rb'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/work_items/612557
+Gitlab/Ai/AvoidDirectCheckpointTableRead:
+  Enabled: true
+
+Gitlab/Ai/AvoidFoundationalFlowStringLookup:
+  Enabled: true
+
+Gitlab/DocumentationLinks/HardcodedUrl:
+  Enabled: true
+  Exclude:
+    - danger/**/*
+    - ee/spec/**/*
+    - haml_lint/**/*
+    - keeps/**/*
+    - qa/**/*
+    - rubocop/**/*
+    - scripts/**/*
+    - spec/**/*
+    - tooling/**/*
+
+Gitlab/DocumentationLinks/Link:
+  Enabled: true
+
+GitlabSecurity/PublicSend:
+  Enabled: true
+  Exclude:
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'features/**/*'
+    - 'lib/**/*.rake'
+    - 'qa/**/*'
+    - 'spec/**/*'
+    - 'ee/db/**/*'
+    - 'ee/lib/**/*.rake'
+    - 'ee/spec/**/*'
+
+Database/AvoidUnpartitionedCiRelations:
+  Enabled: true
+  Exclude:
+    - 'app/controllers/projects/artifacts_controller.rb'
+    - 'app/controllers/projects/build_artifacts_controller.rb'
+    - 'app/controllers/projects/builds_controller.rb'
+    - 'app/controllers/projects/jobs_controller.rb'
+    - 'app/controllers/projects/pipelines_controller.rb'
+    - 'app/controllers/projects/pipelines/application_controller.rb'
+    - 'app/controllers/projects/tags_controller.rb'
+    - 'app/controllers/projects/web_ide_terminals_controller.rb'
+    - 'app/finders/ci/commit_statuses_finder.rb'
+    - 'app/finders/ci/job_artifacts_finder.rb'
+    - 'app/finders/ci/pipelines_finder.rb'
+    - 'app/finders/ci/pipelines_for_merge_request_finder.rb'
+    - 'app/finders/releases/evidence_pipeline_finder.rb'
+    - 'app/models/ci/commit_with_pipeline.rb'
+    - 'app/models/commit_collection.rb'
+    - 'app/models/concerns/integrations/base/pipelines_email.rb'
+    - 'app/models/merge_request.rb'
+    - 'app/models/projects/build_artifacts_size_refresh.rb'
+    - 'app/services/ci/create_commit_status_service.rb'
+    - 'app/services/ci/pipeline_creation/cancel_redundant_pipelines_service.rb'
+    - 'app/services/projects/auto_devops/disable_service.rb'
+    - 'ee/app/controllers/projects/security/scanned_resources_controller.rb'
+    - 'ee/app/finders/security/related_pipelines_finder.rb'
+    - 'ee/app/models/ee/merge_request.rb'
+    - 'ee/app/models/integrations/github.rb'
+    - 'ee/app/services/ai/slash_commands_service.rb'
+    - 'ee/app/services/concerns/security/scan_result_policies/related_pipelines.rb'
+    - 'ee/app/services/security/scan_result_policies/update_license_approvals_service.rb'
+    - 'ee/db/fixtures/development/25_downstream_pipelines.rb'
+    - 'ee/db/fixtures/development/94_ai_usage_stats.rb'
+    - 'ee/db/fixtures/development/98_pipeline_metrics.rb'
+    - 'ee/lib/compliance_management/compliance_requirements/project_fields.rb'
+    - 'ee/lib/quality/seeders/vulnerabilities.rb'
+    - 'lib/gitlab/ci/badge/coverage/report.rb'
+    - 'lib/gitlab/ci/badge/pipeline/status.rb'
+    - 'lib/gitlab/ci/charts.rb'
+    - 'lib/gitlab/ci/pipeline/chain/command.rb'
+    - 'lib/gitlab/code_navigation_path.rb'
+    - 'lib/gitlab/import_export/project/max_iids_saver.rb'
+    - 'lib/tasks/gitlab/artifacts/update_missing_expiration.rake'
+    - 'lib/tasks/gitlab/keep_around.rake'
+    - 'lib/tasks/gitlab/populate_job_traces.rake'
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Database/MultipleDatabases:
+  Enabled: true
+  Exclude:
+    - 'ee/db/**/*.rb'
+    - 'spec/migrations/**/*.rb'
+    - 'lib/tasks/gitlab/db.rake'
+    - 'ee/lib/ee/gitlab/background_migration/**/*.rb'
+    - 'spec/lib/gitlab/background_migration/**/*.rb'
+    - 'spec/lib/gitlab/database/**/*.rb'
+    - 'spec/tasks/gitlab/db_rake_spec.rb'
+
+Migration/BatchMigrationsPostOnly:
+  Enabled: true
+  Include:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+
+Migration/EnsureFactoryForTable:
+  Enabled: true
+  Include:
+    - 'db/migrate/*.rb'
+
+Migration/UnfinishedDependencies:
+  Enabled: true
+  Include:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+
+Migration/RoundTimestamp:
+  Enabled: true
+  EnforcedSince: 20261007130000
+  Include:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+    - 'db/click_house/migrate/**/*.rb'
+    - 'db/click_house/post_migrate/**/*.rb'
+    - 'ee/db/geo/migrate/*.rb'
+    - 'ee/db/geo/post_migrate/*.rb'
+    - 'ee/db/embedding/migrate/*.rb'
+    - 'ee/db/embedding/post_migrate/*.rb'
+
+BackgroundMigration/FeatureCategory:
+  Enabled: true
+  Include:
+    - 'lib/gitlab/background_migration/*.rb'
+
+BackgroundMigration/DictionaryFile:
+  Enabled: true
+  EnforcedSince: 20231018100907
+  Include:
+    - 'db/post_migrate/*.rb'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/442751
+Gitlab/AvoidCurrentOrganization:
+  Enabled: true
+  Exclude:
+    - 'app/controllers/**/*'
+    - 'ee/app/controllers/**/*'
+    - 'app/helpers/**/*'
+    - 'ee/app/helpers/**/*'
+    - 'app/views/**/*'
+    - 'ee/app/views/**/*'
+    - 'lib/api/**/*'
+    - 'ee/lib/api/**/*'
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+    - 'app/workers/**/*'
+    - 'ee/app/workers/**/*'
+    - 'lib/gitlab/current_settings.rb'
+    - 'lib/gitlab/middleware/organizations/current.rb'
+    - 'config/initializers/gitlab_database_data_isolation.rb'
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/AvoidUserOrganization:
+  Enabled: true
+  Exclude:
+    - 'lib/gitlab/current/organization.rb'
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+    - 'ee/db/fixtures/development/**/*'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/581990
+Gitlab/AvoidOrganizationUrlRoutes:
+  Enabled: true
+  Exclude:
+    - 'app/helpers/routing/organizations_helper.rb'
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/DisallowCurrentOrganizationIdSafeNavigation:
+  Description: 'Use `Current.organization.id` instead of `Current.organization&.id`. `Current.organization` is expected to be assigned.'
+  Enabled: true
+  Include:
+    - 'app/**/*.rb'
+    - 'ee/app/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'ee/lib/**/*.rb'
+  Exclude:
+    # Exclude the cop's own spec file to prevent self-reporting.
+    - 'spec/rubocop/cop/gitlab/disallow_current_organization_id_safe_navigation_spec.rb'
+
+# See https://gitlab.com/groups/gitlab-org/-/epics/7374
+Gitlab/AvoidGitlabInstanceChecks:
+  Enabled: true
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+    - 'ee/db/fixtures/**/*'
+
+Gitlab/AvoidGitlabDedicatedInstanceChecks:
+  Enabled: true
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+    - 'ee/db/fixtures/**/*'
+    - 'ee/elastic/migrate/*.rb'
+    - 'ee/lib/gitlab/dedicated.rb'
+
+Gitlab/EeOnlyClass:
+  Enabled: true
+  Include:
+    - 'ee/**/ee/**/*.rb'
+
+# https://docs.gitlab.com/development/software_design/#taming-omniscient-classes
+Gitlab/OmniscientClassMethods:
+  Enabled: true
+  Include:
+    - 'app/models/group.rb'
+    - 'app/models/organizations/organization.rb'
+    - 'app/models/project.rb'
+    - 'app/models/user.rb'
+    - 'ee/app/models/ee/group.rb'
+    - 'ee/app/models/ee/organizations/organization.rb'
+    - 'ee/app/models/ee/project.rb'
+    - 'ee/app/models/ee/user.rb'
+
+Gitlab/RSpec/AvoidCreateDefaultOrganization:
+  Enabled: true
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/373194
+Gitlab/RSpec/AvoidSetup:
+  Enabled: true
+  Include:
+    - 'ee/spec/features/registrations/saas/**/*'
+    - 'ee/spec/features/gitlab_subscriptions/trials/creation_*'
+    - 'ee/spec/features/gitlab_subscriptions/trials/access_denied_spec.rb'
+
+# WIP: See https://gitlab.com/gitlab-org/gitlab/-/issues/543719
+Gitlab/RSpec/MisplacedEeSpecFile:
+  Enabled: true
+  Include:
+    - 'ee/spec/**/*_spec.rb'
+  Exclude:
+    - 'ee/spec/**/ee/**/*_spec.rb'
+    - 'ee/spec/lib/remote_development/**/*_spec.rb'
+
+# Detects CE specs testing EE-only classes
+Gitlab/RSpec/MisplacedEeSpecFileInCe:
+  Enabled: true
+  Include:
+    - 'spec/**/*_spec.rb'
+
+RSpec/DuplicateSpecLocation:
+  Enabled: true
+
+# https://docs.gitlab.com/ee/development/software_design.html#bounded-contexts
+Gitlab/BoundedContexts:
+  Enabled: true
+  Exclude:
+    - 'lib/api.rb'
+    - '**/lib/api/**/*'
+    - 'ee/lib/ee/api/**/*'
+    - '**/app/assets/**/*'
+    - '**/app/channels/**/*'
+    - '**/app/components/**/*'
+    - '**/app/controllers/**/*'
+    - '**/app/helpers/**/*'
+    - '**/app/presenters/**/*'
+    - '**/app/serializers/**/*'
+    - '**/lib/tasks/**/*'
+    - '**/app/views/**/*'
+    - 'app/experiments/*_experiment.rb' # Experiments are short-lived. See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/186484#note_2428354288
+    - 'ee/app/experiments/*_experiment.rb'
+    - 'ee/app/experiments/ee/application_experiment.rb'
+  Include:
+    - 'app/**/*'
+    - 'ee/app/**/*'
+    - 'lib/**/*'
+    - 'ee/lib/**/*'
+
+Gitlab/HardDeleteCalls:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+    - 'ee/db/fixtures/**/*'
+    - 'lib/tasks/**/*.rake'
+    - 'ee/lib/tasks/**/*.rake'
+    - 'app/services/groups/destroy_service.rb'
+    - 'app/services/projects/destroy_service.rb'
+    - 'app/workers/group_destroy_worker.rb'
+    - 'app/workers/project_destroy_worker.rb'
+    - 'app/services/namespaces/groups/adjourned_deletion_service.rb'
+    - 'app/services/projects/adjourned_deletion_service.rb'
+
+Gitlab/Authz/DisallowAbilityAllowed:
+  Enabled: true
+  Include:
+    - 'app/policies/**/*.rb'
+    - 'ee/app/policies/**/*.rb'
+
+Gitlab/PolicyRuleBoolean:
+  Enabled: true
+  Include:
+    - 'app/policies/**/*'
+    - 'ee/app/policies/**/*'
+
+Gitlab/Authz/UsePolicyHelpers:
+  Enabled: true
+  Include:
+    - 'spec/policies/**/*'
+    - 'ee/spec/policies/**/*'
+
+Gitlab/Authz/ConditionScope:
+  Enabled: true
+  Include:
+    - '{,ee/,jh/}app/policies/**/*.rb'
+
+Cop/InjectEnterpriseEditionModule:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Style/ReturnNil:
+  Enabled: true
+
+Cop/ActiveRecordAssociationReload:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Cop/ActiveModelErrorsDirectManipulation:
+  Enabled: true
+
+Gitlab/AvoidFeatureGet:
+  Enabled: true
+
+Gitlab/FeatureFlagKeyDynamic:
+  Enabled: true
+  SafeAutoCorrect: false
+
+RSpec/WebMockEnable:
+  Enabled: true
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+  Exclude:
+    - 'spec/support/webmock.rb'
+
+Naming/PredicatePrefix:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/93828#note_1050812797
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+
+RSpec/AvoidTestProf:
+  Include:
+    - 'spec/tasks/**/*.rb'
+    - 'ee/spec/tasks/**/*.rb'
+    - 'spec/migrations/**/*.rb'
+    - 'ee/spec/migrations/**/*.rb'
+    - 'spec/lib/gitlab/background_migration/**/*.rb'
+    - 'ee/spec/lib/gitlab/background_migration/**/*.rb'
+    - 'ee/spec/lib/ee/gitlab/background_migration/**/*.rb'
+
+RSpec/AvoidWaitForRequests:
+  Enabled: true
+  Include:
+    - '{,ee/,jh/}spec/**/*.rb'
+
+RSpec/AvoidConditionalStatements:
+  Enabled: true
+  Include:
+    - 'spec/features/**/*.rb'
+    - 'ee/spec/features/**/*.rb'
+
+RSpec/FeatureSpecMaxExamples:
+  Enabled: true
+  Include:
+    - 'spec/features/**/*.rb'
+    - 'ee/spec/features/**/*.rb'
+
+RSpec/FactoriesInMigrationSpecs:
+  Enabled: true
+  Include:
+    - 'spec/migrations/**/*.rb'
+    - 'ee/spec/migrations/**/*.rb'
+    - 'spec/lib/gitlab/background_migration/**/*.rb'
+    - 'spec/lib/ee/gitlab/background_migration/**/*.rb'
+    - 'ee/spec/lib/ee/gitlab/background_migration/**/*.rb'
+
+RSpec/FeatureCategory:
+  Enabled: true
+  Exclude:
+    - 'qa/spec/**/*.rb'
+    - 'gems/**/*.rb'
+
+RSpec/FactoryBot/AvoidCreate:
+  Enabled: true
+  Include:
+    - 'spec/presenters/**/*.rb'
+    - 'spec/serializers/**/*.rb'
+    - 'spec/helpers/**/*.rb'
+    - 'spec/views/**/*.rb'
+    - 'spec/components/**/*.rb'
+    - 'spec/mailers/**/*.rb'
+    - 'spec/routes/directs/*.rb'
+    - 'spec/lib/sidebars/**/*.rb'
+    - 'ee/spec/presenters/**/*.rb'
+    - 'ee/spec/serializers/**/*.rb'
+    - 'ee/spec/helpers/**/*.rb'
+    - 'ee/spec/views/**/*.rb'
+    - 'ee/spec/components/**/*.rb'
+    - 'ee/spec/mailers/**/*.rb'
+    - 'ee/spec/routes/directs/*.rb'
+    - 'ee/spec/lib/sidebars/**/*.rb'
+
+RSpec/BeforeAll:
+  Enabled: true
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+  # Conflict with RSpec/AvoidTestProf
+  Exclude:
+    - 'spec/tasks/**/*.rb'
+    - 'ee/spec/tasks/**/*.rb'
+    - 'spec/migrations/**/*.rb'
+    - 'ee/spec/migrations/**/*.rb'
+    - 'spec/lib/gitlab/background_migration/**/*.rb'
+    - 'ee/spec/lib/gitlab/background_migration/**/*.rb'
+    - 'ee/spec/lib/ee/gitlab/background_migration/**/*.rb'
+    - 'spec/lib/gitlab/database/**/*.rb'
+
+RSpec/FactoryBot/StrategyInCallback:
+  Enabled: true
+  Include:
+    - 'spec/factories/**/*.rb'
+    - 'ee/spec/factories/**/*.rb'
+
+Cop/IncludeSidekiqWorker:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+Gitlab/Union:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+API/Base:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/**/api/**/*.rb'
+
+API/GrapeArrayMissingCoerce:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/**/api/**/*.rb'
+
+API/AccessLevelStringType:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/ClassLevelAllowAccessWithScope:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DeprecatedHttpCodes:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DeprecatedInDescription:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DescriptionDetail:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/LifecycleInDescription:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/TierInDescription:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DescriptionSuccessResponse:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DescriptionFailureResponse:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DescriptionSummary:
+  Enabled: true
+  SafeAutoCorrect: false
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/DescriptionTags:
+  Enabled: true
+  SafeAutoCorrect: false
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/EntityExposureGrowth:
+  Enabled: true
+  Include:
+    - 'lib/**/api/entities/**/*.rb'
+    - 'ee/lib/**/api/entities/**/*.rb'
+
+API/EntityFieldType:
+  Enabled: true
+  Include:
+    - 'lib/**/api/entities/**/*.rb'
+    - 'ee/lib/**/api/entities/**/*.rb'
+
+API/ParameterDescription:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/ParameterDocumentation:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/ParameterType:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/ParameterValuesProc:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/HiddenEndpointReason:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/RouteSettingLifecycle:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/RouteSettingTier:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+API/SameAsDescription:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
+Cop/SidekiqOptionsQueue:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Graphql/ResolverType:
+  Enabled: true
+  Exclude:
+    - 'app/graphql/resolvers/base_resolver.rb'
+  Include:
+    - 'app/graphql/resolvers/**/*'
+    - 'ee/app/graphql/resolvers/**/*'
+
+Graphql/AuthorizeTypes:
+  Enabled: true
+  Include:
+    - 'app/graphql/types/**/*'
+    - 'ee/app/graphql/types/**/*'
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Graphql/IDType:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+
+Graphql/AccessLevelEnum:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+
+Graphql/JSONType:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Graphql/OldTypes:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+    - 'spec/graphql/**/*'
+    - 'spec/requests/api/graphql/**/*'
+    - 'ee/spec/graphql/**/*'
+    - 'ee/spec/requests/api/graphql/**/*'
+
+RSpec/EnvAssignment:
+  Enable: true
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+  Exclude:
+    - 'spec/**/fast_spec_helper.rb'
+    - 'ee/spec/**/fast_spec_helper.rb'
+    - 'spec/**/spec_helper.rb'
+    - 'ee/spec/**/spec_helper.rb'
+
+RSpec/EnvMocking:
+  Enable: true
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+  Exclude:
+    - 'spec/**/fast_spec_helper.rb'
+    - 'ee/spec/**/fast_spec_helper.rb'
+    - 'spec/**/spec_helper.rb'
+    - 'ee/spec/**/spec_helper.rb'
+
+RSpec/BeSuccessMatcher:
+  Enabled: true
+  Include:
+    - 'spec/controllers/**/*'
+    - 'ee/spec/controllers/**/*'
+    - 'spec/support/shared_examples/controllers/**/*'
+    - 'ee/spec/support/shared_examples/controllers/**/*'
+    - 'spec/support/controllers/**/*'
+    - 'ee/spec/support/controllers/**/*'
+
+Scalability/FileUploads:
+  Enabled: true
+  Include:
+    - 'lib/api/**/*.rb'
+    - 'ee/lib/api/**/*.rb'
+
+Graphql/Descriptions:
+  Enabled: true
+  AutoCorrect: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+
+Graphql/EnumNames:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+
+Graphql/EnumValues:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+
+# Cops for upgrade to gitlab-styles 3.1.0
+RSpec/ImplicitSubject:
+  Enabled: false
+
+# Already covered by `RSpec::Configuration#on_potential_false_positives = :raise`.
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/86429
+RSpec/UnspecifiedException:
+  Enabled: false
+
+RSpec/HaveGitlabHttpStatus:
+  Enabled: true
+  Exclude:
+    - 'spec/support/matchers/have_gitlab_http_status.rb'
+  Include:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
+RSpec/MissingMatchWhenNegated:
+  Enabled: true
+  Include:
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+    - 'qa/**/*'
+
+RSpec/ContextWording:
+  Prefixes:
+  - 'when'
+  - 'with'
+  - 'without'
+  - 'for'
+  - 'and'
+  - 'on'
+  - 'in'
+  - 'as'
+  - 'if'
+
+Style/MultilineWhenThen:
+  Enabled: false
+
+# We use EnforcedStyle of comparison here due to it being better
+# performing code as seen in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/36221#note_375659681
+Style/NumericPredicate:
+  EnforcedStyle: comparison
+
+Cop/BanCatchThrow:
+  Enabled: true
+
+Performance/ReadlinesEach:
+  Enabled: true
+
+Performance/ChainArrayAllocation:
+  Enabled: true
+  Include:
+    - 'lib/gitlab/import_export/**/*'
+    - 'ee/lib/gitlab/import_export/**/*'
+    - 'ee/lib/ee/gitlab/import_export/**/*'
+
+Rails/TimeZone:
+  Enabled: true
+  EnforcedStyle: 'flexible'
+  Include:
+    - 'app/controllers/**/*'
+    - 'app/services/**/*'
+    - 'lib/**/*'
+    - 'spec/controllers/**/*'
+    - 'spec/services/**/*'
+    - 'spec/lib/**/*'
+    - 'ee/app/controllers/**/*'
+    - 'ee/app/services/**/*'
+    - 'ee/spec/controllers/**/*'
+    - 'ee/spec/services/**/*'
+    - 'app/models/**/*'
+    - 'spec/models/**/*'
+    - 'ee/app/models/**/*'
+    - 'ee/spec/models/**/*'
+    - 'app/workers/**/*'
+    - 'spec/workers/**/*'
+    - 'ee/app/workers/**/*'
+    - 'ee/spec/workers/**/*'
+    - 'ee/lib/**/*'
+    - 'ee/spec/lib/**/*'
+    - 'spec/features/**/*'
+    - 'ee/spec/features/**/*'
+
+Rails/SaveBang:
+  Enabled: true
+  AllowImplicitReturn: false
+  AllowedReceivers:
+    - ActionDispatch::TestRequest
+    - Tempfile
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+  Exclude:
+  - spec/models/wiki_page/**/*
+  - spec/models/wiki_page_spec.rb
+
+Cop/PutProjectRoutesUnderScope:
+  Include:
+    - 'config/routes/project.rb'
+    - 'ee/config/routes/project.rb'
+
+Cop/PutGroupRoutesUnderScope:
+  Include:
+    - 'config/routes/group.rb'
+    - 'ee/config/routes/group.rb'
+
+Mcp/UseApiService:
+  Enabled: true
+  Include:
+    - 'app/services/mcp/tools/**/*'
+
+Mcp/UseGraphqlQueryFile:
+  Enabled: true
+  Include:
+    - 'app/services/mcp/tools/**/*'
+    - 'ee/app/services/mcp/tools/**/*'
+    - 'ee/app/services/ee/mcp/tools/**/*'
+
+Mcp/VersionedMethodNaming:
+  Enabled: true
+  SafeAutoCorrect: false
+  Include:
+    - 'app/services/mcp/tools/**/*'
+    - 'ee/app/services/mcp/tools/**/*'
+    - 'ee/app/services/ee/mcp/tools/**/*'
+
+Migration/ComplexIndexesRequireName:
+  Exclude:
+    - !ruby/regexp /\Adb\/(post_)?migrate\/201.*\.rb\z/
+    - !ruby/regexp /\Adb\/(post_)?migrate\/20200[1-7].*\.rb\z/
+
+Migration/ReferToIndexByName:
+  Exclude:
+    - !ruby/regexp /\Adb\/(post_)?migrate\/201.*\.rb\z/
+    - !ruby/regexp /\Adb\/(post_)?migrate\/20200[1-7].*\.rb\z/
+    - !ruby/regexp /\Aee\/db\/geo\/(post_)?migrate\/201.*\.rb\z/
+
+Migration/PreventIndexCreation:
+  Exclude:
+    - !ruby/regexp /\Adb\/(post_)?migrate\/201.*\.rb\z/
+    - !ruby/regexp /\Adb\/(post_)?migrate\/2020.*\.rb\z/
+    - !ruby/regexp /\Adb\/(post_)?migrate\/20210[1-6].*\.rb\z/
+
+Migration/PreventForeignKeyCreation:
+  Enabled: true
+  EnforcedSince: 20250116000000
+
+Migration/ForeignKeysToDestroyServiceTables:
+  Enabled: true
+  EnforcedSince: 20260820000000
+  Include:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+
+Migration/PreventLargeBlobInDatabase:
+  Enabled: true
+  Include:
+    - 'db/migrate/*.rb'
+    - 'db/post_migrate/*.rb'
+    - 'ee/db/embedding/migrate/*.rb'
+    - 'ee/db/embedding/post_migrate/*.rb'
+    - 'ee/db/geo/migrate/*.rb'
+    - 'ee/db/geo/post_migrate/*.rb'
+  EnforcedSince: 20260430000000
+  MaxSize: 4096
+
+Migration/SchemaAdditionMethodsNoPost:
+  Enabled: true
+  Include:
+    - db/post_migrate/*.rb
+  EnforcedSince: 20221024034228
+
+Migration/AsyncPostMigrateOnly:
+  Enabled: true
+  Include:
+    - db/**/*.rb
+  EnforcedSince: 20240115115029
+
+Migration/ClickHouseIdempotentDdl:
+  Enabled: true
+  Include:
+    - 'db/click_house/migrate/**/*.rb'
+    - 'db/click_house/post_migrate/**/*.rb'
+
+Gitlab/RailsLogger:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Gitlab/DirectStdio:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Gitlab/AvoidRailsCacheDeleteMatched:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+RSpec/FactoryBot/InlineAssociation:
+  Include:
+    - 'spec/factories/**/*.rb'
+    - 'ee/spec/factories/**/*.rb'
+
+# WIP: https://gitlab.com/gitlab-org/gitlab/-/issues/321982
+Gitlab/NamespacedClass:
+  Exclude:
+    - 'config/**/*.rb'
+    - 'db/**/*.rb'
+    - 'ee/bin/**/*'
+    - 'ee/active_context/migrate/*.rb'
+    - 'ee/db/**/*.rb'
+    - 'ee/elastic/**/*.rb'
+    - 'scripts/**/*'
+    - 'spec/fixtures/migrations/**/*.rb'
+    - 'spec/migrations/**/*.rb'
+    - 'app/experiments/**/*_experiment.rb'
+    - 'ee/app/experiments/**/*_experiment.rb'
+
+Lint/HashCompareByIdentity:
+  Enabled: true
+
+Lint/RedundantSafeNavigation:
+  Enabled: true
+
+Lint/UnusedBlockArgument:
+  Exclude:
+    - ee/app/models/ai/catalog/foundational_flow/*/definition.rb
+
+Style/ClassEqualityComparison:
+  Enabled: true
+
+# WIP See https://gitlab.com/gitlab-org/gitlab/-/issues/207950
+Cop/UserAdmin:
+  Enabled: true
+  Exclude:
+    - 'app/controllers/admin/sessions_controller.rb'
+    - 'app/controllers/concerns/enforces_admin_authentication.rb'
+    - 'app/policies/base_policy.rb'
+    - 'lib/gitlab/auth/current_user_mode.rb'
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+    - 'qa/**/*.rb'
+
+Style/InlineDisableAnnotation:
+  Enabled: true
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/327495
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/RegexpLiteralMixedPreserve:
+  Enabled: true
+  SupportedStyles:
+    - slashes
+    - percent_r
+    - mixed
+    - mixed_preserve
+  EnforcedStyle: mixed_preserve
+
+# See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94317#note_1139610896
+Style/Lambda:
+  EnforcedStyle: literal
+
+RSpec/TopLevelDescribePath:
+  Exclude:
+    - 'spec/fixtures/**/*.rb'
+    - 'ee/spec/fixtures/**/*.rb'
+
+QA/SelectorUsage:
+  Enabled: true
+  Include:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+  Exclude:
+    - 'spec/rubocop/**/*_spec.rb'
+
+QA/FeatureFlags:
+  Enabled: true
+  Include:
+    - 'qa/qa/specs/features/**/*.rb'
+
+Performance/ActiveRecordSubtransactions:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Performance/ActiveRecordSubtransactionMethods:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
+Migration/BatchedMigrationBaseClass:
+  Enabled: false
+
+BackgroundMigration/AvoidSilentRescueExceptions:
+  Enabled: false
+
+Migration/AvoidFinalizeBackgroundMigration:
+  Include:
+    - 'db/post_migrate/*.rb'
+
+Style/ClassAndModuleChildren:
+  Enabled: true
+
+Fips/OpenSSL:
+  Enabled: false
+
+Gemfile/MissingFeatureCategory:
+  Enabled: true
+  Include:
+    - 'Gemfile'
+
+Gemspec/AvoidExecutingGit:
+  Enabled: false
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Exclude:
+    - '{,ee/,qa/,jh/}spec/**/*_{spec,shared_examples,shared_context}.rb'
+
+Cop/SidekiqRedisCall:
+  Enabled: true
+  Exclude:
+    - '{,ee/,jh/}spec/**/*'
+    - 'lib/gitlab/database/migration_helpers.rb'
+    - 'lib/gitlab/sidekiq_migrate_jobs.rb'
+    - 'lib/gitlab/sidekiq_versioning.rb'
+
+Cop/RedisQueueUsage:
+  Enabled: true
+  Exclude:
+    - '{,ee/,jh/}spec/**/*'
+    - 'config/initializers/sidekiq.rb'
+    - 'lib/gitlab/instrumentation/redis.rb'
+    - 'lib/gitlab/redis.rb'
+    - 'lib/system_check/app/redis_version_check.rb'
+    - 'lib/gitlab/mail_room.rb'
+    - 'lib/gitlab/sidekiq_sharding/scheduled_enq.rb'
+    - 'lib/gitlab/sidekiq_sharding/router.rb'
+    - 'app/workers/concerns/application_worker.rb'
+    - 'lib/gitlab/sidekiq_queue.rb'
+
+Cop/SidekiqApiUsage:
+  Enabled: true
+  Exclude:
+    - '{,ee/,jh/}spec/**/*'
+    - 'db/post_migrate/**/*'
+    - 'lib/gitlab/sidekiq_middleware/**/*'
+    - 'lib/gitlab/background_migration/**/*'
+    - 'lib/api/sidekiq_metrics.rb'
+    - 'lib/gitlab/sidekiq_config.rb'
+    - 'lib/gitlab/sidekiq_queue.rb'
+    - 'config/initializers/sidekiq.rb'
+    - 'config/initializers/forbid_sidekiq_in_transactions.rb'
+    - 'lib/gitlab/sidekiq_sharding/scheduled_enq.rb'
+    - 'lib/gitlab/sidekiq_sharding/router.rb'
+    - 'lib/gitlab/redis/queues.rb'
+    - 'app/workers/concerns/application_worker.rb'
+    - 'config/initializers/active_job_shard_support.rb'
+    - 'app/workers/concurrency_limit/resume_worker.rb'
+
+Cop/FeatureFlagUsage:
+  Include:
+    - 'lib/gitlab/redis/**/*.rb'
+    - 'lib/gitlab/patch/**/*.rb'
+    - 'lib/gitlab/instrumentation/**/*.rb'
+
+Style/ArgumentsForwarding:
+  Enabled: true
+  UseAnonymousForwarding: false # Turn this on only after Ruby 3.2+ is required
+
+Search/NamespacedClass:
+  Enabled: true
+  Exclude:
+    - 'config/**/*.rb'
+    - 'ee/config/**/*.rb'
+    - 'db/**/*.rb'
+    - 'ee/db/**/*.rb'
+    - 'ee/bin/**/*'
+    - 'ee/elastic/**/*.rb' # Advanced Search migrations issue: <>
+    - 'scripts/**/*'
+    - 'spec/migrations/**/*.rb'
+    - 'app/experiments/**/*_experiment.rb'
+    - 'ee/app/experiments/**/*_experiment.rb'
+    - 'lib/gitlab/background_migration/**/*.rb'
+    - 'ee/lib/ee/gitlab/background_migration/**/*.rb'
+    - 'lib/gitlab/instrumentation/**/*.rb'
+    - 'lib/gitlab/usage/metrics/instrumentations/**/*.rb'
+    - 'ee/lib/gitlab/usage/metrics/instrumentations/**/*.rb'
+    - 'lib/gitlab/sidekiq_middleware/pause_control/strategies/zoekt.rb'
+    - 'lib/tasks/**/*.rake'
+    - 'ee/lib/tasks/**/*.rake'
+    - 'ee/lib/ee/gitlab/search/params.rb'
+    - 'app/services/mcp/tools/**/*.rb'
+    - 'ee/app/services/mcp/tools/**/*.rb'
+    - 'ee/app/services/ee/mcp/tools/**/*.rb'
+    - 'ee/app/finders/security/*.rb'
+
+Search/VulnerabilityBulkOperationElasticsearchSync:
+  Enabled: true
+  Include:
+    - 'ee/app/*/security/**/*.rb'
+    - 'ee/app/*/vulnerabilities/**/*.rb'
+
+SidekiqLoadBalancing/WorkerDataConsistency:
+  Enabled: true
+  Include:
+    - 'app/workers/**/*'
+    - 'ee/app/workers/**/*'
+
+Sidekiq/EnforceDatabaseHealthSignalDeferral:
+  Enabled: true
+  Include:
+    - 'app/workers/**/*'
+    - 'ee/app/workers/**/*'
+
+Graphql/ResourceNotAvailableError:
+  Exclude:
+    # Definition of `raise_resource_not_available_error!`
+    - 'lib/gitlab/graphql/authorize/authorize_resource.rb'
+
+RSpec/FactoryBot/LocalStaticAssignment:
+  Include:
+    - spec/factories/**/*.rb
+    - ee/spec/factories/**/*.rb
+
+Rails/TransactionExitStatement:
+  Enabled: true
+
+Search/AvoidCheckingFinishedOnInvalidMigrations:
+  Include:
+    - 'ee/**/*.rb'
+
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/407233
+Cop/ExperimentsTestCoverage:
+  Enabled: true
+  Include:
+    - 'app/**/*'
+    - 'lib/**/*'
+    - 'ee/app/**/*'
+    - 'ee/lib/**/*'
+
+RSpec/UselessDynamicDefinition:
+  Exclude:
+    - 'spec/factories/**/*'
+    - 'ee/spec/factories/**/*'
+
+Database/AvoidUsingPluckWithoutLimit:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+    - 'qa/qa/specs/**/*.rb'
+
+Database/AvoidUsingConnectionExecute:
+  Enabled: true
+  Include:
+    - '{,ee/}app/models/**/*'
+    - '{,ee/}lib/**/*'
+
+Style/SymbolProc:
+  AllowedMethods:
+    - define_method
+    - mail
+    - respond_to
+    # See https://gitlab.com/gitlab-org/gitlab/-/issues/434151
+    - each_batch
+    - each_sub_batch
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either_consistent
+
+Gitlab/LicenseAvailableUsage:
+  Enabled: true
+  Include:
+    - 'app/models/application_setting.rb'
+    - 'ee/app/models/ee/application_setting.rb'
+    - 'lib/gitlab/current_settings.rb'
+
+Gitlab/Lookbook/NoUrlParamInPreview:
+  Enabled: true
+  Include:
+    - 'spec/components/previews/**/*'
+
+Gitlab/TokenWithoutPrefix:
+  Enabled: true
+  Include:
+    - 'app/**/*'
+    - 'lib/**/*'
+    - 'ee/app/**/*'
+    - 'ee/lib/**/*'
+
+Gitlab/TokenWithoutRoutable:
+  Enabled: true
+  Include:
+    - 'app/**/*'
+    - 'lib/**/*'
+    - 'ee/app/**/*'
+    - 'ee/lib/**/*'
+
+Rake/TopLevelMethodDefinition:
+  Enabled: true
+  Include:
+    - '**/Rakefile'
+    - 'lib/tasks/**/*.rake'
+    - 'ee/lib/tasks/**/*.rake'
+
+Rails/StrongParams:
+  Enabled: true
+  SafeAutoCorrect: false
+  Include:
+    - 'app/controllers/**/*'
+    - 'ee/app/controllers/**/*'
+
+QA/FabricateUsage:
+  Include:
+    - 'qa/qa/specs/**/*_spec.rb'
+
+Gitlab/NoFindInWorkers:
+  Enabled: true
+  Include:
+    - app/workers/**/*
+    - ee/app/workers/**/*
+
+Tailwind/StringInterpolation:
+  Enabled: true
+  Include:
+  - '{,ee/,jh/}app/helpers/**/*.rb'
+  - '{,ee/,jh/}app/components/**/*.{haml,rb}'
+  - '{,ee/,jh/}app/views/**/*.haml'
+
+Cop/ActiveRecordDependent:
+  Exclude:
+    # We need to allow `dependent:` clauses in the `User` model for batched deletion
+    # during `User#destroy`. See: https://gitlab.com/gitlab-org/gitlab/-/issues/378217
+    - app/models/user.rb
+  Include:
+    - ee/app/models/**/*.rb
+
+Gitlab/Rails/AttrEncrypted:
+  Enabled: true
+  SafeAutoCorrect: false
+  Include:
+  - '{,ee/,jh/}app/models/**/*.rb'
+  - 'db/migrate/*.rb'
+  - lib/gitlab/background_migration/**/*.rb
+  - ee/lib/ee/gitlab/background_migration/**/*.rb
+  - ee/lib/gitlab/background_migration/**/*.rb
+
+Gitlab/Rails/EncryptsDeterministic:
+  Enabled: true
+  Include:
+  - '{,ee/,jh/}app/models/**/*.rb'
+  - lib/gitlab/background_migration/**/*.rb
+  - ee/lib/ee/gitlab/background_migration/**/*.rb
+  - ee/lib/gitlab/background_migration/**/*.rb
+
+Migration/PreventAddingAttrEncryptedColumns:
+  Enabled: true
+  Include:
+    - 'db/migrate/*.rb'
+  EnforcedSince: 20250311000000
+
+Scalability/RandomCronSchedule:
+  Enabled: true
+  Include:
+    - 'config/initializers/1_settings.rb'
+
+Migration/PreventFeatureFlagsUsage:
+  Enabled: true
+  EnforcedSince: 20250505000000
+
+Rails/EnumSyntax:
+  Enabled: true
+  Include:
+    - 'app/models/**/*.rb'
+    - 'ee/app/models/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'ee/lib/**/*.rb'
+
+Database/AvoidScopeTo:
+  Enabled: true
+  Include:
+    - 'lib/gitlab/background_migration/**/*.rb'
+
+Database/NoOnDemandCellLocalBackgroundOperation:
+  Enabled: true
+
+Database/AvoidIntRangePartitioning:
+  Enabled: true
+
+RSpec/RedundantMetatagType:
+  Include:
+    - '{,ee/,jh/}spec/**/*_spec.rb'
+
+RSpec/Dialect:
+  # This cop rule produces too many false positives.
+  # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/173889#note_2232088196
+  Enabled: false
+
+Gitlab/UseParamKeyForConvertingClassName:
+  Enabled: true
+
+Gitlab/NoHelpersInPresenters:
+  Enabled: true
+  Include:
+    - '{,ee/,jh/}app/presenters/**/*.rb'
+
+Gitlab/PreventOrganizationFirst:
+  Enabled: true
+
+Gitlab/AvoidDefaultOrganization:
+  Enabled: true
+
+Gitlab/AvoidDirectWorkItemTypeUsage:
+  Enabled: true
+
+Gitlab/AvoidConstDefaultOrganizationId:
+  Enabled: true
+
+Gitlab/UsersInternalOrganization:
+  Description: 'Enforce using Users::Internal.in_organization(organization) for bot methods'
+  Enabled: true
+
+Gitlab/Authz/PermissionCheck:
+  Enabled: true
+  Description: 'Enforce using granular permissions when checking access'
+  Exclude:
+    - '{,ee/}app/policies/**/*.rb'
+    - '{,ee/}spec/**/*.rb'
+
+Gitlab/Authz/RoleCheckInRule:
+  Enabled: true
+  Include:
+    - 'app/policies/**/*.rb'
+    - 'ee/app/policies/**/*.rb'
+
+Gitlab/Authz/EnableInBasePolicy:
+  Enabled: true
+  Include:
+    - 'app/policies/base_policy.rb'
+    - 'ee/app/policies/ee/base_policy.rb'
+
+Gitlab/Authz/AvoidHighestRoleUsage:
+  Include:
+    - 'app/policies/**/*.rb'
+    - 'ee/app/policies/**/*.rb'
+
+Gitlab/Authz/UseGranularTokenDirective:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*.rb'
+    - 'ee/app/graphql/**/*.rb'
+
+Gitlab/AvoidProjectIssuableUrlHelpers:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+    - 'app/helpers/routing/projects_helper.rb'
+    - 'ee/app/helpers/ee/routing/projects_helper.rb'
+
+Gitlab/CommentLength:
+  Enabled: true
+  Exclude:
+    - 'Dangerfile'
+    - 'Gemfile'

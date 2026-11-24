@@ -1,0 +1,17 @@
+---
+table_name: workforce_hierarchies
+classes:
+- Workforce::Hierarchy
+feature_categories:
+- value_stream_management
+description: One row per tenant holding the people hierarchy imported from an external
+  HR system. The tenant is the organization on GitLab Self-Managed and Dedicated. On
+  GitLab.com it is the top-level group until customers move to Organizations, when
+  hierarchies will be migrated to their organization.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261107
+milestone: '19.6'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  group_id: namespaces
+  organization_id: organizations
+table_size: small

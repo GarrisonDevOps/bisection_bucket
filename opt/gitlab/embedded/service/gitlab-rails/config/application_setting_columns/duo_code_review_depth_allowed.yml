@@ -1,0 +1,13 @@
+---
+api_type: boolean
+attr: duo_code_review_depth_allowed
+clusterwide: false
+column: duo_code_review_depth_allowed
+db_type: boolean
+default: 'true'
+description: 'If `true`, Code Review Flow can run reviews at different depths. Default:
+  `true`. Beta.'
+encrypted: false
+gitlab_com_different_than_default: false
+jihu: false
+not_null: true

@@ -1,0 +1,20 @@
+---
+description: Tracks when a user clicks a Duo Chat quick action button
+internal_events: true
+action: click_duo_quick_action
+classification: duo
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: The specific quick action that was clicked (e.g. issue_view_summary, work_item_view_summary)
+  property:
+    description: The type of resource the quick action was triggered from
+product_group: duo_chat
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231334
+tiers:
+  - premium
+  - ultimate

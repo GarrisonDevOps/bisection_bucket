@@ -1,0 +1,18 @@
+---
+title: View packages
+name: read_package
+description: Allows read-only access to packages in the package registry. Users can view packages and pull them with package manager clients.
+wip: true
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/517068
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259402
+feature_category: package_registry
+milestone: '19.5'
+group_ability: true
+enabled_for_group_access_levels: [20, 25, 30, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [20, 25, 30, 40, 50]
+skip_seat_consumption: true
+group_permissions:
+  - read_package
+project_permissions:
+  - read_package

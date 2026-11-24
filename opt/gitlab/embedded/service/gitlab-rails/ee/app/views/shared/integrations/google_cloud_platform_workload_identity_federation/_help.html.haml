@@ -1,0 +1,7 @@
+.info-well
+  .well-segment
+    %p
+      = s_('GoogleCloud|Manage permissions for Google Cloud resources with Identity and Access Management (IAM). Simplify and secure your usage, without the need to manage accounts or keys.')
+    %p
+      - tag_pair_docs = tag_pair(link_to('', help_page_path('ci/gitlab_google_cloud_integration/_index.md'), target: '_blank', rel: 'noopener noreferrer'), :link_start, :link_end)
+      = safe_format(s_('GoogleCloud|%{link_start}Explore Google Cloud integration with GitLab%{link_end}, for CI/CD and more.'), tag_pair_docs)

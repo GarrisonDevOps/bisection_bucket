@@ -1,0 +1,5 @@
+---
+name: group_project_permanent_deletion_confirmation
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221848
+milestone: '18.10'
+group: group::organizations

@@ -1,0 +1,19 @@
+---
+description: A GitLab Duo agent flow was successfully triggered from a Slack mention
+  of the GitLab bot. Measures the bottom of the GitLab Duo for Slack funnel.
+internal_events: true
+status: active
+action: trigger_slack_duo
+classification: duo
+identifiers:
+- user
+- project
+- namespace
+product_group: ai_catalog
+product_categories:
+- duo_agent_platform
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253496
+tiers:
+- premium
+- ultimate

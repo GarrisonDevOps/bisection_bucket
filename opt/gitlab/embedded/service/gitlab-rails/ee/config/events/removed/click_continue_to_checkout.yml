@@ -1,0 +1,25 @@
+---
+description: User clicks continue to checkout after credit selection on upgrading their subscription
+internal_events: true
+status: removed
+action: click_continue_to_checkout
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Credit option
+  value:
+    description: Credit quantity
+product_group: acquisition
+product_categories:
+  - acquisition
+  - subscription_management
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229556
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249475
+milestone_removed: '19.3'
+tiers:
+  - free
+  - premium
+  - ultimate

@@ -1,0 +1,4 @@
+---
+name: use_kubernetes_api_proxy
+description: Grants the ability to make Kubernetes API calls through the agent for
+  Kubernetes

@@ -1,0 +1,10 @@
+---
+name: agentic_sast_vr_ui
+description: UI development related to agentic SAST vulnerability resolution
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/556999
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206089
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/581248
+milestone: '18.5'
+group: "group::agentic security flows"
+type: beta
+default_enabled: true

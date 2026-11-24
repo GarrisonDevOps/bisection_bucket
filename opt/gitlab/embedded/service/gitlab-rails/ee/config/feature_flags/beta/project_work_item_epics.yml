@@ -1,0 +1,9 @@
+---
+name: project_work_item_epics
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/14501
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/180590
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/516901
+milestone: '17.10'
+group: group::portfolio planning
+type: beta
+default_enabled: false

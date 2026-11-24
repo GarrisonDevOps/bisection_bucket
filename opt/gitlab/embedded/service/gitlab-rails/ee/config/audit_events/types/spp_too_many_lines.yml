@@ -1,0 +1,10 @@
+---
+name: spp_too_many_lines
+description: Secret push protection is skipped because the push contains too many changed lines
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/604787
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243981
+feature_category: secret_detection
+milestone: '19.3'
+saved_to_database: true
+streamed: true
+scope: [Project]

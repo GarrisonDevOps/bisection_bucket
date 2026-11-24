@@ -1,0 +1,10 @@
+---
+name: user_profile_visibility_updated
+description: User toggles private profile user setting
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/474386
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/187207
+feature_category: user_profile
+milestone: '17.11'
+saved_to_database: false
+streamed: true
+scope: [User]

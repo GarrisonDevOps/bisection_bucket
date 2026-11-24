@@ -1,0 +1,9 @@
+---
+name: dependency_graph_graphql
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/16815
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/182289
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/521318
+milestone: '17.10'
+group: group::security infrastructure
+type: beta
+default_enabled: true

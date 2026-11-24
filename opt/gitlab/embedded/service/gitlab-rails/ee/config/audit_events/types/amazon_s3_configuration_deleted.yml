@@ -1,0 +1,10 @@
+---
+name: amazon_s3_configuration_deleted
+description: Amazon S3 configuration for audit events streaming is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/423229
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/133695
+feature_category: audit_events
+milestone: '16.5'
+saved_to_database: true
+streamed: true
+scope: [Group]

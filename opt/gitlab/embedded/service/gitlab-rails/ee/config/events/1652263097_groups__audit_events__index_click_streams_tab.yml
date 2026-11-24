@@ -1,0 +1,18 @@
+---
+description: Clicks the streams tab in group audit events
+category: groups:audit_events:index
+action: click_tab
+extra_properties:
+identifiers:
+#- project
+#- user
+#- namespace
+product_group: compliance
+product_categories:
+- audit_events
+milestone: "15.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/87228
+tiers:
+- premium
+- ultimate
+

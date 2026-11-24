@@ -1,0 +1,14 @@
+---
+description: Tracks when a SM user clicks start a free trial from the project dashboard
+internal_events: true
+status: active
+action: click_start_trial_cta_sm_project_dashboard
+identifiers:
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226121
+tiers:
+- free

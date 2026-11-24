@@ -1,0 +1,5 @@
+- if current_user && can?(current_user, :create_designated_account_beneficiaries)
+  = render ::Layouts::SettingsSectionComponent.new(s_('Profiles|Legacy contacts')) do |c|
+    - c.with_body do
+      = render 'designated_account_manager', designated_account_manager: designated_account_manager
+      = render 'designated_account_successor', designated_account_successor: designated_account_successor

@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../../config/bundler_setup'
+require 'optparse'
+
+def rails_path(relname)
+  Pathname.new(__FILE__).dirname.join('../..').join(relname).realpath
+end
+
+class GeoLogCursorOptionParser
+  def self.parse(argv)
+    options = {}
+
+    op = OptionParser.new
+    op.banner = 'GitLab Geo: Log Cursor'
+    op.separator ''
+    op.separator 'Usage: ./geo_log_cursor [options]'
+    op.separator ''
+    op.on('-d', '--debug', 'Enable detailed logging with extra debug information') { options[:debug] = true }
+    op.on('--stdout-logging', 'Log output to stdout') { options[:stdout_logging] = true }
+
+    op.separator 'Common options:'
+    op.on('-h', '--help') do
+      puts op
+      exit
+    end
+    op.on('-v', '--version') do
+      require rails_path('lib/gitlab.rb')
+
+      puts "Geo Log Cursor #{Gitlab::VERSION}"
+      exit
+    end
+    op.separator ''
+
+    op.parse!(argv)
+
+    options
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  options = GeoLogCursorOptionParser.parse(ARGV)
+
+  # We load rails environment / initializers only here to get faster command line startup when `--help` and `--version`
+  require rails_path('config/environment.rb')
+
+  if options[:stdout_logging]
+    # Monkey patch the logging class because multiple places use it (that
+    # contain mostly class methods) and is not possible to pass
+    # options[:stdout_logging] around without a refactor.
+    Gitlab::Geo::Logger.extend(Gitlab::Geo::Logger::StdoutLogger)
+  end
+
+  Gitlab::Geo::LogCursor::Daemon.new(options).run!
+end

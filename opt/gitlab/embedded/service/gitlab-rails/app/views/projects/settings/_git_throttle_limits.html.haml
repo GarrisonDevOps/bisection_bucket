@@ -1,0 +1,34 @@
+- return unless can?(current_user, :update_git_rate_limit, @project)
+
+- max_override = ProjectSetting::MAX_GIT_THROTTLE_OVERRIDE_VALUE
+
+= render ::Layouts::SettingsBlockComponent.new(s_('ProjectSettings|Git request rate limits'),
+  id: 'js-git-rate-limits-settings',
+  testid: 'git-rate-limits-settings-content',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('ProjectSettings|Override the number of Git HTTP and Git LFS requests allowed for this project. A limit higher than the instance limit has no effect. The rate limit period is set only in instance settings.')
+    = link_to _('Learn more.'), help_page_path('rate_limits/git.md', anchor: 'override-rate-limits-for-a-project'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    - url = namespace_project_settings_repository_path(@project.namespace, @project)
+    = gitlab_ui_form_for @project, url: url, method: :put, html: { class: 'git-rate-limits-settings-form' }, authenticity_token: true do |f|
+      = f.fields_for :project_setting do |settings|
+        .form-group
+          = settings.label :throttle_unauthenticated_git_http_requests_per_period, s_('ProjectSettings|Unauthenticated Git HTTP requests'), class: 'label-bold'
+          = settings.number_field :throttle_unauthenticated_git_http_requests_per_period, class: 'form-control gl-form-input', min: 1, max: max_override, aria: { describedby: 'throttle_unauthenticated_git_http_requests_per_period_description' }
+          %p.form-text.gl-text-subtle{ id: 'throttle_unauthenticated_git_http_requests_per_period_description' }
+            = s_('ProjectSettings|Number of unauthenticated Git HTTP requests allowed per period, per IP address. Leave blank to use the instance setting.')
+
+        .form-group
+          = settings.label :throttle_authenticated_git_http_requests_per_period, s_('ProjectSettings|Authenticated Git HTTP requests'), class: 'label-bold'
+          = settings.number_field :throttle_authenticated_git_http_requests_per_period, class: 'form-control gl-form-input', min: 1, max: max_override, aria: { describedby: 'throttle_authenticated_git_http_requests_per_period_description' }
+          %p.form-text.gl-text-subtle{ id: 'throttle_authenticated_git_http_requests_per_period_description' }
+            = s_('ProjectSettings|Number of authenticated Git HTTP requests allowed per period, per user or token. Leave blank to use the instance setting.')
+
+        .form-group
+          = settings.label :throttle_authenticated_git_lfs_requests_per_period, s_('ProjectSettings|Authenticated Git LFS requests'), class: 'label-bold'
+          = settings.number_field :throttle_authenticated_git_lfs_requests_per_period, class: 'form-control gl-form-input', min: 1, max: max_override, aria: { describedby: 'throttle_authenticated_git_lfs_requests_per_period_description' }
+          %p.form-text.gl-text-subtle{ id: 'throttle_authenticated_git_lfs_requests_per_period_description' }
+            = s_('ProjectSettings|Number of authenticated Git LFS requests allowed per period, per user or token. Leave blank to use the instance setting.')
+
+      = f.submit _('Save changes'), pajamas_button: true

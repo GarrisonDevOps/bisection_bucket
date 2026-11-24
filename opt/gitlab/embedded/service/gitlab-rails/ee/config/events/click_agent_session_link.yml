@@ -1,0 +1,22 @@
+---
+description: Click a link that opens a GitLab Duo Agent session from a source code surface
+internal_events: true
+status: active
+action: click_agent_session_link
+identifiers:
+- project
+- namespace
+- user
+product_group: source_code
+product_categories:
+- source_code_management
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260624
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Surface the link is on - blame or repository_commits
+  property:
+    description: Element clicked - gutter_icon, popover_title, popover_more, commit_popover, or badge

@@ -1,0 +1,10 @@
+---
+name: require_reauthentication_to_approve_updated
+description: The setting for requiring reauthentication for merge request approvals is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/431346
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/150710
+feature_category: source_code_management
+milestone: '17.1'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

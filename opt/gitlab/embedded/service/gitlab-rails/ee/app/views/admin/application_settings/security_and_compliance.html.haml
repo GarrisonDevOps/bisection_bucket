@@ -1,0 +1,107 @@
+- breadcrumb_title _("Security and compliance")
+- page_title _("Security and compliance")
+- add_page_specific_style 'page_bundles/settings'
+
+- if License.feature_available?(:dependency_scanning)
+  = render ::Layouts::SettingsBlockComponent.new(_('Dependency scanning'),
+    id: 'js-dependency-scanning-settings',
+    testid: 'admin-dependency-scanning-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = _('Manage dependency scanning behavior for all projects in your GitLab instance')
+    - c.with_body do
+      = render 'dependency_scanning'
+
+= render ::Layouts::SettingsBlockComponent.new(_('License compliance'),
+  id: 'js-license-compliance-settings',
+  testid: 'admin-license-compliance-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = _('Settings for the License Compliance feature')
+  - c.with_body do
+    = render 'license_compliance'
+
+- if License.feature_available?(:secret_push_protection)
+  = render ::Layouts::SettingsBlockComponent.new(_('Secret detection'),
+    id: 'js-secret-detection-settings',
+    testid: 'admin-secret-detection-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = _('Manage secret detection behavior for all projects in your GitLab instance')
+    - c.with_body do
+      = render 'secret_push_protection'
+
+- if @application_setting.dependency_firewall_setting_available?
+  - dependency_firewall_heading = s_('DependencyFirewall|Dependency firewall')
+  = render ::Layouts::SettingsBlockComponent.new(dependency_firewall_heading,
+    id: 'js-dependency-firewall-settings',
+    testid: 'admin-dependency-firewall-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_heading do
+      %span.gl-inline-flex.gl-items-center.gl-gap-3
+        = dependency_firewall_heading
+        = render Pajamas::BadgeComponent.new(_('Beta'), variant: :neutral)
+    - c.with_description do
+      = s_('DependencyFirewall|Enable the dependency firewall to protect against malicious and suspicious packages.')
+    - c.with_body do
+      = render 'dependency_firewall'
+
+= render ::Layouts::SettingsBlockComponent.new(_('Merge request security reports'),
+  id: 'js-security-mr-reports-settings',
+  testid: 'admin-security-mr-reports-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = _('Configure caching behavior for security reports on merge requests')
+  - c.with_body do
+    = render 'security_mr_reports'
+
+- if License.feature_available?(:sast) || License.feature_available?(:dast) || License.feature_available?(:dependency_scanning) || License.feature_available?(:container_scanning) || License.feature_available?(:secret_detection)
+  = render ::Layouts::SettingsBlockComponent.new(_('Security scans'),
+    id: 'js-security-scans-settings',
+    testid: 'admin-security-scans-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = _('Manage security scan data retention settings')
+    - c.with_body do
+      = render 'security_scans'
+
+- if License.feature_available?(:security_orchestration_policies)
+  = render ::Layouts::SettingsBlockComponent.new(_('Security policies'),
+    id: 'js-security-policies-settings',
+    testid: 'admin-security-policies-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = _('Manage security policy settings in your GitLab instance')
+    - c.with_body do
+      = render 'security_policies'
+
+  = render ::Layouts::SettingsBlockComponent.new(_('Compliance and security policy group'),
+    id: 'js-centralized_security_policy_management_setting',
+    testid: 'admin-centralized_security_policy_management_setting',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      - link = help_page_path('user/application_security/policies/_index.md')
+      = _('Select a group to create, distribute, and manage compliance frameworks and security polices for this GitLab instance. You should select a group without existing compliance frameworks.')
+      = render Pajamas::ButtonComponent.new(variant: :link, icon: 'information-o', href: link)
+    - c.with_body do
+      = render 'csp_group'
+
+- if ::Gitlab::Saas.feature_available?(:pipl_compliance)
+  = render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|PIPL compliance'),
+    id: 'js-enforce-pipl-compliance-settings',
+    testid: 'admin-enforce-pipl-compliance-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = s_('AdminSettings|Manage PIPL compliance for all users')
+    - c.with_body do
+      = render 'enforce_pipl_compliance'
+
+- if Gitlab::Dedicated.feature_available?(:vac_on_dedicated)
+  = render ::Layouts::SettingsBlockComponent.new(s_('AdminSettings|VAC'),
+    id: 'js-vac-projects-settings',
+    testid: 'admin-vac-projects-settings',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      = s_('AdminSettings|Manage projects that should have VAC enabled')
+    - c.with_body do
+      = render 'security_and_compliance_projects'

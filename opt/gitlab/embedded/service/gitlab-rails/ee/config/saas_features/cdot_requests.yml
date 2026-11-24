@@ -1,0 +1,5 @@
+---
+name: cdot_requests
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210388
+milestone: '18.6'
+group: group::acquisition

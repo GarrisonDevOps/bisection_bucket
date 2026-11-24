@@ -1,0 +1,10 @@
+---
+name: security_scan_profile_delete
+description: A security scan profile is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/612120
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249627
+feature_category: security_testing_configuration
+milestone: '19.3'
+saved_to_database: true
+streamed: true
+scope: [Group]

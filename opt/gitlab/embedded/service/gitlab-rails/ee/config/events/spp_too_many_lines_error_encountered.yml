@@ -1,0 +1,21 @@
+---
+description: Track when secret push protection encounters too many changed lines during scanning
+internal_events: true
+status: active
+action: spp_too_many_lines_error_encountered
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  value:
+    description: Count of changed lines
+  label:
+    description: Error message about changed lines limit
+product_group: secret_detection
+product_categories:
+- secret_detection
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222409
+tiers:
+- ultimate

@@ -1,0 +1,57 @@
+- available = local_assigns.fetch(:available)
+- decisions_available = local_assigns.fetch(:decisions_available)
+- dap_available = local_assigns.fetch(:dap_available)
+- depth_settings_available = local_assigns.fetch(:depth_settings_available)
+
+%fieldset.form-group.gl-form-group
+  %h5= s_('DuoCodeReview|GitLab Duo Code Review')
+  %p.gl-text-subtle= s_('DuoCodeReview|Control whether GitLab Duo automatically reviews merge requests. This setting cascades to subgroups and projects but can be overridden.')
+  .form-group.gl-mb-3
+    = form.gitlab_ui_checkbox_component :auto_duo_code_review_enabled,
+      s_('DuoCodeReview|Enable automatic reviews by GitLab Duo'),
+      checkbox_options: { disabled: !available, class: 'js-auto-duo-code-review' } do |c|
+      - c.with_help_text do
+        - if available
+          = s_('DuoCodeReview|When enabled, GitLab Duo will automatically review new merge requests. Draft merge requests and merge requests without changes are skipped.')
+        - else
+          - docs_link = link_to('', help_page_path('user/duo_agent_platform/flows/foundational_flows/code_review.md'), target: '_blank', rel: 'noopener noreferrer')
+          = safe_format(s_('DuoCodeReview|Requires the Code Review foundational flow to be enabled. %{link_start}Learn how to enable foundational flows%{link_end}.'), tag_pair(docs_link, :link_start, :link_end))
+  - if dap_available
+    .form-group.gl-mb-3.gl-pl-6
+      = form.gitlab_ui_checkbox_component :auto_duo_code_review_on_push_enabled,
+        s_('DuoCodeReview|Start a new review on push'),
+        checkbox_options: { class: 'js-auto-duo-code-review-on-push' } do |c|
+        - c.with_help_text do
+          = s_('DuoCodeReview|Starts a new review when a merge request receives new commits.')
+  - if decisions_available
+    .form-group.gl-mb-3
+      = form.gitlab_ui_checkbox_component :duo_code_review_decisions_enabled,
+        checkbox_options: { disabled: !available } do |c|
+        - c.with_label do
+          = s_('DuoCodeReview|GitLab Duo can approve and request changes')
+          = render Pajamas::BadgeComponent.new(_('Beta'), variant: :neutral, class: 'gl-ml-2')
+        - c.with_help_text do
+          = s_('DuoCodeReview|When GitLab Duo finds nothing to comment on, it approves the merge request. Otherwise, it requests changes.')
+  - if depth_settings_available
+    %hr.gl-border-default
+    .form-group.gl-mb-3
+      = form.gitlab_ui_checkbox_component :duo_code_review_depth_allowed,
+        checkbox_options: { class: 'js-duo-code-review-standard-allowed' } do |c|
+        - c.with_label do
+          = s_('DuoCodeReview|Allow Standard reviews')
+          = render Pajamas::BadgeComponent.new(_('Beta'), variant: :neutral, class: 'gl-ml-2')
+        - c.with_help_text do
+          = s_('DuoCodeReview|When enabled, subgroups and projects can use Standard reviews. Standard reviews gather more context and typically surface more findings. Changing this setting applies it to all subgroups and projects and replaces their values.')
+    %fieldset.form-group.gl-mb-3
+      %legend.h5.gl-border-none.gl-m-0
+        = s_('DuoCodeReview|Depth level')
+      %p.gl-text-subtle
+        = s_('DuoCodeReview|Sets the default depth for automatic and manual reviews. Changing it applies it to all subgroups and projects and replaces their values.')
+      = form.gitlab_ui_radio_component :duo_code_review_default_depth, ::Gitlab::Duo::CodeReview::LITE_DEPTH,
+        s_('DuoCodeReview|Lite (Default)'),
+        help_text: s_('DuoCodeReview|Fast, fixed-cost review for routine changes.'),
+        radio_options: { class: 'js-duo-code-review-lite-depth' }
+      = form.gitlab_ui_radio_component :duo_code_review_default_depth, ::Gitlab::Duo::CodeReview::STANDARD_DEPTH,
+        s_('DuoCodeReview|Standard'),
+        help_text: s_('DuoCodeReview|Thorough, variable-cost review for complex changes. Requires Allow Standard reviews.'),
+        radio_options: { class: 'js-duo-code-review-standard-depth' }

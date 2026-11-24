@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "description": "Hash of AI audit event name to count of stored events with that name",
+  "additionalProperties": {
+    "type": "integer",
+    "description": "Count of stored AI audit events with this event name"
+  }
+}

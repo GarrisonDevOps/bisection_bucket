@@ -1,0 +1,10 @@
+---
+name: custom_dashboard_storage
+description: Enable custom dashboards for analytics in organizations
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/582070
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212034
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/582077
+milestone: '18.7'
+group: group::optimize
+type: wip
+default_enabled: false

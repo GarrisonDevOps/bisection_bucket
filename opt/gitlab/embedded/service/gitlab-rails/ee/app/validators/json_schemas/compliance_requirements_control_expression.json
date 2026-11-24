@@ -1,0 +1,216 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Compliance Requirements Control Expression Schema",
+  "type": "object",
+  "properties": {
+    "field": {
+      "type": "string",
+      "enum": [
+        "scanner_sast_running",
+        "minimum_approvals_required",
+        "merge_request_prevent_author_approval",
+        "merge_request_prevent_committers_approval",
+        "project_visibility_not_internal",
+        "default_branch_protected",
+        "auth_sso_enabled",
+        "scanner_secret_detection_running",
+        "scanner_dep_scanning_running",
+        "scanner_container_scanning_running",
+        "scanner_license_compliance_running",
+        "scanner_dast_running",
+        "scanner_api_security_running",
+        "scanner_code_quality_running",
+        "scanner_iac_running",
+        "code_changes_requires_code_owners",
+        "reset_approvals_on_push",
+        "status_checks_required",
+        "require_branch_up_to_date",
+        "resolve_discussions_required",
+        "require_linear_history",
+        "restrict_push_merge_access",
+        "force_push_disabled",
+        "terraform_enabled",
+        "project_repo_exists",
+        "issue_tracking_enabled",
+        "stale_branch_cleanup_enabled",
+        "branch_deletion_disabled",
+        "review_and_archive_stale_repos",
+        "review_and_remove_inactive_users",
+        "more_members_than_admins",
+        "require_mfa_for_contributors",
+        "require_mfa_at_org_level",
+        "ensure_2_admins_per_repo",
+        "strict_permissions_for_repo",
+        "secure_webhooks",
+        "restricted_build_access",
+        "gitlab_license_level_ultimate",
+        "status_page_configured",
+        "has_valid_ci_config",
+        "error_tracking_enabled",
+        "default_branch_users_can_push",
+        "default_branch_protected_from_direct_push",
+        "push_protection_enabled",
+        "project_marked_for_deletion",
+        "project_archived",
+        "default_branch_users_can_merge",
+        "merge_request_commit_reset_approvals",
+        "project_visibility_not_public",
+        "package_hunter_no_findings_untriaged",
+        "project_pipelines_not_public",
+        "vulnerabilities_slo_days_over_threshold",
+        "merge_requests_approval_rules_prevent_editing",
+        "project_user_defined_variables_restricted_to_maintainers",
+        "merge_requests_require_code_owner_approval",
+        "cicd_job_token_scope_enabled",
+        "protected_branches_set",
+        "code_owner_approval_required",
+        "require_signed_commits",
+        "has_forks",
+        "model_registry_access_level_configured",
+        "model_experiments_access_level_configured",
+        "duo_agentic_flow_audit_events_streaming",
+        "duo_agentic_flow_governance_oversight_configured"
+      ]
+    },
+    "operator": {
+      "type": "string",
+      "enum": [
+        "=",
+        "!=",
+        ">",
+        "<",
+        ">=",
+        "<="
+      ]
+    },
+    "value": {
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ]
+    }
+  },
+  "required": [
+    "field",
+    "operator",
+    "value"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "field": {
+            "enum": [
+              "scanner_sast_running",
+              "merge_request_prevent_author_approval",
+              "merge_request_prevent_committers_approval",
+              "project_visibility_not_internal",
+              "default_branch_protected",
+              "auth_sso_enabled",
+              "scanner_secret_detection_running",
+              "scanner_dep_scanning_running",
+              "scanner_container_scanning_running",
+              "scanner_license_compliance_running",
+              "scanner_dast_running",
+              "scanner_api_security_running",
+              "scanner_code_quality_running",
+              "scanner_iac_running",
+              "code_changes_requires_code_owners",
+              "reset_approvals_on_push",
+              "status_checks_required",
+              "require_branch_up_to_date",
+              "resolve_discussions_required",
+              "require_linear_history",
+              "restrict_push_merge_access",
+              "force_push_disabled",
+              "terraform_enabled",
+              "project_repo_exists",
+              "issue_tracking_enabled",
+              "stale_branch_cleanup_enabled",
+              "branch_deletion_disabled",
+              "review_and_archive_stale_repos",
+              "review_and_remove_inactive_users",
+              "more_members_than_admins",
+              "require_mfa_for_contributors",
+              "require_mfa_at_org_level",
+              "ensure_2_admins_per_repo",
+              "strict_permissions_for_repo",
+              "secure_webhooks",
+              "restricted_build_access",
+              "gitlab_license_level_ultimate",
+              "status_page_configured",
+              "has_valid_ci_config",
+              "error_tracking_enabled",
+              "default_branch_users_can_push",
+              "default_branch_protected_from_direct_push",
+              "push_protection_enabled",
+              "project_marked_for_deletion",
+              "project_archived",
+              "default_branch_users_can_merge",
+              "merge_request_commit_reset_approvals",
+              "project_visibility_not_public",
+              "package_hunter_no_findings_untriaged",
+              "project_pipelines_not_public",
+              "vulnerabilities_slo_days_over_threshold",
+              "merge_requests_approval_rules_prevent_editing",
+              "project_user_defined_variables_restricted_to_maintainers",
+              "merge_requests_require_code_owner_approval",
+              "cicd_job_token_scope_enabled",
+              "protected_branches_set",
+              "code_owner_approval_required",
+              "require_signed_commits",
+              "has_forks",
+              "model_registry_access_level_configured",
+              "model_experiments_access_level_configured",
+              "duo_agentic_flow_audit_events_streaming",
+              "duo_agentic_flow_governance_oversight_configured"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "boolean"
+          },
+          "operator": {
+            "enum": [
+              "=",
+              "!="
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "field": {
+            "enum": [
+              "minimum_approvals_required"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "operator": {
+            "enum": [
+              "=",
+              "!=",
+              ">",
+              "<",
+              ">=",
+              "<="
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

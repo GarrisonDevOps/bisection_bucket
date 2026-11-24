@@ -1,0 +1,15 @@
+---
+description: Group creation during onboarding registration.
+action: create_group
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '14.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/67614
+tiers:
+  - free
+  - premium
+  - ultimate

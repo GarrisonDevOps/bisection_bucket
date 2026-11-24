@@ -1,0 +1,8 @@
+- page_title _('Audit events')
+
+= render ::Layouts::PageHeadingComponent.new(_('Instance audit events'),
+  description: _('Track important events in your GitLab instance.'),
+  options: { data: { event_tracking_load: 'true', event_tracking: 'view_admin_audit_logs_pageload' } })
+
+#js-audit-log-app{ data: audit_log_app_data(@is_last_page, @events, @audit_event_definitions) }
+  = gl_loading_icon(size: 'lg', css_class: 'gl-my-7')

@@ -1,0 +1,10 @@
+---
+name: throttle_refresh_billable_users
+description: Limits PUT /license/:id/refresh_billable_users to one call per admin every 10 minutes
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636122
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267082
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637726
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

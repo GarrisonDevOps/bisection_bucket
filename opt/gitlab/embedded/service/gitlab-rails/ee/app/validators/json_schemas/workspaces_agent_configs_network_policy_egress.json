@@ -1,0 +1,21 @@
+{
+  "description": "Network Policy Egress rules for Workspaces Agent Configs",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "allow"
+    ],
+    "properties": {
+      "allow": {
+        "type": "string"
+      },
+      "except": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: rate_limit_release_evidence_collections_per_user
+description: Enforces the per-user rate limit on release evidence collection through the REST API; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638257
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269672
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639419
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

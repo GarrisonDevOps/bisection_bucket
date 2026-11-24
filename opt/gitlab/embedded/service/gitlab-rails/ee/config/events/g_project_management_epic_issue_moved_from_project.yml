@@ -1,0 +1,17 @@
+---
+description: An epic's issue has been moved to a different project
+internal_events: true
+action: g_project_management_epic_issue_moved_from_project
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132024
+tiers:
+- premium
+- ultimate

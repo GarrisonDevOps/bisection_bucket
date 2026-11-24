@@ -1,0 +1,21 @@
+---
+description: User clicks the learn more link on the self-managed credits card on the admin subscriptions page
+internal_events: true
+action: click_learn_more_cta_on_sm_credits_card
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - subscription_management
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231577
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237123
+milestone_removed: '19.1'
+status: removed
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: The type of action (learn_more)

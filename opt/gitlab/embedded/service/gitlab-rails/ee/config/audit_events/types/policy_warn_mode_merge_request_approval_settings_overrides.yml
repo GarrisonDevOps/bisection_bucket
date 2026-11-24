@@ -1,0 +1,10 @@
+---
+name: policy_warn_mode_merge_request_approval_settings_overrides
+description: A merge request's target branch is affected by a policy in warn mode that sets more restrictive approval settings if the policy changes from warn mode to enforced.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/580797
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212756
+milestone: '18.7'
+feature_category: security_policy_management
+saved_to_database: false
+streamed: true
+scope: [Project]

@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_user_feedback_gitlab_duo_query_in_data_explorer_wrong
+description: Count of user feedback "wrong" GitLab Duo generated queries within the data explorer
+product_group: platform_insights
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/148354
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: user_feedback_gitlab_duo_query_in_data_explorer_wrong

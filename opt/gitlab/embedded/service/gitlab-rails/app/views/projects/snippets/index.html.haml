@@ -1,0 +1,17 @@
+- page_title s_("Snippets|Snippets")
+- new_project_snippet_link = new_project_snippet_path(@project) if can?(current_user, :create_snippet, @project)
+
+%h1.gl-sr-only= page_title
+
+- if @snippets.exists?
+  - if current_user
+    .gl-flex-row.top-area.gl-justify-between.gl-items-center
+      - include_private = @project.member?(current_user) || current_user.admin?
+      = render partial: 'snippets/snippets_scope_menu', locals: { subject: @project, include_private: include_private, counts: @snippet_counts }
+      - if new_project_snippet_link.present?
+        .nav-controls.gl-my-4{ class: '!gl-basis-auto !gl-w-auto' }
+          = link_button_to s_("Snippets|New snippet"), new_project_snippet_link, title: s_("Snippets|New snippet"), variant: :confirm
+
+  = render 'shared/snippets/list'
+- else
+  = render 'shared/empty_states/snippets', button_path: new_project_snippet_link

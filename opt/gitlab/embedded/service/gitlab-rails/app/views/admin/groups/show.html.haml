@@ -1,0 +1,120 @@
+- add_page_specific_style 'page_bundles/members'
+- add_to_breadcrumbs _("Groups"), admin_groups_path
+- breadcrumb_title @group.name
+- page_title @group.name, _("Groups")
+- current_user_is_group_owner = @group && @group.has_owner?(current_user)
+- list_item_classes = '!gl-grid @md/panel:gl-grid-cols-3 gl-gap-x-3'
+
+= render ::Layouts::PageHeadingComponent.new(@group.full_name) do |c|
+  - c.with_actions do
+    - if current_user.can_admin_all_resources?
+      = render Pajamas::ButtonComponent.new(href: admin_group_edit_path(@group),
+        button_options: { data: { testid: 'edit-group-link' }}) do
+        = _('Edit')
+
+.gl-grid.gl-gap-5{ class: "@md/panel:gl-grid-cols-2" }
+  .gl-flex.gl-flex-col.gl-gap-5
+    = render ::Layouts::CrudComponent.new(_('Group information')) do |c|
+      - c.with_body do
+        %ul.content-list.content-list-items-padding
+          %li
+            = render Pajamas::AvatarComponent.new(@group, size: 64, alt: '')
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('Name:')
+            .gl-col-span-2
+              %strong= link_to @group.name, group_path(@group)
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('Path:')
+            .gl-col-span-2
+              %strong= @group.path
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('Description:')
+            .gl-col-span-2
+              %strong= @group.description
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('Visibility level:')
+            .gl-col-span-2
+              %strong= visibility_level_label(@group.visibility_level)
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('Created on:')
+            .gl-col-span-2
+              %strong= @group.created_at.to_fs(:medium)
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('ID:')
+            .gl-col-span-2
+              %strong= @group.id
+          = render_if_exists 'admin/namespace_plan_info', namespace: @group
+          %li{ class: list_item_classes }
+            = render 'shared/storage_counter_statistics', storage_size: @group.storage_size, storage_details: @group
+          %li{ class: list_item_classes }
+            %span.gl-text-subtle= _('Group Git LFS status:')
+            .gl-col-span-2
+              %strong
+                = group_lfs_status(@group)
+                = link_to sprite_icon('question-o', css_class: 'gl-fill-icon-info'), help_page_path('topics/git/lfs/_index.md')
+          = render_if_exists 'namespaces/shared_runner_status', namespace: @group, list_item_classes: list_item_classes
+          = render_if_exists 'namespaces/additional_minutes_status', namespace: @group, list_item_classes: list_item_classes
+
+    = render ::Layouts::CrudComponent.new(_('Projects'),
+      icon: 'project',
+      count: @group.projects.count) do |c|
+      - c.with_body do
+        - if @projects.any?
+          %ul.content-list.content-list-items-padding
+            - @projects.each do |project|
+              %li{ class: '!gl-flex gl-flex-col' }
+                %strong
+                  = link_to project.full_name, [:admin, project]
+                  = gl_badge_tag storage_counter(project.statistics.storage_size)
+                %span.gl-font-monospace.gl-text-subtle.gl-text-sm
+                  = project.full_path + '.git'
+        - else
+          %p.gl-text-center= _('No projects')
+      - if @projects.total_pages > 1
+        - c.with_footer do
+          = paginate @projects, param_name: 'projects_page', theme: 'gitlab'
+
+    - shared_projects = @group.shared_projects.sort_by(&:name)
+    - unless shared_projects.empty?
+      = render ::Layouts::CrudComponent.new(_('Projects shared with %{group_name}') % { group_name: @group.name },
+        icon: 'project',
+        count: shared_projects.size) do |c|
+        - c.with_body do
+          %ul.content-list.content-list-items-padding
+            - shared_projects.each do |project|
+              %li{ class: '!gl-flex gl-flex-col' }
+                %strong
+                  = link_to project.full_name, [:admin, project]
+                  = gl_badge_tag storage_counter(project.statistics.storage_size)
+                %span.gl-font-monospace.gl-text-subtle.gl-text-sm
+                  = project.full_path + '.git'
+
+    - if can?(current_user, :admin_group_member, @group)
+      = render 'shared/members/requests', membership_source: @group, group: @group, requesters: @requesters, force_mobile_view: true
+
+  .gl-flex.gl-flex-col.gl-gap-5
+    = render 'shared/admin/admin_note'
+
+    = render ::Layouts::CrudComponent.new(_('Group members'),
+      icon: 'user',
+      count: @group.users_count) do |c|
+      - c.with_description do
+        - direct_members_link = link_to('', help_page_path('user/project/members/_index.md', anchor: 'membership-types'))
+        - direct_members_message = _('The number of direct members in the current group. Members in subgroups are not included. %{link_start}What is a direct member%{link_end}?')
+        = safe_format(direct_members_message, tag_pair(direct_members_link, :link_start, :link_end))
+      - c.with_actions do
+        = render 'shared/members/manage_access_button', path: group_group_members_path(@group)
+      - c.with_body do
+        %ul.content-list.group-users-list.members-list
+          = render partial: 'shared/members/member',
+            collection: @members, as: :member,
+            locals: { membership_source: @group,
+            group: @group,
+            current_user_is_group_owner: current_user_is_group_owner }
+      - if @members.total_pages > 1
+        - c.with_footer do
+          = paginate @members, param_name: 'members_page', theme: 'gitlab'
+
+    = render 'shared/custom_attributes', custom_attributes: @group.custom_attributes
+
+    = render_if_exists 'ldap_group_links/ldap_group_links_show', group: @group

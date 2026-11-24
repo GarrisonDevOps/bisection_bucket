@@ -1,0 +1,38 @@
+---
+title: Manage web hooks
+name: admin_web_hook
+description: Manage webhooks
+introduced_by_issue: https://gitlab.com/gitlab-org/quality/triage-ops/-/issues/1373
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/151551
+feature_category: webhooks
+milestone: '17.0'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - create_webhook
+  - delete_webhook
+  - delete_webhook_custom_header
+  - delete_webhook_url_variable
+  - read_webhook
+  - read_webhook_event
+  - resend_webhook_event
+  - test_webhook
+  - update_webhook
+  - update_webhook_custom_header
+  - update_webhook_url_variable
+group_permissions:
+  - create_webhook
+  - delete_webhook
+  - delete_webhook_custom_header
+  - delete_webhook_url_variable
+  - read_webhook
+  - read_webhook_event
+  - resend_webhook_event
+  - test_webhook
+  - update_webhook
+  - update_webhook_custom_header
+  - update_webhook_url_variable
+

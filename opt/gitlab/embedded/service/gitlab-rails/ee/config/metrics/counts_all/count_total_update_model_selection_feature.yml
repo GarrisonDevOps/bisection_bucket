@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_update_model_selection_feature
+description: Count of model selection features that has been updated
+product_group: ai_model_services
+product_categories:
+- self-hosted_models
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195118
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: update_model_selection_feature

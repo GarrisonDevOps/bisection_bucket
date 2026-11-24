@@ -1,0 +1,10 @@
+---
+name: skip_approval_sync_without_approval_policies
+description: Skips merge request approval policy re-evaluation and report approval rule sync on pipeline completion for projects without approval policy rules or merge request approval rules
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264014
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636318
+milestone: '19.6'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

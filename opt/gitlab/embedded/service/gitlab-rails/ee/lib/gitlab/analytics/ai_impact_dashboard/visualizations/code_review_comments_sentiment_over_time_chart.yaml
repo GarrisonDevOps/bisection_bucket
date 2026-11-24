@@ -1,0 +1,17 @@
+---
+version: 1
+type: AreaChart
+data:
+  type: code_review_comments_sentiment_over_time
+  query:
+    dateRange: 180d
+options:
+  xAxis:
+    name: "Month"
+    type: "category"
+  yAxis:
+    name: ""
+    type: "value"
+  chartTooltip:
+    valueUnit: PERCENT
+  includeLegendAvgMax: false

@@ -1,0 +1,183 @@
+---
+stage: Security Governance
+group: Security Controls
+info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/marketing/product-and-technical-marketing/technical-writing/#assignments>
+title: Scanner Enablement Wizard
+---
+
+{{< details >}}
+
+- Tier: Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/21626) in GitLab 19.1 [with a feature flag](../../../administration/feature_flags/_index.md) named `group_security_configuration_scanners_tab`. Disabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/597648) in GitLab 19.3. Feature flag `group_security_configuration_scanners_tab` removed.
+
+{{< /history >}}
+
+Use the Scanner Enablement Wizard to apply [security configuration profiles](security_configuration_profiles.md)
+to projects in a group. The wizard configures dependency scanning, SAST, and secret
+detection, and updates the coverage shown in the [security inventory](../security_inventory/_index.md).
+
+Prerequisites:
+
+- To view scanner coverage, the Developer, Maintainer, or Owner role for the group.
+- To enable scanners, the Security Manager, Maintainer, or Owner role for the group.
+
+## View scanner coverage
+
+The **Scanners** tab displays scanner coverage across all projects in a group.
+
+To view scanner coverage:
+
+1. In the top bar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Secure** > **Security configuration**.
+1. Select the **Scanners** tab.
+
+The tab displays the following cards:
+
+| Card | Description |
+|------|-------------|
+| Unprotected projects | List of projects with no scanners enabled. |
+| Scanners enabled | Count of all scanner types enabled in the group. |
+| Needs attention | List of projects with scan failures. |
+| Stale scans | List of projects with a scanner missing from at least three consecutive default branch pipelines. |
+
+Below the cards, a list of each scanner type indicates how many projects have the scanner active, failed, or not configured.
+
+## View scanner details
+
+To view the status of a scanner across the projects in the group:
+
+1. In the top bar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Secure** > **Security configuration**.
+1. Select the **Scanners** tab.
+1. Next to the scanner, select **View details**.
+
+The scanner details page shows stat cards for the scanner (**Enabled**, **Not enabled**,
+**Needs attention**, and **Stale**) and a table of every project in the group.
+
+The table shows the following columns:
+
+| Column | Description |
+|--------|-------------|
+| Project | Project name and path. |
+| Source | If available, the name of the applied configuration profile. |
+| Status | Current scanner status for the project. |
+| Last scan | Time of the most recent scan. |
+| Security attributes | Security attributes assigned to the project. Shown only if you can read security attributes. |
+
+## Configure a scanner for projects
+
+You can configure scanners that use profile-based configuration. To configure scanners from other sources, such
+as security policies or CI/CD configuration, you must adjust them at their origin.
+
+To configure a scanner for a project:
+
+1. In the top bar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Secure** > **Security configuration**.
+1. Select the **Scanners** tab.
+1. Next to the scanner, select **View details**.
+1. Next to a project select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then select an action:
+
+   - **Enable profile-based scanning**: Applies the default profile to the project. Available when the
+     project shows **No profile applied**.
+   - **Disable profile-based scanning**: Removes the applied profile from the project.
+   - **View project configuration**: Opens the security configuration page for the project.
+   - **Troubleshoot failure**: Provides more details if the most recent scan failed or has a warning.
+
+## Use the Scanner Enablement Wizard
+
+The Scanner Enablement Wizard provides two approaches:
+
+- {{< ui text="SecurityConfiguration|Quick setup" >}}: Applies profiles to the projects in the group that match the mode you select.
+  The GitLab default profiles are preselected, and you can change the profile for each scanner.
+- **Advanced setup**: Applies selected profiles to specific projects and scanners.
+
+> [!note]
+> The wizard does not configure DAST, container scanning, or IaC scanning. Configure these scanners
+> through security policies or at the project level.
+
+### Quick setup
+
+{{< history >}}
+
+- Mode step [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/635247) in GitLab 19.6 [with a feature flag](../../../administration/feature_flags/_index.md) named `scanner_wizard_attach_modes`. Enabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag. For more information, see the
+> history.
+
+Use Quick setup to apply profiles to the entire group, based on the mode you select.
+
+To use Quick setup:
+
+1. In the top bar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Secure** > **Security configuration**.
+1. Select the **Scanners** tab.
+1. Select **Enable scanners**.
+1. Select **Quick setup**, then select **Start quick setup**.
+1. On the {{< ui text="SecurityConfiguration|Select mode" >}} step, select which projects get the profiles:
+
+   - {{< ui text="SecurityConfiguration|All projects" >}}: Applies the profile to every project.
+     Replaces any profile a project already has for that scanner.
+     Projects that also scan another way, such as with CI/CD configuration or a security policy,
+     run both scans.
+   - {{< ui text="SecurityConfiguration|Projects that don't scan yet" >}}: Applies the profile only
+     to projects that have no profile and no scan for that scanner.
+     Projects that already scan keep their current setup.
+     This mode is selected by default.
+   - {{< ui text="SecurityConfiguration|Replace existing" >}}: Applies the profile only to projects
+     that already have a profile for that scanner, and replaces that profile.
+     Other projects are not changed.
+
+   GitLab checks each scanner separately.
+   For example, with {{< ui text="SecurityConfiguration|Projects that don't scan yet" >}},
+   a project that already runs SAST but not secret detection gets the secret detection profile.
+1. Optional. To use a different profile for a scanner, next to **Scanners**, select
+   {{< ui text="SecurityConfiguration|Edit scanners" >}} ({{< icon name="pencil" >}}).
+   On the {{< ui text="SecurityConfiguration|Select scanners" >}} step, from the
+   {{< ui text="SecurityConfiguration|Configuration profile" >}} dropdown list, select a profile,
+   then select {{< ui text="SecurityConfiguration|Select mode" >}}.
+1. On the {{< ui text="SecurityConfiguration|Review configuration" >}} step, review the scanners and the mode.
+1. Select **Apply configuration**.
+
+After you apply a configuration, GitLab applies the profiles to projects in batches, which can take several
+minutes. The confirmation step lists each scanner, its profile, and the number of items each profile
+applies to.
+
+### Advanced setup
+
+Advanced setup applies only the selected profiles to specific projects and scanners. If you need to apply profiles
+to more than 100 projects at once, use Quick setup.
+
+1. In the top bar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Secure** > **Security configuration**.
+1. Select the **Scanners** tab.
+1. Select **Enable scanners**.
+1. Select **Advanced setup**, then select **Start advanced setup**.
+1. On the **Select projects** step, select the projects to configure. Use the search and filters to find
+   projects. The **Scanner coverage** column shows existing coverage. You can select up to 100 items.
+1. On the **Select scanners** step, select the scanners to enable. For each scanner, select the
+   configuration profile to apply.
+1. On the **Review configuration** step, review the selected projects and scanners.
+   To make changes, next to **Items**, select {{< ui text="SecurityConfiguration|Edit project scope" >}} ({{< icon name="pencil" >}}),
+   or next to **Scanners**, select {{< ui text="SecurityConfiguration|Edit scanners" >}} ({{< icon name="pencil" >}}).
+1. Select **Apply configuration**.
+
+After you apply a configuration, GitLab applies the profiles to projects in batches, which can take several
+minutes. The confirmation step lists each scanner, its profile, and the number of items each profile
+applies to.
+
+## Related topics
+
+- [Security configuration profiles](security_configuration_profiles.md)
+- [Security inventory](../security_inventory/_index.md)
+- [Security attributes](../attributes/_index.md)
+- [Permissions and roles](../../permissions.md)

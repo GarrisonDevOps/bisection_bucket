@@ -1,0 +1,17 @@
+---
+description: >-
+  The event tracks the number of merge requests where a security policy approval was bypassed due to the policy being configured to fail open.
+  This event occurs after the merge request was merged. It triggers if a security policy is set to fail open, allowing the merge
+  request to proceed without requiring an explicit approval from the security team or designated approvers.
+internal_events: true
+action: bypass_approvals_for_mr_approval_policy_when_policy_is_evaluated
+identifiers:
+- project
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/155718
+tiers:
+- ultimate

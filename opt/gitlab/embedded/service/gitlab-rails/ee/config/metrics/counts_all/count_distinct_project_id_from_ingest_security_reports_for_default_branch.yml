@@ -1,0 +1,23 @@
+---
+key_path: redis_hll_counters.count_distinct_project_id_from_ingest_security_reports_for_default_branch
+description: Count of unique projects where reports were ingested on the default branch
+product_group: security_foundations
+product_categories:
+- vulnerability_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248448
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: ingest_security_reports
+  unique: project.id
+  filter:
+    label: default_branch

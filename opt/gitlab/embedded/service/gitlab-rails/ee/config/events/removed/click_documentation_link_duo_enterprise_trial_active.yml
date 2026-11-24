@@ -1,0 +1,16 @@
+---
+description: Tracks clicks on the documentation link when a duo enterprise trial is active.
+status: removed
+action: click_documentation_link_duo_enterprise_trial_active
+product_group: acquisition
+product_categories:
+- chat_engine
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153166
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261546
+milestone_removed: '19.6'
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: Context around the specific feature for the link

@@ -1,0 +1,15 @@
+- if ::Gitlab::CurrentSettings.custom_project_templates_enabled?
+  = render ::Layouts::SettingsBlockComponent.new(_('Custom project templates'),
+    id: 'js-custom-project-templates-settings',
+    testid: 'custom-project-template-container',
+    expanded: expanded_by_default?) do |c|
+    - c.with_description do
+      - link = link_to('', help_page_path('administration/project_templates.md'))
+      = safe_format(s_('AdminSettings|Select a group to use as a source of custom templates for new projects. %{link_start}Learn more%{link_end}.'), tag_pair(link, :link_start, :link_end))
+    - c.with_body do
+      = gitlab_ui_form_for @application_setting, url: templates_admin_application_settings_path(anchor: 'js-custom-project-templates-settings') do |f|
+        = form_errors(@application_setting)
+
+        .js-vue-group-select{ data: { label: _('Select group'), input_name: 'application_setting[custom_project_templates_group_id]', input_id: 'application_setting_file_template_project_id', selected: @application_setting.custom_project_templates_group_id, clearable: 'true' } }
+
+        = f.submit _('Save changes'), pajamas_button: true, data: { testid: 'save-changes-button' }

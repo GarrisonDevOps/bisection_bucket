@@ -1,0 +1,9 @@
+---
+name: ml_delete_experiments_in_batches
+description: Delete the runs of deleted ML experiments and models in batches in a background job
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263939
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/635172
+milestone: '19.6'
+group: group::mlops
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,15 @@
+---
+description: Click on the Billing Plan indicator on the group overview page
+internal_events: true
+status: active
+action: click_plan_indicator_on_group_overview_page
+identifiers:
+- namespace
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/204274
+tiers:
+- ultimate

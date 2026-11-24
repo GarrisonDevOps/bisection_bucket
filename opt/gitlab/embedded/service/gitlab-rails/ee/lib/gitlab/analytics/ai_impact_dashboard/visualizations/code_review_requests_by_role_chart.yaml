@@ -1,0 +1,18 @@
+---
+version: 1
+type: StackedColumnChart
+data:
+  type: code_review_requests_by_role_over_time
+  query:
+    dateRange: 180d
+options:
+  xAxis:
+    name: "Month"
+    type: "category"
+  yAxis:
+    name: "GitLab Duo Code Review Requests"
+    type: "value"
+  chartTooltip:
+    valueUnit: COUNT
+  presentation: tiled
+  includeLegendAvgMax: false

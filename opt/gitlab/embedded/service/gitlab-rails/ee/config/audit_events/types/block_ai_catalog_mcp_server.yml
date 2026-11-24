@@ -1,0 +1,10 @@
+---
+name: block_ai_catalog_mcp_server
+description: A user blocks an AI Catalog MCP server for a group or project.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/623216
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251763
+feature_category: workflow_catalog
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

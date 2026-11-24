@@ -1,0 +1,11 @@
+- add_to_breadcrumbs _("Users"), admin_users_path
+- breadcrumb_title _("Role promotions")
+- page_title _("Role promotions"), _("Users")
+
+= render ::Layouts::PageHeadingComponent.new(_('Role promotions'))
+
+= render 'admin/users/tabs'
+
+.tab-content
+  .tab-pane.active
+    = render 'role_promotion_requests'

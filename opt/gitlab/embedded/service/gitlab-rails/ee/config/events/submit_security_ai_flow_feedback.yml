@@ -1,0 +1,57 @@
+---
+description: A user submitted explicit feedback (agree or disagree) on an AI flow result, such as a SAST false positive detection, with a server-side snapshot of the finding metadata
+internal_events: true
+status: active
+action: submit_security_ai_flow_feedback
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: AI flow type (sast_fp_detection or secrets_fp_detection)
+  property:
+    description: Feedback sentiment (agree or disagree)
+  reasons:
+    description: Comma-separated disagreement reasons (verdict_wrong, ignored_data_flow, explanation_inaccurate, confidence_miscalibrated, other)
+  vulnerability_id:
+    description: ID of the vulnerability the feedback is about
+  flag_id:
+    description: ID of the vulnerability flag the feedback is about
+  workflow_id:
+    description: ID of the Duo workflow that produced the flag. Omitted when the flag has no workflow
+  cwe:
+    description: CWE identifier of the finding, for example CWE-79. Omitted unless it matches CWE-<number>
+  owasp:
+    description: Comma-separated OWASP identifiers of the finding, for example A03:2021. Non-matching values are dropped
+  severity:
+    description: Severity of the finding
+  report_type:
+    description: Report type of the finding, for example sast or secret_detection
+  scanner_external_id:
+    description: External ID of the scanner that reported the finding, or custom for non-GitLab scanners
+  scanner_vendor:
+    description: Vendor of the scanner that reported the finding, or custom for non-GitLab scanners
+  rule_identifier_type:
+    description: External type of the finding's primary identifier, or custom for non-GitLab scanners
+  file_extension:
+    description: Extension of the file that contains the finding (never the path), or other when it is not 1-10 lowercase alphanumeric characters
+  has_data_flow:
+    description: Whether the finding has code flow details (true or false)
+  ai_confidence_score:
+    description: Confidence score of the AI flag (0.0 to 1.0)
+  ai_verdict:
+    description: Status of the AI flag, for example detected_as_fp or detected_as_not_fp
+  flow_version:
+    description: Version of the flow that produced the flag
+  model_name:
+    description: GitLab-managed model used by the flow, or self_hosted for self-hosted models
+  model_provider:
+    description: Provider of the GitLab-managed model used by the flow, or self_hosted for self-hosted models
+product_group: agentic_security_flows
+product_categories:
+- vulnerability_management
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265540
+tiers:
+- ultimate

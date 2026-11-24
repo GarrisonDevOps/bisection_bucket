@@ -1,0 +1,19 @@
+---
+description: User copies a command from the command line instructions modal
+internal_events: true
+action: copy_command_in_command_line_instructions_modal
+identifiers:
+  - user
+additional_properties:
+  label:
+    description: Type of command copied (https_repo_url, ssh_repo_url, https_clone_and_add, ssh_clone_and_add, https_push_existing, ssh_push_existing)
+product_group: activation
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200553
+tiers:
+  - free
+  - premium
+  - ultimate
+status: removed
+milestone_removed: '19.6'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267245

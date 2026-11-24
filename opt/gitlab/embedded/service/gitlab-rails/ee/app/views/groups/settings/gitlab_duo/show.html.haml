@@ -1,0 +1,9 @@
+- gitlab_duo_text = _('GitLab Duo')
+- page_title gitlab_duo_text
+- breadcrumb_title gitlab_duo_text
+- can_admin_group_model_selection = @group && !@group.parent_id.present? && can?(current_user, :admin_group_model_selection, @group)
+
+- if Gitlab::Saas.feature_available?(:gitlab_com_subscriptions) && can_admin_group_model_selection
+  = render_if_exists 'shared/ai_model_deprecation_alert', group: @group
+
+#js-gitlab-duo-home{ data: duo_home_app_data(@group) }

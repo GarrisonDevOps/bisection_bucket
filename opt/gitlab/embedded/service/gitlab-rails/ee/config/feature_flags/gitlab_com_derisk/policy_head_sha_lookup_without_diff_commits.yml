@@ -1,0 +1,10 @@
+---
+name: policy_head_sha_lookup_without_diff_commits
+description: Find open merge requests for a branch pipeline by the latest diff head SHA alone, so merge requests whose latest diff has no commits get approval policy verdicts. The actor is the pipeline's project because the lookup has no single merge request.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638061
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267645
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638433
+milestone: '19.6'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

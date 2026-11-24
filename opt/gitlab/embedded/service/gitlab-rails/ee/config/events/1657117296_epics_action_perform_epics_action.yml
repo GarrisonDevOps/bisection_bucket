@@ -1,0 +1,20 @@
+---
+description: Epic usage event
+category: epics_action
+action: perform_epics_action
+extra_properties:
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: the name of the performed action
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "15.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/91912
+tiers:
+- premium
+- ultimate
+

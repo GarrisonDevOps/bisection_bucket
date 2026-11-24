@@ -1,0 +1,8 @@
+- page_title _('Issue Analytics')
+- add_page_specific_style 'page_bundles/issues_analytics'
+
+%div{ class: "!gl-mb-5" }
+  %h3
+    = _('Issue Analytics')
+= render 'shared/issuable/search_bar', type: :issues_analytics, show_sorting_dropdown: false, placeholder: _('Filter results…')
+#js-issues-analytics{ data: {type: 'group', full_path: @group.full_path, endpoint: group_issues_analytics_path(@group), filters_empty_state_svg_path: image_path('illustrations/empty-state/empty-issues-md.svg'), issues_api_endpoint: expose_url(api_v4_groups_issues_path(id: @group.id)), issues_page_endpoint: issues_group_path(@group), has_issues_completed_feature: @group.licensed_feature_available?(:issues_completed_analytics).to_s, can_create_projects: can?(current_user, :create_projects, @group).to_s, group_id: @group.id, sign_in_path: new_user_session_path, new_project_path: new_project_path(namespace_id: @group.id), show_new_issue_dropdown: @group.projects.present?.to_s } }

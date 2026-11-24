@@ -1,0 +1,7 @@
+= feature_entry(_('Advanced Search'),
+  href: search_admin_application_settings_path(anchor: 'js-elasticsearch-settings'),
+  enabled: Gitlab::CurrentSettings.elasticsearch_search?)
+
+= feature_entry(_('Geo'),
+  href: admin_geo_nodes_path,
+  enabled: Gitlab::Geo.enabled?)

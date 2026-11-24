@@ -1,0 +1,8 @@
+- project = local_assigns.fetch(:project)
+- can_view_project_dashboard = can?(current_user, :read_compliance_adherence_report, project)
+- can_view_group_dashboard = can?(current_user, :read_compliance_adherence_report, project.root_ancestor)
+- can_view_dashboard = can_view_project_dashboard || can_view_group_dashboard
+- dashboard_path = can_view_project_dashboard ? compliance_center_path(project) : group_security_compliance_dashboard_path(project.root_ancestor, vueroute: "frameworks")
+
+- if show_compliance_frameworks_info?(project)
+  #js-compliance-info{ data: {project_path: project.full_path, compliance_center_path: dashboard_path, can_view_dashboard: can_view_dashboard.to_s } }

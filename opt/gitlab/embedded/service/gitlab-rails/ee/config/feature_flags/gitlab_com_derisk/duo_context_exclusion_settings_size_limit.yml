@@ -1,0 +1,10 @@
+---
+name: duo_context_exclusion_settings_size_limit
+description: Limit the size of a project's Duo context exclusion rules
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636070
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265774
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636683
+milestone: '19.6'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

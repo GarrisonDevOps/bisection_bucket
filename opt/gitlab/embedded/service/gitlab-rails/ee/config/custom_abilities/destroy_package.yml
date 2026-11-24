@@ -1,0 +1,16 @@
+---
+title: Delete packages
+name: destroy_package
+description: Delete packages and package files in the package registry.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/592019
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240943
+feature_category: package_registry
+milestone: '19.2'
+group_ability: true
+project_ability: true
+enabled_for_group_access_levels: [40, 50]
+enabled_for_project_access_levels: [40, 50]
+group_permissions:
+  - destroy_package
+project_permissions:
+  - destroy_package

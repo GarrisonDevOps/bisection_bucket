@@ -1,0 +1,10 @@
+---
+name: project_dependency_tracked_ref
+description: Enables the tracked ref on the project dependency list
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/601839
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240011
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/602656
+milestone: '19.2'
+group: group::security insights
+type: wip
+default_enabled: false

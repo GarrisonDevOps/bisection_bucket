@@ -1,0 +1,8 @@
+---
+version: 1
+type: SingleStat
+data:
+  type: usage_count
+  query:
+    metric: 'pipelines'
+options: {}

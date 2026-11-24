@@ -1,0 +1,18 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage.manage.custom_compliance_frameworks
+description: Total count of all custom compliance framework labels
+product_group: compliance
+product_categories:
+- compliance_management
+instrumentation_class: CountComplianceFrameworksMetric
+value_type: number
+status: active
+milestone: '13.12'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/issues/325545
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []

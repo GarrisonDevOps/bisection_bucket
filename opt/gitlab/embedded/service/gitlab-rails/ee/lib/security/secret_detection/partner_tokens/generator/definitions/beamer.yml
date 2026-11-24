@@ -1,0 +1,21 @@
+---
+token_type: "Beamer API token"
+class_name: "BeamerClient"
+partner_name: "beamer"
+endpoint: "https://api.getbeamer.com/v0/ping"
+http_method: "post"
+auth_style: "header"
+auth_param: "Beamer-Api-Key"
+token_pattern: '\Ab_[a-zA-Z0-9=_-]{44}\z'
+sample_token: "b_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_beamer_api"
+doc_url: "https://www.getbeamer.com/api"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "403": "unknown"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

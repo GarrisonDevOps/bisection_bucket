@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: counts.geo_event_log_max_id
+description: Number of replication events on a Geo primary
+product_group: geo
+product_categories:
+- disaster_recovery
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/50990

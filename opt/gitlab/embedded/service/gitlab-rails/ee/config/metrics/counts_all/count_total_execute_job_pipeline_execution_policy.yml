@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_execute_job_pipeline_execution_policy
+description: Count of jobs executed by pipeline execution policies
+product_group: policy_management
+product_categories:
+- security_policy_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/159957
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: execute_job_pipeline_execution_policy

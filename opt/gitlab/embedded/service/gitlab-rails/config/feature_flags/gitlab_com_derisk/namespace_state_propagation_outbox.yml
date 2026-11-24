@@ -1,0 +1,10 @@
+---
+name: namespace_state_propagation_outbox
+description: Create a state propagation outbox record and enqueue the propagation worker when a namespace transitions to a propagated state
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/599305
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261787
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635412
+milestone: '19.6'
+group: group::organizations
+type: gitlab_com_derisk
+default_enabled: false

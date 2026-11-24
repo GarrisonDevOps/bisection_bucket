@@ -1,0 +1,5 @@
+---
+name: cloud_connector_self_signed_tokens
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/186833
+milestone: '18.0'
+group: group::authentication

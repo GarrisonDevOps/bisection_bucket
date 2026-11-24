@@ -1,0 +1,6 @@
+- cluster_environments_path = clusterable.environments_cluster_path(@cluster)
+- active = params[:tab] == 'environments'
+
+- if !project_cluster?(@cluster) && cluster_environments_path.present?
+  = gl_tab_link_to clusterable.cluster_path(@cluster.id, params: {tab: 'environments'}), { item_active: active, data: { testid: 'cluster-environments-tab' } } do
+    = _('Environments')

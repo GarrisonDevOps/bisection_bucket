@@ -1,0 +1,15 @@
+- return unless License.feature_available?(:instance_level_scim)
+
+= render ::Layouts::SettingsBlockComponent.new( s_('SCIM|SCIM Token'),
+  id: 'js-scim-token-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('SCIM|System for Cross-Domain Identity Management.')
+  - c.with_body do
+    #js-scim-token-app{ data: { endpoint_url: @scim_token_url, generate_token_path: admin_application_settings_scim_oauth_path, saml_provider_enabled: @saml_provider_enabled.to_s } }
+    - if saml_restricted_access_warning_for_instance?
+      .gl-mt-3.gl-flex.gl-gap-3
+        = sprite_icon('warning', css_class: 'gl-mt-1 gl-text-warning gl-flex-shrink-0')
+        %div
+          %strong= s_('GroupSAML|Restricted access is active')
+          .gl-text-subtle= saml_restricted_access_warning

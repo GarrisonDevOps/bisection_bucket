@@ -1,0 +1,5 @@
+- pricing_page_link = link_to s_('BillingPlans|Pricing page'), promo_pricing_url
+
+= render layout: 'shared/billings/billing_plans_layout', locals: { namespace: namespace, current_plan: current_plan } do
+  %p.gl-text-subtle
+    = html_escape(s_('BillingPlans|Learn more about each plan by visiting our %{pricing_page_link}.')) % { pricing_page_link: pricing_page_link.html_safe }

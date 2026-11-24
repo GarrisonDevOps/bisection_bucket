@@ -1,0 +1,9 @@
+---
+name: prevent_blocking_non_deployment_jobs
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/390025
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161860
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/477606
+milestone: '17.4'
+group: group::environments
+type: beta
+default_enabled: false

@@ -1,0 +1,26 @@
+.gl-detail-layout-container{ class: class_names('gl-detail-layout-container-has-sidebar': @sidebar), aria: { hidden: 'true' }, data: { testid: 'detail-layout-skeleton' } }
+  .gl-detail-layout-content.gl-flex.gl-flex-col.gl-gap-3{ data: { testid: 'detail-layout-skeleton-content' } }
+    - DESCRIPTION_LINES.times do
+      .gl-animate-skeleton-loader.gl-h-4.gl-max-w-full.gl-rounded-base
+    .gl-animate-skeleton-loader.gl-h-4.gl-rounded-base{ class: 'gl-w-3/4' }
+
+  - if @sidebar
+    .gl-detail-layout-sidebar.gl-flex.gl-flex-col.gl-gap-6{ class: '!gl-h-auto', data: { testid: 'detail-layout-skeleton-sidebar' } }
+      - SIDEBAR_ATTRIBUTES.times do
+        .gl-flex.gl-flex-col.gl-gap-3
+          .gl-animate-skeleton-loader.gl-h-3.gl-rounded-base{ class: 'gl-w-1/5' }
+          .gl-animate-skeleton-loader.gl-h-4.gl-max-w-full.gl-rounded-base
+
+  - if @widgets
+    .gl-detail-layout-widgets.gl-flex.gl-flex-col.gl-gap-5{ data: { testid: 'detail-layout-skeleton-widgets' } }
+      - WIDGETS.times do
+        .gl-animate-skeleton-loader.gl-h-11.gl-max-w-full.gl-rounded-base
+
+  - if @activity
+    .gl-detail-layout-activity.gl-flex.gl-flex-col.gl-gap-5{ data: { testid: 'detail-layout-skeleton-activity' } }
+      .gl-animate-skeleton-loader.gl-h-7.gl-w-20.gl-max-w-full.gl-rounded-base
+      .gl-flex.gl-flex-col.gl-gap-3
+        - ACTIVITY_NOTES.times do
+          .gl-flex.gl-items-center.gl-gap-3
+            .gl-animate-skeleton-loader.gl-h-7.gl-w-7.gl-shrink-0.gl-rounded-full
+            .gl-animate-skeleton-loader.gl-h-5.gl-w-75.gl-max-w-full.gl-rounded-base

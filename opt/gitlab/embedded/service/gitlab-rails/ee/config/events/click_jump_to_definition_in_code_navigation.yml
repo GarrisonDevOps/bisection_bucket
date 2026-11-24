@@ -1,0 +1,18 @@
+---
+description: A user clicked Jump to definition in the Code Navigation panel to open
+  the file where a symbol is defined
+internal_events: true
+status: active
+action: click_jump_to_definition_in_code_navigation
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252848
+tiers:
+- premium
+- ultimate

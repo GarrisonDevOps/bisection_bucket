@@ -1,0 +1,8 @@
+---
+retention_window: 1096
+enforcement_strategy: drop_partition
+enforcing: false
+pause_mechanism:
+  type: feature_flag
+  name: ops_prune_old_events
+work_item: https://gitlab.com/gitlab-org/gitlab/-/work_items/638184

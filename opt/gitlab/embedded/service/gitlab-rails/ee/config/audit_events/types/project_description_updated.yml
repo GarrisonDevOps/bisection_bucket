@@ -1,0 +1,10 @@
+---
+name: project_description_updated
+description: A project's description is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/377769
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/128978
+feature_category: groups_and_projects
+milestone: '16.3'
+saved_to_database: false
+streamed: true
+scope: [Project]

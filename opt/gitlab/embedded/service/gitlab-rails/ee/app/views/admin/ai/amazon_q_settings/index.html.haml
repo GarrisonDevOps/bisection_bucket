@@ -1,0 +1,12 @@
+- page_title s_('AmazonQ|Amazon Q Configuration')
+- add_to_breadcrumbs _("General"), general_admin_application_settings_path
+- breadcrumb_title _("Amazon Q")
+
+%h2.gl-flex.gl-items-center.gl-gap-3
+  = s_('AmazonQ|Configure GitLab Duo with Amazon Q')
+  = render Pajamas::BadgeComponent.new(s_('AmazonQ|Beta'), variant: :tier)
+%p
+  - help_link = link_to('', help_page_path('user/duo_amazon_q/_index.md'), target: '_blank', rel: 'noopener noreferrer')
+  = safe_format(s_('AmazonQ|Use GitLab Duo with Amazon Q to create and review merge requests and upgrade Java.%{br}GitLab Duo with Amazon Q is separate from GitLab Duo Pro and Enterprise. %{help_link_start}Learn more%{help_link_end}.'), tag_pair(help_link, :help_link_start, :help_link_end), br: '<br/>'.html_safe)
+
+#js-amazon-q-settings{ data: { view_model: @view_model.to_json } }

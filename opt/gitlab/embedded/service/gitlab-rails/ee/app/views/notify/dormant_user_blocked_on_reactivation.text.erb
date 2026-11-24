@@ -1,0 +1,19 @@
+<%= s_('AdminUsers|Hi %{recipient_name},') % { recipient_name: @recipient_name } %>
+
+<%= s_('AdminUsers|The dormant user %{user_name} (%{username}) attempted to sign in, but was blocked because restricted access (%{url}) is on and no seats are available.') % { user_name: @blocked_user_name, username: @blocked_user_username, url: @restricted_access_url } %>
+
+<%= s_('AdminUsers|This user has been set to pending approval. Their existing group and project memberships have been preserved and can be restored when seats become available.') %>
+
+<%= s_('AdminUsers|To allow this user to be approved, you should first review your seat usage (%{url}). Then either:') % { url: @view_seat_usage_url } %>
+
+<% if @group %>
+- <%= s_('AdminUsers|Change the user\'s role in the group or project.') %>
+<% else %>
+- <%= s_('AdminUsers|Manage unused accounts (%{url}) to free up seats.') % { url: @manage_users_url } %>
+<% end %>
+- <%= s_('AdminUsers|Purchase additional seats (%{url}).') % { url: @buy_seats_url } %>
+
+<%= s_('AdminUsers|If you have any questions or need help, contact GitLab support.') %>
+
+<%= s_('AdminUsers|Thank you,') %>
+<%= s_('AdminUsers|The GitLab Team') %>

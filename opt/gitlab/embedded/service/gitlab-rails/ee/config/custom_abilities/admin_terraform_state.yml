@@ -1,0 +1,14 @@
+---
+title: Manage Terraform state
+name: admin_terraform_state
+description: Execute terraform commands, lock/unlock terraform state files, and remove file versions.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/421789
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/140759
+feature_category: infrastructure_as_code
+milestone: '16.8'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [40]
+project_permissions:
+  - admin_terraform_state
+  - read_terraform_state

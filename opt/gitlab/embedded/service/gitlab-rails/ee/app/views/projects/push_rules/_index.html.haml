@@ -1,0 +1,17 @@
+- return unless @project.feature_available?(:push_rules)
+- expanded = expanded_by_default?
+
+= render ::Layouts::SettingsBlockComponent.new(s_('PushRule|Push rules'),
+  id: 'js-push-rules',
+  testid: 'push-rules-content',
+  expanded: expanded) do |c|
+  - c.with_description do
+    = s_('PushRules|Configure push rules for this project. Project settings override group and instance defaults.')
+    = link_to _('Learn more.'), help_page_path('user/project/repository/push_rules.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    %h5
+      = s_('PushRules|Select push rules')
+    = gitlab_ui_form_for [@project, @push_rule] do |f|
+      = form_errors(@push_rule)
+
+      = render "shared/push_rules/form", f: f, context: @project

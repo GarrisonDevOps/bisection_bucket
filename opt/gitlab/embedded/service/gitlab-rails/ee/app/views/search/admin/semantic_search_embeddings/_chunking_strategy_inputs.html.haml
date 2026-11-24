@@ -1,0 +1,44 @@
+- f = local_assigns.fetch(:f)
+- presenter = local_assigns.fetch(:presenter)
+
+- return unless presenter.show_chunk_strategy_fields?
+
+%hr.gl-my-4
+%h3.gl-heading-4= s_('SemanticSearch|Chunking strategy')
+.form-group{ data: { testid: 'semantic-search-chunk-strategy-info' } }
+  = render Pajamas::AlertComponent.new(variant: :info,
+    dismissible: false) do |alert_c|
+    - alert_c.with_body do
+      %p= s_('SemanticSearch|The chunking strategy determines how code files are split into smaller pieces before being embedded. This affects how semantic search indexes and retrieves information.')
+      %p.gl-mt-3
+        %strong= s_('SemanticSearch|Chunking strategy examples:')
+      %ul.gl-mt-2.gl-mb-0
+        %li= s_('SemanticSearch|Files are split by Bytes strategy with a chunk size of 1000 bytes')
+        %li= s_('SemanticSearch|Files are split by PreBert strategy with a chunk size of 240 tokens')
+.form-group{ data: { testid: 'semantic-search-chunk-strategy-warning' } }
+  = render Pajamas::AlertComponent.new(variant: :warning,
+    title: s_('SemanticSearch|Chunking strategy can only be set before a model is configured for the first time'),
+    dismissible: false) do |alert_c|
+    - alert_c.with_body do
+      %p= s_('SemanticSearch|Once a model has been set, changing the chunk strategy will require a full re-indexing. This will be supported later.')
+.form-group
+  = f.label :chunk_strategy, s_('SemanticSearch|Chunk strategy'), class: 'label-bold'
+  = f.select :chunk_strategy,
+    chunk_strategy_options,
+    { selected: presenter.chunk_strategy },
+    class: 'form-control',
+    data: { testid: 'semantic-search-chunk-strategy-select' },
+    disabled: presenter.disable_inputs?
+  .form-text.gl-text-subtle
+    = s_('SemanticSearch|Select the strategy for splitting documents into chunks. Code Bytes: Splits code into fixed-size byte chunks. Code PreBert: Splits code using semantic boundaries optimized for BERT-based models.')
+.form-group
+  = f.label :chunk_strategy_size, s_('SemanticSearch|Chunk size'), class: 'label-bold'
+  = f.number_field :chunk_strategy_size,
+    value: presenter.chunk_strategy_size,
+    step: 1,
+    min: 1,
+    class: 'form-control',
+    data: { testid: 'semantic-search-chunk-strategy-size-input' },
+    disabled: presenter.disable_inputs?
+  .form-text.gl-text-subtle
+    = s_('SemanticSearch|The maximum number of bytes or tokens per chunk.')

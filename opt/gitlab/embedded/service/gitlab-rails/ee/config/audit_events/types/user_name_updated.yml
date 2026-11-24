@@ -1,0 +1,12 @@
+---
+name: user_name_updated
+description:
+ A user's name is updated.
+ Group scope was [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240990) for enterprise users in GitLab 19.2.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167484
+milestone: '17.5'
+feature_category: user_profile
+saved_to_database: true
+streamed: true
+scope: [User, Group]

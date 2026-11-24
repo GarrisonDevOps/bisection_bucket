@@ -1,0 +1,20 @@
+---
+description: Updates from the source stopped for a project with continuous sync and the project became editable in GitLab
+internal_events: true
+action: complete_import_continuous_sync_stop
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: import_type of the source (github)
+  property:
+    description: "How the stop finished: 'final_pass' (final update from the source completed), 'import_not_finished' (the import failed or was canceled, so no final update ran), or 'github_repository_gone' (the GitHub repository is no longer available)"
+product_group: import
+product_categories:
+- importers
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265502
+tiers:
+- premium
+- ultimate

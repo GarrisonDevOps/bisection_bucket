@@ -1,0 +1,13 @@
+.flex-list
+  .gl-flex.gl-flex-row.gl-items-center
+  - if user.blank?
+    = render Pajamas::BadgeComponent.new(s_('CredentialsInventory|Deleted user'), variant: :neutral)
+  - else
+    = user_avatar_without_link(user: user, size: 32, css_class: 'avatar s32 gl-hidden @md/panel:gl-flex')
+    .gl-flex-auto
+      .gl-font-bold.str-truncated-100
+        = user_avatar_without_link(user: user, size: 16, css_class: 'avatar s16 gl-flex @md/panel:gl-hidden !gl-mr-2 gl-mt-2')
+        = link_to user.name, user_detail_path(user), class: 'gl-text-default hover:gl-text-default js-user-link', data: { user_id: user.id }
+
+      .gl-block.str-truncated-100
+        = mail_to user.email, user.email, class: '!gl-text-subtle'

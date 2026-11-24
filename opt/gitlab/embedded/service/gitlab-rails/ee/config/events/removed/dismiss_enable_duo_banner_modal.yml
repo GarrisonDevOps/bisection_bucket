@@ -1,0 +1,18 @@
+---
+description: tracks when the enable duo banner modal is dismissed
+internal_events: true
+action: dismiss_enable_duo_banner_modal
+identifiers:
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/188312
+status: removed
+milestone_removed: '18.4'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202983
+tiers:
+- free
+- premium
+- ultimate

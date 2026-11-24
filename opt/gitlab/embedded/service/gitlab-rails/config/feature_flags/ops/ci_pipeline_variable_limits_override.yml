@@ -1,0 +1,10 @@
+---
+name: ci_pipeline_variable_limits_override
+description: Raises the size limit of file type pipeline variable values to 10 MiB for top-level namespaces that need larger values.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/613416
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253433
+rollout_issue_url:
+milestone: '19.6'
+group: group::pipeline authoring
+type: ops
+default_enabled: false

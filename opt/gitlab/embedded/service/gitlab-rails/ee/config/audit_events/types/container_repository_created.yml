@@ -1,0 +1,10 @@
+---
+name: container_repository_created
+description: A container repository is first pushed to the registry
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/362290
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/156037
+feature_category: container_registry
+milestone: '17.5'
+saved_to_database: true
+streamed: true
+scope: [Project]

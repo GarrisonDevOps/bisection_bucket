@@ -1,0 +1,11 @@
+---
+name: merge_requests_rebase_rate_limit
+description: Enforce the per-user rate limit on merge request rebases from the REST
+  API, the Rebase button, and the /rebase quick action
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/606716
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267972
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638595
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

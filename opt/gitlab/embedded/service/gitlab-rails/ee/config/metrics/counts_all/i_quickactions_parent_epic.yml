@@ -1,0 +1,22 @@
+---
+data_category: optional
+key_path: redis_hll_counters.quickactions.i_quickactions_parent_epic
+description: Count of unique active users using the `/parent_epic` quick action
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+value_type: number
+status: active
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - i_quickactions_parent_epic
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

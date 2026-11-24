@@ -1,0 +1,51 @@
+# frozen_string_literal: true
+
+module Mcp
+  module Tools
+    module WorkItems
+      class GetSavedViewTool < BaseTool
+        register_version VERSIONS[:v0_1_0], {
+          operation_name: 'namespace',
+          graphql_operation: load_graphql('work_items/get_saved_view.query.graphql')
+        }
+
+        def build_variables
+          parent_info = resolve_parent
+
+          {
+            fullPath: parent_info[:full_path],
+            id: saved_view_global_id
+          }.compact
+        end
+
+        private
+
+        def saved_view_global_id
+          id = params[:saved_view_id]
+          return id unless id.to_s.match?(/\A\d+\z/)
+
+          ::Gitlab::GlobalId.build(model_name: ::WorkItems::SavedViews::SavedView.name, id: id).to_s
+        end
+
+        def process_result(result)
+          processed = super
+          return processed if processed[:isError]
+
+          saved_view = extract_saved_view(processed[:structuredContent])
+          unless saved_view
+            return ::Mcp::Tools::Base::Response.error(
+              "Saved view not found or inaccessible", reason: ::Mcp::Tools::Base::Response::Reason::NOT_FOUND
+            )
+          end
+
+          formatted_content = [{ type: 'text', text: Gitlab::Json.dump(saved_view) }]
+          ::Mcp::Tools::Base::Response.success(formatted_content, saved_view)
+        end
+
+        def extract_saved_view(structured_content)
+          structured_content.dig('savedViews', 'nodes')&.first
+        end
+      end
+    end
+  end
+end

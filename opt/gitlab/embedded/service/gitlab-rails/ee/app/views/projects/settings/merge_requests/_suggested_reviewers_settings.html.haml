@@ -1,0 +1,12 @@
+- return unless @project.feature_available?(:merge_requests, current_user)
+- return unless @project.suggested_reviewers_available?
+
+- if can?(current_user, :create_resource_access_tokens, @project)
+  = render ::Layouts::SettingsSectionComponent.new(s_('SuggestedReviewers|Suggested reviewers'),
+    id: 'js-merge-request-suggested-reviewers-settings',
+    options: { class: 'merge-requests-feature' }) do |c|
+    - c.with_description do
+      = s_("SuggestedReviewers|Get suggestions for reviewers based on GitLab's machine learning tool.")
+      = link_to _("Learn more."), help_page_path("user/project/merge_requests/reviews/_index.md"), target: '_blank', rel: 'noopener noreferrer'
+    - c.with_body do
+      = render 'projects/settings/merge_requests/merge_requests_suggested_reviewers_form'

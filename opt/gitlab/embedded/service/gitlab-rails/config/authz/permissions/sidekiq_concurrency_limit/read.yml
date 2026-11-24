@@ -1,0 +1,3 @@
+---
+name: read_sidekiq_concurrency_limit
+description: Grants the ability to read Sidekiq worker concurrency limits

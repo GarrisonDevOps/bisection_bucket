@@ -1,0 +1,16 @@
+---
+version: 1
+type: AreaChart
+data:
+  type: merge_request_counts
+  query:
+    dateRange: 365d
+options:
+  xAxis:
+    name: "Month"
+    type: "category"
+  yAxis:
+    name: "Merge Requests merged"
+    type: "value"
+  chartTooltip:
+    valueUnit: COUNT

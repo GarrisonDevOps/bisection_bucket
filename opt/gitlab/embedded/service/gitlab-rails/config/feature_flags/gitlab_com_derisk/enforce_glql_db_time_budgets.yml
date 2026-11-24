@@ -1,0 +1,10 @@
+---
+name: enforce_glql_db_time_budgets
+description: Reject GLQL requests whose DB-time budget is spent, instead of only logging them
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636811
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267232
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638018
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::platform insights
+default_enabled: false

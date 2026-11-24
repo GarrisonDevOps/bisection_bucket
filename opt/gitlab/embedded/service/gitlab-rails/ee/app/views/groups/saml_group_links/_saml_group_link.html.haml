@@ -1,0 +1,11 @@
+%li
+  .gl-float-right
+    = link_button_to group_saml_group_link_path(group, saml_group_link), method: :delete, 'aria-label': _('Remove link'),
+      data: { confirm: s_('GroupSAML|Are you sure you want to remove the SAML group link?'), 'confirm-btn-variant': 'danger' }, variant: :danger, icon: 'unlink' do
+      = _('Remove')
+  %strong= s_('GroupSAML|SAML Group Name: %{saml_group_name}') % { saml_group_name: saml_group_link.saml_group_name }
+
+  .light
+    = s_('GroupSAML|as %{access_level}') % { access_level: group_link_role_name(saml_group_link) }
+    - if duo_seat_assignment_available?(group) && saml_group_link.assign_duo_seats?
+      = s_('GroupSAML|with GitLab Duo seat assignment')

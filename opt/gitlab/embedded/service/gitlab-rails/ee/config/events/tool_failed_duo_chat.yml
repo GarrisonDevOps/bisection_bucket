@@ -1,0 +1,29 @@
+---
+description: Duo Agentic Chat tool execution failed
+internal_events: true
+status: active
+action: tool_failed_duo_chat
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  tool_name:
+    description: Name of the tool that failed
+  session_id:
+    description: Unique identifier of the session where the tool failed
+  flow_type:
+    description: Agent or flow where the tool failed
+  trigger_source:
+    description: editor_extension, cli, web_chat, or web_ui
+  model:
+    description: Model used during the session
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229629
+tiers:
+- premium
+- ultimate
+classification: duo

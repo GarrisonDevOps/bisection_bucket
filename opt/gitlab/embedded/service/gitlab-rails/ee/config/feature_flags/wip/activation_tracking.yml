@@ -1,0 +1,9 @@
+---
+name: activation_tracking
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/584191
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224594
+rollout_issue_url:
+milestone: '18.10'
+type: wip
+group: group::activation
+default_enabled: false

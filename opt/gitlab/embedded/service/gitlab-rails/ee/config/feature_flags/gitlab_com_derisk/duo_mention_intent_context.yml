@@ -1,0 +1,10 @@
+---
+name: duo_mention_intent_context
+description: Sends the review context of a GitLabDuo mention (the thread, and the Duo review state) to the intent classifier, so that a request to approve or re-review in a Duo review thread starts a new Duo Code Review.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635111
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266637
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637370
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

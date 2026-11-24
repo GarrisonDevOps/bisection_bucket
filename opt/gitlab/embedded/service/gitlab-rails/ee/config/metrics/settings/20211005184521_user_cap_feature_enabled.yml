@@ -1,0 +1,17 @@
+---
+key_path: user_cap_feature_enabled
+description: Whether User Cap feature is enabled
+product_group: utilization
+product_categories:
+- seat_cost_management
+value_type: number
+status: active
+milestone: "14.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/71786
+instrumentation_class: UserCapSettingEnabledMetric
+time_frame: none
+data_source: system
+data_category: optional
+tiers:
+- premium
+- ultimate

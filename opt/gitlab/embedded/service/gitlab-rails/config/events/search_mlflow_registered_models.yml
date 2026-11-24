@@ -1,0 +1,18 @@
+---
+description: A search of the registered models of a project with the MLflow-compatible API (registered-models/search) loads its results
+internal_events: true
+status: active
+action: search_mlflow_registered_models
+identifiers:
+- project
+- namespace
+- user
+product_group: mlops
+product_categories:
+- mlops
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265948
+tiers:
+- free
+- premium
+- ultimate

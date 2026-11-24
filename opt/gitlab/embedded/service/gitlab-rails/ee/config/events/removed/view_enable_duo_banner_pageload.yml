@@ -1,0 +1,19 @@
+---
+description: Tracks when the enable duo banner is rendered on a page
+internal_events: true
+action: view_enable_duo_banner_pageload
+additional_properties:
+  label:
+    description: TODO
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/188312
+status: removed
+milestone_removed: '18.4'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202983
+tiers:
+- free
+- premium
+- ultimate

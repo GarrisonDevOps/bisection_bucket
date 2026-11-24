@@ -1,0 +1,10 @@
+---
+name: spp_ruleset_error
+description: Secret push protection encounters a ruleset parse or compile error
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/604787
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243975
+milestone: '19.3'
+feature_category: secret_detection
+saved_to_database: true
+streamed: true
+scope: [Project]

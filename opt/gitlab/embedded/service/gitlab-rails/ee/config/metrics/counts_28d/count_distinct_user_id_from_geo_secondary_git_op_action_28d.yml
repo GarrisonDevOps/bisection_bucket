@@ -1,0 +1,21 @@
+---
+key_path: count_distinct_user_id_from_geo_secondary_git_op_action_28d
+description: This represents the count of unique monthly users triggering Git operations on secondary sites.
+product_group: geo
+product_categories:
+- geo_replication
+- git
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '16.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/133435
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: geo_secondary_git_op_action
+  unique: user.id

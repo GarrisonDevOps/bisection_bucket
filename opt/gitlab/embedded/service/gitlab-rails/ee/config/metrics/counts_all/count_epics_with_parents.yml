@@ -1,0 +1,18 @@
+---
+key_path: counts.epics_with_parents
+description: Total count of epics that also have a parent set.
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161331
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountEpicsWithParentsMetric
+tiers:
+  - premium
+  - ultimate

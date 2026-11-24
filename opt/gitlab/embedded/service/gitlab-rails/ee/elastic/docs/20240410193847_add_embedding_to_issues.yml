@@ -1,0 +1,12 @@
+---
+name: AddEmbeddingToIssues
+version: '20240410193847'
+description: Adds a vector to store embeddings to the issue index.
+group: group::global search
+milestone: '17.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/149209
+skippable: true
+skip_condition: Must be on Elasticsearch 8+
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169314
+marked_obsolete_in_milestone: '17.6'

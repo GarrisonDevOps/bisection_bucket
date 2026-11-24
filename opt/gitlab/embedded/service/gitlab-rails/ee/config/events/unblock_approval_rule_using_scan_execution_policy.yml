@@ -1,0 +1,17 @@
+---
+description: Policy approval rule unblocked by matching Scan execution policy
+internal_events: true
+action: unblock_approval_rule_using_scan_execution_policy
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Approval rule scanners
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170605
+tiers:
+- ultimate

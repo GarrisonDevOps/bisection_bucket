@@ -1,0 +1,5 @@
+- if License.feature_available?(:admin_audit_log)
+  %li{ data: { testid: 'audit-events-link' } }
+    %span.gl-text-subtle= _('Audit events:')
+    %strong
+      = link_to _('View logs'), admin_audit_logs_path(entity_type: 'User', entity_username: user.username)

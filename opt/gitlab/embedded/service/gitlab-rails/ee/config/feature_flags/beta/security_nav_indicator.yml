@@ -1,0 +1,11 @@
+---
+name: security_nav_indicator
+description: Show a New indicator on the Security configuration and Security inventory
+  nav items.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23768
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269055
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639796
+milestone: '19.6'
+group: group::security controls
+type: beta
+default_enabled: true

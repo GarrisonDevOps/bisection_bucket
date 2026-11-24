@@ -1,0 +1,11 @@
+---
+name: npm_metadata_cache_worker_concurrency_limit
+description: Cap Packages::Npm::CreateMetadataCacheWorker at an explicit concurrency
+  limit instead of the shard default
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269770
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639462
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

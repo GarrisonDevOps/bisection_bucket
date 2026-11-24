@@ -1,0 +1,10 @@
+---
+name: protected_branch_updated
+description: The setting for protected branches is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/369318
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/107530
+feature_category: 'source_code_management'
+milestone: '15.8'
+saved_to_database: true
+streamed: true
+scope: [Project]

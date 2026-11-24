@@ -1,0 +1,61 @@
+- true_up_link = link_to('', promo_pricing_url(path: '/licensing-faq/'))
+- billable_users_link = link_to('', help_page_path('subscriptions/manage_seats.md', anchor: 'billable-users'), target: '_blank', rel: 'noopener noreferrer nofollow')
+- billable_users_updated_string = s_("AdminArea|Updated %{last_update_time}") % { last_update_time: @license.daily_billable_users_updated_time }
+
+.gl-grid.gl-gap-5.gl-mb-6{ class: "@sm/panel:gl-grid-cols-2" }
+  = render Pajamas::CardComponent.new(body_options: { class: 'gl-flex gl-flex-col' }) do |c|
+    - c.with_header do
+      %h3= _('Users in subscription')
+    - c.with_body do
+      .gl-heading-1.gl-m-0{ 'data-testid': 'users-in-license-content' }
+        = licensed_users(@license) || _('Unlimited')
+      .gl-grow
+        - if @license.will_expire?
+          = _('Your license is valid from')
+          %strong<>
+            = _(' %{start} to %{end}') % { start: @license.starts_at, end: @license.expires_at }
+          \.
+        = seats_calculation_message(@license)
+      %p.gl-text-sm.gl-text-subtle.gl-mt-3.gl-mb-0= billable_users_updated_string
+
+  = render Pajamas::CardComponent.new(body_options: { class: 'gl-flex gl-flex-col' }) do |c|
+    - c.with_header do
+      %h3= _('Billable users')
+    - c.with_body do
+      - billable_users_count = number_with_delimiter @license.daily_billable_users_count
+      .gl-heading-1.gl-m-0{ 'data-testid': 'billable-users-content' }
+        = billable_users_count
+      .gl-grow
+        = safe_format(_('This is the number of %{billable_users_link_start}billable users%{billable_users_link_end} on your installation, and this is the minimum number you need to purchase when you renew your license.'), tag_pair(billable_users_link, :billable_users_link_start, :billable_users_link_end))
+      %p.gl-text-sm.gl-text-subtle.gl-mt-3.gl-mb-0= billable_users_updated_string
+
+  = render Pajamas::CardComponent.new(body_options: { class: 'gl-flex gl-flex-col' }) do |c|
+    - c.with_header do
+      %h3= _('Maximum Users')
+    - c.with_body do
+      - maximum_user_count = number_with_delimiter @license.maximum_user_count
+      .gl-heading-1.gl-m-0
+        = maximum_user_count
+      .gl-grow
+        = _('This is the highest peak of users on your installation since the license started.')
+      %p.gl-text-sm.gl-text-subtle.gl-mt-3.gl-mb-0= billable_users_updated_string
+
+  = render Pajamas::CardComponent.new(body_options: { class: 'gl-flex gl-flex-col' }) do |c|
+    - c.with_header do
+      %h3= _('Users over License')
+    - c.with_body do
+      - users_over_licence_count = number_with_delimiter users_over_license
+      .gl-heading-1.gl-m-0
+        = users_over_licence_count
+      .gl-grow
+        - if users_over_license > 0
+          = render Pajamas::AlertComponent.new(alert_options: { class: 'gl-mb-3' }, dismissible: false) do |c|
+            - c.with_body do
+              = _('Your instance has exceeded your subscription\'s licensed user count.')
+        - if current_license.trial?
+          = safe_format(_('You are using a trial license. When you use a paid subscription, you\'ll be charged for %{trueUpLinkStart}users over license%{trueUpLinkEnd}.'),
+            tag_pair(true_up_link, :trueUpLinkStart, :trueUpLinkEnd))
+        - else
+          = safe_format(_('You\'ll be charged for %{trueUpLinkStart}users over license%{trueUpLinkEnd} on a quarterly or annual basis, depending on the terms of your agreement.'),
+            tag_pair(true_up_link, :trueUpLinkStart, :trueUpLinkEnd))
+      %p.gl-text-sm.gl-text-subtle.gl-mt-3.gl-mb-0= billable_users_updated_string

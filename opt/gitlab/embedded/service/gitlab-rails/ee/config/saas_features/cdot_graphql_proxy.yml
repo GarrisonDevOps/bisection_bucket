@@ -1,0 +1,5 @@
+---
+name: cdot_graphql_proxy
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/246507
+milestone: '19.3'
+group: group::subscription management

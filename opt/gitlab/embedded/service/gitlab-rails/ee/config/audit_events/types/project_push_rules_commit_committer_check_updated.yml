@@ -1,0 +1,10 @@
+---
+name: project_push_rules_commit_committer_check_updated
+description: A project's push rule setting for reject unverified users is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/268116
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132157
+feature_category: source_code_management
+milestone: '16.5'
+saved_to_database: true
+streamed: true
+scope: [Project]

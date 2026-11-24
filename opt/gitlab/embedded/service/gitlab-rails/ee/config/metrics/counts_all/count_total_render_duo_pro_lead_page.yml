@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_render_duo_pro_lead_page
+description: Total count of renders Duo Pro lead page
+product_group: acquisition
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: removed
+milestone_removed: '18.5'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207475
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/146059
+time_frame: all
+data_source: internal_events
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+events:
+  - name: render_duo_pro_lead_page

@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage.manage.ldap_servers
+description: Number of [LDAP servers configured for the instance](https://docs.gitlab.com/ee/administration/auth/ldap/#multiple-ldap-servers)
+product_group: authentication
+product_categories:
+- system_access
+value_type: number
+status: active
+time_frame: all
+data_source: system
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

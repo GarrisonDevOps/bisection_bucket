@@ -1,0 +1,12 @@
+---
+name: AddExtraFieldsToWorkItems
+version: '20250527100819'
+description: We are adding label_names, closed, health_status and weight fields as
+  well as milestone timestamps such as due_date and start_date to work_items index
+  to support GLQL WorkItems ES integration.
+group: group::planner intelligence
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192615
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209377
+marked_obsolete_in_milestone: '18.6'

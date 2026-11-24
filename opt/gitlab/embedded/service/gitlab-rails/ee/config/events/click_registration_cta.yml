@@ -1,0 +1,18 @@
+---
+description: Tracks clicks on a call-to-action element on the registration page. The `label` identifies where the CTA is rendered and `property` identifies the specific CTA.
+internal_events: true
+action: click_registration_cta
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235676
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: Identifies the page or surface the CTA is rendered on, for example `premium_subscription_com`.
+  property:
+    description: Identifies the specific CTA that was clicked, for example `registration_form_google_oauth2_sso` or `registration_form_github_sso`.

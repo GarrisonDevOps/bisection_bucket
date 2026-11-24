@@ -1,0 +1,8 @@
+---
+title: View subscription details
+name: read_admin_subscription
+description: Read subscription details in the Admin area.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/507961
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178230
+feature_category: admin
+milestone: '17.9'

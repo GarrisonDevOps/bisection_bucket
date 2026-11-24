@@ -1,0 +1,35 @@
+# @feature_category: mcp_server
+query listSavedViews(
+  $fullPath: ID!
+  $search: String
+  $subscribedOnly: Boolean
+  $sort: WorkItemsSavedViewsSort
+  $first: Int
+  $after: String
+) {
+  namespace(fullPath: $fullPath) {
+    id
+    savedViews(
+      search: $search
+      subscribedOnly: $subscribedOnly
+      sort: $sort
+      first: $first
+      after: $after
+    ) {
+      nodes {
+        id
+        name
+        description
+        sort
+        isPrivate
+        subscribed
+        shareUrl
+        updatedAt
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}

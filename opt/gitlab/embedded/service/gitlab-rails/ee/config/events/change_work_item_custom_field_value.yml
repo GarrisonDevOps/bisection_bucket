@@ -1,0 +1,16 @@
+---
+description: Custom field value of a work item was changed
+internal_events: true
+action: change_work_item_custom_field_value
+identifiers:
+- namespace
+- project
+- user
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184587
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,17 @@
+---
+description: User clicks on the "Start a Free Trial" link in the "DAP not available" empty state panel
+internal_events: true
+status: active
+action: click_duo_agentic_not_available_empty_state_start_trial
+identifiers:
+  - user
+  - namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221533
+tiers:
+- premium
+- ultimate
+classification: duo

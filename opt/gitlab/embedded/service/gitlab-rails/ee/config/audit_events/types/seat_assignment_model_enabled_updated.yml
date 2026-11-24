@@ -1,0 +1,10 @@
+---
+name: seat_assignment_model_enabled_updated
+description: Setting Seat Assignment Model enabled is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/608055
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/250748
+feature_category: seat_cost_management
+milestone: '19.4'
+saved_to_database: true
+streamed: true
+scope: [Group]

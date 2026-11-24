@@ -1,0 +1,24 @@
+---
+data_category: optional
+key_path: counts_monthly.aggregated_metrics.i_testing_paid_monthly_active_user_total
+description: Aggregated count of users who have engaged with a Premium or Ultimate
+  tier testing feature per month.
+product_group: pipeline_execution
+product_categories:
+- code_testing
+value_type: number
+status: active
+time_frame: 28d
+instrumentation_class: RedisHLLMetric
+data_source: redis_hll
+events:
+- name: i_testing_full_code_quality_report_total
+  unique: user.id
+- name: i_testing_group_code_coverage_visit_total
+  unique: user.id
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/59028

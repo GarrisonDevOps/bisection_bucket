@@ -1,0 +1,12 @@
+- return if !group.licensed_feature_available?(:group_ip_restriction) || group.parent_id.present?
+- hidden_input_id = 'group_ip_restriction_ranges'
+- label_id = "#{hidden_input_id}_label"
+
+.form-group
+  %label{ id: label_id }
+    = _('Restrict access by IP address')
+  .js-ip-restriction{ data: { hidden_input_id: hidden_input_id, label_id: label_id } }
+  = f.hidden_field :ip_restriction_ranges, id: hidden_input_id
+  .form-text.gl-text-subtle
+    = _("Multiple IP address ranges are supported. Does not affect access to the group's settings.")
+    = link_to _('What does the setting affect?'), help_page_path('user/group/access_and_permissions.md', anchor: 'restrict-group-access-by-ip-address')

@@ -1,0 +1,10 @@
+---
+name: dora_metrics_use_clickhouse
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/588951
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229899
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/588951
+milestone: '19.0'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,14 @@
+- return unless Gitlab.com?
+
+- namespace = local_assigns.fetch(:namespace)
+- list_item_classes = local_assigns.fetch(:list_item_classes)
+- minutes_usage = namespace.ci_minutes_usage
+- minutes_usage_presenter = Ci::Minutes::UsagePresenter.new(minutes_usage)
+- return unless minutes_usage.quota_enabled?
+- return unless minutes_usage_presenter.display_shared_runners_data?
+
+%li{ class: list_item_classes }
+  %span.gl-text-subtle= _('Additional compute minutes:')
+  .gl-col-span-2
+    %strong{ class: minutes_usage_presenter.purchased_minutes_label.css_class }
+      = minutes_usage_presenter.purchased_minutes_label.text

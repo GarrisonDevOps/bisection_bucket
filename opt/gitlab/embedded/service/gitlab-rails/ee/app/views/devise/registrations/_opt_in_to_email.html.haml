@@ -1,0 +1,6 @@
+- return unless ::Onboarding.enabled?
+
+= f.gitlab_ui_checkbox_component :onboarding_status_email_opt_in,
+  _('I agree that GitLab can contact me by email about its product, services, or events.'),
+  content_wrapper_options: { class: 'gl-text-subtle' },
+  checkbox_options: { checked: onboarding_status_presenter.email_opt_in? }

@@ -1,0 +1,31 @@
+%p
+  %strong= s_('MinimalAccessProvisioning|Hello %{name},') % { name: @recipient.name }
+
+%p
+  - provisioning_text = n_(s_('MinimalAccessProvisioning|We\'re notifying you that %{user_count} user provisioned through LDAP or SAML/SCIM has been assigned the Minimal Access role because %{restricted_access_link_start}restricted access%{restricted_access_link_end} is on and no seats are available in your subscription.'), s_('MinimalAccessProvisioning|We\'re notifying you that %{user_count} users provisioned through LDAP or SAML/SCIM have been assigned the Minimal Access role because %{restricted_access_link_start}restricted access%{restricted_access_link_end} is on and no seats are available in your subscription.'), @user_count)
+  = safe_format(provisioning_text, tag_pair(link_to('', @restricted_access_help_url), :restricted_access_link_start, :restricted_access_link_end), user_count: @user_count)
+  = safe_format(s_('MinimalAccessProvisioning|This count reflects users affected on %{sync_date}. The current number may differ if users have since been upgraded or removed.'), sync_date: @sync_date)
+
+%p
+  = safe_format(s_('MinimalAccessProvisioning|To identify the affected users, go to your %{users_url_start}user list%{users_url_end} page in your %{bold_start}Admin%{bold_end} area and sort the members table by %{bold_start}Last created%{bold_end}. The most recent users will appear at the top of the list.'), tag_pair(link_to('', @users_url), :users_url_start, :users_url_end), tag_pair(content_tag(:strong, ''), :bold_start, :bold_end), sync_date: @sync_date)
+
+%p
+  = safe_format(s_('MinimalAccessProvisioning|%{minimal_access_link_start}Users with the Minimal Access role%{minimal_access_link_end} can only view limited group information without access to projects.'), tag_pair(link_to('', @minimal_access_help_url), :minimal_access_link_start, :minimal_access_link_end))
+
+%p
+  = safe_format(s_('MinimalAccessProvisioning|To grant more permissions to these users, you should first review your %{seat_usage_link_start}seat usage%{seat_usage_link_end}. Then either:'), tag_pair(link_to('', @seat_usage_help_url), :seat_usage_link_start, :seat_usage_link_end))
+
+%ul
+  %li
+    = s_('MinimalAccessProvisioning|Change the users\' role in the group or project.')
+  %li
+    = safe_format(s_('MinimalAccessProvisioning|%{purchase_seats_link_start}Purchase more seats%{purchase_seats_link_end}.'), tag_pair(link_to('', @purchase_seats_help_url), :purchase_seats_link_start, :purchase_seats_link_end))
+
+%p
+  = s_('MinimalAccessProvisioning|If you have any questions or need help, contact GitLab support.')
+
+%p
+  = s_('MinimalAccessProvisioning|Thank you,')
+
+%p
+  = s_('MinimalAccessProvisioning|The GitLab Team')

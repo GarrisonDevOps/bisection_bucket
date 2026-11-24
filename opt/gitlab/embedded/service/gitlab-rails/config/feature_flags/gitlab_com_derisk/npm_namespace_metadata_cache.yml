@@ -1,0 +1,11 @@
+---
+name: npm_namespace_metadata_cache
+description: Serve npm group and instance metadata from the project metadata cache
+  when packages come from a single project
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/567311
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266579
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637327
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

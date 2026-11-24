@@ -1,0 +1,53 @@
+- exclude_guests_from_active_count = License.current&.exclude_guests_from_active_count?
+- billable_roles = [{title: s_('AdminArea|Planner'), count: @users_statistics&.with_highest_role_planner},
+           {title: s_('AdminArea|Reporter'), count: @users_statistics&.with_highest_role_reporter},
+           {title: s_('AdminArea|Security Manager'), count: @users_statistics&.with_highest_role_security_manager},
+           {title: s_('AdminArea|Developer'), count: @users_statistics&.with_highest_role_developer},
+           {title: s_('AdminArea|Maintainer'), count: @users_statistics&.with_highest_role_maintainer},
+           {title: s_('AdminArea|Owner'), count: @users_statistics&.with_highest_role_owner}]
+- billable_roles << {title: s_('AdminArea|Guest'), count: @users_statistics&.with_highest_role_guest} unless exclude_guests_from_active_count
+
+%p.gl-font-bold.gl-mt-7
+  = s_('AdminArea|Breakdown of Billable users')
+
+%table.gl-table.gl-text-subtle.gl-w-full{ 'data-testid': 'billable-users-table' }
+  = render 'admin/dashboard/without_group_or_project_row', users_statistics: @users_statistics unless exclude_guests_from_active_count
+  = render 'admin/dashboard/minimal_access_stats_row', users_statistics: @users_statistics unless exclude_guests_from_active_count
+  = render 'admin/dashboard/elevated_role_stats_row', users_statistics: @users_statistics
+  - billable_roles.each do |role|
+    %tr
+      %td{ class: '!gl-p-5' }
+        = s_('AdminArea|Users with highest role')
+        %strong= role[:title]
+      %td.gl-text-right{ class: '!gl-p-5' }
+        = role[:count]
+  = render 'admin/dashboard/billable_users_row'
+
+%p.gl-font-bold.gl-mt-8
+  = s_('AdminArea|Breakdown of Non-Billable users')
+
+%table.gl-table.gl-text-subtle.gl-w-full{ 'data-testid': 'non-billable-users-table' }
+  = render 'admin/dashboard/without_group_or_project_row', users_statistics: @users_statistics if exclude_guests_from_active_count
+  - if exclude_guests_from_active_count
+    %tr
+      %td{ class: '!gl-p-5' }
+        = s_('AdminArea|Users with highest role')
+        %strong
+          = s_('AdminArea|Guest')
+        = render 'admin/dashboard/included_free_in_license_tooltip'
+      %td.gl-text-right{ class: '!gl-p-5' }
+        = @users_statistics&.non_billable_guests
+  = render 'admin/dashboard/minimal_access_stats_row', users_statistics: @users_statistics if exclude_guests_from_active_count
+  %tr
+    %td{ class: '!gl-p-5' }
+      = s_('AdminArea|Bots')
+    %td.gl-text-right{ class: '!gl-p-5' }
+      = @users_statistics&.bots
+
+  %tr.gl-bg-subtle.gl-text-default
+    %td{ class: '!gl-p-5' }
+      %strong
+        = s_('AdminArea|Total Non-Billable users')
+    %td.gl-text-right{ class: '!gl-p-5' }
+      %strong
+        = @users_statistics&.non_billable

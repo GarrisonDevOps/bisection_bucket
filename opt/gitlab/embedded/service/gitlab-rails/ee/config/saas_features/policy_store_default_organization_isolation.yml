@@ -1,0 +1,5 @@
+---
+name: policy_store_default_organization_isolation
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263949
+milestone: '19.6'
+group: group::policy engine

@@ -1,0 +1,10 @@
+---
+name: cache_value_stream_dashboard_counts
+description: Cache the Value Stream Dashboard usage overview counts for 15 minutes.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636173
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266162
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637027
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

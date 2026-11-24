@@ -1,0 +1,20 @@
+- page_title _('Database pre-upgrade checks')
+
+%section.settings.monitoring
+  .settings-header
+    %h1
+      = _('Database pre-upgrade checks')
+    %p
+      = _('Find database problems that can cause an upgrade to fail.')
+
+-# The checks keep their database diagnostics endpoints so that nodes on either side
+-# of a rolling upgrade can serve them.
+#js-database-pre-upgrade-checks{
+  data: {
+    run_schema_check_url: run_schema_check_admin_database_diagnostics_path(format: :json),
+    schema_check_results_url: schema_check_results_admin_database_diagnostics_path(format: :json),
+    run_lfk_backlog_check_url: run_lfk_backlog_check_admin_database_diagnostics_path(format: :json),
+    lfk_backlog_check_results_url: lfk_backlog_check_results_admin_database_diagnostics_path(format: :json),
+    search_path_information: @search_path_information.to_json
+  }
+}

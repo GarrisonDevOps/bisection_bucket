@@ -1,0 +1,14 @@
+---
+description: Tracks when a user toggles between Standards Adhernece Report versions
+internal_events: true
+action: toggle_standards_adherence_report_version
+identifiers:
+- namespace
+- user
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183694
+tiers:
+- ultimate

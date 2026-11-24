@@ -1,0 +1,10 @@
+---
+name: file_import_enterprise_user_mapping
+description: Map exported Enterprise users when a non-admin top-level group Owner runs a file-based import
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/592886
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264020
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635261
+milestone: '19.6'
+group: group::import
+type: gitlab_com_derisk
+default_enabled: false

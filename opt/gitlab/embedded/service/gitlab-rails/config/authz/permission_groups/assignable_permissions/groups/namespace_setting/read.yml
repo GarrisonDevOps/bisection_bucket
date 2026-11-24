@@ -1,0 +1,9 @@
+---
+name: read_namespace_setting
+description: Grants the ability to read namespace settings
+boundaries:
+  - group
+available_for:
+  - granular_access_token
+permissions:
+  - read_namespace_setting

@@ -1,0 +1,6 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Generic shape check for driver_config, an opaque JSON object whose real shape is the registered driver's own schema (see Cd::EnvironmentDriverBinding#driver_config_matches_driver_schema).",
+  "type": "object",
+  "additionalProperties": true
+}

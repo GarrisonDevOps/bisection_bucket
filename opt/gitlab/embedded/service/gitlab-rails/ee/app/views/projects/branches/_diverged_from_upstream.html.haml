@@ -1,0 +1,3 @@
+- if @project.mirror_ever_updated_successfully? && @repository.diverged_from_upstream?(branch.name)
+  = gl_badge_tag({ variant: :danger, icon: 'warning-solid' }, { class: 'has-tooltip gl-ml-2', data: { html: 'true', title: branch_diverged_tooltip_message } }) do
+    = s_('Branches|diverged from upstream')

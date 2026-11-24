@@ -1,0 +1,9 @@
+---
+name: mlflow_enforce_request_limits
+description: Enforce MLflow item limits on runs/log-batch and on tags in MLflow create requests
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263921
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/635147
+milestone: '19.6'
+group: group::mlops
+type: gitlab_com_derisk
+default_enabled: false

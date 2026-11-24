@@ -1,0 +1,5 @@
+---
+name: observability_hosted_service
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268652
+milestone: '19.7'
+group: group::platform insights

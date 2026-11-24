@@ -1,0 +1,10 @@
+---
+name: timeout_dap_http_requests_in_workhorse
+description: 'Controls whether we enforce a timeout for outgoing DAP http requests'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/596002
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230803
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/596207
+milestone: '19.0'
+group: group::agent foundations
+type: gitlab_com_derisk
+default_enabled: false

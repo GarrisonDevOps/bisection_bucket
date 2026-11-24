@@ -1,0 +1,21 @@
+---
+key_path: counts.frameworks_with_requirements
+description: Total count of compliance frameworks that have at least one requirement
+product_group: compliance
+product_categories:
+- compliance_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183414
+time_frame:
+- 7d
+- 28d
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountFrameworksWithRequirementsMetric
+tiers:
+  - premium
+  - ultimate

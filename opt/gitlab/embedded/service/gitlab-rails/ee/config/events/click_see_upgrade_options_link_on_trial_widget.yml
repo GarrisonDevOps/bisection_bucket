@@ -1,0 +1,16 @@
+---
+description: Tracks see upgrade options link click on the trial widget
+internal_events: true
+action: click_see_upgrade_options_link_on_trial_widget
+identifiers:
+  - namespace
+  - user
+product_group: activation
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170272
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: trial type

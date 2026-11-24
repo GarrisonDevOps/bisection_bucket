@@ -1,0 +1,20 @@
+---
+description: User opened the Automated Triage and Remediation profile drawer
+internal_events: true
+action: open_triage_profile_drawer
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: Where the drawer was opened. One of "project_tab", "group_tab", "inventory", or "wizard".
+  property:
+    description: The drawer mode. One of "single", "bulk", or "details".
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270194
+tiers:
+- ultimate

@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy content for pipeline_execution_schedule_policy type",
+  "type": "object",
+  "$defs": {
+    "schedule_branches": {
+      "type": "array",
+      "description": "List of branches to schedule pipelines for. Maximum five branches per schedule. The policy only schedules pipelines for branches that exist in the project.",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "properties": {
+    "content": {
+      "description": "Specifies the content of custom configuration.",
+      "type": "object",
+      "properties": {
+        "include": {
+          "type": "array",
+          "maxItems": 1,
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "file": {
+                "type": "string"
+              },
+              "ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "project",
+              "file"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "include"
+      ],
+      "additionalProperties": false
+    },
+    "schedules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "daily",
+              "weekly",
+              "monthly"
+            ]
+          },
+          "branches": {
+            "$ref": "#/$defs/schedule_branches"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "HH:mm format",
+            "pattern": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "time_window": {
+            "type": "object",
+            "description": "Specifies the time window on which scheduled runs can be distributed. The actual time window might be shorter based on the schedule frequency.",
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 600,
+                "maximum": 2629746
+              },
+              "distribution": {
+                "type": "string",
+                "enum": [
+                  "random"
+                ]
+              }
+            },
+            "required": [
+              "value",
+              "distribution"
+            ],
+            "additionalProperties": false
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone identifier",
+            "default": "UTC"
+          },
+          "snooze": {
+            "type": "object",
+            "description": "Stop this schedule until a certain time.",
+            "properties": {
+              "until": {
+                "type": "string",
+                "description": "Time until the execution should be paused. Format: 2025-6-13T20:20:00+00:00.",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Document a reason for snoozing the schedule."
+              }
+            },
+            "required": [
+              "until"
+            ]
+          },
+          "days": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            },
+            "description": "List of days. For example: ['Monday', 'Friday']"
+          },
+          "days_of_month": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 31
+            },
+            "description": "Dates within the month. For example: [3, 10, 17]"
+          }
+        },
+        "required": [
+          "type",
+          "start_time",
+          "time_window"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "weekly"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "days"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "days"
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "monthly"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "days_of_month"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "days_of_month"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "variables_override": {
+      "description": "Defines whether project/group CI/CD variables can be accessed by policy jobs. When not specified, defaults to blocking all project/group variables (allowed: false).",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "exceptions": {
+          "type": "array",
+          "description": "A list of variables that are excepted from the enforcement.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dotenv": {
+          "type": "string",
+          "description": "Defines whether dotenv artifact variables should respect the `variables_override` policy rules. By default (when not specified), dotenv variables are subject to the same override rules as other variables. Set to `allow_override` to let dotenv variables bypass the policy rules.",
+          "enum": [
+            "respect_policy",
+            "allow_override"
+          ]
+        }
+      },
+      "required": [
+        "allowed"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

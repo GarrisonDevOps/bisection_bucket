@@ -1,0 +1,12 @@
+---
+name: AddOrganizationFieldsToUsers
+version: '20261015120008'
+description: Adds organization_id to the users ES index mapping for organization
+  scoping; organization_traversal_ids is omitted because a user has no namespace
+  hierarchy to encode
+group: group::global search
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262373
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

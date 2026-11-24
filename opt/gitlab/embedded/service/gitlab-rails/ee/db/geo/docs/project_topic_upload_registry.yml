@@ -1,0 +1,10 @@
+---
+table_name: project_topic_upload_registry
+description: Geo registry table for tracking replication and verification of Project Topic Uploads
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234552
+milestone: '19.2'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::ProjectTopicUploadRegistry
+gitlab_schema: gitlab_geo

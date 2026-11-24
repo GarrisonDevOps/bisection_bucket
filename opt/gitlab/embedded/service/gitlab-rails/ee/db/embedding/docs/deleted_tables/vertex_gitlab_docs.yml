@@ -1,0 +1,12 @@
+---
+table_name: vertex_gitlab_docs
+classes:
+- Embedding::Vertex::GitlabDocumentation
+feature_categories:
+- chat_engine
+description: GitLab documentation embeddings built with VertexAI
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/129917
+milestone: '16.4'
+gitlab_schema: gitlab_embedding
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/156347
+removed_in_milestone: '17.4'

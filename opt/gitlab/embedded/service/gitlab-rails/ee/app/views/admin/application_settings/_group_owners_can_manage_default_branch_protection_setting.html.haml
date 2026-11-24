@@ -1,0 +1,8 @@
+- return unless License.feature_available?(:default_branch_protection_restriction_in_groups)
+
+- f = local_assigns.fetch(:form)
+
+.form-group
+  = f.gitlab_ui_checkbox_component :group_owners_can_manage_default_branch_protection,
+    _('Allow owners to manage default branch protection per group.'),
+    help_text: s_('AdminSettings|Affects all new and existing groups.')

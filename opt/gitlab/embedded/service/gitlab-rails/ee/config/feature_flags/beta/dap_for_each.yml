@@ -1,0 +1,10 @@
+---
+name: dap_for_each
+description: Enables the generic for_each fan-out component attribute for GitLab Duo Agent Platform experimental flows.
+feature_issue_url: https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/work_items/2665
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/256780
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630214
+milestone: '19.5'
+group: group::code security
+type: beta
+default_enabled: true

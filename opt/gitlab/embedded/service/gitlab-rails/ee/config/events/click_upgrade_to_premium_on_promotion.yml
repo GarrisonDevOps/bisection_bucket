@@ -1,0 +1,17 @@
+---
+description: User clicks the Upgrade to Premium button on a feature promotion empty state
+internal_events: true
+action: click_upgrade_to_premium_on_promotion
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  property:
+    description: Promotion location, for example audit_events or group_webhooks
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259432
+tiers:
+  - free

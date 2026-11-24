@@ -1,0 +1,994 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/AnalyticsVisualization",
+  "definitions": {
+    "AnalyticsVisualization": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "type": {
+          "enum": [
+            "AreaChart",
+            "LineChart",
+            "ColumnChart",
+            "DataTable",
+            "Glql",
+            "SingleStat",
+            "DORAChart",
+            "UsageOverview",
+            "DoraPerformersScore",
+            "DoraProjectsComparison",
+            "AiImpactTable",
+            "ContributionsByUserTable",
+            "ContributionsPushesChart",
+            "ContributionsIssuesChart",
+            "ContributionsMergeRequestsChart",
+            "NamespaceMetadata",
+            "MergeRequestsThroughputTable",
+            "BarChart",
+            "StackedColumnChart"
+          ]
+        },
+        "slug": {
+          "type": "string"
+        },
+        "options": {
+          "$ref": "#/definitions/Options"
+        },
+        "data": {
+          "$ref": "#/definitions/Data"
+        },
+        "errors": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "data",
+        "options",
+        "type"
+      ],
+      "title": "AnalyticsVisualization"
+    },
+    "Data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "glql",
+            "value_stream",
+            "usage_overview",
+            "usage_count",
+            "dora_metrics",
+            "dora_metrics_by_project",
+            "ai_agent_platform_flow_metrics",
+            "ai_agent_platform_flows_usage_by_user",
+            "ai_impact_over_time",
+            "contributions",
+            "namespace_metadata",
+            "merge_requests",
+            "merge_request_counts",
+            "mean_time_to_merge",
+            "code_suggestions_acceptance_by_language",
+            "code_suggestions_acceptance_by_ide",
+            "code_generation_volume_over_time",
+            "user_ai_usage_data",
+            "code_review_requests_by_role_over_time",
+            "code_review_comments_sentiment_over_time",
+            "duo_feature_usage",
+            "finished_pipelines_using_dap_over_time",
+            "duo_feature_user_retention_over_time"
+          ]
+        },
+        "query": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "query",
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "value_stream"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/ValueStreamQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "usage_overview"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/UsageOverviewQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "usage_count"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/UsageCountQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "dora_metrics"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/DoraMetricsQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "dora_metrics_by_project"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/EmptyQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "namespace_metadata"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/NamespaceMetadataQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "contributions"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/ContributionsQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "ai_impact_over_time"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/AiImpactOverTimeQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "ai_agent_platform_flow_metrics"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/AiAgentPlatformFlowMetricsQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "ai_agent_platform_flows_usage_by_user"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/AiAgentPlatformFlowsUsageByUserQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "user_ai_usage_data"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/UserAiUsageDataQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "code_suggestions_acceptance_by_language",
+                  "code_suggestions_acceptance_by_ide",
+                  "code_generation_volume_over_time",
+                  "code_review_requests_by_role_over_time",
+                  "code_review_comments_sentiment_over_time"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/DateRangeNamespaceQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "duo_feature_usage",
+                  "finished_pipelines_using_dap_over_time"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/DateRangeQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "duo_feature_user_retention_over_time"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/DuoFeatureUserRetentionQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "glql"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/GlqlQuery"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "mean_time_to_merge",
+                  "merge_request_counts",
+                  "merge_requests"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "query": {
+                "$ref": "#/definitions/MrThroughputQuery"
+              }
+            }
+          }
+        }
+      ],
+      "title": "Data"
+    },
+    "Options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tooltip": {
+          "$ref": "#/definitions/Tooltip"
+        },
+        "xAxis": {
+          "$ref": "#/definitions/XAxis"
+        },
+        "yAxis": {
+          "$ref": "#/definitions/YAxis"
+        },
+        "chartTooltip": {
+          "$ref": "#/definitions/ChartTooltip"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "decimalPlaces": {
+          "type": "integer"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "metaText": {
+          "type": "string"
+        },
+        "metaIcon": {
+          "type": "string"
+        },
+        "metaTooltip": {
+          "type": "string"
+        },
+        "metricIcon": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        },
+        "includeLegendAvgMax": {
+          "type": "boolean"
+        },
+        "responsive": {
+          "type": "boolean"
+        },
+        "fixed": {
+          "type": "boolean"
+        },
+        "stacked": {
+          "type": "string"
+        },
+        "refetchOnSort": {
+          "type": "boolean"
+        },
+        "expandableRows": {
+          "type": "boolean"
+        },
+        "showActions": {
+          "type": "boolean"
+        },
+        "emptyState": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "$comment": "Limit the supported BvTableField options: https://github.com/bootstrap-vue/bootstrap-vue/blob/f5ca62faec6d5fb9e873b362b6efb153d419a7cc/src/components/table/index.d.ts#L222",
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][\\w-]*(\\.[a-zA-Z0-9][\\w-]*)*$"
+              },
+              "label": {
+                "type": "string"
+              },
+              "thClass": {
+                "type": "string"
+              },
+              "tdClass": {
+                "type": "string"
+              },
+              "thAlignRight": {
+                "type": "boolean"
+              },
+              "sortable": {
+                "type": "boolean"
+              },
+              "tooltip": {
+                "type": "string"
+              },
+              "component": {
+                "enum": [
+                  "AssigneeAvatars",
+                  "CalculateSum",
+                  "DiffLineChanges",
+                  "CalculatePercent",
+                  "FormatNumber",
+                  "FormatTime",
+                  "FormatTimeRange",
+                  "MergeRequestLink",
+                  "MilestoneLink",
+                  "ChangePercentageIndicator",
+                  "MetricLabel",
+                  "TrendLine",
+                  "UserLink"
+                ]
+              }
+            }
+          }
+        },
+        "presentation": {
+          "enum": [
+            "stacked",
+            "tiled"
+          ]
+        }
+      },
+      "title": "Options"
+    },
+    "XAxis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "min": {
+          "type": "integer"
+        },
+        "max": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "title": "XAxis"
+    },
+    "YAxis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "min": {
+          "type": "integer"
+        },
+        "max": {
+          "type": "integer"
+        },
+        "valueUnit": {
+          "$ref": "#/definitions/ValueUnit"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "title": "YAxis"
+    },
+    "Link": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "href": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "text",
+        "href"
+      ],
+      "title": "Link"
+    },
+    "ValueUnit": {
+      "enum": [
+        "COUNT",
+        "DAYS",
+        "PER_DAY",
+        "PERCENT",
+        "TIME_INTERVAL"
+      ],
+      "title": "ValueUnit"
+    },
+    "ChartTooltip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "titleFormatter": {
+          "enum": [
+            "DATE",
+            "TITLE_CASE",
+            "VALUE_ONLY"
+          ]
+        },
+        "valueUnit": {
+          "$ref": "#/definitions/ValueUnit"
+        },
+        "contextualData": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "unit": {
+                "$ref": "#/definitions/ValueUnit"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "unit"
+            ]
+          }
+        }
+      },
+      "title": "ChartTooltip"
+    },
+    "Tooltip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "descriptionLink": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "if": {
+        "properties": {
+          "descriptionLink": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "descriptionLink"
+        ]
+      },
+      "then": {
+        "properties": {
+          "description": {
+            "pattern": ".*%\\{linkStart\\}.*%\\{linkEnd\\}.*"
+          }
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "EmptyQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "title": "EmptyQuery"
+    },
+    "Pagination": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "first": {
+          "type": "integer"
+        },
+        "last": {
+          "type": "integer"
+        },
+        "startCursor": {
+          "type": "string"
+        },
+        "endCursor": {
+          "type": "string"
+        }
+      },
+      "title": "Pagination"
+    },
+    "BucketingInterval": {
+      "enum": [
+        "ALL",
+        "MONTHLY",
+        "DAILY"
+      ]
+    },
+    "DateRange": {
+      "$ref": "analytics_dashboard_legacy.json#/definitions/DateRangeFilterOptions/items"
+    },
+    "DateRangeQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        }
+      },
+      "title": "DateRangeQuery"
+    },
+    "DateRangeNamespaceQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "title": "DateRangeNamespaceQuery"
+    },
+    "ValueStreamQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "filters": {
+          "$ref": "analytics_dashboard_legacy.json#/definitions/QueryFilters"
+        }
+      },
+      "title": "ValueStreamQuery"
+    },
+    "UsageOverviewQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "filters": {
+          "$ref": "analytics_dashboard_legacy.json#/definitions/QueryFilters"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "UsageOverviewQuery"
+    },
+    "UsageCountQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "title": "UsageCountQuery"
+    },
+    "DoraMetricsQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "interval": {
+          "$ref": "#/definitions/BucketingInterval"
+        }
+      },
+      "title": "DoraMetricsQuery"
+    },
+    "NamespaceMetadataQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "title": "NamespaceMetadataQuery"
+    },
+    "ContributionsQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "type": "string"
+        }
+      },
+      "title": "ContributionsQuery"
+    },
+    "AiImpactOverTimeQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        }
+      },
+      "title": "AiImpactOverTimeQuery"
+    },
+    "AiAgentPlatformFlowMetricsQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "sortBy": {
+          "type": "string"
+        },
+        "sortDesc": {
+          "type": "boolean"
+        }
+      },
+      "title": "AiAgentPlatformFlowMetricsQuery"
+    },
+    "AiAgentPlatformFlowsUsageByUserQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "pagination": {
+          "$ref": "#/definitions/Pagination"
+        }
+      },
+      "title": "AiAgentPlatformFlowsUsageByUserQuery"
+    },
+    "UserAiUsageDataQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "sortBy": {
+          "type": "string"
+        },
+        "sortDesc": {
+          "type": "boolean"
+        },
+        "pagination": {
+          "$ref": "#/definitions/Pagination"
+        }
+      },
+      "title": "UserAiUsageDataQuery"
+    },
+    "DuoFeatureUserRetentionQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "feature": {
+          "type": "string"
+        },
+        "granularity": {
+          "type": "string"
+        }
+      },
+      "title": "DuoFeatureUserRetentionQuery"
+    },
+    "GlqlQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "glql": {
+          "type": "string"
+        }
+      },
+      "title": "GlqlQuery"
+    },
+    "MrThroughputQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateRange": {
+          "$ref": "#/definitions/DateRange"
+        },
+        "pagination": {
+          "$ref": "#/definitions/Pagination"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sourceBranches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "targetBranches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "milestoneTitle": {
+          "type": "string"
+        },
+        "notMilestoneTitle": {
+          "type": "string"
+        },
+        "assigneeUsername": {
+          "type": "string"
+        },
+        "authorUsername": {
+          "type": "string"
+        }
+      },
+      "title": "MrThroughputQuery"
+    }
+  }
+}

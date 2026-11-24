@@ -1,0 +1,11 @@
+---
+name: security_profile_banner
+description: Shows a banner recommending SAST and Secret Detection scan coverage on
+  the group security configuration page.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632685
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260445
+rollout_issue_url:
+milestone: '19.5'
+group: group::security controls
+type: beta
+default_enabled: true

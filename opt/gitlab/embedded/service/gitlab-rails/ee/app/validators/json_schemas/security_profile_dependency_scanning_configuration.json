@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gitlab.com/gitlab-org/security-products/analyzers/dependency-scanning/config.schema.json",
+  "description": "Schema for the GitLab dependency scanning scan profile configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "secure_analyzers_prefix": {
+      "description": "Prefix for the container registry from which the analyzer image is pulled.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "additional_ca_cert_bundle": {
+      "description": "CA certificate bundle to trust. The bundle is added to the system's certificates and used by other tools during the scan.",
+      "type": "string",
+      "maxLength": 16384
+    },
+    "secure_log_level": {
+      "description": "Logging level used by the analyzer.",
+      "type": "string",
+      "enum": [
+        "fatal",
+        "error",
+        "warn",
+        "info",
+        "debug"
+      ]
+    },
+    "excluded_paths": {
+      "description": "Glob paths excluded from the scan.",
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    },
+    "include_dev_dependencies": {
+      "description": "Include development and test dependencies when scanning a supported file.",
+      "type": "boolean"
+    },
+    "max_depth": {
+      "description": "Specifies the directory depth the analyzer should scan. A value of -1 scans all directories.",
+      "type": "integer",
+      "minimum": -1
+    },
+    "pip_dependency_path": {
+      "description": "Path to install Python packages for analysis.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "static_reachability_enabled": {
+      "description": "Enable static reachability.",
+      "type": "boolean"
+    },
+    "enable_manifest_fallback": {
+      "description": "Enable manifest fallback for dependency scanning.",
+      "type": "boolean"
+    },
+    "analyzer_image_version": {
+      "description": "Version tag of the dependency scanning analyzer image. Defaults to the major version pinned by the template.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\A[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}\\z"
+    },
+    "pipcompile_lockfile_file_name_pattern": {
+      "description": "Custom pipcompile lockfile file name pattern to use when analyzing. The pattern matches file names only, not directory paths.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "pip_manifest_file_name_pattern": {
+      "description": "Custom pip manifest file name pattern to use for dependency resolution and manifest scanning. The pattern matches file names only, not directory paths.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "enable_vulnerability_scan": {
+      "description": "Enable the vulnerability analysis of generated SBOMs.",
+      "type": "boolean"
+    },
+    "api_timeout": {
+      "description": "Vulnerability scanning API request timeout in seconds.",
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 300
+    },
+    "api_scan_download_delay": {
+      "description": "Vulnerability scanning API initial delay in seconds before downloading scan results.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 120
+    },
+    "maven_dependency_plugin_version": {
+      "description": "Version of maven-dependency-plugin used during resolution.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "maven_args": {
+      "description": "Additional arguments passed to Maven during dependency resolution.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "gradle_cli_opts": {
+      "description": "Additional command-line options passed to Gradle during dependency resolution.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "disabled_resolution_jobs": {
+      "description": "Resolution jobs to disable. By default, all available resolution jobs are enabled.",
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "maven",
+          "gradle",
+          "python"
+        ]
+      }
+    },
+    "maven_resolution_image": {
+      "description": "The image used by the Maven dependency resolution job.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "gradle_resolution_image": {
+      "description": "The image used by the Gradle dependency resolution job.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "python_resolution_image": {
+      "description": "The image used by the Python dependency resolution job.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "pip_index_url": {
+      "description": "Base URL of the Python Package Index.",
+      "type": "string",
+      "maxLength": 1024
+    },
+    "pip_extra_index_url": {
+      "description": "Additional URLs of Python package indexes to use in addition to pip_index_url.",
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    },
+    "search_ignore_hidden_dirs": {
+      "description": "Ignore hidden directories when searching for supported files.",
+      "type": "boolean"
+    }
+  }
+}

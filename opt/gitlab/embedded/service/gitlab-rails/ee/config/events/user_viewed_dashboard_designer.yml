@@ -1,0 +1,16 @@
+---
+description: Triggered when a user visits the dashboard designer.
+internal_events: true
+action: user_viewed_dashboard_designer
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+milestone: "16.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135566
+tiers:
+- ultimate

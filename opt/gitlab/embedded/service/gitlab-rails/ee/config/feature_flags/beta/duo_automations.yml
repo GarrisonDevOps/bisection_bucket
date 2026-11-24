@@ -1,0 +1,10 @@
+---
+name: duo_automations
+description: Show the redesigned Automations list in place of the Triggers list
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23940
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260755
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632894
+milestone: '19.5'
+group: group::code review
+type: beta
+default_enabled: true

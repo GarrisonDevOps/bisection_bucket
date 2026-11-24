@@ -1,0 +1,23 @@
+---
+description: Users recommended as reviewers were added as reviewers to a merge request. Fires again if a removed suggested reviewer is added back.
+internal_events: true
+status: active
+action: assign_duo_suggested_reviewer
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: The id of the merge request
+  value:
+    description: Number of recommended users added as reviewers
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258404
+tiers:
+- premium
+- ultimate

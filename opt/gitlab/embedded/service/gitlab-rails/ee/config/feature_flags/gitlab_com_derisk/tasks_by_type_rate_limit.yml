@@ -1,0 +1,9 @@
+name: tasks_by_type_rate_limit
+description: Rate limits the Tasks by type chart requests to 20 requests per minute for each user and group
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636171
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268747
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638867
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

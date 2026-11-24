@@ -1,0 +1,3 @@
+- return unless can_resolve_with_ai?(merge_request)
+
+.js-resolve-with-duo{ data: { iid: merge_request.iid, 'target-project-full-path': merge_request.project.full_path, 'source-branch': merge_request.source_branch, 'can-resolve-with-ai': merge_request.can_resolve_with_ai?(current_user).to_s } }

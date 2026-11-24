@@ -1,0 +1,12 @@
+---
+name: DeleteLegacyMigrationsIndex
+version: '20260518145935'
+description: Deletes the legacy Elasticsearch migrations index that was previously marked as read-only. This index is no longer needed after the migration to the alias-based pattern and can be safely removed to free up storage space and simplify index management.
+group: group::global search
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236575
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:
+skippable: false
+skip_condition:

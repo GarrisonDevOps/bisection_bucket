@@ -1,0 +1,3 @@
+[submodule "vendor/noto-emoji"]
+	path = vendor/noto-emoji
+	url = https://github.com/googlefonts/noto-emoji

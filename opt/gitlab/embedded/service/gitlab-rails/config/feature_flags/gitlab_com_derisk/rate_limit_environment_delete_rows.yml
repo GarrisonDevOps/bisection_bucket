@@ -1,0 +1,10 @@
+---
+name: rate_limit_environment_delete_rows
+description: Enforces the per-user rate limit on the rows deleted with environments through the REST and GraphQL APIs; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638251
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269154
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639517
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

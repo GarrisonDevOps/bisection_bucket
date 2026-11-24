@@ -1,0 +1,10 @@
+---
+name: group_force_pages_access_control_updated
+description: A group's Pages public access control setting is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/595288
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229638
+feature_category: pages
+milestone: '18.11'
+saved_to_database: true
+streamed: true
+scope: [Group]

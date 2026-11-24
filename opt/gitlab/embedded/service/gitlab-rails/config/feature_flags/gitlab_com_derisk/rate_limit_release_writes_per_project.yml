@@ -1,0 +1,10 @@
+---
+name: rate_limit_release_writes_per_project
+description: Enforces the per-project rate limit on release creates and updates through the REST and GraphQL APIs; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638256
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269134
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639516
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

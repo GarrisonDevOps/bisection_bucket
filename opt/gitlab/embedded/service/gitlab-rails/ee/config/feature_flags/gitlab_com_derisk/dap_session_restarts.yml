@@ -1,0 +1,10 @@
+---
+name: dap_session_restarts
+description: Adds UI for users to retry workflow sessions that have entered a failed state.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/22549
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257893
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630993
+milestone: '19.5'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

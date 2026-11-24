@@ -1,0 +1,12 @@
+---
+name: AddEmbedding1ToWorkItemsElastic
+version: '20250409103415'
+description: Add embedding1 field to workitems for Elasticsearch
+group: group::global search
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/187493
+skippable: true
+skip_condition: Must be on Elasticsearch 8+
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198213
+marked_obsolete_in_milestone: '18.3'

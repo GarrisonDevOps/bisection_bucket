@@ -1,0 +1,24 @@
+---
+description: Metric collected when an image pull is processed by the Dependency Firewall in the Container Registry
+internal_events: true
+action: collect_dependency_firewall_metrics_on_image_pull_from_container_registry
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: container_registry
+product_categories:
+  - dependency_firewall
+milestone: '19.1'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222687'
+tiers:
+  - ultimate
+additional_properties:
+  label:
+    description: The outcome enum. Either 'allowed', 'blocked-license', 'blocked-vulnerability', 'blocked-malicious', 'warn-license', 'warn-vulnerability', or 'warn-malicious'
+  property:
+    description: The cache status (1 for hit, 0 for miss)
+  value:
+    description: The runtime in milliseconds
+  purl:
+    description: The package URL (purl)

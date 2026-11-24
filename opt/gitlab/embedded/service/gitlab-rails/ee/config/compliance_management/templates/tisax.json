@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "name": "TISAX",
+  "description": "TISAX compliance requirements",
+  "color": "#00205C",
+  "requirements": [
+    {
+      "name": "1.2.2 To what extent are information security responsibilities organized?",
+      "description": "A successful ISMS requires clear responsibilities within the organization. An appropriate organizational separation of responsibilities should be established in order to avoid conflict of interests (separation of duties). (C, I, A)",
+      "controls": [
+        {
+          "name": "minimum_approvals_required_2",
+          "control_type": "internal",
+          "expression": {
+            "field": "minimum_approvals_required",
+            "operator": ">=",
+            "value": 2
+          }
+        },
+        {
+          "name": "merge_request_prevent_author_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_author_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_request_prevent_committers_approval",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_request_prevent_committers_approval",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "merge_requests_approval_rules_prevent_editing",
+          "control_type": "internal",
+          "expression": {
+            "field": "merge_requests_approval_rules_prevent_editing",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "1.3.4 To what extent is it ensured that only evaluated and approved software is used for processing the organization's information assets?",
+      "description": "Information processing is mostly done using of specific software. Security issues in software will easily become a risk for the information processed. Accordingly, software must be appropriately managed. Software is approved before installation or use. The software repositories are protected against unauthorized manipulation. Approval of software is regularly reviewed. Software versions and patch levels are known.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_license_compliance_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_license_compliance_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.2.1 To what extent are changes managed?",
+      "description": "The objective is to ensure that information security aspects are considered in case of any changes to the organization, business processes and IT systems (Change Management) in order to prevent these changes from causing an uncontrolled reduction in the information security level. Information security requirements for changes to the organization, business processes, IT systems are determined and applied. A formal approval procedure is established.",
+      "controls": [
+        {
+          "name": "default_branch_protected",
+          "control_type": "internal",
+          "expression": {
+            "field": "default_branch_protected",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.2.5 To what extent are vulnerabilities identified and addressed?",
+      "description": "Gather and evaluate information on technical vulnerabilities affecting IT systems. Identify and assess potentially affected systems and software, then address vulnerabilities based on risk assessment to prevent exploitation by attackers.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.3.1 To what extent is information security considered in new or further developed IT systems?",
+      "description": "Incorporate information security throughout IT system lifecycle. Determine and address security requirements during design, development, acquisition, and system changes. Conduct security-focused approval testing for all IT systems.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_sast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_sast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_dast_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dast_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_api_security_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_api_security_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.3.1 To what extent is information security considered in new or further developed IT systems? 1",
+      "description": "Incorporate information security throughout IT system lifecycle. Determine and address security requirements during design, development, acquisition, and system changes. Conduct security-focused approval testing for all IT systems.",
+      "controls": [
+        {
+          "name": "scanner_secret_detection_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_secret_detection_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "7.1.1 To what extent is compliance with regulatory and contractual provisions ensured?",
+      "description": "Non-compliance with legal, regulatory, or contractual provisions can create risks to the information security of customers and the own organization. Therefore, it is essential to ensure that these provisions are known and observed. Legal, regulatory, and contractual provisions of relevance to information security (see examples) are determined at regular intervals.",
+      "controls": [
+        {
+          "name": "scanner_license_compliance_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_license_compliance_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

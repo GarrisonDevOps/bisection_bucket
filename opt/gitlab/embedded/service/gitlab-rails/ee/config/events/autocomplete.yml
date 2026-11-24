@@ -1,0 +1,13 @@
+---
+description: Tracks when autocomplete is used in the global search
+internal_events: true
+action: autocomplete
+identifiers:
+product_group: global_search
+product_categories:
+- global_search
+milestone: '16.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/134424
+tiers:
+- premium
+- ultimate

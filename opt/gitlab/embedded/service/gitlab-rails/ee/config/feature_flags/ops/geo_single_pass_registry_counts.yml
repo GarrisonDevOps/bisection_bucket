@@ -1,0 +1,10 @@
+---
+name: geo_single_pass_registry_counts
+description: Compute the secondary registry counts for each replicator in one grouped query pass instead of six separate passes.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637128
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270034
+rollout_issue_url:
+milestone: '19.6'
+group: group::geo
+type: ops
+default_enabled: false

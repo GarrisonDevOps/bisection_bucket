@@ -1,0 +1,10 @@
+---
+name: packages_cleanup_delete_generic_not_downloaded
+description: Delete generic packages not downloaded within a set number of days through the package cleanup policy
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630800
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257679
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631916
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

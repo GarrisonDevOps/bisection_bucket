@@ -1,0 +1,10 @@
+---
+name: skip_subgroup_billable_members_count
+description: Skip calculating the billable members count on subgroups in the namespaces API and return null instead
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636108
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270740
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639956
+milestone: '19.7'
+group: group::seat management
+type: gitlab_com_derisk
+default_enabled: false

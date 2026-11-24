@@ -1,0 +1,10 @@
+---
+name: ci_count_rest_runner_job_list_newest_partitions_first
+description: Counts REST runner job lists one ci_builds partition at a time, newest first
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638239
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269002
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638981
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

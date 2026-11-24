@@ -1,0 +1,14 @@
+---
+description: User unchecks the consent checkbox on the trial registration form
+internal_events: true
+action: sm_trial_create_form_uncheck_consent
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+  - subscription_management
+milestone: '18.9'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222543'
+tiers:
+  - free

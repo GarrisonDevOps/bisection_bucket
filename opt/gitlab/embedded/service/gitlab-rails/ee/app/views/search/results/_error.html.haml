@@ -1,0 +1,9 @@
+= render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-search-md.svg',
+  title: s_('SearchError|A problem has occurred')) do |c|
+
+  - c.with_description do
+    = s_('SearchError|%{error_message}') % { error_message: @search_results.try(:error, @scope) || _('To resolve the problem, check the query syntax and try again.') }
+    - if search_service.search_type == 'zoekt' && search_service.use_zoekt?
+      - search_syntax_link_url = help_page_path('user/search/exact_code_search.md', anchor: 'syntax')
+      - search_syntax_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: search_syntax_link_url }
+      = html_escape(s_('SearchError|%{search_syntax_link_start}What is the supported syntax%{search_syntax_link_end}?')) % { search_syntax_link_start: search_syntax_link_start, search_syntax_link_end: '</a>'.html_safe }

@@ -1,0 +1,14 @@
+---
+description: Trial successfully started banner renders
+internal_events: true
+action: sm_trial_create_form_success_banner_render
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+  - subscription_management
+milestone: '18.9'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222570'
+tiers:
+  - free

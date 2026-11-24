@@ -1,0 +1,8 @@
+---
+name: namespace_storage_limit
+introduced_by_url:
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/362340
+milestone:
+type: development
+group: group::utilization
+default_enabled: false

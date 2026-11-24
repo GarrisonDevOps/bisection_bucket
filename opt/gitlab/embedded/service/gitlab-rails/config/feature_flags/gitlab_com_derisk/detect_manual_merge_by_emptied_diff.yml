@@ -1,0 +1,10 @@
+---
+name: detect_manual_merge_by_emptied_diff
+description: Mark a merge request as merged when reloading its diff empties it because the head is already on the target branch, for merges outside GitLab the target branch refresh could not match.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636014
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264935
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636913
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

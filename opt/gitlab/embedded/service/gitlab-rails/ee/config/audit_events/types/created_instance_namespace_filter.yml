@@ -1,0 +1,10 @@
+---
+name: created_instance_namespace_filter
+description: A namespace filter for an external audit event destination for an instance is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/436613
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153156
+feature_category: audit_events
+milestone: "17.2"
+saved_to_database: true
+streamed: true
+scope: [Instance]

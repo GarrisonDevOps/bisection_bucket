@@ -1,0 +1,16 @@
+---
+description: Render Duo Pro lead page
+internal_events: true
+action: render_duo_pro_lead_page
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/146059
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207475
+milestone_removed: '18.5'
+status: removed
+tiers:
+  - premium
+  - ultimate

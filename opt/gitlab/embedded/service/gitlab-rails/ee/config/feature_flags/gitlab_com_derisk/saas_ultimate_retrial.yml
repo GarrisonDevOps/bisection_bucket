@@ -1,0 +1,10 @@
+---
+name: saas_ultimate_retrial
+description: Enables GitLab.com Free namespaces to start a new Ultimate trial once the re-trial waiting window has elapsed since their previous trial expired
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/598191
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242098
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603931
+milestone: '19.2'
+group: group::monetization
+type: gitlab_com_derisk
+default_enabled: false

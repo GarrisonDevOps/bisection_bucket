@@ -1,0 +1,20 @@
+---
+description: User clicks "Learn more" in the Duo chat panel empty state while eligible to request GitLab Duo for their group
+internal_events: true
+status: active
+action: click_learn_more_duo_panel_request_empty_state
+identifiers:
+  - user
+  - namespace
+product_group: acquisition
+additional_properties:
+  label:
+    description: The request state (not_requested, requested, previously_requested)
+  property:
+    description: The root group id the request is stored against
+product_categories:
+  - acquisition
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257330
+tiers:
+  - free

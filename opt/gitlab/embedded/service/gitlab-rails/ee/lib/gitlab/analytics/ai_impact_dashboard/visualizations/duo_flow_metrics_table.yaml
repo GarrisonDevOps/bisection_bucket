@@ -1,0 +1,39 @@
+---
+version: 1
+type: DataTable
+data:
+  type: ai_agent_platform_flow_metrics
+  query:
+    sortBy: 'sessionsCount'
+    sortDesc: true
+options:
+  refetchOnSort: true
+  fields:
+    - key: 'flowType'
+      label: 'Flow'
+      sortable: true
+    - key: 'sessionsCount'
+      label: 'Number of sessions'
+      sortable: true
+      thAlignRight: true
+      thClass: 'gl-text-right'
+      tdClass: "gl-text-right"
+    - key: 'medianExecutionTime'
+      label: 'Median duration (min)'
+      sortable: true
+      thAlignRight: true
+      thClass: 'gl-text-right'
+      tdClass: "gl-text-right"
+      component: FormatNumber
+    - key: 'usersCount'
+      label: 'Unique users'
+      sortable: true
+      thAlignRight: true
+      thClass: 'gl-text-right'
+      tdClass: "gl-text-right"
+    - key: 'completionRate'
+      label: 'Completion rate (%)'
+      thAlignRight: true
+      thClass: 'gl-text-right'
+      sortable: true
+      tdClass: "gl-text-right"

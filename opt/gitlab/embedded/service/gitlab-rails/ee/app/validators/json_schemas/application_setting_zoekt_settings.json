@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Application zoekt settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "zoekt_auto_delete_lost_nodes": {
+      "type": "boolean",
+      "description": "If lost nodes and related records should get automatically deleted"
+    },
+    "zoekt_auto_index_root_namespace": {
+      "type": "boolean",
+      "description": "If all root namespaces need to be indexed automatically for the instance"
+    },
+    "zoekt_cache_response": {
+      "type": "boolean",
+      "description": "If the results needs to be cached"
+    },
+    "zoekt_indexing_enabled": {
+      "type": "boolean",
+      "description": "If zoekt indexing is enabled for the instance"
+    },
+    "zoekt_indexing_paused": {
+      "type": "boolean",
+      "description": "If zoekt indexing is paused for the instance"
+    },
+    "zoekt_search_enabled": {
+      "type": "boolean",
+      "description": "If zoekt search is enabled for the instance"
+    },
+    "zoekt_cpu_to_tasks_ratio": {
+      "type": "number",
+      "description": "The ratio between number of concurrent tasks and number of CPUs"
+    },
+    "zoekt_maximum_files": {
+      "type": "number",
+      "description": "Maximum number of files per project to be indexed"
+    },
+    "zoekt_indexing_parallelism": {
+      "type": "number",
+      "description": "Number of parallel processes per indexing task"
+    },
+    "zoekt_indexed_file_size_limit": {
+      "type": "string",
+      "description": "Maximum file size for indexing"
+    },
+    "zoekt_rollout_batch_size": {
+      "type": "number",
+      "description": "Number of namespaces per indexing rollout"
+    },
+    "zoekt_trigram_max": {
+      "type": "number",
+      "description": "Maximum number of unique trigrams per file"
+    },
+    "zoekt_indexing_timeout": {
+      "type": "string",
+      "description": "Timeout for indexing a project"
+    },
+    "zoekt_rollout_retry_interval": {
+      "type": "string",
+      "description": "Retry interval for the namespaces which could not be rollout in first attempt"
+    },
+    "zoekt_lost_node_threshold": {
+      "type": "string",
+      "description": "Lost node threshold"
+    },
+    "zoekt_default_number_of_replicas": {
+      "type": "number",
+      "description": "Specify default number of replicas per namespace. Currently in development."
+    },
+    "zoekt_force_reindexing_percentage": {
+      "type": "number",
+      "description": "Probability of random force re-indexing as a percentage (0-100)"
+    },
+    "zoekt_max_projects_for_legacy_search": {
+      "type": "number",
+      "description": "Maximum number of projects searchable until traversal ID indexing is completed."
+    },
+    "zoekt_max_restarts_15m": {
+      "type": "number",
+      "description": "Maximum number of process restarts within 15 minutes for nodes."
+    },
+    "zoekt_initial_indexing_limit": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Number of pending indices per node to start initial indexing for in each scheduling run."
+    }
+  }
+}

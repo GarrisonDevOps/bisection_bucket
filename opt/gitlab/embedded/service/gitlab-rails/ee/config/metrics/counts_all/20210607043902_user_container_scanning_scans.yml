@@ -1,0 +1,18 @@
+---
+key_path: usage_activity_by_stage.secure.user_container_scanning_scans
+description: Number of users who have run a Container Scanning scan
+product_group: composition_analysis
+value_type: number
+status: removed
+data_category: optional
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/49444
+time_frame: all
+data_source: database
+tiers:
+- ultimate
+- premium
+- free
+performance_indicator_type: []
+removed_by_url:
+milestone_removed: "<16.4"
+milestone: "<16.4"

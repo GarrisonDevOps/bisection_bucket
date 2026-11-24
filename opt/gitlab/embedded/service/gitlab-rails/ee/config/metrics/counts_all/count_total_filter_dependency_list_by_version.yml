@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_filter_dependency_list_by_version
+description: Count of total events count of dependency list filter by version
+product_group: vulnerability_management
+product_categories:
+- dependency_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189356
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: filter_dependency_list_by_version

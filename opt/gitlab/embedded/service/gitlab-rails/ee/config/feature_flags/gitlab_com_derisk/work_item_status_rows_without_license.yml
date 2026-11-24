@@ -1,0 +1,10 @@
+---
+name: work_item_status_rows_without_license
+description: Write a work item status row on create, move and clone regardless of the status license
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633143
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261819
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633143
+milestone: '19.6'
+group: group::planning views
+type: gitlab_com_derisk
+default_enabled: false

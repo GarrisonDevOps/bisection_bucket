@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.count_distinct_property_from_assign_duo_suggested_reviewer
+description: Count of unique merge requests where a Duo suggested reviewer was added as a reviewer
+product_group: code_review
+product_categories:
+- code_review_workflow
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258404
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: assign_duo_suggested_reviewer
+  unique: property

@@ -1,0 +1,21 @@
+- milestone = local_assigns.fetch(:milestone)
+
+- return unless milestone.weight_available?
+
+- total_weight = milestone.issues_visible_to_user(current_user).sum(:weight)
+.block.weight
+  .sidebar-collapsed-icon.has-tooltip{ title: milestone_weight_tooltip_text(total_weight), data: { container: 'body', placement: 'left' } }
+    = sprite_icon('weight')
+    %span.gl-text-sm
+      - unless total_weight == 0
+        = total_weight
+      - else
+        = _('None')
+  .title.hide-collapsed
+    = _('Total weight')
+  .value.hide-collapsed{ data: { testid: 'total-issue-weight-value' } }
+    - unless total_weight == 0
+      %strong.gl-font-bold= total_weight
+    - else
+      .no-value
+        = _('None')

@@ -1,0 +1,31 @@
+- page_title _("Billing")
+- add_page_specific_style 'page_bundles/billings'
+- read_only = !can_edit_billing?(@group)
+
+= render_if_exists 'shared/thanks_for_purchase_alert', plan_title: plan_title, quantity: params[:purchased_quantity].to_i
+= render 'shared/qrtly_reconciliation_alert', group: @group
+
+- if @top_level_group # we are in subgroup mode
+  - current_plan = subscription_plan_info(@plans_data, @top_level_group.actual_plan_name)
+  = render 'subgroup_billing_plan_header',
+    namespace: @group,
+    current_plan: current_plan,
+    top_level_group: @top_level_group
+- else
+  - content_for :hide_explore_paid_plans_button, true
+  - current_plan = subscription_plan_info(@plans_data, @group.actual_plan_name)
+
+  - if @group.paid? && !@group.trial?
+    - if current_plan
+      = render 'top_level_billing_plan_header', namespace: @group, current_plan: current_plan
+
+    #js-targeted-message-banner{ "data-provide": { namespaceFullPath: @group.full_path }.to_json } }
+
+    = render GitlabSubscriptions::DuoEnterpriseAlert::PremiumComponent.new(namespace: @group, user: current_user)
+
+    = render 'shared/billings/billing_plans', plans_data: @plans_data, namespace: @group, current_plan: current_plan, read_only: read_only
+
+    - data_attributes = subscription_plan_data_attributes(@group, current_plan, read_only: read_only)
+    #js-billing-plans{ data: data_attributes }
+  - else
+    = render 'free_and_trial_plan_billing_index', plans_data: @plans_data, namespace: @group

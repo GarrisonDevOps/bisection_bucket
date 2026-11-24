@@ -1,0 +1,21 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_from_sync_csp_configuration
+description: Count of unique CSP namespaces
+product_group: policy_management
+product_categories:
+- security_policy_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196850
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: sync_csp_configuration
+  unique: namespace.id

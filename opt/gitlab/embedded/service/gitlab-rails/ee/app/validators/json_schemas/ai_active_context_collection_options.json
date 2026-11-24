@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "ActiveContext collections options",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "queue_shard_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1,
+      "description": "The number of parallel queues that a collection queue can be sharded."
+    },
+    "queue_shard_limit": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1,
+      "description": "For bulk processing queues: the batch size or number of queued items to process at a time."
+    },
+    "chunk_strategy": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        null,
+        "code_bytes",
+        "code_pre_bert"
+      ],
+      "description": "The chunking strategy used by the elasticsearch-indexer (e.g. 'code_bytes')"
+    },
+    "chunk_strategy_size": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1,
+      "description": "The chunk size parameter for the chunking strategy"
+    }
+  }
+}

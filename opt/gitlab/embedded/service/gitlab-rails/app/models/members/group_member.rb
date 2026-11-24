@@ -1,0 +1,102 @@
+# frozen_string_literal: true
+
+class GroupMember < Member
+  include FromUnion
+  include CreatedAtFilterable
+
+  self.allow_legacy_sti_class = true
+
+  SOURCE_TYPE = 'Namespace'
+  SOURCE_TYPE_FORMAT = /\ANamespace\z/
+
+  belongs_to :group, foreign_key: 'source_id'
+  alias_attribute :namespace_id, :source_id
+
+  # Make sure group member points only to group as it source
+  attribute :source_type, default: SOURCE_TYPE
+  validates :source_type, format: { with: SOURCE_TYPE_FORMAT }
+
+  default_scope { where(source_type: SOURCE_TYPE) } # rubocop:disable Cop/DefaultScope
+
+  scope :of_groups, ->(groups) { where(source_id: groups) }
+  scope :active_for_self_and_hierarchy, ->(group, minimal_access: false) do
+    active_without_invites_and_requests(minimal_access: minimal_access)
+      .where(source_id: group.self_and_hierarchy.without_order.select(:id))
+  end
+  scope :of_ldap_type, -> { where(ldap: true) }
+  scope :count_users_by_group_id, -> { group(:source_id).count }
+
+  attr_accessor :last_owner
+
+  # For those who get to see a modal with a role dropdown, here are the options presented
+  def self.permissible_access_level_roles(_, _)
+    # This method is a stopgap in preparation for https://gitlab.com/gitlab-org/gitlab/-/issues/364087
+    access_level_roles
+  end
+
+  def self.access_level_roles
+    Gitlab::Access.options_with_owner
+  end
+
+  def self.max_access_members(group_ids, user)
+    groups = ::Namespace
+      .select('traversal_ids[1] as root_id, unnest(traversal_ids) as id')
+      .where(id: group_ids)
+
+    groups_cte = Gitlab::SQL::CTE.new(:groups, groups, materialized: false)
+
+    with_user(user)
+      .non_request
+      .with(groups_cte.to_arel)
+      .select('DISTINCT ON (groups.root_id) members.*')
+      .joins('JOIN groups ON groups.id = source_id')
+      .order('groups.root_id, members.access_level DESC')
+  end
+
+  def group
+    source
+  end
+
+  override :hook_prerequisites_met?
+  def hook_prerequisites_met?
+    # Deleting a group cascades through `member_namespace_id`, but `source` is loaded through `source_id`,
+    # which has no foreign key. When the two diverge, a member can outlive the group it points at, and
+    # there is nothing to put in the hook payload. See https://gitlab.com/gitlab-org/gitlab/-/issues/329841.
+    super && group.present?
+  end
+
+  # Because source_type is `Namespace`...
+  def real_source_type
+    Group.sti_name
+  end
+
+  def last_owner_of_the_group?
+    return false unless access_level == Gitlab::Access::OWNER
+    return last_owner unless last_owner.nil?
+
+    owners = group.member_owners_excluding_project_bots_and_service_accounts
+
+    owners.reject! do |member|
+      member.group == group && member.user_id == user_id
+    end
+
+    owners.empty?
+  end
+
+  private
+
+  override :refresh_member_authorized_projects
+  def refresh_member_authorized_projects
+    # Here, `destroyed_by_association` will be present if the
+    # GroupMember is being destroyed due to the `dependent: :destroy`
+    # callback on Group. In this case, there is no need to refresh the
+    # authorizations, because whenever a Group is being destroyed,
+    # its projects are also destroyed, so the removal of project_authorizations
+    # will happen behind the scenes via loose foreign keys anyway.
+    return if destroyed_by_association.present?
+
+    super
+  end
+end
+
+GroupMember.prepend_mod_with('GroupMember')

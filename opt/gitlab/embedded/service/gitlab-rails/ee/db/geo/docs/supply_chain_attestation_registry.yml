@@ -1,0 +1,9 @@
+table_name: supply_chain_attestation_registry
+description: Geo registry table for tracking replication and verification of Supply Chain Attestation objects
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212350
+milestone: 18.7
+feature_categories:
+ - geo_replication
+classes:
+ - SupplyChain::Attestation
+gitlab_schema: gitlab_geo

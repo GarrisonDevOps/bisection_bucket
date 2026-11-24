@@ -1,0 +1,10 @@
+---
+name: duo_workflow_cap_duo_messages
+description: Caps the duoMessages GraphQL field to the newest 100 messages of a session's chat log, so one read cannot return an unbounded history
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635073
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264039
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635555
+milestone: '19.6'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: vulnerabilities_across_contexts
+description: 'Tracks vulnerabilities on tags and non-default branches'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/555991
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209342
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/578047
+milestone: '18.6'
+group: group::security insights
+type: beta
+default_enabled: true

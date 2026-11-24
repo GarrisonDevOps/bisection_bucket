@@ -1,0 +1,47 @@
+Description:
+    Generates the Geo SSF (self-service framework) replication and verification boilerplate for
+    a new replicator: replicator, registry and state models, registry finder, GraphQL
+    resolver/type, ops feature flags, tracking-DB and main-DB migrations, database dictionaries,
+    factories, specs, and the framework-list patches.
+
+    Two concrete generators share this base:
+      - geo:blob_replicator        for CarrierWave-backed blobs (optionally --upload-partition)
+      - geo:repository_replicator  for Git repository types (wires the existing model in place)
+
+    Pass the snake_case replicable name as NAME. --model-class is required (in blob
+    --upload-partition mode it defaults to the CamelCase of NAME).
+
+Example:
+    Git repository replicator:
+    rails generate geo:repository_replicator group_wiki_repository \
+      --table-name=group_wiki_repositories \
+      --sharding-key=namespace_id \
+      --milestone=19.1 --model-class=GroupWikiRepository
+
+    Blob replicator (upload partition):
+    rails generate geo:blob_replicator vulnerability_remediation_upload \
+      --table-name=vulnerability_remediation_uploads \
+      --sharding-key=project_id \
+      --milestone=19.1 \
+      --upload-partition
+
+    Non-partition replicable (model-class required):
+    rails generate geo:blob_replicator ci_secure_file \
+      --table-name=ci_secure_files --sharding-key=project_id \
+      --milestone=18.10 --model-class=Ci::SecureFile
+
+    Multiple sharding keys:
+    rails generate geo:blob_replicator import_export_upload_upload \
+      --table-name=import_export_upload_uploads \
+      --sharding-key=namespace_id project_id \
+      --milestone=18.11 --upload-partition
+
+    After a rebase, re-apply the framework patches and regenerate the derived docs without
+    recreating files or migrations. Reset any conflicting generated or patched artifacts
+    (introspection_result.json, the OpenAPI specs, gitlab.pot, db dictionaries, GraphQL reference,
+    the geo_node/site status fixtures, and the API and prometheus docs) to the master version
+    first, then run:
+    rails generate geo:blob_replicator vulnerability_remediation_upload \
+      --table-name=vulnerability_remediation_uploads \
+      --sharding-key=project_id \
+      --milestone=19.1 --upload-partition --only-post-generate

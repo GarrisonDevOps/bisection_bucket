@@ -1,0 +1,18 @@
+---
+version: 1
+type: DataTable
+data:
+  type: user_ai_usage_data
+  query:
+    sortBy: 'totalEventCount'
+    sortDesc: true
+options:
+  refetchOnSort: true
+  fields:
+    - key: 'user'
+      component: 'UserLink'
+    - key: 'totalEventCount'
+      label: 'Total events'
+      thAlignRight: true
+      tdClass: "gl-text-right"
+      sortable: true

@@ -1,0 +1,17 @@
+---
+description: The agent session hover popover is shown in the blame view
+internal_events: true
+status: active
+action: view_agent_session_popover
+identifiers:
+- project
+- namespace
+- user
+product_group: source_code
+product_categories:
+- source_code_management
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260624
+tiers:
+- premium
+- ultimate

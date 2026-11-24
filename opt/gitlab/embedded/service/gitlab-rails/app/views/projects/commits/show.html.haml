@@ -1,0 +1,16 @@
+- breadcrumb_title _("Commits")
+- add_page_specific_style 'page_bundles/tree'
+- add_page_specific_style 'page_bundles/merge_request'
+- add_page_specific_style 'page_bundles/projects'
+- page_title _("Commits"), @ref
+
+- if @gitaly_unavailable
+  = render 'shared/errors/gitaly_unavailable', reason: s_('Commits|Unable to load commits')
+- else
+  = content_for :meta_tags do
+    = auto_discovery_link_tag(:atom, project_commits_path(@project, @ref, rss_url_options), title: "#{@project.name}:#{@ref} commits")
+
+  #js-commit-list{ data: commit_list_app_data }
+
+  -# https://gitlab.com/gitlab-org/gitlab/-/issues/408388#note_1578533983
+  #js-ambiguous-ref-modal{ data: { ambiguous: @is_ambiguous_ref.to_s, ref: current_ref } }

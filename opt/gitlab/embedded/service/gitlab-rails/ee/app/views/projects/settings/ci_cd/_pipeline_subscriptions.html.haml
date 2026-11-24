@@ -1,0 +1,13 @@
+- return unless @project.feature_available?(:ci_project_subscriptions)
+
+- expanded = expanded_by_default?
+
+= render ::Layouts::SettingsBlockComponent.new(_("Pipeline subscriptions"),
+  id: 'pipeline-subscriptions',
+  testid: 'pipeline-subscriptions-setting-content',
+  expanded: expanded) do |c|
+  - c.with_description do
+    = _("Pipeline subscriptions trigger a new pipeline on the default branch of this project when a pipeline completes for a new tag of the subscribed project.")
+    = _("A limit of %{ci_project_subscriptions_limit} subscriptions to or from a project applies.").html_safe % { ci_project_subscriptions_limit: @project.actual_limits.ci_project_subscriptions }
+  - c.with_body do
+    #js-pipeline-subscriptions-app{ data: { project_path: @project.full_path } }

@@ -1,0 +1,20 @@
+---
+key_path: counts.count_ai_audit_events
+description: Number of AI audit events durably stored in PostgreSQL
+product_group: compliance
+product_categories:
+- audit_events
+value_type: number
+status: active
+milestone: "19.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239886
+time_frame:
+- 28d
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountAiAuditEventsMetric
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,27 @@
+---
+description: A user applied a code suggestion posted by the Fix Pipeline flow
+internal_events: true
+status: active
+action: fix_pipeline_suggestion_applied
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Merge request ID
+  property:
+    description: Suggestion ID
+  value:
+    description: Note ID
+extra_trackers:
+- tracking_class: Gitlab::Tracking::AiTracking
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233686
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,23 @@
+---
+key_path: redis_hll_counters.count_distinct_user_id_from_click_card_link_on_ai_governance_dashboard
+description: Count of unique users who clicked a row or view-all link on an AI Governance
+  dashboard card, over the last 7 days and the last 28 days
+product_group: ai_governance
+product_categories:
+- ai_governance
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+time_frame:
+- 7d
+- 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: click_card_link_on_ai_governance_dashboard
+  unique: user.id

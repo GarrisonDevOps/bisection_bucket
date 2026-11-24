@@ -1,0 +1,24 @@
+---
+data_category: operational
+key_path: redis_hll_counters.search.i_search_paid_monthly
+description: Calculated unique users to perform a search with a paid license enabled
+  by month
+product_group: global_search
+product_categories:
+- global_search
+value_type: number
+status: active
+time_frame: 28d
+data_source: redis_hll
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - i_search_paid
+tiers:
+- premium
+- ultimate
+performance_indicator_type:
+- paid_gmau
+- customer_health_score
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

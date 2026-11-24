@@ -1,0 +1,21 @@
+---
+key_path: counts.projects_git_guardian_active
+description: Count of projects with active integrations for GitGuardian
+product_group: import
+product_categories:
+- integrations
+- secret_detection
+value_type: number
+status: active
+milestone: "16.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/141611
+time_frame: all
+data_source: database
+instrumentation_class: ActiveProjectIntegrationsMetric
+options:
+  type: git_guardian
+data_category: optional
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

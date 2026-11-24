@@ -1,0 +1,10 @@
+---
+name: label_delete_rate_limit
+description: Enforces the per-user rate limit on deleting labels, shared between the REST API and the web UI; while disabled, deletes over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637478
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267374
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638273
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

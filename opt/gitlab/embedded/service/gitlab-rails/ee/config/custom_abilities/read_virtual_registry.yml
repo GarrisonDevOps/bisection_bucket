@@ -1,0 +1,15 @@
+---
+title: Read virtual registry
+name: read_virtual_registry
+description: Allows read access to virtual registries at the group level. Enables users to resolve packages through the virtual registry without requiring broader group membership permissions. Only works on top level groups.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/596622
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231294
+feature_category: virtual_registry
+milestone: '18.10'
+group_ability: true
+enabled_for_group_access_levels: [10, 15, 20, 25, 30, 40, 50]
+skip_seat_consumption: true
+project_ability: false
+requirements: []
+group_permissions:
+  - read_virtual_registry

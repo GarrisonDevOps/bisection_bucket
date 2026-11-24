@@ -1,0 +1,5 @@
+---
+name: siphon_clickhouse_analytics
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253107
+milestone: '19.4'
+group: group::optimize

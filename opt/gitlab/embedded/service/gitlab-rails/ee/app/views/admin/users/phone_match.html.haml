@@ -1,0 +1,50 @@
+- add_to_breadcrumbs _('Users'), admin_users_path
+- add_to_breadcrumbs @user.name, admin_user_path(@user)
+- breadcrumb_title _('All users with matching phone numbers')
+- page_title @user.name, _('All users with matching phone numbers')
+
+.gl-flex.gl-flex-wrap.gl-justify-between.gl-items-center.gl-py-3.gl-mb-5.gl-border-b-solid.gl-border-default.gl-border-b-1
+  .gl-my-3
+    %h1.page-title.gl-text-size-h-display.gl-m-0
+      = @user.name
+      \-
+      = _("All users with matching phone numbers")
+
+.row
+  - if @similar_phone_number_validations.present?
+    .gl-col-md-12
+      %table.table
+        %thead
+          %th= _('ID')
+          %th= _('User')
+          %th= _('Name')
+          %th.gl-text-right= _('Validated at')
+          %th.gl-text-right= _('User created at')
+          %th.gl-text-right= _('Current sign-in ip')
+        - @similar_phone_number_validations.each do |phone_number_validation|
+          - user = phone_number_validation.user
+          - validated_at = phone_number_validation.validated_at
+          %tr
+            %td
+              = user.id
+            %td
+              = link_to(user.username, admin_user_path(user))
+              - if user == @user
+                = render Pajamas::BadgeComponent.new(_('This user'), variant: 'neutral')
+              - if user.banned?
+                = render Pajamas::BadgeComponent.new(_('Banned'), variant: 'danger')
+              - elsif user.blocked?
+                = render Pajamas::BadgeComponent.new(_('Blocked'), variant: 'danger')
+            %td
+              = user.name
+            %td.gl-text-right
+              = validated_at ? validated_at.to_fs(:medium) : _('Not validated')
+            %td.gl-text-right= user.created_at.to_fs(:medium)
+            %td.gl-text-right
+              - if user.current_sign_in_ip
+                = user.current_sign_in_ip
+                = link_to sprite_icon('earth'), "https://api.hostip.info/country.php?ip=#{user.current_sign_in_ip}", target: '_blank', rel: 'noreferrer'
+      = _('* All times are in UTC unless specified')
+      = paginate @similar_phone_number_validations, theme: 'gitlab'
+
+

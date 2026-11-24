@@ -1,0 +1,8 @@
+- @breadcrumb_link = admin_data_management_path
+- breadcrumb_title _('Data management')
+- group_title = @group_models.first.replicator_class.replicable_group_title
+- page_title group_title
+
+= render ::Layouts::PageHeadingComponent.new(_('Data management'), description: s_('Geo|Review stored data and data health within your instance.'))
+
+= render 'shared/geo/replicable_group_overview', title: group_title, items: data_management_group_items(@group_models)

@@ -1,0 +1,8 @@
+- return unless ::License.feature_available?(:disable_invite_members)
+
+- form = local_assigns.fetch(:form)
+
+.form-group
+  %h5= _('Prevent group/project member invitations')
+  = form.gitlab_ui_checkbox_component :disable_invite_members,
+    _('Disable inviting new members to group or project by group/project owners or project maintainers')

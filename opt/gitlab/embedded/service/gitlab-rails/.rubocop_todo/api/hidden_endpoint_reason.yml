@@ -1,0 +1,6 @@
+---
+API/HiddenEndpointReason:
+  Details: grace period
+  Exclude:
+    - 'ee/lib/ee/api/merge_request_approvals.rb'
+    - 'lib/api/admin/token.rb'

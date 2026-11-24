@@ -1,0 +1,10 @@
+---
+name: group_access_token_creation_failed
+description: Creating a group access token failed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/363087
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/92225
+milestone: '15.2'
+feature_category: system_access
+saved_to_database: true
+streamed: true
+scope: [Group]

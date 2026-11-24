@@ -1,0 +1,14 @@
+---
+description: Counts value stream dashboard page views
+internal_events: true
+action: value_streams_dashboard_viewed
+identifiers:
+- namespace
+- user
+product_group: optimize
+product_categories:
+- value_stream_management
+milestone: '16.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/146780
+tiers:
+- ultimate

@@ -1,0 +1,10 @@
+---
+name: comment_updated
+description: A comment is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/3706
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206489
+feature_category: team_planning
+milestone: '18.5'
+saved_to_database: false
+streamed: true
+scope: [Project, Group]

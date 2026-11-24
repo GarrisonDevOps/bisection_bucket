@@ -1,0 +1,19 @@
+---
+version: 1
+type: LineChart
+data:
+  type: duo_feature_user_retention_over_time
+  query: {}
+options:
+  xAxis:
+    name: Date
+    type: time
+  yAxis:
+    name: "User retention (%)"
+    type: value
+    valueUnit: PERCENT
+  includeLegendAvgMax: false
+  chartTooltip:
+    titleFormatter: DATE
+    valueUnit: PERCENT
+

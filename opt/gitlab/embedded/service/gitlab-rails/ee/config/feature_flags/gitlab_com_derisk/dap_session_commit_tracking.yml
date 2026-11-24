@@ -1,0 +1,10 @@
+---
+name: dap_session_commit_tracking
+description: Enable DAP agent session tracking in commit messages via Duo-Session trailer
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/600051
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236128
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/600169
+milestone: '19.1'
+group: group::source code
+type: gitlab_com_derisk
+default_enabled: false

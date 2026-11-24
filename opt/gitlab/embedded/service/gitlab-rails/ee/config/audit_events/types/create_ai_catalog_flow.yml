@@ -1,0 +1,10 @@
+---
+name: create_ai_catalog_flow
+description: A user creates an AI Catalog flow.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/566901
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212539 
+feature_category: ai_catalog_curation
+milestone: '18.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

@@ -1,0 +1,12 @@
+---
+name: merge_request_diffs_page_rate_limit
+description: Enforces the rate limit on merge request Changes page loads (per user
+  when signed in, per IP address when anonymous); while disabled, requests over the
+  limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638523
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268216
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638527
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

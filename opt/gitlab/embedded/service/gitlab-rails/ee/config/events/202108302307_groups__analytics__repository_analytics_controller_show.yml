@@ -1,0 +1,18 @@
+description: Show repository analytics
+category: Groups::Analytics::RepositoryAnalyticsController
+action: show
+extra_properties:
+identifiers:
+product_group: pipeline_execution
+product_categories:
+- code_testing
+milestone: "13.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/42376
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: The string "Group ID"
+  value:
+    description: ID of the group

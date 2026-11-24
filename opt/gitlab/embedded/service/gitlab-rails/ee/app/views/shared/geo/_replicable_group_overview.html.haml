@@ -1,0 +1,6 @@
+= render ::Layouts::CrudComponent.new(title, count: items.size) do |c|
+  - c.with_body do
+    %ul.gl-list-none.gl-m-0.gl-p-0
+      - items.each do |item|
+        %li.gl-py-3.gl-px-5
+          = link_to item[:title], item[:path]

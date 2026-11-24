@@ -1,0 +1,17 @@
+---
+title: Pull Container Image
+name: pull_container_image
+description: Grants the ability to pull images from the container registry
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/391760
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245417
+feature_category: container_registry
+milestone: '19.6'
+group_ability: true
+enabled_for_group_access_levels: [20, 25, 30, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [20, 25, 30, 40, 50]
+group_permissions:
+  - read_container_image
+project_permissions:
+  - build_read_container_image
+  - read_container_image

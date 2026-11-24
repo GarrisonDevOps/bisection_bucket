@@ -1,0 +1,10 @@
+---
+name: rate_limit_pipeline_trigger_management
+description: Rate limits pipeline trigger token create, update and delete per user
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636907
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267781
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638456
+milestone: '19.6'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

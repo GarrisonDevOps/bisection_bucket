@@ -1,0 +1,28 @@
+- svg_path = 'illustrations/empty-state/empty-geo-md.svg'
+- title = s_('Geo|Discover GitLab Geo')
+- description = s_('Geo|Help your team work faster from any location. GitLab Geo creates read-only mirrors of your instance to clone and fetch large repositories quicker.')
+- learn_more_text = _('Learn more')
+- learn_more_link = help_page_path('administration/geo/_index.md')
+
+- if Gitlab::Geo.license_allows?
+  = render Pajamas::EmptyStateComponent.new(svg_path: svg_path,
+    title: title,
+    primary_button_text: learn_more_text,
+    primary_button_link: learn_more_link) do |c|
+
+    - c.with_description do
+      = description
+- else
+  = render Pajamas::EmptyStateComponent.new(svg_path: svg_path,
+    primary_button_text: _('Manage your subscription'),
+    primary_button_link: admin_subscription_path,
+    secondary_button_text: learn_more_text,
+    secondary_button_link: learn_more_link) do |c|
+
+    - c.with_title do
+      = title
+      = render Pajamas::BadgeComponent.new(_('Premium'), variant: 'tier', icon: 'license', href: promo_pricing_url, target: '_blank', rel: 'noopener noreferrer')
+
+    - c.with_description do
+      = description
+      = _('Available only on GitLab Premium.')

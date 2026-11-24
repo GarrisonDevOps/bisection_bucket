@@ -1,0 +1,18 @@
+---
+description: Scan Execution Policy triggered by defined branch type
+internal_events: true
+status: active
+action: trigger_scan_execution_policy_by_branch_type
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Branch type setting defined in policy rule
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195996
+tiers:
+- ultimate

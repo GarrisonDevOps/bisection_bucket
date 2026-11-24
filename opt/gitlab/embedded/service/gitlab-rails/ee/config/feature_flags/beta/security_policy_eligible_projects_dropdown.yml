@@ -1,0 +1,10 @@
+---
+name: security_policy_eligible_projects_dropdown
+description: Use the securityPolicyEligibleProjects-backed dropdown (root-ancestor projects and id-based hydration) for policy scope project selection
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/593858
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231295
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/602322
+milestone: '19.1'
+group: group::security policies
+type: beta
+default_enabled: false

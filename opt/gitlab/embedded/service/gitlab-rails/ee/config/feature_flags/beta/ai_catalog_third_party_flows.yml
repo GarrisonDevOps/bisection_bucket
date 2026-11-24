@@ -1,0 +1,10 @@
+---
+name: ai_catalog_third_party_flows
+description: Enable AI Catalog flows using YAML definition
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/568020
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207610
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/578074
+milestone: '18.5'
+group: group::workflow catalog
+type: beta
+default_enabled: true

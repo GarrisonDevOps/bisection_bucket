@@ -1,0 +1,12 @@
+---
+name: MarkLegacyMigrationsIndexReadOnly
+version: '20260508203810'
+description: Marks the legacy Elasticsearch migrations index as read-only by setting the write block. This prevents accidental writes to the old index after migration to the alias-based pattern, ensuring data integrity and proper index lifecycle management.
+group: group::global search
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235292
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/247746
+marked_obsolete_in_milestone: '19.3'
+skippable: false
+skip_condition:

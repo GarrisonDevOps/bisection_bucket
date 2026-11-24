@@ -1,0 +1,17 @@
+---
+version: 1
+type: AiImpactTable
+data:
+  type: value_stream
+  query:
+    filters:
+      includeMetrics:
+        - lead_time
+        - cycle_time
+        - issues
+        - issues_completed
+        - deploys
+        - median_time_to_merge
+        - merge_request_throughput
+        - contributor_count
+options: {}

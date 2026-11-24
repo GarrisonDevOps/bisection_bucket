@@ -1,0 +1,14 @@
+---
+description: An approval policy rule in this project resolves to no protected branches, so it never enforces on any merge request here
+internal_events: true
+status: active
+action: check_target_branch_not_protected_for_approval_policy
+identifiers:
+- project
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251966
+tiers:
+- ultimate

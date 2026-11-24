@@ -1,0 +1,10 @@
+---
+name: webhook_updated
+description: A webhook is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/632601
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264230
+feature_category: webhooks
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Project, Group, Instance]

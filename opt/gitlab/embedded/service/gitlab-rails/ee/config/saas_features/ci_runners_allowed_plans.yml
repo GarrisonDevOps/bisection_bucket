@@ -1,0 +1,5 @@
+---
+name: ci_runners_allowed_plans
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/121761
+milestone: '17.4'
+group: "group::hosted runners"

@@ -1,0 +1,10 @@
+---
+name: duo_hosted_runner_only_refusal
+description: Refuses a client-executed foundational flow run for a flow marked gitlab_hosted_runner_only
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/634851
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265249
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/637836
+milestone: '19.6'
+group: group::agent developer
+type: gitlab_com_derisk
+default_enabled: false

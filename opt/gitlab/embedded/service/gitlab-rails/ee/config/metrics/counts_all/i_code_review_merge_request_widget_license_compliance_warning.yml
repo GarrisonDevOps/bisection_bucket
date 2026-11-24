@@ -1,0 +1,23 @@
+---
+key_path: redis_hll_counters.code_review.i_code_review_merge_request_widget_license_compliance_warning
+description: Count of unique merge requests with license compliance warnings
+product_group: code_review
+product_categories:
+- code_review_workflow
+- compliance_management
+value_type: number
+status: active
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+milestone: '15.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/55069
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+    - i_code_review_merge_request_widget_license_compliance_warning
+tiers:
+  - premium
+  - ultimate

@@ -1,0 +1,46 @@
+# SaaS-only Sidekiq Cron Jobs default schedules loaded by Gitlab::SidekiqConfig::CronJobs
+# This is loaded in addition to ee/config/schedule.yml when Gitlab.com? is true
+---
+
+analytics_orbit_disable_beta_enrollments_worker:
+  class: Analytics::Orbit::DisableBetaEnrollmentsWorker
+  cron: "30 * * * *"
+
+block_pipl_users_worker:
+  class: ComplianceManagement::Pipl::BlockPiplUsersWorker
+  cron: "0 8 * * *"
+
+cleanup_build_name_worker:
+  class: Ci::CleanupBuildNameWorker
+  cron: "0 1 * * 1"
+
+delete_pipl_users_worker:
+  class: ComplianceManagement::Pipl::DeletePiplUsersWorker
+  cron: "0 8 * * *"
+
+disable_legacy_open_source_license_for_inactive_projects:
+  class: Projects::DisableLegacyOpenSourceLicenseForInactiveProjectsWorker
+  cron: "30 5 * * 0"
+
+gitlab_subscriptions_offline_cloud_license_provision_worker:
+  status: disabled
+
+gitlab_subscriptions_schedule_refresh_seats_worker:
+  class: GitlabSubscriptions::ScheduleRefreshSeatsWorker
+  cron: "0 */6 * * *"
+
+gitlab_subscriptions_trials_schedule_usage_capture_worker:
+  class: GitlabSubscriptions::Trials::ScheduleUsageCaptureWorker
+  cron: "0 1 * * *"
+
+namespaces_schedule_dormant_member_removal_worker:
+  class: Namespaces::ScheduleDormantMemberRemovalWorker
+  cron: "0 */6 * * *"
+
+notify_seats_exceeded_batch_worker:
+  class: GitlabSubscriptions::NotifySeatsExceededBatchWorker
+  cron: "0 3 * * *"
+
+send_recurring_notifications_worker:
+  class: ComplianceManagement::Pipl::SendRecurringNotificationsWorker
+  cron: "0 7 * * *"

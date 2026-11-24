@@ -1,0 +1,9 @@
+= render Pajamas::AlertComponent.new(variant: variant,
+  alert_options: { class: ['js-minute-limit-banner', classes],
+                   data: callout_data.merge({ testid: 'ci-minute-limit-banner' }) }) do |c|
+  - c.with_body do
+    = text
+  - c.with_actions do
+    = link_button_to _('Buy more compute minutes'), buy_additional_minutes_path(namespace), class: 'gl-alert-action', variant: :confirm, size: :small
+    - unless usage_quotas_link_hidden
+      = link_button_to _('See usage statistics'), usage_quotas_path(namespace.root_ancestor, anchor: 'pipelines-quota-tab'), class: 'gl-alert-action', variant: :secondary, size: :small

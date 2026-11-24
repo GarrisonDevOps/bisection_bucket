@@ -1,0 +1,20 @@
+---
+description: Tracks when a user dismisses the post-trial usage card on the group billing page
+internal_events: true
+status: active
+action: dismiss_post_trial_usage_card_group_billing
+identifiers:
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: Card variant, usage when at least one trial usage metric qualifies, low_usage otherwise
+  property:
+    description: Comma-separated usage metrics shown on the card (seats, compute-minutes, credits), empty for the low_usage variant
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267194
+tiers:
+  - free

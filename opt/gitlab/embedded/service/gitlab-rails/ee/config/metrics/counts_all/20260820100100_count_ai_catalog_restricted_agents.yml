@@ -1,0 +1,21 @@
+---
+key_path: counts.ai_catalog_restricted_agents
+description: Total number of restricted AI Catalog agents
+product_group: ai_catalog
+product_categories:
+- workflow_catalog
+value_type: number
+status: active
+milestone: "19.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251144
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountAiCatalogItemsMetric
+performance_indicator_type: []
+options:
+  item_type: agent
+  visibility: restricted
+tiers:
+- premium
+- ultimate

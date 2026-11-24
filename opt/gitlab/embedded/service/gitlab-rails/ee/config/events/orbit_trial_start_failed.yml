@@ -1,0 +1,20 @@
+---
+description: An Owner tried to start an Orbit trial for a top-level group, and it failed
+internal_events: true
+action: orbit_trial_start_failed
+identifiers:
+- namespace
+- user
+additional_properties:
+  label:
+    description: Failure reason (cannot_be_indexed, ineligible, trial_ended, or unavailable)
+  property:
+    description: CustomersDot reason when ineligible, usually a code (for example, subscription_not_allowed or not_found)
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258828
+tiers:
+- premium
+- ultimate

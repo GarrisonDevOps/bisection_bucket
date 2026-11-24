@@ -1,0 +1,10 @@
+---
+name: trial_usage_capture
+description: Enables the daily worker that snapshots seats, compute minutes and GitLab Credits used near the end of an Ultimate trial into trial_usages for the post-trial Billing card
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/625030
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257638
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630782
+milestone: '19.6'
+group: group::engagement
+type: gitlab_com_derisk
+default_enabled: false

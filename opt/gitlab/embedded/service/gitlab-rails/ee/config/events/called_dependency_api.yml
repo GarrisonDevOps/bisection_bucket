@@ -1,0 +1,18 @@
+---
+description: Call made to the Dependency API
+internal_events: true
+action: called_dependency_api
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Whether the GraphQL or JSON API was called
+product_group: security_foundations
+product_categories:
+- dependency_management
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175725
+tiers:
+- ultimate

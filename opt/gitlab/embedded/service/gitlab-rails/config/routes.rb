@@ -1,0 +1,492 @@
+# frozen_string_literal: true
+
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
+InitializerConnections.warn_if_database_connection do
+  Rails.application.routes.draw do
+    # Group, project and user pages are cloned under /o/<org>/. Send that form to
+    # the canonical URL instead: GET with 302, other methods with 307 so forms
+    # and XHR requests from pages rendered before a deploy keep their method
+    # and body. Not permanent: a record whose own route path starts with
+    # o/<org>/ is matched by the unscoped pass first, and wins.
+    def redirect_organization_scoped(pattern, prefix, **constraints)
+      canonical_url = ->(status) do
+        redirect(status: status) do |params, request|
+          # A leading slash in the glob would make `//host`, a protocol-relative
+          # URL. The route constraint rejects it; this keeps the redirect
+          # local even if that changes.
+          path = "/#{prefix}#{params[:path].sub(%r{\A/+}, '')}"
+          path += "?#{request.query_string}" if request.query_string.present?
+          path
+        end
+      end
+
+      get pattern, to: canonical_url.call(302), format: false, constraints: constraints
+      match pattern,
+        to: canonical_url.call(307),
+        via: [:post, :put, :patch, :delete],
+        format: false,
+        constraints: constraints
+    end
+
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity -- listing routes is typical
+    def draw_all_routes
+      # Override devise_for to skip omniauth_callbacks when in organization scope
+      omniauth_options = if @organization_scoped_routes
+                           { skip: :omniauth_callbacks }
+                         else
+                           {}
+                         end
+
+      define_singleton_method(:devise_for) do |*resources, **options|
+        options = options.merge(omniauth_options)
+        super(*resources, **options)
+      end
+
+      concern :access_requestable do
+        get :request_access, on: :collection
+        post :request_access, on: :collection
+        post :approve_access_request, on: :member
+      end
+
+      concern :awardable do
+        post :toggle_award_emoji, on: :member
+      end
+
+      favicon_redirect = redirect do |_params, _request|
+        ActionController::Base.helpers.asset_url(Gitlab::Favicon.main)
+      end
+      get 'favicon.png', to: favicon_redirect
+      get 'favicon.ico', to: favicon_redirect
+
+      draw :development
+
+      use_doorkeeper do
+        controllers applications: 'oauth/applications',
+          authorized_applications: 'oauth/authorized_applications',
+          authorizations: 'oauth/authorizations',
+          token_info: 'oauth/token_info',
+          tokens: 'oauth/tokens'
+      end
+      put '/oauth/applications/:id/renew(.:format)' => 'oauth/applications#renew', as: :renew_oauth_application
+      get '/.well-known/oauth-protected-resource' => 'oauth/protected_resource_metadata#show', as: :oauth_protected_resource_metadata
+      post '/oauth/register(.:format)' => 'oauth/dynamic_registrations#create', as: :oauth_register
+
+      Gitlab.ee do
+        draw :oauth
+      end
+
+      use_doorkeeper_openid_connect do
+        # Userinfo is served by a GitLab-owned controller so IAM-issued
+        # JWTs are accepted alongside Doorkeeper tokens
+        controllers discovery: 'jwks',
+          userinfo: 'oauth/userinfo'
+      end
+
+      # MCP OAuth Discovery Support - Add path insertion endpoints
+      # MCP-Remote contrustcts well-known path for auth-related metadata discovery
+      # https://modelcontextprotocol.io/specification/draft/basic/authorization#server-metadata-discovery
+      # https://github.com/mcp-auth/mcp-typescript-sdk/blob/31acdcbb189056ec83d14a4f7a37ae2b1c67680e/src/client/auth.ts#L697-L702
+      get '/.well-known/oauth-authorization-server/api/v4/mcp', to: 'jwks#provider'
+      get '/.well-known/openid-configuration/api/v4/mcp', to: 'jwks#provider'
+      get '/.well-known/oauth-protected-resource/api/v4/mcp', to: 'oauth/protected_resource_metadata#show'
+      get '/.well-known/oauth-authorization-server/api/v4/orbit/mcp', to: 'jwks#provider'
+      get '/.well-known/openid-configuration/api/v4/orbit/mcp', to: 'jwks#provider'
+      get '/.well-known/oauth-protected-resource/api/v4/orbit/mcp', to: 'oauth/protected_resource_metadata#show'
+
+      use_doorkeeper_device_authorization_grant do
+        controller device_authorizations: 'oauth/device_authorizations'
+      end
+
+      # Add OPTIONS method for CORS preflight requests
+      match '/oauth/userinfo' => 'oauth/userinfo#show', via: :options
+      match '/oauth/discovery/keys' => 'jwks#keys', via: :options
+      match '/.well-known/openid-configuration' => 'jwks#provider', via: :options
+      match '/.well-known/oauth-protected-resource' => 'oauth_protected_resource_metadata#show', via: :options
+      match '/.well-known/webfinger' => 'jwks#webfinger', via: :options
+      match '/.well-known/oauth-authorization-server/api/v4/mcp', to: 'jwks#provider', via: :options
+      match '/.well-known/openid-configuration/api/v4/mcp', to: 'jwks#provider', via: :options
+      match '/.well-known/oauth-protected-resource/api/v4/mcp', to: 'oauth/protected_resource_metadata#show', via: :options
+      match '/.well-known/oauth-authorization-server/api/v4/orbit/mcp', to: 'jwks#provider', via: :options
+      match '/.well-known/openid-configuration/api/v4/orbit/mcp', to: 'jwks#provider', via: :options
+      match '/.well-known/oauth-protected-resource/api/v4/orbit/mcp', to: 'oauth/protected_resource_metadata#show', via: :options
+
+      match '/oauth/token' => 'oauth/tokens#create', via: :options
+      match '/oauth/revoke' => 'oauth/tokens#revoke', via: :options
+
+      match '/-/jira_connect/oauth_application_id' => 'jira_connect/oauth_application_ids#show', via: :options, as: :jira_connect_oauth_application_id_options
+      match '/-/jira_connect/subscriptions(.:format)' => 'jira_connect/subscriptions#index', via: :options
+      match '/-/jira_connect/subscriptions/:id' => 'jira_connect/subscriptions#delete', via: :options
+
+      # Search
+      get 'search' => 'search#show', as: :search
+      get 'search/autocomplete' => 'search#autocomplete', as: :search_autocomplete
+      get 'search/settings' => 'search#settings'
+      get 'search/count' => 'search#count', as: :search_count
+      get 'search/opensearch' => 'search#opensearch', as: :search_opensearch
+
+      Gitlab.ee do
+        get 'search/aggregations' => 'search#aggregations', as: :search_aggregations
+      end
+
+      # JSON Web Token
+      get 'jwt/auth' => 'jwt#auth'
+      post 'jwt/auth', to: proc { [404, {}, ['']] }
+
+      # Health check
+      get 'health_check(/:checks)' => 'health_check#index', as: :health_check
+
+      # Terraform service discovery
+      get '.well-known/terraform.json' => 'terraform/services#index', as: :terraform_services
+
+      draw_all :organizations
+
+      # Begin of the /-/ scope.
+      # Use this scope for all new global routes.
+      scope path: '-' do
+        # sandbox
+        get '/sandbox/mermaid_v12' => 'sandbox#mermaid_v12'
+        get '/sandbox/swagger' => 'sandbox#swagger'
+
+        get '/:model/:model_id/uploads/:secret/:filename',
+          to: 'banzai/uploads#show',
+          constraints: {
+            model: /project|group/,
+            filename: %r{[^/]+}
+          },
+          as: 'banzai_upload'
+        get '/diagram-proxy/:key' => 'banzai/diagram_proxy#proxy', as: :diagram_proxy
+
+        get '/whats_new' => 'whats_new#index'
+        post '/whats_new/mark_as_read' => 'whats_new#mark_as_read'
+
+        get 'offline' => "pwa#offline"
+        get 'manifest' => "pwa#manifest", constraints: ->(req) { req.format == :json }
+
+        scope module: 'clusters' do
+          scope module: 'agents' do
+            get '/kubernetes', to: 'dashboard#index', as: 'kubernetes_dashboard_index'
+            get '/kubernetes/:agent_id(/*vueroute)', to: 'dashboard#show', as: 'kubernetes_dashboard'
+          end
+        end
+
+        # HTTP Router
+        # Creating a black hole for /-/http_router/version since it is taken by the
+        # cloudflare worker, see: https://gitlab.com/gitlab-com/gl-infra/tenant-scale/cells-infrastructure/team/-/work_items/150
+        match '/http_router/version', to: proc { [204, {}, ['']] }, via: :all
+        # topology-service caching route, see: https://gitlab.com/gitlab-com/gl-infra/tenant-scale/cells-infrastructure/team/-/work_items/648
+        match '/topology-service/__cache/*path', to: proc { [204, {}, ['']] }, via: :all
+
+        # '/-/health' implemented by BasicHealthCheck middleware
+        get 'liveness' => 'health#liveness'
+        get 'readiness' => 'health#readiness'
+        controller :metrics do
+          get 'metrics', action: :index
+          get 'metrics/system', action: :system
+        end
+        mount Peek::Railtie => '/peek', as: 'peek_routes'
+
+        get 'runner_setup/platforms' => 'runner_setup#platforms'
+
+        get 'acme-challenge/' => 'acme_challenges#show'
+
+        # Drawn once, the whole scope: `BlobHelper#ide_edit_path` builds Web IDE
+        # links by joining onto `ide_path`, so a paired `/-/ide` prefixes them
+        # with the organization and breaks the IDE's single OAuth callback.
+        unless @organization_scoped_routes
+          scope :ide, as: :ide, format: false do
+            get '/', to: 'ide#index'
+            get '/project', to: 'ide#index'
+            # note: This path has a hardcoded reference in the FE `app/assets/javascripts/ide/constants.js`
+            get '/oauth_redirect', to: 'ide#oauth_redirect'
+
+            scope path: 'project/:project_id', as: :project, constraints: { project_id: Gitlab::PathRegex.full_namespace_route_regex } do
+              # Format: /-/ide/project/:project_id/-/*path
+              get '/-/*path', to: 'ide#index'
+
+              %w[edit tree blob].each do |action|
+                get "/#{action}", to: 'ide#index'
+                get "/#{action}/*branch/-/*path", to: 'ide#index'
+                get "/#{action}/*branch/-", to: 'ide#index'
+                get "/#{action}/*branch", to: 'ide#index'
+              end
+
+              get '/merge_requests/:merge_request_id', to: 'ide#index', constraints: { merge_request_id: /\d+/ }
+              get '/', to: 'ide#index'
+            end
+
+            post '/reset_oauth_application_settings' => 'admin/applications#reset_web_ide_oauth_application_settings'
+          end
+        end
+
+        Gitlab.ee do
+          draw :operations
+        end
+
+        draw :iam
+        draw :jira_connect
+
+        Gitlab.ee do
+          draw 'remote_development/resources'
+          draw :security
+          draw :smartcard
+          draw :trial_registration
+          draw :country
+          draw :country_state
+          draw :gitlab_subscriptions
+          draw :phone_verification
+          draw :arkose
+
+          scope '/from_secondary/:geo_node_id' do
+            draw :git_http
+          end
+        end
+
+        Gitlab.jh do
+          draw :global_jh
+        end
+
+        if ENV['GITLAB_CHAOS_SECRET'] || Rails.env.development? || Rails.env.test?
+          resource :chaos, only: [] do
+            get :leakmem
+            get :cpu_spin
+            get :db_spin
+            get :sleep
+            get :kill
+            get :quit
+            post :gc
+          end
+        end
+
+        resources :invites, only: [:show], constraints: { id: /[A-Za-z0-9_-]+/ } do
+          member do
+            post :accept
+            match :decline, via: [:get, :post]
+          end
+        end
+
+        resources :sent_notifications, only: [], constraints: { id: /[0-9a-z\-]{1,44}/ } do
+          member do
+            match :unsubscribe, via: [:get, :post]
+          end
+        end
+
+        resources :awarded_achievements, only: [], constraints: { id: %r{[^/]+} }, module: :achievements do
+          member do
+            get :accept
+            post :accept
+          end
+        end
+
+        # Spam reports
+        resources :abuse_reports, only: [:create] do
+          collection do
+            post :add_category
+          end
+        end
+
+        # JWKS (JSON Web Key Set) endpoint
+        # Used by third parties to verify CI_JOB_JWT
+        get 'jwks' => 'jwks#index'
+
+        # Dedicated JWKS for the Cloud Connector keys (EE-only).
+        Gitlab.ee do
+          draw :cloud_connector
+        end
+
+        draw :snippets
+        draw_all :profile
+        draw_all :user_settings
+        draw_all :autocomplete
+        draw_all :feature_library
+
+        post '/mailgun/webhooks' => 'mailgun/webhooks#process_webhook'
+
+        # Deprecated route for permanent failures
+        # https://gitlab.com/gitlab-org/gitlab/-/issues/362606
+        post '/members/mailgun/permanent_failures' => 'mailgun/webhooks#process_webhook'
+
+        get '/timelogs' => 'time_tracking/timelogs#index'
+
+        post '/track_namespace_visits' => 'users/namespace_visits#create'
+
+        get '/external_redirect' => 'external_redirect/external_redirect#index'
+
+        post '/collect_events', to: 'event_forward/event_forward#forward', as: :event_forwarding
+
+        if Gitlab::Utils.to_boolean(ENV['COVERBAND_ENABLED'], default: false)
+          mount Coverband::Reporters::Web.new, at: '/coverage'
+        end
+      end
+      # End of the /-/ scope.
+
+      concern :clusterable do
+        resources :clusters, only: [:index, :show, :update, :destroy] do
+          collection do
+            get  :connect
+            get  :new_cluster_docs
+            post :create_user
+          end
+
+          resource :integration, controller: 'clusters/integrations', only: [] do
+            collection do
+              post :create_or_update
+            end
+          end
+
+          member do
+            Gitlab.ee do
+              get :environments, format: :json
+            end
+
+            get :cluster_status, format: :json
+            delete :clear_cache
+            post :migrate
+            put :update_migration
+          end
+        end
+      end
+
+      resources :groups, only: [:index, :new, :create]
+
+      # Routable resources (groups, projects, users) are drawn once: a record
+      # in a non-default organization carries its `o/<org>/` prefix in
+      # `routes.path`, so the `/o/:organization_path` scope below must not
+      # clone them. Git over HTTP still is, until it resolves the prefix too.
+      #
+      # Every page cloned after this point starts with a reserved top-level
+      # word, which the `*path` constraint rejects.
+      if @organization_scoped_routes
+        redirect_organization_scoped 'groups/*path', 'groups/'
+        redirect_organization_scoped '*path', '', path: Gitlab::PathRegex.organization_scoped_redirect_path_regex
+      end
+
+      unless @organization_scoped_routes
+        get '/-/g/:id' => 'groups/redirect#redirect_from_id'
+
+        draw_all :group
+      end
+
+      resources :projects, only: [:index, :new, :create]
+
+      unless @organization_scoped_routes
+        get '/projects/:id' => 'projects/redirect#redirect_from_id'
+        get '/-/p/:id' => 'projects/redirect#redirect_from_id'
+      end
+
+      draw :git_http
+
+      unless @organization_scoped_routes
+        draw_all :api
+        draw :activity_pub
+      end
+
+      Gitlab.ee do
+        draw :customers_dot
+      end
+
+      draw :device_auth
+      draw :sidekiq
+      draw :help
+      draw :google_api
+      draw :import
+      draw_all :uploads
+      draw_all :explore
+      draw_all :admin
+      draw_all :dashboard
+
+      Gitlab.ee do
+        draw :identity_verification
+      end
+
+      draw_all :user
+
+      unless @organization_scoped_routes
+        draw_all :project
+        draw :unmatched_project
+      end
+
+      draw :well_known
+
+      # Issue https://gitlab.com/gitlab-org/gitlab/-/issues/210024
+      scope as: 'deprecated' do
+        # Issue https://gitlab.com/gitlab-org/gitlab/-/issues/223719
+        get '/snippets/:id/raw',
+          to: 'snippets#raw',
+          format: false,
+          constraints: { id: /\d+/ }
+
+        Gitlab::Routing.redirect_legacy_paths(self, :snippets)
+      end
+
+      Gitlab.ee do
+        get '/sitemap' => 'sitemap#show', format: :xml
+        draw :virtual_registries_container
+      end
+
+      root to: "root#index"
+
+      get '/-/u/:id' => 'users/redirect#redirect_from_id' unless @organization_scoped_routes
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    draw_all_routes
+
+    # Creates shorthand helper methods for project resources.
+    # For example; for the `namespace_project_path` this also creates `project_path`.
+    #
+    # TODO: We don't need the `Gitlab::Routing` module at all as we can use
+    # the `direct` DSL method of Rails to define url helpers. Move all the
+    # custom url helpers to use the `direct` DSL method and remove the `Gitlab::Routing`.
+    # For more information: https://gitlab.com/groups/gitlab-org/-/epics/9866
+    Gitlab::Application.routes.set.filter_map { |route| route.name if route.name&.include?('namespace_project') }.each do |name|
+      new_name = name.sub('namespace_project', 'project')
+
+      direct(new_name) do |project, *args|
+        # This is due to a bug I've found in Rails.
+        # For more information: https://gitlab.com/gitlab-org/gitlab/-/issues/299591
+        args.pop if args.last == {}
+
+        send("#{name}_url", project&.namespace, project, *args)
+      end
+    end
+
+    # Organization-scoped routes: pages that read the organization from the URL
+    # (dashboard, explore, search, new group/project, sign-in, ...). Routable
+    # resources are excluded above with `unless @organization_scoped_routes`.
+    #
+    # This scope must stay after the unscoped pass: `config/routes/organizations.rb`
+    # owns the `organization` route name, which the `as: :organization` scope would
+    # otherwise claim first. The `*id`/`*namespace_id` globs cannot swallow these
+    # URLs, because the segment after `o/<org>/` is a reserved top-level word.
+    scope(
+      path: '/o/:organization_path',
+      constraints: {
+        organization_path: Gitlab::PathRegex.organization_route_regex
+      },
+      as: :organization
+    ) do
+      # Devise does not support scoping OmniAuth callbacks under a dynamic segment
+      @organization_scoped_routes = true
+      draw_all_routes
+      @organization_scoped_routes = false
+    end
+
+    # Used only for sent_notifications
+    scope(path: '-/namespace/:namespace_id', as: :namespace, constraints: { namespace_id: /\d+/ }) do
+      resources :sent_notifications, only: [], constraints: { id: /[0-9a-z\-]{1,44}/ },
+        controller: 'sent_notifications' do
+        member do
+          match :unsubscribe, via: [:get, :post]
+        end
+      end
+    end
+
+    get '*unmatched_route', to: 'application#route_not_found', format: false
+
+    # Load all custom URLs definitions via `direct' after the last route
+    # definition.
+    draw_all :directs
+  end
+end

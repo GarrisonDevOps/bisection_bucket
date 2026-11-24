@@ -1,0 +1,9 @@
+= render ::Users::GroupDismissibleAlertComponent.new(title: title,
+  variant: :warning,
+  alert_options: { class: 'gl-my-5' },
+  dismiss_options: { user: user, group: group, feature_id: feature_id, ignore_dismissal_earlier_than: ignore_dismissal_earlier_than }) do |c|
+  - c.with_body do
+    = body
+  - c.with_actions do
+    = render Pajamas::ButtonComponent.new(size: :small, variant: :confirm, href: renew_path) do
+      = _('Renew subscription')

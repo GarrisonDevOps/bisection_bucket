@@ -1,0 +1,16 @@
+description: "Click path navigation"
+category: default
+action: click_path_navigation
+extra_properties:
+  stage_id:
+    type: integer
+    description: "ID of stage"
+identifiers:
+product_group: optimize
+product_categories:
+- value_stream_management
+milestone: "14.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/62865
+tiers:
+- premium
+- ultimate

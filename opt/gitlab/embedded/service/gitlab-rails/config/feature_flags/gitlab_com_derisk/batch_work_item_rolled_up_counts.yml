@@ -1,0 +1,11 @@
+---
+name: batch_work_item_rolled_up_counts
+description: Load rolled-up counts by type for all work items in a response with one
+  query
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636639
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266135
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639976
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+migration_job_name: RecountBlockingIssuesCount
+description: Recounts issues.blocking_issues_count for every issue, since deleted blocked issues and closed
+  blockers left counts wrong in either direction
+feature_category: portfolio_management
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266012
+milestone: '19.6'
+queued_migration_version: 20261028121512
+gitlab_schema: gitlab_main_org
+finalized_by: # version of the migration that finalized this BBM

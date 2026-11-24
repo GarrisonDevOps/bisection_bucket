@@ -1,0 +1,11 @@
+---
+name: elastic_filters_execution_fallback
+description: Enables enrichment-based execution fallback for Elasticsearch filters, allowing filters to be evaluated
+  in Postgres while preserving pagination density before native ES support is available.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/586566
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219312
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/591207
+milestone: '18.10'
+group: group::security insights
+type: ops
+default_enabled: false

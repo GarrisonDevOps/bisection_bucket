@@ -1,0 +1,37 @@
+- if current_user && @group.ldap_synced?
+  = render Pajamas::AlertComponent.new(dismissible: false,
+    alert_options: { class: 'gl-mt-5 gl-mb-5' }) do |c|
+    - c.with_body do
+      The members of this group are
+      = link_to('managed with LDAP', help_page_path('administration/auth/ldap/_index.md'), target: '_blank', rel: 'noopener noreferrer') + '.'
+      You cannot add or remove members directly from the member list.
+      Instead, you must use
+      = link_to('LDAP sync', help_page_path('administration/auth/ldap/ldap_synchronization.md'), target: '_blank', rel: 'noopener noreferrer')
+      to update the group member list from your LDAP server.
+      It can take up to #{time_interval_in_words(Gitlab.config.ldap['sync_time'])} for the member list to display the following changes:
+      %ul.gl-mt-3
+        - @group.ldap_group_links.select(&:active?).each do |ldap_group_link|
+          %li.gl-mb-2
+            People in
+            %code= ldap_group_link.cn ? "cn: #{ldap_group_link.cn}" : "filter: #{ldap_group_link.filter}"
+            %br
+            are given
+            %code= group_link_role_name(ldap_group_link)
+            access.
+      - if ldap_restricted_access_warning?
+        %p.gl-mt-3= ldap_restricted_access_warning
+      - if can?(current_user, :admin_group, @group) && @group.ldap_sync_failed? && @group.ldap_sync_error.present?
+        = render Pajamas::AlertComponent.new(title: _('The most recent LDAP sync failed'), variant: :danger, dismissible: false,
+          alert_options: { class: 'gl-mt-3' }) do |error_alert|
+          - error_alert.with_body do
+            - ldap_sync_error_entries = @group.ldap_sync_error.split('; ')
+            - if ldap_sync_error_entries.size > 1
+              %ul.gl-mt-0.gl-mb-3
+                - ldap_sync_error_entries.each do |entry|
+                  %li= entry
+            - else
+              %p.gl-mb-3= @group.ldap_sync_error
+            %p.gl-mb-0= _('An administrator can review the affected member\'s access or the group\'s email domain restrictions, then run the sync again.')
+    - if can?(current_user, :admin_group, @group)
+      - c.with_actions do
+        = render 'sync_button'

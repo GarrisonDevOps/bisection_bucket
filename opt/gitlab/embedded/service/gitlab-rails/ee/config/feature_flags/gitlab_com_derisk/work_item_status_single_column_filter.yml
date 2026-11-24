@@ -1,0 +1,10 @@
+---
+name: work_item_status_single_column_filter
+description: Filter work items by status through the indexed custom_status_id column only, once the status row backfills have finished
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629282
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260617
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634015
+milestone: '19.6'
+group: group::planning views
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,6 @@
+---
+name: disable_personal_access_tokens
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189333
+milestone: '18.0'
+group: group::authentication
+

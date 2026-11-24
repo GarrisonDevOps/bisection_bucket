@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.count_distinct_user_id_from_abandon_triage_and_remediation_wizard
+description: Count of unique users who exited the triage and remediation wizard without applying it
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270189
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: abandon_triage_and_remediation_wizard
+  unique: user.id

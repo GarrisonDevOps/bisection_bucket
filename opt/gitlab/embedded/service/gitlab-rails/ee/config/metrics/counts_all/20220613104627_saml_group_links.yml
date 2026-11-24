@@ -1,0 +1,17 @@
+---
+key_path: counts.saml_group_links
+description: "Count of SamlGroupLinks created for Group Sync `https://docs.gitlab.com/ee/user/group/saml_sso/#group-sync`"
+product_group: authentication
+product_categories:
+- user_management
+value_type: number
+status: active
+milestone: "15.1"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/90019
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountSamlGroupLinksMetric
+tiers:
+- premium
+- ultimate

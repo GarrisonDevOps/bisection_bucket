@@ -1,0 +1,25 @@
+---
+description: Runner information for a DAST analyzer scan launched from a pipeline job.
+internal_events: true
+status: active
+action: collect_dast_scan_runner_metrics_from_pipeline
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: The UUID of the scan generating this event
+  value:
+    description: The runner CPU count
+  label:
+    description: The runner memory in MB
+  arch:
+    description: The runner CPU architecture
+product_group: dynamic_analysis
+product_categories:
+- dynamic_application_security_testing
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203875
+tiers:
+- ultimate

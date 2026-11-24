@@ -1,0 +1,10 @@
+---
+name: member_role_updated
+description: A custom role is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/437672
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/141630
+feature_category: permissions
+milestone: '16.9'
+saved_to_database: true
+streamed: true
+scope: [Group, Instance]

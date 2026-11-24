@@ -1,0 +1,5 @@
+---
+name: mcp_server_saas_only
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230311
+milestone: '19.0'
+group: group::ai framework

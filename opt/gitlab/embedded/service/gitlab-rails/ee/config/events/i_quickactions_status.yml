@@ -1,0 +1,16 @@
+---
+description: When the quickaction /status is executed on a work item
+internal_events: true
+action: i_quickactions_status
+identifiers:
+- user
+- project
+- namespace
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '17.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183717
+tiers:
+- premium
+- ultimate

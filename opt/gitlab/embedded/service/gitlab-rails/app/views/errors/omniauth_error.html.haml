@@ -1,0 +1,17 @@
+- content_for(:title, 'Auth Error')
+
+.error-container
+  = image_tag('illustrations/error/error-422-lg.svg', alt: '422', lazy: false)
+  %h1
+    = _('422: Sign-in using %{provider} auth failed') % { provider: @provider }
+  %p
+    = @error
+  %p
+    = _('If you are unable to sign in or recover your password, contact a GitLab administrator.')
+  .action-container
+    = render Pajamas::ButtonComponent.new(variant: :confirm,
+      href: new_session_path(:user),
+      button_options: { class: 'gl-mr-2' }) do
+      = _('Sign in')
+    = render Pajamas::ButtonComponent.new(href: new_password_path(:user)) do
+      = _('Recover password')

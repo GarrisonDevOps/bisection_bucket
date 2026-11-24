@@ -1,0 +1,42 @@
+---
+description: AI Catalog item consumer updated
+internal_events: true
+action: update_ai_catalog_item_consumer
+classification: duo
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: Enabled state of the item consumer
+  property:
+    description: Locked state of the item consumer
+  item_type:
+    description: Item type. One of foundational_flow, foundational_external_agent,
+      custom_flow, custom_agent, custom_external_agent.
+  item_version:
+    description: Semantic version of the item (e.g. "1.0.0").
+  item_schema_version:
+    description: Flow Schema version (e.g. "v1").
+  custom_item_id:
+    description: Custom item ID. Populated for custom items.
+  flow_name:
+    description: Foundational flow name.
+  tools:
+    description: Comma-separated built-in tool names used by the item.
+  mcp_tools:
+    description: Comma-separated MCP tool names used by the item.
+  mcp_servers:
+    description: Comma-separated MCP server IDs used by the item.
+  components:
+    description: Comma-separated component types defined in the flow.
+  triggers:
+    description: Comma-separated list of trigger types.
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/200024
+tiers:
+- premium
+- ultimate

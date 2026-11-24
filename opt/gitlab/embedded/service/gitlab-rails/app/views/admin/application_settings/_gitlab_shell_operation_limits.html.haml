@@ -1,0 +1,23 @@
+= render ::Layouts::SettingsBlockComponent.new(s_('ShellOperations|Git SSH operations rate limits'),
+  id: 'js-gitlab-shell-operation-limits-settings',
+  testid: 'gitlab-shell-operation-limits',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('ShellOperations|Limit the number of Git operations a user can perform every minute, for each repository and across all repositories.')
+    = link_to _('Learn more.'), help_page_path('rate_limits/git.md', anchor: 'git-ssh-operations'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-gitlab-shell-operation-limits-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+
+      %fieldset
+        .form-group
+          = f.label :gitlab_shell_operation_limit, s_('ShellOperations|Maximum number of Git operations per minute'), class: 'gl-font-bold'
+          = f.number_field :gitlab_shell_operation_limit, class: 'form-control gl-form-input'
+          %span.form-text.gl-text-subtle= _('Set to 0 to disable the limit.')
+        .form-group
+          = f.label :gitlab_shell_operation_per_actor_limit, s_('ShellOperations|Maximum number of Git operations each user can perform every minute'), class: 'gl-font-bold'
+          = f.number_field :gitlab_shell_operation_per_actor_limit, min: 0, class: 'form-control gl-form-input'
+          .form-text.gl-text-subtle
+            = s_('ShellOperations|Counts operations across all repositories. Deploy keys are counted separately from the user who created them.')
+            = _('Set to 0 to disable the limit.')
+      = f.submit _('Save changes'), pajamas_button: true

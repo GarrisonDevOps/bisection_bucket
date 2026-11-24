@@ -1,0 +1,10 @@
+- return unless current_user.admin?
+
+- form = local_assigns.fetch(:form)
+
+.form-group.gl-form-group{ role: 'group' }
+  = form.label :shared_runners_minutes_limit, s_('AdminUsers|Compute quota')
+  = form.number_field :shared_runners_minutes_limit, class: 'gl-form-input form-control gl-form-input-sm', min: 0
+  %small.form-text.gl-text-subtle
+    = s_('AdminUsers|The maximum compute minutes that jobs in this namespace can use on instance runners each month. Set 0 for unlimited. Set empty to inherit the global setting of %{minutes}') % { minutes: Gitlab::CurrentSettings.shared_runners_minutes }
+    = link_to sprite_icon('question-o'), help_page_path('ci/pipelines/compute_minutes.md'), target: '_blank', rel: 'noopener noreferrer'

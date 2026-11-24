@@ -1,0 +1,10 @@
+---
+name: devops_adoption_enabled_namespaces_cap
+description: Caps enabled DevOps Adoption namespaces per display namespace and runs one snapshot job per namespace at a time
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636118
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267369
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637954
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

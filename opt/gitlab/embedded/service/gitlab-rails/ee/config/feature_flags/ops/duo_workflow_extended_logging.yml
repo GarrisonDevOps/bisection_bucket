@@ -1,0 +1,9 @@
+---
+name: duo_workflow_extended_logging
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/496322
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167571
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/496323
+milestone: '17.5'
+group: group::ai framework
+type: ops
+default_enabled: false

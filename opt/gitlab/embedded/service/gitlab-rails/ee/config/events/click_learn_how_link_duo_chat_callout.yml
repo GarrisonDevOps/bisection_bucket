@@ -1,0 +1,17 @@
+---
+description: Tracks clicking learn how link in the duo chat callout
+internal_events: true
+action: click_learn_how_link_duo_chat_callout
+identifiers:
+- user
+product_group: activation
+product_categories:
+- activation
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/176884
+tiers:
+- premium
+- ultimate
+status: removed
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224957
+milestone_removed: "18.10"

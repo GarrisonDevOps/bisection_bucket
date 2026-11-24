@@ -1,0 +1,10 @@
+- checked = local_assigns.fetch(:checked, nil)
+- check_box_options = {}
+- check_box_options[:checked] = checked unless checked.nil?
+- trigger_pipelines_for_mirror_updates_help_link = help_page_path('user/project/repository/mirror/pull.md', anchor: 'trigger-pipelines-for-mirror-updates')
+- trigger_pipelines_for_mirror_updates_help_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: trigger_pipelines_for_mirror_updates_help_link }
+
+= f.gitlab_ui_checkbox_component :mirror_trigger_builds,
+  _("Trigger pipelines for mirror updates"),
+  help_text: _('Trigger pipelines when branches or tags are updated in the upstream repository. Ensure your CI runners can handle the additional load from the remote repository activity. %{strong_start}Triggered pipelines use the credentials from pull mirroring and run unreviewed code. Only enable this feature for your own projects or those with trusted maintainers. %{strong_end} %{link_start}Learn more.%{link_end}').html_safe % { strong_start: '<strong>'.html_safe, strong_end: '</strong>'.html_safe, link_start: trigger_pipelines_for_mirror_updates_help_link_start, link_end: '</a>'.html_safe },
+  checkbox_options: check_box_options

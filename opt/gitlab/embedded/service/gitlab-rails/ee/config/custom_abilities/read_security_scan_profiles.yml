@@ -1,0 +1,16 @@
+---
+title: Read security scan profiles
+name: read_security_scan_profiles
+description: Read security scan profiles.
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/epics/19802
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213203
+feature_category: security_testing_configuration
+milestone: '18.7'
+group_ability: true
+enabled_for_group_access_levels: [25, 30, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 30, 40, 50]
+group_permissions:
+  - read_security_scan_profiles
+project_permissions:
+  - read_security_scan_profiles

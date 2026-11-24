@@ -1,0 +1,10 @@
+= render ::Layouts::SettingsSectionComponent.new(s_('GroupSettings|Value Streams Dashboard'), id: 'js-value-streams-dashboard-settings') do |c|
+  - c.with_body do
+    = gitlab_ui_form_for @group, url: group_settings_analytics_path(@group, anchor: 'js-value-streams-dashboard-settings'), html: { class: 'fieldset-form', data: { testid: 'value-streams-dashboards-settings' } } do |form|
+      = form_errors(@group)
+
+      - pointer = @group.value_stream_dashboard_aggregation || @group.build_value_stream_dashboard_aggregation(enabled: false)
+      %fieldset.form-group.gl-form-group
+        = form.fields_for :value_stream_dashboard_aggregation_attributes, pointer do |pointer_form|
+          = pointer_form.gitlab_ui_checkbox_component :enabled, s_('GroupSettings|Enable overview background aggregation for Value Streams Dashboard')
+      = form.submit _('Save changes'), pajamas_button: true

@@ -1,0 +1,10 @@
+---
+name: review_decision_todo_actions
+description: Raise review_approved and review_changes_requested to-do items for submitted reviews instead of a plain review_submitted one
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265564
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265564
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636546
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

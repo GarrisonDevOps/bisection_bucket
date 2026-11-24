@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "name": "Cyber Essentials",
+  "description": "Cyber Essentials compliance requirements",
+  "color": "#0072C6",
+  "requirements": [
+    {
+      "name": "A6.2 Supported software",
+      "description": "Is all the software on your devices supported by a supplier that produces regular fixes for any security problems? All software used by your organization must be supported by a supplier who provides regular security updates. Unsupported software must be removed from your devices. This includes frameworks and plugins such as Java, Adobe Reader and .NET.",
+      "controls": [
+        {
+          "name": "scanner_dep_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_dep_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        },
+        {
+          "name": "scanner_container_scanning_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_container_scanning_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "A6.3 Software licensing",
+      "description": "Is all software licensed in accordance with the publisher's recommendations? All software must be licensed. It is acceptable to use free and open source software as long as you comply with any licensing requirements.",
+      "controls": [
+        {
+          "name": "scanner_license_compliance_running",
+          "control_type": "internal",
+          "expression": {
+            "field": "scanner_license_compliance_running",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

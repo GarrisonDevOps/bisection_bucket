@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage.manage.ldap_admin_sync_enabled
+description: Has the instance configured [LDAP Admin Sync](https://docs.gitlab.com/ee/administration/auth/ldap/#administrator-sync)
+product_group: authentication
+product_categories:
+- user_management
+value_type: boolean
+status: active
+time_frame: none
+data_source: system
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

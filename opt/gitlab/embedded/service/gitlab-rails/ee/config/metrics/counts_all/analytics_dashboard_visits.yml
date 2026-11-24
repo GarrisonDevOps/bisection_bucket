@@ -1,0 +1,19 @@
+---
+key_path: counts.analytics_dashboard_visits
+description: Number of views of any single product analytics dashboard
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+value_type: number
+status: active
+milestone: '16.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/134543
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+events:
+- name: user_visited_dashboard
+tiers:
+- ultimate

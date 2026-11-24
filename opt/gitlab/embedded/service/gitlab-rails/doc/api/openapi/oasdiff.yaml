@@ -1,0 +1,69 @@
+# oasdiff policy for doc/api/openapi/openapi_v3.yaml. Written for oasdiff 1.35.0
+# and calibrated on the spec's history in
+# https://gitlab.com/gitlab-org/gitlab/-/work_items/636461.
+#
+# Map the lifecycle on both specs, then diff them:
+#
+#   yq --from-file doc/api/openapi/oasdiff_stability_level.yq base.yaml > base_mapped.yaml
+#   yq --from-file doc/api/openapi/oasdiff_stability_level.yq rev.yaml > rev_mapped.yaml
+#   oasdiff breaking base_mapped.yaml rev_mapped.yaml --config doc/api/openapi/oasdiff.yaml
+#
+# Keep the policy free of Ruby, so components outside Rails can reuse it.
+# Changes need an API Team review, through the [API Team] section of .gitlab/CODEOWNERS.
+
+# Exit non-zero when any finding is at err. The CI job that runs the policy decides
+# whether that blocks the merge request.
+fail-on: ERR
+
+# Every check in this file is set to err. oasdiff rejects comments and blank lines in
+# that file, so the reason for each line is given here. Checks it doesn't list keep
+# oasdiff's default level.
+#
+# Raised from warning:
+# - request-parameter-removed, request-property-removed. The API then silently
+#   ignores a field that clients still send. Three of the four real breaks in the
+#   spec's history came through request-property-removed.
+# - api-security-component-oauth-refresh-url-changed,
+#   api-security-component-oauth-token-url-changed and
+#   api-security-component-oauth-url-changed. Clients that use the spec's OAuth flow
+#   authorize and fetch tokens at these URLs. They are literal strings in
+#   config/initializers/gitlab_grape_openapi.rb, not read from the OAuth routes, so
+#   they change only when someone edits that file. Both changes so far corrected a
+#   wrong URL.
+#   oasdiff ignores the override for these three checks, up to at least 1.37.0. It
+#   always reports them as warnings (checker/check_components_security_updated.go),
+#   so a changed URL doesn't fail the diff yet.
+#
+# Raised from info:
+# - api-path-removed-with-deprecation, api-removed-with-deprecation. REST v4 keeps
+#   deprecated endpoints until v5, so removing one is still a break.
+# - response-optional-property-removed. None of the spec's entity schemas marks a
+#   property as required, so every response field that's removed is reported here.
+#
+# Kept at err, oasdiff's default, so that a change to the default doesn't move them:
+# - new-request-path-parameter. In the spec's history, only generator changes have
+#   triggered it.
+# - response-body-type-changed. This includes a response changing from an object to
+#   an array, as in https://gitlab.com/gitlab-org/gitlab/-/work_items/636328.
+# - response-media-type-removed, response-property-type-changed and
+#   response-success-status-removed. The spec takes these from the `documentation:`
+#   and `success` declarations, which the API doesn't enforce at runtime. In the
+#   spec's history they fired mostly on documentation corrections from the API docs
+#   migration in https://gitlab.com/groups/gitlab-org/quality/-/epics/471. When one
+#   fails, check whether the API changed or only its declaration.
+# - request-parameter-became-not-nullable, request-property-became-not-nullable. The
+#   generator drops `nullable` when a param gets a `default:`, but Grape still accepts
+#   null and substitutes the default. So these also fail when the API accepts the
+#   same requests as before.
+severity-levels: oasdiff_severity_levels.txt
+
+# Skip experiment and beta operations, which may change at any time:
+# https://docs.gitlab.com/development/api_styleguide/#breaking-changes.
+# oasdiff_stability_level.yq maps `x-gitlab-lifecycle` to oasdiff's `x-stability-level`.
+# Run it on both specs: if only one is mapped, every lifecycle-marked operation reports
+# api-stability-decreased. Unlike `--filter-extension`, this also skips the removal of
+# an experiment or beta path.
+stability-level: stable
+
+# Internal APIs serve other GitLab components, not API consumers.
+unmatch-path: ^/api/v4/internal/

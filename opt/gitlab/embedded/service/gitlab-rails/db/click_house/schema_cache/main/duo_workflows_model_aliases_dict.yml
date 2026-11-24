@@ -1,0 +1,10 @@
+---
+name: duo_workflows_model_aliases_dict
+engine: Dictionary
+columns:
+- name: model_used
+  type: String
+- name: model_key
+  type: String
+- name: hosting
+  type: String

@@ -1,0 +1,15 @@
+---
+description: Clicking the Grouped option of the view toggle on the to-do list
+internal_events: true
+action: click_todo_grouped_view_toggle
+identifiers:
+- user
+product_group: engagement
+product_categories:
+- notifications
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262043
+tiers:
+- free
+- premium
+- ultimate

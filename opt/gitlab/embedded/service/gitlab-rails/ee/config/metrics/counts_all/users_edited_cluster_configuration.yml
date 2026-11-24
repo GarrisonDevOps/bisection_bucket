@@ -1,0 +1,21 @@
+---
+key_path: redis_hll_counters.optional.users_edited_cluster_configuration
+description: Count of users who have edited analytics cluster configuration
+product_group: platform_insights
+product_categories:
+- product_analytics
+value_type: number
+status: active
+milestone: "16.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/128029
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+performance_indicator_type: []
+tiers:
+  - ultimate
+events:
+  - name: user_edited_cluster_configuration
+    unique: user.id

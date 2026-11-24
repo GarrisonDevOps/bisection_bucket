@@ -1,0 +1,11 @@
+---
+name: zoekt_index_project_on_search_fallback
+description: Queue Zoekt indexing for a project that has no Zoekt repository when its
+  code search falls back from Zoekt.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637026
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266220
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637003
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

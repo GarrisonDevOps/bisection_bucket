@@ -1,0 +1,24 @@
+---
+key_path: redis_hll_counters.govern.users_visiting_compliance_pages
+description: Unique count of user visiting compliance pages
+product_group: compliance
+product_categories:
+- compliance_management
+value_type: number
+status: active
+milestone: "16.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135000
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+events:
+- name: g_compliance_dashboard
+  unique: user.id
+- name: users_visiting_audit_events
+  unique: user.id
+performance_indicator_type: []
+tiers:
+- ultimate

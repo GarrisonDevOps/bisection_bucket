@@ -1,0 +1,14 @@
+---
+description: The user enables a GitLab Duo seat assignment by clicking on a toggle in the Code Suggestions usage app.
+internal_events: true
+action: enable_gitlab_duo_pro_for_seat
+identifiers:
+- namespace
+- user
+product_group: seat_management
+product_categories:
+- seat_cost_management
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/158482
+tiers:
+- ultimate

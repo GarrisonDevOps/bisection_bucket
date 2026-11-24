@@ -1,0 +1,14 @@
+---
+api_type: string
+attr: duo_code_review_default_depth
+clusterwide: false
+column: duo_code_review_default_depth
+db_type: smallint
+default: '0'
+description: 'Default review depth for Code Review Flow. One of `lite` or `standard`.
+  Default: `lite`. If `duo_code_review_depth_allowed` is `false`, `standard` is saved
+  as `lite`. Beta.'
+encrypted: false
+gitlab_com_different_than_default: false
+jihu: false
+not_null: true

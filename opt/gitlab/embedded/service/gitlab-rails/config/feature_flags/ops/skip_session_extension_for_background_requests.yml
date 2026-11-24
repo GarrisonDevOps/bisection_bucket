@@ -1,0 +1,9 @@
+---
+name: skip_session_extension_for_background_requests
+description: Do not slide the session TTL for reads the frontend tags as background (sent while the user is idle), so idle polling stops defeating inactivity logout
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258104
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631095
+milestone: '19.6'
+group: group::authentication
+type: ops
+default_enabled: false

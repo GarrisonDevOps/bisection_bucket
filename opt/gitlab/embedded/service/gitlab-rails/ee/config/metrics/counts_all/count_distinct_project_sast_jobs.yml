@@ -1,0 +1,22 @@
+---
+data_category: operational
+key_path: usage_activity_by_stage.secure.project_sast_jobs
+description: Distinct count of SAST jobs per project
+product_group: code_scanning
+product_categories:
+- static_application_security_testing
+value_type: number
+status: active
+time_frame:
+- all
+- 28d
+instrumentation_class: CountProjectsCreatingCiBuildsMetric
+options:
+  secure_type: sast
+data_source: database
+tiers:
+- ultimate
+- premium
+- free
+milestone: "<18.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197151

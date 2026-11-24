@@ -1,0 +1,7 @@
+- @force_fluid_layout = can?(current_user, :access_advanced_vulnerability_management, @project)
+- breadcrumb_title _("Security dashboard")
+- page_title _("Security dashboard")
+- add_page_specific_style 'page_bundles/reports'
+- add_page_specific_style 'page_bundles/security_dashboard'
+
+#js-project-security-dashboard{ data: project_security_dashboard_config(@project) }

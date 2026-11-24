@@ -1,0 +1,9 @@
+- content_for :body_class, '!gl-bg-default'
+- content_for :hide_empty_navbar, true
+- content_for :registration_marketing_panel_image, onboarding_status_presenter.identity_verification_panel_image
+- content_for :registration_marketing_panel_heading, onboarding_status_presenter.identity_verification_panel_heading
+
+- if unified_registration?
+  = render template: 'devise/sessions/unified_registration/successful_verification', locals: { data: { track_action: 'render', track_label: @tracking_label } }
+- else
+  = render template: 'devise/sessions/successful_verification', locals: { data: { track_action: 'render', track_label: @tracking_label } }

@@ -1,0 +1,5 @@
+---
+name: ci_component_usages_in_projects
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/173816
+milestone: '17.7'
+group: group::pipeline authoring

@@ -1,0 +1,11 @@
+---
+name: BackfillRemediatedAtInVulnerabilities
+version: '20260908140000'
+description: Backfills the remediated_at field in the vulnerabilities ES index so
+  existing documents can feed the mean time to remediate chart
+group: group::vulnerability management
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254937
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

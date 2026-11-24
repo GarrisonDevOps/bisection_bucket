@@ -1,0 +1,10 @@
+---
+name: repository_download_operation
+description: A Git repository for a private or internal project is downloaded
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/374108
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/111218
+feature_category: compliance_management
+milestone: '15.9'
+saved_to_database: true
+streamed: true
+scope: [Project]

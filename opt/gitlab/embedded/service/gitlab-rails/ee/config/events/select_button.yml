@@ -1,0 +1,15 @@
+---
+description: Tracks when a user joins a project as part of the onboarding flow
+action: select_button
+identifiers:
+- user
+product_group: acquisition
+milestone: '16.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167137
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Always `join_a_project`

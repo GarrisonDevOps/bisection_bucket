@@ -1,0 +1,5 @@
+---
+name: advanced_search
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143395
+milestone: '16.10'
+group: group::global search

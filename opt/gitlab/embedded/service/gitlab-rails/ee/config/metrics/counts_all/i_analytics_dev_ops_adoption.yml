@@ -1,0 +1,22 @@
+---
+data_category: optional
+key_path: redis_hll_counters.analytics.i_analytics_dev_ops_adoption
+description: Counts visits to DevOps Adoption page
+product_group: optimize
+product_categories:
+- devops_reports
+value_type: number
+status: active
+milestone: '13.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/57104
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+events:
+  - name: i_analytics_dev_ops_adoption
+    unique: user.id
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []

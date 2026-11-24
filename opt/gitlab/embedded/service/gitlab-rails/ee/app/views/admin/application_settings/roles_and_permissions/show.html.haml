@@ -1,0 +1,10 @@
+- add_to_breadcrumbs _('Roles and permissions'), admin_application_settings_roles_and_permissions_path
+- breadcrumb_title @member_role[:name]
+- page_title @member_role[:name], _('Roles and permissions')
+
+#js-role-details{ data: {
+  id: params[:id],
+  list_page_path: admin_application_settings_roles_and_permissions_path,
+  is_admin_role: (@member_role.try(:admin_related_role?) || false).to_s
+} }
+  = gl_loading_icon(css_class: 'gl-mt-5', size: 'md')

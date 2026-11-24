@@ -1,0 +1,10 @@
+---
+name: aggregation_engine_request_limits
+description: Require a bounded date range of at most 366 days on aggregation engine GraphQL requests and cap the dimensions and metrics per request
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636113
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267106
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637724
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

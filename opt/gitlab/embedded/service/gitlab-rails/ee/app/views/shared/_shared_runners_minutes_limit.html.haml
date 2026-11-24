@@ -1,0 +1,5 @@
+- project = local_assigns[:project]
+- namespace = local_assigns[:namespace]
+- usage_quotas_link_hidden = local_assigns[:usage_quotas_link_hidden]
+
+= render Namespaces::Pipelines::Alerts::SharedRunnersMinutesLimitAlertComponent.new(project: project, namespace: namespace, usage_quotas_link_hidden: usage_quotas_link_hidden, current_user: current_user, classes: (classes if defined? classes))

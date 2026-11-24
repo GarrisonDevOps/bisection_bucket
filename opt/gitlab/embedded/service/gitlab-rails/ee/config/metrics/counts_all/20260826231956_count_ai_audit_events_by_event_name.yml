@@ -1,0 +1,21 @@
+---
+key_path: counts.count_ai_audit_events_by_event_name
+description: Number of AI audit events stored in PostgreSQL, broken down by event name
+product_group: compliance
+product_categories:
+- audit_events
+performance_indicator_type: []
+value_type: object
+status: active
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249175
+time_frame:
+- 28d
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountAiAuditEventsByEventNameMetric
+value_json_schema: ee/config/metrics/object_schemas/ai_audit_events_by_event_name.json
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,10 @@
+---
+name: workplan_on_workhorse
+description: Run the workplan flow on Workhorse with no coding environment instead of in CI
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628756
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267832
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639663
+milestone: '19.6'
+group: group::spec-driven development
+type: gitlab_com_derisk
+default_enabled: false

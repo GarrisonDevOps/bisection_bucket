@@ -1,0 +1,24 @@
+---
+key_path: redis_hll_counters.count_distinct_project_id_from_dast_enforced_by_active_sep_policy
+description: Count of unique projects with DAST scan enforced by active Scan Execution Policy
+product_group: policy_management
+product_categories:
+- security_policy_management
+- dynamic_application_security_testing
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170447
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: enforce_scan_execution_policy_in_project
+  unique: project.id
+  filter:
+    label: dast

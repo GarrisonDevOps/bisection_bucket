@@ -1,0 +1,10 @@
+---
+name: error_tracking_sentry_cache_entry_limit
+description: Rate limit new Sentry error tracking reactive cache entries per user and per project
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638561
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268728
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638808
+milestone: '19.6'
+group: group::platform insights
+type: gitlab_com_derisk
+default_enabled: false

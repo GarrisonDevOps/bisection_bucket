@@ -1,0 +1,10 @@
+---
+name: artifact_registry_trash_ui
+description: Show the Trash page for Artifact Registry repositories and artifacts
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637261
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266124
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637263
+milestone: '19.6'
+group: group::container registry
+type: wip
+default_enabled: false

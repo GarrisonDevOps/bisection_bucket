@@ -1,0 +1,12 @@
+- return unless groups_requiring_saml_reauth.any?
+
+= render Pajamas::AlertComponent.new(title: s_('GroupSAML|Group SAML single sign-on session expired'),
+  variant: :warning,
+  alert_options: { class: 'gl-mt-5 js-saml-reauth-notice' }, dismissible: false) do |c|
+  - c.with_body do
+    = s_('GroupSAML|Re-authenticate to view your work items and avoid disruptions.')
+  - c.with_actions do
+    .gl-flex.gl-flex-wrap.gl-gap-3
+      - groups_requiring_saml_reauth.each do |group|
+        = render Pajamas::ButtonComponent.new(size: :small, href: sso_group_saml_providers_path(group, { token: group.saml_discovery_token, redirect: url_for(safe_params) })) do
+          = safe_format(s_('GroupSAML|Re-authenticate %{group}'),  group: group.path)

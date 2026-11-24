@@ -1,0 +1,7 @@
+- @no_container = true
+
+- page_title s_('ObservabilityMetrics|Metric Details')
+- add_to_breadcrumbs _('Metrics'), project_metrics_path(@project)
+
+#js-observability-metrics-details{ data: { view_model: observability_metrics_details_view_model(@project, @metric_id, @metric_type) } }
+

@@ -1,0 +1,11 @@
+---
+name: package_registry_package_deleted
+description: A package was deleted from GitLab package registry. Available only when
+  the namespace's package setting `audit_events_enabled` is true.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/329588
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178181
+feature_category: package_registry
+milestone: '17.10'
+saved_to_database: true
+streamed: true
+scope: [Project, Group]

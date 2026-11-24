@@ -1,0 +1,13 @@
+---
+name: ReindexWorkItemsForKnnEngine
+version: '20250522073150'
+description: Triggers reindexing task to update HNSW engine from nmslib to lucene
+  for WorkItems index
+group: group::global search
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192197
+skippable: true
+skip_condition: Only for OpenSearch versions after 2.1.0
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209376
+marked_obsolete_in_milestone: '18.6'

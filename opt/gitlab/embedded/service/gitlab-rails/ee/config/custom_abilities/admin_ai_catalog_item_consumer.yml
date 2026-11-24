@@ -1,0 +1,20 @@
+---
+title: Configure AI catalog items
+name: admin_ai_catalog_item_consumer
+description: Enable, disable, and configure items from the AI catalog for a project.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/578558
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234759
+feature_category: duo_agent_platform
+milestone: '19.0'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+project_permissions:
+  - admin_ai_catalog_item_consumer
+  - create_ai_catalog_item_consumer
+  - create_ai_catalog_flow_item_consumer
+  - create_ai_catalog_agent_item_consumer
+  - create_ai_catalog_skill_item_consumer
+  - manage_ai_flow_triggers
+  - read_ai_flow_triggers

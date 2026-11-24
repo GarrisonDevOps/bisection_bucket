@@ -1,0 +1,15 @@
+---
+table_name: slack_workspaces
+classes:
+- Integrations::SlackWorkspace::Workspace
+feature_categories:
+- integrations
+description: A Slack workspace connected to GitLab, and the top-level group where its GitLab Duo sessions run.
+notes: The unique index on team_id is global and not scoped to the sharding key, because one Slack workspace runs
+  GitLab Duo in exactly one group. Same shape as jira_connect_installations.forge_installation_xid.
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263649
+milestone: '19.6'
+gitlab_schema: gitlab_main_org
+sharding_key:
+  duo_namespace_id: namespaces
+table_size: small

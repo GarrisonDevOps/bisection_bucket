@@ -1,0 +1,5 @@
+---
+name: exact_code_search
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143370
+milestone: '16.9'
+group: group::global search

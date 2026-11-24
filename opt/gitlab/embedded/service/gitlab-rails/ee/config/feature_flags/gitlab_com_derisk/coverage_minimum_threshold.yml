@@ -1,0 +1,10 @@
+---
+name: coverage_minimum_threshold
+description: Enables the minimum coverage threshold feature for Coverage-Check approval rules. When enabled, allows setting an absolute minimum coverage percentage that must be met.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/6284
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226370
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/602555
+milestone: '19.1'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

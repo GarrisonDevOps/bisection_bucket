@@ -1,0 +1,10 @@
+---
+name: mcp_server_enabled_updated
+description: MCP server enabled setting on group changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/590729
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230311
+feature_category: mcp_server
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Group]

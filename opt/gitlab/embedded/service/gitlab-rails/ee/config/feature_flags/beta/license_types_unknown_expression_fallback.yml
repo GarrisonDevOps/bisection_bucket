@@ -1,0 +1,10 @@
+---
+name: license_types_unknown_expression_fallback
+description: Fall back to the 'unknown' license sentinel for license_types policies when a report license is a compound SPDX expression
+feature_issue_url: https://gitlab.com/gitlab-com/request-for-help/-/work_items/5401
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/256826
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630331
+milestone: '19.5'
+group: group::security policies
+type: beta
+default_enabled: false

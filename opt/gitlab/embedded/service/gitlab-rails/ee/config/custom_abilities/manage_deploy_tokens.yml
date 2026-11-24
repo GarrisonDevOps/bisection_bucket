@@ -1,0 +1,23 @@
+---
+title: Manage deploy tokens
+name: manage_deploy_tokens
+description: Manage deploy tokens at the group or project level.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/448843
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/151677
+feature_category: continuous_delivery
+milestone: '17.0'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+requirements: []
+group_permissions:
+  - manage_deploy_tokens
+  - read_deploy_token
+  - create_deploy_token
+  - destroy_deploy_token
+project_permissions:
+  - manage_deploy_tokens
+  - read_deploy_token
+  - create_deploy_token
+  - destroy_deploy_token

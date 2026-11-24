@@ -1,0 +1,6 @@
+- page_title _('Namespace Limits')
+- namespace_limits_data = { statsDownloadLink: url_for('namespace_limits/export_usage') }
+
+%h1 #{s_('NamespaceLimits|Free Tier')} - #{s_('NamespaceLimits|Storage Phased Notification')}
+
+#js-namespace-limits-app{ "data-view-model": namespace_limits_data.to_json }

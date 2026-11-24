@@ -1,0 +1,17 @@
+---
+description: A user clicked a session row on the AI audit events report to open its details drawer. Not sent when a deep link opens the drawer
+internal_events: true
+status: active
+action: open_session_on_ai_audit_events_report
+identifiers:
+- user
+- namespace
+- project
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,7 @@
+- list_item_classes = '!gl-grid @md/panel:gl-grid-cols-3 gl-gap-x-3'
+
+- unless Gitlab.com?
+  %li{ class: list_item_classes }
+    %span.gl-text-subtle= _("Is using license seat:")
+    .gl-col-span-2
+      %strong= @user.using_license_seat? ? _("Yes") : _("No")

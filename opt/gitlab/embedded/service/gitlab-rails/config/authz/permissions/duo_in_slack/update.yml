@@ -1,0 +1,3 @@
+---
+name: update_duo_in_slack
+description: Grants the ability to turn GitLab Duo in Slack on or off for a top-level group

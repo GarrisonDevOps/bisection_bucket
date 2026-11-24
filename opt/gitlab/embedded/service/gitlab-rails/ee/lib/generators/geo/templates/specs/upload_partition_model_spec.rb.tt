@@ -1,0 +1,61 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+
+RSpec.describe Geo::<%= class_name %>, feature_category: :geo_replication do
+  include ::EE::GeoHelpers
+
+  it { expect(described_class.table_name).to eq('<%= table_name %>') }
+  it { expect(described_class.primary_key).to eq('id') }
+  it { expect(described_class.superclass).to eq(::Upload) }
+
+  describe 'Geo replication' do
+    describe 'associations' do
+      it 'has one verification state table class' do
+        is_expected
+          .to have_one(:<%= file_name %>_state)
+          .class_name('Geo::<%= state_class_name %>')
+          .inverse_of(:<%= file_name %>)
+          .autosave(false)
+      end
+    end
+
+    include_examples 'a verifiable model for verification state' do
+      # Creating through Upload can already add the state row, but the shared
+      # example expects save! to add it, so delete it and reload.
+      let(:verifiable_model_record) do
+        record = create(:geo_<%= file_name %>)
+        described_class.verification_state_table_class.where(<%= foreign_key_name %>: record.id).delete_all
+        record.reload
+      end
+
+      let(:unverifiable_model_record) do
+        record = create(:geo_<%= file_name %>, :remote_store)
+        described_class.verification_state_table_class.where(<%= foreign_key_name %>: record.id).delete_all
+        record.reload
+      end
+    end
+
+    <%- if sharding_keys.any? -%>
+    describe 'replication/verification' do
+<%= selective_sync_fixtures %>
+
+      include_examples 'Geo Framework selective sync behavior'
+    end
+    <%- else -%>
+    describe 'selective sync' do
+      let_it_be(:secondary) { create(:geo_node, :secondary, selective_sync_type: 'namespaces') }
+
+      before do
+        stub_current_geo_node(secondary)
+      end
+
+      it 'is always replicated regardless of selective sync configuration' do
+        replicable = create(:geo_<%= file_name %>)
+
+        expect(described_class.selective_sync_scope(secondary)).to include(replicable)
+      end
+    end
+    <%- end -%>
+  end
+end

@@ -1,0 +1,11 @@
+- return unless group.root? && ::Gitlab::Saas.feature_available?(:group_disable_invite_members) && group.licensed_feature_available?(:disable_invite_members)
+
+%h5= _('User invitation restrictions')
+
+.form-group.gl-mb-3
+  = f.gitlab_ui_checkbox_component :disable_invite_members, checkbox_options: { checked: group.disable_invite_members? } do |c|
+    - c.with_label do
+      = s_('GroupSettings|Disable user invitations to groups and projects within %{group}').html_safe % { group: link_to_group(group) }
+    - c.with_help_text do
+      - learn_more_link = link_to(_('Learn more'), help_page_path('user/group/manage.md', anchor: 'prevent-invitations-to-a-group'))
+      = s_("GroupSettings|If enabled, users can no longer invite members to groups or projects in the top-level group. %{learn_more_link}.").html_safe % { learn_more_link: learn_more_link }

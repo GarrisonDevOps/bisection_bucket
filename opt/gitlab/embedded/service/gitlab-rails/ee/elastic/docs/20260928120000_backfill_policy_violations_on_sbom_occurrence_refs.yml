@@ -1,0 +1,11 @@
+---
+name: BackfillPolicyViolationsOnSbomOccurrenceRefs
+version: '20260928120000'
+description: Reindexes every sbom_occurrence_refs document to backfill the policy_violations
+  field, which was only mapped in 19.5, and to refresh the malware and reachability fields
+group: group::security foundations
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260608
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:

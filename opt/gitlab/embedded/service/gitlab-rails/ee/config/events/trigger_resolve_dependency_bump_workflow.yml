@@ -1,0 +1,22 @@
+---
+description: Tracks a trigger of the resolve dependency bump breaking changes resolution workflow.
+internal_events: true
+status: active
+action: trigger_resolve_dependency_bump_workflow
+identifiers:
+  - project
+additional_properties:
+  label:
+    description: Workflow trigger was automatic or manual.
+  value:
+    description: Id of the merge request the workflow was triggered for.
+  property:
+    description: Iteration number of the workflow for the merge request.
+product_group: composition_analysis
+product_categories:
+  - dependency_management
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244625
+tiers:
+  - ultimate
+classification: duo

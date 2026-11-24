@@ -1,0 +1,23 @@
+---
+data_category: optional
+key_path: redis_hll_counters.search.i_search_advanced
+description: Calculated unique users to perform Advanced searches
+product_group: global_search
+product_categories:
+- global_search
+value_type: number
+status: active
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - i_search_advanced
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

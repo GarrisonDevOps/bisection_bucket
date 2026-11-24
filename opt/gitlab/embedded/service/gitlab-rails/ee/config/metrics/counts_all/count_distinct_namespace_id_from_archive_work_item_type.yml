@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_from_archive_work_item_type
+description: Count of unique namespaces where custom work item types were archived or unarchived
+product_group: work_items
+product_categories:
+- team_planning
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227987
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: archive_work_item_type
+  unique: namespace.id

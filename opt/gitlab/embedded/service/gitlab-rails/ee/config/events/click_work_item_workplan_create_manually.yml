@@ -1,0 +1,26 @@
+---
+description: >-
+  A user clicked Create manually (Create workplan manually in the Plan dropdown)
+  to write a workplan without GitLab Duo. Sent on click, before any request is
+  made.
+internal_events: true
+status: active
+action: click_work_item_workplan_create_manually
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: |
+      Where Create manually was clicked. One of `plan_cta` (the Plan dropdown,
+      which also turns on planning), `inline_row` (the workplan row in the work
+      item) or `panel` (the empty workplan panel).
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264759
+tiers:
+- premium
+- ultimate

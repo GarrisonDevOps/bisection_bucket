@@ -1,0 +1,10 @@
+---
+name: sync_v3_advisories
+description: Switches the PackageMetadata advisory sync from the v2 public bucket to the v3 private bucket served by PDS.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23045
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258809
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/631392
+milestone: '19.6'
+group: group::composition analysis
+type: wip
+default_enabled: false

@@ -1,0 +1,15 @@
+key_path: counts.users_assigned_to_custom_admin_role
+description: Count of users who have been assigned custom admin roles
+product_group: authorization
+product_categories:
+- permissions
+value_type: number
+status: active
+milestone: '18.2'
+instrumentation_class: CountUsersAssignedToCustomAdminRoleMetric
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195545'
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+- ultimate

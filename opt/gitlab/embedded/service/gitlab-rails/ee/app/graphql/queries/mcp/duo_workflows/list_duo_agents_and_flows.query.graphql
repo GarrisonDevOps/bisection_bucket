@@ -1,0 +1,42 @@
+# @feature_category: mcp_server
+query listDuoAgentsAndFlows(
+  $projectId: ProjectID!
+  $itemTypes: [AiCatalogItemType!]
+  $includeChatAgents: Boolean!
+  $first: Int
+  $after: String
+) {
+  aiCatalogConfiguredItems(
+    projectId: $projectId
+    itemTypes: $itemTypes
+    first: $first
+    after: $after
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      enabled
+      userPermissions {
+        executeAiCatalogItem
+      }
+      item {
+        id
+        name
+        description
+        itemType
+        foundational
+      }
+    }
+  }
+  aiFoundationalChatAgents(projectId: $projectId) @include(if: $includeChatAgents) {
+    nodes {
+      id
+      name
+      description
+      referenceWithVersion
+    }
+  }
+}

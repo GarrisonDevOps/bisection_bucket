@@ -1,0 +1,7 @@
+- title = @maven_registry.name
+- add_to_breadcrumbs s_('VirtualRegistry|Virtual registry'), group_virtual_registries_path(@group)
+- add_to_breadcrumbs s_('VirtualRegistry|Maven registries'), group_virtual_registries_maven_registries_and_upstreams_path(@group)
+- breadcrumb_title @maven_registry.id.to_s
+- page_title title
+
+#js-vue-maven-registry-details{ "data-provide": maven_registry_data(@group, @maven_registry) }

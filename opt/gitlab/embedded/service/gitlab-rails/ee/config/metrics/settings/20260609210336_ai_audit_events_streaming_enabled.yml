@@ -1,0 +1,17 @@
+---
+key_path: settings.ai_audit_events_streaming_enabled
+description: Whether AI audit event streaming is enabled on this instance
+product_group: compliance
+product_categories:
+- audit_events
+value_type: boolean
+status: active
+milestone: "19.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239886
+time_frame: none
+data_source: system
+instrumentation_class: AiAuditEventsStreamingEnabledMetric
+data_category: optional
+performance_indicator_type: []
+tiers:
+- ultimate

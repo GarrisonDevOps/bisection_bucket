@@ -1,0 +1,490 @@
+---
+stage: Software Supply Chain Security
+group: Compliance
+info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/marketing/product-and-technical-marketing/technical-writing/#assignments>
+description: Manage audit event streaming destinations for entire GitLab instances using the GraphQL API, including HTTP and Google Cloud Logging configurations.
+title: Audit event streaming GraphQL API for instances
+---
+
+{{< details >}}
+
+- Tier: Ultimate
+- Offering: GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+Manage audit event streaming destinations for instances by using a GraphQL API.
+
+## HTTP destinations
+
+Manage HTTP streaming destinations for an entire instance.
+
+### Add a new HTTP destination
+
+Add a new HTTP streaming destination to an instance.
+
+Prerequisites:
+
+- Administrator access on the instance.
+
+To enable streaming and add a destination, use the
+`instanceExternalAuditEventDestinationCreate` mutation in the GraphQL API.
+
+```graphql
+mutation {
+  instanceExternalAuditEventDestinationCreate(input: { destinationUrl: "https://mydomain.io/endpoint/ingest"}) {
+    errors
+    instanceExternalAuditEventDestination {
+      destinationUrl
+      id
+      name
+      verificationToken
+    }
+  }
+}
+```
+
+Event streaming is enabled if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+You can optionally specify your own destination name (instead of the default GitLab-generated one) using the GraphQL
+`instanceExternalAuditEventDestinationCreate`
+mutation. Name length must not exceed 72 characters and trailing whitespace is not trimmed. This value should be unique. For example:
+
+```graphql
+mutation {
+  instanceExternalAuditEventDestinationCreate(input: { destinationUrl: "https://mydomain.io/endpoint/ingest", name: "destination-name-here"}) {
+    errors
+    instanceExternalAuditEventDestination {
+      destinationUrl
+      id
+      name
+      verificationToken
+    }
+  }
+}
+```
+
+Instance administrators can add an HTTP header using the GraphQL `auditEventsStreamingInstanceHeadersCreate` mutation. You can retrieve the destination ID
+by [listing all the streaming destinations](#list-streaming-destinations) for the instance or from the previous mutation.
+
+```graphql
+mutation {
+  auditEventsStreamingInstanceHeadersCreate(input:
+    {
+      destinationId: "gid://gitlab/AuditEvents::InstanceExternalAuditEventDestination/42",
+      key: "foo",
+      value: "bar",
+      active: true
+    }) {
+    errors
+    header {
+      id
+      key
+      value
+      active
+    }
+  }
+}
+```
+
+The header is created if the returned `errors` object is empty.
+
+### List streaming destinations
+
+List all HTTP streaming destinations for an instance.
+
+Prerequisites:
+
+- Administrator access on the instance.
+
+To view a list of streaming destinations for an instance, use the
+`instanceExternalAuditEventDestinations` query type.
+
+```graphql
+query {
+  instanceExternalAuditEventDestinations {
+    nodes {
+      id
+      name
+      destinationUrl
+      verificationToken
+      headers {
+        nodes {
+          id
+          key
+          value
+          active
+        }
+      }
+      eventTypeFilters
+    }
+  }
+}
+```
+
+If the resulting list is empty, then audit streaming is not enabled for the instance.
+
+You need the ID values returned by this query for the update and delete mutations.
+
+### Update streaming destinations
+
+Update an HTTP streaming destination for an instance.
+
+Prerequisites:
+
+- Administrator access on the instance.
+
+To update streaming destinations for an instance, use the
+`instanceExternalAuditEventDestinationUpdate` mutation type. You can retrieve the destination ID
+by [listing all the external destinations](#list-streaming-destinations) for the instance.
+
+```graphql
+mutation {
+  instanceExternalAuditEventDestinationUpdate(input: {
+    id: "gid://gitlab/AuditEvents::InstanceExternalAuditEventDestination/1",
+    destinationUrl: "https://www.new-domain.com/webhook",
+    name: "destination-name"}) {
+    errors
+    instanceExternalAuditEventDestination {
+      destinationUrl
+      id
+      name
+      verificationToken
+    }
+  }
+}
+```
+
+Streaming destination is updated if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+Instance administrators can update streaming destinations custom HTTP headers using the
+`auditEventsStreamingInstanceHeadersUpdate` mutation type. You can retrieve the custom HTTP headers ID
+by [listing all the custom HTTP headers](#list-streaming-destinations) for the instance.
+
+```graphql
+mutation {
+  auditEventsStreamingInstanceHeadersUpdate(input: { headerId: "gid://gitlab/AuditEvents::Streaming::InstanceHeader/2", key: "new-key", value: "new-value", active: false }) {
+    errors
+    header {
+      id
+      key
+      value
+      active
+    }
+  }
+}
+```
+
+The header is updated if the returned `errors` object is empty.
+
+### Delete streaming destinations
+
+Delete streaming destinations for an entire instance.
+
+When the last destination is successfully deleted, streaming is disabled for the instance.
+
+Prerequisites:
+
+- Administrator access on the instance.
+
+To delete streaming destinations, use the
+`instanceExternalAuditEventDestinationDestroy` mutation type. You can retrieve the destinations ID
+by [listing all the streaming destinations](#list-streaming-destinations) for the instance.
+
+```graphql
+mutation {
+  instanceExternalAuditEventDestinationDestroy(input: { id: "gid://gitlab/AuditEvents::InstanceExternalAuditEventDestination/1" }) {
+    errors
+  }
+}
+```
+
+Streaming destination is deleted if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+To remove an HTTP header, use the GraphQL `auditEventsStreamingInstanceHeadersDestroy` mutation.
+To retrieve the header ID,
+[list all the custom HTTP headers](#list-streaming-destinations) for the instance.
+
+```graphql
+mutation {
+  auditEventsStreamingInstanceHeadersDestroy(input: { headerId: "gid://gitlab/AuditEvents::Streaming::InstanceHeader/<id>" }) {
+    errors
+  }
+}
+```
+
+The header is deleted if the returned `errors` object is empty.
+
+### Event type filters
+
+When this feature is enabled for an instance, you can use an API to permit users to filter streamed audit events per destination.
+If the feature is enabled with no filters, the destination receives all audit events.
+
+A streaming destination that has an event type filter set has a **filtered** ({{< icon name="filter" >}}) label.
+
+#### Use the API to add an event type filter
+
+Prerequisites:
+
+- You must have the Administrator access for the instance.
+
+You can add a list of event type filters using the `auditEventsStreamingDestinationInstanceEventsAdd` mutation:
+
+```graphql
+mutation {
+    auditEventsStreamingDestinationInstanceEventsAdd(input: {
+        destinationId: "gid://gitlab/AuditEvents::InstanceExternalAuditEventDestination/1",
+        eventTypeFilters: ["list of event type filters"]}){
+        errors
+        eventTypeFilters
+    }
+}
+```
+
+Event type filters are added if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+#### Use the API to remove an event type filter
+
+Prerequisites:
+
+- You must have the Administrator access for the instance.
+
+You can remove a list of event type filters using the `auditEventsStreamingDestinationInstanceEventsRemove` mutation:
+
+```graphql
+mutation {
+    auditEventsStreamingDestinationInstanceEventsRemove(input: {
+    destinationId: "gid://gitlab/AuditEvents::InstanceExternalAuditEventDestination/1",
+    eventTypeFilters: ["list of event type filters"]
+  }){
+    errors
+  }
+}
+```
+
+Event type filters are removed if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+### Excluded event types
+
+{{< details >}}
+
+- Status: Experiment
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265150) as an [experiment](../../policy/development_stages_support.md#experiment) in GitLab 19.6.
+
+{{< /history >}}
+
+Exclude event types from a streaming destination to stop streaming them to that destination.
+If the destination has no event type filters, it still receives all other audit events.
+Use excluded event types to stop streaming a high-volume event type, such as `repository_git_operation`,
+without listing every other event type in an event type filter.
+
+An event type can be either an event type filter or an excluded event type for a destination, but not both.
+
+These mutations use the IDs of destinations returned by the `auditEventsInstanceStreamingDestinations` query.
+To get the ID and name of each destination:
+
+```graphql
+query {
+  auditEventsInstanceStreamingDestinations {
+    nodes {
+      id
+      name
+    }
+  }
+}
+```
+
+#### Use the API to exclude event types
+
+Prerequisites:
+
+- Administrator access on the instance.
+
+To exclude a list of event types, use the `auditEventsInstanceDestinationDenylistEventsAdd` mutation:
+
+```graphql
+mutation {
+  auditEventsInstanceDestinationDenylistEventsAdd(input: {
+    destinationId: "gid://gitlab/AuditEvents::Instance::ExternalStreamingDestination/1",
+    eventTypeFilters: ["repository_git_operation"]
+  }) {
+    errors
+    eventTypeFilters
+  }
+}
+```
+
+The event types are excluded if the returned `errors` object is empty.
+The `eventTypeFilters` field in the response lists all excluded event types for the destination.
+
+#### Use the API to stop excluding event types
+
+Prerequisites:
+
+- Administrator access on the instance.
+
+To stream a list of excluded event types to the destination again, use the
+`auditEventsInstanceDestinationDenylistEventsDelete` mutation:
+
+```graphql
+mutation {
+  auditEventsInstanceDestinationDenylistEventsDelete(input: {
+    destinationId: "gid://gitlab/AuditEvents::Instance::ExternalStreamingDestination/1",
+    eventTypeFilters: ["repository_git_operation"]
+  }) {
+    errors
+  }
+}
+```
+
+The event types are no longer excluded if the returned `errors` object is empty.
+If any event type in the list is not excluded for the destination, no event types are removed.
+
+## Google Cloud Logging destinations
+
+Manage Google Cloud Logging destinations for an entire instance.
+
+Before setting up Google Cloud Logging streaming audit events, you must satisfy [the prerequisites](../../administration/compliance/audit_event_streaming.md#prerequisites).
+
+### Add a new Google Cloud Logging destination
+
+Add a new Google Cloud Logging configuration destination to an instance.
+
+Prerequisites:
+
+- You have administrator access to the instance.
+- You have a Google Cloud project with the necessary permissions to create service accounts and enable Google Cloud Logging.
+
+To enable streaming and add a configuration, use the
+`instanceGoogleCloudLoggingConfigurationCreate` mutation in the GraphQL API.
+
+```graphql
+mutation {
+  instanceGoogleCloudLoggingConfigurationCreate(input: { googleProjectIdName: "my-google-project", clientEmail: "my-email@my-google-project.iam.gservice.account.com", privateKey: "YOUR_PRIVATE_KEY", logIdName: "audit-events", name: "destination-name" } ) {
+    errors
+    googleCloudLoggingConfiguration {
+      id
+      googleProjectIdName
+      logIdName
+      clientEmail
+      name
+    }
+    errors
+  }
+}
+```
+
+Event streaming is enabled if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+### List Google Cloud Logging configurations
+
+List all Google Cloud Logging configuration destinations for an instance.
+
+Prerequisites:
+
+- You have administrator access to the instance.
+
+You can view a list of streaming configurations for an instance using the `instanceGoogleCloudLoggingConfigurations` query
+type.
+
+```graphql
+query {
+  instanceGoogleCloudLoggingConfigurations {
+    nodes {
+      id
+      logIdName
+      googleProjectIdName
+      clientEmail
+      name
+    }
+  }
+}
+```
+
+If the resulting list is empty, audit streaming is not enabled for the instance.
+
+You need the ID values returned by this query for the update and delete mutations.
+
+### Update Google Cloud Logging configurations
+
+Update the Google Cloud Logging configuration destinations for an instance.
+
+Prerequisites:
+
+- You have administrator access to the instance.
+
+To update streaming configuration for an instance, use the
+`instanceGoogleCloudLoggingConfigurationUpdate` mutation type. You can retrieve the configuration ID
+by [listing all the external destinations](#list-google-cloud-logging-configurations).
+
+```graphql
+mutation {
+  instanceGoogleCloudLoggingConfigurationUpdate(
+    input: {id: "gid://gitlab/AuditEvents::Instance::GoogleCloudLoggingConfiguration/1", googleProjectIdName: "updated-google-id", clientEmail: "updated@my-google-project.iam.gservice.account.com", privateKey: "YOUR_PRIVATE_KEY", logIdName: "audit-events", name: "updated name"}
+  ) {
+    errors
+    instanceGoogleCloudLoggingConfiguration {
+      id
+      logIdName
+      googleProjectIdName
+      clientEmail
+      name
+    }
+  }
+}
+```
+
+Streaming configuration is updated if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.
+
+### Delete Google Cloud Logging configurations
+
+Delete streaming destinations for an instance.
+
+When the last destination is successfully deleted, streaming is disabled for the instance.
+
+Prerequisites:
+
+- You have administrator access to the instance.
+
+To delete streaming configurations, use the
+`instanceGoogleCloudLoggingConfigurationDestroy` mutation type. You can retrieve the configurations ID
+by [listing all the streaming destinations](#list-google-cloud-logging-configurations) for the instance.
+
+```graphql
+mutation {
+  instanceGoogleCloudLoggingConfigurationDestroy(input: { id: "gid://gitlab/AuditEvents::Instance::GoogleCloudLoggingConfiguration/1" }) {
+    errors
+  }
+}
+```
+
+Streaming configuration is deleted if:
+
+- The returned `errors` object is empty.
+- The API responds with `200 OK`.

@@ -1,0 +1,11 @@
+---
+name: zoekt_node_eviction_safeguards
+description: Only evict from a Zoekt node that stays over the high watermark, wait for an
+  eviction to free its space before evicting again, and keep new placements off that node meanwhile.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635711
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264628
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635761
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

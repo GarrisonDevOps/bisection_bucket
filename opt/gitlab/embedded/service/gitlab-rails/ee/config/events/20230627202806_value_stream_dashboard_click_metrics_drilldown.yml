@@ -1,0 +1,21 @@
+---
+description: "Click Value Stream Dashboard metric drill-down link in comparison table"
+category: default
+action: click_link
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: optimize
+product_categories:
+- value_stream_management
+milestone: "16.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/125047
+tiers:
+#- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`[metric_identifier]_drilldown`"
+

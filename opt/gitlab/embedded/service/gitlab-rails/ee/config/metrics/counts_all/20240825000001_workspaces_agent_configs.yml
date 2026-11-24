@@ -1,0 +1,17 @@
+---
+key_path: counts.workspaces_agent_configs
+description: Count of workspaces agent configs
+product_group: remote_development
+product_categories:
+- workspaces
+value_type: number
+status: active
+milestone: "17.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/163846
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountWorkspacesAgentConfigsMetric
+performance_indicator_type: []
+tiers:
+- ultimate

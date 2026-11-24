@@ -1,0 +1,20 @@
+---
+key_path: counts.enterprise_users_based_on_domain_verification
+description: "Number of enterprise users based on domain verification"
+product_group: authentication
+product_categories:
+- system_access
+value_type: number
+status: removed
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/121719
+milestone_removed: "16.1"
+milestone: "15.10"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/112185
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountEnterpriseUsersBasedOnDomainVerificationMetric
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,17 @@
+---
+description: Tracks when a merge request is merged
+internal_events: true
+action: merged_mr
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: activation
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226884
+tiers:
+  - free
+  - premium
+  - ultimate
+extra_trackers:
+  - tracking_class: Gitlab::Tracking::ActivationTracking

@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage_monthly.verify.projects_reporting_ci_cd_back_to_github
+description: Projects with a GitHub repository mirror pipeline enabled
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+value_type: number
+status: active
+time_frame: 28d
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

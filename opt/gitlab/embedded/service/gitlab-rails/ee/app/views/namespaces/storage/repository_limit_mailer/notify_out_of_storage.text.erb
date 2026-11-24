@@ -1,0 +1,7 @@
+<%= _("You have consumed all available storage and you can't push or add large files to %{project_name}" % { project_name: @project_name })
+%>
+
+<%=
+  _("To remove the read-only state, reduce git repository and git LFS storage.")
+  _("For more information contact support: %{support_link}.") % { support_link: @support_url }
+%>

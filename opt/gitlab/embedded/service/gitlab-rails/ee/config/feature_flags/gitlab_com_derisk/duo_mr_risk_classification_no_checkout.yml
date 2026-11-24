@@ -1,0 +1,10 @@
+---
+name: duo_mr_risk_classification_no_checkout
+description: Run the Risk Assessment flow with flow version 2.0.0, which reads files through the API instead of a repository checkout
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634931
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268120
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638483
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

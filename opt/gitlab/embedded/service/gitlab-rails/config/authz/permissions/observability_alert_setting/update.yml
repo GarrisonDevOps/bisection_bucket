@@ -1,0 +1,3 @@
+---
+name: update_observability_alert_setting
+description: Grants the ability to turn observability alerts on or off for a project

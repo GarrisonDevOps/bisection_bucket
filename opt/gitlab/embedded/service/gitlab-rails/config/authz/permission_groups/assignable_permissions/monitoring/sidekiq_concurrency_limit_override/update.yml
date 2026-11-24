@@ -1,0 +1,11 @@
+---
+name: update_sidekiq_concurrency_limit_override
+description: Grants the ability to update Sidekiq worker concurrency limit overrides
+boundaries:
+  - instance
+available_for:
+  - granular_access_token
+permissions:
+  - update_sidekiq_concurrency_limit_override
+assignable_when:
+  - condition: admin

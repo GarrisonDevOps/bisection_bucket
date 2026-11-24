@@ -1,0 +1,9 @@
+---
+name: auto_merge_update_on_repeated_set
+description: Update merge params instead of executing the strategy again when auto-merge is set again with the same strategy
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264717
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638610
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

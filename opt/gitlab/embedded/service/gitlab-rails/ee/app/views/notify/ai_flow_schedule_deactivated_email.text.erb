@@ -1,0 +1,6 @@
+<%= s_('AiFlowSchedules|The flow schedule "%{description}" in project %{project} has been deactivated after %{count} consecutive failures.') % { description: @schedule.description, project: "#{@project.full_name} (#{project_url(@project)})",
+count: @schedule.consecutive_failure_count } %>
+
+<%= s_('AiFlowSchedules|Last error: %{error}') % { error: @schedule.last_run_error } %>
+
+<%= s_('AiFlowSchedules|To resume scheduled flows, address the issue above, then turn the schedule back on in %{menu_path}: %{url}') % { menu_path: @triggers_menu_path, url: project_automate_flow_triggers_url(@project) } %>

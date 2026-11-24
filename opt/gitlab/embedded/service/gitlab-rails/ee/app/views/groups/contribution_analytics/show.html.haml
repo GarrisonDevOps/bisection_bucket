@@ -1,0 +1,27 @@
+- page_title _('Contribution Analytics')
+
+- if @data_source_clickhouse
+  - clickhouse_popover_docs_link = link_to('', help_page_path('user/group/contribution_analytics/_index.md', anchor: 'contribution-analytics-with-clickhouse'), target: '_blank', rel: 'noopener noreferrer')
+  - clickhouse_popover_content = safe_format(s_('ContributionAnalytics|This page sources data from the %{link_start}analytical database ClickHouse%{link_end}, with a few minutes of delay.'), tag_pair(clickhouse_popover_docs_link, :link_start, :link_end))
+  - clickhouse_popover_data = { container: 'body', toggle: 'popover', html: 'true', triggers: 'hover focus', content: clickhouse_popover_content }
+
+%div{ class: 'page-title gl-flex gl-flex-wrap gl-items-center gl-gap-4', data: { testid: 'contribution-analytics-header' } }
+  %h1.gl-text-size-h-display.gl-my-0= _('Contribution Analytics')
+  - if @data_source_clickhouse
+    = gl_badge_tag(s_('ContributionAnalytics|Using ClickHouse'), { variant: :info, icon: "information-o" }, { data: { testid: 'using-clickhouse-badge', **clickhouse_popover_data } }, tabindex: '0')
+
+
+= gl_tabs_nav(class: 'gl-mb-3', 'data-testid': 'contribution-analytics-date-nav') do
+  - date_range_nav.each do |range|
+    = gl_tab_link_to group_contribution_analytics_path(start_date: range[:date]), item_active: @start_date == range[:date] do
+      = range[:label]
+%p= s_('ContributionAnalytics|Contribution analytics for issues, merge requests and push events since %{start_date}') % { start_date: @start_date }
+
+#js-contribution-analytics{
+  data: {
+    full_path: @group.full_path,
+    start_date: @start_date.to_date.iso8601,
+    end_date: Time.zone.today.iso8601,
+    data_source_clickhouse: @data_source_clickhouse.to_s
+  }
+}

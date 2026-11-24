@@ -1,0 +1,20 @@
+---
+description: A user registered a new external coding agent identity through glab, once per agent type, machine, and project
+internal_events: true
+status: active
+action: register_external_agent_identity
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: Agent type, for example claude-code
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263121
+tiers:
+- premium
+- ultimate

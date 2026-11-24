@@ -1,0 +1,10 @@
+---
+name: mfe_duo_chat_poc
+description: Render agentic Duo Chat in the AI panel from the Duo Chat micro-frontend instead of the native components.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/22344
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268037
+rollout_issue_url:
+milestone: '19.6'
+type: wip
+group: group::duo chat
+default_enabled: false

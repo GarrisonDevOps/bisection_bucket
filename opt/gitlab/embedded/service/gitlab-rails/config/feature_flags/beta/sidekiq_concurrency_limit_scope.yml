@@ -1,0 +1,10 @@
+---
+name: sidekiq_concurrency_limit_scope
+description: Caps the jobs of each namespace or user at its share of a worker's Sidekiq concurrency limit, for workers that declare concurrency_limit_scope.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633462
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264227
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636157
+milestone: '19.6'
+group: group::policy management
+type: beta
+default_enabled: false

@@ -1,0 +1,33 @@
+append_cflags: checking for whether -std=gnu99 is accepted as CFLAGS... -------------------- yes
+
+ "gcc -o conftest -I../../../../../.ext/include/x86_64-linux -I../../../../.././include -I../../../../.././.bundle/gems/rbs-3.4.0/ext/rbs_extension -I../../../../../. -I/opt/gitlab/embedded/include -O3 -D_FORTIFY_SOURCE=2 -fstack-protector -O3 -g -pipe -fno-omit-frame-pointer   -I/opt/gitlab/embedded/include -O3 -D_FORTIFY_SOURCE=2 -fstack-protector -O3 -g -pipe -fno-omit-frame-pointer -fPIC conftest.c  -L. -L../../../../.. -L/opt/gitlab/embedded/lib -Wl,-rpath,/opt/gitlab/embedded/lib -L. -Wl,-rpath,/opt/gitlab/embedded/lib -L/opt/gitlab/embedded/lib -Wl,--no-as-needed -fstack-protector-strong -L/opt/gitlab/embedded/lib  -Wl,-rpath,/opt/gitlab/embedded/lib -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/opt/gitlab/embedded/lib -L/opt/gitlab/embedded/lib -lruby-static -lz -lrt -lrt -ljemalloc -ldl -lcrypt -lm -lpthread   -lm -lpthread  -ljemalloc -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+ "gcc -I../../../../../.ext/include/x86_64-linux -I../../../../.././include -I../../../../.././.bundle/gems/rbs-3.4.0/ext/rbs_extension -I../../../../../. -I/opt/gitlab/embedded/include -O3 -D_FORTIFY_SOURCE=2 -fstack-protector -O3 -g -pipe -fno-omit-frame-pointer   -I/opt/gitlab/embedded/include -O3 -D_FORTIFY_SOURCE=2 -fstack-protector -O3 -g -pipe -fno-omit-frame-pointer -fPIC  -std=gnu99 -Werror -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+--------------------
+
+extconf.h is:
+/* begin */
+1: #ifndef EXTCONF_H
+2: #define EXTCONF_H
+3: #endif
+/* end */
+

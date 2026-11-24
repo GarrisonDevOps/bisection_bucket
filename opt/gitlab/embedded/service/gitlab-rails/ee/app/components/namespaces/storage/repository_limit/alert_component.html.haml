@@ -1,0 +1,21 @@
+.gl-mt-3
+  = render Pajamas::AlertComponent.new(variant: alert_variant,
+    dismissible: dismissible?,
+    title: alert_title,
+    alert_options: { class: 'js-namespace-storage-alert',
+                    data: { feature_id: callout_feature_name,
+                            dismiss_endpoint: alert_callout_path,
+                            group_id: root_namespace.id,
+                            defer_links: "true",
+                            testid: 'storage-limit-alert-content' }}) do |c|
+    = c.with_body do
+      - alert_message.each do |paragraph|
+        %p
+          = paragraph
+
+    - if purchase_link || usage_quotas_link
+      = c.with_actions do
+        - if purchase_link
+          = link_button_to _('Purchase more storage'), purchase_link, class: 'gl-alert-action', variant: :confirm, size: :small
+        - if usage_quotas_link
+          = link_button_to _('View usage details'), usage_quotas_link, class: 'gl-alert-action', size: :small

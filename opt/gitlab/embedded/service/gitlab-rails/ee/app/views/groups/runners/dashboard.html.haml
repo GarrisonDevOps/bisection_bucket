@@ -1,0 +1,12 @@
+- add_to_breadcrumbs s_('Runners|Runners'), group_runners_path(@group)
+- breadcrumb_title s_('Runners|Fleet dashboard')
+- page_title s_('Runners|Fleet dashboard'), s_('Runners|Runners')
+- add_page_specific_style 'page_bundles/runners'
+
+
+#js-group-runners-dashboard{ data: {
+  group_full_path: @group.full_path,
+  group_runners_path: group_runners_path(@group),
+  new_runner_path: new_group_runner_path(@group),
+  clickhouse_ci_analytics_available: ::Gitlab::ClickHouse.configured?.to_s
+} }

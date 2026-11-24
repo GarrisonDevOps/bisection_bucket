@@ -1,0 +1,21 @@
+---
+description: Rendering of the Duo agent platform widget in sidebar
+internal_events: true
+status: removed
+milestone_removed: '18.7'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214108
+action: render_duo_agent_platform_widget_in_sidebar
+identifiers:
+- namespace
+- user
+additional_properties:
+  label:
+    description: The current state of the widget enabled, enabled_without_feature_preview, etc
+product_group: activation
+product_categories:
+- activation
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203899
+tiers:
+- premium
+- ultimate

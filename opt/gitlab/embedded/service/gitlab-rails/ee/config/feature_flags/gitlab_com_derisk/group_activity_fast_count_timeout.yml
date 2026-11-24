@@ -1,0 +1,10 @@
+---
+name: group_activity_fast_count_timeout
+description: Runs group activity counts with a short statement timeout and caches timeouts as a too large result
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636162
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267468
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637996
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

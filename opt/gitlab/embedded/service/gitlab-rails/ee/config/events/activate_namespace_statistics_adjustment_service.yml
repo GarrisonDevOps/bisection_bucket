@@ -1,0 +1,13 @@
+---
+description: Namespace statistics adjustment service was activated
+internal_events: true
+action: activate_namespace_statistics_adjustment_service
+identifiers:
+- feature_enabled_by_namespace_ids
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192643
+tiers:
+- ultimate

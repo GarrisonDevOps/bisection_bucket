@@ -1,0 +1,16 @@
+---
+description: User viewed the BLSA "Explore what's new" spotlight on the group Security configuration or Security inventory page
+internal_events: true
+status: active
+action: view_blsa_whats_new_spotlight
+identifiers:
+- user
+- namespace
+product_group: code_security
+product_categories:
+- security_testing_configuration
+- security_asset_inventories
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268148
+tiers:
+- ultimate

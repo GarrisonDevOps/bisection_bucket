@@ -1,0 +1,19 @@
+---
+description: User dismisses the Turn-On-Orbit confirmation modal without confirming (Cancel button, X, ESC, or backdrop click)
+internal_events: true
+action: dismiss_orbit_turn_on_modal
+identifiers:
+- user
+- namespace
+- project
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237283
+tiers:
+- premium
+- ultimate
+status: removed
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261364
+milestone_removed: '19.6'

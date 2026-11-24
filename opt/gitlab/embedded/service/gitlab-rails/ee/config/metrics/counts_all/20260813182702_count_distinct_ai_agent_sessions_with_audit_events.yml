@@ -1,0 +1,20 @@
+---
+key_path: counts.count_distinct_ai_agent_sessions_with_audit_events
+description: Number of distinct AI agent sessions (workflows) with AI audit events durably stored in PostgreSQL
+product_group: compliance
+product_categories:
+- audit_events
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249200
+time_frame:
+- 28d
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountDistinctAiAgentSessionsWithAuditEventsMetric
+tiers:
+- premium
+- ultimate

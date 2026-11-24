@@ -1,0 +1,10 @@
+---
+name: work_item_hierarchy_add_children_limits
+description: Caps the number of child items added per request and enforces the per-user rate limit on adding child items; while disabled, requests over the rate limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637489
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266141
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636961
+milestone: '19.6'
+group: group::portfolio planning
+type: gitlab_com_derisk
+default_enabled: false

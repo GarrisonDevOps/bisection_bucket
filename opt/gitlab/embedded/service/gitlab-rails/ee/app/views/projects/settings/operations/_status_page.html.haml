@@ -1,0 +1,3 @@
+- return unless can?(current_user, :update_status_page_setting, @project)
+
+.js-status-page-settings{ data: status_page_settings_data }

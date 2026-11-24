@@ -1,0 +1,17 @@
+- return if !group.licensed_feature_available?(:group_allowed_email_domains) || group.parent_id.present?
+- hidden_input_id = 'group_allowed_email_domains_list'
+- label_id = "#{hidden_input_id}_label"
+
+.form-group
+  %label{ id: label_id }
+    = _('Restrict membership by email domain')
+  .js-allowed-email-domains{ data: { hidden_input_id: hidden_input_id,
+    label_id: label_id,
+    regex_validator: AllowedEmailDomain::JS_VALID_DOMAIN_REGEX.source,
+    disallowed_values: Gitlab::Access::ReservedDomains::ALL.to_json } }
+  = f.hidden_field :allowed_email_domains_list, id: hidden_input_id
+  .form-text.gl-text-subtle
+    - learn_more_link = link_to(_('Learn more'), help_page_path('user/group/access_and_permissions.md', anchor: 'restrict-group-access-by-domain'))
+    = _('Only verified users with an email address in any of these domains can be added to the group. Multiple domains are supported.')
+    %br
+    = _('Some common domains are not allowed. %{learn_more_link}.').html_safe % { learn_more_link: learn_more_link }

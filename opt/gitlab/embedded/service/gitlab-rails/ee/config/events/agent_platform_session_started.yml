@@ -1,0 +1,45 @@
+---
+description: Tracks duo agent platform session start
+internal_events: true
+status: active
+action: agent_platform_session_started
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: Flow type, eg. chat
+  property:
+    description: Environment, eg. web
+  value:
+    description: Session id
+  verification_run:
+    description: Whether the session is a functional verification run, not real user activity. Verification runs are not billed.
+  image_source:
+    description: >-
+      Where the container image for the session came from, checked in this order: session
+      (an image passed in when the session was created), agent_config (the image: key in
+      the project's .gitlab/duo/agent-config.yml), instance (the instance-wide default image
+      registry setting), or default (the GitLab-provided image). Only sent for sessions that
+      run in CI.
+  custom_setup_script:
+    description: >-
+      Whether the project's .gitlab/duo/agent-config.yml sets a setup_script (a list of shell
+      commands that prepare the runtime before the agent starts). Sent as the string 'true'
+      or 'false', and only for sessions that run in CI.
+  custom_network_policy:
+    description: >-
+      Whether the project's .gitlab/duo/agent-config.yml sets any network_policy rules (which
+      domains the session's sandbox may or may not reach). An empty network_policy block counts
+      as 'false', since it restricts nothing. Sent as the string 'true' or 'false', and only
+      for sessions that run in CI.
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201505
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,10 @@
+---
+name: duo_features_enabled_updated
+description: GitLab Duo Features enabled setting on group or project changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/442485
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/145509
+feature_category: ai_framework
+milestone: '16.10'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

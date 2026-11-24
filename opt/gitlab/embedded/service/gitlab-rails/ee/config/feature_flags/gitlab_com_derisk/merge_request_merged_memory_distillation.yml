@@ -1,0 +1,11 @@
+---
+name: merge_request_merged_memory_distillation
+description: Scoped to the Project level. If enabled, Developer flow runs start to
+  distill memory from past developer sessions when a merge request is merged.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/modelops/applied-ml/code-suggestions/-/work_items/50
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249514
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/612789
+milestone: '19.3'
+group: group::agent developer
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,11 @@
+---
+name: duo_developer_continuable_sessions
+description: Run Duo Developer sessions started from GitLab on developer/4.0.0, which
+  rests after each turn and can be continued
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/24022
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262809
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633281
+milestone: '19.6'
+group: group::agent developer
+type: wip
+default_enabled: false

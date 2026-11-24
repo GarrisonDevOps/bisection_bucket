@@ -1,0 +1,10 @@
+---
+name: audit_policy_violations_on_change_only
+description: Enqueue the policy violations detected and warn mode audit event workers only when the merge request's violations change
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265357
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636319
+milestone: '19.6'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

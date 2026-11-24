@@ -1,0 +1,10 @@
+---
+table_name: project_import_export_relation_export_upload_upload_registry
+description: Geo registry table for tracking replication and verification of Relation Export File Uploads
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234470
+milestone: '19.0'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::ProjectImportExportRelationExportUploadUploadRegistry
+gitlab_schema: gitlab_geo

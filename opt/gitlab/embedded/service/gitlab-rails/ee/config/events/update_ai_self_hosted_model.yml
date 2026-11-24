@@ -1,0 +1,19 @@
+---
+description: Tracks when a self-hosted AI model is updated
+internal_events: true
+action: update_ai_self_hosted_model
+classification: duo
+identifiers:
+- user
+additional_properties:
+  label:
+    description: The model family being used (e.g. mistral, llama3, etc.)
+  property:
+    description: The model identifier being used (eg. custom_openai/Mistral-7B-v0.1)
+product_group: ai_model_services
+product_categories:
+- self-hosted_models
+milestone: '17.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/179195
+tiers:
+- ultimate 

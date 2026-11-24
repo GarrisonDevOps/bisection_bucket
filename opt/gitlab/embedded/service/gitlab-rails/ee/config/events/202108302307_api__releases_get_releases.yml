@@ -1,0 +1,13 @@
+description: Get releases
+category: API::Releases
+action: get_releases
+extra_properties:
+identifiers:
+product_group: environments
+product_categories:
+- release_orchestration
+milestone: "13.12"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/58221
+tiers:
+- premium
+- ultimate

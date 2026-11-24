@@ -1,0 +1,16 @@
+---
+description: Confirm the dialog that rotates a leaked GitLab personal access token and fixes it with GitLab Duo
+internal_events: true
+status: active
+action: confirm_rotate_leaked_token_modal
+identifiers:
+- project
+- namespace
+- user
+product_group: secrets_manager_application
+product_categories:
+- secrets_management
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268242
+tiers:
+- ultimate

@@ -1,0 +1,10 @@
+- link = link_to _('Manage deployments'), pages_usage_quotas_link(project)
+- if show_pages_parallel_deployments_error?(project)
+  = render Pajamas::AlertComponent.new(variant: :danger, dismissible: false, alert_options: { class: 'gl-hidden @sm/panel:gl-block' }) do |c|
+    - c.with_body do
+      = safe_format(_('You are out of Pages parallel deployments. Delete some existing deployments to be able to create new ones. %{link}.'), link: link)
+- elsif show_pages_parallel_deployments_warning?(project)
+  = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false, alert_options: { class: 'gl-hidden @sm/panel:gl-block' }) do |c|
+    - c.with_body do
+      = safe_format(_('You are almost out of Pages parallel deployments. Delete some deployments or you will be unable to create new ones soon. %{link}.'), link: link)
+

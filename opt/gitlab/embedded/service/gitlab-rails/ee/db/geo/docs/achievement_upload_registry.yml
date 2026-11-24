@@ -1,0 +1,10 @@
+---
+table_name: achievement_upload_registry
+description: Geo registry table for tracking replication and verification of Achievement Uploads
+introduced_by_url:
+milestone: '18.11'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::AchievementUploadRegistry
+gitlab_schema: gitlab_geo

@@ -1,0 +1,21 @@
+---
+key_path: counts.ai_catalog_private_flows
+description: Total number of private AI Catalog flows
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+value_type: number
+status: active
+milestone: "18.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202202
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountAiCatalogItemsMetric
+performance_indicator_type: []
+options:
+  item_type: flow
+  visibility: private
+tiers:
+- premium
+- ultimate

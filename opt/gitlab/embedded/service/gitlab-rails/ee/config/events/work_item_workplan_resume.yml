@@ -1,0 +1,38 @@
+---
+description: >-
+  A user resumed a workplan flow run that was waiting for input on a work item.
+  The user is the one who resumed the run, who can differ from the user who
+  started it.
+internal_events: true
+status: active
+action: work_item_workplan_resume
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: |
+      What the resume sends to the flow. `answers` when at least one question
+      has a reply, `no_answers` when no question has a reply, so the flow
+      continues with its best assumptions, `context_request` when the run
+      paused to request more context and gets its original goal back.
+  property:
+    description: user role
+  source:
+    description: |
+      How the request was authenticated. `ai_workflows`: an agent (Duo
+      workflows or coding agents) using an `ai_workflows`-scoped token.
+      `api`: a human using any other token. `internal`: no token.
+  work_item_id:
+    description: Id of the work item the workplan is for.
+  workflow_id:
+    description: Id of the workplan flow run that was resumed.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268657
+tiers:
+- premium
+- ultimate

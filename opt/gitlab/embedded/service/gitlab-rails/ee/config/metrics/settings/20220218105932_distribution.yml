@@ -1,0 +1,16 @@
+key_path: advanced_search.distribution
+description: Advanced Search search engine distribution
+product_group: global_search
+product_categories:
+- global_search
+value_type: string
+status: active
+milestone: "14.9"
+instrumentation_class: AdvancedSearch::VersionMetric
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/81003
+time_frame: none
+data_source: system
+data_category: optional
+tiers:
+- premium
+- ultimate

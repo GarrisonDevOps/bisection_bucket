@@ -1,0 +1,253 @@
+# frozen_string_literal: true
+
+module Authn
+  module IamService
+    class GrpcClient < BaseClient
+      include Gitlab::Utils::StrongMemoize
+
+      # Carries a machine-readable reason so callers can branch on the failure
+      # (e.g. tell a missing client apart from a real outage) without parsing the
+      # message text. The message stays diagnostic (it includes the raw gRPC
+      # status) for logs and Sentry.
+      class RequestError < StandardError
+        attr_reader :reason
+
+        def initialize(message, reason: :unknown)
+          @reason = reason
+          super(message)
+        end
+      end
+
+      # Maps the gRPC statuses these RPCs can return to a machine-readable reason
+      # for callers to translate. Keyed by the integer gRPC status code
+      # (GRPC::BadStatus#code); unlisted statuses fall back to :unknown.
+      ERROR_REASONS = {
+        GRPC::Core::StatusCodes::NOT_FOUND => :not_found,
+        GRPC::Core::StatusCodes::ALREADY_EXISTS => :already_exists,
+        GRPC::Core::StatusCodes::INVALID_ARGUMENT => :invalid_request,
+        GRPC::Core::StatusCodes::PERMISSION_DENIED => :permission_denied,
+        GRPC::Core::StatusCodes::UNAUTHENTICATED => :unauthenticated,
+        GRPC::Core::StatusCodes::UNAVAILABLE => :unavailable,
+        GRPC::Core::StatusCodes::DEADLINE_EXCEEDED => :timeout,
+        # IAM answers ABORTED when a transaction loses a write conflict: nothing
+        # was applied, and the call is safe to repeat.
+        GRPC::Core::StatusCodes::ABORTED => :conflict,
+        GRPC::Core::StatusCodes::FAILED_PRECONDITION => :failed_precondition
+      }.freeze
+
+      # IAM is down or slow, rather than the request being wrong.
+      TRANSIENT_REASONS = %i[unavailable timeout].freeze
+
+      TIMEOUT_SECONDS = 5
+
+      # Workaround: the GATE sandbox Envoy gateway requires this header to route
+      # gRPC traffic to the IAM backend. Harmless when sent to non-Envoy endpoints.
+      # TODO: remove when direct gRPC routing replaces the Envoy header-based routing.
+      ROUTING_HEADER = 'x-gitlab-svc'
+      ROUTING_HEADER_VALUE = 'iam-auth-grpc'
+
+      REQUEST_TYPES = {
+        health: ::Gitlab::Iam::Auth::V1::HealthRequest,
+        accept_login_challenge: ::Gitlab::Iam::Auth::V1::LoginServiceAcceptRequest,
+        reject_login_challenge: ::Gitlab::Iam::Auth::V1::LoginServiceRejectRequest,
+        get_consent_challenge: ::Gitlab::Iam::Auth::V1::ConsentServiceGetRequest,
+        accept_consent_challenge: ::Gitlab::Iam::Auth::V1::ConsentServiceAcceptRequest,
+        reject_consent_challenge: ::Gitlab::Iam::Auth::V1::ConsentServiceRejectRequest,
+        create_oauth_application: ::Gitlab::Iam::Auth::V1::InternalOAuthClientsServiceCreateClientRequest,
+        get_oauth_application: ::Gitlab::Iam::Auth::V1::InternalOAuthClientsServiceGetClientRequest,
+        delete_oauth_application: ::Gitlab::Iam::Auth::V1::InternalOAuthClientsServiceDeleteClientRequest,
+        upsert_oauth_application: ::Gitlab::Iam::Auth::V1::InternalOAuthClientsServiceUpsertClientRequest,
+        bulk_upsert_oauth_applications: ::Gitlab::Iam::Auth::V1::InternalOAuthClientsServiceBulkUpsertClientsRequest,
+        revoke_user_client_tokens: ::Gitlab::Iam::Auth::V1::InternalOAuthTokensServiceRevokeUserClientTokensRequest,
+        is_revoked: ::Gitlab::Iam::Auth::V1::InternalOAuthTokensServiceIsRevokedRequest,
+        upsert_oauth_refresh_token: ::Gitlab::Iam::Auth::V1::InternalOAuthDoorkeeperRefreshTokensServiceUpsertRequest,
+        bulk_upsert_oauth_refresh_tokens:
+          ::Gitlab::Iam::Auth::V1::InternalOAuthDoorkeeperRefreshTokensServiceBulkUpsertRequest,
+        get_oauth_refresh_token_state:
+          ::Gitlab::Iam::Auth::V1::InternalOAuthDoorkeeperRefreshTokensServiceGetStateRequest
+      }.freeze
+
+      # Only RequestError carries a machine-readable reason; anything else falls back to the class name.
+      def self.error_label(error)
+        return error.reason.to_s if error.is_a?(RequestError)
+
+        error.class.name
+      end
+
+      # Request-path callers pass report_transient_errors: false so an outage is not one event per request,
+      # report_invalid_requests: false when forwarding untrusted input, and report_not_found: false when
+      # NOT_FOUND is a normal answer.
+      def initialize(timeout: nil, report_transient_errors: true, report_invalid_requests: true, report_not_found: true)
+        @timeout = timeout || TIMEOUT_SECONDS
+        @report_transient_errors = report_transient_errors
+        @report_invalid_requests = report_invalid_requests
+        @report_not_found = report_not_found
+      end
+
+      def health(**kwargs)
+        call(:health, kwargs)
+      end
+
+      def accept_login_challenge(**kwargs)
+        call(:accept_login_challenge, kwargs)
+      end
+
+      def reject_login_challenge(**kwargs)
+        call(:reject_login_challenge, kwargs)
+      end
+
+      def get_consent_challenge(**kwargs)
+        call(:get_consent_challenge, kwargs)
+      end
+
+      def accept_consent_challenge(**kwargs)
+        call(:accept_consent_challenge, kwargs)
+      end
+
+      def reject_consent_challenge(**kwargs)
+        call(:reject_consent_challenge, kwargs)
+      end
+
+      def create_oauth_application(**kwargs)
+        call(:create_oauth_application, kwargs)
+      end
+
+      def get_oauth_application(**kwargs)
+        call(:get_oauth_application, kwargs)
+      end
+
+      def delete_oauth_application(**kwargs)
+        call(:delete_oauth_application, kwargs)
+      end
+
+      def upsert_oauth_application(**kwargs)
+        call(:upsert_oauth_application, kwargs)
+      end
+
+      def bulk_upsert_oauth_applications(**kwargs)
+        call(:bulk_upsert_oauth_applications, kwargs)
+      end
+
+      def revoke_user_client_tokens(**kwargs)
+        call(:revoke_user_client_tokens, kwargs)
+      end
+
+      # Returns only the boolean, not the gRPC response object like the other methods.
+      def token_revoked?(**kwargs)
+        call(:is_revoked, kwargs).revoked
+      end
+
+      def upsert_oauth_refresh_token(**kwargs)
+        call(:upsert_oauth_refresh_token, kwargs)
+      end
+
+      def bulk_upsert_oauth_refresh_tokens(**kwargs)
+        call(:bulk_upsert_oauth_refresh_tokens, kwargs)
+      end
+
+      # Returns only the boolean. Raises a :not_found RequestError when IAM holds no replica.
+      def oauth_refresh_token_active?(**kwargs)
+        call(:get_oauth_refresh_token_state, kwargs).active
+      end
+
+      private
+
+      def call(method_name, kwargs) # rubocop:disable Metrics/CyclomaticComplexity -- one branch per RPC
+        request = REQUEST_TYPES.fetch(method_name).new(**kwargs)
+        options = { metadata: metadata }
+
+        case method_name
+        when :health then stub.health(request, **options)
+        when :accept_login_challenge then login_stub.accept(request, **options)
+        when :reject_login_challenge then login_stub.reject(request, **options)
+        when :get_consent_challenge then consent_stub.get(request, **options)
+        when :accept_consent_challenge then consent_stub.accept(request, **options)
+        when :reject_consent_challenge then consent_stub.reject(request, **options)
+        when :create_oauth_application then oauth_clients_stub.create_client(request, **options)
+        when :get_oauth_application then oauth_clients_stub.get_client(request, **options)
+        when :delete_oauth_application then oauth_clients_stub.delete_client(request, **options)
+        when :upsert_oauth_application then oauth_clients_stub.upsert_client(request, **options)
+        when :bulk_upsert_oauth_applications then oauth_clients_stub.bulk_upsert_clients(request, **options)
+        when :revoke_user_client_tokens then oauth_tokens_stub.revoke_user_client_tokens(request, **options)
+        when :is_revoked then oauth_tokens_stub.is_revoked(request, **options)
+        when :upsert_oauth_refresh_token then oauth_doorkeeper_refresh_tokens_stub.upsert(request, **options)
+        when :bulk_upsert_oauth_refresh_tokens then oauth_doorkeeper_refresh_tokens_stub.bulk_upsert(request, **options)
+        when :get_oauth_refresh_token_state then oauth_doorkeeper_refresh_tokens_stub.get_state(request, **options)
+        else raise ArgumentError, "Unknown gRPC method: #{method_name}"
+        end
+      rescue Authn::IamAuthService::ConfigurationError => e
+        Gitlab::ErrorTracking.track_exception(e)
+        raise RequestError.new('IAM auth service is not configured', reason: :unavailable)
+      rescue GRPC::BadStatus => e
+        raise request_error_from(e)
+      end
+
+      def request_error_from(error)
+        reason = ERROR_REASONS.fetch(error.code, :unknown)
+        Gitlab::ErrorTracking.track_exception(error) if report?(reason)
+
+        RequestError.new("IAM service request failed: #{error.code}", reason: reason)
+      end
+
+      def report?(reason)
+        return @report_transient_errors if TRANSIENT_REASONS.include?(reason)
+        return @report_invalid_requests if reason == :invalid_request
+        return @report_not_found if reason == :not_found
+
+        true
+      end
+
+      # Built once per client, not per call.
+      def stub
+        build_stub(::Gitlab::Iam::Auth::V1::AuthService::Stub, grpc_address, timeout: @timeout)
+      end
+      strong_memoize_attr :stub
+
+      def login_stub
+        build_stub(::Gitlab::Iam::Auth::V1::LoginService::Stub, grpc_address, timeout: @timeout)
+      end
+      strong_memoize_attr :login_stub
+
+      def consent_stub
+        build_stub(::Gitlab::Iam::Auth::V1::ConsentService::Stub, grpc_address, timeout: @timeout)
+      end
+      strong_memoize_attr :consent_stub
+
+      def oauth_clients_stub
+        build_stub(::Gitlab::Iam::Auth::V1::InternalOAuthClientsService::Stub, grpc_address, timeout: @timeout)
+      end
+      strong_memoize_attr :oauth_clients_stub
+
+      def oauth_tokens_stub
+        build_stub(::Gitlab::Iam::Auth::V1::InternalOAuthTokensService::Stub, grpc_address, timeout: @timeout)
+      end
+      strong_memoize_attr :oauth_tokens_stub
+
+      def oauth_doorkeeper_refresh_tokens_stub
+        build_stub(
+          ::Gitlab::Iam::Auth::V1::InternalOAuthDoorkeeperRefreshTokensService::Stub, grpc_address, timeout: @timeout
+        )
+      end
+      strong_memoize_attr :oauth_doorkeeper_refresh_tokens_stub
+
+      def grpc_address
+        Authn::IamAuthService.grpc_address
+      end
+
+      def secure_transport?
+        Authn::IamAuthService.grpc_secure?
+      end
+
+      def metadata
+        { ROUTING_HEADER => ROUTING_HEADER_VALUE }
+      end
+
+      def service_token_credentials
+        {
+          header: Authn::IamAuthService::IAM_AUTH_TOKEN_HEADER,
+          token: Authn::IamAuthService.secret
+        }
+      end
+    end
+  end
+end

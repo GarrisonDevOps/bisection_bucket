@@ -1,0 +1,21 @@
+---
+description: Tracks duo workflow start event
+internal_events: true
+action: start_duo_workflow_execution
+classification: duo
+identifiers:
+- user
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+additional_properties:
+  label:
+    description: Workflow type label
+  property:
+    description: Request Id that can be used to connect this event to others that happen when the request is resolved.
+  workflow_id:
+    description: The ID for the workflow
+milestone: '17.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/163342
+tiers:
+- ultimate

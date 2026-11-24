@@ -1,0 +1,3 @@
+- apps_by_mount_point = gitlab_apps_by_mount_point(project: @project, pipeline: @pipeline)
+- if apps_by_mount_point.present?
+  #js-gitlab-apps{ data: { apps: apps_by_mount_point.to_json } }

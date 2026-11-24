@@ -1,0 +1,27 @@
+---
+description: Tracks when a call was made to an LLM
+internal_events: true
+action: execute_llm_method
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: The type of LLM request (such as 'chat' or 'categorize_question')
+  property:
+    description: Success of request
+  client:
+    description: Client such as 'web', 'vscode' or 'mobile'
+  requestId:
+    description: Request id
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '16.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/117877
+tiers:
+- free
+- premium
+- ultimate

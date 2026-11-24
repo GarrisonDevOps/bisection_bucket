@@ -1,0 +1,11 @@
+.info-well
+  .well-segment
+    %p
+      = s_("GoogleArtifactRegistry|Manage your artifacts in Google Artifact Registry:")
+    %ul
+      %li
+        = safe_format(s_("GoogleArtifactRegistry|View them in %{strong_start}Deploy &gt; Google Artifact Registry%{strong_end}."), tag_pair(tag.strong, :strong_start, :strong_end))
+      %li
+        - google_artifact_registry_examples_help_link_url = help_page_path('user/project/integrations/google_artifact_management.md', anchor: 'examples')
+        - google_artifact_registry_examples_help_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: google_artifact_registry_examples_help_link_url }
+        = s_("GoogleArtifactRegistry|Interact with them from your CI/CD pipeline. %{link_start}Learn more%{link_end}.").html_safe % { link_start: google_artifact_registry_examples_help_link_start, link_end: '</a>'.html_safe }

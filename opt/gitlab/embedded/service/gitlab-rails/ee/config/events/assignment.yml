@@ -1,0 +1,12 @@
+---
+description: Triggered when an experiment is assigned to a user. The basic behavior, is to accept any details and pass them for tracking, with an included gitlab_experiment schema, that has various details about the experiment, like name and variant assignment
+action: assignment
+identifiers:
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '14.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164498
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,23 @@
+---
+description: This event represents the time from DuoChat prompt being sent to first chunk received on client
+action: ai_response_time
+classification: duo
+internal_events: true
+identifiers:
+- project
+- user
+- namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/158431
+tiers:
+- premium
+- ultimate
+additional_properties:
+  property:
+    description: Ai Action request Id that can be used to connect this event to others that happen when request is resolved.
+  value:
+    description: the time from DuoChat prompt being sent to first chunk received on client
+

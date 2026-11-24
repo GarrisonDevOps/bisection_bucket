@@ -1,0 +1,9 @@
+- add_to_breadcrumbs _('Roles and permissions'), admin_application_settings_roles_and_permissions_path
+- @is_admin_role = @member_role.admin_related_role?
+- page_title @is_admin_role ? s_('MemberRole|Edit admin role') : s_('MemberRole|Edit member role')
+
+#js-edit-member-role{ data: {
+  list_page_path: admin_application_settings_roles_and_permissions_path,
+  role_id: @member_role.id,
+  is_admin_role: @is_admin_role.to_s
+} }

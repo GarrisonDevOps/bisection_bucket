@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+def next?
+  File.basename(__FILE__) == "Gemfile.next"
+end
+
+source "https://rubygems.org"
+
+gemspec
+
+if next?
+  gem 'activerecord', '~> 8.1.0' # rubocop:disable Gemfile/MissingFeatureCategory -- feature_category: :rails_platform is already specified in root Gemfile
+else
+  gem 'activerecord', '~> 8.0.0' # rubocop:disable Gemfile/MissingFeatureCategory -- feature_category: :rails_platform is already specified in root Gemfile
+end

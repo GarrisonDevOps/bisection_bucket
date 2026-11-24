@@ -1,0 +1,38 @@
+= render_ce "projects/merge_requests/page"
+
+= javascript_tag do
+  :plain
+    // Append static, server-generated data not included in merge request entity (EE-Only)
+    // Object.assign would be useful here, but it blows up Phantom.js in tests
+    window.gl.mrWidgetData.is_geo_secondary_node = '#{Gitlab::Geo.secondary_or_org_migration_target?}' === 'true';
+    window.gl.mrWidgetData.geo_secondary_help_path = '#{help_page_path("administration/geo/replication/configuration.md")}';
+    window.gl.mrWidgetData.sast_help_path = '#{help_page_path("user/application_security/sast/_index.md")}';
+    window.gl.mrWidgetData.secret_detection_help_path = '#{help_page_path("user/application_security/secret_detection/_index.md")}';
+    window.gl.mrWidgetData.container_scanning_help_path = '#{help_page_path("user/application_security/container_scanning/_index.md")}';
+    window.gl.mrWidgetData.dast_help_path = '#{help_page_path("user/application_security/dast/_index.md")}';
+    window.gl.mrWidgetData.dependency_scanning_help_path = '#{help_page_path("user/application_security/dependency_scanning/_index.md")}';
+    window.gl.mrWidgetData.api_fuzzing_help_path = '#{help_page_path("user/application_security/api_fuzzing/_index.md")}';
+    window.gl.mrWidgetData.coverage_fuzzing_help_path = '#{help_page_path("user/application_security/coverage_fuzzing/_index.md")}';
+    window.gl.mrWidgetData.license_scanning_comparison_path = '#{license_scanning_reports_project_merge_request_path(@project, @merge_request) if @project.feature_available?(:license_scanning)}'
+    window.gl.mrWidgetData.license_scanning_comparison_collapsed_path = '#{license_scanning_reports_collapsed_project_merge_request_path(@project, @merge_request) if @project.feature_available?(:license_scanning)}'
+    window.gl.mrWidgetData.aiCommitMessageEnabled = #{::Llm::GenerateCommitMessageService.new(current_user, @merge_request).valid?.to_s}
+    window.gl.mrWidgetData.dismissal_descriptions = '#{escape_javascript(dismissal_descriptions.to_json)}';
+    window.gl.mrWidgetData.customize_jira_issue_enabled = '#{@project.jira_integration&.customize_jira_issue_enabled.to_s}';
+    window.gl.mrWidgetData.commit_path_template = '#{commit_path_template(@project)}';
+    window.gl.mrWidgetData.merge_trains_path = '#{namespace_project_merge_trains_path(@project.namespace, @project)}';
+    window.gl.mrWidgetData.validity_checks_enabled = '#{@merge_request.project&.security_setting&.validity_checks_enabled.to_s}';
+
+- if can?(current_user, :read_security_orchestration_policies, @project)
+  = javascript_tag do
+    :plain
+      window.gl.mrWidgetData.security_policies_path = '#{project_security_policies_path(@project)}';
+
+- if @project.licensed_feature_available?(:file_locks)
+  = javascript_tag do
+    :plain
+      window.gl.mrWidgetData.path_locks_path = '#{project_path_locks_path(@project)}'
+
+- if @project.licensed_feature_available?(:security_dashboard)
+  = javascript_tag do
+    :plain
+      window.gl.mrWidgetData.hasPolicies = #{@project.security_policies.enabled.exists?}

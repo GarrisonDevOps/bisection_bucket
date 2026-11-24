@@ -1,0 +1,24 @@
+- image_name = content_for(:registration_marketing_panel_image).presence || 'subscription/delegate-ai'
+- heading = content_for(:registration_marketing_panel_heading).presence || s_('InProductMarketing|Delegate work to AI')
+.gl-relative.gl-h-full.gl-overflow-hidden.gl-flex.gl-flex-col.gl-bg-subtle.gl-rounded-3xl
+  .gl-absolute.gl-inset-0{ style: "background-image: url(#{image_path('dot_with_padding.svg')});" }
+  .gl-absolute.gl-inset-0.registration-marketing-panel-bg-gradient
+  .gl-relative.gl-flex.gl-flex-col.gl-h-full.gl-px-6.gl-pt-10.gl-pb-5{ class: 'xl:gl-px-12 xl:gl-pt-20 xl:gl-pb-10' }
+    .gl-flex.gl-justify-center.gl-flex-1.gl-items-center
+      -# Use w-descriptors so retina displays can pull @3x on wide panels (x-descriptors
+      -# cap DPR-2 at @2x, which upscales and blurs). This partial serves several
+      -# illustrations of differing sizes, so the widths are the smallest one's dimensions
+      -# (collab-dark: 472/944/1416): a true lower bound, so no image's descriptors
+      -# overstate its real width (which would let the browser under-provision and blur).
+      = image_tag "#{image_name}.png",
+        srcset: { "#{image_name}.png" => '472w', "#{image_name}@2x.png" => '944w', "#{image_name}@3x.png" => '1416w' },
+        sizes: '(min-width: 1024px) 40vw, 100vw',
+        alt: '',
+        class: 'gl-object-contain registration-marketing-panel-illustration registration-marketing-panel-illustration--light'
+      = image_tag "#{image_name}-dark.png",
+        srcset: { "#{image_name}-dark.png" => '472w', "#{image_name}-dark@2x.png" => '944w', "#{image_name}-dark@3x.png" => '1416w' },
+        sizes: '(min-width: 1024px) 40vw, 100vw',
+        alt: '',
+        class: 'gl-object-contain registration-marketing-panel-illustration registration-marketing-panel-illustration--dark'
+    %h2.gl-text-2xl.gl-font-semibold.gl-text-default.gl-mt-auto.gl-text-center
+      = heading

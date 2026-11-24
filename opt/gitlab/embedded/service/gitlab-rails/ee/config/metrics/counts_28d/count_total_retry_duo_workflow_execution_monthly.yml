@@ -1,0 +1,18 @@
+---
+key_path: counts.count_total_retry_duo_workflow_execution_monthly
+description: Monthly count of retried duo workflow executions
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177070
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: retry_duo_workflow_execution

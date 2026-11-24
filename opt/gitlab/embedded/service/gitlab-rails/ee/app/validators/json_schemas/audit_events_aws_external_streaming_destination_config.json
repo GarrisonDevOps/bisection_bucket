@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Config for amazon s3 external audit event streaming destinations",
+  "type": "object",
+  "properties": {
+    "accessKeyXid": {
+      "description": "Access key id of the bucket",
+      "type": "string",
+      "pattern": "\\A[a-zA-Z0-9_]+\\z",
+      "minLength": 16,
+      "maxLength": 128
+    },
+    "bucketName": {
+      "description": "Bucket name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 63,
+      "pattern": "\\A[a-z0-9][a-z0-9\\-.]*\\z"
+    },
+    "awsRegion": {
+      "description": "Aws region",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    }
+  },
+  "required": [
+    "accessKeyXid",
+    "bucketName",
+    "awsRegion"
+  ],
+  "additionalProperties": false
+}

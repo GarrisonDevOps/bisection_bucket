@@ -1,0 +1,10 @@
+---
+name: foundational_agent_status_updated
+description: A foundational agent status was updated for a namespace or organization
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593030
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235225
+feature_category: duo_agent_platform
+milestone: '19.1'
+saved_to_database: true
+streamed: true
+scope: [Group, Instance]

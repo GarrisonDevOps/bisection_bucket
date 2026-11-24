@@ -1,0 +1,10 @@
+---
+name: user_authenticated_using_job_token
+description: A user is authenticated using job token
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/481325
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164546
+feature_category: secrets_management
+milestone: '17.4'
+saved_to_database: false
+streamed: true
+scope: [Project]

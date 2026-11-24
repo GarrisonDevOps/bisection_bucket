@@ -1,0 +1,11 @@
+---
+name: painted_door_request_ctas
+description: Controls the painted door request CTAs shown to Free non-owners in the
+  Duo chat panel and profile menu.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/617948
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258282
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630806
+milestone: '19.5'
+group: group::acquisition
+type: gitlab_com_derisk
+default_enabled: false

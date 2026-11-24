@@ -1,0 +1,19 @@
+---
+key_path: counts.users_with_minimal_access
+description: "Count of active users with Minimal Access as their highest role"
+product_group: seat_management
+product_categories:
+- seat_cost_management
+- user_management
+value_type: number
+status: active
+milestone: "18.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217064
+time_frame: all
+data_source: database
+data_category: operational
+instrumentation_class: CountUsersWithMinimalAccessMetric
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

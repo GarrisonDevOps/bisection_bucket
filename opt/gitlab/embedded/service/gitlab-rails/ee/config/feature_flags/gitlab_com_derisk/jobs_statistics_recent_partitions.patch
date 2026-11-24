@@ -1,0 +1,36 @@
+diff --git a/ee/app/graphql/resolvers/ci/runners_jobs_statistics_resolver.rb b/ee/app/graphql/resolvers/ci/runners_jobs_statistics_resolver.rb
+index 9b6c9aefb7fc..640ba201e7e1 100644
+--- a/ee/app/graphql/resolvers/ci/runners_jobs_statistics_resolver.rb
++++ b/ee/app/graphql/resolvers/ci/runners_jobs_statistics_resolver.rb
+@@ -79,8 +79,6 @@ def query_builder_args(jobs_table)
+       end
+ 
+       def within_recent_partitions(relation)
+-        return relation unless Feature.enabled?(:jobs_statistics_recent_partitions, Feature.current_request)
+-
+         relation.in_partition(recent_partition_ids)
+       end
+ 
+diff --git a/ee/spec/graphql/resolvers/ci/runners_jobs_statistics_resolver_spec.rb b/ee/spec/graphql/resolvers/ci/runners_jobs_statistics_resolver_spec.rb
+index 86494149070e..1e7a6d9ad7a9 100644
+--- a/ee/spec/graphql/resolvers/ci/runners_jobs_statistics_resolver_spec.rb
++++ b/ee/spec/graphql/resolvers/ci/runners_jobs_statistics_resolver_spec.rb
+@@ -128,18 +128,6 @@
+               queued_duration: { p50: nil, p75: nil, p90: nil, p95: nil, p99: nil }
+             ))
+           end
+-
+-          context 'when jobs_statistics_recent_partitions feature flag is disabled' do
+-            before do
+-              stub_feature_flags(jobs_statistics_recent_partitions: false)
+-            end
+-
+-            it 'counts jobs on all partitions' do
+-              expect(::Ci::Partition).not_to receive(:recent_ids)
+-
+-              expect(response.object).to match(expected_job_statistics)
+-            end
+-          end
+         end
+ 
+         context 'when intervalstyle setting is configured to "postgres"' do

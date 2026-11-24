@@ -1,0 +1,9 @@
+---
+name: read_ci_component_usage
+description: Grants the ability to read the CI/CD catalog components a project uses
+boundaries:
+  - project
+available_for:
+  - granular_access_token
+permissions:
+  - read_ci_component_usage

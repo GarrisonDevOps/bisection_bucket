@@ -1,0 +1,20 @@
+---
+description: Tracks when the setting that stops flows from running when the execution environment sandbox is unavailable is turned on or off, for a top-level group or for the instance
+internal_events: true
+action: require_sandbox_setting_changed
+identifiers:
+  - user
+  - namespace
+product_group: agent_execution
+product_categories:
+  - duo_agent_platform
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269682
+tiers:
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: Where the setting changed, either group or instance
+  value:
+    description: 1 when the setting is turned on, 0 when turned off

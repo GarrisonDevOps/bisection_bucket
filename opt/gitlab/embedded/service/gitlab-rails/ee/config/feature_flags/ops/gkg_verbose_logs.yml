@@ -1,0 +1,10 @@
+---
+name: gkg_verbose_logs
+description: Enable verbose (potentially-PII) debug logging in the GitLab Knowledge Graph (GKG) service
+feature_issue_url: https://gitlab.com/gitlab-org/orbit/knowledge-graph/-/work_items/305
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/233213
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/598082
+milestone: '19.0'
+group: group::context-systems
+type: ops
+default_enabled: false

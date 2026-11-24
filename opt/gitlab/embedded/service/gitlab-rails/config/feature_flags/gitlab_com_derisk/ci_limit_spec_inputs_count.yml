@@ -1,0 +1,10 @@
+---
+name: ci_limit_spec_inputs_count
+description: Fails pipeline creation when a spec:inputs header declares more inputs than the limit.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635175
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264013
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635826
+milestone: '19.6'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

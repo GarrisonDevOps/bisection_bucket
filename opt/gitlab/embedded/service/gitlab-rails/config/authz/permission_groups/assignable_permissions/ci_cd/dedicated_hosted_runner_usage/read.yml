@@ -1,0 +1,11 @@
+---
+name: read_dedicated_hosted_runner_usage
+description: Grants the ability to read the compute usage of hosted runners on GitLab Dedicated
+boundaries:
+  - instance
+available_for:
+  - granular_access_token
+permissions:
+  - read_dedicated_hosted_runner_usage
+assignable_when:
+  - condition: admin

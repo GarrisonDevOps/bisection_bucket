@@ -1,0 +1,38 @@
+---
+version: 1
+type: DataTable
+data:
+  type: merge_requests
+  query:
+    dateRange: 365d
+options:
+  responsive: false
+  fixed: true
+  stacked: md
+  fields:
+    - key: link
+      label: Merge Request
+      component: MergeRequestLink
+      thClass: gl-w-1/4
+    - key: dateMerged
+      label: Date Merged
+      thClass: gl-w-1/8
+      component: FormatTime
+    - key: timeToMerge
+      label: Time to merge
+      component: FormatTimeRange
+    - key: milestone
+      label: Milestone
+      component: MilestoneLink
+    - key: commitCount
+      label: Commits
+    - key: pipelinesCount
+      label: Pipelines
+    - key: diffStatsSummary
+      label: Line changes
+      component: DiffLineChanges
+      thClass: gl-w-1/8
+    - key: assignees
+      label: Assignees
+      component: AssigneeAvatars
+      thClass: gl-w-1/8

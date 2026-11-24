@@ -1,0 +1,14 @@
+---
+description: Group Security Inventory page was viewed
+internal_events: true
+action: view_group_security_inventory
+identifiers:
+- namespace
+- user
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183563
+tiers:
+- ultimate

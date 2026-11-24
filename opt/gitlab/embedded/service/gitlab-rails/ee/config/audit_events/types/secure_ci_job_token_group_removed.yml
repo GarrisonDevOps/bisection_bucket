@@ -1,0 +1,10 @@
+---
+name: secure_ci_job_token_group_removed
+description: Group removed from CI_JOB_TOKEN scope
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/467840
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/159754
+feature_category: "verify_security"
+milestone: "17.3"
+saved_to_database: true
+streamed: true
+scope: [Project]

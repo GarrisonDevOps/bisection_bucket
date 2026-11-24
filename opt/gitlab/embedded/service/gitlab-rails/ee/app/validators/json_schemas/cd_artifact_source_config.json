@@ -1,0 +1,6 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Opaque artifact source configuration, reflected by the UI from a driver schema",
+  "type": "object",
+  "additionalProperties": true
+}

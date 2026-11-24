@@ -1,0 +1,30 @@
+---
+description: The event tracks similarity of pages matching grouped URLs
+internal_events: true
+action: collect_dast_scan_grouped_urls_similarity_from_pipeline
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: dynamic_analysis
+product_categories:
+  - vulnerability_management
+milestone: '18.6'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210504'
+tiers:
+  - ultimate
+additional_properties:
+  property:
+    description: "a UUID that identifies a scan"
+  value:
+    description: "count of matched URLs"
+  label:
+    description: "grouped URL pattern"
+  median:
+    description: "median of SimHash similarity comparison"
+  ninety_percentile:
+    description: "90 percentile of SimHash similarity comparison"
+  first_quartile:
+    description: "25 percentile of SimHash similarity comparison"
+  max:
+    description: "max of SimHash similarity comparison"

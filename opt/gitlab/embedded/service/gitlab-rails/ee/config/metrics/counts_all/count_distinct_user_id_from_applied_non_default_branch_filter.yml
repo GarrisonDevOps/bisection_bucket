@@ -1,0 +1,21 @@
+---
+key_path: redis_hll_counters.count_distinct_user_id_from_applied_non_default_branch_filter
+description: Count of unique users who triggered applied_non_default_branch_filter
+product_group: vulnerability_management
+product_categories:
+- vulnerability_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229118
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: applied_non_default_branch_filter
+  unique: user.id

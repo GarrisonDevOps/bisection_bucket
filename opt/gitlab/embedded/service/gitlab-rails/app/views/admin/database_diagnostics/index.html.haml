@@ -1,0 +1,16 @@
+- page_title _('Database Diagnostics')
+
+%section.settings.monitoring
+  .settings-header
+    %h1
+      = _('Database diagnostics')
+    %p
+      = _('Detect and resolve database issues.')
+
+#js-database-diagnostics{
+  data: {
+    run_collation_check_url: run_collation_check_admin_database_diagnostics_path(format: :json),
+    collation_check_results_url: collation_check_results_admin_database_diagnostics_path(format: :json),
+    database_information: @database_information.to_json
+  }
+}

@@ -1,0 +1,7 @@
+- return unless current_user
+
+- root_group = group_or_project.root_ancestor
+- saml_provider = root_group.respond_to?(:saml_provider) && root_group.saml_provider
+- return unless saml_provider
+
+#js-saml-reload{ data: saml_reload_data(saml_provider) }

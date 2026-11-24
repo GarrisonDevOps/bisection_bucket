@@ -1,0 +1,10 @@
+---
+name: virtual_registries_container_cache_remote_entry_deleted
+description: A virtual registry container cache remote entry was deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/583726
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/220483
+feature_category: virtual_registry
+milestone: '18.9'
+saved_to_database: true
+streamed: true
+scope: [Group]

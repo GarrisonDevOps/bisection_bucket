@@ -1,0 +1,31 @@
+---
+# Translation coverage per locale, as a percentage of approved translations.
+# Updated daily by the Crowdin sync job, see
+# https://docs.gitlab.com/development/i18n/merging_translations/#translation-levels
+bg: 0
+cs_CZ: 37
+da_DK: 10
+de: 88
+en: 100
+eo: 4
+es: 95
+fil_PH: 0
+fr: 95
+gl_ES: 0
+ga_IE: 99
+id_ID: 59
+it: 95
+ja: 98
+ko: 93
+nb_NO: 11
+nl_NL: 0
+pl_PL: 0
+pt_BR: 95
+ro_RO: 26
+ru: 44
+si_LK: 5
+tr_TR: 92
+uk: 20
+zh_CN: 94
+zh_HK: 0
+zh_TW: 97

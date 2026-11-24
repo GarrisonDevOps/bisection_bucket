@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy content for pipeline_execution_policy type",
+  "type": "object",
+  "properties": {
+    "content": {
+      "description": "Specifies the content of custom configuration.",
+      "type": "object",
+      "properties": {
+        "include": {
+          "type": "array",
+          "maxItems": 1,
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "file": {
+                "type": "string"
+              },
+              "ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "project",
+              "file"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "include"
+      ],
+      "additionalProperties": false
+    },
+    "pipeline_config_strategy": {
+      "description": "Defines the method for merging the policy configuration with the project pipeline. Can be a string or an object with type and apply_on_empty_pipeline options.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "inject_ci",
+            "inject_policy",
+            "override_project_ci"
+          ],
+          "description": "Simple string format for backward compatibility. `inject_ci` preserves the project CI configuration and injects additional jobs from the policy. Having multiple policies enabled injects all jobs additively. `inject_policy` behaves like `inject_ci`, but allows custom policy stages to be injected too. `override_project_ci` replaces the project CI configuration and keeps only the policy jobs in the pipeline."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "inject_ci",
+                "inject_policy",
+                "override_project_ci"
+              ],
+              "description": "The strategy type for merging policy configuration."
+            },
+            "apply_on_empty_pipeline": {
+              "type": "string",
+              "enum": [
+                "always",
+                "if_no_config",
+                "never"
+              ],
+              "description": "Controls when policies apply to empty pipelines. `always`: Always applies (current default). `if_no_config`: Only applies when project has no CI config. `never`: Never applies a fallback pipeline."
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "suffix": {
+      "description": "Defines the method for policy job naming. `on_conflict` (default) applies a unique suffix when a job with the same name is detected in the pipeline. A job called `policy-job` will be added into the pipeline as `policy-job:policy-<security-policy-project-id>-<policy-index>`. `never` is a strict mode which results in a pipeline failure if job names are not unique.",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "never",
+            "on_conflict"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "skip_ci": {
+      "description": "Defines whether it should be allowed to use skip_ci directive when policy is enforced.",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "allowlist": {
+          "type": "object",
+          "description": "A list of user IDs that are allowed to use skip_ci if it is generally not allowed.",
+          "properties": {
+            "users": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "allowed"
+      ]
+    },
+    "no_pipeline": {
+      "description": "Defines whether it should be allowed to use no_pipeline directive when policy is enforced.",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "allowlist": {
+          "type": "object",
+          "description": "A list of user IDs that are allowed to use no_pipeline if it is generally not allowed.",
+          "properties": {
+            "users": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "allowed"
+      ]
+    },
+    "variables_override": {
+      "description": "Defines whether variables can be overridden and the exceptions.",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "exceptions": {
+          "type": "array",
+          "description": "A list of variables that are excepted from the enforcement.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dotenv": {
+          "type": "string",
+          "description": "Defines whether dotenv artifact variables should respect the `variables_override` policy rules. By default (when not specified), dotenv variables are subject to the same override rules as other variables. Set to `allow_override` to let dotenv variables bypass the policy rules.",
+          "enum": [
+            "respect_policy",
+            "allow_override"
+          ]
+        }
+      },
+      "required": [
+        "allowed"
+      ]
+    },
+    "enforce_on_child_pipelines": {
+      "description": "Whether to enforce the policy in child pipelines (pipelines with the `parent_pipeline` source). Defaults to `false`.",
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

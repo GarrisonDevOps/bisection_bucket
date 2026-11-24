@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Schema for the GitLab business logic scan profile configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "post_review_threads": {
+      "description": "Whether to post findings as review threads on the merge request. When true, Security Review Flow runs instead of the business logic scan.",
+      "type": "boolean"
+    }
+  }
+}

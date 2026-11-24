@@ -1,0 +1,30 @@
+---
+description: One or more records of a relation failed to import. Fires once per relation and exception class when the import finishes.
+internal_events: true
+action: fail_import_relation
+identifiers:
+- project
+- user
+- namespace
+additional_properties:
+  label:
+    description: import_type of the source (e.g., github, bitbucket, gitlab_migration, offline_transfer)
+  property:
+    description: Ruby exception class raised by the failures in this group (e.g., ActiveRecord::RecordInvalid)
+  value:
+    description: number of failed records in this (relation, exception class) group
+  relation_key:
+    description: name of the relation that failed (e.g., issues, merge_requests); absent when the importer does not record one
+  import_source:
+    description: hashed identifier of the source host and path, used to detect repeated imports of the same source
+  parent_entity_id:
+    description: id of the parent BulkImports::Entity when nested, null for top-level
+product_group: import
+product_categories:
+- importers
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262981
+tiers:
+- free
+- premium
+- ultimate

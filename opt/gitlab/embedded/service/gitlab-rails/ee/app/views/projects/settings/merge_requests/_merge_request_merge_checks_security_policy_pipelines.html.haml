@@ -1,0 +1,10 @@
+- project = local_assigns.fetch(:project)
+
+- if Feature.enabled?(:security_policy_pipeline_check, project) && ::Security::PolicyAvailability.available?(project, :security_orchestration_policies)
+  = form.fields_for :project_setting do |settings|
+    = settings.gitlab_ui_checkbox_component :security_policy_pipeline_must_succeed do |c|
+      - c.with_label do
+        = s_('ProjectSettings|All security policy pipelines must succeed')
+        = render 'shared/experimental_badge_tag'
+      - c.with_help_text do
+        = _("When scan execution policies or pipeline execution policies are configured, both the merge request pipeline and the branch pipeline must succeed before the merge request can be merged.")

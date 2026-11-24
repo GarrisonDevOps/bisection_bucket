@@ -1,0 +1,5 @@
+---
+name: experimentation
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/138123
+milestone: '16.7'
+group: group::acquisition

@@ -1,0 +1,4 @@
+- page_title s_("UsageQuota|Pending Members")
+- add_to_breadcrumbs s_('UsageQuota|Usage quotas'), group_usage_quotas_path(@group)
+
+#js-pending-members-app{ data: { namespace_id: @group.id, namespace_path: @group.path, user_cap_set: @group.namespace_settings.seat_control_user_cap? } }

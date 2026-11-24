@@ -1,0 +1,10 @@
+---
+name: credit_caps_ui
+description: Enables the credit caps UI for per-user credit cap management
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/596232
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/250044
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/613569
+milestone: '19.4'
+group: group::utilization
+type: beta
+default_enabled: true

@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Application Settings for Elasticsearch",
+  "type": "object",
+  "properties": {
+    "elasticsearch_aws": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_search": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_indexing": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_username": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 255
+    },
+    "elasticsearch_aws_role_arn": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "elasticsearch_aws_region": {
+      "type": "string",
+      "default": "us-east-1"
+    },
+    "elasticsearch_aws_access_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "elasticsearch_limit_indexing": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_pause_indexing": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_advanced_search_pause_indexing": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_requeue_workers": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_max_bulk_size_mb": {
+      "type": "integer",
+      "default": 10
+    },
+    "elasticsearch_retry_on_failure": {
+      "type": "integer",
+      "default": 0
+    },
+    "elasticsearch_max_bulk_concurrency": {
+      "type": "integer",
+      "default": 10
+    },
+    "elasticsearch_client_request_timeout": {
+      "type": "integer",
+      "default": 0
+    },
+    "elasticsearch_worker_number_of_shards": {
+      "type": "integer",
+      "default": 2
+    },
+    "elasticsearch_analyzers_smartcn_search": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_analyzers_kuromoji_search": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_analyzers_smartcn_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_analyzers_kuromoji_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "elasticsearch_indexed_field_length_limit": {
+      "type": "integer",
+      "default": 0
+    },
+    "elasticsearch_indexed_file_size_limit_kb": {
+      "type": "integer",
+      "default": 1024
+    },
+    "elasticsearch_indexing_timeout_minutes": {
+      "type": "integer",
+      "default": 30
+    },
+    "elasticsearch_max_code_indexing_concurrency": {
+      "type": "integer",
+      "default": 30
+    },
+    "elasticsearch_prefix": {
+      "type": "string",
+      "default": "gitlab",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "elasticsearch_client_adapter": {
+      "type": "string",
+      "default": "typhoeus",
+      "enum": [
+        "typhoeus",
+        "net_http"
+      ]
+    },
+    "elasticsearch_code_scope": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}

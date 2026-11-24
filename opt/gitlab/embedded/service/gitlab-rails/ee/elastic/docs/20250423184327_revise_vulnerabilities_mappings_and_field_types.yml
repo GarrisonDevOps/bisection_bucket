@@ -1,0 +1,11 @@
+---
+name: ReviseVulnerabilitiesMappingsAndFieldTypes
+version: '20250423184327'
+description: Introduces a subfield for the identifier_names for aggregation and changes
+  text fields to keyword type. Also removes redundant field `id`.
+group: group::security infrastructure
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189013
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201688
+marked_obsolete_in_milestone: '18.4'

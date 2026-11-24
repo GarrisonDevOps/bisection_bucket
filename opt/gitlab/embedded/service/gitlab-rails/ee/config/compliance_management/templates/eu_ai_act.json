@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "name": "EU AI Act",
+  "description": "EU AI Act compliance requirements",
+  "color": "#004494",
+  "requirements": [
+    {
+      "name": "Article 10 Data and data governance",
+      "description": "2. Training, validation and testing data sets shall be subject to data governance and management practices appropriate for the intended purpose of the high-risk AI system.",
+      "controls": [
+        {
+          "name": "model_experiments_access_level_configured",
+          "control_type": "internal",
+          "expression": {
+            "field": "model_experiments_access_level_configured",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Article 12 Record-keeping",
+      "description": "1. High-risk AI systems shall technically allow for the automatic recording of events (logs) over the lifetime of the system.",
+      "controls": [
+        {
+          "name": "duo_agentic_flow_audit_events_streaming",
+          "control_type": "internal",
+          "expression": {
+            "field": "duo_agentic_flow_audit_events_streaming",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Article 14 Human oversight",
+      "description": "1. High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use.",
+      "controls": [
+        {
+          "name": "duo_agentic_flow_governance_oversight_configured",
+          "control_type": "internal",
+          "expression": {
+            "field": "duo_agentic_flow_governance_oversight_configured",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Article 15 Accuracy, robustness and cybersecurity",
+      "description": "5. High-risk AI systems shall be resilient against attempts by unauthorised third parties to alter their use, outputs or performance by exploiting system vulnerabilities.",
+      "controls": [
+        {
+          "name": "model_registry_access_level_configured",
+          "control_type": "internal",
+          "expression": {
+            "field": "model_registry_access_level_configured",
+            "operator": "=",
+            "value": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+---
+description: An Owner started an Orbit trial for a top-level group
+internal_events: true
+action: orbit_trial_started
+identifiers:
+- namespace
+- user
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258828
+tiers:
+- premium
+- ultimate

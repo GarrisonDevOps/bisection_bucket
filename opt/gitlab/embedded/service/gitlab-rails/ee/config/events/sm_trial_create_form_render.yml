@@ -1,0 +1,14 @@
+---
+description: Self-managed trial registration form renders
+internal_events: true
+action: sm_trial_create_form_render
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+  - subscription_management
+milestone: '18.9'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/222543'
+tiers:
+  - free

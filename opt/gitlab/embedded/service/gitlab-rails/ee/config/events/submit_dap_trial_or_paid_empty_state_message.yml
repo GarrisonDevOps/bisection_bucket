@@ -1,0 +1,19 @@
+---
+description: User submits a custom message from the Duo Agentic Chat trial or paid empty state
+internal_events: true
+action: submit_dap_trial_or_paid_empty_state_message
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Whether the user is on a trial or paid subscription
+product_group: activation
+product_categories:
+- activation
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226734
+tiers:
+  - premium
+  - ultimate
+classification: duo

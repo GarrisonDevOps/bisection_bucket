@@ -1,0 +1,9 @@
+- return unless ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+- return unless @group.gitlab_credits_entitled?
+- return unless @group.root?
+
+.form-group
+  %h5= s_('GroupSettingsUsageBilling|GitLab Credits dashboard')
+  = f.gitlab_ui_checkbox_component :display_gitlab_credits_user_data,  s_('GroupSettingsUsageBilling|Display user data'),
+    help_text: s_('GroupSettingsUsageBilling|If selected, individual usernames and their credit usage are visible on the GitLab Credits dashboard. If your organization needs to restrict access to individual user activity for compliance or privacy reasons, clear this checkbox.'),
+    checkbox_options: { checked: @group.namespace_settings&.display_gitlab_credits_user_data }

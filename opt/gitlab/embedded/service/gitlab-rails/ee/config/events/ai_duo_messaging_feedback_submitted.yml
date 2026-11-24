@@ -1,0 +1,26 @@
+---
+description: User submits binary feedback (thumbs up/down) on a Duo agent response delivered through a messaging surface (for example Slack). Slack emits an event on every toggle of the feedback buttons without a deselection signal, so one event is recorded per state change. Feedback is therefore mutable state with last-write-wins semantics - consumers must use the latest event per user and workflow (additional property value), not event counts.
+internal_events: true
+action: ai_duo_messaging_feedback_submitted
+identifiers:
+  - user
+  - namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244668
+tiers:
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: The feedback type (thumbs_up or thumbs_down)
+  value:
+    description: The workflow ID associated with the feedback
+  property:
+    description: The messaging surface the feedback was submitted from (for example slack)
+  reason:
+    description: The structured reason selected for a thumbs_down (for example incorrect, incomplete)
+  comment:
+    description: The optional free-text comment provided with a thumbs_down

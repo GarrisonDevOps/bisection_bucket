@@ -1,0 +1,20 @@
+---
+description: Export runner usage as CSV
+internal_events: true
+action: export_runner_usage_by_project_as_csv
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: Types of runners included in the report (`project_type`, `group_type`, or `instance_type`)
+  label:
+    description: The scope in which the report was exported, which can be a `project`, `group`, or `instance`
+product_group: runner_core
+product_categories:
+- fleet_visibility
+milestone: '16.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/142328
+tiers:
+- ultimate

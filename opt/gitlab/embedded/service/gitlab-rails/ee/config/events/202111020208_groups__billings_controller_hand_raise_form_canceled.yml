@@ -1,0 +1,20 @@
+---
+description: Hand raise form cancelled
+category: default
+action: hand_raise_form_canceled
+extra_properties:
+identifiers:
+#- project
+#- user
+#- namespace
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: "14.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/72725
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: hand_raise_lead_form

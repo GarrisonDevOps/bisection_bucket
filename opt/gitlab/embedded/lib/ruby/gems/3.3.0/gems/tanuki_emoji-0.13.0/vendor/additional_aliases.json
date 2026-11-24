@@ -1,0 +1,25 @@
+{
+  "flag_united_nations": {
+    "emoji": "🇺🇳",
+    "aliases": ["un"],
+    "comment": "Needed for noto-image flag support"
+  },
+  "flag_england": {
+    "emoji": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "aliases": ["england"],
+    "noto_image": "gb-eng",
+    "comment": "Needed for noto-image flag support"
+  },
+  "flag_scotland": {
+    "emoji": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "aliases": ["scotland"],
+    "noto_image": "gb-sct",
+    "comment": "Needed for noto-image flag support"
+},
+  "flag_wales": {
+    "emoji": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+    "aliases": ["wales"],
+    "noto_image": "gb-wls",
+    "comment": "Needed for noto-image flag support"
+  }
+}

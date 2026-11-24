@@ -1,0 +1,13 @@
+---
+version: 1
+type: UsageOverview
+data:
+  type: usage_overview
+  query:
+    include:
+      - groups
+      - projects
+      - issues
+      - merge_requests
+      - pipelines
+options: {}

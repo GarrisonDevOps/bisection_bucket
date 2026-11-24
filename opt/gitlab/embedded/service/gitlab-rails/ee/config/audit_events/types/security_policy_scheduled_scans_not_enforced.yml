@@ -1,0 +1,10 @@
+---
+name: security_policy_scheduled_scans_not_enforced
+description: A scheduled pipeline with security policy could not be created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/561047
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201822
+feature_category: security_policy_management
+milestone: '18.4'
+saved_to_database: false
+streamed: true
+scope: [Project]

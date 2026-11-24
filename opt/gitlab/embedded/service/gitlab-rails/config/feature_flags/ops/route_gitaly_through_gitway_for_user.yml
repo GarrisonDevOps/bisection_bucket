@@ -1,0 +1,10 @@
+---
+name: route_gitaly_through_gitway_for_user
+description: Routes the Gitaly traffic of the current request's user through the gitway proxy on storages with a gitway_address, the same way route_gitaly_through_gitway does for a storage, so a user can be canaried through gitway with ChatOps' --user. This includes Sidekiq jobs enqueued on their behalf, which inherit their application context. Only user gates are meant to be set on it, percentages of traffic go on route_gitaly_through_gitway.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632171
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267167
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632192
+milestone: '19.6'
+group: group::gitaly
+type: ops
+default_enabled: false

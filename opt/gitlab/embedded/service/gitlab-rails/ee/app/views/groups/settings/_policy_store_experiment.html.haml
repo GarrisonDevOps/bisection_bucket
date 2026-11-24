@@ -1,0 +1,9 @@
+- return unless group.root? && group.policy_store_experiment_available?
+
+%h5= s_('GroupSettings|Policy Store experiment')
+
+.form-group.gl-mb-3
+  = f.gitlab_ui_checkbox_component :policy_store_experiment_enabled,
+      s_('GroupSettings|Enable the Policy Store experiment'),
+      checkbox_options: { data: { testid: 'policy-store-experiment-checkbox' }, checked: group.policy_store_experiment_enabled? },
+      help_text: s_('GroupSettings|When enabled, members can create and manage security policies in the Policy Store.')

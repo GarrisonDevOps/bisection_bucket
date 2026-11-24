@@ -1,0 +1,10 @@
+---
+name: dap_dynamic_suspension
+description: Keeps a Duo Agent Platform workload's suspendable environment only when the session stops for human input, instead of after every run.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/612877
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268871
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630540
+milestone: '19.6'
+group: group::agent execution
+type: wip
+default_enabled: false

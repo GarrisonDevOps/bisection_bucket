@@ -1,0 +1,21 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_from_stream_ai_audit_event_to_external_destination
+description: Number of distinct top-level groups with AI audit events processed for streaming to configured external destinations
+product_group: compliance
+product_categories:
+- audit_events
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249199
+time_frame:
+- 7d
+- 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: stream_ai_audit_event_to_external_destination
+  unique: namespace.id

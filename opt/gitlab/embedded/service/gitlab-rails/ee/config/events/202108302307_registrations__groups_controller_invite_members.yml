@@ -1,0 +1,11 @@
+description: Invite members to group
+category: Registrations::GroupsController
+action: invite_members
+extra_properties:
+identifiers:
+product_group: activation
+milestone: "13.8"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/48794
+tiers:
+- premium
+- ultimate

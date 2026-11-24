@@ -1,0 +1,27 @@
+---
+description: Tracks the MCP tools/list request
+internal_events: true
+action: list_mcp_tools
+identifiers:
+- user
+product_group: agent_execution
+product_categories:
+- mcp_server
+additional_properties:
+  toolset_source:
+    description: >-
+      How toolsets were selected, from the X-Gitlab-Enabled-Mcp-Server-Toolsets header.
+      One of default (header absent or blank), all, or explicit
+  requested_toolsets:
+    description: >-
+      Comma-separated, sorted toolset names requested. Only set when toolset_source is explicit
+  tools_header_present:
+    description: >-
+      Whether the X-Gitlab-Enabled-Mcp-Server-Tools header named any tools, as 'true' or 'false'.
+      The header values are never recorded
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/256984
+tiers:
+- free
+- premium
+- ultimate

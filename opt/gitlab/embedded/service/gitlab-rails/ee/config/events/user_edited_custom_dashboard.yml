@@ -1,0 +1,19 @@
+---
+description: Triggered when a user edits an existing custom dashboard in the dashboard designer.
+internal_events: true
+action: user_edited_custom_dashboard
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+additional_properties:
+  label:
+    description: The dashboard's title
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+milestone: "16.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135566
+tiers:
+- ultimate

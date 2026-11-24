@@ -1,0 +1,18 @@
+---
+description: User clicks the "Verify my account" button in the identity verification required empty state in the AI panel
+internal_events: true
+status: active
+action: click_duo_agentic_identity_verification_empty_state_verify_account
+identifiers:
+  - user
+  - namespace
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257851
+tiers:
+- free
+- premium
+- ultimate
+classification: duo

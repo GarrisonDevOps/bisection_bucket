@@ -1,0 +1,17 @@
+---
+description: When Duo Code Review found nothing to comment on after reviewing an MR
+internal_events: true
+action: find_no_issues_duo_code_review_after_review
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/191057
+tiers:
+- premium
+- ultimate

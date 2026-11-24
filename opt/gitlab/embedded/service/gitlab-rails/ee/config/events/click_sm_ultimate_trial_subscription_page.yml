@@ -1,0 +1,13 @@
+---
+description: Start free ultimate trial button clicked on self-managed subscription page
+internal_events: true
+action: click_sm_ultimate_trial_subscription_page
+identifiers:
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '18.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217868
+tiers:
+  - free

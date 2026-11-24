@@ -1,0 +1,6 @@
+- add_to_breadcrumbs _("Compliance center"), project_security_compliance_dashboard_path(@project)
+- add_to_breadcrumbs _("Violations"), project_security_compliance_dashboard_path(@project, "violations")
+- breadcrumb_title params[:id]
+- page_title _("Violation Details")
+
+#js-project-violation-details{ data: { violation_id: params[:id], compliance_center_path: compliance_center_path(@project), uploads_path: project_uploads_path(@project), markdown_preview_path: preview_markdown_path(@project) } }

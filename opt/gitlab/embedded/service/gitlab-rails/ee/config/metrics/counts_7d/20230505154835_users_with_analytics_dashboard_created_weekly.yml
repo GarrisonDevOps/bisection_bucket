@@ -1,0 +1,19 @@
+---
+key_path: counts.users_with_analytics_dashboard_created_weekly
+description: "Counts number of users who have created a dashboard this week"
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+value_type: number
+status: active
+milestone: "16.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/119790
+time_frame: 7d
+data_source: redis_hll
+data_category: optional
+instrumentation_class: RedisHLLMetric
+tiers:
+- ultimate
+options:
+  events:
+    - "user_created_analytics_dashboard"

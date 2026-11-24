@@ -1,0 +1,169 @@
+---
+title: GitLab Duo and SDLC trends
+description: Visualize Duo usage and development trends side-by-side.
+version: "2"
+gridHeight: compact
+panels:
+  - title: "GitLab Duo users"
+    visualization: duo_users_count_over_time
+    gridAttributes:
+      yPos: 0
+      xPos: 0
+      width: 4
+      height: 14
+  - title: "GitLab Duo power users"
+    visualization: duo_power_users_count_over_time
+    gridAttributes:
+      yPos: 0
+      xPos: 4
+      width: 4
+      height: 14
+    options: {}
+  - title: "GitLab Duo agent/flow users"
+    visualization: duo_agent_platform_agent_flows_users_count_over_time
+    gridAttributes:
+      yPos: 0
+      xPos: 8
+      width: 4
+      height: 14
+    options: {}
+  - title: "GitLab Duo Agent Chat sessions"
+    visualization: duo_agent_chat_sessions_over_time
+    gridAttributes:
+      yPos: 14
+      xPos: 0
+      width: 4
+      height: 16
+    options: {}
+  - title: "Pipelines using GitLab Duo features"
+    visualization: duo_pipelines_rate_over_time
+    gridAttributes:
+      yPos: 14
+      xPos: 4
+      width: 4
+      height: 16
+    options: {}
+  - title: 'GitLab Duo Agent Platform flow usage'
+    visualization: duo_flow_metrics_table
+    gridAttributes:
+      yPos: 30
+      xPos: 0
+      width: 8
+      height: 52
+    options: {}
+  - title: 'Pipelines using GitLab Duo Agent Platform over time'
+    visualization: finished_pipelines_using_dap_over_time_chart
+    gridAttributes:
+      yPos: 30
+      xPos: 8
+      width: 4
+      height: 52
+    options: {}
+  - title: 'Returning GitLab Duo users by feature'
+    visualization: duo_feature_user_retention_over_time
+    gridAttributes:
+      yPos: 82
+      xPos: 0
+      width: 12
+      height: 52
+    options: {}
+  - title: 'GitLab Duo usage metrics for the %{namespaceName} %{namespaceType}'
+    visualization: ai_impact_ai_metrics_table
+    gridAttributes:
+      yPos: 134
+      xPos: 0
+      width: 12
+      height: 60
+    options: {}
+  - title: 'Development metrics for the %{namespaceName} %{namespaceType}'
+    visualization: ai_impact_lifecycle_metrics_table
+    gridAttributes:
+      yPos: 194
+      xPos: 0
+      width: 12
+      height: 39
+    options: {}
+  - title: 'Pipeline metrics for the %{namespaceName} %{namespaceType}'
+    visualization: pipeline_metrics_table
+    gridAttributes:
+      yPos: 233
+      xPos: 0
+      width: 12
+      height: 39
+    options: {}
+  - title: 'GitLab Duo usage by user'
+    visualization: duo_total_event_count_by_user
+    gridAttributes:
+      yPos: 272
+      xPos: 0
+      width: 4
+      height: 52
+  - title: 'GitLab Duo Code Review usage by user'
+    visualization: duo_code_review_usage_by_user
+    gridAttributes:
+      yPos: 272
+      xPos: 4
+      width: 4
+      height: 52
+  - title: 'GitLab Duo Root Cause Analysis usage by user'
+    visualization: duo_rca_usage_by_user
+    gridAttributes:
+      yPos: 272
+      xPos: 8
+      width: 4
+      height: 52
+  - title: 'Flows usage by user'
+    visualization: duo_flows_by_user
+    gridAttributes:
+      yPos: 324
+      xPos: 0
+      width: 6
+      height: 52
+    options: {}
+  - title: 'GitLab Duo Code Suggestions usage by user'
+    visualization: duo_code_suggestions_by_user
+    gridAttributes:
+      yPos: 324
+      xPos: 6
+      width: 6
+      height: 52
+  - title: 'GitLab Duo Code Suggestions acceptance by language'
+    visualization: code_suggestions_acceptance_by_language_chart
+    gridAttributes:
+      yPos: 376
+      xPos: 0
+      width: 4
+      height: 39
+    options: {}
+  - title: 'GitLab Duo Code Suggestions acceptance by IDE'
+    visualization: code_suggestions_acceptance_by_ide_chart
+    gridAttributes:
+      yPos: 376
+      xPos: 4
+      width: 4
+      height: 39
+    options: {}
+  - title: 'GitLab Duo Code Review requests by role'
+    visualization: code_review_requests_by_role_chart
+    gridAttributes:
+      yPos: 376
+      xPos: 8
+      width: 4
+      height: 39
+    options: {}
+  - title: 'GitLab Duo Code Review comments sentiment'
+    visualization: code_review_comments_sentiment_over_time_chart
+    gridAttributes:
+      yPos: 415
+      xPos: 0
+      width: 6
+      height: 52
+    options: {}
+  - title: 'Code generation volume trends'
+    visualization: code_generation_volume_trends_chart
+    gridAttributes:
+      yPos: 415
+      xPos: 6
+      width: 6
+      height: 52
+    options: {}

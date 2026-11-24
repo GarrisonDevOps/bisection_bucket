@@ -1,0 +1,12 @@
+- namespace = local_assigns.fetch(:namespace)
+- list_item_classes = local_assigns.fetch(:list_item_classes)
+- minutes_usage = namespace.ci_minutes_usage
+- minutes_usage_presenter = Ci::Minutes::UsagePresenter.new(minutes_usage)
+- return unless minutes_usage_presenter.display_shared_runners_data?
+
+%li{ class: list_item_classes }
+  %span.gl-text-subtle= _('Compute quota:')
+  .gl-col-span-2
+    %strong{ class: minutes_usage_presenter.monthly_minutes_label.css_class }
+      = minutes_usage_presenter.monthly_minutes_label.text
+    = link_to sprite_icon('question-o', css_class: 'gl-fill-icon-info'), help_page_path('ci/pipelines/compute_minutes.md'), target: '_blank', rel: 'noopener noreferrer'

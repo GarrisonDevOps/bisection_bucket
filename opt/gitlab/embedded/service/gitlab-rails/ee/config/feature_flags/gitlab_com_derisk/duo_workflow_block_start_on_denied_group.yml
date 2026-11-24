@@ -1,0 +1,10 @@
+---
+name: duo_workflow_block_start_on_denied_group
+description: Refuse to start a background flow when an administrator denies every tool in a privilege group the flow declares
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/607134
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258400
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633978
+milestone: '19.6'
+group: group::ai control plane
+type: gitlab_com_derisk
+default_enabled: false

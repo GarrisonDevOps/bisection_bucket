@@ -1,0 +1,10 @@
+---
+name: merge_source_resolver
+description: Credit merge requests marked merged by a push to the merge request that merged them, including one that is still mid-merge.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/456426
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260499
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638077
+milestone: '19.6'
+type: gitlab_com_derisk
+group: group::code review
+default_enabled: false

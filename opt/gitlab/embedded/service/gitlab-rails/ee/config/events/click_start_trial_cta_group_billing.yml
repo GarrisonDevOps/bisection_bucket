@@ -1,0 +1,15 @@
+---
+description: Tracks when a user clicks start a free trial CTA on the group billing page
+internal_events: true
+status: active
+action: click_start_trial_cta_group_billing
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228101
+tiers:
+  - free

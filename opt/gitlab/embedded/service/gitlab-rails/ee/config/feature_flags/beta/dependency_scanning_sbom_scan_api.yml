@@ -1,0 +1,10 @@
+---
+name: dependency_scanning_sbom_scan_api
+description:
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/17150
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195062
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/551861
+milestone: '18.4'
+group: group::composition analysis
+type: beta
+default_enabled: true

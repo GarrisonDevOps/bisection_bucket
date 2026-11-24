@@ -1,0 +1,11 @@
+= render Pajamas::CardComponent.new(card_options: { class: 'gl-mb-5'}, header_options: { class: 'gl-px-5 gl-py-3' }, body_options: { class: 'gl-p-5 gl-py-0' }) do |c|
+  - c.with_header do
+    %h4.card-title
+      = s_("LDAP|Active synchronizations (%{count})") % { count: group.ldap_group_links.count }
+  - c.with_body do
+    - if group.ldap_group_links.any?
+      %ul.content-list
+        = render partial: 'ldap_group_links/ldap_group_link', collection: group.ldap_group_links, locals: { group: group, show_remove: can?(current_user, :delete_ldap_group_link, group) }
+    - else
+      %p.gl-my-4
+        = s_('LDAP|No LDAP synchronizations')

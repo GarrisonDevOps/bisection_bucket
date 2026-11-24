@@ -1,0 +1,33 @@
+- page_title s_('GitLabPages|Pages')
+
+- unless @project.pages_deployed?
+  = render 'waiting'
+- else
+  = render ::Layouts::IndexLayout.new(heading: s_('GitLabPages|Pages')) do |c|
+    - c.with_description do
+      = safe_format(s_('GitLabPages|With GitLab Pages you can host your static website directly from your GitLab repository. %{docs_link_start}How do I publish my site with Pages?%{link_end}'), tag_pair(link_to('', help_page_path('user/project/pages/_index.md'), target: '_blank', rel: 'noopener noreferrer'), :docs_link_start, :link_end))
+
+    = gl_tabs_nav({ class: 'js-pages-tabs' }) do
+      = gl_tab_link_to '#overview', item_active: true, 'aria-controls': 'overview' do
+        = _('Overview')
+      = gl_tab_link_to '#domains-settings', 'aria-controls': 'domains-settings' do
+        = s_('GitLabPages|Domains & settings')
+
+    .tab-content.gl-tab-content.gl-pt-5
+      .tab-pane.active#overview
+        #js-pages{ data: {
+          full_path: @project.full_path,
+          primary_domain: @project.pages_domains.present? ? @project.project_setting.pages_primary_domain : ''
+        } }
+
+      .tab-pane#domains-settings
+        .gl-flex.gl-flex-col.gl-gap-5
+          = render 'ssl_limitations_warning' if pages_subdomain(@project).include?(".")
+          - if Gitlab.config.pages.custom_domain_mode || Gitlab.config.pages.external_http || Gitlab.config.pages.external_https
+            = render 'list'
+          - else
+            = render 'no_domains'
+
+          = render 'access'
+          = render 'pages_settings'
+          = render 'destroy'

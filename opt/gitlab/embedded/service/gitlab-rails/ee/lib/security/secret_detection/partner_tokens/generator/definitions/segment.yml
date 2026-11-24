@@ -1,0 +1,21 @@
+---
+token_type: "Segment Public API token"
+class_name: "SegmentClient"
+partner_name: "segment"
+endpoints:
+  - "https://api.segmentapis.com/echo?message=ok"
+  - "https://eu1.api.segmentapis.com/echo?message=ok"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Asgp_[a-zA-Z0-9]{64}\z'
+sample_token: "sgp_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_segment_api"
+doc_url: "https://docs.segmentapis.com/tag/Testing#operation/echo"
+status_map:
+  "200": "active"
+  "403": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

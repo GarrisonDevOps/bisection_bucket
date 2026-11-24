@@ -1,0 +1,9 @@
+---
+name: hide_suggested_reviewers
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/478831
+introduced_by_url:
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/505999
+milestone: '17.7'
+group: group::code review
+type: beta
+default_enabled: false

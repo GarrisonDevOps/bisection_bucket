@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_trigger_ai_catalog_item
+description: Count of AI catalog item (agent or flow) executions.
+product_group: ai_catalog
+product_categories:
+- ai_catalog_curation
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203415
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: trigger_ai_catalog_item

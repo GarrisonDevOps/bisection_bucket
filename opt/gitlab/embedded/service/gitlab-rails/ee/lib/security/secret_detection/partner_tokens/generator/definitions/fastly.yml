@@ -1,0 +1,20 @@
+---
+token_type: "Fastly API token"
+class_name: "FastlyClient"
+partner_name: "fastly"
+endpoint: "https://api.fastly.com/tokens/self"
+http_method: "get"
+auth_style: "header"
+auth_param: "Fastly-Key"
+token_pattern: '\A[a-zA-Z0-9_-]{32}\z'
+sample_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_fastly_api"
+doc_url: "https://www.fastly.com/documentation/reference/api/auth-tokens/"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

@@ -1,0 +1,15 @@
+---
+description: Triggered when an Insights merge request chart item is clicked.
+internal_events: true
+action: insights_merge_request_chart_item_clicked
+identifiers:
+- project
+- namespace
+- user
+product_group: optimize
+product_categories:
+- value_stream_management
+milestone: '16.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143126
+tiers:
+- ultimate

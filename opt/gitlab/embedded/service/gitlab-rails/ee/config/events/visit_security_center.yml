@@ -1,0 +1,16 @@
+---
+description: Tracks user visits to the Security Center.
+internal_events: true
+action: visit_security_center
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: vulnerability_management
+product_categories:
+  - dependency_management
+  - vulnerability_management
+milestone: '17.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/177315
+tiers:
+  - ultimate

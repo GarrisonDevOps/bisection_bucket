@@ -1,0 +1,10 @@
+---
+name: sdlc_context_agent_trigger
+description: Controls whether the Vulnerability Context Agent is triggered on push events
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605272
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245335/
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605274
+milestone: '19.4'
+group: group::security insights
+type: beta
+default_enabled: true

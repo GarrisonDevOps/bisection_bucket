@@ -1,0 +1,8 @@
+---
+name: read_user_membership_counts
+description: |-
+  Grants the ability to view how many groups and projects a user is a
+  member of. When checked against a user, it allows viewing that user's
+  counts. When checked against an organization, it allows viewing any
+  user's counts, but only groups and projects in that organization are
+  counted.

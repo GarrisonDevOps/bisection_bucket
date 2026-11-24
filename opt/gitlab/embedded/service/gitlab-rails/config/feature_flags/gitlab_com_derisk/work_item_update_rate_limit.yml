@@ -1,0 +1,10 @@
+---
+name: work_item_update_rate_limit
+description: Enforces the per-user rate limit on updating issues, epics, and work items, shared between the REST API, GraphQL, and the web UI; while disabled, updates over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637477
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268180
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638508
+milestone: '19.6'
+group: group::work items
+type: gitlab_com_derisk
+default_enabled: false

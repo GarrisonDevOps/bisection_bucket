@@ -1,0 +1,28 @@
+---
+description: >-
+  A short-lived token was issued for a modular service, such as Artifact
+  Central, through the token exchange API (POST /api/v4/token_exchange)
+internal_events: true
+action: issue_token_exchange_token
+identifiers:
+- user
+additional_properties:
+  label:
+    description: Audience the token was issued for, for example 'gitlab-artifact-registry'
+  property:
+    description: >-
+      Credential the caller authenticated with: 'pat', 'granular_pat',
+      'service_account_pat' (a personal access token of a service account),
+      'resource_access_token' (project or group access token), 'oauth' (including
+      IAM-issued tokens), 'stateless_access_token' (a Duo Workflow token),
+      'ci_job_token', 'ci_id_token' (a CI/CD ID token), or 'other' (for example,
+      a browser session)
+product_group: authentication
+product_categories:
+- system_access
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270410
+tiers:
+- free
+- premium
+- ultimate

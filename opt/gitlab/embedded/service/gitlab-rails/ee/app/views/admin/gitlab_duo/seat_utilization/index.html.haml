@@ -1,0 +1,8 @@
+-# EE:Self Managed
+- seat_utilization_text = s_('UsageQuota|Seat utilization')
+- page_title seat_utilization_text
+- breadcrumb_title seat_utilization_text
+- add_to_breadcrumbs(_('GitLab Duo'), admin_gitlab_duo_path)
+- duo_pro_url = add_duo_pro_seats_url(@subscription_name)
+
+#js-code-suggestions-page{ data: { add_duo_pro_seats_url: duo_pro_url, subscription_name: @subscription_name, is_bulk_add_on_assignment_enabled: 'true', duo_add_on_start_date: @duo_add_on_start_date, duo_add_on_end_date: @duo_add_on_end_date } }

@@ -1,0 +1,10 @@
+---
+name: ci_resolve_components_from_bundle
+description: Resolve GitLab-maintained component includes from the cell-local bundle instead of the source project.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628309
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263631
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635825
+milestone: '19.6'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

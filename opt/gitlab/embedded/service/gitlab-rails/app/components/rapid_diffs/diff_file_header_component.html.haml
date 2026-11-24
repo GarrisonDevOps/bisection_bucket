@@ -1,0 +1,79 @@
+.rd-diff-file-header-sticky
+  %header.rd-diff-file-header{ data: { testid: 'rd-diff-file-header' }, aria: { label: root_label } }
+    .rd-diff-file-toggle<
+      = render Pajamas::ButtonComponent.new(category: :tertiary, size: :small, icon: 'chevron-down', button_options: { class: 'rd-diff-file-toggle-button has-tooltip', title: _('Hide file contents'), data: { opened: '', click: 'toggleFile' }, aria: { label: _('Hide file contents'), expanded: 'true' } })
+      = render Pajamas::ButtonComponent.new(category: :tertiary, size: :small, icon: 'chevron-right', button_options: { class: 'rd-diff-file-toggle-button has-tooltip', title: _('Show file contents'), data: { closed: '', click: 'toggleFile' }, aria: { label: _('Show file contents'), expanded: 'false' } })
+    .rd-diff-file-header-main><
+      - if @diff_file.submodule?
+        .rd-diff-file-header-submodule{ data: { testid: 'rd-diff-file-header-submodule' } }><
+          = helpers.sprite_icon('folder-git', file_icon: true, css_class: 'rd-submodule-icon', aria_label: s_('RapidDiffs|Submodule'))
+          %h2.rd-diff-file-title{ id: heading_id, class: status_title_class, aria: { label: status_title_label } }><
+            = helpers.submodule_link(@diff_file.blob, @diff_file.content_sha, @diff_file.repository)
+        = copy_path_button
+      - else
+        - link_options = { class: 'rd-diff-file-link has-tooltip', title: s_('RapidDiffs|Open file in new tab'), target: '_blank' }
+        - if symlink?
+          = helpers.sprite_icon('symlink', variant: :subtle, css_class: 'rd-symlink-icon', aria_label: s_('RapidDiffs|Symlink'))
+        - if @diff_file.renamed_file?
+          %h2.rd-diff-file-title{ id: heading_id, aria: { label: moved_title_label } }><
+            - if file_link
+              = link_to renamed_file_title, file_link, link_options
+            - else
+              = renamed_file_title
+        - else
+          %h2.rd-diff-file-title{ id: heading_id, class: status_title_class, aria: { label: status_title_label } }><
+            - if file_link
+              = link_to file_title, file_link, link_options
+            - else
+              = file_title
+          = copy_path_button
+        - if @diff_file.stored_externally? && @diff_file.external_storage == :lfs
+          = helpers.gl_badge_tag(_('LFS'), variant: :neutral)
+    .rd-diff-file-info
+      - if @diff_file.submodule?
+        - data = helpers.submodule_diff_compare_data(@diff_file)
+        - if data
+          = render ::Pajamas::ButtonComponent.new(href: data[:href], size: :small, button_options: { title: data[:tooltip], class: 'has-tooltip', data: { testid: 'rd-diff-file-submodule-compare' } }) do
+            = data[:title]
+      - else
+        .rd-diff-file-stats{ data: { testid: 'rd-diff-file-stats' }, aria: { label: stats_label } }
+          - if mode_change.type
+            - label = mode_change_label
+            - attributes = { title: label, role: 'img', aria: { label: label }, data: { testid: 'rd-file-mode-change' } }
+            - case mode_change.type
+            - when :executable_gained
+              %span.rd-file-mode-change.rd-file-mode-chmod.rd-file-mode-change-gained.has-tooltip{ attributes }><
+                +x
+            - when :executable_lost
+              %span.rd-file-mode-change.rd-file-mode-chmod.rd-file-mode-change-lost.has-tooltip{ attributes }><
+                −x
+            - when :other
+              %code.rd-file-mode-change.rd-file-mode-raw.has-tooltip{ attributes }><
+                #{mode_change.old_mode}&nbsp;→&nbsp;#{mode_change.new_mode}
+          - if @diff_file.binary?
+            - if @diff_file.new_file? && new_blob_size
+              %span.rd-stats-added +#{pretty_print_bytes(new_blob_size)}
+            - elsif @diff_file.deleted_file? && old_blob_size
+              %span.rd-stats-removed −#{pretty_print_bytes(old_blob_size)}
+            - elsif binary_size_delta
+              - if binary_size_delta > 0
+                %span.rd-stats-added +#{pretty_print_bytes(binary_size_delta)}
+              - elsif binary_size_delta < 0
+                %span.rd-stats-removed −#{pretty_print_bytes(binary_size_delta.abs)}
+              %span (#{pretty_print_bytes(new_blob_size)})
+          - else
+            - if @diff_file.added_lines > 0
+              %span.rd-stats-added +#{@diff_file.added_lines}
+            - if @diff_file.removed_lines > 0
+              %span.rd-stats-removed −#{@diff_file.removed_lines}
+      = before_file_menu
+      - unless menu_items.empty?
+        .rd-diff-file-options-menu
+          %div{ data: { options_menu: true } }
+            -# <script> here is likely the most effective way to minimize bytes:
+            -# https://gitlab.com/gitlab-org/gitlab/-/merge_requests/182850#note_2387011092
+            -# haml-lint:disable InlineJavaScript
+            %script{ type: "application/json" }
+              = menu_items.map { |item| item.except(:position) }.to_json.html_safe
+            - button_params = { icon: 'ellipsis_v', button_options: { data: { click: 'toggleOptionsMenu' }, aria: { label: s_('RapidDiffs|Show options') } } }
+            = render Pajamas::ButtonComponent.new(category: :tertiary, size: :small, **button_params)

@@ -1,0 +1,11 @@
+---
+name: terraform_state_permanently_deleted
+description: Terraform state permanently deleted before the end of the grace period
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/621470
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262900
+feature_category: infrastructure_as_code
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope:
+  - Project

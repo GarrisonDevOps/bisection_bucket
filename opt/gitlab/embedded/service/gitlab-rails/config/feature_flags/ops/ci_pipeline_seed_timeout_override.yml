@@ -1,0 +1,10 @@
+---
+name: ci_pipeline_seed_timeout_override
+description: Raises the pipeline creation seed timeout for root namespaces that need more time to evaluate job rules.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635122
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263899
+rollout_issue_url:
+milestone: '19.6'
+group: group::pipeline authoring
+type: ops
+default_enabled: false

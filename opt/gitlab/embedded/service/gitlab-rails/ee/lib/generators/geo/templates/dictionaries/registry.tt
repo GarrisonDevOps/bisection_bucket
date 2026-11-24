@@ -1,0 +1,10 @@
+---
+table_name: <%= registry_table_name %>
+description: Geo registry table for tracking replication and verification of <%= replicable_title_plural %>
+introduced_by_url:
+milestone: '<%= milestone %>'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::<%= registry_class_name %>
+gitlab_schema: gitlab_geo

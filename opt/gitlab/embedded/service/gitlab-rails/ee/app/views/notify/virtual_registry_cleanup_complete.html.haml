@@ -1,0 +1,21 @@
+%p
+  = s_('VirtualRegistry|Hi %{username}!') % { username: sanitize_name(@user.name) }
+
+%p
+  = s_('VirtualRegistry|The cache cleanup policy has completed successfully for %{group_link}.').html_safe % { group_link: link_to(sanitize_name(@group.name), group_url(@group), target: '_blank', rel: 'noopener noreferrer nofollow') }
+
+%h3= s_('VirtualRegistry|Summary of the cleanup')
+
+%ul
+  %li
+    %strong= s_('VirtualRegistry|Total entries removed:')
+    = @policy.last_run_deleted_entries_count
+  %li
+    %strong= s_('VirtualRegistry|Storage reclaimed:')
+    = number_to_human_size(@policy.last_run_deleted_size, separator: '.')
+  %li
+    %strong= s_('VirtualRegistry|Rule:')
+    = ns_('VirtualRegistry|Not accessed in the last day', 'VirtualRegistry|Not accessed in the last %{days} days', @policy.keep_n_days_after_download) % { days: @policy.keep_n_days_after_download }
+
+%p
+  = s_('VirtualRegistry|You can review the full cleanup details in the %{audit_events_link}.').html_safe % { audit_events_link: link_to(s_('VirtualRegistry|audit log'), group_audit_events_url(@group), target: '_blank', rel: 'noopener noreferrer nofollow') }

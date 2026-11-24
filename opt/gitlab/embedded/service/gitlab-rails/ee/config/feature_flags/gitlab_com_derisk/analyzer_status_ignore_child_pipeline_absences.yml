@@ -1,0 +1,10 @@
+---
+name: analyzer_status_ignore_child_pipeline_absences
+description: Do not count analyzers as absent from child pipelines when updating Security Inventory analyzer statuses
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639261
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269443
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639731
+milestone: '19.6'
+group: group::security controls
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,6 @@
+%p
+  = safe_format(s_('AiFlowSchedules|The flow schedule "%{description}" in project %{project} failed to execute.'), description: @schedule.description, project: link_to(@project.full_name, project_url(@project)))
+%p
+  = s_('AiFlowSchedules|Error: %{error}') % { error: @schedule.last_run_error }
+%p
+  = s_('AiFlowSchedules|Failure count: %{count} of %{max}. The schedule will be deactivated after %{max} consecutive failures.') % { count: @schedule.consecutive_failure_count, max: Ai::FlowSchedule::MAX_CONSECUTIVE_FAILURES }

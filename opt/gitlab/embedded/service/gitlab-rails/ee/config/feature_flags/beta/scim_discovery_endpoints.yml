@@ -1,0 +1,11 @@
+---
+name: scim_discovery_endpoints
+description: Enable the SCIM service provider discovery endpoints (ServiceProviderConfig, ResourceTypes, Schemas)
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/452118
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257947
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632176
+milestone: '19.5'
+group: group::seat management
+type: beta
+default_enabled: false
+log_state_changes: true

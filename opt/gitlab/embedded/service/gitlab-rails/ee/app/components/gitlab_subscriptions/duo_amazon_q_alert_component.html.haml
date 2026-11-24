@@ -1,0 +1,6 @@
+= render Users::DismissibleAlertComponent.new(title: s_('AmazonQ|GitLab Duo with Amazon Q'),
+                                     variant: variant,
+                                     alert_options: { class: 'gl-mb-5', data: { testid: 'duo-amazon-q-alert' } },
+                                     dismiss_options: { user: user, feature_id: 'duo_amazon_q_alert' }) do |c|
+  - c.with_body do
+    = message

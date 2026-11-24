@@ -1,0 +1,15 @@
+<%= over_limit_body_text(@namespace_name) %>
+
+<%= over_limit_body_secondary_text(@start_trial_url, @upgrade_url, @trial_duration, html_tags: false) %>
+
+<%= s_('FreeUserCap|Upgrade:') %>
+<%= @upgrade_url %>
+
+<%= s_('FreeUserCap|Start a trial:') %>
+<%= @start_trial_url %>
+
+<%= s_('FreeUserCap|Manage members:') %>
+<%= @manage_users_url %>
+
+<%= s_('FreeUserCap|Explore paid plans:') %>
+<%= @upgrade_url %>

@@ -1,0 +1,16 @@
+description: "Change issue health status"
+category: default
+action: change_health_status
+extra_properties:
+identifiers:
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "12.10"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/28547
+tiers:
+- premium
+- ultimate
+additional_properties:
+  property:
+    description: "Issue status"

@@ -1,0 +1,19 @@
+---
+description: User clicks a link to navigate to a specific group from the billing/pricing information page
+internal_events: true
+action: click_link_navigate_to_group
+identifiers:
+  - user
+  - namespace
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210705
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: Array of group IDs available to the user

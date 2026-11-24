@@ -1,0 +1,45 @@
+# frozen_string_literal: true
+
+module Security
+  module AnalyzerNamespaceStatuses
+    class ProcessGroupDeletedEventsWorker
+      include Gitlab::EventStore::Subscriber
+
+      idempotent!
+      data_consistency :sticky
+      feature_category :security_asset_inventories
+      concurrency_limit -> { 25 }
+      defer_on_database_health_signal :gitlab_sec, [:analyzer_namespace_statuses], 1.minute
+
+      BATCH_SIZE = 500
+
+      def handle_event(event)
+        parent_group = Group.find_by_id(event.data[:parent_namespace_id])
+        return unless parent_group
+
+        # Deleting a group triggers async delete with loose foreign keys of related analyzer_project_statuses records.
+        # Since RecalculateService requires these records to be completely removed,
+        # we must ensure no records exist before triggering recalculation
+        batch_delete_statuses_records(parent_group, event.data[:group_id])
+        Security::AnalyzerNamespaceStatuses::RecalculateWorker.perform_in(
+          Security::AnalyzerNamespaceStatuses::RecalculateWorker::RECALCULATE_DELAY,
+          parent_group.id
+        )
+      end
+
+      def batch_delete_statuses_records(parent_group, deleted_group_id)
+        loop do
+          count = group_analyzer_projects_statuses(parent_group, deleted_group_id).limit(BATCH_SIZE).delete_all
+          break if count < BATCH_SIZE
+        end
+      end
+
+      def group_analyzer_projects_statuses(parent_group, deleted_group_id)
+        @statuses_relation ||= begin
+          traversal_ids = parent_group.traversal_ids + [deleted_group_id]
+          AnalyzerProjectStatus.unarchived.within(traversal_ids)
+        end
+      end
+    end
+  end
+end

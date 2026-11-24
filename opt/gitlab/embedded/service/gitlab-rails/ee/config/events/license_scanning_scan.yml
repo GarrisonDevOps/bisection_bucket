@@ -1,0 +1,28 @@
+---
+description: "License Scanning scans the SBOM components of a project"
+internal_events: true
+action: license_scanning_scan
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: PURL type
+  property:
+    description: Scanning tool corresponding to the PURL type.
+      This can either be dependency_scanning, container_scanning, or unknown.
+  value:
+    description: Count of SBOM components being processed by License Scanning
+  components_with_licenses_from_sbom:
+    description: Count of SBOM components with licenses extracted from the SBOM
+  components_with_scan_results:
+    description: Count of SBOM components with licenses found during the scan
+  components_without_scan_results:
+    description: Count of SBOM components with no licenses found during the scan
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169401
+tiers:
+- ultimate

@@ -1,0 +1,4 @@
+- return unless alternative_kerberos_url?
+
+.tab-pane#kerberos
+  = render partial: 'empty_git_instructions', locals: { protocol: 'kerberos' }

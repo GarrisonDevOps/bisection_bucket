@@ -1,0 +1,10 @@
+---
+name: triage_and_remediation_profile
+description: Offer the GitLab-provided Triage and Remediation scan profile presets
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/622469
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251938
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/625053
+milestone: '19.4'
+group: group::security controls
+type: beta
+default_enabled: true

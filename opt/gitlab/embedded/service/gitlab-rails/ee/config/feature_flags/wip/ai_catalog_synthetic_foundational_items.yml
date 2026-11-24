@@ -1,0 +1,10 @@
+---
+name: ai_catalog_synthetic_foundational_items
+description: Load AI Catalog foundational items as synthetic SQL rows from FixedItemsModel definitions instead of storing them in the database
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/592038
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229304
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/595053
+milestone: '18.11'
+group: group::workflow catalog
+type: wip
+default_enabled: false

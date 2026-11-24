@@ -1,0 +1,15 @@
+---
+description: Counts Licenses List page views
+internal_events: true
+action: licenses_list_viewed
+identifiers:
+- project
+- namespace
+- user
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/145721
+tiers:
+- ultimate

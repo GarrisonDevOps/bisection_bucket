@@ -1,0 +1,10 @@
+---
+name: ci_config_cache_entry_limit
+description: Rate limit new ciConfigVariables and ciPipelineCreationInputs reactive cache entries per user
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635521
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270975
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/640124
+milestone: '19.7'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

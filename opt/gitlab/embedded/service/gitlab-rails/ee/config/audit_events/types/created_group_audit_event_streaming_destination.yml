@@ -1,0 +1,10 @@
+---
+name: created_group_audit_event_streaming_destination
+description: An external audit event destination for a top-level group is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/436610
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/147888
+feature_category: audit_events
+milestone: "16.11"
+saved_to_database: true
+streamed: true
+scope: [Group]

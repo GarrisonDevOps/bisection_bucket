@@ -1,0 +1,5 @@
+---
+event: WorkItems::DecisionResolvedEvent
+description: Published after a decision raised by a Duo question is resolved with an answer, so the work item description can be updated.
+feature_category: team_planning
+ee_only: true

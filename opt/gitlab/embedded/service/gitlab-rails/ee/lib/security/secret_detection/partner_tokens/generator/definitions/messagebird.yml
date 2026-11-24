@@ -1,0 +1,21 @@
+---
+token_type: "messagebird-api-token"
+class_name: "MessagebirdClient"
+partner_name: "messagebird"
+endpoint: "https://rest.messagebird.com/balance"
+http_method: "get"
+auth_style: "header"
+auth_param: "Authorization"
+auth_prefix: "AccessKey "
+token_pattern: '\A[a-zA-Z0-9]{25}\z'
+sample_token: "aaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_messagebird_api"
+doc_url: "https://developers.messagebird.com/api/balance/"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

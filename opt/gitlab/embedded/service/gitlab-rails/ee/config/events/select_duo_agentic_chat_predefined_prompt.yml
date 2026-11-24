@@ -1,0 +1,22 @@
+---
+description: User clicked a predefined prompt in an active Duo Agentic Chat session
+internal_events: true
+action: select_duo_agentic_chat_predefined_prompt
+identifiers:
+  - user
+  - namespace
+additional_properties:
+  label:
+    description: Config-defined template of the predefined prompt clicked, before
+      variable interpolation, so no customer values are recorded
+  property:
+    description: Untranslated name of the selected agent, empty for the default chat
+product_categories:
+  - chat_engine
+product_group: duo_chat
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255437
+tiers:
+  - premium
+  - ultimate
+classification: duo

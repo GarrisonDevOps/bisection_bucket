@@ -1,0 +1,481 @@
+# frozen_string_literal: true
+
+class SearchController < ApplicationController
+  include ControllerWithCrossProjectAccessCheck
+  include SafeFormatHelper
+  include SearchHelper
+  include ProductAnalyticsTracking
+  include Gitlab::InternalEventsTracking
+  include SearchRateLimitable
+
+  RESCUE_FROM_TIMEOUT_ACTIONS = [:count, :show, :autocomplete, :aggregations].freeze
+
+  track_event :show,
+    name: 'i_search_total',
+    label: 'redis_hll_counters.search.search_total_unique_counts_monthly',
+    action: 'executed',
+    destinations: [:redis_hll, :snowplow]
+
+  track_event :autocomplete,
+    name: 'i_search_total',
+    label: 'redis_hll_counters.search.search_total_unique_counts_monthly',
+    action: 'autocomplete',
+    destinations: [:redis_hll, :snowplow]
+
+  def self.search_rate_limited_endpoints
+    %i[show count autocomplete]
+  end
+
+  around_action :allow_gitaly_ref_name_caching
+
+  # Ensure organization is resolved before authenticate_user! because
+  # authenticate? calls search_service which needs Current.organization.
+  skip_before_action :set_current_organization
+  prepend_before_action :set_current_organization
+
+  skip_before_action :authenticate_user!, unless: :authenticate?
+
+  before_action :check_scope_global_search_enabled, except: :opensearch
+
+  # The OpenSearch description is static and public, but browsers fetch it with cookies shortly
+  # after a page load. Committing the session here would overwrite what a request that started
+  # earlier stored in it.
+  before_action :skip_session, only: :opensearch
+
+  requires_cross_project_access if: -> do
+    search_term_present = search_params[:search].present? || autocomplete_params[:term].present?
+    search_term_present && !search_params[:project_id].present?
+  end
+  before_action :check_search_rate_limit!, only: search_rate_limited_endpoints
+
+  rescue_from ActiveRecord::QueryCanceled, with: :render_timeout
+
+  layout 'search'
+
+  feature_category :global_search
+  urgency :low
+
+  def show
+    @project = search_service.project
+    @group = search_service.group
+    @search_service_presenter = Gitlab::View::Presenter::Factory.new(
+      search_service,
+      current_user: current_user
+    ).fabricate!
+
+    @scope = @search_service_presenter.scope
+    @search_type = search_type
+    return unless search_term_valid? && search_type_valid?
+
+    return if check_single_commit_result?
+
+    @search_term = search_params[:search]
+    @sort = search_params[:sort] || default_sort
+
+    @search_level = @search_service_presenter.level
+
+    # separate following lines to method that is conditionally triggered when not zoekt multi-result search
+    haml_search_results unless multi_match?(scope: @scope, search_type: search_type)
+  end
+
+  def count
+    params.require([:search, :scope])
+
+    # JSON body, not `head`, to match the timeout handler for this same action:
+    # the sidebar count fetcher parses every response as JSON.
+    unless search_service.valid_date_params? && search_service.valid_assignee_ids?
+      return render(json: {}, status: :bad_request)
+    end
+
+    @scope = search_service.scope
+    @search_level = search_service.level
+    @search_type = search_type
+
+    count = 0
+    @search_attempted = true
+    @global_search_duration_s = Benchmark.realtime do
+      count = if @search_type == 'basic'
+                ApplicationRecord.with_fast_read_statement_timeout do
+                  search_service.search_results.formatted_count(@scope)
+                end
+              else
+                search_service.search_results.formatted_count(@scope)
+              end
+    end
+
+    # Short cache: tab switches re-fetch the same counts, and a briefly
+    # stale count is an acceptable tradeoff.
+    expires_in 1.minute
+
+    render json: { count: count }
+
+    record_search_apdex(observe_duration: false)
+  ensure
+    record_search_error
+  end
+
+  def settings
+    return render(json: []) unless current_user
+
+    project_id = search_params[:project_id]
+    group_id = search_params[:group_id]
+
+    if project_id
+      render json: settings_for_project(project_id)
+    elsif group_id
+      render json: settings_for_group(group_id)
+    else
+      head :bad_request
+    end
+  end
+
+  def autocomplete
+    term = autocomplete_params[:term]
+    if term.blank?
+      render json: Gitlab::Json.dump([])
+      return
+    end
+
+    @project = search_service.project
+    @ref = autocomplete_params[:project_ref] if autocomplete_params[:project_ref].present?
+    @filter = autocomplete_params[:filter]
+    autocomplete_scope = autocomplete_params[:scope]
+
+    # @scope, @search_type, @search_level are not meaningful for autocomplete SLI
+    @scope = nil
+    @search_type = nil
+    @search_level = nil
+
+    # Cache the response on the frontend
+    expires_in 1.minute
+
+    results = nil
+    @search_attempted = true
+    @global_search_duration_s = Benchmark.realtime do
+      results = search_autocomplete_opts(term, filter: @filter, scope: autocomplete_scope)
+    end
+
+    render json: Gitlab::Json.dump(results)
+
+    record_search_apdex
+  ensure
+    record_search_error
+  end
+
+  def opensearch; end
+
+  private
+
+  def processing_action_is_opensearch?
+    action_name == 'opensearch'
+  end
+
+  def record_search_apdex(observe_duration: true)
+    Gitlab::Metrics::GlobalSearchSlis.record_apdex(
+      elapsed: @global_search_duration_s,
+      search_type: @search_type,
+      search_level: @search_level,
+      search_scope: @scope,
+      observe_duration: observe_duration
+    )
+  end
+
+  # Click position counters fire from click_search_result's extra_trackers: hook,
+  # not here, so this never double-counts a click against its originating search.
+  def record_search_relevancy_counters
+    Gitlab::Metrics::GlobalSearchRelevancyCounters.record_search(
+      search_type: @search_type,
+      scope: @scope,
+      zero_results: @search_objects.blank?,
+      source: 'web'
+    )
+  end
+
+  def record_search_error
+    return unless @search_attempted
+
+    # If we raise an error somewhere in the @global_search_duration_s benchmark block, we will end up here
+    # with a 200 status code, but an empty @global_search_duration_s.
+    Gitlab::Metrics::GlobalSearchSlis.record_error_rate(
+      error: @global_search_duration_s.nil? || status >= 500,
+      search_type: @search_type,
+      search_level: @search_level,
+      search_scope: @scope
+    )
+  end
+
+  def authenticate?
+    return false if processing_action_is_opensearch?
+    return true if public_visibility_restricted?
+
+    if search_service.global_search? && ::Gitlab::CurrentSettings.global_search_block_anonymous_searches_enabled?
+      return true
+    end
+
+    return true unless ::Gitlab::CurrentSettings.anonymous_searches_allowed?
+
+    false
+  end
+
+  def multi_match?(search_type:, scope:) # rubocop: disable Lint/UnusedMethodArgument -- This is being overridden in EE
+    false
+  end
+
+  def haml_search_results
+    @search_attempted = true
+    @global_search_duration_s = Benchmark.realtime do
+      @search_results = @search_service_presenter.search_results
+      @search_objects = @search_service_presenter.search_objects
+      @search_highlight = @search_service_presenter.search_highlight
+    end
+
+    return if @search_results.respond_to?(:failed?) && @search_results.failed?(@scope)
+
+    record_search_apdex
+
+    increment_search_counters
+    record_search_relevancy_counters
+  ensure
+    record_search_error
+  end
+
+  # overridden in EE
+  def default_sort
+    'created_desc'
+  end
+
+  def search_term_valid?
+    return false if search_params[:search].blank?
+
+    unless search_service.valid_query_length?
+      flash[:alert] = t('errors.messages.search_chars_too_long', count: Search::Params::SEARCH_CHAR_LIMIT)
+      return false
+    end
+
+    unless search_service.valid_terms_count?
+      flash[:alert] = t('errors.messages.search_terms_too_long', count: Search::Params::SEARCH_TERM_LIMIT)
+      return false
+    end
+
+    unless search_service.valid_date_params?
+      flash[:alert] = t('errors.messages.search_dates_invalid',
+        params: search_service.invalid_date_params.join(', '))
+      return false
+    end
+
+    unless search_service.valid_assignee_ids?
+      flash[:alert] =
+        if search_service.oversized_assignee_id_params.any?
+          t('errors.messages.search_assignee_ids_too_many',
+            params: search_service.oversized_assignee_id_params.join(', '),
+            count: Search::Params::MAX_ASSIGNEE_IDS)
+        else
+          t('errors.messages.search_assignee_ids_malformed',
+            params: search_service.malformed_assignee_id_params.join(', '))
+        end
+
+      return false
+    end
+
+    true
+  end
+
+  def search_type_valid?
+    search_type_errors = search_service.search_type_errors
+    if search_type_errors
+      flash[:alert] = search_type_errors
+      return false
+    end
+
+    true
+  end
+
+  def check_single_commit_result?
+    return false if search_params[:force_search_results]
+    return false unless @project.present?
+    return false unless Ability.allowed?(current_user, :read_code, @project)
+
+    query = search_params[:search].strip.downcase
+    return false unless Commit.valid_hash?(query)
+
+    commit = @project.commit_by(oid: query)
+    return false unless commit.present?
+
+    link = search_path(safe_params.merge(force_search_results: true))
+    search_link = helpers.link_to('', link)
+
+    flash[:notice] = safe_format(
+      _(
+        "You have been redirected to the only result; " \
+          "see the %{a_start}search results%{a_end} instead."
+      ),
+      tag_pair(search_link, :a_start, :a_end)
+    )
+    redirect_to project_commit_path(@project, commit)
+
+    true
+  end
+
+  def increment_search_counters
+    if search_relevancy_join_key_enabled?
+      @search_request_id = SecureRandom.uuid
+
+      track_internal_event('perform_search', user: current_user,
+        additional_properties: search_event_properties.merge(property: @search_request_id))
+    else
+      # Only the join key is flag-gated, so a rollback keeps the segmentation.
+      # `property` is optional in the event definition.
+      track_internal_event('perform_search', user: current_user,
+        additional_properties: search_event_properties)
+    end
+
+    return if search_params[:nav_source] != 'navbar'
+
+    track_internal_event('perform_navbar_search', user: current_user)
+  end
+
+  def search_event_properties
+    {
+      label: @scope,
+      search_type: @search_type,
+      search_level: @search_level
+    }
+  end
+
+  # The actor is the request, not current_user: anonymous search is supported, and a nil
+  # actor never matches a percentage-of-actors gate.
+  def search_relevancy_join_key_enabled?
+    Feature.enabled?(:search_relevancy_join_key, Feature.current_request)
+  end
+
+  def append_info_to_payload(payload)
+    super
+
+    # Merging to :metadata will ensure these are logged as top level keys
+    payload[:metadata] ||= {}
+    payload[:metadata].merge!(payload_metadata)
+    payload[:metadata].merge!(abuse_payload_metadata)
+  rescue ActiveRecord::QueryCanceled # rubocop:disable Database/RescueQueryCanceled -- Safetynet on timeout during instrumentation
+    payload
+  end
+
+  def payload_metadata
+    case action_name.to_sym
+    when :show, :count, :aggregations
+      search_payload_metadata
+    when :autocomplete
+      autocomplete_payload_metadata
+    else
+      {}
+    end
+  end
+
+  def abuse_payload_metadata
+    return {} if processing_action_is_opensearch?
+    return {} unless search_service.abuse_detected?
+
+    {
+      'abuse.confidence' => Gitlab::Abuse.confidence(:certain),
+      'abuse.messages' => search_service.abuse_messages
+    }
+  end
+
+  def search_payload_metadata
+    {
+      'meta.search.group_id' => search_params[:group_id],
+      'meta.search.project_id' => search_params[:project_id],
+      'meta.search.scope' => search_service.scope,
+      'meta.search.page' => search_params[:page] || '1',
+      'meta.search.force_search_results' => search_params[:force_search_results],
+      'meta.search.filters.confidential' => search_params[:confidential],
+      'meta.search.filters.state' => search_params[:state],
+      'meta.search.filters.language' => search_params[:language],
+      'meta.search.filters.type' => search_params[:type]
+    }.tap do |metadata|
+      metadata['meta.search.type']        = @search_type         if @search_type.present?
+      metadata['meta.search.level']       = @search_level        if @search_level.present?
+      metadata['meta.search.request_id']  = @search_request_id   if @search_request_id
+      metadata[:global_search_duration_s] = @global_search_duration_s if @global_search_duration_s.present?
+    end
+  end
+
+  def autocomplete_payload_metadata
+    {
+      'meta.search.autocomplete.filter' => autocomplete_params[:filter],
+      'meta.search.autocomplete.scope' => autocomplete_params[:scope],
+      'meta.search.group_id' => autocomplete_params[:group_id],
+      'meta.search.project_id' => autocomplete_params[:project_id]
+    }.tap do |metadata|
+      metadata[:global_search_duration_s] = @global_search_duration_s if @global_search_duration_s.present?
+    end
+  end
+
+  def check_scope_global_search_enabled
+    return unless search_service.global_search?
+
+    return if search_service.global_search_enabled_for_scope?
+
+    redirect_to search_path, alert: _('Global Search is disabled for this scope')
+  end
+
+  def skip_session
+    request.session_options[:skip] = true
+  end
+
+  def render_timeout(exception)
+    raise exception unless action_name.to_sym.in?(RESCUE_FROM_TIMEOUT_ACTIONS)
+
+    log_exception(exception)
+
+    @timeout = true
+
+    case action_name.to_sym
+    when :count
+      render json: {}, status: :request_timeout
+    when :autocomplete, :aggregations
+      render json: [], status: :request_timeout
+    else
+      render status: :request_timeout
+    end
+  end
+
+  def tracking_namespace_source
+    search_service.project&.namespace || search_service.group
+  end
+
+  def tracking_project_source
+    search_service.project
+  end
+
+  def search_type
+    search_service.search_type
+  end
+
+  def search_params
+    params.permit(
+      :search, :scope, :group_id, :project_id, :page, :sort,
+      :force_search_results, :nav_source, :include_archived, :search_type,
+      :confidential, :state, language: [], type: []
+    )
+  end
+
+  def autocomplete_params
+    params.permit(:term, :scope, :filter, :group_id, :project_id, :project_ref)
+  end
+
+  def settings_for_project(project_id)
+    project = Project.find_by_id(project_id)
+    return [] unless project && Ability.allowed?(current_user, :admin_project, project)
+
+    Search::ProjectSettings.new(project).all
+  end
+
+  def settings_for_group(group_id)
+    group = Group.find_by_id(group_id)
+    return [] unless group && Ability.allowed?(current_user, :admin_group, group)
+
+    Search::GroupSettings.new(group).all
+  end
+end
+
+SearchController.prepend_mod_with('SearchController')

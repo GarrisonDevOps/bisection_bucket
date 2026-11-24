@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Application settings for NATS",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "use_nats_for_audit_streaming": {
+      "type": "boolean",
+      "description": "Route audit event streaming through NATS JetStream when the instance has NATS configured."
+    }
+  }
+}

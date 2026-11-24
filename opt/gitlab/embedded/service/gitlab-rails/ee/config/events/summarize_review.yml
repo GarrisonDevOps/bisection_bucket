@@ -1,0 +1,18 @@
+---
+description: When a user requests a summary of their merge request review with GitLab Duo
+internal_events: true
+status: active
+action: summarize_review
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/241206
+tiers:
+- premium
+- ultimate

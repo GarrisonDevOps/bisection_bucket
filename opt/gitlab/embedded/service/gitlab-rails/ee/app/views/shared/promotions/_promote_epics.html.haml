@@ -1,0 +1,30 @@
+- add_page_specific_style 'page_bundles/promotions'
+- promotion_feature = 'promote_epics_sidebar_dismissed'
+
+- if show_promotions?(hide_on_self_managed: true) && show_callout?(promotion_feature)
+  .block.js-epics-sidebar-callout.promotion-issue-sidebar{ data: { uid: promotion_feature } }
+    .sidebar-collapsed-icon{ data: { toggle: "dropdown", target: ".js-epics-sidebar-callout" } }
+      %span.gl-flex.gl-flex-col.gl-items-center{ data: { toggle: "tooltip", placement: "left", container: "body" }, title: _('Epic') }
+        = sprite_icon('work-item-epic')
+        %span.gl-pt-2.gl-px-3.gl-text-sm
+          = _('None')
+    .title.hide-collapsed.gl-font-bold{ class: '!gl-leading-28' }
+      = _('Epic')
+    .dropdown
+      .dropdown-menu.promotion-issue-sidebar-message
+        .dropdown-title.gl-flex
+          %span.gl-ml-auto
+            = _('Epic')
+          %button.dropdown-title-button.dropdown-menu-close.gl-ml-auto{ "aria-label" => _('Close'), :type => "button" }
+            = sprite_icon('close', size: 16, css_class: 'dropdown-menu-close-icon')
+        %div
+          %p
+            = s_('Promotions|Epics let you manage your portfolio of projects more efficiently and with less effort by tracking groups of issues that share a theme, across projects and milestones.')
+            = link_button_to _('Read more'), help_page_url('user/group/epics/_index.md'), variant: :link, target: '_blank', rel: 'noopener noreferrer'
+          .gl-flex-wrap
+            = render 'shared/promotions/promotion_link_project', short_form: true, location: :epics
+            = link_button_to s_("Promotions|Don't show me this again"), '#', class: 'js-close js-close-callout gl-mt-2'
+
+    .hide-collapsed
+      %span.gl-text-subtle= s_('Promotions|This feature is locked.')
+      = link_to s_('Promotions|Upgrade plan') , '#', class: 'btn-link gl-button', data: { toggle: "dropdown", target: ".js-epics-sidebar-callout", display: 'static' }

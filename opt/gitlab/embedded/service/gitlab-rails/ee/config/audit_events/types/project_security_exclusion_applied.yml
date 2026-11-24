@@ -1,0 +1,10 @@
+---
+name: project_security_exclusion_applied
+description: A project security exclusion is applied in one of the security scanners
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/492465
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/166511
+feature_category: secret_detection
+milestone: '17.6'
+saved_to_database: true
+streamed: true
+scope: [Project]

@@ -1,0 +1,19 @@
+---
+token_type: "Hubspot API token"
+class_name: "HubspotClient"
+partner_name: "hubspot"
+endpoint: "https://api.hubapi.com/account-info/v3/details"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Apat-[a-z]{2}[0-9]-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z'
+sample_token: "pat-na1-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+rate_limit_key: "partner_hubspot_api"
+doc_url: "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/account-service-keys"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

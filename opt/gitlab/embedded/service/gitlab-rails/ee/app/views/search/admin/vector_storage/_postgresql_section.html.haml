@@ -1,0 +1,32 @@
+- section = @presenter.adapter_section('postgresql')
+.gl-py-2.js-postgresql-section{ class: section.hidden_class, data: { testid: 'postgresql-section' } }
+  = form_with url: admin_search_vector_storage_connect_custom_postgresql_vector_storage_path, method: :post, class: 'gl-flex gl-flex-col gl-gap-4' do |f|
+    .form-group.gl-m-0
+      = f.label :host, s_('SemanticSearch|Host'), class: 'label-bold'
+      = f.text_field :host, value: section.options['host'], class: 'form-control gl-form-input', placeholder: 'localhost', autocomplete: 'off', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|Host name of the PostgreSQL server.')
+    .form-group.gl-m-0
+      = f.label :port, s_('SemanticSearch|Port'), class: 'label-bold'
+      = f.text_field :port, value: section.options['port'], class: 'form-control gl-form-input', placeholder: '5432', autocomplete: 'off', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|Port for the PostgreSQL server. Default is 5432.')
+    .form-group.gl-m-0
+      = f.label :database, s_('SemanticSearch|Database'), class: 'label-bold'
+      = f.text_field :database, value: section.options['database'], class: 'form-control gl-form-input', placeholder: 'postgres', autocomplete: 'off', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|Name of the PostgreSQL database.')
+    .form-group.gl-m-0
+      = f.label :user, s_('SemanticSearch|Username'), class: 'label-bold'
+      = f.text_field :user, value: section.options['user'], class: 'form-control gl-form-input', autocomplete: 'off', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|PostgreSQL username.')
+    .form-group.gl-m-0
+      = f.label :password, s_('SemanticSearch|Password'), class: 'label-bold'
+      = f.password_field :password, value: section.password_value, class: 'form-control gl-form-input', autocomplete: 'new-password', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|PostgreSQL password.')
+    = render 'reindex_warning'
+    .gl-flex.gl-items-start
+      = render Pajamas::ButtonComponent.new(variant: :confirm, type: :submit, disabled: section.inputs_disabled, button_options: { data: { testid: 'custom-postgresql-submit-button' } }) do
+        = s_('SemanticSearch|Save changes')

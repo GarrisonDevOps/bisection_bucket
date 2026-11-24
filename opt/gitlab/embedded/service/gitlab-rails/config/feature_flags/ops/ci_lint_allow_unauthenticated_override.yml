@@ -1,0 +1,10 @@
+---
+name: ci_lint_allow_unauthenticated_override
+description: Allows unauthenticated requests to GET /projects/:id/ci/lint for root namespaces that still depend on them.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638411
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267969
+rollout_issue_url:
+milestone: '19.6'
+group: group::pipeline authoring
+type: ops
+default_enabled: false

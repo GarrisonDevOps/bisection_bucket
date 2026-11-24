@@ -1,0 +1,9 @@
+---
+exclude:
+  reason: indefinite_retention
+retention_window: -1
+enforcement_strategy: none
+enforcing: false
+work_item: https://gitlab.com/groups/gitlab-org/-/work_items/23461
+pause_mechanism:
+  type: none

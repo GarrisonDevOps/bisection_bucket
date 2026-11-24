@@ -1,0 +1,12 @@
+- banner_title = 'ultimate_banner'
+
+= render Users::DismissibleBannerComponent.new(svg_path: 'illustrations/gitlab_logo.svg',
+  banner_options: { class: 'gl-mt-6',
+                    data: { track_action: 'render', track_label: banner_title, uid: 'trial_callout_dismissed', testid: 'start-trial-banner' } },
+  dismiss_options: { user: current_user, feature_id: 'ultimate_trial' },
+  close_options: { data: { track_action: 'dismiss_banner', track_label: banner_title }, 'aria-label': _('Dismiss trial promotion') }) do |c|
+  - c.with_title do
+    = _('Free Ultimate Trial with GitLab Duo Enterprise')
+  - c.with_primary_action do
+    = link_button_to _('Start your free trial'), new_trial_path(glm_source: glm_source, glm_content: 'gold-callout'), target: '_blank', rel: 'noopener noreferrer', data: { track_action: 'click_button', track_label: 'start_your_trial', track_property: banner_title }, variant: :confirm
+  %p= format(_("Get access to all Ultimate and GitLab Duo AI-native features, free for %{duration} days. No credit card required."), duration: trial_duration)

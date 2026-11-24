@@ -1,0 +1,16 @@
+---
+description: Triggered when a CI/CD Catalog publish attempt is blocked by the allowlist restriction.
+internal_events: true
+action: ci_catalog_publish_blocked_by_allowlist
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: pipeline_authoring
+product_categories:
+  - pipeline_composition
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219891
+tiers:
+  - premium
+  - ultimate

@@ -1,0 +1,10 @@
+---
+name: update_project_compliance_violation
+description: Project compliance violation is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/542343
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195768
+feature_category: compliance_management
+milestone: '18.2'
+saved_to_database: true
+streamed: true
+scope: [Project]

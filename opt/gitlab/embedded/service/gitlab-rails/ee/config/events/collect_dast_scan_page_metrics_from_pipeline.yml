@@ -1,0 +1,24 @@
+---
+description: The event tracks DAST page metrics
+internal_events: true
+action: collect_dast_scan_page_metrics_from_pipeline
+identifiers:
+  - project
+  - namespace
+  - user
+product_group: dynamic_analysis
+product_categories:
+  - vulnerability_management
+milestone: '18.1'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189956'
+tiers:
+  - ultimate
+additional_properties:
+  property:
+    description: "a UUID that identifies a scan"
+  value:
+    description: "total number of navigations visited"
+  label:
+    description: "total number of navigations found from forms"
+  check_items_count:
+    description: "total vulnerability count"

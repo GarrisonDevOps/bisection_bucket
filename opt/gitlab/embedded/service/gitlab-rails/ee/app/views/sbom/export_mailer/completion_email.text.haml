@@ -1,0 +1,4 @@
+= s_('Dependencies|The dependency list was successfully exported.')
+= s_('Dependencies|Follow the link below to download the export.')
+= dependencies_export_download_url(@export)
+= s_('Dependencies|This link will expire in %{number} days.') % { number: @expiration_days }

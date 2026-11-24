@@ -1,0 +1,9 @@
+= render Pajamas::AlertComponent.new(title: title, variant: alert_variant, dismissible: true, alert_options: alert_options, close_button_options: close_button_options) do |c|
+  - c.with_body do
+    %p= body_text
+  - c.with_actions do
+    .gl-flex.gl-gap-3
+      = render Pajamas::ButtonComponent.new(size: :small, variant: :confirm, href: purchase_link, target: '_blank') do
+        = _('Purchase more seats')
+      = render Pajamas::ButtonComponent.new(size: :small, href: restricted_access_settings_path) do
+        = restricted_access_toggle_text

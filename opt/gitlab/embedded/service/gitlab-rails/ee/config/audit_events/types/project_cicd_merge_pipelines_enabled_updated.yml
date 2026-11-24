@@ -1,0 +1,10 @@
+---
+name: project_cicd_merge_pipelines_enabled_updated
+description: The CI/CD merge pipelines setting for a project is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/369317
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/107428
+milestone: '15.8'
+feature_category: continuous_integration
+saved_to_database: true
+streamed: true
+scope: [Project]

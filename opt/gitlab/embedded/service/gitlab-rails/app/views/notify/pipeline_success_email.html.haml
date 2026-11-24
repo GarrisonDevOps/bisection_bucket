@@ -1,0 +1,2 @@
+- pipeline_link = link_to(sanitize_name(@pipeline.name) || "##{@pipeline.id}", pipeline_url(@pipeline), style: "color:#ffffff;text-decoration:none;")
+= render 'notify/successful_pipeline', title: safe_format(s_('Notify|Pipeline %{pipeline_name_or_id} has passed!'), pipeline_name_or_id: pipeline_link)

@@ -1,0 +1,10 @@
+---
+name: routable_deploy_token
+description: Makes deploy tokens routable based on the organization and the project or group.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/597463
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262950
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635847
+milestone: '19.6'
+group: group::cells infrastructure
+type: gitlab_com_derisk
+default_enabled: false

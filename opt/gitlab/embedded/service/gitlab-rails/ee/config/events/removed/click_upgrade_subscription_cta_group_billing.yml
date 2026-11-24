@@ -1,0 +1,17 @@
+---
+description: Tracks when a user clicks upgrade subscription CTA on the group billing page
+internal_events: true
+status: removed
+action: click_upgrade_subscription_cta_group_billing
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '18.11'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228101
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249466
+milestone_removed: '19.3'
+tiers:
+  - free

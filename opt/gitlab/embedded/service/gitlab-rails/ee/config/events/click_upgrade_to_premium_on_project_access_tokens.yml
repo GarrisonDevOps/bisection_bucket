@@ -1,0 +1,15 @@
+---
+description: Free-tier owner clicks Upgrade to Premium on the project access tokens upgrade card
+internal_events: true
+action: click_upgrade_to_premium_on_project_access_tokens
+identifiers:
+- user
+- project
+- namespace
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251177
+tiers:
+- free

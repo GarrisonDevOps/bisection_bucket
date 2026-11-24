@@ -1,0 +1,70 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_from_security_policy
+description: Count of unique namespaces with any active Security Policy (MR Approval,
+  Scan Execution, Pipeline Execution, or Vulnerability Management)
+product_group: policy_management
+product_categories:
+  - security_policy_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224846
+time_frame:
+  - 28d
+  - 7d
+data_source: internal_events
+data_category: optional
+tiers:
+  - ultimate
+events:
+  - name: create_approval_rule_from_merge_request_approval_policy
+    unique: namespace.id
+    filter:
+      label: scan_finding
+  - name: create_approval_rule_from_merge_request_approval_policy
+    unique: namespace.id
+    filter:
+      label: license_finding
+  - name: create_approval_rule_from_merge_request_approval_policy
+    unique: namespace.id
+    filter:
+      label: any_merge_request
+  - name: enforce_scan_execution_policy_in_project
+    unique: namespace.id
+    filter:
+      label: dast
+  - name: enforce_scan_execution_policy_in_project
+    unique: namespace.id
+    filter:
+      label: secret_detection
+  - name: enforce_scan_execution_policy_in_project
+    unique: namespace.id
+    filter:
+      label: container_scanning
+  - name: enforce_scan_execution_policy_in_project
+    unique: namespace.id
+    filter:
+      label: sast
+  - name: enforce_scan_execution_policy_in_project
+    unique: namespace.id
+    filter:
+      label: sast_iac
+  - name: enforce_scan_execution_policy_in_project
+    unique: namespace.id
+    filter:
+      label: dependency_scanning
+  - name: enforce_scheduled_scan_execution_policy_in_project
+    unique: namespace.id
+  - name: enforce_pipeline_execution_policy_in_project
+    unique: namespace.id
+  - name: execute_job_scheduled_pipeline_execution_policy
+    unique: namespace.id
+  - name: evaluate_vulnerability_management_policy_in_project
+    unique: namespace.id
+    filter:
+      label: auto_dismiss
+  - name: evaluate_vulnerability_management_policy_in_project
+    unique: namespace.id
+    filter:
+      label: auto_resolve

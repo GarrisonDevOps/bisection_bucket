@@ -1,0 +1,16 @@
+= gitlab_ui_form_for @application_setting, url: security_and_compliance_admin_application_settings_path(anchor: 'js-dependency-scanning-settings'), html: { class: 'fieldset-form', id: 'dependency-scanning-settings' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group
+      = f.label :dependency_scanning_sbom_scan_api_upload_limit, s_('DependencyScanning|SBOM Scan API upload rate limit'), class: 'label-bold'
+      = f.number_field :dependency_scanning_sbom_scan_api_upload_limit, class: 'form-control gl-form-input'
+      .form-text{ class: '!gl-text-subtle' }
+        = s_('DependencyScanning|Maximum number of SBOM uploads allowed per hour for Dependency Scanning. Set to 0 to disable rate limiting.')
+    .form-group
+      = f.label :dependency_scanning_sbom_scan_api_download_limit, s_('DependencyScanning|SBOM Scan API download rate limit'), class: 'label-bold'
+      = f.number_field :dependency_scanning_sbom_scan_api_download_limit, class: 'form-control gl-form-input'
+      .form-text{ class: '!gl-text-subtle' }
+        = s_('DependencyScanning|Maximum number of scan result downloads allowed per hour for Dependency Scanning. Set to 0 to disable rate limiting.')
+
+  = f.submit _('Save changes'), pajamas_button: true, data: { testid: 'save-changes-button' }

@@ -1,0 +1,12 @@
+- dashboard_type = @export.report_data&.dig('dashboard_type')
+- context_label = dashboard_type.present? ? s_('Vulnerabilities|Security Dashboard') : s_('Vulnerabilities|Vulnerability Report')
+- title_text = s_('Vulnerabilities|The %{context_label} was successfully exported from %{exportable}.')
+
+= render 'shared/ee/export_download_notice',
+    export_url: vulnerabilities_export_download_url(@export),
+    exportable_link: vulnerabilities_exportable_link(@export),
+    expiration_days: @expiration_days,
+    title_text: title_text,
+    download_text: s_('Vulnerabilities|%{link_start}Download the export%{link_end}'),
+    expiration_text: s_('Vulnerabilities|This link will expire in %{number} days.'),
+    context_label: context_label

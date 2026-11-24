@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'remote_syslog'
+require 'remote_syslog/cli'
+
+RemoteSyslog::Cli.process!(ARGV)

@@ -1,0 +1,8 @@
+- add_to_breadcrumbs _('Roles and permissions'), admin_application_settings_roles_and_permissions_path
+- @is_admin = params.has_key?('admin')
+- page_title @is_admin ? s_('MemberRole|Create admin role') : s_('MemberRole|Create member role')
+
+#js-create-member-role{ data: {
+  list_page_path: admin_application_settings_roles_and_permissions_path,
+  is_admin_role: @is_admin.to_s
+} }

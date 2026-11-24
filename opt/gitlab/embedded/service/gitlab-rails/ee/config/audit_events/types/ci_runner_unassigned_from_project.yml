@@ -1,0 +1,10 @@
+---
+name: ci_runner_unassigned_from_project
+description: A runner is unassigned from a project
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/349542
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/81540
+feature_category: "runner"
+milestone: "14.9"
+saved_to_database: true
+streamed: true
+scope: [Project]

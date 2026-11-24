@@ -1,0 +1,19 @@
+---
+description: User clicks the dropdown to select a group on the billing/pricing information page
+internal_events: true
+action: click_dropdown_group_selection
+identifiers:
+  - user
+  - namespace
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210705
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  property:
+    description: Array of group IDs available for selection

@@ -1,0 +1,10 @@
+---
+name: duo_mcp_server_governance_rule_enforcement
+description: Enforce ai_tool_rules on the GitLab MCP server, at tools/call and tools/list
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/623328
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258209
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632906
+milestone: '19.6'
+group: group::compliance
+type: beta
+default_enabled: true

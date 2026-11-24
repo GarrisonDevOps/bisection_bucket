@@ -1,0 +1,10 @@
+---
+name: ci_runner_manager_job_status_by_runner
+description: Find runner managers with running jobs from the running jobs of their runners.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638238
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269191
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639064
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

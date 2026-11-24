@@ -1,0 +1,15 @@
+- payload = manual_quarterly_co_term_banner
+- return unless payload&.display?
+
+= content_for :page_level_alert do
+  %div{ class: [container_class, @content_class, '!gl-pt-5'] }
+    = render Pajamas::AlertComponent.new(title: payload.title,
+      variant: payload.display_error_version? ? :danger : :warning,
+      alert_options: { class: 'gl-my-5',
+                       data: { testid: 'manual-quarterly-co-term-banner' }},
+      dismissible: false) do |c|
+      - c.with_body do
+        = payload.body
+      - c.with_actions do
+        = link_button_to s_('SubscriptionBanner|Export license usage file'), admin_license_usage_export_path(format: :csv), class: 'gl-alert-action', variant: :confirm, size: :small
+        = link_button_to s_('SubscriptionBanner|Add new license'), general_admin_application_settings_path, class: 'gl-alert-action', size: :small

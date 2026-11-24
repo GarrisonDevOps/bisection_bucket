@@ -1,0 +1,24 @@
+- return unless ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+- return unless @group.root?
+
+- help_link_url = help_page_path('user/group/moderate_users.md', anchor: 'automatically-remove-dormant-members')
+- help_link = link_to('', help_link_url, target: '_blank', rel: 'noopener noreferrer')
+- help_text = safe_format(_('%{strong_start}Read %{help_link_start}these instructions%{help_link_end} to understand the implications of enabling this setting.%{strong_end} Removed members no longer have access to this top-level group, its subgroups, and their projects.'), tag_pair(help_link, :help_link_start, :help_link_end), tag_pair(tag.strong, :strong_start, :strong_end))
+
+.form-group
+  = f.label :remove_dormant_members, _('Dormant members'), class: 'label-bold'
+  %span.gl-ml-1.gl-mt-1
+    = render Pajamas::ExperimentBadgeComponent.new(type: :beta)
+  = f.gitlab_ui_checkbox_component :remove_dormant_members,
+    _('Remove dormant members after a period of inactivity'),
+    help_text: help_text,
+    checkbox_options: { checked: group.namespace_settings&.remove_dormant_members }
+  .form-group
+    = f.label :remove_dormant_members_period, _('Days of inactivity before removal'), class: 'label-light'
+    = f.number_field :remove_dormant_members_period, class: 'form-control !gl-w-auto gl-form-input', min: 90, max: 1827,
+      required: true, value: group.namespace_settings&.remove_dormant_members_period,
+      disabled: !group.namespace_settings&.remove_dormant_members?
+    #group_remove_dormant_members_period_error.form-text.gl-text-danger.gl-hidden
+      = _('Please enter a value between 90 and 1827 days (5 years).')
+    .form-text.gl-text-subtle
+      = _('Must be 90 days or more.')

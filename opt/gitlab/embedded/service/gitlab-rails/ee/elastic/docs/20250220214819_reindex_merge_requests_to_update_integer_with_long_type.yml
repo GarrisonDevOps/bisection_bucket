@@ -1,0 +1,10 @@
+---
+name: ReindexMergeRequestsToUpdateIntegerWithLongType
+version: '20250220214819'
+description: Reindex merge requests to update integer with long type
+group: group::global search
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/182255
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198205
+marked_obsolete_in_milestone: '18.3'

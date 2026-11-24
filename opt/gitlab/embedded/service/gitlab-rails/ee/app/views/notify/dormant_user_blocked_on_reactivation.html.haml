@@ -1,0 +1,37 @@
+- blocked_user_text = s_('AdminUsers|The dormant user %{strong_start}%{user_name}%{strong_end} (%{username}) attempted to sign in, but was blocked because %{ra_link_start}restricted access%{ra_link_end} is on and no seats are available.')
+- intro_text = s_('AdminUsers|To allow this user to be approved, you should first review your %{seat_usage_link_start}seat usage%{seat_usage_link_end}. Then either:')
+- buy_seats_text = s_('AdminUsers|%{buy_seats_link_start}Purchase additional seats%{buy_seats_link_end}.')
+- if @group
+  - manage_users_text = s_('AdminUsers|Change the user\'s role in the group or project.')
+- else
+  - manage_users_text = s_('AdminUsers|%{users_link_start}Manage unused accounts%{users_link_end} to free up seats.')
+
+%p
+  = safe_format(s_('AdminUsers|Hi %{recipient_name},'), recipient_name: @recipient_name)
+
+%p
+  = safe_format(blocked_user_text, tag_pair(content_tag(:strong, ''), :strong_start, :strong_end), tag_pair(link_to('', @restricted_access_url), :ra_link_start, :ra_link_end), user_name: @blocked_user_name, username: @blocked_user_username)
+
+%p
+  = s_('AdminUsers|This user has been set to pending approval. Their existing group and project memberships have been preserved and can be restored when seats become available.')
+
+%p
+  = safe_format(intro_text, tag_pair(link_to('', @view_seat_usage_url), :seat_usage_link_start, :seat_usage_link_end))
+
+%ul
+  %li
+    - if @group
+      = manage_users_text
+    - else
+      = safe_format(manage_users_text, tag_pair(link_to('', @manage_users_url), :users_link_start, :users_link_end))
+  %li
+    = safe_format(buy_seats_text, tag_pair(link_to('', @buy_seats_url), :buy_seats_link_start, :buy_seats_link_end))
+
+%p
+  = s_('AdminUsers|If you have any questions or need help, contact GitLab support.')
+
+%p
+  = s_('AdminUsers|Thank you,')
+
+%p
+  = s_('AdminUsers|The GitLab Team')

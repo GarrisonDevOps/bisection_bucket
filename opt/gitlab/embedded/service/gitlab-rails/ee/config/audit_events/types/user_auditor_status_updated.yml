@@ -1,0 +1,12 @@
+---
+name: user_auditor_status_updated
+description: 
+ A user is either made an auditor or removed as an auditor.
+ Group scope was [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240990) for enterprise users in GitLab 19.2.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/430235
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/136456
+milestone: "16.6"
+feature_category: user_profile
+saved_to_database: true
+streamed: true
+scope: [User, Group]

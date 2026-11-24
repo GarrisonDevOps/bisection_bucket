@@ -1,0 +1,3 @@
+---
+name: Anthropic Compliance integration
+description: Grants the ability to <actions> the Anthropic Compliance integration, which stores the Compliance Access Key used to ingest Claude Code sessions.

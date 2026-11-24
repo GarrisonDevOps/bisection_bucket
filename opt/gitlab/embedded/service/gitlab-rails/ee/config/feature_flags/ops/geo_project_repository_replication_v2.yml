@@ -1,0 +1,8 @@
+---
+name: geo_project_repository_replication_v2
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/209787
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/549772
+milestone: '18.6'
+type: ops
+group: group::geo
+default_enabled: false

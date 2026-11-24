@@ -1,0 +1,9 @@
+---
+name: duo_cli_default_flow
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603623
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244336
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603623
+milestone: '19.2'
+group: group::editor extensions
+type: development
+default_enabled: true

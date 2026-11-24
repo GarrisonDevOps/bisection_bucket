@@ -1,0 +1,17 @@
+---
+key_path: counts.container_registry_immutable_tag_rules
+description: Total number of immutable container tag rules
+product_group: container_registry
+product_categories:
+  - container_registry
+value_type: number
+status: active
+milestone: "18.8"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213725
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+  - ultimate
+instrumentation_class: CountContainerRegistryImmutableTagRulesMetric
+

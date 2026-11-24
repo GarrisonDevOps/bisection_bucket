@@ -1,0 +1,26 @@
+---
+description: A project import or migration successfully finished
+internal_events: true
+action: finish_project_import
+identifiers:
+- project
+- user
+- namespace
+additional_properties:
+  label:
+    description: import_type of the source (e.g., github, bitbucket, gitlab_migration, offline_transfer)
+  property:
+    description: hashed identifier of the source host and path, used to detect repeated imports of the same source
+  source_hosting:
+    description: "'cloud' or 'self_hosted' for GitHub and Gitea imports; nil for other import types"
+  fidelity_rate:
+    description: ratio (0.0 to 1.0, not a percentage) of imported records to fetched records across all relations for GitHub imports; not set for other import types or when nothing was fetched
+product_group: import
+product_categories:
+- importers
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253895
+tiers:
+- free
+- premium
+- ultimate

@@ -1,0 +1,8 @@
+%p
+  = safe_format(_("You have consumed all available storage and you can't push or add large files to %{strong_start}%{project_name}%{strong_end}"),
+    { project_name: @project_name, **tag_pair(tag.strong, :strong_start, :strong_end) })
+
+%p
+  = _("To remove the read-only state, reduce git repository and git LFS storage.")
+  = safe_format(_("For more information %{support_link_start}contact support%{link_end}."),
+    tag_pair(link_to('', @support_url), :support_link_start, :link_end))

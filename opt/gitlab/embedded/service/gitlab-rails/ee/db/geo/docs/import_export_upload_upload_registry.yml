@@ -1,0 +1,10 @@
+---
+table_name: import_export_upload_upload_registry
+description: Geo registry table for tracking replication and verification of Import Export Upload Uploads
+introduced_by_url:
+milestone: '19.0'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::ImportExportUploadUploadRegistry
+gitlab_schema: gitlab_geo

@@ -1,0 +1,10 @@
+---
+name: spp_scan_timeout
+description: Secret push protection scan timed out causing the push to be accepted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/604787
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243984
+feature_category: secret_detection
+milestone: '19.3'
+saved_to_database: true
+streamed: true
+scope: [Project]

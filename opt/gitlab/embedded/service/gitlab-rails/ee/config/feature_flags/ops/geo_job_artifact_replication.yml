@@ -1,0 +1,8 @@
+---
+name: geo_job_artifact_replication
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/issues/327400
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/353995
+milestone: '19.3'
+type: ops
+group: group::geo
+default_enabled: true

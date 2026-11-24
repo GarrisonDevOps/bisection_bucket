@@ -1,0 +1,13 @@
+---
+name: BackfillDueDateInVulnerabilities
+version: '20261030120002'
+description: Reindexes vulnerabilities whose finding has a due date, so the due_date field
+  is populated for due dates set before the field was added to the index
+group: group::vulnerability management
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266732
+obsolete: false
+marked_obsolete_by_url:
+marked_obsolete_in_milestone:
+skippable: false
+skip_condition:

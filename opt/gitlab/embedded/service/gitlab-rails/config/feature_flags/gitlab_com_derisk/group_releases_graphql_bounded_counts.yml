@@ -1,0 +1,10 @@
+---
+name: group_releases_graphql_bounded_counts
+description: In GraphQL group releases, cap the default count and read last pages and next-page checks without counting the group's releases.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638259
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269614
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639387
+milestone: '19.6'
+group: group::environments
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,11 @@
+---
+name: clickhouse_consistency_workers_strict_caps
+description: Make the ClickHouse consistency workers stop collecting at their modification
+  caps, hold the exclusive lease while issuing mutations, and skip empty DELETE mutations.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636121
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267387
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637955
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

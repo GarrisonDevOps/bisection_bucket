@@ -1,0 +1,19 @@
+- if License.feature_available?(:ci_cd_catalog_publish_restriction)
+  = render ::Layouts::SettingsBlockComponent.new(_('CI/CD Catalog'),
+    id: 'js-catalog-settings',
+    testid: 'catalog-settings',
+    expanded: expanded) do |c|
+    - c.with_description do
+      = _('Configure CI/CD Catalog settings, including publishing restrictions.')
+    - c.with_body do
+      = gitlab_ui_form_for @application_setting, url: ci_cd_admin_application_settings_path(anchor: 'js-catalog-settings'), html: { class: 'fieldset-form' } do |f|
+        = form_errors(@application_setting)
+
+        %fieldset
+          .form-group
+            = f.label :ci_cd_catalog_projects_allowlist_raw, s_('AdminSettings|CI/CD Catalog publishing allowlist'), class: 'label-bold'
+            = f.text_area :ci_cd_catalog_projects_allowlist_raw, class: 'form-control gl-form-input', rows: 5, placeholder: 'gitlab-org/component-project'
+            %span.form-text.gl-text-subtle
+              = s_('AdminSettings|Control which projects can publish components to the CI/CD Catalog. Enter one project path or regular expression pattern per line. For example: %{code_start}gitlab-org/my-project%{code_end}, %{code_start}gitlab-org/.*%{code_end}, or %{code_start}gitlab-org/security-.*%{code_end}. If empty, any project can publish.').html_safe % { code_start: '<code>'.html_safe, code_end: '</code>'.html_safe }
+
+        = f.submit _('Save changes'), pajamas_button: true

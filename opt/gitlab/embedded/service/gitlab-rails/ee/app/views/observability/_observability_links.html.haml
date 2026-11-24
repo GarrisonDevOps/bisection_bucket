@@ -1,0 +1,14 @@
+- return unless issuable.is_a?(Issue)
+- return unless can?(current_user, :read_observability, project)
+- return unless observability_values.present?
+
+= hidden_field_tag 'observability_links[metric_details_name]', observability_values.dig(:metric, :name)
+= hidden_field_tag 'observability_links[metric_details_type]', observability_values.dig(:metric, :type)
+
+= hidden_field_tag 'observability_links[log_service_name]', observability_values.dig(:log, :service)
+= hidden_field_tag 'observability_links[log_severity_number]', observability_values.dig(:log, :severityNumber)
+= hidden_field_tag 'observability_links[log_trace_id]', observability_values.dig(:log, :traceId)
+= hidden_field_tag 'observability_links[log_timestamp]', observability_values.dig(:log, :timestamp)
+= hidden_field_tag 'observability_links[log_fingerprint]', observability_values.dig(:log, :fingerprint)
+
+= hidden_field_tag 'observability_links[trace_id]', observability_values.dig(:trace, :traceId)

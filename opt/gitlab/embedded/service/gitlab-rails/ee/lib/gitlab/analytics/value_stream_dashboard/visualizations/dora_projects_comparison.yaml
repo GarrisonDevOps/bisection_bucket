@@ -1,0 +1,7 @@
+---
+version: 1
+type: DoraProjectsComparison
+data:
+  type: dora_metrics_by_project
+  query: {}
+options: {}

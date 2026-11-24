@@ -1,0 +1,19 @@
+---
+description: Tracks when the MCP server is enabled or disabled for a top-level group
+internal_events: true
+action: mcp_server_setting_changed
+identifiers:
+  - user
+  - namespace
+product_group: agent_execution
+product_categories:
+  - mcp_server
+milestone: '19.5'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258163'
+tiers:
+  - free
+  - premium
+  - ultimate
+additional_properties:
+  value:
+    description: 1 when the MCP server is enabled, 0 when disabled

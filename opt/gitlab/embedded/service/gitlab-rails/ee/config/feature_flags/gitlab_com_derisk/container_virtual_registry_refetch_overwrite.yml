@@ -1,0 +1,10 @@
+---
+name: container_virtual_registry_refetch_overwrite
+description: Overwrites a stale container virtual registry cache entry in place when it is refetched from the upstream.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/632449
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267205
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639178
+milestone: '19.6'
+group: group::package registry
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,66 @@
+- return unless can?(current_user, :create_ldap_group_link, group)
+
+%section.ldap-group-links
+  = gitlab_ui_form_for [group, LdapGroupLink.new] do |f|
+    .form-holder
+      .form-group.row
+        .gl-col-sm-2.col-form-label
+          = f.label :cn, s_("LDAP|LDAP server")
+        .gl-col-sm-10
+          = f.select :provider, ldap_server_select_options, {}, class: 'form-control'
+
+      - if ::License.feature_available?(:ldap_group_sync_filter)
+        .form-group.row
+          .gl-col-sm-2.col-form-label
+            = f.label :cn, s_("LDAP|Sync method")
+          %fieldset.gl-col-sm-10
+            .gl-form-radio.custom-control.custom-radio
+              = radio_button_tag :sync_method, :group, true, class: 'custom-control-input', data: { testid: 'ldap-sync-group-radio' }
+              = label_tag :sync_method_group, class: 'custom-control-label' do
+                = s_("LDAP|LDAP group cn")
+            .gl-form-radio.custom-control.custom-radio
+              = radio_button_tag :sync_method, :filter, false, class: 'custom-control-input', data: { testid: 'ldap-sync-user-filter-radio' }
+              = label_tag :sync_method_filter, class: 'custom-control-label' do
+                = s_("LDAP|LDAP user filter")
+
+      .form-group.row.cn-link
+        .gl-col-sm-2.col-form-label
+          = f.label :cn, s_("LDAP|LDAP group cn")
+        .gl-col-sm-10{ data: { testid: 'ldap-group-field' } }
+          #js-ldap-groups-select
+          .form-text.gl-text-subtle
+            = s_("LDAP|Synchronize %{group_name}'s members with this LDAP group.") % { group_name: group.name }
+            %br
+            = s_("LDAP|If you select an LDAP group you do not belong to you will lose ownership of %{group_name}.") % { group_name: group.name }
+
+      - if ::License.feature_available?(:ldap_group_sync_filter)
+        .form-group.row.filter-link
+          .gl-col-sm-2.col-form-label
+            = f.label :filter, s_("LDAP|LDAP user filter")
+          .gl-col-sm-10
+            = f.text_field :filter, placeholder: 'Ex. (&(objectCategory=person)(objectClass=developer))', class: 'form-control xxlarge input-mn-300', data: { testid: 'ldap-user-filter-field' }
+            .form-text.gl-text-subtle
+              - ldap_link = link_to '', 'https://msdn.microsoft.com/en-us/library/aa746475(v=vs.85).aspx'
+              = safe_format(s_("LDAP|This query must use valid %{ldap_link_start}LDAP Search Filter Syntax%{ldap_link_end}. Synchronize %{group_name}'s members with this LDAP user filter."), tag_pair(ldap_link, :ldap_link_start, :ldap_link_end), group_name: group.name)
+              %br
+              = s_("LDAP|If you do not belong to this LDAP user filter you will lose ownership of %{group_name}.") % { group_name: group.name }
+
+      .form-group.row
+        .gl-col-sm-2.col-form-label
+          = f.label :group_access, s_("LDAP|LDAP access")
+        .gl-col-sm-10{ data: { testid: 'ldap-access-field' } }
+          .js-group-link-role-selector{ data: { group_link_role_selector_data: group_link_role_selector_data(group, current_user).to_json }.merge(ldap_group_link_input_names) }
+          .form-text.gl-text-subtle
+            = s_("LDAP|Default, minimum permission level for LDAP group members of %{group_name}.") % { group_name: group.name }
+            %br
+            = s_('LDAP|You can manage permission levels for individual group members in the Members tab.')
+
+    .form-actions.gl-mb-5
+      = f.submit s_("LDAP|Add synchronization"), pajamas_button: true, data: { testid: 'add-sync-button' }
+      - if ldap_restricted_access_warning?
+        .gl-mt-3.gl-flex.gl-gap-2
+          = sprite_icon('warning', css_class: 'gl-mt-1 gl-mr-2 gl-text-orange-500 gl-flex-shrink-0')
+          %div
+            %strong= s_('LDAP|Restricted access is active')
+            %br
+            .gl-text-subtle= ldap_restricted_access_warning

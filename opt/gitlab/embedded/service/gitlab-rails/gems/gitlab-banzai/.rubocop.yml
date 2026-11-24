@@ -1,0 +1,119 @@
+inherit_from:
+  - ../config/rubocop.yml
+
+Gemfile/MissingFeatureCategory:
+  Enabled: false
+
+# Mirrors the monolith's global settings, so that moving a file into this gem
+# does not change which cops apply to it. See the root `.rubocop.yml`.
+Fips/OpenSSL:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 25
+  AllowSubject: true
+
+Style/NumericPredicate:
+  EnforcedStyle: comparison
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either_consistent
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_builtin_english_names
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Exclude:
+    - spec/**/*_spec.rb
+
+# Debt inherited with the moved files, previously held in `.rubocop_todo/`.
+Layout/LineEndStringConcatenationIndentation:
+  Exclude:
+    - lib/banzai/filter/spaced_link_filter.rb
+
+Layout/LineLength:
+  Exclude:
+    - lib/banzai/filter/spaced_link_filter.rb
+    - spec/banzai/filter/broadcast_message_sanitization_filter_spec.rb
+    - spec/banzai/filter/external_link_filter_spec.rb
+    - spec/banzai/filter/inline_diff_filter_spec.rb
+    - spec/banzai/filter/suggestion_filter_spec.rb
+    - spec/banzai/filter/task_list_filter_spec.rb
+    - spec/support/sanitization_shared_examples.rb
+
+Gitlab/StrongMemoizeAttr:
+  Exclude:
+    - lib/banzai/filter/base_sanitization_filter.rb
+
+Lint/AssignmentInCondition:
+  Exclude:
+    - lib/banzai/filter/footnote_filter.rb
+
+Lint/UnusedBlockArgument:
+  Exclude:
+    - lib/banzai/filter/spaced_link_filter.rb
+
+Lint/UnusedMethodArgument:
+  Exclude:
+    - lib/banzai/filter/playable_link_filter.rb
+
+RSpec/ContextWording:
+  Exclude:
+    - spec/banzai/color_parser_spec.rb
+    - spec/banzai/filter/absolute_link_filter_spec.rb
+    - spec/banzai/filter/broadcast_message_sanitization_filter_spec.rb
+    - spec/banzai/filter/external_link_filter_spec.rb
+    - spec/banzai/filter/front_matter_filter_spec.rb
+    - spec/banzai/filter/suggestion_filter_spec.rb
+
+RSpec/NamedSubject:
+  Exclude:
+    - spec/banzai/color_parser_spec.rb
+
+RSpec/VerifiedDoubles:
+  Exclude:
+    - spec/banzai/querying_spec.rb
+
+Rails/OutputSafety:
+  Exclude:
+    - lib/banzai/filter/spaced_link_filter.rb
+
+Style/GuardClause:
+  Exclude:
+    - lib/banzai/filter/external_link_filter.rb
+
+Style/IfUnlessModifier:
+  Exclude:
+    - lib/banzai/filter/external_link_filter.rb
+    - lib/banzai/filter/playable_link_filter.rb
+
+Style/MutableConstant:
+  Exclude:
+    - lib/banzai/filter/spaced_link_filter.rb
+
+Style/RedundantRegexpEscape:
+  Exclude:
+    - lib/banzai/filter/autolink_filter.rb
+
+Style/StringConcatenation:
+  Exclude:
+    - spec/banzai/filter/color_filter_spec.rb
+    - spec/banzai/filter/external_link_filter_spec.rb
+    - spec/banzai/filter/front_matter_filter_spec.rb
+
+Style/SuperArguments:
+  Exclude:
+    - lib/banzai/filter/markdown_filter.rb
+
+Style/UnlessLogicalOperators:
+  Exclude:
+    - lib/banzai/filter/truncate_visible_filter.rb

@@ -1,0 +1,10 @@
+---
+name: ai_governance_dashboard
+description: Enable the AI Governance Dashboard tab on the GitLab Duo governance settings page
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603776
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243109
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/627998
+milestone: '19.2'
+group: group::compliance
+type: beta
+default_enabled: true

@@ -1,0 +1,21 @@
+---
+description: GitLab Workspace creation result and error message
+internal_events: true
+action: create_workspace_result
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: workspace succeed or fail
+  property:
+    description: error message if failed
+product_group: remote_development
+product_categories:
+- workspaces
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/188226
+tiers:
+- premium
+- ultimate

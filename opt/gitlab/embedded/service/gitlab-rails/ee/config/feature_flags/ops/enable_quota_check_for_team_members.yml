@@ -1,0 +1,10 @@
+---
+name: enable_quota_check_for_team_members
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/customers-gitlab-com/-/work_items/15569
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219068
+rollout_issue_url:
+milestone: '18.9'
+group: group::utilization
+type: ops
+default_enabled: false

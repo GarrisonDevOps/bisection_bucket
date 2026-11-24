@@ -1,0 +1,69 @@
+- @hide_top_links = true
+- @no_container = true
+- @flash_container_class = container_class
+- breadcrumb_title s_('UserProfile|User profile')
+- page_title       user_display_name(@user)
+- page_description @user.bio unless @user.blocked? || !@user.confirmed?
+- page_itemtype    'http://schema.org/Person'
+- add_page_specific_style 'page_bundles/profile'
+- add_page_specific_style 'page_bundles/projects'
+- nav "user_profile"
+- allowable_actions = profile_actions(@user)
+
+= content_for :meta_tags do
+  = auto_discovery_link_tag(:atom, user_url(@user, format: :atom), title: "#{@user.name} activity")
+
+- content_for :static_panel_actions do
+  .cover-controls.gl-flex.gl-items-center.gl-gap-3
+    = render 'users/follow_user'
+    -# The following edit button is mutually exclusive to the follow user button, they won't be shown together
+    - if @user == current_user
+      = render Pajamas::ButtonComponent.new(href: user_settings_profile_path,
+        category: :tertiary, size: :small, button_options: { title: s_('UserProfile|Edit profile') }) do
+        = _('Edit')
+    = render 'users/view_gpg_keys'
+    = render 'users/view_user_in_admin_area'
+    .js-user-profile-actions{ data: user_profile_actions_data(@user) }
+
+%div{ class: container_class }
+  = render ::Layouts::DetailLayout.new(sidebar_first: true, options: { class: 'user-profile' }) do |c|
+    - c.with_heading do
+      - show_status = !@user.blocked? && @user.confirmed? && @user.status&.customized?
+      %span.user-profile-header.gl-flex.gl-items-start.gl-gap-5{ data: { testid: 'user-profile-header' } }
+        %span.user-image.gl-relative.gl-shrink-0
+          = link_to avatar_icon_for_user(@user, 400, current_user: current_user), target: '_blank', rel: 'noopener noreferrer', title: s_('UserProfile|View large avatar') do
+            .gl-block{ class: '@md:gl-hidden' }
+              = render Pajamas::AvatarComponent.new(@user, alt: s_('UserProfile|User profile picture'), size: 64)
+            .gl-hidden{ class: '@md:gl-block' }
+              = render Pajamas::AvatarComponent.new(@user, alt: s_('UserProfile|User profile picture'), size: 96, avatar_options: { itemprop: "image" })
+          - if @user.status&.busy?
+            = render Pajamas::BadgeComponent.new(s_('UserProfile|Busy'), variant: 'warning', class: 'gl-absolute gl-flex gl-justify-center gl-items-center gl-left-1/2 gl-border gl-border-white -gl-translate-x-1/2 gl-top-full -gl-mt-3')
+        %span.gl-flex.gl-flex-col.gl-self-stretch.gl-wrap-anywhere.gl-py-2{ class: [show_status ? 'gl-justify-start' : 'gl-justify-center', '@md:gl-justify-center'] }
+          %span.gl-leading-1
+            %span{ itemprop: 'name' }= user_display_name(@user)
+            - if !@user.blocked? && @user.confirmed? && @user.pronouns.present?
+              %span.gl-text-md.gl-text-subtle.gl-font-normal (#{@user.pronouns})
+          %span.gl-heading-3.gl-text-subtle.gl-font-normal.gl-mt-2.gl-mb-0= @user.to_reference
+          - if show_status
+            -# Keep in sync with app/assets/javascripts/vue_shared/components/user_status_bubble.vue
+            .cover-status.gl-relative.gl-self-start.gl-inline-flex.gl-min-w-8.gl-gap-2.gl-items-baseline.gl-justify-center.gl-text-sm.gl-text-default.gl-font-normal.gl-tracking-wide.gl-p-3.gl-border.gl-rounded-xl.gl-bg-default.gl-mt-3
+              %svg.cover-status-tail{ width: 13, height: 7, viewBox: '0 0 13 7', 'aria-hidden': 'true' }
+                %path{ d: 'M13 7 V6.5 C7.43 6.5 4.18 4.3 2.6 1.1 Q1.95 -0.2 1.21 0.7 C1.02 2.8 0.84 4.8 0 6.5 V7' }
+              = emoji_icon(@user.status.emoji, class: 'gl-tracking-normal')
+              = markdown_field(@user.status, :message)
+    - unless @user.blocked?
+      - c.with_sidebar do
+        = render 'users/profile_sidebar'
+
+    .user-profile-content
+      - if allowable_actions.any?
+        = render 'users/legacy_tabs', action: @action, endpoint: @endpoint, allowable_actions: allowable_actions
+        .loading.hide
+          = render Pajamas::SpinnerComponent.new(size: :md)
+      - else
+        - if @user.blocked?
+          = render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-access-md.svg',
+            title: s_('UserProfile|This user is blocked'))
+        - else
+          = render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-private-md.svg',
+            title: s_('UserProfile|This user has a private profile'))

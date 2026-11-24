@@ -1,0 +1,10 @@
+---
+name: ai_catalog_group_inherited_consumers
+description: Enables inherited (group-level) enablement records for AI Catalog items
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627512
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/256192
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629272
+milestone: '19.5'
+group: group::ai catalog
+type: gitlab_com_derisk
+default_enabled: false

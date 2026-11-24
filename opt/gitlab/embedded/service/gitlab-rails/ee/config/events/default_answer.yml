@@ -1,0 +1,21 @@
+---
+description: Tracks when the default Duo Chat answer is returned
+action: default_answer
+classification: duo
+identifiers:
+- namespace
+- user
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '16.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135884
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Always `gitlab_duo_chat_answer`
+  property:
+    description: Request id

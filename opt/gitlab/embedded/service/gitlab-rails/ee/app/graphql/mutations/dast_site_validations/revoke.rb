@@ -1,0 +1,47 @@
+# frozen_string_literal: true
+
+module Mutations
+  module DastSiteValidations
+    class Revoke < BaseMutation
+      graphql_name 'DastSiteValidationRevoke'
+
+      include FindsProject
+
+      argument :full_path, GraphQL::Types::ID,
+        required: true,
+        description: 'Project the site validation belongs to.'
+
+      argument :normalized_target_url, GraphQL::Types::String,
+        required: true,
+        description: 'Normalized URL of the target to be revoked.'
+
+      authorize :create_on_demand_dast_scan
+
+      authorize_granular_token permissions: :revoke_dast_site_validation,
+        boundary_argument: :full_path, boundary_type: :project
+
+      def resolve(full_path:, normalized_target_url:)
+        project = authorized_find!(full_path)
+
+        response = ::AppSec::Dast::SiteValidations::RevokeService.new(
+          container: project,
+          params: { url_base: normalized_target_url }
+        ).execute
+
+        return error_response(response.errors) if response.error?
+
+        success_response
+      end
+
+      private
+
+      def error_response(errors)
+        { errors: errors }
+      end
+
+      def success_response
+        { errors: [] }
+      end
+    end
+  end
+end

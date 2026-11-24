@@ -1,0 +1,20 @@
+---
+description: A user applied a filter on the AI audit events report. Sent once per filter in the submitted search, not for filters seeded from the URL
+internal_events: true
+status: active
+action: apply_filter_on_ai_audit_events_report
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: The filter type. One of created_after, created_before, project, triggered_by, or the token type in snake case for filters added later (for example agent)
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+tiers:
+- premium
+- ultimate

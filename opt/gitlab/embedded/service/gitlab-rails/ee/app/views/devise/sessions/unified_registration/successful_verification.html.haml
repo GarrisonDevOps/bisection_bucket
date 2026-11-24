@@ -1,0 +1,10 @@
+= content_for :meta_tags do
+  %meta{ 'http-equiv': 'refresh', content: "3; url=#{@redirect_url}" }
+
+.gl-flex.gl-flex-col.gl-mt-11{ data: local_assigns.fetch(:data, {}).merge(testid: 'successful-verification-root') }
+  = image_tag 'illustrations/secure-sm.svg', class: 'gl-h-12 gl-w-12 gl-mb-4', alt: ''
+  %h1.gl-heading-1.gl-mb-3
+    = s_('IdentityVerification|Verification successful')
+  %p.gl-m-0
+    - redirect_url = link_to '', @redirect_url
+    = safe_format(s_("IdentityVerification|You'll be redirected in just a moment. You can also %{link_start}refresh the page%{link_end}."), tag_pair(redirect_url, :link_start, :link_end))

@@ -1,0 +1,44 @@
+- import_data = @project.import_data || @project.build_import_data
+- protocols = Gitlab::UrlSanitizer::ALLOWED_SCHEMES.join('|')
+- direction_options = [[_('Push'), 'push']]
+- has_existing_pull_mirror = @project.mirror.present?
+
+- if can?(current_user, :admin_mirror, @project)
+  - pull_addition_method = has_existing_pull_mirror ? direction_options.method(:push) : direction_options.method(:unshift)
+  - pull_addition_method.call([_('Pull'), 'pull'])
+
+.form-group
+  = label_tag :mirror_direction, _('Mirror direction'), class: 'label-light'
+  = select_tag :mirror_direction, options_for_select(direction_options), class: 'custom-select gl-form-select js-mirror-direction gl-max-w-34 gl-block', disabled: (direction_options.count == 1) || has_existing_pull_mirror, data: { testid: 'mirror-direction-field' }
+
+.js-form-insertion-point
+
+%template.js-push-mirrors-form
+  = render partial: "projects/mirrors/mirror_repos_push", locals: { f: f }
+
+%template.js-pull-mirrors-form
+  = f.hidden_field :mirror, value: '1'
+  = f.hidden_field :username_only_import_url, class: 'js-mirror-url-hidden', required: true, pattern: "(#{protocols}):\/\/.+", value: ''
+  = f.hidden_field :only_mirror_protected_branches, class: 'js-mirror-protected-hidden'
+  - if @project.licensed_feature_available?(:repository_mirrors)
+    = f.hidden_field :mirror_branch_regex, class: 'js-mirror-branch-regex-hidden'
+
+  = f.fields_for :import_data, import_data, include_id: false do |import_form|
+    = render partial: 'projects/mirrors/ssh_host_keys', locals: { f: import_form }
+    = render partial: 'projects/mirrors/authentication_method', locals: { f: import_form }
+
+  .form-group
+    = f.label :mirror_user_name, _('Mirror user'), class: 'label-light'
+    = f.text_field :mirror_user_name, value: current_user.name, class: 'form-control gl-form-input gl-mb-2 gl-form-input-xl', required: true, disabled: true
+    .form-text.gl-text-subtle
+      = _('You will be the author of all events in the activity feed that are the result of an update, like new branches being created or new commits being pushed to existing branches.')
+
+  - overwrite_diverged_branches_help_link = help_page_path('user/project/repository/mirror/pull.md', anchor: 'overwrite-diverged-branches')
+  - overwrite_diverged_branches_help_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: overwrite_diverged_branches_help_link }
+  = f.gitlab_ui_checkbox_component :mirror_overwrites_diverged_branches,
+    _('Overwrite diverged branches'),
+    help_text: _("If disabled, a diverged local branch will not be automatically updated with commits from its remote counterpart, to prevent local data loss. If the default branch (%{default_branch}) has diverged and cannot be updated, mirroring will fail. Other diverged branches are silently ignored. %{link_start}Learn more.%{link_end}").html_safe % { default_branch: @project.default_branch, link_start: overwrite_diverged_branches_help_link_start, link_end: '</a>'.html_safe },
+    checkbox_options: { checked: false }
+
+  - if @project.builds_enabled?
+    = render 'shared/mirror_trigger_builds_setting', f: f, checked: false

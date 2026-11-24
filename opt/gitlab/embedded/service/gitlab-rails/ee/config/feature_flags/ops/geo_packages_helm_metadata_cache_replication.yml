@@ -1,0 +1,9 @@
+---
+name: geo_packages_helm_metadata_cache_replication
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/582314
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219409
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/583976
+milestone: '18.9'
+group: group::geo
+type: ops
+default_enabled: true

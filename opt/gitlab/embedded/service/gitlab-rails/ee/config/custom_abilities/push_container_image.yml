@@ -1,0 +1,15 @@
+---
+title: Push Container Image
+name: push_container_image
+description: Grants the ability to push images to the container registry
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/391760
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/245417
+feature_category: container_registry
+milestone: '19.6'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [30, 40, 50]
+requirements:
+  - pull_container_image
+project_permissions:
+  - create_container_image

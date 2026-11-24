@@ -1,0 +1,10 @@
+---
+name: duo_session_stopped
+description: Duo session is stopped
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/581004
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216689
+feature_category: duo_agent_platform
+milestone: '18.8'
+saved_to_database: true
+scope: [Project]
+streamed: true

@@ -1,0 +1,81 @@
+# frozen_string_literal: true
+
+# This class is responsible for dealing with the compute minutes limits set at root namespace level.
+
+module Ci
+  module Minutes
+    class Quota
+      include Gitlab::Utils::StrongMemoize
+
+      def initialize(namespace)
+        @namespace = namespace
+      end
+
+      def enabled?
+        namespace.root? && !unlimited?
+      end
+
+      def total
+        monthly + purchased
+      end
+
+      def monthly
+        (limits_namespace.shared_runners_minutes_limit || ::Gitlab::CurrentSettings.shared_runners_minutes).to_i
+      end
+
+      strong_memoize_attr :monthly
+
+      def purchased
+        limits_namespace.extra_shared_runners_minutes_limit.to_i
+      end
+
+      strong_memoize_attr :purchased
+
+      def any_purchased?
+        purchased > 0
+      end
+
+      def recalculate_remaining_purchased_minutes!
+        return unless should_recalculate_purchased_minutes?
+
+        # Since we reset compute minutes data lazily, we take the last known usage
+        # and not necessarily the previous month data because that represents
+        # last time we reset the data.
+        # Jan: monthly_minutes: 1_000, purchased_minutes: 500, minutes_used: 1_200
+        # Feb: no activity (no pipelines, no data read)
+        # Mar: reset and update purchased minutes to (1_000 + 500 - 1_200) = 300
+
+        return unless previous_amount_used > 0
+
+        # Do nothing if the namespace had not used all the monthly minutes
+        return if previous_amount_used < monthly
+
+        balance = [(total - previous_amount_used).to_i, 0].max
+        namespace.update!(extra_shared_runners_minutes_limit: balance)
+      end
+
+      private
+
+      attr_reader :namespace
+
+      def limits_namespace
+        namespace.organization_billing_namespace || namespace
+      end
+      strong_memoize_attr :limits_namespace
+
+      def unlimited?
+        total == 0
+      end
+
+      def previous_amount_used
+        Ci::Minutes::NamespaceMonthlyUsage.all_previous_usages(namespace).sum(:amount_used)
+      end
+      strong_memoize_attr :previous_amount_used
+
+      def should_recalculate_purchased_minutes?
+        # The balance is written to namespace, so it must not be computed from another namespace's purchased minutes.
+        limits_namespace == namespace && enabled? && any_purchased?
+      end
+    end
+  end
+end

@@ -1,0 +1,11 @@
+---
+name: session_details_enhancements
+description: 'Additions to the shared session details component: agent, model and
+  source metadata rows, kind filter, find in log and summary block'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635907
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266027
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636844
+milestone: '19.6'
+group: group::agent execution
+type: wip
+default_enabled: false

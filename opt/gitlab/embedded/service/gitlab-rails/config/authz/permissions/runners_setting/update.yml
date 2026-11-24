@@ -1,0 +1,5 @@
+---
+name: update_runners_setting
+description: Grants the ability to update the runner settings of a group,
+  personal namespace or project, such as which runners are available to it
+  and when stale runners are deleted.

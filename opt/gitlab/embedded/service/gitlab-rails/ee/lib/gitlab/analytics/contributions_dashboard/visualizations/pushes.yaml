@@ -1,0 +1,8 @@
+---
+version: 1
+type: ContributionsPushesChart
+data:
+  type: contributions
+  query: 
+    metric: 'pushes'
+options: {}

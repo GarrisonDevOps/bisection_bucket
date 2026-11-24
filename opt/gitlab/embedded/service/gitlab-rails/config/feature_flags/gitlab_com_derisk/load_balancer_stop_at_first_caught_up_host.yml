@@ -1,0 +1,10 @@
+---
+name: load_balancer_stop_at_first_caught_up_host
+description: Stop the replica catch-up check at the first caught up host when the caller does not need to know if all hosts are caught up
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268769
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638923
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

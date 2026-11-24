@@ -1,0 +1,10 @@
+---
+name: notes_update_rate_limit
+description: Gates the per-user rate limit on editing notes
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634354
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267849
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638521
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

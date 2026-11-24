@@ -1,0 +1,18 @@
+---
+key_path: counts.license_management_jobs
+description: Count of License Scanning jobs run
+product_group: composition_analysis
+value_type: number
+instrumentation_class: LicenseManagementJobsMetric
+status: removed
+milestone_removed: "17.10"
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/182754
+time_frame: all
+data_source: database
+data_category: operational
+tiers:
+- ultimate
+performance_indicator_type:
+- customer_health_score
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

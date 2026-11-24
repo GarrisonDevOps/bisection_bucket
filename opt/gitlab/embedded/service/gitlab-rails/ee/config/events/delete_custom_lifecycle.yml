@@ -1,0 +1,16 @@
+---
+description: Custom lifecycle deleted from a namespace
+internal_events: true
+status: active
+action: delete_custom_lifecycle
+identifiers:
+- namespace
+- user
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '18.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/205792
+tiers:
+- premium
+- ultimate

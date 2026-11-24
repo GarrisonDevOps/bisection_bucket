@@ -1,0 +1,21 @@
+- page_title _("Audit events")
+- feature_available = @project.feature_available?(:audit_events)
+
+- if feature_available
+  - view_only = view_only_own_project_events?(@project)
+
+  = render ::Layouts::IndexLayout.new(heading: _('Project audit events')) do |layout|
+    - layout.with_description do
+      = _('Track important events in your project.')
+
+    #js-project-audit-events-app{ data: { form_path: project_audit_events_path(@project),
+    events: @events.to_json,
+    is_last_page: @is_last_page.to_json,
+    filter_token_options: project_audit_event_tokens(@project.full_path).to_json,
+    filter_token_values: filter_view_only_own_events_token_values(view_only).to_json,
+    filter_view_only: view_only.to_s,
+    audit_events_details_drawer_enabled: audit_events_details_drawer_enabled?(@project).to_s } }
+      = gl_loading_icon(size: 'lg', css_class: 'gl-my-7')
+
+- elsif show_promotions?
+  = render 'shared/promotions/promote_audit_events'

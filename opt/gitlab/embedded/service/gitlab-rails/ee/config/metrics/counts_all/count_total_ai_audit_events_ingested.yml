@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_ai_audit_events_ingested
+description: Total number of AI audit events accepted at ingest, summed from ingested batch sizes
+product_group: compliance
+product_categories:
+- audit_events
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/249443
+time_frame:
+- 7d
+- 28d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: ingest_ai_audit_events_batch
+  operator: sum(value)

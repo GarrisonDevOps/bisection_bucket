@@ -1,0 +1,10 @@
+---
+name: free_user_cap_without_storage_check
+description: 'Removes the storage size exemption from Free user limit enforcement'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/120101
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/410372
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/410325
+milestone: '16.0'
+type: gitlab_com_derisk
+group: group::seat management
+default_enabled: false

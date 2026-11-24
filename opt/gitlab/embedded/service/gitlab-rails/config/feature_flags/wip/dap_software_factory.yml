@@ -1,0 +1,15 @@
+---
+name: dap_software_factory
+description: Controls the Software Factory features of the GitLab Duo Agent Platform for a project
+  or its top-level group. They include the Generate Workplan version that creates a child task for
+  each track of a plan, the cloud event when a reviewer requests changes on a merge
+  request, the requested changes action of AI flow triggers, the software_factory_enabled rule of
+  work item filters, the created_by_flow and draft rules of merge request filters, the on-finish
+  settings of AI flow triggers, and the Duo Developer sessions that resolve merge conflicts.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/21067
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263602
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634801
+milestone: '19.6'
+group: group::dap events
+type: wip
+default_enabled: false

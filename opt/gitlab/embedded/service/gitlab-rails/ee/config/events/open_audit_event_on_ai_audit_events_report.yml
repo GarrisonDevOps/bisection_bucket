@@ -1,0 +1,17 @@
+---
+description: A user opened the details of an audit event in the session drawer of the AI audit events report
+internal_events: true
+status: active
+action: open_audit_event_on_ai_audit_events_report
+identifiers:
+- user
+- namespace
+- project
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/262058
+tiers:
+- premium
+- ultimate

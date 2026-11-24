@@ -1,0 +1,30 @@
+---
+description: >-
+  The decision log panel of a work item was opened in the UI, once per
+  opening. Counts the deliberate action of opening the panel, not the
+  work item page load that fetches the decisions, and not proof that any
+  decision was read.
+internal_events: true
+status: active
+action: view_work_item_decision_log
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: >-
+      How the panel was opened: deep_link when the URL requested it (page load or
+      back/forward navigation with ?show=decision-log), header_button otherwise.
+      Selecting the header button in the work item drawer opens the full page with
+      ?show=decision-log, so it counts as deep_link.
+  work_item_id:
+    description: ID of the work item whose decision log was opened.
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261013
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,33 @@
+# @feature_category: mcp_server
+# eslint-disable-next-line @graphql-eslint/require-selections
+fragment MergeRequestEditionFields on MergeRequest {
+  approvalsRequired @include(if: $includeApprovals)
+  approvalsLeft @include(if: $includeApprovals)
+  approvalState @include(if: $includeApprovals) {
+    approvalRulesOverwritten
+    rules {
+      id
+      name
+      type
+      approvalsRequired
+      approved
+      overridden
+      approvedBy(first: 100) {
+        pageInfo {
+          hasNextPage
+        }
+        nodes {
+          id
+          username
+          name
+        }
+      }
+    }
+    invalidApproversRules {
+      id
+      name
+      type
+      approvalsRequired
+    }
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: feature_discovery_gemini_search
+description: Falls the More Features search through to Gemini (AI Gateway)
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603091
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239299
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/603265
+milestone: '19.2'
+group: group::activation
+type: gitlab_com_derisk
+default_enabled: false

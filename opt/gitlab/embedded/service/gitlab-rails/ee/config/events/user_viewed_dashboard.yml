@@ -1,0 +1,18 @@
+---
+description: Triggered when a user visits any analytics dashboard.
+internal_events: true
+action: user_viewed_dashboard
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: The dashboard's title
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+milestone: '16.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/144850
+tiers:
+- ultimate

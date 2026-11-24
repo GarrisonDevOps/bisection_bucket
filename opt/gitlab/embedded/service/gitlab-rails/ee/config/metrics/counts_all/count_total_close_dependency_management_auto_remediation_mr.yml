@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_close_dependency_management_auto_remediation_mr
+description: Total count of dependency management auto-remediation MRs closed
+product_group: composition_analysis
+product_categories:
+  - dependency_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: "19.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237572
+time_frame:
+  - 28d
+  - 7d
+  - all
+data_source: internal_events
+data_category: optional
+tiers:
+  - ultimate
+events:
+  - name: close_dependency_management_auto_remediation_mr

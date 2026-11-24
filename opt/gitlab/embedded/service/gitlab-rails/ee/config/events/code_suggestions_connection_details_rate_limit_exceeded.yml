@@ -1,0 +1,15 @@
+---
+description: Tracks the number of requests that have exceeded the rate limit for the `POST /code_suggestions/connection_details` API endpoint.
+internal_events: true
+action: code_suggestions_connection_details_rate_limit_exceeded
+classification: duo
+identifiers:
+- user
+product_group: dap_repository_flows
+product_categories:
+- code_suggestions
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197494
+tiers:
+- premium
+- ultimate

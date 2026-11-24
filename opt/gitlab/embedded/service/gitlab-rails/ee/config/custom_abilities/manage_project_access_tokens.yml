@@ -1,0 +1,16 @@
+---
+title: Manage project access tokens
+name: manage_project_access_tokens
+description: Create, read, update, and delete project access tokens. When creating a token, users with this custom permission must select a role for that token that has the same or fewer permissions as the default role used as the base for the custom role.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/421778
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132342
+feature_category: system_access
+milestone: '16.5'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [40, 50]
+project_permissions:
+  - create_resource_access_tokens
+  - destroy_resource_access_tokens
+  - manage_resource_access_tokens
+  - read_resource_access_tokens

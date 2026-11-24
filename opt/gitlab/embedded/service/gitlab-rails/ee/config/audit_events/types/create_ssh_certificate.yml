@@ -1,0 +1,10 @@
+---
+name: create_ssh_certificate
+description: An SSH certificate is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/427413
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/134556
+feature_category: "groups_and_projects"
+milestone: "16.6"
+saved_to_database: true
+streamed: true
+scope: ["Group"]

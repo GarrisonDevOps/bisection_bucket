@@ -1,0 +1,5 @@
+---
+name: instance_push_limit
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/186122
+milestone: '17.11'
+group: group::source code

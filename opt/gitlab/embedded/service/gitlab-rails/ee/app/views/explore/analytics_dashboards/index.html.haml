@@ -1,0 +1,6 @@
+- page_title s_('Analytics|GitLab Intelligence')
+- add_page_specific_style 'page_bundles/explore_analytics_dashboards'
+
+#js-explore-analytics-dashboards{ data: { explore_analytics_dashboards_path: explore_analytics_dashboards_path,
+  data_source_clickhouse: ::Gitlab::ClickHouse.enabled_for_contributions?.to_s,
+  gitlab_credits_dashboard_path: explore_gitlab_credits_dashboard_path } }

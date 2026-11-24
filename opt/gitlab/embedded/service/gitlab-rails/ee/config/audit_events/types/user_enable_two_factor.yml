@@ -1,0 +1,12 @@
+---
+name: user_enable_two_factor
+description:
+  A user enables two factor authentication.
+  Group scope is only available for enterprise users.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/549619
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/204794
+milestone: '18.5'
+feature_category: system_access
+saved_to_database: true
+streamed: true
+scope: [User, Group]

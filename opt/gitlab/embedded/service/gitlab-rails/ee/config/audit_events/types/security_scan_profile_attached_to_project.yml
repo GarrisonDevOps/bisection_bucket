@@ -1,0 +1,10 @@
+---
+name: security_scan_profile_attached_to_project
+description: A security scan profile is attached to a project
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/582824
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219378
+feature_category: security_testing_configuration
+milestone: '18.9'
+saved_to_database: true
+streamed: true
+scope: [Project]

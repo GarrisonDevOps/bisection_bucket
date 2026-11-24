@@ -1,0 +1,10 @@
+---
+name: security_policy_delete
+description: A security policy is deleted
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/539230
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192797
+milestone: '18.1'
+feature_category: security_policy_management
+saved_to_database: true
+streamed: true
+scope: [Project]

@@ -1,0 +1,10 @@
+---
+name: project_merge_method_updated
+description: A project's merge request method is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/301124
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/83922
+milestone: '14.10'
+feature_category: code_review_workflow
+saved_to_database: true
+streamed: true
+scope: [Project]

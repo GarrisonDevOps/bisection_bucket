@@ -1,0 +1,10 @@
+---
+name: fix_pipeline_experimental
+description: Control whether to use the experimental version of Fix Pipeline flow
+feature_issue_url: 'https://gitlab.com/gitlab-org/gitlab/-/work_items/604562'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243064'
+rollout_issue_url: ''
+milestone: '19.2'
+group: group::pipeline execution
+type: experiment
+default_enabled: false

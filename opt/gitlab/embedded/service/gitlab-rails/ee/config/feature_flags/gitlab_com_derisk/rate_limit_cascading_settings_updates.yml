@@ -1,0 +1,12 @@
+---
+name: rate_limit_cascading_settings_updates
+description: Reject group updates that would start a settings cascade to subgroups and projects
+  once the group or the user goes over the cascade rate limit, and skip the cascade when the
+  foundational flow selection is unchanged.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635299
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264320
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635500
+milestone: '19.6'
+group: group::ai control plane
+type: gitlab_com_derisk
+default_enabled: false

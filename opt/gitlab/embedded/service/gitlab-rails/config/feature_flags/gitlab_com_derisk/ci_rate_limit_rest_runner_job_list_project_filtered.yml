@@ -1,0 +1,10 @@
+---
+name: ci_rate_limit_rest_runner_job_list_project_filtered
+description: Enforces the per-user rate limit on REST runner job lists filtered to the user's projects; while disabled, requests over the limit are only logged
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638239
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268997
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638980
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

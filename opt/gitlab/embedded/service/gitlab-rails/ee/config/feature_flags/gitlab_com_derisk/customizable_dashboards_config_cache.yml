@@ -1,0 +1,10 @@
+---
+name: customizable_dashboards_config_cache
+description: Caches the dashboard and visualization YAML read from an analytics configuration project, keyed on its head commit, so repeat customizable dashboard requests do not read it through Gitaly
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636115
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267388
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637957
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,25 @@
+---
+description: Backend resolution of a feature library (More Features modal) search,
+  with the tier that resolved the query and the resolution latency. Fired once per
+  search request, from both the standard keyword matching and the AI search endpoints.
+internal_events: true
+action: resolve_feature_discovery_search
+classification: duo
+identifiers:
+- user
+- project
+- namespace
+additional_properties:
+  label:
+    description: Resolution tier - exact_map, keyword_extract, no_match, gemini or no_gemini_match
+  value:
+    description: Search resolution latency in milliseconds
+product_group: activation
+product_categories:
+- onboarding
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/246917
+tiers:
+- free
+- premium
+- ultimate

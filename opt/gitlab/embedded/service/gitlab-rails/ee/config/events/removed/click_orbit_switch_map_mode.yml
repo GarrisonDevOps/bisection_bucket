@@ -1,0 +1,22 @@
+---
+description: User switches the Orbit SDLC map projection between 2D and 3D
+internal_events: true
+action: click_orbit_switch_map_mode
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: The map projection selected. One of "2d" or "3d".
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237283
+status: removed
+milestone_removed: '19.6'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260936
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,16 @@
+---
+title: Update security scan profiles
+name: update_security_scan_profiles
+description: Update security scan profiles.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/606820
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/247701
+feature_category: security_testing_configuration
+milestone: '19.3'
+group_ability: true
+enabled_for_group_access_levels: [25, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 40, 50]
+project_permissions:
+  - update_security_scan_profiles
+group_permissions:
+  - update_security_scan_profiles

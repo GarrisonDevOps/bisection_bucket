@@ -1,0 +1,12 @@
+---
+name: RemoveEmbedding0FromWorkItems
+version: '20250409130602'
+description: Removes the embedding_0 field from the work items index
+group: group::global search
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/187518/
+skippable: true
+skip_condition: Must be on gitlab.com
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198213
+marked_obsolete_in_milestone: '18.3'

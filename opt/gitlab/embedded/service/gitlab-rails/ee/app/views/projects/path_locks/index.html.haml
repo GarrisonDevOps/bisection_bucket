@@ -1,0 +1,20 @@
+- page_title _("Locked files")
+
+.js-path-locks
+  - if @path_locks.any?
+    = render ::Layouts::IndexLayout.new(heading: _('Locked files'), options: { class: 'js-path-locks-list' }) do |layout|
+      - layout.with_description do
+        = _("The following files or directories can only be modified by the user who locked them.")
+
+      %ul.content-list
+        = render @path_locks
+
+      = paginate @path_locks, theme: 'gitlab'
+
+  .js-path-locks-empty-state{ class: ('hidden' if @path_locks.any?) }
+    = render Pajamas::EmptyStateComponent.new(title: _('Repository has no locked files yet'),
+      svg_path: 'illustrations/status/status-nothing-md.svg',
+      secondary_button_text: _('Learn more'),
+      secondary_button_link: help_page_path('user/project/file_lock.md')) do |c|
+      - c.with_description do
+        = safe_format(_("Lock a file or directory so only you can edit it, which helps avoid merge conflicts. To lock one, open it in the repository and select %{strongStart}Lock%{strongEnd}."), tag_pair(tag.strong, :strongStart, :strongEnd))

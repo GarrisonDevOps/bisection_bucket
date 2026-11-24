@@ -1,0 +1,38 @@
+- presenter = local_assigns.fetch(:presenter)
+- collection_key = local_assigns.fetch(:collection_key)
+
+= render ::Layouts::SettingsBlockComponent.new(s_('SemanticSearch|Overview'),
+  id: 'js-semantic-search-overview',
+  testid: 'semantic-search-embeddings-configuration-overview',
+  expanded: true) do |c|
+  - c.with_body do
+    .gl-flex.gl-flex-col.gl-gap-5
+      - if presenter.models_configured?
+        - if presenter.current_model
+          = render Pajamas::CardComponent.new(card_options: { data: { testid: 'semantic-search-display-embedding-model-current' } }) do |card|
+            - card.with_body do
+              %h3.gl-heading-4= s_('SemanticSearch|Current model')
+              %p= embedding_model_display_name(presenter.current_model)
+              %p
+                = s_('SemanticSearch|Batch size for embedding requests:')
+                %span#semantic-search-current-model-batch-size-display{ data: { testid: 'semantic-search-display-current-model-indexing-batch-size-text' } }
+                  = embeddings_request_batch_size_display(presenter.current_model)
+        - if presenter.next_model
+          = render Pajamas::CardComponent.new(card_options: { data: { testid: 'semantic-search-display-embedding-model-next' } }) do |card|
+            - card.with_body do
+              %h3.gl-heading-4= s_('SemanticSearch|Next model')
+              %p= s_('SemanticSearch|Switching to: %{model_name}') % { model_name: embedding_model_display_name(presenter.next_model) }
+              %p
+                = s_('SemanticSearch|Batch size for embedding requests:')
+                %span#semantic-search-next-model-batch-size-display{ data: { testid: 'semantic-search-display-next-model-indexing-batch-size-text' } }
+                  = embeddings_request_batch_size_display(presenter.next_model)
+        = render Pajamas::CardComponent.new(card_options: { data: { testid: 'semantic-search-display-current-chunk-strategy' } }) do |card|
+          - card.with_body do
+            %h3.gl-heading-4= s_('SemanticSearch|Chunking strategy')
+            %p.gl-mb-1= chunking_strategy_display(presenter.chunk_strategy, presenter.chunk_strategy_size)
+            %p.gl-text-subtle.gl-text-sm
+              = s_('SemanticSearch|The chunking strategy determines how code files are split into smaller pieces before being embedded. This affects how semantic search indexes and retrieves information.')
+              = s_('SemanticSearch|This cannot be changed when there is already a current model.')
+        = render 'update_batch_size_component', presenter: presenter, collection_key: collection_key
+      - else
+        %p= s_('SemanticSearch|No models configured yet')

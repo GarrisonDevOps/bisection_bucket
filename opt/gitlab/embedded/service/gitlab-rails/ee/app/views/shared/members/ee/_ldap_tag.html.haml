@@ -1,0 +1,4 @@
+- can_override = local_assigns.fetch(:can_override, false)
+
+- if can_override
+  = gl_badge_tag 'LDAP', { variant: :info }, { class: '@sm/panel:gl-block gl-self-center @md/panel:gl-mr-5' }

@@ -1,0 +1,7 @@
+- configuration_text = s_('AiPowered|Configuration')
+- page_title configuration_text
+- breadcrumb_title configuration_text
+- add_to_breadcrumbs _('GitLab Duo'), group_settings_gitlab_duo_path(@group)
+
+- if show_group_ai_settings_page?
+  #js-ai-settings{ data: group_ai_configuration_settings_helper_data }

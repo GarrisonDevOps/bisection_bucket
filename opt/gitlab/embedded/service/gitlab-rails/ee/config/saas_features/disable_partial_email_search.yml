@@ -1,0 +1,5 @@
+---
+name: disable_partial_email_search
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223780
+milestone: '18.10'
+group: group::seat management

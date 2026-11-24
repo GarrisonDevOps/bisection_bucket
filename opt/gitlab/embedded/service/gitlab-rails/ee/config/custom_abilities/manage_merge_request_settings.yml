@@ -1,0 +1,48 @@
+---
+title: Manage merge request approvals and settings
+name: manage_merge_request_settings
+description: Configure merge request settings at the group or project level. Group
+  actions include managing merge checks and approval settings. Project actions
+  include viewing branch rules, creating and deleting rules for all branches or
+  all protected branches, and managing MR configurations, approval rules and
+  settings, external status checks, squash options, and branch targets. In order
+  to enable Suggested reviewers, the "Manage project access tokens" custom
+  permission needs to be enabled.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/443235
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/151586
+feature_category: code_review_workflow
+milestone: '17.0'
+group_ability: true
+enabled_for_group_access_levels: [50]
+project_ability: true
+enabled_for_project_access_levels: [50]
+requirements:
+  - read_code
+group_permissions:
+  - read_merge_request_approval_setting
+  - update_merge_request_approval_setting
+  - manage_merge_request_settings
+  - read_approval_rule
+project_permissions:
+  - _delete_custom_branch_rule
+  - _read_custom_branch_rule
+  - _read_protected_branch_rule
+  - read_merge_request_approval_setting
+  - update_merge_request_approval_setting
+  - manage_merge_request_settings
+  - create_approval_rule
+  - update_approval_rule
+  - delete_approval_rule
+  - modify_approvers_rules
+  - modify_merge_request_author_setting
+  - modify_merge_request_committer_setting
+  - delete_branch_rule
+  - read_branch_rule
+  - read_external_status_check
+  - create_external_status_check
+  - update_external_status_check
+  - delete_external_status_check
+  - create_squash_option
+  - read_squash_option
+  - update_squash_option
+  - delete_squash_option

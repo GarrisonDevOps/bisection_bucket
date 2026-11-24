@@ -1,0 +1,10 @@
+- if show_geo_misconfigured_banner?
+  = render Pajamas::AlertComponent.new(variant: :danger,
+      title: s_('Geo|This site cannot find its own Geo site record'),
+      dismissible: false,
+      alert_options: { class: 'gl-mb-3', data: { testid: 'geo-misconfigured-banner' } }) do |c|
+    - c.with_body do
+      = safe_format(s_('Geo|The configured Geo site name is %{code_open}%{name}%{code_close}. It does not match the name of any site in the Geo sites list. Geo might not work correctly on this site until this is fixed.'), tag_pair(tag.code, :code_open, :code_close).merge(name: geo_configured_node_name))
+      = link_to s_('Geo|Learn how to fix this'), help_page_path('administration/geo/replication/troubleshooting/common.md', anchor: 'can-geo-detect-the-current-site-correctly'), target: '_blank', rel: 'noopener noreferrer'
+    - c.with_actions do
+      = link_button_to s_('Geo|Go to Geo sites'), admin_geo_nodes_path, class: 'gl-alert-action', category: :secondary, size: :small

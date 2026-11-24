@@ -1,0 +1,19 @@
+---
+description: User copies the CLI install command in the Orbit Overview Quickstart
+internal_events: true
+action: click_orbit_copy_to_clipboard
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  label:
+    description: Which copy button was clicked. Always "CLI".
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237283
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,10 @@
+---
+name: dependency_firewall_warned
+description: A dependency matched an advisory (warn-mode) dependency firewall policy
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/588486
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223712
+milestone: '19.0'
+feature_category: dependency_firewall
+saved_to_database: true
+streamed: true
+scope: [Project]

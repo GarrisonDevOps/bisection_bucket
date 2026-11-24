@@ -1,0 +1,14 @@
+---
+description: User clicks Usage trend tab within GitLab Credits Dashboard
+internal_events: true
+action: click_usage_trend_tab_credits_dashboard
+identifiers:
+  - namespace
+  - user
+product_group: acquisition
+product_categories:
+  - subscription_management
+milestone: '19.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229753
+tiers:
+  - free

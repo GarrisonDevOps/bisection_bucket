@@ -1,0 +1,21 @@
+= render ::Layouts::SettingsSectionComponent.new(_('Insights'), id: 'js-insights-settings') do |c|
+  - c.with_description do
+    = s_('GroupSettings|Select the project containing your custom Insights file.')
+    = link_to(s_('GroupSettings|What is Insights?'), help_page_path('user/project/insights/_index.md'), target: '_blank', rel: 'noopener noreferrer')
+  - c.with_body do
+    = gitlab_ui_form_for @group, url: group_settings_analytics_path(@group, anchor: 'js-insights-settings'), html: { class: 'fieldset-form', data: { testid: 'insights-settings' } } do |form|
+      = form_errors(@group)
+
+      - insight = @group.insight || @group.build_insight
+      = form.fields_for :insight_attributes, insight do |insight_form|
+        = insight_form.hidden_field :id
+        .js-vue-project-select{ data: { label: html_escape(s_('GroupSettings|Select the project containing the %{code_start}.gitlab/insights.yml%{code_end} file')) % { code_start: '<code>'.html_safe, code_end: '</code>'.html_safe },
+          has_html_label: true.to_s,
+          input_name: 'group[insight_attributes][project_id]',
+          input_id: 'group_insight_attributes_project_id',
+          group_id: @group.id,
+          order_by: 'last_activity_at',
+          with_shared: true.to_s,
+          include_subgroups: true.to_s,
+          selected: insight.project_id } }
+      = form.submit _('Save changes'), pajamas_button: true

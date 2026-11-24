@@ -1,0 +1,30 @@
+- short_form = local_assigns.fetch :short_form, false
+- target_blank = local_assigns.fetch :target_blank, false
+
+- if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+  -# EE:SaaS
+  - namespace = @project&.namespace || @group
+  - if can?(current_user, :admin_namespace, namespace)
+    - if promotion_purchased_gitlab_credits?(namespace)
+      .js-hand-raise-lead-trigger{ data: promotion_hand_raise_lead_data(location) }
+    - else
+      = link_button_to s_('Promotions|Upgrade to Premium'),
+        promotion_upgrade_to_premium_url(namespace, source: location.to_s),
+        class: 'promotion-upgrade-cta',
+        target: target_blank ? '_blank' : '_self',
+        variant: :confirm,
+        data: { event_tracking: 'click_upgrade_to_premium_on_promotion', event_property: location.to_s }
+  - elsif namespace.is_a?(Group)
+    %p= s_('Promotions|Contact an owner of group %{namespace_name} to upgrade the plan.') % { namespace_name: namespace.name }
+  - else
+    - owner = namespace.owner
+    - link_start = "<a href='#{user_path(owner)}' rel='noowner noreferrer' target='_blank'>".html_safe
+    %p= s_('Promotions|Contact owner %{link_start}%{owner_name}%{link_end} to upgrade the plan.').html_safe % { owner_name: owner.name, link_start: link_start, link_end: '</a>'.html_safe }
+- elsif current_user&.admin?
+  -# EE:Self Managed
+  - if License.current&.expired?
+    = link_button_to (!short_form ? s_('Promotions|Buy GitLab Enterprise Edition') : s_('Promotions|Buy EE')), promo_pricing_url, variant: :confirm
+  - else
+    = link_button_to s_('Promotions|Start GitLab Ultimate trial'), new_trial_url, class: 'gl-mb-3', variant: :confirm
+- else
+  %p= s_('Promotions|Contact your Administrator to upgrade your license.')

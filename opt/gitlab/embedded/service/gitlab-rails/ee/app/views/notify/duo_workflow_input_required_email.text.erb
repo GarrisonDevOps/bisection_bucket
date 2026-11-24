@@ -1,0 +1,20 @@
+<%= s_('DuoWorkflow|Your Duo session needs your input') %>
+
+<% if @project %>
+<%= s_('DuoWorkflow|A Duo session in %{project} is paused and waiting for your input.') % { project: @project.full_name } %>
+<% else %>
+<%= s_('DuoWorkflow|A Duo session is paused and waiting for your input.') %>
+<% end %>
+<% if @flow.present? %>
+<%= s_('DuoWorkflow|Flow:') %> <%= @flow %>
+<% end %>
+<% if @goal.present? %>
+<%= s_('DuoWorkflow|Goal:') %> <%= @goal %>
+<% end %>
+<% if @checkpoint_message.present? %>
+<%= s_('DuoWorkflow|Pending action:') %> <%= @checkpoint_message %>
+<% end %>
+<% if @web_url %>
+
+<%= s_('DuoWorkflow|Review session') %> <%= @web_url %>
+<% end %>

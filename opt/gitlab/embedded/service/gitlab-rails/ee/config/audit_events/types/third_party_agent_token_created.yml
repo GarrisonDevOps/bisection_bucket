@@ -1,0 +1,10 @@
+---
+name: third_party_agent_token_created
+description: A third-party agent access token was generated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/593031
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227761
+feature_category: duo_agent_platform
+milestone: '18.11'
+saved_to_database: true
+streamed: true
+scope: [User]

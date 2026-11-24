@@ -1,0 +1,10 @@
+---
+name: free_user_cap_enforcement_promo_cta
+description: 'Shows promo CTA in Free user limit enforcement banner'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244202
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605055
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/600408
+milestone: '19.2'
+group: group::seat management
+type: gitlab_com_derisk
+default_enabled: false

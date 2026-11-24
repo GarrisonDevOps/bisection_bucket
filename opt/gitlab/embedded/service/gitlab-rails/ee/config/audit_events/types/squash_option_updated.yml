@@ -1,0 +1,10 @@
+---
+name: squash_option_updated
+description: Squash option setting is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/301124
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/84624
+milestone: '15.0'
+feature_category: source_code_management
+saved_to_database: true
+streamed: true
+scope: [Project]

@@ -1,0 +1,51 @@
+- purchase_link = plan.purchase_link
+- plan_name = plan.name
+- show_deprecated_plan = plan.deprecated?
+- if show_deprecated_plan
+  - plan_name      += ' (Legacy)'
+  - faq_link_url   = promo_pricing_url(path: '/faq-new-product-subscription-tiers')
+  - faq_link_start = '<a href="%{url}" target="_blank" rel="noopener noreferrer">'.html_safe % { url: faq_link_url }
+
+.card-wrapper{ data: { testid: "plan-card-#{plan.code}" } }
+  .card{ class: ("card-active" if is_current || show_deprecated_plan) }
+    .card-header.gl-leading-normal.gl-py-5.gl-font-bold
+      = plan_name
+
+    .card-body
+      - if show_deprecated_plan
+        = _("The %{plan_name} is no longer available to purchase. For more information about how this will impact you, check our %{faq_link_start}frequently asked questions%{faq_link_end}.").html_safe % { plan_name: plan.name, faq_link_start: faq_link_start, faq_link_end: '</a>'.html_safe }
+      - else
+        .price-description
+          .gl-mr-2.gl-flex.gl-items-center
+            %span
+              = number_to_plan_currency(plan.price_per_month)
+          %ul.conditions.gl-p-0.gl-my-auto
+            %li= s_("BillingPlans|per user")
+            %li= s_("BillingPlans|monthly")
+        .price-conclusion{ class: ("!gl-invisible" unless plan.price_per_year > 0) }
+          - price_per_year = number_to_plan_currency(plan.price_per_year)
+          = s_("BillingPlans|billed annually at %{price_per_year}") % { price_per_year: price_per_year }
+        %hr.gl-my-3
+
+        %ul.unstyled-list
+          - plan_feature_list(plan).each do |feature|
+            - feature_class = "!gl-p-0"
+            - if feature.highlight
+              - feature_class += " gl-font-bold"
+            %li{ class: "#{feature_class}" }
+              = feature.title
+          %li.gl-p-0.gl-pt-3
+            - if plan.about_page_href
+              = link_to s_("BillingPlans|See all %{plan_name} features") % { plan_name: plan.name },
+                promo_pricing_url(path: '/gitlab-com/feature-comparison'),
+                data: { track_action: 'click_link',
+                        track_label: 'plan_features',
+                        track_property: plan.code }
+
+    - unless read_only
+      .card-footer
+        - show_upgrade_button = show_upgrade_button?(purchase_link.action, plan.allow_upgrade)
+        .gl-min-h-7.gl-flex.gl-flex-wrap.gl-justify-end
+          = render "shared/billings/billing_plan_actions", namespace: namespace, plan: plan,
+                                                           purchase_link: purchase_link, show_upgrade_button: show_upgrade_button,
+                                                           is_current: is_current

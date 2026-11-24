@@ -1,0 +1,3 @@
+---
+name: read_duo_workflow_tool_access_policy
+description: Grants the ability to read the tool access policy of a workflow

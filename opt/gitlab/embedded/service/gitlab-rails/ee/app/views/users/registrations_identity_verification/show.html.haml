@@ -1,0 +1,13 @@
+- page_title s_('IdentityVerification|Help us keep GitLab secure')
+- content_for :body_class, '!gl-bg-default'
+- content_for :hide_empty_navbar, true
+- content_for :registration_marketing_panel_image, onboarding_status_presenter.identity_verification_panel_image
+- content_for :registration_marketing_panel_heading, onboarding_status_presenter.identity_verification_panel_heading
+- add_page_specific_style 'page_bundles/zuora'
+
+- unless onboarding_status_presenter.unification_enabled?
+  .gl-mb-6
+    = render_if_exists 'devise/shared/delete_unconfirmed_users_flash'
+
+%div{ data: { track_action: 'render', track_label: onboarding_status_presenter.tracking_label } }
+  #js-identity-verification{ data: signup_identity_verification_data(@user, unified_registration: unified_registration?) }

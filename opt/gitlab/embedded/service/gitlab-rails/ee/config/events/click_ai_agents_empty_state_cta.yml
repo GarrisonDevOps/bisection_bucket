@@ -1,0 +1,18 @@
+---
+description: Click on a CTA in the AI Agents empty state (Free-tier users)
+internal_events: true
+action: click_ai_agents_empty_state_cta
+identifiers:
+  - project
+  - namespace
+  - user
+additional_properties:
+  label:
+    description: The CTA clicked. One of buy_credits, learn_about_credits, explore_ai_catalog.
+product_group: acquisition
+product_categories:
+  - acquisition
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251197
+tiers:
+  - free

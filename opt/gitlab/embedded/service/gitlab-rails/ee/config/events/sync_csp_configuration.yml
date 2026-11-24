@@ -1,0 +1,14 @@
+---
+description: Sync of CSP policies
+internal_events: true
+status: active
+action: sync_csp_configuration
+identifiers:
+- namespace
+product_group: policy_management
+product_categories:
+- security_policy_management
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/196850
+tiers:
+- ultimate

@@ -1,0 +1,19 @@
+- page_title _('Audit events')
+- view_only = view_only_own_group_events?(@group)
+
+%h1.page-title.gl-text-size-h-display= _('Group audit events')
+%p.light
+  = _("Track important events in your group.")
+
+#js-group-audit-events-app{ data: { form_path: group_audit_events_path(@group),
+  events: @events.to_json,
+  is_last_page: @is_last_page.to_json,
+  group_path: @group.full_path,
+  show_streams: show_streams_for_group?(@group).to_s,
+  empty_state_svg_path: image_path('illustrations/empty-state/empty-radar-md.svg'),
+  filter_token_options: group_audit_event_tokens(@group.id).to_json,
+  filter_token_values: filter_view_only_own_events_token_values(view_only).to_json,
+  filter_view_only: view_only.to_s,
+  audit_event_definitions: @audit_event_definitions.to_json,
+  audit_events_details_drawer_enabled: audit_events_details_drawer_enabled?(@group).to_s } }
+  = gl_loading_icon(size: 'lg', css_class: 'gl-my-7')

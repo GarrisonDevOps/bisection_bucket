@@ -1,0 +1,20 @@
+description: "Toggle right sidebar subscription"
+category: "`subscriptions`"
+action: toggle_button
+extra_properties:
+identifiers:
+product_group: planning_views
+product_categories:
+- planning_views
+milestone: "12.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/14944
+tiers:
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: "`right_sidebar`"
+  property:
+    description: "`notifications`"
+  value:
+    description: "`1` if user is subscribed, `0` otherwise"

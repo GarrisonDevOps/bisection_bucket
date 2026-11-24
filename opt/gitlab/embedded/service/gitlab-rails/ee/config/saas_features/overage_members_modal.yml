@@ -1,0 +1,5 @@
+---
+name: overage_members_modal
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143592
+milestone: '16.10'
+group: group::subscription management

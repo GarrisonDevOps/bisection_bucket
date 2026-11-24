@@ -1,0 +1,9 @@
+---
+name: ai_governance_dashboard_side_panels
+description: Open AI Governance dashboard card items in a side panel instead of the Audit events tab
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637204
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269500
+milestone: '19.6'
+group: group::ai governance
+type: wip
+default_enabled: false

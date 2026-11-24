@@ -1,0 +1,5 @@
+- page_title _('Billing')
+- add_page_specific_style 'page_bundles/billings'
+
+- data_attributes = user_billing_data_attributes(@plans_data)
+#js-pricing-information{ "data-view-model": data_attributes.to_json }

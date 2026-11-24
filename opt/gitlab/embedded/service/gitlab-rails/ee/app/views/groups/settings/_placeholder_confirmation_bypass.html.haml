@@ -1,0 +1,19 @@
+- return unless @group.root? && Gitlab.com? && can?(current_user, :read_enterprise_user, @group)
+- domain_verification_available = @group.domain_verification_available?
+
+%h5
+  = s_('UserMapping|Placeholder user confirmation')
+  %span.gl-ml-2
+    = render Pajamas::BadgeComponent.new(s_('BillingPlans|Premium'), variant: :tier)
+
+#group-bypass-placeholder-confirmation-setting{
+  data: {
+    view_model: {
+      min_date: NamespaceSetting.enterprise_bypass_min_date.strftime('%Y-%m-%dT%H:%M:%S'),
+      max_date: NamespaceSetting.enterprise_bypass_max_date.strftime('%Y-%m-%dT%H:%M:%S'),
+      should_disable_checkbox: !domain_verification_available,
+      current_expiry_date: @group.enterprise_bypass_expires_at&.strftime('%Y-%m-%dT00:00:00'),
+      is_bypass_on: @group.allow_enterprise_bypass_placeholder_confirmation
+    }.to_json
+  }
+}

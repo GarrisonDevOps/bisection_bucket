@@ -1,0 +1,10 @@
+---
+name: pages_deployments_api_rate_limit
+description: Enforce the rate limit on the GraphQL pagesDeployments field. While disabled, the limit runs in log mode
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635660
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267669
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638280
+milestone: '19.6'
+group: group::planner intelligence
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,15 @@
+---
+description: Tracks each time the fast dependency paths setting is changed from disabled to enabled
+internal_events: true
+status: active
+action: enabled_fast_dependency_paths
+identifiers:
+  - project
+  - namespace
+product_group: vulnerability_management
+product_categories:
+  - dependency_management
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/238536
+tiers:
+  - ultimate

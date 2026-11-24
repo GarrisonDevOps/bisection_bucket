@@ -1,0 +1,11 @@
+---
+name: mergeability_check_concurrency_limit_scope
+description: Caps each top-level group at a share of the Sidekiq concurrency limit of
+  MergeRequestMergeabilityCheckWorker and MergeRequests::MergeabilityCheckBatchWorker.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637018
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269555
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639326
+milestone: '19.6'
+group: group::code review
+type: beta
+default_enabled: false

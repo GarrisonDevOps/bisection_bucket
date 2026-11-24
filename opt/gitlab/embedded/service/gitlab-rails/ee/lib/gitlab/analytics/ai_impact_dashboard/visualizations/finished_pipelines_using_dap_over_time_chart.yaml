@@ -1,0 +1,16 @@
+---
+version: 1
+type: LineChart
+data:
+  type: finished_pipelines_using_dap_over_time
+  query: {}
+options:
+  xAxis:
+    name: "Month"
+    type: "category"
+  yAxis:
+    name: "Pipelines"
+    type: "value"
+  includeLegendAvgMax: false
+  chartTooltip:
+    valueUnit: COUNT

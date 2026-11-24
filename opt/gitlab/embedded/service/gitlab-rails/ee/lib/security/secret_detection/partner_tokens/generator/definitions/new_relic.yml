@@ -1,0 +1,23 @@
+---
+token_type: "New Relic user API Key"
+class_name: "NewRelicClient"
+partner_name: "new_relic"
+endpoints:
+  - "https://api.newrelic.com/v2/applications.json"
+  - "https://api.eu.newrelic.com/v2/applications.json"
+http_method: "get"
+auth_style: "header"
+auth_param: "Api-Key"
+token_pattern: '\ANRAK-[0-9A-Z]{27}\z'
+sample_token: "NRAK-AAAAAAAAAAAAAAAAAAAAAAAAAAA"
+rate_limit_key: "partner_new_relic_api"
+doc_url: "https://docs.newrelic.com/docs/apis/rest-api-v2/get-started/introduction-new-relic-rest-api-v2/"
+status_map:
+  "200": "active"
+  "403": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

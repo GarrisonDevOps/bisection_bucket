@@ -1,0 +1,10 @@
+- issuable = local_assigns.fetch(:issuable, nil)
+- work_item_status = work_item_status_for_issuable(issuable)
+
+- if work_item_status
+  .work-item-status{ class: 'gl-inline-flex gl-max-w-full gl-items-center gl-rounded-pill gl-bg-strong gl-py-1 gl-pl-2 gl-pr-2-5 gl-text-sm gl-leading-normal gl-text-strong gl-ml-3' }
+    = sprite_icon(work_item_status[:icon_name], size: 12, css_class: 'gl-shrink-0', color: work_item_status[:color])
+    .gl-shrink-1.gl-ml-2.gl-min-w-0.gl-overflow-hidden
+      %span.gl-truncate-component.has-tooltip{ title: work_item_status[:name] }
+        %span.gl-truncate-end
+          = work_item_status[:name]

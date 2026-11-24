@@ -1,0 +1,17 @@
+- user_preference = current_user.user_preference
+- candidates = user_preference.duo_default_namespace_candidates
+- default_group_label = s_('Preferences|Default group')
+.form-group
+  - if candidates.any?
+    .js-listbox-input{ data: { label: default_group_label,
+      label_description: s_("Preferences|When GitLab can't determine a group from your work, this group sets which GitLab Duo features and models you can use and where your usage is tracked."),
+      name: 'user[duo_default_namespace_id]',
+      items: candidates.map { |candidate| { value: candidate.id.to_s, text: candidate.name } }.to_json,
+      value: user_preference.duo_default_namespace_with_fallback&.id&.to_s,
+      default_toggle_text: s_('Preferences|Select a group'),
+      block: true.to_s,
+      toggle_class: 'gl-form-input-xl' } }
+  - else
+    %p.gl-font-bold.gl-mb-3= default_group_label
+    %p.gl-text-subtle.gl-mb-0{ data: { testid: 'duo-default-group-empty' } }
+      = s_("Profiles|You don't have access to any groups eligible for GitLab Duo.")

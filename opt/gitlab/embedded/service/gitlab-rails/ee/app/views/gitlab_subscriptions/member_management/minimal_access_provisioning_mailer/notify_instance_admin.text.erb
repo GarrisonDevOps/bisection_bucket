@@ -1,0 +1,33 @@
+<%= s_('MinimalAccessProvisioning|Hello %{name},') % { name: @recipient.name } %>
+
+<%= n_(s_('MinimalAccessProvisioning|We\'re notifying you that %{user_count} user provisioned through LDAP or SAML/SCIM has been assigned the Minimal Access role because restricted access is on and no seats are available in your subscription.'), s_('MinimalAccessProvisioning|We\'re notifying you that %{user_count} users provisioned through LDAP or SAML/SCIM have been assigned the Minimal Access role because restricted access is on and no seats are available in your subscription.'), @user_count) % { user_count: @user_count } %> <%= s_('MinimalAccessProvisioning|This count reflects users affected on %{sync_date}. The current number may differ if users have since been upgraded or removed.') % { sync_date: @sync_date } %>
+
+<%= s_('MinimalAccessProvisioning|To identify the affected users, go to your user list page in your Admin area and sort by Last created. The most recent users will appear at the top of the list.') % { sync_date: @sync_date } %>
+
+<%= s_('MinimalAccessProvisioning|Users with the Minimal Access role can only view limited group information without access to projects.') %>
+
+<%= s_('MinimalAccessProvisioning|To grant more permissions to these users, you should first review your seat usage. Then either:') %>
+
+- <%= s_('MinimalAccessProvisioning|Change the users\' role in the group or project.') %>
+- <%= s_('MinimalAccessProvisioning|Purchase more seats.') %>
+
+<%= s_('MinimalAccessProvisioning|If you have any questions or need help, contact GitLab support.') %>
+
+<%= s_('MinimalAccessProvisioning|Thank you,') %>
+
+<%= s_('MinimalAccessProvisioning|The GitLab Team') %>
+
+<%= s_('MinimalAccessProvisioning|Restricted Access:') %>
+<%= @restricted_access_help_url %>
+
+<%= s_('MinimalAccessProvisioning|User list:') %>
+<%= @users_url %>
+
+<%= s_('MinimalAccessProvisioning|Users with Minimal Access role:') %>
+<%= @minimal_access_help_url %>
+
+<%= s_('MinimalAccessProvisioning|Seat usage:') %>
+<%= @seat_usage_help_url %>
+
+<%= s_('MinimalAccessProvisioning|Purchase more seats:') %>
+<%= @purchase_seats_help_url %>

@@ -1,0 +1,417 @@
+# frozen_string_literal: true
+
+class Admin::UsersController < Admin::ApplicationController
+  include Admin::UsersActions
+
+  # rubocop:disable Rails/LexicallyScopedActionFilter -- index is defined in Admin::UsersActions
+  before_action :user, except: [:index, :new, :create]
+  # rubocop:enable Rails/LexicallyScopedActionFilter
+  before_action :check_impersonation_availability, only: :impersonate
+  before_action :ensure_destroy_prerequisites_met, only: [:destroy]
+  # rubocop:disable Rails/LexicallyScopedActionFilter -- show is defined in Admin::UsersActions
+  before_action :set_shared_view_parameters, only: [:show, :projects, :keys]
+  # rubocop:enable Rails/LexicallyScopedActionFilter
+
+  # rubocop: disable CodeReuse/ActiveRecord
+  def projects
+    @personal_projects = user.personal_projects.includes(:topics).page(safe_params[:personal_projects_page]).per(10)
+    @joined_projects = user.projects.joined(@user).includes(:topics).page(safe_params[:projects_page])
+    @user_group_members = user.group_members.or(user.minimal_access_group_members).page(safe_params[:groups_page])
+  end
+  # rubocop: enable CodeReuse/ActiveRecord
+
+  def keys
+    @keys = user.keys.order_id_desc
+  end
+
+  def new
+    @user = User.new
+  end
+
+  def edit
+    user
+  end
+
+  def impersonate
+    if helpers.can_impersonate_user(user, impersonation_in_progress?)
+      session[:impersonator_id] = current_user.id
+
+      warden.set_user(user, scope: :user)
+      clear_access_token_session_keys!
+
+      log_impersonation_event
+
+      flash[:notice] = format(_("You are now impersonating %{username}"), username: user.username)
+
+      redirect_to root_path
+    else
+      flash[:alert] = helpers.impersonation_error_text(user, impersonation_in_progress?)
+
+      redirect_to admin_user_path(user)
+    end
+  end
+
+  def approve
+    result = Users::ApproveService.new(current_user).execute(user)
+
+    if result[:status] == :success
+      redirect_back_or_admin_user(notice: _("Successfully approved"))
+    else
+      redirect_back_or_admin_user(alert: result[:message])
+    end
+  end
+
+  def reject
+    result = Users::RejectService.new(current_user).execute(user)
+
+    if result[:status] == :success
+      redirect_back_or_admin_user(notice: format(_("You've rejected %{user}"), user: user.name))
+    else
+      redirect_back_or_admin_user(alert: result[:message])
+    end
+  end
+
+  def activate
+    activate_service = Users::ActivateService.new(current_user)
+    result = activate_service.execute(user)
+
+    if result.success?
+      redirect_back_or_admin_user(notice: _("Successfully activated"))
+    else
+      redirect_back_or_admin_user(alert: result.message)
+    end
+  end
+
+  def deactivate
+    deactivate_service = Users::DeactivateService.new(current_user, skip_authorization: true)
+    result = deactivate_service.execute(user)
+
+    if result.success?
+      redirect_back_or_admin_user(notice: _("Successfully deactivated"))
+    else
+      redirect_back_or_admin_user(alert: result.message)
+    end
+  end
+
+  def block
+    result = Users::BlockService.new(current_user).execute(user)
+
+    respond_to do |format|
+      if result[:status] == :success
+        notice = _("Successfully blocked")
+        format.json { render json: { notice: notice } }
+        format.html { redirect_back_or_admin_user(notice: notice) }
+      else
+        alert = _("Error occurred. User was not blocked")
+        format.json { render json: { error: alert } }
+        format.html { redirect_back_or_admin_user(alert: alert) }
+      end
+    end
+  end
+
+  def unblock
+    return resync_ldap if user.ldap_blocked?
+
+    result = Users::UnblockService.new(current_user).execute(user)
+
+    if result.success?
+      redirect_back_or_admin_user(notice: _("Successfully unblocked"))
+    else
+      redirect_back_or_admin_user(alert: _("Error occurred. User was not unblocked"))
+    end
+  end
+
+  def ban
+    result = Users::BanService.new(current_user).execute(user)
+
+    if result[:status] == :success
+      redirect_back_or_admin_user(notice: _("Successfully banned"))
+    else
+      alert = format(_("Error occurred. %{message}"), message: result[:message])
+      redirect_back_or_admin_user(alert: alert)
+    end
+  end
+
+  def unban
+    result = Users::UnbanService.new(current_user).execute(user)
+
+    if result[:status] == :success
+      redirect_back_or_admin_user(notice: _("Successfully unbanned"))
+    else
+      redirect_back_or_admin_user(alert: _("Error occurred. User was not unbanned"))
+    end
+  end
+
+  def unlock
+    if unlock_user
+      redirect_back_or_admin_user(notice: _("Successfully unlocked"))
+    else
+      redirect_back_or_admin_user(alert: _("Error occurred. User was not unlocked"))
+    end
+  end
+
+  def trust
+    result = Users::TrustService.new(current_user).execute(user)
+
+    if result[:status] == :success
+      redirect_back_or_admin_user(notice: _("Successfully trusted"))
+    else
+      redirect_back_or_admin_user(alert: _("Error occurred. User was not updated"))
+    end
+  end
+
+  def untrust
+    result = Users::UntrustService.new(current_user).execute(user)
+
+    if result[:status] == :success
+      redirect_back_or_admin_user(notice: _("Successfully untrusted"))
+    else
+      redirect_back_or_admin_user(alert: _("Error occurred. User was not updated"))
+    end
+  end
+
+  def confirm
+    if update_user(&:force_confirm)
+      redirect_back_or_admin_user(notice: _("Successfully confirmed"))
+    else
+      redirect_back_or_admin_user(alert: _("Error occurred. User was not confirmed"))
+    end
+  end
+
+  def disable_two_factor
+    result = TwoFactor::DestroyService.new(current_user, user: user).execute
+
+    if result[:status] == :success
+      redirect_to admin_user_path(user),
+        notice: _('Two-factor authentication has been disabled for this user')
+    else
+      redirect_to admin_user_path(user), alert: result[:message]
+    end
+  end
+
+  def create
+    opts = user_params.merge(reset_password: true, skip_confirmation: true)
+    opts[:organization_id] ||= admin_current_organization.id
+
+    response = Users::CreateService.new(current_user, opts).execute
+    @user = response.payload[:user]
+
+    after_successful_create_hook(@user) if response.success?
+
+    respond_to do |format|
+      if response.success?
+        format.html { redirect_to default_route, after_successful_create_flash }
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        if @user&.errors&.any?
+          format.html { render "new" }
+        else
+          format.html { redirect_to admin_users_path, notice: response.message }
+        end
+
+        format.json { render json: @user&.errors || {}, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    user_params_with_pass = user_params.dup
+
+    if permitted_user_password_params[:password].present?
+      password_params = {
+        password: permitted_user_password_params[:password],
+        password_confirmation: permitted_user_password_params[:password_confirmation]
+      }
+
+      password_params[:password_expires_at] = Time.current if admin_making_changes_for_another_user?
+
+      user_params_with_pass.merge!(password_params)
+    end
+
+    respond_to do |format|
+      result = Users::UpdateService.new(current_user, user_params_with_pass.merge(user: user)).execute do |user|
+        user.skip_reconfirmation!
+        user.send_only_admin_changed_your_password_notification! if admin_making_changes_for_another_user?
+        user.skip_enterprise_user_email_change_restrictions!
+      end
+
+      after_successful_update_hook(result[:user]) if result[:status] == :success
+
+      if result[:status] == :success
+        format.html { redirect_to default_route, after_successful_update_flash }
+        format.json { head :ok }
+      else
+        # restore username to keep form action url.
+        user.username = safe_params[:id]
+        format.html { render "edit" }
+        format.json { render json: [result[:message]], status: :internal_server_error }
+      end
+    end
+  end
+
+  def destroy
+    user.delete_async(deleted_by: current_user, params: destroy_params)
+
+    respond_to do |format|
+      format.html { redirect_to admin_users_path, status: :found, notice: _("The user is being deleted.") }
+      format.json { head :ok }
+    end
+  end
+
+  def remove_email
+    email = user.emails.find(safe_params[:email_id])
+    success = Emails::DestroyService.new(current_user, user: user).execute(email)
+
+    respond_to do |format|
+      if success
+        format.html { redirect_back_or_admin_user(notice: _('Successfully removed email.')) }
+        format.json { head :ok }
+      else
+        format.html { redirect_back_or_admin_user(alert: _('There was an error removing the e-mail.')) }
+        format.json { render json: _('There was an error removing the e-mail.'), status: :bad_request }
+      end
+    end
+  end
+
+  protected
+
+  def resync_ldap
+    unless Gitlab::Auth::Ldap::Config.enabled?
+      return redirect_back_or_admin_user(alert: _("LDAP is not enabled for this instance."))
+    end
+
+    return redirect_back_or_admin_user(alert: _("This user does not have an LDAP identity.")) unless user.ldap_identity
+
+    unless Gitlab::Auth::Ldap::Config.valid_provider?(user.ldap_identity.provider)
+      message = format(
+        _("This user's LDAP provider (%{provider}) is no longer configured on this instance."),
+        provider: user.ldap_identity.provider
+      )
+      return redirect_back_or_admin_user(alert: message)
+    end
+
+    if Gitlab::Auth::Ldap::Access.allowed?(user)
+      redirect_back_or_admin_user(notice: _("Successfully synchronized with LDAP. User is now unblocked."))
+    else
+      redirect_back_or_admin_user(alert: _("User is still blocked according to LDAP."))
+    end
+  end
+
+  def admin_making_changes_for_another_user?
+    user != current_user
+  end
+
+  def destroy_params
+    params.permit(:hard_delete)
+  end
+
+  def ensure_destroy_prerequisites_met
+    return if hard_delete?
+
+    if user.solo_owned_groups.present?
+      message = s_('AdminUsers|You must transfer ownership or delete the ' \
+        'groups owned by this user before you can delete their account')
+
+      redirect_to admin_user_path(user), status: :see_other, alert: message
+    end
+  end
+
+  def hard_delete?
+    destroy_params[:hard_delete]
+  end
+
+  def redirect_back_or_admin_user(options = {})
+    redirect_back_or_default(default: default_route, options: options)
+  end
+
+  def default_route
+    [:admin, @user]
+  end
+
+  def user_params
+    params.require(:user).permit(allowed_user_params)
+  end
+
+  def allowed_user_params
+    [
+      :access_level,
+      :avatar,
+      :bio,
+      :bluesky,
+      :can_create_group,
+      :color_mode_id,
+      :color_scheme_id,
+      :discord,
+      :email,
+      :email_otp_required_after,
+      :extern_uid,
+      :external,
+      :force_random_password,
+      :hide_no_password,
+      :hide_no_ssh_key,
+      :key_id,
+      :linkedin,
+      :mastodon,
+      :name,
+      :note,
+      :organization_id,
+      :organization_access_level,
+      :password_expires_at,
+      :private_profile,
+      :projects_limit,
+      :provider,
+      :remember_me,
+      :theme_id,
+      :twitter,
+      :username,
+      :website_url,
+      :github,
+      { organization_users_attributes: [:id, :organization_id, :access_level] }
+    ]
+  end
+
+  def update_user(&block)
+    result = Users::UpdateService.new(current_user, user: user).execute(&block)
+
+    result[:status] == :success
+  end
+
+  def check_impersonation_availability
+    access_denied! unless Gitlab.config.gitlab.impersonation_enabled
+  end
+
+  def log_impersonation_event
+    Gitlab::AppLogger.info(format(_("User %{current_user_username} has started impersonating %{username}"),
+      current_user_username: current_user.username, username: user.username))
+  end
+
+  # method overridden in EE
+  def unlock_user
+    update_user(&:unlock_access!)
+  end
+
+  private
+
+  # method overridden in EE
+  def after_successful_create_hook(user); end
+
+  # method overridden in EE
+  def after_successful_update_hook(user); end
+
+  def after_successful_create_flash
+    { notice: _('User was successfully created.') }
+  end
+
+  def after_successful_update_flash
+    { notice: _('User was successfully updated.') }
+  end
+
+  # WARNING: Only use permitted_user_password_params in contexts where password input has been
+  # explicitly provided by an admin through a secure form. Do not call this in contexts
+  # where params could be manipulated or in automated processes.
+  def permitted_user_password_params
+    params.require(:user).permit(:password, :password_confirmation)
+  end
+end
+
+Admin::UsersController.prepend_mod_with('Admin::UsersController')

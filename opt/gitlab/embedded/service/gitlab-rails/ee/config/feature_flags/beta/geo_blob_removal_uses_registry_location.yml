@@ -1,0 +1,10 @@
+---
+name: geo_blob_removal_uses_registry_location
+description: Lets Geo remove a blob using the location stored on its registry when the delete event data has none.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/281430
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263964
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635220
+milestone: '19.6'
+group: group::geo
+type: beta
+default_enabled: false

@@ -1,0 +1,20 @@
+---
+description: User clicks "Learn more" in the Explore Premium modal
+internal_events: true
+status: active
+action: click_learn_more_explore_premium_modal
+identifiers:
+  - user
+  - namespace
+product_group: acquisition
+additional_properties:
+  label:
+    description: The request state (not_requested, requested, previously_requested)
+  property:
+    description: The root group id the request is stored against
+product_categories:
+  - acquisition
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/257338
+tiers:
+  - free

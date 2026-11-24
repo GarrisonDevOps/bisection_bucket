@@ -1,0 +1,14 @@
+---
+description: User views the Duo Agentic Chat trial or paid empty state
+internal_events: true
+action: view_dap_trial_or_paid_empty_state
+identifiers:
+  - user
+  - namespace
+product_group: activation
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223072
+tiers:
+  - premium
+  - ultimate
+classification: duo

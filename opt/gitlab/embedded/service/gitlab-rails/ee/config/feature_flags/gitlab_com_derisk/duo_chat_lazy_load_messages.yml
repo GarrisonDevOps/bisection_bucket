@@ -1,0 +1,10 @@
+---
+name: duo_chat_lazy_load_messages
+description: Loads the newest page of a Duo Chat thread on open and older pages as the user scrolls up, instead of the full history
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635129
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266759
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638616
+milestone: '19.6'
+group: group::developer clients
+type: gitlab_com_derisk
+default_enabled: false

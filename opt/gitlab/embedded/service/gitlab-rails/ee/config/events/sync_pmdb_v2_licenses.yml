@@ -1,0 +1,16 @@
+---
+description: Tracks which sync path was resolved per data_after call in the package metadata GCS connector for licenses
+internal_events: true
+action: sync_pmdb_v2_licenses
+additional_properties:
+  label:
+    description: purl_type of the sync_config (e.g. npm, pypi, gem)
+  property:
+    description: sync path taken (e.g. labels_hit, labels_caught_up, listobjects_blank_checkpoint)
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237975
+tiers:
+- ultimate

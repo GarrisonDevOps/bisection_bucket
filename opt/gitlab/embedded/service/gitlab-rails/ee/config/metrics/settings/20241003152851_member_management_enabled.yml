@@ -1,0 +1,16 @@
+---
+key_path: settings.member_management_enabled
+description: Whether member management feature is enabled
+product_group: seat_management
+product_categories:
+- seat_cost_management
+value_type: boolean
+status: active
+milestone: "17.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168096
+time_frame: none
+data_source: system
+data_category: optional
+instrumentation_class: MemberManagementEnabledMetric
+tiers:
+- ultimate

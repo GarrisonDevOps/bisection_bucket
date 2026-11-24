@@ -1,0 +1,17 @@
+---
+name: BackfillRiskScoreInVulnerabilitiesNoSaas
+version: '20251202111253'
+description: Adds the vulnerability risk score field to the Vulnerability index for
+  dedicated and self managed instances.
+group: group::security infrastructure
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/211551
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/220857
+marked_obsolete_in_milestone: 18.9
+skippable: true
+skip_condition: This migration will run on GitLab Dedicated and Self Managed instances only
+  and only once the PG BBM has completed
+  A separate migration has already been merged for GitLab SaaS
+  instances and will be added in 18.7 to ensure that the PG backfill has completed
+  https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210023

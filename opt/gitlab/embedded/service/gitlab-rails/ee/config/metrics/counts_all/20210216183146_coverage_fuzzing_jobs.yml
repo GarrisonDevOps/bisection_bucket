@@ -1,0 +1,19 @@
+---
+data_category: optional
+key_path: counts.coverage_fuzzing_jobs
+description: Count of coverage-guided fuzz testing jobs
+product_group: dynamic_analysis
+product_categories:
+- fuzz_testing
+value_type: number
+status: active
+time_frame: all
+instrumentation_class: CountCiBuildsMetric
+options:
+  secure_type: coverage_fuzzing
+data_source: database
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

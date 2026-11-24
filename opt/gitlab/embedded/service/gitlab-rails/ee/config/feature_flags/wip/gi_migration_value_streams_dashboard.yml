@@ -1,0 +1,11 @@
+---
+name: gi_migration_value_streams_dashboard
+description: Shows the Value Streams Dashboard system dashboard in Explore
+  analytics dashboards. Can be enabled for users or top-level groups.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638156
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269116
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638157
+milestone: '19.6'
+group: group::optimize
+type: wip
+default_enabled: false

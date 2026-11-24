@@ -1,0 +1,14 @@
+---
+description: The user bulk enables GitLab Duo seat assignments in the Code Suggestions usage app.
+internal_events: true
+action: bulk_enable_gitlab_duo_pro_for_seats
+identifiers:
+- namespace
+- user
+product_group: seat_management
+product_categories:
+- seat_cost_management
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/158482
+tiers:
+- ultimate

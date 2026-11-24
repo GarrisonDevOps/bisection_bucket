@@ -1,0 +1,10 @@
+---
+name: hide_gitlab_credits_page
+description: Hides the GitLab Credits page on SaaS
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/20354
+introduced_by_url: https://gitlab.com/groups/gitlab-org/-/work_items/20354
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/589256
+milestone: '18.9'
+group: group::acquisition
+type: gitlab_com_derisk
+default_enabled: false

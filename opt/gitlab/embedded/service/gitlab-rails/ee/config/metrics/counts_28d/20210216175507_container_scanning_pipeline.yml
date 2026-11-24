@@ -1,0 +1,20 @@
+---
+data_category: operational
+key_path: usage_activity_by_stage_monthly.secure.container_scanning_pipeline
+description: Pipelines containing a Container Scanning job
+product_group: composition_analysis
+product_categories:
+- container_scanning
+value_type: number
+status: active
+time_frame: 28d
+data_source: database
+instrumentation_class: CountSecurePipelinesMetric
+options:
+  scan_type: container_scanning
+tiers:
+- ultimate
+- premium
+- free
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

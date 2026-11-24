@@ -1,0 +1,16 @@
+---
+description: User clicks the Schema tab on the Orbit dashboard
+internal_events: true
+action: click_orbit_schema_tab
+identifiers:
+- user
+- namespace
+- project
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/237283
+tiers:
+- premium
+- ultimate

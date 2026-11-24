@@ -1,0 +1,19 @@
+---
+description: User confirms Turn on Orbit for one or more groups on the Orbit dashboard Off page
+internal_events: true
+action: click_orbit_turn_on_from_off_page
+identifiers:
+- user
+additional_properties:
+  label:
+    description: What the turn on does for the selected groups, one of start_trial, turn_on, or mixed
+  value:
+    description: Number of selected groups
+product_group: context_systems
+product_categories:
+- knowledge_graph
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261364
+tiers:
+- premium
+- ultimate

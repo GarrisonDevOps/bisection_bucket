@@ -1,0 +1,10 @@
+---
+name: slack_duo_mcp_server
+description: Give GitLab Duo in Slack access to Slack's MCP server with the user's own Slack token
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627432
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259676
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638482
+milestone: '19.6'
+group: group::ai catalog
+type: beta
+default_enabled: false

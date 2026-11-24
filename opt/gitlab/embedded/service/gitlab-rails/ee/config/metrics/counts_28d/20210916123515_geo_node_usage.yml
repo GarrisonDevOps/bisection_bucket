@@ -1,0 +1,18 @@
+---
+key_path: usage_activity_by_stage_monthly.enablement.geo_node_usage
+description: Usage data for geo nodes
+product_group: geo
+product_categories:
+- geo_replication
+value_type: object
+status: active
+milestone: "14.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/70062
+time_frame: all
+data_source: database
+data_category: optional
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate
+value_json_schema: "ee/config/metrics/object_schemas/geo_node_usage.json"

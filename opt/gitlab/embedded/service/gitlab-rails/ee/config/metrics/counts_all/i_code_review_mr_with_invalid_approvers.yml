@@ -1,0 +1,22 @@
+---
+key_path: redis_hll_counters.code_review.i_code_review_mr_with_invalid_approvers
+description: Count of unique merge requests with invalid approvers
+product_group: code_review
+product_categories:
+- code_review_workflow
+value_type: number
+status: active
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+data_category: optional
+milestone: '15.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - i_code_review_mr_with_invalid_approvers
+tiers:
+- premium
+- ultimate

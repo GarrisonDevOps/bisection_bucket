@@ -1,0 +1,22 @@
+- dashboards_link = link_to('', group_analytics_dashboards_path(@group))
+
+= render ::Layouts::SettingsSectionComponent.new(s_('GroupSettings|Analytics Dashboards'), id: 'js-analytics-dashboards-settings') do |c|
+  - c.with_description do
+    = safe_format(s_('GroupSettings|Select the project containing %{link_start}Analytics Dashboards%{link_end} configuration files.'), tag_pair(dashboards_link, :link_start, :link_end))
+    = link_to(s_('GroupSettings|What is Analytics Dashboards?'), help_page_path('user/analytics/value_streams_dashboard.md'))
+  - c.with_body do
+    = gitlab_ui_form_for @group, url: group_settings_analytics_path(@group, anchor: 'js-analytics-dashboards-settings'), html: { class: 'fieldset-form', data: { testid: 'analytics-dashboards-settings' } } do |form|
+      = form_errors(@group)
+      - pointer = @group.analytics_dashboards_pointer || @group.build_analytics_dashboards_pointer
+      = form.fields_for :analytics_dashboards_pointer_attributes, pointer do |pointer_form|
+        = pointer_form.hidden_field :id
+        .js-vue-project-select{ data: { label: s_('GroupSettings|Select a project'),
+          input_name: 'group[analytics_dashboards_pointer_attributes][target_project_id]',
+          input_id: 'group_analytics_dashboards_pointer_attributes_target_project_id',
+          group_id: @group.id,
+          order_by: 'last_activity_at',
+          with_shared: true.to_s,
+          include_subgroups: true.to_s,
+          clearable: true.to_s,
+          selected: pointer.target_project_id } }
+      = form.submit _('Save changes'), pajamas_button: true

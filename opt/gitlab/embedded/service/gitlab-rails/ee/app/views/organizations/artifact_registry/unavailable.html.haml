@@ -1,0 +1,6 @@
+- page_title s_('ArtifactRegistry|Artifact registry')
+
+= render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/status/status-fail-md.svg',
+  title: s_('ArtifactRegistry|Artifact registry is unavailable')) do |c|
+  - c.with_description do
+    = s_('ArtifactRegistry|We are having trouble connecting to the Artifact Registry service. Refresh the page to try again.')

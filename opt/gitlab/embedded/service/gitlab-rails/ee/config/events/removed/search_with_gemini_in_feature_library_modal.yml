@@ -1,0 +1,18 @@
+---
+description: Tracks when a user clicks the "Search with Gemini" button inside the
+  feature library modal.
+internal_events: true
+action: search_with_gemini_in_feature_library_modal
+identifiers:
+- user
+product_group: activation
+product_categories:
+- navigation
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/246214
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268140
+milestone_removed: '19.6'
+status: removed
+tiers:
+- premium
+- ultimate

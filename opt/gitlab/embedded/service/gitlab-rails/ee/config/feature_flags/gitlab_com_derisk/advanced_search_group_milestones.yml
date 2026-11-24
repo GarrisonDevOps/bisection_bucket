@@ -1,0 +1,11 @@
+---
+name: advanced_search_group_milestones
+description: Return group milestones in advanced search milestone results, authorized
+  by group visibility and membership.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630618
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260603
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637749
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

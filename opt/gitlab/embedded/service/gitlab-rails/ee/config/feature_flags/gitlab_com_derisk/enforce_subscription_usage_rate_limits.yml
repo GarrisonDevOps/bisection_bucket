@@ -1,0 +1,10 @@
+---
+name: enforce_subscription_usage_rate_limits
+description: Reject subscriptionUsage and trialUsage calls over the subscription usage rate limits
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636774
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267552
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638036
+milestone: '19.6'
+group: group::cost management
+type: gitlab_com_derisk
+default_enabled: false

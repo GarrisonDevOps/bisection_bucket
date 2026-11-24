@@ -1,0 +1,11 @@
+---
+name: security_policy_protected_branch_bypass
+description: Protected branch push restriction that is overridden by a security policy
+  is bypassed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/585040
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225328
+feature_category: security_policy_management
+milestone: '18.10'
+saved_to_database: true
+streamed: true
+scope: [Project]

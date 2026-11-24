@@ -1,0 +1,17 @@
+{
+  "description": "Zoekt Enabled Namespace metadata",
+  "type": "object",
+  "properties": {
+    "last_used_storage_bytes": {
+      "type": "integer"
+    },
+    "rollout_required_storage_bytes": {
+      "type": "integer"
+    },
+    "last_rollout_failed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": true
+}

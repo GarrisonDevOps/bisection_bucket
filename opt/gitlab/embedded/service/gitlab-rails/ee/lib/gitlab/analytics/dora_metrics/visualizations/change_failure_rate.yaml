@@ -1,0 +1,12 @@
+---
+version: 1
+type: SingleStat
+data:
+  type: dora_metrics
+  query:
+    metric: change_failure_rate
+    dateRange: 180d
+    interval: ALL
+options:
+  unit: percent
+  decimalPlaces: 1

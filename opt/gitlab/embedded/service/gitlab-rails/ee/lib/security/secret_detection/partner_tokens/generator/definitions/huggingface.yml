@@ -1,0 +1,19 @@
+---
+token_type: "HuggingFaceUserAccessToken"
+class_name: "HuggingfaceClient"
+partner_name: "huggingface"
+endpoint: "https://huggingface.co/api/whoami-v2"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\Ahf_[A-Za-z]{34}\z'
+sample_token: "hf_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_huggingface_api"
+doc_url: "https://huggingface.co/docs/hub/security-tokens"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

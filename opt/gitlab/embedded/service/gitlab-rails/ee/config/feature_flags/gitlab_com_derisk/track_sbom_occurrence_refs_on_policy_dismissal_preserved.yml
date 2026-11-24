@@ -1,0 +1,10 @@
+---
+name: track_sbom_occurrence_refs_on_policy_dismissal_preserved
+description: Re-indexes the SBOM occurrence refs a policy dismissal covers when the dismissal is preserved
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628673
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269584
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639344
+milestone: '19.6'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

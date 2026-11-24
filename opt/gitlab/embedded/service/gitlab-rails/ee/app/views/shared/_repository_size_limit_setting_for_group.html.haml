@@ -1,0 +1,7 @@
+- return unless current_user.admin? && ::License.feature_available?(:repository_size_limit)
+
+.form-group.gl-form-group{ role: 'group' }
+  = form.label :repository_size_limit, _('Repository size limit (MiB)'), class: 'gl-block col-form-label'
+  = form.number_field :repository_size_limit, value: form.object.repository_size_limit.try(:to_mb), class: 'form-control gl-form-input-sm', min: 0
+  %small.form-text.gl-text-subtle
+    = size_limit_message_for_group(@group)

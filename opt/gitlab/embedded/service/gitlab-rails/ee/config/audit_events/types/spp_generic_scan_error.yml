@@ -1,0 +1,10 @@
+---
+name: spp_generic_scan_error
+description: Secret push protection encounters an unexpected scan error
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/604787
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/243983
+feature_category: secret_detection
+milestone: '19.3'
+saved_to_database: true
+streamed: true
+scope: [Project]

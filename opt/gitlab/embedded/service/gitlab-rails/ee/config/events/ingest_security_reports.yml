@@ -1,0 +1,18 @@
+---
+description: Security reports are being ingested for this project
+internal_events: true
+status: active
+action: ingest_security_reports
+identifiers:
+- project
+- namespace
+additional_properties:
+  label:
+    description: 'Whether security reports are being ingested for the default branch (`default_branch`) or for a tracked non-default context (`non_default_branch`). Only signals that report ingestion happened but nothing about the report content (e.g. does not count the number of vulnerabilities ingested)'
+product_group: security_foundations
+product_categories:
+- vulnerability_management
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248448
+tiers:
+- ultimate

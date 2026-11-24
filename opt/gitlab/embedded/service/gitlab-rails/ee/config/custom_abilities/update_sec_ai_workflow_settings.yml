@@ -1,0 +1,15 @@
+---
+title: Update security AI workflow settings
+name: update_sec_ai_workflow_settings
+description: Update security AI workflow settings such as SAST Vulnerability Resolution. Also requires the `read_vulnerability` permission.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/599602
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/235831
+feature_category: vulnerability_management
+milestone: '19.1'
+group_ability: false
+project_ability: true
+enabled_for_project_access_levels: [25, 40, 50]
+requirements:
+  - read_vulnerability
+project_permissions:
+  - update_sec_ai_workflow_settings

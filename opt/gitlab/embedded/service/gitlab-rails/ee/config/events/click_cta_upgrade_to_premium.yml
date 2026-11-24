@@ -1,0 +1,17 @@
+---
+description: User clicks the Upgrade to Premium button on the upgrade to premium card on the billing page
+internal_events: true
+action: click_cta_upgrade_to_premium
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - subscription_management
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226401
+tiers:
+  - free
+additional_properties:
+  property:
+    description: The card where the CTA was clicked (upgrade_to_premium_card)

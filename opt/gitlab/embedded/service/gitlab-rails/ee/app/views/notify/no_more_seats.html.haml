@@ -1,0 +1,24 @@
+%p
+  = safe_format(_('Hi %{recipient_name},'), { recipient_name: @recipient_name })
+
+%p
+  = safe_format(_('%{requester_name} tried to invite the following users to the %{strong_start}%{project_or_group}%{strong_end} %{project_or_group_label}, but your namespace has no available seats.'), { requester_name: @user_name,
+    project_or_group: @project_or_group.name, project_or_group_label: @project_or_group_label }, tag_pair(tag.strong, :strong_start, :strong_end))
+  = _('You must purchase more seats for your subscription before these users can be added.')
+
+%ul
+  - @requested_member_list.each do |name|
+    %li
+      = name
+
+%p
+  = safe_format(_('Purchasing more seats does not automatically approve %{strong_start}requested%{strong_end} users.'), tag_pair(tag.strong, :strong_start, :strong_end))
+  = safe_format(_('After you complete your purchase, you should ask %{requester_name} to make another request to add these users.'), { requester_name: @user_name })
+
+- if @buy_seats_url.present?
+  %p
+    = link_to('Buy more seats', @buy_seats_url)
+
+- if @subscription_info_url.present?
+  %p
+    = link_to('Learn about how your subscription works', @subscription_info_url)

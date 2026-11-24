@@ -1,0 +1,21 @@
+---
+token_type: "Shippo API token"
+class_name: "ShippoClient"
+partner_name: "shippo"
+endpoint: "https://api.goshippo.com/addresses/"
+http_method: "get"
+auth_style: "header"
+auth_param: "Authorization"
+auth_prefix: "ShippoToken "
+token_pattern: '\Ashippo_live_[a-f0-9]{40}\z'
+sample_token: "shippo_live_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_shippo_api"
+doc_url: "https://docs.goshippo.com/api-reference/addresses/list-all-addresses"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

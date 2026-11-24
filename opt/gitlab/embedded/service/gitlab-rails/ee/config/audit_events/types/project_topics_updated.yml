@@ -1,0 +1,10 @@
+---
+name: project_topics_updated
+description: A project's topics assignments are changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/343204
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/154158
+feature_category: groups_and_projects
+milestone: '17.4'
+saved_to_database: true
+streamed: true
+scope: ["Project"]

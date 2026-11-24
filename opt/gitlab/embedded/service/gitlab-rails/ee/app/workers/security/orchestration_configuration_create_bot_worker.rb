@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+module Security
+  class OrchestrationConfigurationCreateBotWorker
+    include ApplicationWorker
+
+    feature_category :security_policy_management
+
+    data_consistency :sticky
+
+    idempotent!
+
+    concurrency_limit -> { 1000 }
+
+    def perform(project_id, current_user_id)
+      project = Project.find_by_id(project_id)
+
+      return if project.nil?
+
+      skip_authorization = current_user_id.nil?
+      current_user = User.find_by_id(current_user_id) if current_user_id
+
+      return if !skip_authorization && current_user.nil?
+
+      Security::Orchestration::CreateBotService
+        .new(project, current_user, skip_authorization: skip_authorization)
+        .execute
+    rescue Gitlab::Access::AccessDeniedError => exception
+      # Rescue errors to avoid worker retry
+      Gitlab::ErrorTracking.track_exception(exception, project_id: project_id, current_user_id: current_user_id)
+    end
+  end
+end

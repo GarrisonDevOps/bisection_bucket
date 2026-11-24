@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_update_admin_custom_role
+description: Count of admin custom role updates
+product_group: authorization
+product_categories:
+- permissions
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/198529
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: update_admin_custom_role

@@ -1,0 +1,10 @@
+---
+name: CreateWorkItemsIndex
+version: '20240501134252'
+description: Add a new work items index
+group: group::global search
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/151636
+obsolete: true
+marked_obsolete_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170781
+marked_obsolete_in_milestone: '17.6'

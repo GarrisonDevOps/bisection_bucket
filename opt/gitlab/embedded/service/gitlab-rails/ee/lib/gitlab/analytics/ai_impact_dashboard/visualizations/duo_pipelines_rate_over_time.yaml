@@ -1,0 +1,10 @@
+---
+version: 1
+type: SingleStat
+data:
+  type: ai_impact_over_time
+  query:
+    metric: duo_pipelines_rate
+options:
+  unit: percent
+  decimalPlaces: 1

@@ -1,0 +1,18 @@
+---
+key_path: counts.knowledge_graph_enabled_root_namespaces
+description: Count of root namespaces with Orbit (Knowledge Graph) enabled
+product_group: context_systems
+product_categories:
+- orbit
+value_type: number
+status: active
+milestone: "19.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266293
+time_frame: all
+data_source: database
+data_category: operational
+instrumentation_class: CountKnowledgeGraphEnabledNamespacesMetric
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

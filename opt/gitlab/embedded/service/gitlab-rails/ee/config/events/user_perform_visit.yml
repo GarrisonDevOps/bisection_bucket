@@ -1,0 +1,23 @@
+description: A user visits a page
+action: user_perform_visit
+identifiers:
+  - namespace
+  - project
+  - user
+product_group: compliance
+product_categories:
+  - compliance_management
+milestone: "16.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/135000
+internal_events: true
+tiers:
+  - ultimate
+additional_properties:
+  property:
+    description: request type (e.g. html, json, etc)
+  label:
+    description: Name of controller action
+  page_name:
+    description: The name of the page visited
+  with_active_compliance_frameworks:
+    description: Indicates if the visit was made with active compliance frameworks

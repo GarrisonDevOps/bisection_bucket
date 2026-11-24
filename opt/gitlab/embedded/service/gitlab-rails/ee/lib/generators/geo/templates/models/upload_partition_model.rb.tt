@@ -1,0 +1,76 @@
+# frozen_string_literal: true
+
+# Read-only model for the <%= table_name %> upload partition table.
+#
+# Upload partition tables are populated automatically by PostgreSQL's
+# list partitioning on model_type. The application writes through the
+# Upload model to the uploads parent table, and PostgreSQL routes the
+# row to the correct partition.
+#
+# This model reads from the partition table for Geo replication. It
+# inherits from Upload to get all Upload behavior (retrieve_uploader,
+# model polymorphic association, absolute_path, etc.).
+#
+# Dual-path architecture:
+#
+# - Upload includes Geo::ReplicableModel, so after_create_commit fires
+#   geo_create_event! via Geo::UploadReplicator for all upload types.
+# - This model also includes Geo::ReplicableModel, but since records are
+#   never "created" via this model, callbacks don't fire.
+# - The save_partition_verification_details callback in EE::Upload
+#   correctly writes verification state to the partition state table.
+# - Geo events flow through UploadReplicator for all uploads (including this one),
+#   while <%= replicator_class_name %> handles replication on the secondary.
+#
+# The composite primary key (id, model_type) is overridden to just `id`
+# since `id` is globally unique across all partitions (shared sequence).
+# See: https://gitlab.com/gitlab-org/gitlab/-/issues/536647
+module Geo
+  class <%= class_name %> < ::Upload
+    include ::Geo::ReplicableModel
+    include ::Geo::VerifiableModel
+
+    self.table_name = '<%= table_name %>'
+    self.primary_key = :id
+
+    delegate(*::Geo::VerificationState::VERIFICATION_METHODS, to: :<%= file_name %>_state)
+
+    with_replicator Geo::<%= replicator_class_name %>
+
+    has_one :<%= file_name %>_state,
+      autosave: false,
+      inverse_of: :<%= file_name %>,
+      class_name: 'Geo::<%= state_class_name %>'
+<% if sharding_keys.any? -%>
+
+    <%= scope_definition %>
+<% end -%>
+
+    def verification_state_object
+      <%= file_name %>_state
+    end
+
+    def <%= file_name %>_state
+      super || build_<%= file_name %>_state
+    end
+
+    class << self
+      extend ::Gitlab::Utils::Override
+
+      override :selective_sync_scope
+      def selective_sync_scope(<%= selective_sync_node_arg %>, **params)
+<%= selective_sync_scope_body %>
+      end
+
+      override :verification_state_model_key
+      def verification_state_model_key
+        :<%= foreign_key_name %>
+      end
+
+      override :verification_state_table_class
+      def verification_state_table_class
+        Geo::<%= state_class_name %>
+      end
+    end
+  end
+end

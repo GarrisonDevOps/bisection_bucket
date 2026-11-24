@@ -1,0 +1,7 @@
+- title = @maven_upstream.name
+- add_to_breadcrumbs s_('VirtualRegistry|Virtual registry'), group_virtual_registries_path(@group)
+- add_to_breadcrumbs s_('VirtualRegistry|Maven upstreams'), group_virtual_registries_maven_registries_and_upstreams_path(@group, { tab: 'upstreams'})
+- breadcrumb_title @maven_upstream.id.to_s
+- page_title title, s_('VirtualRegistry|Maven upstream'), s_('VirtualRegistry|Virtual registry')
+
+#js-vue-maven-upstream-details{ "data-provide": maven_upstream_data(@maven_upstream) }

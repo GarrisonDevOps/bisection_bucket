@@ -1,0 +1,15 @@
+- return unless ::Gitlab.config.dependency_proxy.enabled && ::License.feature_available?(:packages_virtual_registry)
+= render ::Layouts::SettingsBlockComponent.new(s_('VirtualRegistries|Virtual Registries'), id: 'js-virtual-registries', expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('VirtualRegistries|Configure Virtual Registries settings.')
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: ci_cd_admin_application_settings_path(anchor: 'js-virtual-registries'), html: { class: 'fieldset-form' }, data: { testid: 'virtual-registries-form' } do |f|
+      = form_errors(@application_setting)
+      %fieldset
+
+        .form-group
+          = f.label :virtual_registries_endpoints_api_limit, s_('VirtualRegistries|API endpoints rate limit')
+          = f.number_field :virtual_registries_endpoints_api_limit, class: 'form-control gl-form-input'
+          .form-text.gl-text-subtle
+            = _('Limits how many API requests an IP address can make to artifact manager endpoints within a 15-second window.')
+      = f.submit _('Save changes'), pajamas_button: true

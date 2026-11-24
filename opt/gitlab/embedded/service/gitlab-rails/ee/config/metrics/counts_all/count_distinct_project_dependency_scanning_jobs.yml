@@ -1,0 +1,22 @@
+---
+data_category: operational
+key_path: usage_activity_by_stage.secure.project_dependency_scanning_jobs
+description: Distinct count of Dependency Scanning jobs per project
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+value_type: number
+status: active
+time_frame:
+- all
+- 28d
+instrumentation_class: CountProjectsCreatingCiBuildsMetric
+options:
+  secure_type: dependency_scanning
+data_source: database
+tiers:
+- ultimate
+performance_indicator_type:
+- customer_health_score
+milestone: "<18.3"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197151

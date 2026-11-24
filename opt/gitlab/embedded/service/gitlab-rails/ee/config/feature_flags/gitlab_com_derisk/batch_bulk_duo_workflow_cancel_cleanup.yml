@@ -1,0 +1,10 @@
+---
+name: batch_bulk_duo_workflow_cancel_cleanup
+description: Cancels pending bulk vulnerability workflow findings inside Redis in batches of 1,000 instead of 20 at a time
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636048
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269248
+rollout_issue_url:
+milestone: '19.6'
+group: group::agentic security flows
+type: gitlab_com_derisk
+default_enabled: false

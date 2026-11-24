@@ -1,0 +1,10 @@
+---
+name: ci_runner_assigned_to_project
+description: A runner is assigned to a project
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/349542
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/81508
+feature_category: runner
+milestone: "14.9"
+saved_to_database: true
+streamed: true
+scope: [Project]

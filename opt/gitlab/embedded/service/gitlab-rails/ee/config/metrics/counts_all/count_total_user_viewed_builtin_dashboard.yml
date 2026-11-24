@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_user_viewed_builtin_dashboard
+description: Count of builtin dashboard views.
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157680
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: user_viewed_builtin_dashboard

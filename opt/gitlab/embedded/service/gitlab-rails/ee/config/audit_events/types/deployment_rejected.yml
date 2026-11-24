@@ -1,0 +1,10 @@
+---
+name: deployment_rejected
+description: A deployment is rejected
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/456685
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153375
+feature_category: continuous_delivery
+milestone: '17.1'
+saved_to_database: true
+streamed: true
+scope: [Project]

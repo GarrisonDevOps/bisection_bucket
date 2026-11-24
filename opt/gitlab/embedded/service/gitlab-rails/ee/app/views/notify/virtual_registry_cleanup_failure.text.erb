@@ -1,0 +1,10 @@
+<%= s_('VirtualRegistry|Hi %{username}!') % { username: sanitize_name(@user.name) } %>
+
+<%= s_('VirtualRegistry|The scheduled cache cleanup for %{group_link} could not be completed.') % { group_link: "#{@group.name} #{group_url(@group)}" } %>
+
+<%= s_('VirtualRegistry|Summary of the cleanup') %>
+
+* <%= s_('VirtualRegistry|Rule:') %> <%= ns_('VirtualRegistry|Not accessed in the last day', 'VirtualRegistry|Not accessed in the last %{days} days', @policy.keep_n_days_after_download) % { days: @policy.keep_n_days_after_download } %>
+* <%= s_('VirtualRegistry|Error:') %> <%= @policy.failure_message %>
+
+<%= s_('VirtualRegistry|You can review the full cleanup details in the %{audit_events_link}.') % { audit_events_link: "#{s_('VirtualRegistry|audit log')} #{group_audit_events_url(@group)}" } %>

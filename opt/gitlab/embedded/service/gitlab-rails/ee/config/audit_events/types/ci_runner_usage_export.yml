@@ -1,0 +1,10 @@
+---
+name: ci_runner_usage_export
+description: A runner usage report is generated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/426560
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/139578
+feature_category: fleet_visibility
+milestone: '16.8'
+saved_to_database: true
+streamed: true
+scope: [Instance]

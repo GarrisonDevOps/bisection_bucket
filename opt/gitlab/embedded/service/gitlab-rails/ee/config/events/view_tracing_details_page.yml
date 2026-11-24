@@ -1,0 +1,15 @@
+---
+description: Tracks pageviews on tracing details page.
+internal_events: true
+action: view_tracing_details_page
+identifiers:
+- project
+- namespace
+- user
+product_group: platform_insights
+product_categories:
+- observability
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/156822
+tiers:
+- ultimate

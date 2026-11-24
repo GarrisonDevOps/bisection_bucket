@@ -1,0 +1,7 @@
+%div{ aria: { hidden: 'true' }, data: { testid: 'base-layout-skeleton-content' } }
+  - @rows.times do
+    .gl-flex.gl-items-center.gl-justify-between.gl-gap-5.gl-border-b.gl-py-4
+      .gl-flex.gl-grow.gl-flex-col.gl-gap-3
+        .gl-animate-skeleton-loader.gl-h-4.gl-rounded-base{ class: 'gl-w-2/5' }
+        .gl-animate-skeleton-loader.gl-h-3.gl-rounded-base{ class: 'gl-w-3/4' }
+      .gl-animate-skeleton-loader.gl-h-4.gl-w-11.gl-shrink-0.gl-rounded-base

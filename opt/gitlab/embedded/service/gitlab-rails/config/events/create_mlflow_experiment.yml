@@ -1,0 +1,18 @@
+---
+description: An experiment is created with the MLflow-compatible API (experiments/create)
+internal_events: true
+status: active
+action: create_mlflow_experiment
+identifiers:
+- project
+- namespace
+- user
+product_group: mlops
+product_categories:
+- mlops
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265948
+tiers:
+- free
+- premium
+- ultimate

@@ -1,0 +1,10 @@
+---
+name: duo_remote_flows_enabled_updated
+description: GitLab Duo remote flows enabled setting on group changed
+introduced_by_issue: https://gitlab.com/groups/gitlab-org/-/work_items/593016
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228438
+feature_category: ai_framework
+milestone: '18.11'
+saved_to_database: true
+streamed: true
+scope: [Group]

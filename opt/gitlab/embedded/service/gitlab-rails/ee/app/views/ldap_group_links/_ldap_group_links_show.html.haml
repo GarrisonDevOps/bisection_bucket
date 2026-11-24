@@ -1,0 +1,7 @@
+- group = local_assigns.fetch(:group)
+- return unless Gitlab::Auth::Ldap::Config.group_sync_enabled? && group.ldap_synced?
+
+= render ::Layouts::CrudComponent.new(s_('LDAP|Active synchronizations')) do |c|
+  - c.with_body do
+    %ul.content-list
+      = render partial: 'ldap_group_links/ldap_group_link', collection: group.ldap_group_links, locals: { group: group, show_remove: false }

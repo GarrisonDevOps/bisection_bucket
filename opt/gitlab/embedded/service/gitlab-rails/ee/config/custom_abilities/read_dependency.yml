@@ -1,0 +1,20 @@
+---
+title: View dependency list
+name: read_dependency
+description: Allows read-only access to the dependencies and licenses.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/415255
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/126247
+feature_category: vulnerability_management
+milestone: '16.3'
+group_ability: true
+enabled_for_group_access_levels: [25, 30, 40, 50]
+project_ability: true
+enabled_for_project_access_levels: [25, 30, 40, 50]
+group_permissions:
+  - read_dependency
+  - read_licenses
+project_permissions:
+  - access_security_and_compliance
+  - read_compliance_framework
+  - read_dependency
+  - read_licenses

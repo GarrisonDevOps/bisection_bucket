@@ -1,0 +1,26 @@
+- return unless ProtectedBranch.branch_requires_code_owner_approval?(@project, merge_request.target_branch)
+- code_owner_rules = merge_request.code_owner_rules_with_users
+- return unless code_owner_rules.any?
+
+.gl-mt-5
+  %strong= _('Code owner approval is required')
+  %p
+    = _('At least one approval from a code owner is required to change files matching the respective CODEOWNER rules.')
+    = link_to(_('Read more'), help_page_path('user/project/repository/branches/protected.md', anchor: 'require-code-owner-approval'))
+
+  %div{ class: "!gl-border-b" }
+    %table{ class: "table !gl-m-0" }
+      %thead{ class: "thead-white !gl-whitespace-nowrap" }
+        %tr.gl-hidden{ class: "@sm/panel:gl-table-row" }
+          %th{ class: "!gl-w-1/4" }= s_('CodeOwner|Pattern')
+          %th= _('Members')
+      %tbody{ data: { testid: "approver-list-content" } }
+        - code_owner_rules.each do |code_owner_approval_rule|
+          %tr{ data: { testid: "approver-content" } }
+            %td
+              - if code_owner_approval_rule.section != Gitlab::CodeOwners::Section::DEFAULT
+                %span.gl-text-subtle.small.gl-block= code_owner_approval_rule.section
+              %span.monospace= code_owner_approval_rule.name
+            %td.gl-hidden.gl-gap-y-2.gl-flex-wrap{ class: "@sm/panel:gl-flex" }
+              - code_owner_approval_rule.approvers.each do |approver|
+                = user_avatar(user: approver)

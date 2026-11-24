@@ -1,0 +1,26 @@
+---
+version: 1
+type: DataTable
+data:
+  type: duo_feature_usage
+  query: {}
+options:
+  fields:
+    - key: 'featureName'
+      label: 'GitLab Duo feature'
+    - key: 'userCount'
+      label: 'Users'
+      thClass: "gl-text-right"
+      tdClass: "gl-text-right"
+      tooltip: 'Number of users who used the feature'
+    - key: 'eventCount'
+      label: 'Total events'
+      thClass: "gl-text-right"
+      tdClass: "gl-text-right"
+      tooltip: 'Number of usage events across all users for the feature'
+    - key: 'percentChange'
+      label: '% Change (events)'
+      component: ChangePercentageIndicator
+      thClass: "gl-text-right"
+      tdClass: "gl-text-right"
+      tooltip: 'Change in total events compared to the previous time period'

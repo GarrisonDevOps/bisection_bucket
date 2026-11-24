@@ -1,0 +1,14 @@
+---
+name: dap_unfiltered_clone
+description: >-
+  Uses an unfiltered native git clone for Duo Agent Platform session coding
+  environments, so the runner bootstraps from the Gitaly bundle URI and only
+  fetches the delta from Gitaly. Enable per project for repositories with
+  heavy clone traffic.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627944
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628540
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254676
+milestone: '19.4'
+group: group::agent execution
+type: gitlab_com_derisk
+default_enabled: false

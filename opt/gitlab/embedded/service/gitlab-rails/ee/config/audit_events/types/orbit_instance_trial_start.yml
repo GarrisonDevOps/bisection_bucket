@@ -1,0 +1,11 @@
+---
+name: orbit_instance_trial_start
+description: Triggered when the instance-wide Orbit trial is started on a GitLab Self-Managed or GitLab Dedicated instance
+introduced_by_issue: https://gitlab.com/gitlab-org/orbit/knowledge-graph/-/work_items/1385
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261678
+feature_category: knowledge_graph
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope:
+- Instance

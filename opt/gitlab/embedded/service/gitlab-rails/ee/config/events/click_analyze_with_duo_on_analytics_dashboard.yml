@@ -1,0 +1,20 @@
+---
+description: User clicked the Analyze with Duo button on an explore analytics dashboard
+internal_events: true
+action: click_analyze_with_duo_on_analytics_dashboard
+identifiers:
+  - user
+additional_properties:
+  label:
+    description: Whether the selected scopes are groups, projects, or mixed
+  value:
+    description: Number of GLQL panel queries shared with the agent as session context
+product_categories:
+  - custom_dashboards_foundation
+product_group: optimize
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255437
+tiers:
+  - premium
+  - ultimate
+classification: duo

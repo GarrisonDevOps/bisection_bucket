@@ -1,0 +1,10 @@
+---
+name: project_only_allow_merge_if_all_status_checks_passed_updated
+description: A project's setting for only allowing a merge if all status checks have passed is updated
+feature_category: code_review_workflow
+milestone: '19.1'
+saved_to_database: true
+streamed: true
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239709
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/602263
+scope: [Project]

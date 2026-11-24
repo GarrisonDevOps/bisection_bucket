@@ -1,0 +1,10 @@
+---
+name: enabled_foundational_flows_updated
+description: Enabled foundational flows selection on group changed
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593019
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228497
+feature_category: ai_framework
+milestone: '18.11'
+saved_to_database: true
+streamed: true
+scope: [Group]

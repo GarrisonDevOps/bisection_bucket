@@ -1,0 +1,10 @@
+---
+name: dap_web_search
+description: Enables web search capabilities for GitLab Duo AI features.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/20480
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/219759
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/587158
+milestone: '18.9'
+group: group::duo chat
+type: beta
+default_enabled: true

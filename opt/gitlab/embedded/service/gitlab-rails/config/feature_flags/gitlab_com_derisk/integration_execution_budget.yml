@@ -1,0 +1,10 @@
+---
+name: integration_execution_budget
+description: Count Integrations::ExecuteWorker enqueues per top-level namespace and compare them with the integration_executions plan limits (dry-run unless an enforce flag is on)
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636614
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266721
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637439
+milestone: '19.6'
+group: group::import
+type: gitlab_com_derisk
+default_enabled: false

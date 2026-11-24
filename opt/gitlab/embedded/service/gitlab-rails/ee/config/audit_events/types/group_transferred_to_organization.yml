@@ -1,0 +1,10 @@
+---
+name: group_transferred_to_organization
+description: A top-level group is transferred to a different organization
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/596669
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244346
+feature_category: organization
+milestone: '19.3'
+saved_to_database: true
+streamed: true
+scope: [Group]

@@ -1,0 +1,20 @@
+<%= _('Hi %{recipient_name},') % { recipient_name: @recipient_name } %>
+
+<%= _('%{requester_name} tried to invite the following users to the %{project_or_group}, but your namespace has no available seats.') % { requester_name: @user_name, project_or_group: @project_or_group.name, project_or_group_label: @project_or_group_label } %>
+
+<%= _('You must purchase more seats for your subscription before these users can be added.') %>
+
+<% @requested_member_list.each do |name| -%>
+  <%= '- %{name}' % { name: name } %>
+<% end -%>
+
+<%= _('Purchasing more seats does not automatically approve requested users.') %>
+<%= _('After you complete your purchase, you should ask %{requester_name} to make another request to add these users.') % { requester_name: @user_name } %>
+
+<% if @buy_seats_url -%>
+  <%= _('Buy more seats %{url}') % { url: @buy_seats_url } %>
+<% end -%>
+
+<% if @subscription_info_url -%>
+  <%= _('Learn about how your subscription works %{url}') % { url: @subscription_info_url } %>
+<% end -%>

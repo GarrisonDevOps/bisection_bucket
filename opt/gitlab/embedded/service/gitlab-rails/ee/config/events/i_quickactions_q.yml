@@ -1,0 +1,19 @@
+---
+description: When the quickaction /q is executed
+internal_events: true
+action: i_quickactions_q
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: duo_chat
+product_categories:
+- chat_engine
+milestone: '17.8'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175919
+tiers:
+- ultimate
+additional_properties:
+  label:
+    description: The subcommand used

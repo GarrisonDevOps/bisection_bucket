@@ -1,0 +1,15 @@
+---
+description: Tracks when a phone number verification code is send
+action: sent_phone_verification_code
+identifiers:
+- user
+product_group: authorization
+product_categories:
+- instance_resiliency
+- system_access
+milestone: '16.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/167137
+tiers:
+- free
+- premium
+- ultimate

@@ -1,0 +1,23 @@
+---
+key_path: counts.requirements_with_controls
+description: Total count of compliance requirements that have at least one control.
+product_group: compliance
+product_categories:
+- compliance_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183382
+time_frame:
+- 7d
+- 28d
+- all
+data_source: database
+data_category: optional
+instrumentation_class: CountComplianceRequirementsMetric
+options:
+  metric_type: with_controls
+tiers:
+  - premium
+  - ultimate

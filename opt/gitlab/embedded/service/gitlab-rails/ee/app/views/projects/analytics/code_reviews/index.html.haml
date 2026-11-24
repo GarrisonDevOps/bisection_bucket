@@ -1,0 +1,9 @@
+- title = _('Code review analytics')
+- breadcrumb_title title
+- page_title title
+
+= render ::Layouts::PageHeadingComponent.new(title) do |c|
+  - c.with_description do
+    = _('Review time is the amount of time since the first comment in a merge request.')
+
+#js-code-review-analytics{ data: code_review_app_data(@project) }

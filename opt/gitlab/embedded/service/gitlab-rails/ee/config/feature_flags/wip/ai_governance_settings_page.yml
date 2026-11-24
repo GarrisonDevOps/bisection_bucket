@@ -1,0 +1,10 @@
+---
+name: ai_governance_settings_page
+description: Show the AI Governance section on the group Secure settings page
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632724
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266053
+rollout_issue_url:
+milestone: '19.6'
+type: wip
+group: group::ai governance
+default_enabled: false

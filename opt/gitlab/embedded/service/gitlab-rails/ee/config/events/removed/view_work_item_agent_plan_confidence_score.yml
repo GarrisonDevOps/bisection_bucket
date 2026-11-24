@@ -1,0 +1,22 @@
+---
+description: Confidence score details of a work item agent plan were shown. Tracked at most once per page load. Hover or focus also counts, so this is an upper bound on deliberate views
+internal_events: true
+status: removed
+action: view_work_item_agent_plan_confidence_score
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  value:
+    description: confidence score, from 0 to 100
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259077
+tiers:
+- premium
+- ultimate
+milestone_removed: '19.5'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259555

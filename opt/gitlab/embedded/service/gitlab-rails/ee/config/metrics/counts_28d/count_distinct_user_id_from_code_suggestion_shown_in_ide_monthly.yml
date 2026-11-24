@@ -1,0 +1,20 @@
+---
+key_path: redis_hll_counters.count_distinct_user_id_from_code_suggestion_shown_in_ide_monthly
+description: Monthly count of unique users who viewed a code suggestion
+product_group: dap_repository_flows
+product_categories:
+- code_suggestions
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/153881
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: code_suggestion_shown_in_ide
+  unique: user.id

@@ -1,0 +1,8 @@
+- users_statistics = local_assigns.fetch(:users_statistics)
+
+%tr
+  %td{ class: '!gl-p-5' }
+    = s_('AdminArea|Users without a Group and Project')
+    = render 'admin/dashboard/included_free_in_license_tooltip'
+  %td.gl-text-right{ class: '!gl-p-5' }
+    = users_statistics&.without_groups_and_projects

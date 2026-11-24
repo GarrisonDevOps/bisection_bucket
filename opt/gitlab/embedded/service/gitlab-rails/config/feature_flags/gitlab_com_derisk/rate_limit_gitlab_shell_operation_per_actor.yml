@@ -1,0 +1,11 @@
+---
+name: rate_limit_gitlab_shell_operation_per_actor
+description: Rate limits /internal/allowed per user, deploy key, or deploy token across
+  all repositories
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635609
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267274
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637854
+milestone: '19.6'
+group: group::repository services
+type: gitlab_com_derisk
+default_enabled: false

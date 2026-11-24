@@ -1,0 +1,35 @@
+- page_title _("Credentials")
+
+= render ::Layouts::PageHeadingComponent.new(_("Credentials"),
+  options: { data: { event_tracking_load: 'true', event_tracking: 'view_admin_credentials_pageload' } })
+
+.scrolling-tabs-container.inner-page-scroll-tabs
+  %button.fade-left{ type: 'button', title: _('Scroll left'), 'aria-label': _('Scroll left') }
+    = sprite_icon('chevron-lg-left', size: 12)
+  %button.fade-right{ type: 'button', title: _('Scroll right'), 'aria-label': _('Scroll right') }
+    = sprite_icon('chevron-lg-right', size: 12)
+  = gl_tabs_nav({ class: 'scrolling-tabs nav-links'}) do
+    = gl_tab_link_to s_('CredentialsInventory|Personal access tokens'), credentials_inventory_path(filter: 'personal_access_tokens'), { item_active: active_when(show_personal_access_tokens?) }
+    = gl_tab_link_to s_('CredentialsInventory|SSH keys'), credentials_inventory_path(filter: 'ssh_keys'), { item_active: active_when(show_ssh_keys?) }
+    = gl_tab_link_to s_('CredentialsInventory|Project and group access tokens'), credentials_inventory_path(filter: 'resource_access_tokens'), { item_active: active_when(show_resource_access_tokens?) }
+
+    - if gpg_keys_available?
+      = gl_tab_link_to s_('CredentialsInventory|GPG keys'), credentials_inventory_path(filter: 'gpg_keys'), { item_active: active_when(show_gpg_keys?) }
+
+.gl-py-4
+  #js-credentials-filter-sort-app
+
+- if @credentials.empty?
+  = render Pajamas::EmptyStateComponent.new(svg_path: 'illustrations/empty-state/empty-access-token-md.svg',
+    title: s_('CredentialsInventory|No credentials found'))
+- else
+  - if show_personal_access_tokens?
+    = render 'shared/credentials_inventory/personal_access_tokens', credentials: @credentials
+  - elsif show_ssh_keys?
+    = render 'shared/credentials_inventory/ssh_keys', credentials: @credentials
+  - elsif show_gpg_keys?
+    = render 'shared/credentials_inventory/gpg_keys', credentials: @credentials
+  - elsif show_resource_access_tokens?
+    = render 'shared/credentials_inventory/resource_access_tokens', credentials: @credentials
+
+= paginate_without_count @credentials

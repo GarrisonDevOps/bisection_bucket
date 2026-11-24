@@ -1,0 +1,7 @@
+You have been mentioned in an issue.
+
+<%= work_item_type_for(@issue).capitalize %> <%= @issue.iid %>: <%= @target_url %>
+Author:    <%= sanitize_name(@issue.author_name) %>
+<%= assignees_label(@issue) %>
+
+<%= @issue.description %>

@@ -1,0 +1,3 @@
+---
+name: update_status_page_setting
+description: Grants the ability to update a project's status page settings, including the status page URL and the AWS S3 bucket and credentials incidents are published to

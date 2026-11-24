@@ -1,0 +1,5 @@
+---
+name: hosted_runners
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/242661
+milestone: '19.2'
+group: group::hosted runners

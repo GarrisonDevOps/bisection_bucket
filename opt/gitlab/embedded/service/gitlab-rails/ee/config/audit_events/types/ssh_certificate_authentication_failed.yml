@@ -1,0 +1,10 @@
+---
+name: ssh_certificate_authentication_failed
+description: SSH certificate authentication fails because the certificate cannot be resolved to an authorized user
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/611349
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259775
+feature_category: source_code_management
+milestone: '19.6'
+saved_to_database: true
+streamed: true
+scope: [Instance]

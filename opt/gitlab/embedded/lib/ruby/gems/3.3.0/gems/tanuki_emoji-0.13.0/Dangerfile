@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+require 'gitlab-dangerfiles'
+
+Gitlab::Dangerfiles.for_project(self) do |dangerfiles|
+  dangerfiles.import_plugins
+
+  excluded_dangerfiles = []
+
+  # Skip changelog check when preparing a new release. This check fails because
+  # CHANGELOG.md gets modified by the update-changelog job.
+  excluded_dangerfiles << 'changelog' if plugins[Danger::Helper].modified_files.include?('lib/tanuki_emoji/version.rb')
+
+  dangerfiles.import_dangerfiles(except: excluded_dangerfiles)
+end

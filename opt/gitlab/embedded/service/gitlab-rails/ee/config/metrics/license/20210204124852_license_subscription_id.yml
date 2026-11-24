@@ -1,0 +1,20 @@
+---
+key_path: license_subscription_id
+description: Licese zuora_subscription_id
+product_group: provision
+product_categories:
+- plan_provisioning
+value_type: string
+status: active
+time_frame: none
+data_source: license
+instrumentation_class: LicenseMetric
+options:
+  attribute: subscription_id
+data_category: standard
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/51974

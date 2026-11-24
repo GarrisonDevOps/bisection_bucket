@@ -1,0 +1,9 @@
+---
+name: <%= replication_feature_flag_name %>
+feature_issue_url: <%= feature_issue_url %>
+introduced_by_url:
+rollout_issue_url:
+milestone: '<%= milestone %>'
+group: group::geo
+type: ops
+default_enabled: false

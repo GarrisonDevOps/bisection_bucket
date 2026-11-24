@@ -1,0 +1,20 @@
+- title = read_only_message
+- description = read_only_description
+- secondary_description = geo_secondary_read_only_description
+- if title
+  = render Pajamas::AlertComponent.new(variant: :warning,
+      title: title,
+      dismissible: false,
+      alert_options: { class: "#{'gl-mb-3' unless secondary_description}" }) do |c|
+    - if description
+      - c.with_body do
+        = description
+
+- if secondary_description
+  = render Pajamas::AlertComponent.new(dismissible: false,
+    alert_options: { class: 'gl-mb-3' }) do |c|
+    - c.with_body do
+      = secondary_description
+    - c.with_actions do
+      - if ::Gitlab::Geo.primary_node.present?
+        = link_button_to s_('Geo|Go to the primary site'), ::Gitlab::Geo.primary_node_url, class: 'gl-alert-action', category: :secondary, size: :small

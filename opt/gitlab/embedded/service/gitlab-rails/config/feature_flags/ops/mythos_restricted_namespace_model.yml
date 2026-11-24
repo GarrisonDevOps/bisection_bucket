@@ -1,0 +1,10 @@
+---
+name: mythos_restricted_namespace_model
+description: Gate namespace eligibility for the Mythos restricted model in BLSA's model selection — the sole per-customer gate for Mythos once bl_security_analyzer is open to all entitled customers
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636092
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265632
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631815
+milestone: '19.6'
+type: ops
+group: group::code security
+default_enabled: false

@@ -1,0 +1,11 @@
+---
+name: insights_query_limits
+description: 'Limit Insights chart query size: period_limit, projects.only, and a
+  180-day window for charts without group_by'
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636125
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267465
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637997
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

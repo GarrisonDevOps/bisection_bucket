@@ -1,0 +1,10 @@
+---
+name: label_created
+description: A project or group label is created
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/415036
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228207
+feature_category: team_planning
+milestone: '18.11'
+saved_to_database: true
+streamed: true
+scope: [Project, Group]

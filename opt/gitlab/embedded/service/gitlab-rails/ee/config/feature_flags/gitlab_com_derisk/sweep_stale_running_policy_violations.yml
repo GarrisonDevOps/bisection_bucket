@@ -1,0 +1,10 @@
+---
+name: sweep_stale_running_policy_violations
+description: Periodically resolve approval policy violations that stay running after the merge request's head pipeline finished, or after the merge request was merged or closed
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638107
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267646
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638431
+milestone: '19.6'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

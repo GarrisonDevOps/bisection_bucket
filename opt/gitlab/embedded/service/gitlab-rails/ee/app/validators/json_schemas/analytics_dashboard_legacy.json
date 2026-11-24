@@ -1,0 +1,451 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "This schema applies to the legacy Analytics Dashboards feature available only at the group or project level",
+  "$ref": "#/definitions/AnalyticsDashboard",
+  "definitions": {
+    "AnalyticsDashboard": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "2"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "gridHeight": {
+          "enum": [
+            "default",
+            "compact",
+            null
+          ]
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Panel"
+          }
+        },
+        "views": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DashboardView"
+          }
+        },
+        "status": {
+          "enum": [
+            "beta",
+            "experiment",
+            null
+          ]
+        },
+        "errors": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "filters": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DashboardFilters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "panels"
+      ],
+      "title": "AnalyticsDashboard"
+    },
+    "DashboardView": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Panel"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "panels"
+      ],
+      "title": "DashboardView"
+    },
+    "DashboardFilters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "excludeAnonymousUsers": {
+          "$ref": "#/definitions/DashboardFilter"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/DateRangeFilter"
+        },
+        "groups": {
+          "$ref": "#/definitions/GroupsFilter"
+        },
+        "projects": {
+          "$ref": "#/definitions/ProjectsFilter"
+        },
+        "filteredSearch": {
+          "$ref": "#/definitions/FilteredSearchFilter"
+        }
+      },
+      "title": "DashboardFilters"
+    },
+    "DashboardFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GroupsFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "multiSelect": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ProjectsFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "multiSelect": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DateRangeFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "numberOfDaysLimit": {
+          "type": "number"
+        },
+        "numberOfDaysHistoryLimit": {
+          "type": "number"
+        },
+        "options": {
+          "$ref": "#/definitions/DateRangeFilterOptions"
+        },
+        "defaultOption": {
+          "type": "string",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/DateRangeFilterOptions/items"
+            }
+          ]
+        }
+      }
+    },
+    "FilteredSearchFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilteredSearchFilterOption"
+          }
+        }
+      }
+    },
+    "Panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "titleIcon": {
+          "type": "string"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/Tooltip"
+        },
+        "gridAttributes": {
+          "$ref": "#/definitions/GridAttributes"
+        },
+        "visualization": {
+          "$ref": "#/definitions/Visualization"
+        },
+        "views": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/definitions/View"
+          }
+        },
+        "queryOverrides": {
+          "$ref": "#/definitions/QueryOverrides"
+        },
+        "options": {
+          "$ref": "#/definitions/PanelOptions"
+        }
+      },
+      "required": [
+        "gridAttributes",
+        "title",
+        "visualization"
+      ],
+      "title": "Panel"
+    },
+    "View": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "visualization": {
+          "$ref": "#/definitions/Visualization"
+        }
+      },
+      "required": [
+        "text",
+        "visualization"
+      ],
+      "title": "View"
+    },
+    "Visualization": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "analytics_visualization_legacy.json#/definitions/AnalyticsVisualization"
+        }
+      ],
+      "title": "Visualization"
+    },
+    "GridAttributes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "yPos": {
+          "type": "integer"
+        },
+        "xPos": {
+          "type": "integer"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "minWidth": {
+          "type": "integer"
+        },
+        "minHeight": {
+          "type": "integer"
+        },
+        "maxWidth": {
+          "type": "integer"
+        },
+        "maxHeight": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "height",
+        "width"
+      ],
+      "title": "GridAttributes"
+    },
+    "PanelOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decimalPlaces": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "PanelOptions"
+    },
+    "QueryOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timeDimensions": {
+          "$ref": "#/definitions/TimeDimensions"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "filters": {
+          "$ref": "#/definitions/QueryFilters"
+        }
+      },
+      "required": [],
+      "title": "QueryOverrides"
+    },
+    "TimeDimensions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "title": "TimeDimensions"
+    },
+    "QueryFilters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includeMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludeMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "projectTopics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [],
+      "title": "Filters"
+    },
+    "Tooltip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "descriptionLink": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "if": {
+        "properties": {
+          "descriptionLink": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "descriptionLink"
+        ]
+      },
+      "then": {
+        "properties": {
+          "description": {
+            "pattern": ".*%\\{linkStart\\}.*%\\{linkEnd\\}.*"
+          }
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "DateRangeFilterOptions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "today",
+          "custom",
+          "7d",
+          "30d",
+          "60d",
+          "90d",
+          "180d",
+          "365d"
+        ]
+      }
+    },
+    "FilteredSearchFilterOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "token": {
+          "enum": [
+            "assignee",
+            "author",
+            "label",
+            "milestone",
+            "target_branch",
+            "source_branch"
+          ]
+        },
+        "operator": {
+          "enum": [
+            "is",
+            "is_not",
+            "is_not_or"
+          ]
+        },
+        "unique": {
+          "type": "boolean"
+        },
+        "maxSuggestions": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "token"
+      ],
+      "title": "FilteredSearchFilterOption"
+    }
+  }
+}

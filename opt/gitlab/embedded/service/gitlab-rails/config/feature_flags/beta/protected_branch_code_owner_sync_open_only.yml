@@ -1,0 +1,10 @@
+---
+name: protected_branch_code_owner_sync_open_only
+description: Syncs code owner approval rules for open merge requests only when a protected branch is created, instead of open and closed ones
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636102
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267660
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638196
+milestone: '19.6'
+group: group::repository services
+type: beta
+default_enabled: false

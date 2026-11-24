@@ -1,0 +1,39 @@
+- section = @presenter.adapter_section('opensearch')
+.gl-py-2.js-opensearch-section{ class: section.hidden_class, data: { testid: 'opensearch-section' } }
+  = form_with url: admin_search_vector_storage_connect_custom_opensearch_vector_storage_path, method: :post, class: 'gl-flex gl-flex-col gl-gap-4' do |f|
+    = render 'connection_fields',
+        f: f,
+        section: section,
+        url_help_text: s_('SemanticSearch|The URLs for connecting to the OpenSearch cluster. For clustering, add the URLs separated by commas.'),
+        username_help_text: s_('SemanticSearch|Enter the username for password-protected OpenSearch servers.'),
+        password_help_text: s_('SemanticSearch|Enter the password for password-protected OpenSearch servers.')
+    %h3.gl-heading-3= s_('SemanticSearch|AWS OpenSearch IAM credentials')
+    .form-group.gl-m-0
+      = f.hidden_field :aws, value: '0'
+      = render Pajamas::CheckboxTagComponent.new(name: 'aws', checked: section.options['aws'],
+          checkbox_options: { disabled: section.inputs_disabled, data: { testid: 'aws-checkbox' } }) do |c|
+        - c.with_label { s_('SemanticSearch|Use AWS OpenSearch Service with IAM credentials') }
+    .form-group.gl-m-0
+      = f.label :aws_region, s_('SemanticSearch|AWS region'), class: 'label-bold'
+      = f.text_field :aws_region, value: section.options['aws_region'], class: 'form-control gl-form-input', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_("SemanticSearch|OpenSearch's region.")
+    .form-group.gl-m-0
+      = f.label :aws_access_key, s_('SemanticSearch|AWS Access Key'), class: 'label-bold'
+      = f.text_field :aws_access_key, value: section.options['aws_access_key'], class: 'form-control gl-form-input', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|Required only if you are not using role instance credentials.')
+    .form-group.gl-m-0
+      = f.label :aws_secret_access_key, s_('SemanticSearch|AWS Secret Access Key'), class: 'label-bold'
+      = f.password_field :aws_secret_access_key, value: section.aws_secret_value, class: 'form-control gl-form-input', autocomplete: 'new-password', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|Required only if you are not using role instance credentials.')
+    .form-group.gl-m-0
+      = f.label :aws_role_arn, s_('SemanticSearch|AWS Role ARN'), class: 'label-bold'
+      = f.text_field :aws_role_arn, value: section.options['aws_role_arn'], class: 'form-control gl-form-input', disabled: section.inputs_disabled
+      .form-text.gl-text-subtle.gl-mt-0
+        = s_('SemanticSearch|Required only if you are using AssumeRole for authorization across accounts.')
+    = render 'reindex_warning'
+    .gl-flex.gl-items-start
+      = render Pajamas::ButtonComponent.new(variant: :confirm, type: :submit, disabled: section.inputs_disabled, button_options: { data: { testid: 'custom-opensearch-submit-button' } }) do
+        = s_('SemanticSearch|Save changes')

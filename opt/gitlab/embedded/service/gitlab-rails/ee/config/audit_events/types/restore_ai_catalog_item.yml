@@ -1,0 +1,10 @@
+---
+name: restore_ai_catalog_item
+description: A user restores a previous AI Catalog item version as the new latest version.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/601095
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239425
+feature_category: ai_catalog_curation
+milestone: '19.1'
+saved_to_database: true
+streamed: true
+scope: [Project]

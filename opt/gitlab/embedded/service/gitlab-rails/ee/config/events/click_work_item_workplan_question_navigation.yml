@@ -1,0 +1,22 @@
+---
+description: A user clicked the Previous or Next open question button to move between the unanswered questions of a work item workplan.
+internal_events: true
+status: active
+action: click_work_item_workplan_question_navigation
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: The direction clicked. One of `previous` or `next`.
+  property:
+    description: Where the buttons are. One of `inline_row` (the workplan row in the work item) or `sticky_header` (the sticky work item header).
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266023
+tiers:
+- premium
+- ultimate

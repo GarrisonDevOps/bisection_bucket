@@ -1,0 +1,11 @@
+---
+name: skip_authorization_refresh_for_blocked_users
+description: Skip project_authorizations refreshes for blocked human users until they
+  are active again
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637280
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266622
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637277
+milestone: '19.6'
+group: group::authorization
+type: gitlab_com_derisk
+default_enabled: false

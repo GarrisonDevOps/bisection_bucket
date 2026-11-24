@@ -1,0 +1,8 @@
+- add_to_breadcrumbs _("Targeted Messages"), admin_targeted_messages_path
+- add_to_breadcrumbs @targeted_message.id.to_s, edit_admin_targeted_message_path(@targeted_message)
+- breadcrumb_title _("Edit")
+- page_title _("Targeted message")
+
+= render ::Layouts::PageHeadingComponent.new(s_("TargetedMessages|Edit targeted message"))
+
+= render 'form', url: admin_targeted_message_path(@targeted_message), is_add_form: false

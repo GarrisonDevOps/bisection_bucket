@@ -1,0 +1,22 @@
+---
+key_path: counts.count_total_search_code_with_semantic_search
+description: Count of semantic code searches, from the REST API and the MCP semantic_code_search tool
+product_group: global_search
+product_categories:
+- global_search
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270058
+time_frame:
+- 28d
+- 7d
+- all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: search_code_with_semantic_search

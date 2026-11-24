@@ -1,0 +1,17 @@
+---
+description: Tracks when a user registers with Google OAuth 2.0
+action: google_oauth2_sso
+identifiers:
+- user
+product_group: authentication
+product_categories:
+- system_access
+milestone: '15.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/40379
+tiers:
+- free
+- premium
+- ultimate
+additional_properties:
+  label:
+    description: Type of registration

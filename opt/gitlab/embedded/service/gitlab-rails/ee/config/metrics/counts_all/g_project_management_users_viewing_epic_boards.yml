@@ -1,0 +1,25 @@
+# Name of this metric contains g_project_management prefix
+data_category: optional
+# because we are using the same slot from issue_tracking to
+# allow data aggregation.
+key_path: redis_hll_counters.epic_boards_usage.g_project_management_users_viewing_epic_boards
+description: Count of unique active users viewing epic boards
+product_group: planning_views
+product_categories:
+- planning_views
+value_type: number
+status: active
+milestone: '13.12'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/60357
+time_frame:
+- 28d
+- 7d
+data_source: redis_hll
+instrumentation_class: RedisHLLMetric
+options:
+  events:
+  - g_project_management_users_viewing_epic_boards
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []

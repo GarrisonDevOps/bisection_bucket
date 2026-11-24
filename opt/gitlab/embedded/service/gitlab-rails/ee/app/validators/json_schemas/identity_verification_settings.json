@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Identity verification settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "soft_phone_verification_transactions_daily_limit": {
+      "type": "integer",
+      "description": "Soft limit for daily phone verification transactions"
+    },
+    "hard_phone_verification_transactions_daily_limit": {
+      "type": "integer",
+      "description": "Hard limit for daily phone verification transactions"
+    },
+    "unverified_account_group_creation_limit": {
+      "type": "integer",
+      "description": "Limit for number of top-level groups an unverified account can create"
+    },
+    "phone_verification_enabled": {
+      "type": "boolean",
+      "description": "Whether phone number verification is an available identity verification method"
+    },
+    "ci_requires_identity_verification_on_free_plan": {
+      "type": "boolean",
+      "description": "Whether identity verification is required for users on the free plan to run pipelines"
+    },
+    "telesign_intelligence_enabled": {
+      "type": "boolean",
+      "description": "Flag to control use of Telesign Intelligence service"
+    },
+    "credit_card_verification_enabled": {
+      "type": "boolean",
+      "description": "Whether credit card verification is an available identity verification method"
+    },
+    "arkose_labs_enabled": {
+      "type": "boolean",
+      "description": "Whether Arkose checks are required for identity verification"
+    },
+    "arkose_labs_data_exchange_enabled": {
+      "type": "boolean",
+      "description": "Whether the Arkose Data Exchange feature is enabled"
+    },
+    "sms_cost_restricted_dial_codes": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 999
+      },
+      "description": "Dial codes that require credit card verification before phone verification"
+    },
+    "dial_code_phone_verification_transactions_daily_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Daily limit for phone verification transactions per dial code. 0 disables the limit"
+    },
+    "dial_code_phone_verification_transactions_daily_limit_overrides": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[1-9][0-9]{0,2}$"
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "description": "Daily limit for phone verification transactions keyed by dial code. 0 disables the limit for that dial code"
+    }
+  }
+}

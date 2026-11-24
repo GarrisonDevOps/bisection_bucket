@@ -1,0 +1,22 @@
+- ref = local_assigns.fetch(:ref) { current_ref }
+- project = local_assigns.fetch(:project) { @project }
+- is_project_overview = local_assigns.fetch(:is_project_overview, false)
+- unless @skip_logs_tree_loading
+  - add_page_startup_api_call logs_file_project_ref_path(@project, ref, @path, format: "json", offset: 0, ref_type: @ref_type&.upcase)
+- if readme_path = @project.repository.readme_path
+  - add_page_startup_api_call project_blob_path(@project, tree_join(@ref, readme_path), viewer: "rich", format: "json", ref_type: @ref_type)
+- add_page_specific_style 'page_bundles/commit_description'
+- add_page_specific_style 'page_bundles/projects'
+
+.gl-flex.navigation-root
+  -# The single repository app renders the file tree browser itself.
+  - unless repository_single_vue_app_enabled?(project)
+    -# Pre-reserve width to prevent CLS; must match TREE_WIDTH in file_tree_browser.vue.
+    -# The project overview hides the file tree browser, so no reservation there.
+    #js-file-browser{ style: ('width:320px' unless is_project_overview) }
+  .gl-w-full.gl-min-w-0
+    #tree-holder.tree-holder.gl-clearfix.gl-flex.gl-flex-col.gl-gap-5
+      - if repository_single_vue_app_enabled?(project)
+        = render 'projects/repository_app', project: project, ref: ref, ref_type: @ref_type
+      - else
+        = render 'projects/tree_content', project: project, ref: ref, tree: @tree, ref_type: @ref_type

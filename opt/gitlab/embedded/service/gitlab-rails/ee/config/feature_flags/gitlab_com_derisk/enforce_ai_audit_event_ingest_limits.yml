@@ -1,0 +1,10 @@
+---
+name: enforce_ai_audit_event_ingest_limits
+description: Rejects AI audit event ingest requests over the per-user and per-top-level-namespace rate limits
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636587
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265671
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636587
+milestone: '19.6'
+group: group::ai governance
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,9 @@
+- if show_joining_a_project_alert?
+  .gl-pt-6
+    = render Pajamas::AlertComponent.new(title: s_('Onboarding|Looking for your team?'), dismissible: true,
+      alert_options: { class: 'js-joining-a-project-alert' ,
+        data: { feature_id: ::EE::Users::CalloutsHelper::JOINING_A_PROJECT_ALERT,
+                dismiss_endpoint: callouts_path,
+                testid: 'joining-a-project-alert' } }) do |c|
+      - c.with_body do
+        = s_("Onboarding|If you can't find your organization, request an invite from your company's GitLab administrator.")

@@ -1,0 +1,21 @@
+---
+key_path: redis_hll_counters.count_distinct_project_id_from_visit_dependency_list
+description: Count of unique projects where a user visited the dependency list.
+product_group: vulnerability_management
+product_categories:
+- dependency_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/170933
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: visit_dependency_list
+  unique: project.id

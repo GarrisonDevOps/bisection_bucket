@@ -1,0 +1,19 @@
+---
+key_path: counts.groups_with_enterprise_users
+description: "Count of groups with enterprise users"
+product_group: authentication
+product_categories:
+- system_access
+value_type: number
+status: active
+milestone: "17.6"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169631
+time_frame: all
+data_source: database
+data_category: optional
+instrumentation_class: CountGroupsWithEnterpriseUsersMetric
+performance_indicator_type: 
+- lighthouse
+tiers:
+- premium
+- ultimate

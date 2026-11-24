@@ -1,0 +1,12 @@
+---
+exclude:
+  reason: transient_data
+# A row lives exactly as long as the to-do it describes: the todos foreign key
+# cascades its deletion, and the table has no timestamp of its own to age rows
+# by. The window matches the one declared for todos.
+retention_window: 730
+enforcement_strategy: none
+enforcing: false
+pause_mechanism:
+  type: none
+work_item: https://gitlab.com/gitlab-org/gitlab/-/work_items/632671

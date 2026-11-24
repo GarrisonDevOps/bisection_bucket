@@ -1,0 +1,18 @@
+---
+description: tracks when the secondary button on the duo enable banner is clicked
+internal_events: true
+action: click_secondary_button_enable_duo_banner
+identifiers:
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/188312
+status: removed
+milestone_removed: '18.4'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/202983
+tiers:
+- free
+- premium
+- ultimate

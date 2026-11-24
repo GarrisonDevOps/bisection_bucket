@@ -1,0 +1,18 @@
+---
+key_path: settings.orbit_service_configured
+description: Whether Orbit (Knowledge Graph) service is configured on the instance
+product_group: context_systems
+product_categories:
+- orbit
+value_type: boolean
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266296
+time_frame: none
+data_source: system
+instrumentation_class: OrbitServiceConfiguredMetric
+data_category: operational
+performance_indicator_type: []
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,15 @@
+---
+description: Tracks pageviews for the usage billing page
+internal_events: true
+action: view_usage_billing_pageload
+identifiers:
+- user
+product_group: engagement
+product_categories:
+- subscription_management
+milestone: '18.9'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221428
+tiers:
+- free
+- premium
+- ultimate

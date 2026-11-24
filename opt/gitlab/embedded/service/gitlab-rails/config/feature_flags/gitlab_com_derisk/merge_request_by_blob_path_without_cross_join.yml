@@ -1,0 +1,11 @@
+---
+name: merge_request_by_blob_path_without_cross_join
+description: Match merge requests by blob path without joining the merge request
+  diff tables in a single statement
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635369
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269488
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639523
+milestone: '19.6'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,24 @@
+---
+key_path: counts.count_abandoned_duo_workflow_tool_approvals
+description: Point-in-time snapshot of Duo workflow sessions currently stuck waiting
+  for a tool call approval, counting workflows in the tool_call_approval_required
+  state that were last updated more than 24 hours ago at collection time. The window
+  is anchored to updated_at, so any write to the workflow row restarts it, and sessions
+  ended by other means (for example a stopped CI workload) leave the counted state.
+  This is a cumulative session-level snapshot and is not directly comparable with
+  the 28-day resolve event counts
+product_group: compliance
+product_categories:
+  - duo_agent_platform
+value_type: number
+status: active
+milestone: '19.3'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248706
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+  - premium
+  - ultimate
+performance_indicator_type: []
+instrumentation_class: CountAbandonedDuoWorkflowToolApprovalsMetric

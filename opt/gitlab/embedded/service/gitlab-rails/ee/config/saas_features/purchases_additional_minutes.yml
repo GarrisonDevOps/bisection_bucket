@@ -1,0 +1,5 @@
+---
+name: purchases_additional_minutes
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/27626
+milestone: '16.5'
+group: group::acquisition

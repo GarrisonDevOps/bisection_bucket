@@ -1,0 +1,11 @@
+---
+name: ci_cross_pipeline_deps_partition_pruning
+description: Prune CI partitions when resolving cross-pipeline needs:pipeline:job
+  dependencies.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631236
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259242
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637032
+milestone: '19.6'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

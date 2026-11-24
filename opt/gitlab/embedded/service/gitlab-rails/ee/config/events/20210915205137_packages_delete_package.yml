@@ -1,0 +1,13 @@
+description: "Delete package"
+category: "`UI:[MavenPackages | NpmPackages | ConanPackages | undefined]`"
+action: delete_package
+extra_properties:
+identifiers:
+product_group: package_registry
+product_categories:
+- package_registry
+milestone: "12.8"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24367
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,113 @@
+terraform {
+  required_version = ">= 0.13"
+
+  required_providers {
+    kubectl = {
+      source  = "alekc/kubectl"
+      version = "~> 2.0"
+    }
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 5.30.0"
+    }
+  }
+}
+
+locals {
+  google_project = "<%= provisioning_project_id %>"
+  google_region  = "<%= provisioning_region %>"
+  google_zone    = "<%= provisioning_zone %>"
+}
+
+provider "google" {
+  project = local.google_project
+  region  = local.google_region
+  zone    = local.google_zone
+}
+
+provider "kubectl" {
+  host                   = module.gke_runner_deployment.cluster_host
+  cluster_ca_certificate = module.gke_runner_deployment.cluster_ca_certificate
+  token                  = module.gke_runner_deployment.cluster_access_token
+  load_config_file       = false
+}
+
+# !!! WARNING !!!
+# We recommend providing a configuration template to better configure the GitLab Runner Manager which will be installed
+# - GitLab Runner Configuration: https://docs.gitlab.com/runner/configuration/advanced-configuration.html
+# Here is an example of config_template setting the shell and few Kubernetes parameters:
+# config_template = <<EOT
+# [[runners]]
+#   shell = "bash"
+#   environment = [
+#     "FF_RETRIEVE_POD_WARNING_EVENTS=true",
+#     "FF_PRINT_POD_EVENTS=true",
+#   ]
+#   [runners.kubernetes]
+#     image = "alpine"
+#     cpu_limit_overwrite_max_allowed = "1"
+#     memory_limit_overwrite_max_allowed = "1Gi"
+#     service_cpu_limit_overwrite_max_allowed = "1"
+#     service_memory_limit_overwrite_max_allowed = "1Gi"
+#     helper_cpu_limit_overwrite_max_allowed = "500m"
+#     helper_memory_limit_overwrite_max_allowed = "1Gi"
+#   [runners.kubernetes.node_selector]
+#     "app" = "gitlab-runner-job"
+# EOT
+
+variable "runners" {
+  description = "GitLab Runners to deploy on the cluster. Each entry requires a runner_token."
+  type = map(object({
+    runner_token    = string
+    url             = optional(string, "<%= gitlab_url %>")
+    config_template = optional(string)
+  }))
+  sensitive = true
+}
+
+# Added available customisation
+module "gke_runner_deployment" {
+  source = "git::https://gitlab.com/gitlab-org/ci-cd/runner-tools/grit.git//scenarios/google/gke/operator"
+
+  google_region  = local.google_region
+  google_zone    = local.google_zone
+
+  name = "<%= deployment_name %>"
+
+  runners = var.runners
+
+  node_pools = {
+    <% node_pools&.each do |pool| %>
+      "<%= pool[:name] %>" = {
+      node_count = <%= pool[:node_count] %>,
+      node_config = {
+        machine_type = "<%= pool[:machine_type] %>",
+        image_type   = "<%= pool[:image_type] %>",
+        disk_size_gb = 100,
+        disk_type    = "pd-ssd",
+        labels = {
+          <% pool[:labels]&.each do |label| %>
+            "<%= label.key %>" = "<%= label.value %>",
+          <% end %>
+        }
+      },
+    },
+    <% end %>
+  }
+}
+
+output "cluster_host" {
+  description = "The GKE cluster's control plane URL"
+  value       = module.gke_runner_deployment.cluster_host
+}
+
+output "cluster_ca_certificate" {
+  description = "The GKE cluster's CA certificate"
+  value       = module.gke_runner_deployment.cluster_ca_certificate
+}
+
+output "cluster_access_token" {
+  description = "The GKE cluster's admin token"
+  value       = module.gke_runner_deployment.cluster_access_token
+  sensitive   = true
+}

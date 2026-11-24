@@ -1,0 +1,10 @@
+---
+table_name: group_upload_registry
+description: Geo registry table for tracking replication and verification of Group Uploads
+introduced_by_url:
+milestone: '18.11'
+feature_categories:
+  - geo_replication
+classes:
+  - Geo::GroupUploadRegistry
+gitlab_schema: gitlab_geo

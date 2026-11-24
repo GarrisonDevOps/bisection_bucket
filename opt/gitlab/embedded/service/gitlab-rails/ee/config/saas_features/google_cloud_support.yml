@@ -1,0 +1,5 @@
+---
+name: google_cloud_support
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/140086
+milestone: '16.8'
+group: group::container registry

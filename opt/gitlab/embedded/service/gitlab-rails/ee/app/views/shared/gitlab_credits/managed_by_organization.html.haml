@@ -1,0 +1,5 @@
+- page_title s_('UsageBilling|GitLab Credits dashboard')
+
+= render Pajamas::AlertComponent.new(dismissible: false, alert_options: { class: 'gl-mt-5' }) do |c|
+  - c.with_body do
+    = s_('UsageBilling|GitLab Credits for this group are managed by your organization. Contact an organization Owner to view usage or change limits.')

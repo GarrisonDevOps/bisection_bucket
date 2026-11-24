@@ -1,0 +1,14 @@
+= render GitlabSubscriptions::Trials::Ultimate::TopPageComponent.new
+
+.gl-max-w-4xl.gl-mx-auto.gl-grid.gl-gap-8{ class: "@md/panel:gl-grid-cols-9" }
+  .gl-col-span-6
+    %h2.gl-mt-0.gl-text-center
+      = s_('Trial|Start your free trial')
+
+    %p.gl-text-subtle.gl-text-lg.gl-text-center
+      = s_('Trial|Add a few more details to activate your trial. You can change them later.')
+
+    .gl-max-w-80
+      #js-create-trial-form{ data: { view_model: form_data } }
+
+  = render GitlabSubscriptions::Trials::AdvantagesListComponent.new

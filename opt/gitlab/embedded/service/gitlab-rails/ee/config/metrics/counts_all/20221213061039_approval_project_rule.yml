@@ -1,0 +1,18 @@
+---
+key_path: usage_activity_by_stage.govern.approval_project_rule
+description: "Count of approval project rules"
+product_group: compliance
+product_categories:
+- compliance_management
+value_type: number
+status: active
+milestone: "15.7"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106787
+time_frame: all
+data_source: database
+data_category: operational
+instrumentation_class: CountApprovalProjectRulesMetric
+performance_indicator_type: []
+tiers:
+  - premium
+  - ultimate

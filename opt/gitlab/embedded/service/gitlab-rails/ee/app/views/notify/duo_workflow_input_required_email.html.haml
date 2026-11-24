@@ -1,0 +1,25 @@
+%h4{ style: 'margin-bottom: 0' }
+  = s_('DuoWorkflow|Your Duo session needs your input')
+%p{ style: 'margin-top: 0' }
+  - if @project
+    = html_escape(s_('DuoWorkflow|A Duo session in %{strong_start}%{project}%{strong_end} is paused and waiting for your input.')) % { project: @project.full_name, strong_start: '<strong>'.html_safe, strong_end: '</strong>'.html_safe }
+  - else
+    = s_('DuoWorkflow|A Duo session is paused and waiting for your input.')
+
+- if @flow.present?
+  %p
+    %strong= s_('DuoWorkflow|Flow:')
+    = @flow
+- if @goal.present?
+  %p
+    %strong= s_('DuoWorkflow|Goal:')
+    = @goal
+- if @checkpoint_message.present?
+  %p
+    %strong= s_('DuoWorkflow|Pending action:')
+    = @checkpoint_message
+
+- if @web_url
+  %p
+    %a{ href: @web_url, target: "_blank", rel: "noopener noreferrer nofollow", style: "-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-size: 14px; color: #ffffff; text-decoration: none; border-radius: 8px; -webkit-border-radius: 8px; background-color: #3a383d; display: inline-block; padding: 8px 12px" }
+      = s_('DuoWorkflow|Review session')

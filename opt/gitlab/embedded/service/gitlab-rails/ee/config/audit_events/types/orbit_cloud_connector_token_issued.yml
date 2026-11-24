@@ -1,0 +1,10 @@
+---
+name: orbit_cloud_connector_token_issued
+description: Orbit fetches the instance Cloud Connector token to authenticate billing-event emission
+introduced_by_issue: https://gitlab.com/gitlab-org/orbit/knowledge-graph/-/work_items/1229
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253400
+feature_category: knowledge_graph
+milestone: '19.5'
+saved_to_database: true
+streamed: true
+scope: [Instance]

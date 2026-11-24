@@ -1,0 +1,10 @@
+---
+name: duo_workflow_detached_server_side_execution
+description: Let Workhorse run a server-side Duo Agent Platform turn detached from the Sidekiq job that starts it
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634394
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264231
+rollout_issue_url:
+milestone: '19.6'
+group: group::agent foundations
+type: wip
+default_enabled: false

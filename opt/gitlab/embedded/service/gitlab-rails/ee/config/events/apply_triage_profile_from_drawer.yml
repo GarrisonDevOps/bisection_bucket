@@ -1,0 +1,22 @@
+---
+description: User applied an Automated Triage and Remediation profile from the profile drawer
+internal_events: true
+action: apply_triage_profile_from_drawer
+identifiers:
+- user
+- namespace
+additional_properties:
+  label:
+    description: Where the drawer was opened. One of "project_tab" or "inventory".
+  property:
+    description: The name of the GitLab-managed preset that was applied, or "custom" for custom profiles.
+  value:
+    description: The number of selected projects and groups the profile was applied to.
+product_group: security_controls
+product_categories:
+- security_asset_inventories
+- security_testing_configuration
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/270194
+tiers:
+- ultimate

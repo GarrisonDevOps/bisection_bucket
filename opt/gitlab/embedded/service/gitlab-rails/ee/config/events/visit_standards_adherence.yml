@@ -1,0 +1,17 @@
+---
+description: A user visits the Standards Adherence Dashboard
+internal_events: true
+action: visit_standards_adherence
+identifiers:
+- namespace
+- user
+additional_properties:
+  property:
+    description: Indicate if the namespace has projects with compliance frameworks assigned
+product_group: compliance
+product_categories:
+- compliance_management
+milestone: '17.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168865
+tiers:
+- ultimate

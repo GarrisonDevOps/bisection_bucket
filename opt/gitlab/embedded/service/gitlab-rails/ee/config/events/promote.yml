@@ -1,0 +1,20 @@
+---
+description: Triggered when an issue is promoted to an epic
+action: promote
+identifiers:
+- project
+- namespace
+- user
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: '14.0'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/164498
+tiers:
+- premium
+- ultimate
+additional_properties:
+  property:
+    description: 'Always "issue_id"'
+  value:
+    description: Id of the original issue

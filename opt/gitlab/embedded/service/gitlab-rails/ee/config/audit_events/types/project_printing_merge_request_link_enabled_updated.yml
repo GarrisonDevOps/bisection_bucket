@@ -1,0 +1,10 @@
+---
+name: project_printing_merge_request_link_enabled_updated
+description: The setting for projects for enabling printing merge request link is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/369283
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106652
+milestone: '15.7'
+feature_category: source_code_management
+saved_to_database: true
+streamed: true
+scope: [Project]

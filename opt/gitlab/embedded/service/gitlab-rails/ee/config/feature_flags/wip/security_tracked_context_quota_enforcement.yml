@@ -1,0 +1,10 @@
+---
+name: security_tracked_context_quota_enforcement
+description: Enforces the organization-level tracked security context quota, independently of VAC tracking
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/598087
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/239435
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/602701
+milestone: '19.1'
+group: group::security foundations
+type: wip
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: cells_shell_jwt_key_claims
+description: Use deploy key, client IP, and SSH certificate namespace claims from the Gitlab-Shell-Api-Request JWT for Cells SSH-over-HTTP.
+feature_issue_url: https://gitlab.com/gitlab-com/gl-infra/production/-/issues/22944
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/265396
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636655
+milestone: '19.6'
+group: group::change record
+type: gitlab_com_derisk
+default_enabled: false

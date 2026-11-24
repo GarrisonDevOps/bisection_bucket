@@ -1,0 +1,12 @@
+---
+name: process_duo_core_todo_notifications
+description: Ops kill switch for GitlabSubscriptions::GitlabCom::DuoCoreTodoNotificationWorker.
+  Enabled by default. Disable it to stop the worker from creating Duo Core access
+  todos, including jobs already running, which stop before their next batch.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635549
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268882
+rollout_issue_url: # No rollout: This is an ops-flag
+milestone: '19.6'
+group: group::acquisition
+type: ops
+default_enabled: true

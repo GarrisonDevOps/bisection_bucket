@@ -1,0 +1,9 @@
+---
+name: create_security_ai_flow_feedback
+description: Grants the ability to create security AI flow feedback
+available_for:
+  - granular_access_token
+permissions:
+  - create_security_ai_flow_feedback
+boundaries:
+  - project

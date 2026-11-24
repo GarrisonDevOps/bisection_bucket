@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+module Resolvers
+  module ErrorTracking
+    class SentryErrorsResolver < BaseResolver
+      include SentryFieldCallLimit
+
+      type Types::ErrorTracking::SentryErrorType.connection_type, null: true
+
+      limit_sentry_field_calls 2
+
+      argument :search_term, ::GraphQL::Types::String,
+        description: 'Search query for the Sentry error details.',
+        required: false
+
+      # TODO: convert to Enum
+      argument :sort, ::GraphQL::Types::String,
+        description: 'Attribute to sort on. Options are frequency, first_seen, last_seen. last_seen is default.',
+        required: false
+
+      delegate :project, to: :object
+
+      def resolve(**args)
+        args[:cursor] = args.delete(:after)
+
+        result = ::ErrorTracking::ListIssuesService.new(project, current_user, args).execute
+
+        raise_resource_not_available_error!(result[:message]) if result[:http_status] == :too_many_requests
+
+        next_cursor = result.dig(:pagination, 'next', 'cursor')
+        previous_cursor = result.dig(:pagination, 'previous', 'cursor')
+        issues = result[:issues]
+
+        # ReactiveCache is still fetching data
+        return if issues.nil?
+
+        Gitlab::Graphql::ExternallyPaginatedArray.new(previous_cursor, next_cursor, *issues)
+      end
+    end
+  end
+end

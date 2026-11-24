@@ -1,0 +1,10 @@
+---
+name: ssh_certificate_authentication_rate_limit
+description: Enforce the per-IP rate limit on failed SSH certificate resolution and record failed SSH certificate authentication audit events
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/611349
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263054
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/634399
+milestone: '19.6'
+group: group::source code
+type: gitlab_com_derisk
+default_enabled: false

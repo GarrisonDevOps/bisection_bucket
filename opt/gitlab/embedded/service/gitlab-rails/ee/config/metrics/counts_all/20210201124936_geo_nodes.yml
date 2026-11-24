@@ -1,0 +1,17 @@
+---
+key_path: counts.geo_nodes
+data_category: operational
+description: Total number of sites in a Geo deployment
+product_group: geo
+product_categories:
+- disaster_recovery
+value_type: number
+status: active
+milestone: '11.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/50990
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []

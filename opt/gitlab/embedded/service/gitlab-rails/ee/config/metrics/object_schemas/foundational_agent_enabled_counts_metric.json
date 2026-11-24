@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "description": "Hash of agent reference to count of top-level groups with that agent effectively enabled",
+  "additionalProperties": {
+    "type": "integer",
+    "description": "Count of top-level groups with this foundational agent effectively enabled"
+  }
+}

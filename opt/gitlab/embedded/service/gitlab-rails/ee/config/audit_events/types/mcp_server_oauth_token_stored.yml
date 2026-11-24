@@ -1,0 +1,10 @@
+---
+name: mcp_server_oauth_token_stored
+description: A user connected to an MCP server and an OAuth token was stored
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/593029
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/234028
+feature_category: duo_agent_platform
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [User]

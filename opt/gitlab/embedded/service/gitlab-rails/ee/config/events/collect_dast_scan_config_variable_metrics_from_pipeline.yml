@@ -1,0 +1,21 @@
+---
+description: Collect DAST config variable usage for scans from pipelines
+internal_events: true
+status: active
+action: collect_dast_scan_config_variable_metrics_from_pipeline
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  property:
+    description: Scan ID
+  label:
+    description: Config variable name
+product_group: dynamic_analysis
+product_categories:
+- dynamic_application_security_testing
+milestone: '18.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206067
+tiers:
+- ultimate

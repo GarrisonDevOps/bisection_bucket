@@ -1,0 +1,10 @@
+- replicable_id = params[:replicable_id]
+
+- add_to_breadcrumbs _('Geo sites'), admin_geo_nodes_path
+- add_to_breadcrumbs @replicator_class.replicable_title_plural, site_replicables_admin_geo_node_path
+- page_title "#{@replicator_class.registry_class}/#{replicable_id}"
+
+#js-geo-replicable-item{ data: { "replicable_item_id" => replicable_id,
+  "geo-target-site-id" => @target_node&.id,
+  "geo-current-site-id" => @current_node&.id,
+  "replicable-class-data" => replicable_class_data(@replicator_class).to_json } }

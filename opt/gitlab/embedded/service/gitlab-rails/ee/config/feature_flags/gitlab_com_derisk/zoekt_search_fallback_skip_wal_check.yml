@@ -1,0 +1,11 @@
+---
+name: zoekt_search_fallback_skip_wal_check
+description: Index a project queued on Zoekt search fallback with a worker that does not
+  defer on the WriteAheadLog database health indicator.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637026
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268935
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638930
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

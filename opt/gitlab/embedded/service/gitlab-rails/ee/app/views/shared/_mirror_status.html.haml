@@ -1,0 +1,18 @@
+- last_successful_update_at = @project.import_state.last_successful_update_at
+- raw_message = local_assigns.fetch(:raw_message, false)
+
+- case mirror_update_state(@project)
+- when :success
+  = format(_('Pull mirroring updated %{time}.'), time: time_ago_with_tooltip(last_successful_update_at)).html_safe
+- when :read_only
+  = format(_('Pull mirroring is disabled because the repository is set to read-only.'))
+- when :failed
+  = render_mirror_failed_message(raw_message: raw_message)
+
+  - if @project.mirror_hard_failed?
+    %br
+    = _('Repository mirroring has been paused due to too many failed attempts. It can be resumed by a project maintainer or owner.')
+
+  - if @project.mirror_ever_updated_successfully?
+    %br
+    = format(_('Last successful update %{time}.'), time: time_ago_with_tooltip(last_successful_update_at)).html_safe

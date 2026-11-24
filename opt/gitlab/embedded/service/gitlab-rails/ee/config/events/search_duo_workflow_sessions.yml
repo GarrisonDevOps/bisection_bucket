@@ -1,0 +1,28 @@
+---
+description: A user searched the Duo Agent Platform session list.
+internal_events: true
+status: active
+action: search_duo_workflow_sessions
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: >-
+      Scope of the search: 'project' when the query is project-scoped,
+      'user' when it is user-scoped.
+  value:
+    description: >-
+      Number of search terms the query matched on, after ID extraction. When
+      duo_workflow_project_search_guard is enabled, terms are capped at 10 and words
+      under 3 characters are dropped (a search of only short words counts as 1).
+product_group: agent_execution
+product_categories:
+- duo_agent_platform
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264017
+tiers:
+- premium
+- ultimate

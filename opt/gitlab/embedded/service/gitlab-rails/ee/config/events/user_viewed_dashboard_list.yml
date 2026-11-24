@@ -1,0 +1,16 @@
+---
+description: User viewed the analytics dashboard list
+internal_events: true
+action: user_viewed_dashboard_list
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: optimize
+product_categories:
+- custom_dashboards_foundation
+milestone: "16.4"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131168
+tiers:
+- ultimate

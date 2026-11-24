@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+class Add<%= class_name %>States<%= current_sharding_key_camel %>ShardingKeyTrigger < Gitlab::Database::Migration[<%= migration_version %>]
+  milestone '<%= milestone %>'
+
+  def up
+    install_sharding_key_assignment_trigger(
+      table: :<%= state_table_name %>,
+      sharding_key: :<%= current_sharding_key %>,
+      parent_table: :<%= table_name %>,
+      parent_sharding_key: :<%= current_sharding_key %>,
+      foreign_key: :<%= foreign_key_name %>
+    )
+  end
+
+  def down
+    remove_sharding_key_assignment_trigger(
+      table: :<%= state_table_name %>,
+      sharding_key: :<%= current_sharding_key %>,
+      parent_table: :<%= table_name %>,
+      parent_sharding_key: :<%= current_sharding_key %>,
+      foreign_key: :<%= foreign_key_name %>
+    )
+  end
+end

@@ -1,0 +1,5 @@
+- return unless show_tier_badge_for_new_trial?(source.root_ancestor, current_user)
+
+.js-tier-badge-trigger{ data: { primary_cta_link: new_trial_path(namespace_id: source.root_ancestor.id),
+  secondary_cta_link: group_billings_path(source.root_ancestor, source: 'overview-free-tier-highlight'),
+  is_project: source.is_a?(Project).to_s, trial_duration: trial_duration } }

@@ -1,0 +1,11 @@
+---
+name: orbit_trial
+description: Lets Owners of top-level groups on GitLab.com, and administrators of instances with an online cloud license, start an Orbit trial.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/orbit/-/work_items/19
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/258545
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/633557
+milestone: '19.5'
+group: group::context-systems
+type: beta
+default_enabled: true
+log_state_changes: true

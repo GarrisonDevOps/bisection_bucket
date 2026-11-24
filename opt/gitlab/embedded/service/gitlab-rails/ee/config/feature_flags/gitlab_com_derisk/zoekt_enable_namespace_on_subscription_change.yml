@@ -1,0 +1,11 @@
+---
+name: zoekt_enable_namespace_on_subscription_change
+description: Create the Zoekt enabled namespace as soon as a GitLab.com subscription
+  becomes eligible, instead of waiting for the SaaS rollout sweep.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637102
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/266341
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637121
+milestone: '19.6'
+group: group::global search
+type: gitlab_com_derisk
+default_enabled: false

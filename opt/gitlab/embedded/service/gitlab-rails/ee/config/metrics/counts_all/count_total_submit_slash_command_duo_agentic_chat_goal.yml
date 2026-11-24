@@ -1,0 +1,21 @@
+---
+key_path: counts.count_total_submit_slash_command_duo_agentic_chat_goal
+description: Total count of /goal invocations in Duo Agentic Chat
+product_group: duo_chat
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.5'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259068
+time_frame: all
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: submit_slash_command_duo_agentic_chat
+  filter:
+    label: "/goal"

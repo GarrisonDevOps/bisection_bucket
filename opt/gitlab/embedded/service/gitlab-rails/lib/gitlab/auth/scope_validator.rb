@@ -1,0 +1,42 @@
+# frozen_string_literal: true
+
+# Wrapper around a RequestAuthenticator to
+# perform authorization of scopes. Access is limited to
+# only those methods needed to validate that an API user
+# has at least one permitted scope.
+module Gitlab
+  module Auth
+    class ScopeValidator
+      MCP_TOOL_CALL_ENV_KEY = 'gitlab.mcp_tool_call'
+
+      attr_reader :request_authenticator
+
+      def initialize(api_user, request_authenticator)
+        @api_user = api_user
+        @request_authenticator = request_authenticator
+      end
+
+      def valid_for?(permitted)
+        return true unless @api_user
+        return true if permitted.none?
+
+        scopes = permitted.map { |s| API::Scope.new(s) }
+        @request_authenticator.valid_access_token?(scopes: scopes)
+      end
+
+      def ai_workflow_request?
+        request_authenticator.current_token_scopes.map(&:to_sym).include?(AI_WORKFLOW)
+      end
+
+      def permit_quick_actions?
+        return false if request_authenticator.request.env[MCP_TOOL_CALL_ENV_KEY]
+
+        scopes = request_authenticator.current_token_scopes.map(&:to_sym)
+        return false if scopes.include?(AI_WORKFLOW)
+        return false if scopes.include?(MCP_SCOPE) && !valid_for?([API_SCOPE])
+
+        true
+      end
+    end
+  end
+end

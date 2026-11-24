@@ -1,0 +1,32 @@
+- return unless ::Analytics::KnowledgeGraph.service_configured?
+
+= render ::Layouts::SettingsBlockComponent.new(s_('Orbit|GitLab Orbit rate limits'),
+  id: 'js-orbit-limits-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('Orbit|Set the per-user rate limits for requests to GitLab Orbit.')
+    = link_to _('Learn more.'), help_page_path('integration/orbit.md', anchor: 'configure-orbit-rate-limits'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-orbit-limits-settings'), html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+
+      %fieldset
+        = _("Set to 0 to disable the limits.")
+
+      %fieldset
+        .form-group
+          = f.label :orbit_query_limit, s_('Orbit|Maximum queries per minute per user'), class: 'label-bold'
+          = f.number_field :orbit_query_limit, min: 0, class: 'form-control gl-form-input'
+        .form-group
+          = f.label :orbit_indexing_status_limit, s_('Orbit|Maximum indexing status requests per minute per user'), class: 'label-bold'
+          = f.number_field :orbit_indexing_status_limit, min: 0, class: 'form-control gl-form-input'
+        .form-group
+          = f.label :orbit_item_counts_limit, s_('Orbit|Maximum item count requests per minute per user'), class: 'label-bold'
+          = f.number_field :orbit_item_counts_limit, min: 0, class: 'form-control gl-form-input'
+        .form-group
+          = f.label :orbit_rate_limit_allowlist_raw, _('Users to exclude from the rate limit'), class: 'label-bold'
+          = f.text_area :orbit_rate_limit_allowlist_raw, class: 'form-control gl-form-input', rows: 5
+          .form-text.gl-text-subtle
+            = _('List of users who are allowed to exceed the rate limit. Example: username1, username2')
+
+      = f.submit _('Save changes'), pajamas_button: true

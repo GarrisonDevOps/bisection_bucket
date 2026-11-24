@@ -1,0 +1,12 @@
+- if show_product_purchase_success_alert?
+  = render 'shared/usage_quotas/product_purchase_success_alert', product_name: params[:purchased_product]
+
+= render 'shared/shared_runners_minutes_limit', namespace: @group, usage_quotas_link_hidden: true, classes: 'gl-my-3'
+
+= render Namespaces::FreeUserCap::UsageQuotaAlertComponent.new(namespace: @group.root_ancestor,
+  user: current_user,
+  content_class: 'gl-my-3')
+
+= render Namespaces::FreeUserCap::UsageQuotaTrialAlertComponent.new(namespace: @group.root_ancestor,
+  user: current_user,
+  content_class: 'gl-my-3')

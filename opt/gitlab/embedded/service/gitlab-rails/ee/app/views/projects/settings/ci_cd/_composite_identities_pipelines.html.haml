@@ -1,0 +1,8 @@
+- return if Feature.disabled?(:forbid_composite_identities_to_run_pipelines, :instance)
+- help_link = link_to(sprite_icon('question-o'), help_page_path('development/ai_features/composite_identity.md'), target: '_blank', rel: 'noopener noreferrer')
+
+.form-group
+  = form.fields_for :ci_cd_settings_attributes, @project.ci_cd_settings do |f|
+    = f.gitlab_ui_checkbox_component :allow_composite_identities_to_run_pipelines,
+      s_("CICD|Run pipelines triggered by AI agents automatically"),
+      help_text: (s_('CICD|Pipelines triggered by composite identities, including AI agents, run automatically without review or manual interaction.') + ' ' + help_link).html_safe

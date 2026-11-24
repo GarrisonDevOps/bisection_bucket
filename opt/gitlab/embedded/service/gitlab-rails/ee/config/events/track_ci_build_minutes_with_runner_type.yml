@@ -1,0 +1,19 @@
+---
+description: Tracks finished build durations when UpdateBuildMinutesService is executed.
+internal_events: true
+action: track_ci_build_minutes_with_runner_type
+identifiers:
+- namespace
+additional_properties:
+  value:
+    description: The duration of the build in minutes(rounded to 100th of a minute).
+  label:
+    description: The runner_type that processed the build. ie. instance_type, project_type or group_type.
+product_group: pipeline_execution
+product_categories:
+- continuous_integration
+milestone: '17.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168894
+tiers:
+- premium
+- ultimate

@@ -1,0 +1,4 @@
+- page_title s_('AICatalog|AI Catalog')
+- show_legal_disclaimer = ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+
+#js-ai-catalog{ data: { ai_catalog_index_path: explore_ai_catalog_path, ai_impact_dashboard_enabled: ProductAnalyticsHelpers.ai_impact_dashboard_globally_available?.to_s, show_legal_disclaimer: show_legal_disclaimer.to_s, instance_beta_features_enabled: @instance_beta_features_enabled.to_s, timezone_data: timezone_data_with_unique_identifiers.to_json, user_timezone: current_user&.timezone } }

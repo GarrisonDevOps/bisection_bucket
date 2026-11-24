@@ -1,0 +1,19 @@
+---
+description: Tracks Started New or Exisitng Workspaces
+internal_events: true
+action: track_started_workspaces
+identifiers:
+- project
+- namespace
+- user
+additional_properties:
+  label:
+    description: new or exisitng workspace
+product_group: remote_development
+product_categories:
+- workspaces
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/191902
+tiers:
+- premium
+- ultimate

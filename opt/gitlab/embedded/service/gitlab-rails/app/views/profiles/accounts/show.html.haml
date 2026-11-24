@@ -1,0 +1,119 @@
+- add_page_specific_style 'page_bundles/profile'
+- page_title _('Account')
+
+- content_for :after_flash_content do
+  .flash-container.flash-container-page.sticky
+    - if current_user.ldap_user?
+      = render Pajamas::AlertComponent.new(dismissible: false) do |c|
+        - c.with_body do
+          = s_('Profiles|Some options are unavailable for LDAP accounts')
+
+    = render 'two_factor_enabled_alert'
+
+= render ::Layouts::SettingsSectionComponent.new(s_('Profiles|Support PIN')) do |c|
+  - c.with_description do
+    = s_("Profiles|For some actions you request, the Support team may ask you to authenticate your request by generating a Support PIN.")
+  - c.with_body do
+    %div
+      - if current_user.support_pin.present?
+        %p
+          %span.gl-font-bold
+            #{s_("Profiles|Support PIN")}:
+          = current_user.support_pin
+        %p
+          %span.gl-font-bold
+            #{_('Expires at')}:
+          = current_user.support_pin_expires_at.to_fs(:medium)
+      - else
+        %p
+          = _('No active Support PIN.')
+      = form_tag generate_support_pin_profile_account_path, method: :post do
+        = render Pajamas::ButtonComponent.new(variant: :confirm, type: :submit) do
+          = s_("Profiles|Generate New PIN")
+
+- if current_user.can_change_username?
+  = render ::Layouts::SettingsSectionComponent.new(s_('Profiles|Change username')) do |c|
+    - c.with_description do
+      = s_('Profiles|Changing your username can have unintended side effects.')
+      = succeed '.' do
+        = link_to _('Learn more'), help_page_path('user/profile/_index.md', anchor: 'change-your-username'), target: '_blank', rel: 'noopener noreferrer'
+    - c.with_body do
+      - data = { initial_username: current_user.username, root_url: root_url, action_url: update_username_profile_path(format: :json) }
+      #update-username{ data: data }
+
+= render_if_exists 'profiles/accounts/designated_beneficiaries', designated_account_manager: local_assigns[:designated_account_manager], designated_account_successor: local_assigns[:designated_account_successor]
+
+= render ::Layouts::SettingsSectionComponent.new(s_('Profiles|Scheduled pipelines you own')) do |c|
+  - c.with_description do
+    = s_("Profiles|View, edit, or transfer ownership of your active scheduled pipelines.")
+  - c.with_body do
+    %div{ data: { testid: 'owned-scheduled-pipelines' } }
+      - schedules = current_user.pipeline_schedules.active.with_project_path.limit(500)
+      - if schedules.any?
+        %p.gl-font-bold= _('Scheduled pipelines')
+        %ul
+          - schedules.each do |schedule|
+            - next unless schedule.project
+            %li= link_to "#{schedule.project.full_path} - #{schedule.description}", project_pipeline_schedules_path(schedule.project), target: '_blank', rel: 'noopener noreferrer'
+      - else
+        %p
+          = s_('Profiles|You do not own any active scheduled pipelines.')
+
+= render ::Layouts::SettingsSectionComponent.new(s_('UserMapping|Reassigned import contributions')) do |c|
+  - c.with_description do
+    = s_('UserMapping|Contributions from these users on an import source instance have been reassigned to you. If you revoke a reassignment, future imports no longer automatically assign contributions from that user to you.')
+  - c.with_body do
+    #js-reassigned-source-users
+
+- if prevent_delete_account?
+  = render ::Layouts::SettingsSectionComponent.new('') do |c|
+    - c.with_heading do
+      %span.gl-text-danger= s_('Profiles|Delete account')
+    - c.with_description do
+      = s_('Profiles|Account deletion is not allowed by your administrator.')
+- else
+  = render ::Layouts::SettingsSectionComponent.new('') do |c|
+    - c.with_heading do
+      %span.gl-text-danger= s_('Profiles|Delete account')
+    - c.with_description do
+      - if current_user.can_be_removed? && can?(current_user, :destroy_user, current_user)
+        = s_('Profiles|Deleting your account has the following effects:')
+      - if !current_user.can_be_removed?
+        = s_('Profiles|Your account is currently the sole owner in the following:')
+    - c.with_body do
+      - if current_user.can_be_removed? && can?(current_user, :destroy_user, current_user)
+        = render 'users/deletion_guidance', user: current_user
+
+        -# Delete button here
+        = render Pajamas::ButtonComponent.new(variant: :danger, button_options: { id: 'delete-account-button', disabled: true, data: { testid: 'delete-account-button' }}) do
+          = s_('Profiles|Delete account')
+
+        #delete-account-modal{ data: delete_account_modal_data }
+      - else
+        - if !current_user.can_be_removed?
+          - if ui_for_organizations_enabled? && current_user.solo_owned_organizations.present?
+            %p.gl-font-bold
+              = _('Organizations')
+              %ul
+                - current_user.solo_owned_organizations.each do |organization|
+                  %li= link_to organization.name, organization.web_url, target: '_blank', rel: 'noopener noreferrer'
+
+          - if current_user.solo_owned_groups.present?
+            %p.gl-font-bold
+              = _('Groups')
+              %ul
+                - current_user.solo_owned_groups.each do |group|
+                  %li= link_to group.name, group.web_url, target: '_blank', rel: 'noopener noreferrer'
+
+          = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false) do |c|
+            = c.with_body do
+              %p.gl-mb-0= s_('Profiles|You must transfer ownership or delete these before you can delete your account.')
+        - elsif !current_user.can_remove_self?
+          = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false) do |c|
+            = c.with_body do
+              %p= s_('Profiles|GitLab is unable to verify your identity automatically. For security purposes, you must set a password by %{openingTag}resetting your password%{closingTag} to delete your account.').html_safe % { openingTag: "<a href='#{reset_user_settings_password_path}' rel=\"nofollow\" data-method=\"put\">".html_safe, closingTag: '</a>'.html_safe}
+              %p.gl-mb-0= s_('Profiles|After resetting a password, if the option to delete your account is still not available, %{link_start}submit a request%{link_end} to begin the account deletion process.').html_safe % { link_start: '<a href="https://support.gitlab.io/personal-data-request/" rel="nofollow noreferrer noopener" target="_blank">'.html_safe, link_end: '</a>'.html_safe}
+        - else
+          = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false) do |c|
+            = c.with_body do
+              = s_("Profiles|You don't have access to delete this user.")

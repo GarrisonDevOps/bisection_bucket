@@ -1,0 +1,42 @@
+- page_title    _('New project')
+- header_title  _("Projects"), dashboard_projects_path
+- add_page_specific_style 'page_bundles/new_namespace'
+- add_page_specific_style 'page_bundles/projects'
+
+.project-edit-container
+  .project-edit-errors
+    = render 'projects/errors'
+
+  .js-new-project-creation{ data: {
+    is_ci_cd_available: remote_mirror_setting_enabled?.to_s,
+    has_errors: @project.errors.any?.to_s,
+    new_project_guidelines: brand_new_project_guidelines,
+    push_to_create_project_command: push_to_create_project_command,
+    root_path: root_path,
+    parent_group_url: @project.parent && group_url(@project.parent),
+    parent_group_name: @project.parent&.name,
+    projects_url: dashboard_projects_url,
+    can_import_projects: params[:namespace_id].presence ? can?(current_user, :import_projects, @namespace).to_s : 'true',
+    show_built_in_project_templates: show_built_in_project_templates_tab?.to_s } }
+
+  .row{ 'v-cloak': true }
+    #blank-project-pane.tab-pane.active
+      = gitlab_ui_form_for @project, html: { class: 'new_project gl-mt-3' } do |f|
+        = render 'new_project_fields', f: f, project_name_id: "blank-project-name", include_description: false, disable_init_with_readme: !can_push_initial_commit_to_namespace?(@namespace || current_user.namespace)
+
+    #create-from-template-pane.tab-pane
+      = gitlab_ui_form_for @project, html: { class: 'new_project' } do |f|
+        .project-template
+          .form-group
+            %div
+              = render 'project_templates', f: f, project: @project
+
+    #import-project-pane.tab-pane.js-toggle-container
+      - if import_sources_enabled?
+        = render 'import_project_pane', destination_namespace_id: @namespace&.id
+      - else
+        .nothing-here-block
+          %h4= s_('ProjectsNew|No import options available')
+          %p= s_('ProjectsNew|Contact an administrator to enable options for importing your project.')
+
+    = render_if_exists 'projects/new_ci_cd_only_project_pane'

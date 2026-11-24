@@ -1,0 +1,3 @@
+---
+name: read_http_integration
+description: Grants the ability to read alert HTTP integrations, including their endpoint URL and authorization token

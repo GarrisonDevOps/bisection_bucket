@@ -1,0 +1,10 @@
+---
+name: ai_catalog_create_third_party_flows
+description: Enable creation of external agents
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/583687
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217634
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/585291
+milestone: '18.8'
+group: group::workflow catalog
+type: beta
+default_enabled: false

@@ -1,0 +1,58 @@
+terraform {
+  required_version = "~> 1.5"
+
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.12"
+    }
+
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
+  }
+}
+
+locals {
+  google_project = "<%= provisioning_project_id %>"
+  google_region  = "<%= provisioning_region %>"
+  google_zone    = "<%= provisioning_zone %>"
+}
+
+provider "google" {
+  project = local.google_project
+  region  = local.google_region
+  zone    = local.google_zone
+}
+
+variable "runner_token" {
+  type      = string
+  sensitive = true
+}
+
+# Added available customisation
+module "runner-deployment" {
+  source = "git::https://gitlab.com/gitlab-org/ci-cd/runner-tools/grit.git//scenarios/google/linux/docker-autoscaler-default"
+
+  google_project = local.google_project
+  google_region  = local.google_region
+  google_zone    = local.google_zone
+
+  name = "<%= deployment_name %>"
+
+  gitlab_url = "<%= gitlab_url %>"
+
+  runner_token = var.runner_token
+
+  ephemeral_runner = {
+    # disk_type    = "pd-ssd"
+    # disk_size    = 50
+    machine_type = "<%= ephemeral_machine_type %>"
+    # source_image = "projects/cos-cloud/global/images/family/cos-stable"
+  }
+}
+
+output "runner-manager-external-ip" {
+  value = module.runner-deployment.runner_manager_external_ip
+}

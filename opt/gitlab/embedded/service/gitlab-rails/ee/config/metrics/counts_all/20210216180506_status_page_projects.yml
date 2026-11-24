@@ -1,0 +1,16 @@
+---
+data_category: optional
+key_path: counts.status_page_projects
+description: Projects with status page enabled
+product_group: platform_insights
+product_categories:
+- incident_management
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

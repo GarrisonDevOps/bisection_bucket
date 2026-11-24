@@ -1,0 +1,10 @@
+- page_title s_('Analytics|Analytics dashboards')
+- breadcrumb_title s_("Analytics|Analytics dashboards")
+- add_page_specific_style 'page_bundles/analytics_dashboards'
+
+#js-analytics-dashboards-list-app{ data: analytics_dashboards_list_app_data(@project) }
+  -# TODO replace deprecated skeleton styles with ViewComponent: https://gitlab.com/gitlab-org/gitlab/-/issues/363777
+  .animation-container.gl-mt-7
+    .skeleton-line-1{ class: '!gl-rounded-full' }
+    .skeleton-line-2{ class: '!gl-rounded-full' }
+    .skeleton-line-3{ class: '!gl-rounded-full' }

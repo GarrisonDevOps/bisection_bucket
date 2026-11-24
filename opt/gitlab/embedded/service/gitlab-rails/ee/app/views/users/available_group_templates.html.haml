@@ -1,0 +1,44 @@
+.custom-project-templates
+  - if @groups_with_project_templates.present?
+    - @groups_with_project_templates.each_with_index do |(group, projects), index|
+      - next if projects.empty?
+      .template-group-options.js-template-group-options{ class: ('expanded' if index == 0) }
+        .template-header.gl-flex.gl-items-center
+          %div{ class: "template-subgroup gl-flex !gl-flex-auto gl-items-center" }
+            %div{ class: "template-options-icon-container gl-flex !gl-justify-center gl-items-center gl-mr-3" }
+              = sprite_icon('chevron-lg-down', css_class: 's16 options-expanded-icon')
+              = sprite_icon('chevron-lg-right', css_class: 's16 options-collapsed-icon')
+            = render Pajamas::AvatarComponent.new(group, alt: group.name, class: 'btn-template-icon gl-shrink-0 gl-mr-5', size: 48, avatar_options: { lazy: false })
+            .template-subgroup-name.gl-ml-2
+              %strong= group.full_name
+              - if group.description.present?
+                .gl-text-subtle
+                  = group.description
+          .template-subgroup-project-count
+            = gl_badge_tag projects.count, nil, { class: 'gl-font-bold' }
+
+        - projects.each do |project|
+          .template-option.gl-items-center{ data: { testid: 'template-option-container' } }
+            = render Pajamas::AvatarComponent.new(project, alt: project.name, size: 48, class: 'gl-shrink-0 gl-mr-5 gl-ml-7', avatar_options: { lazy: false })
+            .description.gl-ml-2
+              %strong
+                = project.title
+              %br
+              .gl-text-subtle
+                = project.description
+            .controls.gl-items-baseline.gl-gap-3{ class: '!gl-flex' }
+              = render Pajamas::ButtonComponent.new(href: project_path(project), target: '_blank') do
+                = _("Preview")
+              %label.btn.gl-button.btn-confirm.custom-template-button.choose-template.gl-mb-0{ for: project.name }
+                %input{ type: "radio", autocomplete: "off", name: "project[template_project_id]", id: project.name, value: project.id, data: { subgroup_full_path: project.namespace.full_path, target_group_full_path: @target_group&.full_path, subgroup_id: project.namespace_id, template_name: project.name, parent_group_id: @target_group&.id || group.parent_id } }
+                %span{ data: { testid: 'use-template-button' } }
+                  = _('Use template')
+
+    = paginate @group_project_templates, params: { controller: 'users', action: 'available_group_templates', username: current_user.username }, theme: 'gitlab', remote: true
+  - else
+    = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false) do |c|
+      - c.with_body do
+        = _("Custom project templates have not been set up for groups that you are a member of. They are enabled from a group’s settings page. Contact your group’s Owner or Maintainer to setup custom project templates.")
+      - c.with_actions do
+        = render Pajamas::ButtonComponent.new(size: :small, href: help_page_path("user/group/custom_project_templates.md")) do
+          = _("Learn more about group-level project templates")

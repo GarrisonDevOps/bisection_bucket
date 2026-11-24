@@ -1,0 +1,10 @@
+---
+name: sync_v3_license_expressions
+description: Switches the PackageMetadata license sync from the v2 format to v3 SPDX license expressions.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/22880
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251527
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/626708
+milestone: '19.4'
+group: group::composition analysis
+type: beta
+default_enabled: true

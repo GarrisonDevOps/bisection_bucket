@@ -1,0 +1,18 @@
+---
+key_path: settings.package_metadata_sync_activation_by_type_metric
+description: "List the package types that have sync enabled to registries"
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+value_type: object
+status: active
+milestone: "17.0"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/146176
+time_frame: none
+data_source: system
+data_category: optional
+instrumentation_class: PackageRegistryMetadataSyncActivationByTypeMetric
+performance_indicator_type: []
+tiers:
+- ultimate
+value_json_schema: "config/metrics/objects_schemas/package_registry_metadata_sync_activation_by_type_metric.json"

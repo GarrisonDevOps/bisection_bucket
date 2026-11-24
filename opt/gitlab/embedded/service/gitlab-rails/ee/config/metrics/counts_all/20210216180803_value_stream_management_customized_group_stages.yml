@@ -1,0 +1,17 @@
+---
+data_category: optional
+key_path: usage_activity_by_stage.manage.value_stream_management_customized_group_stages
+description: Number of custom value stream analytics stages.
+product_group: optimize
+product_categories:
+- value_stream_management
+value_type: number
+status: active
+time_frame: all
+data_source: database
+tiers:
+- premium
+- ultimate
+performance_indicator_type: []
+milestone: "<13.9"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/54332

@@ -1,0 +1,14 @@
+---
+description: A full (/all snapshot) sync run for one registry raised and aborted before reaching an outcome, or had its request rejected by PDS, in the v3 package metadata sync for licenses
+internal_events: true
+action: sync_pmdb_v3_licenses_full_failed
+additional_properties:
+  label:
+    description: purl_type of the sync_config (e.g. npm, pypi, gem)
+product_group: composition_analysis
+product_categories:
+- software_composition_analysis
+milestone: '19.4'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252822
+tiers:
+- ultimate

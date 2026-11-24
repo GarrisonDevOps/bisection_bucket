@@ -1,0 +1,19 @@
+---
+description: Custom status created for a namespace
+internal_events: true
+status: active
+action: create_custom_status_in_group_settings
+identifiers:
+- namespace
+- user
+additional_properties:
+  label:
+    description: Status category
+product_group: work_items
+product_categories:
+- team_planning
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/197286
+tiers:
+- premium
+- ultimate

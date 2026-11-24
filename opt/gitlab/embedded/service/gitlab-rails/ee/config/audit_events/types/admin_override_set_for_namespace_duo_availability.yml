@@ -1,0 +1,10 @@
+---
+name: admin_override_set_for_namespace_duo_availability
+description: Admin set a duo_availability override on a namespace
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/603325
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244301
+feature_category: ai_abstraction_layer
+milestone: '19.2'
+saved_to_database: true
+streamed: true
+scope: [Group]

@@ -1,0 +1,1404 @@
+---
+title: Duo Agent Platform Impact
+description: See what your AI spend produced across your teams, and where to act next.
+version: '2'
+status: beta
+constraints:
+  feature_flag: dap_impact_v1
+filters:
+  scope:
+    enabled: true
+    multiSelect: true
+    requireDuoAgentPlatform: true
+    requirePermissions:
+    - readProAiAnalytics
+    - readEnterpriseAiAnalytics
+  # The default matches the window the panel queries used before this filter existed, so
+  # a first load shows the same data it always did.
+  dateRange:
+    enabled: true
+    options:
+    - 7d
+    - 30d
+    - 90d
+    - custom
+    numberOfDaysLimit: 90
+panels: []
+views:
+- title: Overview
+  duoPrompts:
+  - Which capability is consuming the most credits?
+  - What's driving the change in active users?
+  - How many sessions actually reach a completed flow?
+  - Summarize adoption and spend for this scope
+  panels:
+  - title: Active projects
+    footer:
+      dashboardViewLink:
+        text: View adoption
+        view: 1
+    tooltip:
+      description: Distinct projects with at least one GitLab Duo Agent Platform (DAP) session in the selected date range. Sessions not scoped to a project are not counted.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: projectsCount
+            displayConfig:
+              description: Projects with at least one DAP session
+    gridAttributes:
+      yPos: 0
+      xPos: 0
+      width: 6
+      height: 17
+  - title: Active users
+    footer:
+      dashboardViewLink:
+        text: View adoption
+        view: 1
+    tooltip:
+      description: Distinct users who ran at least one GitLab Duo Agent Platform (DAP) session in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: usersCount
+            displayConfig:
+              description: Distinct users with at least one DAP session
+    gridAttributes:
+      yPos: 0
+      xPos: 6
+      width: 6
+      height: 17
+  - title: Completed sessions
+    footer:
+      dashboardViewLink:
+        text: View work
+        view: 2
+    tooltip:
+      description: GitLab Duo Agent Platform (DAP) sessions created in the selected date range that completed, including sessions that are done for now and open to a follow-up.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and status in ("finished", "idle")
+            metrics: totalCount
+            displayConfig:
+              description: Sessions that reached a completed flow
+    gridAttributes:
+      yPos: 17
+      xPos: 0
+      width: 6
+      height: 17
+  - title: Credits consumed
+    footer:
+      dashboardViewLink:
+        text: View credits
+        view: 3
+    tooltip:
+      description: Total credits consumed by GitLab Duo Agent Platform (DAP) sessions in the selected date range. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: creditsUsedSum
+            displayConfig:
+              description: Across all activities
+    gridAttributes:
+      yPos: 17
+      xPos: 6
+      width: 6
+      height: 17
+  - title: Where credits went
+    footer:
+      dashboardViewLink:
+        text: View credits
+        view: 3
+    tooltip:
+      description: Credits consumed by each GitLab Duo Agent Platform (DAP) flow type, such as Chat or Software Development, in the selected date range. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        emptyState:
+          title: No data in this range
+          description: Once your team uses Duo, activity shows up here.
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: flowType
+            metrics: creditsUsedSum
+            sort: creditsUsedSum desc
+            # Every flow type on one page. Past about 17 rows the panel scrolls.
+            displayConfig:
+              maxRows: 30
+    gridAttributes:
+      yPos: 34
+      xPos: 0
+      width: 12
+      height: 60
+- title: Adoption
+  duoPrompts:
+  - Which activities are users adopting most?
+  - How does new vs returning usage break down?
+  - Which groups are ahead or behind on adoption?
+  - What does session intensity say about our tiers?
+  panels:
+  # A section is bottom-aligned, so any rows above its text act as spacing from the panel above.
+  # Seven rows is the fewest that fit the rule, heading and description. The grid floors panels
+  # at 10 rows unless minHeight lowers the floor.
+  - section:
+      title: Users
+      description: Who is using DAP, and how many of them are new.
+    gridAttributes:
+      yPos: 0
+      xPos: 0
+      height: 7
+      minHeight: 7
+  - title: Total users
+    tooltip:
+      description: Distinct users with at least one GitLab Duo Agent Platform (DAP) session in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: usersCount
+            displayConfig:
+              description: Distinct users with at least one DAP session
+    gridAttributes:
+      yPos: 7
+      xPos: 0
+      width: 12
+      height: 14
+  # New users are not queryable as a split yet, so two features stand in for the two rows the
+  # design shows.
+  # Pulls in an extra bucket and sorts newest first, since returningUsersCount compares
+  # a bucket against the one right before it - with just the selected range, it reads zero.
+  - title: New vs returning
+    tooltip:
+      description: Distinct users with at least one DAP session in the selected date range, split by whether they also had a session in the previous period of the same length.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        subtitle: Distinct users with at least one DAP session in the selected date range, split by whether they also had a session in the previous period of the same length.
+      data:
+        type: glql
+        query:
+          dateField: created
+          extendToPreviousPeriod: true
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: created(granularity="%{rangeDays}d", origin="%{startDate}")
+            metrics: joinedUsersCount as "New", returningUsersCount as "Returning"
+            sort: created desc
+            displayConfig:
+              metricRows: true
+              color: blue
+    gridAttributes:
+      yPos: 21
+      xPos: 0
+      width: 12
+      height: 19
+  - title: Users by activity
+    tooltip:
+      description: Distinct users of each DAP flow type in the selected date range. A user of several flow types counts in each.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: barList
+            displayConfig:
+              valueLabels: value
+              color: blue
+              maxRows: 6
+              scale: max
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: flowType
+            metrics: usersCount
+    gridAttributes:
+      yPos: 40
+      xPos: 0
+      width: 12
+      height: 31
+  - section:
+      title: Engagement
+      description: How deeply and how widely those users engage in the selected date range.
+    gridAttributes:
+      yPos: 71
+      xPos: 0
+      height: 7
+      minHeight: 7
+  - title: Multi-activity users
+    tooltip:
+      description: Distinct users who ran two or more DAP flow types in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowTypesUsed >= 2
+            metrics: usersCount
+            displayConfig:
+              description: Users who ran two or more DAP flow types
+    gridAttributes:
+      yPos: 78
+      xPos: 0
+      width: 6
+      height: 14
+  # Churn on the newest bucket: users whose single active day fell in the previous period and
+  # who had no session in the selected one, so everyone counted had a period of equal length to return.
+  # The earlier bucket is only that baseline, so the tile shows no trend; a third period would change
+  # which users count as single-day, since activeDays spans the whole query range.
+  # Shows 0 when no single-day user is active in the selected period: https://gitlab.com/gitlab-org/gitlab/-/work_items/632563
+  - title: Abandonment
+    tooltip:
+      description: Distinct users who were active on only one day in the previous period of the same length, and who were not active in the selected date range. Activity before the previous period is not counted.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          extendToPreviousPeriod: true
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and activeDays = 1
+            dimensions: created(granularity="%{rangeDays}d", origin="%{startDate}")
+            metrics: churnedUsersCount as "Did not return"
+            displayConfig:
+              description: Users active on one day in the previous period who did not return
+    gridAttributes:
+      yPos: 78
+      xPos: 6
+      width: 6
+      height: 14
+  - title: Sessions by tier and top capabilities
+    tooltip:
+      description: Sessions by user tier for the busiest capabilities in the selected date range, where tiers are session-count bands per user. Quieter capabilities are not listed.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        subtitle: Sessions per capability by user tier in the selected date range, for the five busiest capabilities — one column per tier, one row per capability. Tiers are session-count bands per user, the same bands as the Adoption tiers chart below. The most prominent cells have the most sessions.
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: heatMap
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: userTier(thresholds=[5, 25, 100]), flowType
+            metrics: totalCount as "Sessions"
+            sort: userTier desc
+            displayConfig:
+              maxRows: 5
+    gridAttributes:
+      yPos: 92
+      xPos: 0
+      width: 12
+      height: 52
+  - section:
+      title: Adoption tiers
+      description: How platform engagement is distributed across all users in the selected date range.
+      tooltip:
+        title: Adoption tiers
+        description: "All DAP users grouped by their total sessions across every activity in the selected date range: Light 1–4, Regular 5–24, Heavy 25–99, Power 100+. A session is any agentic session, regardless of capability."
+    gridAttributes:
+      yPos: 144
+      xPos: 0
+      height: 7
+      minHeight: 7
+  - title: Users across tiers
+    tooltip:
+      description: Users with at least one DAP session in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: usersCount
+            displayConfig:
+              description: Users with at least one session
+    gridAttributes:
+      yPos: 151
+      xPos: 0
+      width: 6
+      height: 14
+  - title: Total sessions
+    tooltip:
+      description: DAP sessions across all flow types and agents in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: totalCount
+            displayConfig:
+              description: Across all activities and agents
+    gridAttributes:
+      yPos: 151
+      xPos: 6
+      width: 6
+      height: 14
+  - title: Share of users vs share of sessions
+    tooltip:
+      description: Each tier's contribution to total users and total sessions in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: divergingBarChart
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: userTier(thresholds=[5, 25, 100])
+            metrics: usersCount as "Share of users", totalCount as "Share of sessions"
+            sort: userTier desc
+    gridAttributes:
+      yPos: 165
+      xPos: 0
+      width: 12
+      height: 26
+  - title: Session intensity by tier
+    tooltip:
+      description: Duo Agent Platform flow sessions grouped by user activity tier for the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: false
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: table
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: userTier(thresholds=[5, 25, 100]) as "Tier"
+            metrics: usersCount as "Users", totalCount as "Sessions"
+            sort: userTier desc
+    gridAttributes:
+      yPos: 191
+      xPos: 0
+      width: 12
+      height: 28
+  - title: Group and project comparison
+    tooltip:
+      description: Users and credits by subgroup and project in the selected date range. Deleted groups and projects, and ones you cannot see, fall into the rows with no subgroup or no project. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+        trendMetric: usersCount
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: table
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: group(depth=2) as "Group", project as "Project"
+            metrics: creditsUsedSum as "Credits", usersCount as "Users"
+            # not creditsUsedSum: ordering by it fails for viewers without read_agent_artifacts
+            sort: usersCount desc, project asc
+            # one page of eight rows fits the tile without scrolling
+            limit: 8
+            # fixed widths keep the columns in place between pages; groups get more room for nested names
+            displayConfig:
+              columnWidths:
+                group: 35
+                project: 25
+    gridAttributes:
+      yPos: 219
+      xPos: 0
+      width: 12
+      height: 61
+- title: Work
+  duoPrompts:
+  - Where do Duo-created merge requests end up?
+  - Compare MR outcomes with Duo
+  - Which agentic capabilities are producing the most outcomes?
+  - How has session volume moved over this period?
+  - How many Fix Pipeline suggestions were actually taken?
+  panels:
+  - section:
+      title: Activity summary
+      description: Session volume in the selected date range, and how it divides by activity.
+    gridAttributes:
+      yPos: 0
+      xPos: 0
+      height: 7
+      minHeight: 7
+  - title: Sessions
+    tooltip:
+      description: GitLab Duo Agent Platform (DAP) sessions in the selected scope and date range, across every flow type.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: totalCount
+            displayConfig:
+              description: Every DAP session in scope and period
+    gridAttributes:
+      yPos: 7
+      xPos: 0
+      width: 3
+      height: 32
+  - title: Sessions by activity
+    tooltip:
+      description: Sessions in the selected date range by flow type, six to a page, largest first. Bar length is a rough guide rather than an exact proportion; the number at the end of each bar is the actual value.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: flowType
+            metrics: totalCount
+            sort: totalCount desc
+            displayConfig:
+              valueLabels: value
+              color: blue
+              scale: log
+    gridAttributes:
+      yPos: 7
+      xPos: 3
+      width: 9
+      height: 32
+  - title: Sessions over time
+    tooltip:
+      description: Sessions created over the selected period, stacked by flow type.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: columnChart
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: created(%{dynamicGranularity}), flowType
+            metrics: totalCount as "Sessions"
+            sort: created asc, flowType asc
+            displayConfig:
+              maxSeries: 5
+    gridAttributes:
+      yPos: 39
+      xPos: 0
+      width: 12
+      height: 58
+  - section:
+      title: MR cycle time
+      description: Time from open to merge, Duo-created vs human-authored merge requests, for merge requests merged in the selected date range.
+      tooltip:
+        title: MR cycle time
+        description: Median and 75th percentile of the time from a merge request being opened to being merged, for merge requests merged in the selected date range. Duo-created merge requests are those opened by a GitLab Duo activity. The baseline counts only merge requests by human authors.
+    gridAttributes:
+      yPos: 97
+      xPos: 0
+      height: 7
+      minHeight: 7
+  # The design's footer button is left out: a footer can only link to a dashboard view.
+  - title: "Cycle time: Duo-created"
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: merged
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = MergeRequest and createdByDuo = true
+            metrics: timeToMergeQuantile(0.5) as "Median", timeToMergeQuantile(0.75) as "p75", throughputCount
+            displayConfig:
+              description: "%{throughputCount} merged merge requests"
+              hiddenMetrics: [throughputCount]
+              valueLabels: value
+              scale: max
+              color: blue
+    gridAttributes:
+      yPos: 104
+      xPos: 0
+      width: 6
+      height: 19
+  - title: "Cycle time: all other"
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: merged
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = MergeRequest and createdByDuo = false and authorHuman = true
+            metrics: timeToMergeQuantile(0.5) as "Median", timeToMergeQuantile(0.75) as "p75", throughputCount
+            displayConfig:
+              description: "%{throughputCount} merged merge requests by human authors, baseline"
+              hiddenMetrics: [throughputCount]
+              valueLabels: value
+              scale: max
+              color: gray
+    gridAttributes:
+      yPos: 104
+      xPos: 6
+      width: 6
+      height: 19
+  - section:
+      title: Merge request volume
+      description: How many merge requests Duo opens and merges in the selected date range, against human-authored merge requests.
+    gridAttributes:
+      yPos: 123
+      xPos: 0
+      height: 7
+      minHeight: 7
+  - title: Opened by Duo
+    tooltip:
+      description: Merge requests opened by GitLab Duo Agent Platform (DAP) sessions created in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: createdMrCountSum
+            displayConfig:
+              description: Merge requests opened by a Duo activity over the selected period, and what became of them.
+    gridAttributes:
+      yPos: 130
+      xPos: 0
+      width: 12
+      height: 14
+  - title: "Merged: Duo-created"
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: merged
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = MergeRequest and createdByDuo = true
+            metrics: throughputCount
+            displayConfig:
+              description: Merged merge requests created by a Duo activity.
+    gridAttributes:
+      yPos: 144
+      xPos: 0
+      width: 6
+      height: 14
+  - title: "Merged: all other"
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: merged
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = MergeRequest and createdByDuo = false and authorHuman = true
+            metrics: throughputCount
+            displayConfig:
+              description: Merged merge requests by human authors with no Duo involvement, baseline.
+    gridAttributes:
+      yPos: 144
+      xPos: 6
+      width: 6
+      height: 14
+  - title: Duo created merge requests by status
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        subtitle: Merge requests created in each period, shown by their current status. A period's point reflects where those merge requests stand now, not their status at the time.
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: lineChart
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: created(%{dynamicGranularity})
+            metrics: createdMrCountSum as "Opened", openMrCountSum as "Pending", mergedMrCountSum as "Merged", closedMrCountSum as "Closed"
+            sort: created asc
+    gridAttributes:
+      yPos: 158
+      xPos: 0
+      width: 12
+      height: 53
+  - section:
+      title: Capability outcomes
+      description: How many sessions ran to completion for each capability, what they produced, and how much of it was taken.
+    gridAttributes:
+      yPos: 211
+      xPos: 0
+      height: 7
+      minHeight: 7
+  - title: Agentic Code Review sessions
+    tooltip:
+      description: Sessions of the Code Review flow in the selected date range, whatever their outcome.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "code_review/v1"
+            metrics: totalCount
+            displayConfig:
+              unit: sessions
+              description: Sessions of the Code Review flow
+    gridAttributes:
+      yPos: 218
+      xPos: 0
+      width: 12
+      height: 14
+  # The breakdown tiles are a label and a number. An empty description suppresses the one the stat
+  # would otherwise derive from the metric.
+  - title: Reviews requested
+    tooltip:
+      description: Duo Code Review requests on merge requests in the selected date range, whether the author or someone else asked. This includes classic Duo Code Review requests, which have no Agentic Code Review session, and agentic requests where the session failed to start. So it can be higher than Agentic Code Review sessions.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = AiUsageEvent and event in ("request_review_duo_code_review_on_mr_by_author", "request_review_duo_code_review_on_mr_by_non_author")
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 232
+      xPos: 0
+      width: 3
+      height: 12
+  - title: Reviews published
+    tooltip:
+      description: Duo Code Reviews that finished in the selected date range, whether or not they left comments.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = AiUsageEvent and event in ("post_comment_duo_code_review_on_diff", "find_no_issues_duo_code_review_after_review")
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 232
+      xPos: 3
+      width: 3
+      height: 12
+  - title: With comments
+    tooltip:
+      description: Duo Code Reviews that published at least one comment in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = AiUsageEvent and event = "post_comment_duo_code_review_on_diff"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 232
+      xPos: 6
+      width: 3
+      height: 12
+  - title: Without comments
+    tooltip:
+      description: Duo Code Reviews that found nothing to comment on in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = AiUsageEvent and event = "find_no_issues_duo_code_review_after_review"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 232
+      xPos: 9
+      width: 3
+      height: 12
+  - title: Agentic Code Review outcomes over time
+    tooltip:
+      description: Duo Code Reviews requested and published in the selected date range, and whether the published reviews left comments, per period.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: lineChart
+            mode: analytics
+            query: type = AiUsageEvent and event in ("request_review_duo_code_review_on_mr_by_author", "request_review_duo_code_review_on_mr_by_non_author", "post_comment_duo_code_review_on_diff", "find_no_issues_duo_code_review_after_review")
+            dimensions: timestamp(%{dynamicGranularity})
+            metrics: totalCount(event=["request_review_duo_code_review_on_mr_by_author", "request_review_duo_code_review_on_mr_by_non_author"]) as "Reviews requested", totalCount(event=["post_comment_duo_code_review_on_diff", "find_no_issues_duo_code_review_after_review"]) as "Reviews published", totalCount(event="post_comment_duo_code_review_on_diff") as "With comments", totalCount(event="find_no_issues_duo_code_review_after_review") as "Without comments"
+            sort: timestamp asc
+    gridAttributes:
+      yPos: 244
+      xPos: 0
+      width: 12
+      height: 51
+  - title: Agentic Developer sessions
+    tooltip:
+      description: Developer flow sessions created in the selected date range, whatever their status.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1"
+            metrics: totalCount
+            displayConfig:
+              unit: sessions
+              description: Sessions of the Developer flow
+    gridAttributes:
+      yPos: 295
+      xPos: 0
+      width: 12
+      height: 14
+  - title: Completed
+    tooltip:
+      description: Developer flow sessions created in the selected date range that completed, including sessions that are done for now and open to a follow-up.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status in ("finished", "idle")
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 309
+      xPos: 0
+      width: 2
+      height: 12
+  - title: Paused
+    tooltip:
+      description: Developer flow sessions created in the selected date range that are paused. Flows waiting on the user are counted in a separate tile.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status = "paused"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 309
+      xPos: 2
+      width: 2
+      height: 12
+  - title: Awaiting input
+    tooltip:
+      description: Developer flow sessions created in the selected date range that are waiting for the user to answer a question or approve a plan or a tool call.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status in ("input_required", "plan_approval_required", "tool_call_approval_required")
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 309
+      xPos: 4
+      width: 2
+      height: 12
+  - title: In progress
+    tooltip:
+      description: Developer flow sessions created in the selected date range that have been created or are running right now.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status in ("created", "running")
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 309
+      xPos: 6
+      width: 2
+      height: 12
+  - title: Canceled
+    tooltip:
+      description: Developer flow sessions created in the selected date range that the user stopped.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status = "stopped"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 309
+      xPos: 8
+      width: 2
+      height: 12
+  - title: Failed
+    tooltip:
+      description: Developer flow sessions created in the selected date range that were dropped. See the **Failed by reason** panel for a breakdown by reason.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status = "failed"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 309
+      xPos: 10
+      width: 2
+      height: 12
+  - title: Agentic Developer sessions over time
+    tooltip:
+      description: Developer flow sessions created in the selected date range, split into completed, paused, awaiting input, in progress, canceled and failed.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: lineChart
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1"
+            dimensions: created(%{dynamicGranularity})
+            metrics: totalCount(status=["finished", "idle"]) as "Completed", totalCount(status="paused") as "Paused", totalCount(status=["input_required", "plan_approval_required", "tool_call_approval_required"]) as "Awaiting input", totalCount(status=["created", "running"]) as "In progress", totalCount(status="stopped") as "Canceled", totalCount(status="failed") as "Failed"
+            sort: created asc
+    gridAttributes:
+      yPos: 321
+      xPos: 0
+      width: 12
+      height: 51
+  - title: Failed by reason
+    tooltip:
+      description: Developer flow sessions created in the selected date range that were dropped, by the reason recorded when they failed.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "developer/v1" and status = "failed"
+            dimensions: dropReason
+            metrics: totalCount
+            sort: totalCount desc
+            displayConfig:
+              valueLabels: value
+              color: blue
+              maxRows: 9
+    gridAttributes:
+      yPos: 372
+      xPos: 0
+      width: 12
+      height: 35
+  - title: Agentic Fix Pipeline sessions
+    tooltip:
+      description: Sessions of the Fix Pipeline flow in the selected date range, whatever their outcome.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "fix_pipeline/v1"
+            metrics: totalCount
+            displayConfig:
+              unit: sessions
+              description: Sessions of the Fix Pipeline flow
+    gridAttributes:
+      yPos: 407
+      xPos: 0
+      width: 6
+      height: 14
+  # Two foundational flows handle SAST, so both count as SAST sessions.
+  - title: Agentic SAST sessions
+    tooltip:
+      description: Sessions of the Resolve SAST Vulnerability and SAST False Positive Detection flows in the selected date range, whatever their outcome.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType in ("resolve_sast_vulnerability/v1", "sast_fp_detection/v1")
+            metrics: totalCount
+            displayConfig:
+              unit: sessions
+              description: Sessions of the SAST flows
+    gridAttributes:
+      yPos: 407
+      xPos: 6
+      width: 6
+      height: 14
+  - title: Suggestions posted
+    tooltip:
+      description: Fix suggestions that Duo posted on failed pipelines in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = AiUsageEvent and event = "fix_pipeline_suggestion_posted"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 421
+      xPos: 0
+      width: 3
+      height: 12
+  - title: Suggestions applied
+    tooltip:
+      description: Posted fix suggestions that were applied in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = AiUsageEvent and event = "fix_pipeline_suggestion_applied"
+            metrics: totalCount
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 421
+      xPos: 3
+      width: 3
+      height: 12
+  - title: MRs created after finding vulnerability
+    tooltip:
+      description: Merge requests opened by Resolve SAST Vulnerability sessions created in the selected date range.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow and flowType = "resolve_sast_vulnerability/v1"
+            metrics: createdMrCountSum
+            displayConfig:
+              description: ""
+    gridAttributes:
+      yPos: 421
+      xPos: 6
+      width: 6
+      height: 12
+  - title: Agentic Fix Pipeline suggestions over time
+    tooltip:
+      description: Fix suggestions that Duo posted on failed pipelines in the selected date range, and those that were applied, per period.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: timestamp
+          glql: |
+            display: lineChart
+            mode: analytics
+            query: type = AiUsageEvent and event in ("fix_pipeline_suggestion_posted", "fix_pipeline_suggestion_applied")
+            dimensions: timestamp(%{dynamicGranularity})
+            metrics: totalCount(event="fix_pipeline_suggestion_posted") as "Suggestions posted", totalCount(event="fix_pipeline_suggestion_applied") as "Suggestions applied"
+            sort: timestamp asc
+    gridAttributes:
+      yPos: 433
+      xPos: 0
+      width: 6
+      height: 51
+  - title: Agentic SAST sessions over time
+    tooltip:
+      description: SAST flow sessions created over the selected period, and the merge requests those sessions opened.
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: lineChart
+            mode: analytics
+            query: type = DuoWorkflow and flowType in ("resolve_sast_vulnerability/v1", "sast_fp_detection/v1")
+            dimensions: created(%{dynamicGranularity})
+            metrics: totalCount as "Sessions created", createdMrCountSum as "MRs created after finding vulnerability"
+            sort: created asc
+    gridAttributes:
+      yPos: 433
+      xPos: 6
+      width: 6
+      height: 51
+- title: Spend
+  duoPrompts:
+  - Which model is costing us the most credits?
+  - How are credits trending, excluding Chat?
+  - Which capabilities drive spend on each model?
+  - Why is Chat excluded from the credits chart?
+  panels:
+  # The top capabilities get their own stacked segment and legend entry; the rest roll
+  # into an Other segment.
+  - title: Credits by model, by capability
+    tooltip:
+      description: Credits consumed by each model in the selected date range, stacked by capability. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: barList
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: model, flowType
+            metrics: creditsUsedSum
+            displayConfig:
+              maxSeries: 5
+    gridAttributes:
+      yPos: 0
+      xPos: 0
+      width: 12
+      height: 37
+  - title: Credits
+    tooltip:
+      description: Total credits consumed by GitLab Duo Agent Platform (DAP) sessions in the selected date range. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            query: type = DuoWorkflow
+            metrics: creditsUsedSum
+            displayConfig:
+              compact: true
+              unit: credits
+              description: Total credits consumed over the selected period
+    gridAttributes:
+      yPos: 37
+      xPos: 0
+      width: 6
+      height: 14
+  - title: Chat
+    tooltip:
+      description: Credits consumed by Chat sessions in the selected date range. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+        showTrends: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: stat
+            mode: analytics
+            # chat and agentic chat are the two chat session flow types on this source
+            query: type = DuoWorkflow and flowType in ("chat", "agentic_chat/v1")
+            metrics: creditsUsedSum
+            displayConfig:
+              compact: true
+              unit: credits
+              description: Credits consumed by Chat sessions
+    gridAttributes:
+      yPos: 37
+      xPos: 6
+      width: 6
+      height: 14
+  - title: Credits over time
+    tooltip:
+      description: Credits consumed over the selected period, stacked by capability. Credits are processed after sessions are billed, so recent totals may be incomplete.
+      template: dap_credits_tooltip
+    visualization:
+      type: Glql
+      options:
+        showActions: true
+      data:
+        type: glql
+        query:
+          dateField: created
+          glql: |
+            display: columnChart
+            mode: analytics
+            query: type = DuoWorkflow
+            dimensions: created(%{dynamicGranularity}), flowType
+            metrics: creditsUsedSum
+            # the second key keeps paging stable, since flow types in a bucket tie on `created`
+            sort: created asc, creditsUsedSum desc
+            displayConfig:
+              maxSeries: 5
+    gridAttributes:
+      yPos: 51
+      xPos: 0
+      width: 12
+      height: 53

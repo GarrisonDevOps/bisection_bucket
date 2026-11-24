@@ -1,0 +1,153 @@
+# frozen_string_literal: true
+
+module Ci
+  class RunnerPolicy < BasePolicy
+    with_scope :subject
+    condition(:locked) { @subject.locked? }
+
+    # A project runner takes its permissions from the project it was created in,
+    # and a group runner from its group. Instance runners delegate to neither.
+    delegate(:project) { @subject.owner if @subject.project_type? }
+    delegate(:group) { @subject.owner if @subject.group_type? }
+
+    with_score 20
+    condition(:runner_available) do
+      runner = @subject.is_a?(Ci::RunnerPresenter) ? @subject.__getobj__ : @subject
+
+      available_project_runners.include?(runner)
+    end
+
+    condition(:creator) do
+      @user == @subject.creator
+    end
+
+    with_scope :subject
+    condition(:is_instance_runner) do
+      @subject.instance_type?
+    end
+
+    with_scope :subject
+    condition(:is_group_runner) do
+      @subject.group_type?
+    end
+
+    with_scope :subject
+    condition(:is_project_runner) do
+      @subject.project_type?
+    end
+
+    with_score 20
+    condition(:any_associated_projects_in_group_runner_inheriting_group_runners) do
+      # Check if any projects where user is a maintainer+ are inheriting group runners
+      @subject.groups&.any? do |group|
+        group.all_projects
+             .with_group_runners_enabled
+             .visible_to_user_and_access_level(@user, Gitlab::Access::MAINTAINER)
+             .exists?
+      end
+    end
+
+    with_score 20
+    condition(:read_runners_in_any_associated_projects) do
+      # Check if runner is associated to any projects where user has read_runners permission
+      DeclarativePolicy.user_scope do
+        @subject.projects.any? do |project|
+          can?(:read_runners, project)
+        end
+      end
+    end
+
+    with_score 20
+    condition(:read_runners_in_any_associated_groups) do
+      @subject.groups.any? do |group|
+        can?(:read_runners, group)
+      end
+    end
+
+    with_scope :subject
+    condition(:belongs_to_multiple_projects) do
+      @subject.belongs_to_more_than_one_project?
+    end
+
+    rule { anonymous }.prevent_all
+
+    rule { admin }.policy do
+      enable :read_runner_job
+      enable :read_runner
+      enable :update_runner
+      enable :assign_runner
+      enable :delete_runner
+    end
+
+    rule { is_instance_runner }.policy do
+      # Any authenticated user can read instance runner information
+      enable :read_runner
+    end
+
+    # doc/ci/runners/runners_scope.md#view-group-runners
+    # doc/user/permissions.md#cicd-group-permissions
+    rule { is_group_runner & read_runners_in_any_associated_groups }.policy do
+      enable :read_runner_job
+      enable :read_runner
+    end
+
+    rule { is_group_runner & any_associated_projects_in_group_runner_inheriting_group_runners }.policy do
+      enable :read_runner
+    end
+
+    # doc/ci/runners/runners_scope.md#project-runners
+    # doc/user/permissions.md#cicd
+    rule { is_project_runner & read_runners_in_any_associated_projects }.policy do
+      enable :read_runner
+    end
+
+    # Admins or users with a custom admin role that grants the ability to read CI/CD
+    condition(:can_read_admin_cicd, scope: :user) do
+      can?(:read_admin_cicd, :global)
+    end
+
+    rule { can_read_admin_cicd }.policy do
+      enable :read_runner
+      enable :read_runner_job
+    end
+
+    # NOTE: The `is_project_runner & belongs_to_multiple_projects & ` part is an optimization to avoid the
+    # `runner_available` condition, which is much more expensive than the project delegation.
+    # We can do this because:
+    # - it doesn't handle instance runners.
+    # - it handles group runners, but those only have a single group associated
+    #   (and can be handled by the group delegation).
+    # - this leaves project runners. If they have a single associated project
+    #   (the owner project, the project delegation will grant the permissions).
+    # So only if the runner has multiple projects is this rule useful at all.
+    rule { is_project_runner & belongs_to_multiple_projects & runner_available }.policy do
+      enable :read_runner_job
+      enable :read_runner
+
+      enable :assign_runner
+      enable :update_runner
+    end
+
+    rule { can?(:read_runner) }.policy do
+      enable :read_runner_sensitive_data
+    end
+
+    rule { can?(:update_runner) }.enable :reset_runner_authentication_token
+
+    rule { creator }.enable :read_ephemeral_token
+
+    rule { ~admin & belongs_to_multiple_projects }.prevent :delete_runner
+
+    rule { ~admin & locked }.prevent :assign_runner
+
+    rule { is_instance_runner & ~admin }.prevent :read_runner_sensitive_data
+
+    private
+
+    def available_project_runners
+      @available_project_runners ||= @user.ci_available_project_runners.load
+    end
+  end
+end
+
+Ci::RunnerPolicy.prepend_mod_with('Ci::RunnerPolicy')

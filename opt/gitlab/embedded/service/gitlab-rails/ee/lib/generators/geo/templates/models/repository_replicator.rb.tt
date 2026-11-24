@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+module Geo
+  class <%= replicator_class_name %> < Gitlab::Geo::Replicator
+    include ::Geo::RepositoryReplicatorStrategy
+    extend ::Gitlab::Utils::Override
+
+    def self.model
+      <%= replicator_model_reference %>
+    end
+
+    # @return [String] human-readable title.
+    def self.replicable_title
+      s_('Geo|<%= replicable_title %>')
+    end
+
+    # @return [String] pluralized human-readable title.
+    def self.replicable_title_plural
+      s_('Geo|<%= replicable_title_plural %>')
+    end
+
+    override :housekeeping_enabled?
+    def self.housekeeping_enabled?
+      # TODO: return true if this Git repository type supports git housekeeping and implements
+      # #git_garbage_collect_worker_klass; otherwise leave false.
+      false
+    end
+
+    def repository
+      model_record.repository
+    end
+  end
+end

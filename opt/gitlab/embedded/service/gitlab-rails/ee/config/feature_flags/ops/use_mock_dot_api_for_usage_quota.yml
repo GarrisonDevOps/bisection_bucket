@@ -1,0 +1,10 @@
+---
+name: use_mock_dot_api_for_usage_quota
+description: Used to toggle between using a mock customer dot server and the staging one during development
+feature_issue_url: 
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214263
+rollout_issue_url: 
+milestone: '18.7'
+group: group::duo chat
+type: ops
+default_enabled: false

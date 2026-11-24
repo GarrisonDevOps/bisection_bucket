@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_report_duo_chat_token_usage
+description: Monthly count of Duo Chat agent turns that reported token usage
+product_group: duo_chat
+product_categories:
+- chat_engine
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/259436
+time_frame:
+- 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- premium
+- ultimate
+events:
+- name: report_duo_chat_token_usage

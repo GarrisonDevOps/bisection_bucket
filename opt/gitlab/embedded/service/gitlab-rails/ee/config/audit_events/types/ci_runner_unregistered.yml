@@ -1,0 +1,10 @@
+---
+name: ci_runner_unregistered
+description: An instance, group, or project runner is unregistered
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/349540
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/79754
+feature_category: "runner"
+milestone: "14.9"
+saved_to_database: true
+streamed: true
+scope: [Instance, Group, Project]

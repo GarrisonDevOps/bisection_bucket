@@ -1,0 +1,17 @@
+---
+description: An issue's iteration has been changed
+internal_events: true
+action: g_project_management_issue_iteration_changed
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: work_items
+product_categories:
+- team_planning
+milestone: "16.2"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/124431
+tiers:
+- premium
+- ultimate

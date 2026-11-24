@@ -1,0 +1,20 @@
+---
+token_type: "AdafruitIOKey"
+class_name: "AdafruitClient"
+partner_name: "adafruit"
+endpoint: "https://io.adafruit.com/api/v2/user"
+http_method: "get"
+auth_style: "header"
+auth_param: "X-AIO-Key"
+token_pattern: '\Aaio_[A-Za-z]{4}[0-9]{2}[0-9A-Za-z]{22}\z'
+sample_token: "aio_AAAA00aaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_adafruit_api"
+doc_url: "https://io.adafruit.com/api/docs/http.html"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

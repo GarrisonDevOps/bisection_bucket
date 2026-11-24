@@ -1,0 +1,9 @@
+- return unless @duo_flow_callback_available
+
+- docs_link = link_to('', help_page_path('user/duo_agent_platform/flows/webhook_callbacks.md'), target: '_blank', rel: 'noopener noreferrer')
+
+.form-group
+  = form.label :duo_flow_callback_enabled, _('GitLab Duo Agent Platform'), class: 'label-bold'
+  = form.gitlab_ui_checkbox_component :duo_flow_callback_enabled,
+      s_('Webhooks|Send Duo flow events to this webhook'),
+      help_text: safe_format(s_('Webhooks|Flows that reference this webhook receive lifecycle and progress events. Progress events can include agent reasoning and tool arguments. %{link_start}Learn more%{link_end}.'), tag_pair(docs_link, :link_start, :link_end))

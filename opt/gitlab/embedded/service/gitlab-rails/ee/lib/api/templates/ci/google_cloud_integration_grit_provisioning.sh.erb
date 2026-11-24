@@ -1,0 +1,5 @@
+#!/bin/bash
+
+terraform init
+terraform plan -var runner_token="<%= runner_token %>" -out plan.out
+terraform apply plan.out

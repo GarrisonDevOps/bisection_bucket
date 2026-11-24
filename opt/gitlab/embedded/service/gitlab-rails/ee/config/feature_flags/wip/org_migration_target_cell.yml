@@ -1,0 +1,10 @@
+---
+name: org_migration_target_cell
+description: Enables org migration target cell behavior, which allows a cell to receive an organization via Geo replication during organization migration. Requires selective sync by organizations to be configured.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/571916
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223454
+rollout_issue_url:
+milestone: '18.10'
+group: group::geo
+type: wip
+default_enabled: false

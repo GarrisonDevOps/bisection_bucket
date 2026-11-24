@@ -1,0 +1,11 @@
+---
+name: code_review_analytics_api_diff_stats
+description: Compute the Code Review Analytics API line counts from the merge request
+  diff stats instead of loading every diff file.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636159
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268231
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638541
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: npm_virtual_registry
+description: Enable NPM packages virtual registry
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/585862
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/220718
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/588845
+milestone: '18.10'
+group: group::package registry
+type: wip
+default_enabled: false

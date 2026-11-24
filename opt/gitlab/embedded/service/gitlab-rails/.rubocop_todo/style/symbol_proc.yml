@@ -1,0 +1,15 @@
+---
+# Cop supports --autocorrect.
+Style/SymbolProc:
+  Exclude:
+    - 'app/models/ci/pipeline.rb'
+    - 'app/models/environment.rb'
+    - 'app/models/remote_mirror.rb'
+    - 'config/initializers/doorkeeper_openid_connect.rb'
+    - 'ee/app/models/ee/issue.rb'
+    - 'ee/lib/api/entities/geo_node.rb'
+    - 'ee/spec/support/shared_examples/lib/gitlab/graphql/issuables_lazy_links_aggregate_shared_examples.rb'
+    - 'lib/api/entities/board.rb'
+    - 'lib/api/entities/issuable_references.rb'
+    - 'lib/api/entities/merge_request_approvals.rb'
+    - 'lib/api/helpers/internal_helpers.rb'

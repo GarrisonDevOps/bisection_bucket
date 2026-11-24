@@ -1,0 +1,16 @@
+---
+description: Triggers when user visits runner fleet dashboard.
+internal_events: true
+action: view_runner_fleet_dashboard_pageload
+identifiers:
+- user
+additional_properties:
+  label:
+    description: The dashboard level, which can be `project`, `group`, or `instance`
+product_group: runner_core
+product_categories:
+- fleet_visibility
+milestone: '17.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/157589
+tiers:
+- ultimate

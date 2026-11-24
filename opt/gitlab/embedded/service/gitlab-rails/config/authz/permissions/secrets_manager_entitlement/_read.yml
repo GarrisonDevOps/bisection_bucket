@@ -1,0 +1,7 @@
+---
+name: _read_secrets_manager_entitlement
+description: Private permission that gates read access to the Secrets Manager
+  entitlement for roles below Maintainer. The group policy enables
+  read_secrets_manager_entitlement for holders only while the entitlement state
+  lets them read secrets. Must not be checked directly at enforcement points.
+conditionally_enables: read_secrets_manager_entitlement

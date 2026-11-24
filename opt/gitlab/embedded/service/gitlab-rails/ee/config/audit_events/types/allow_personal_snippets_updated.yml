@@ -1,0 +1,10 @@
+---
+name: allow_personal_snippets_updated
+description: Setting Allow personal snippets is updated
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/486532
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/238576
+feature_category: system_access
+milestone: '19.2'
+saved_to_database: true
+streamed: true
+scope: [Group]

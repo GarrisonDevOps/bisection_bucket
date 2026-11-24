@@ -1,0 +1,9 @@
+---
+name: third_party_sbom_support
+description: Gates the handling of SBOMs from analyzers other than GitLab.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/633165
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264250
+milestone: '19.6'
+group: group::composition analysis
+type: wip
+default_enabled: false

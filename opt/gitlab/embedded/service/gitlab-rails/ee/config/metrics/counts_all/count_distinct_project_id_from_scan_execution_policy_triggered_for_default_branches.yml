@@ -1,0 +1,23 @@
+---
+key_path: redis_hll_counters.count_distinct_project_id_from_scan_execution_policy_triggered_for_default_branches
+description: Count of unique projects with Scan Execution Policy triggered for default branches
+product_group: policy_management
+product_categories:
+- security_policy_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/195996
+time_frame:
+- 28d
+- 7d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: trigger_scan_execution_policy_by_branch_type
+  unique: project.id
+  filter:
+    label: default

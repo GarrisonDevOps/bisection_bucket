@@ -1,0 +1,21 @@
+-# Set by projects/settings/repository/_github_updates.html.haml, which works
+-# only because Rails renders the content template before this layout partial.
+- return if @hide_github_updates_notice
+
+- project = local_assigns.fetch(:project)
+
+- if show_github_updates_notice?(project)
+  -# The GitHub repository is shown to signed-in users who can read the code, not anonymous visitors of a public project.
+  - repository_url = github_updates_repository_url(project.import_sync_repository) if current_user && can?(current_user, :read_code, project)
+
+  - content_for :page_level_alert do
+    = render Pajamas::AlertComponent.new(variant: :info, dismissible: false, title: s_('GithubUpdatesReadOnly|This project is read-only'), alert_options: { class: 'gl-mb-3', data: { testid: 'github-updates-notice' } }) do |c|
+      - c.with_body do
+        = github_updates_read_only_notice_body(project)
+      - c.with_actions do
+        - if repository_url
+          = render Pajamas::ButtonComponent.new(variant: :confirm, href: repository_url, target: '_blank', button_options: { rel: 'noopener noreferrer' }) do
+            = s_('GithubUpdatesReadOnly|View on GitHub')
+        - if can?(current_user, :update_github_update, project)
+          = render Pajamas::ButtonComponent.new(href: project_settings_repository_path(project, anchor: 'github-updates'), button_options: { class: 'gl-ml-3' }) do
+            = s_('GithubUpdatesReadOnly|Manage GitHub updates')

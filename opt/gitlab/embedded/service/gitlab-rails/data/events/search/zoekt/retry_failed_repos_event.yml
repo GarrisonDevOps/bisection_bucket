@@ -1,0 +1,6 @@
+---
+event: Search::Zoekt::RetryFailedReposEvent
+description: Published once a day when Zoekt repositories are in the failed state,
+  so a worker can move them back to pending with one retry, one batch per event.
+feature_category: global_search
+ee_only: true

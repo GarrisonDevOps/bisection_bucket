@@ -1,0 +1,8 @@
+---
+name: ldap_raise_on_search_error
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226913
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/636709
+milestone: '19.6'
+type: ops
+group: group::seat management
+default_enabled: true

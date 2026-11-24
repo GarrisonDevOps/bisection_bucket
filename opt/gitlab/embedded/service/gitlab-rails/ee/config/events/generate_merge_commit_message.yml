@@ -1,0 +1,18 @@
+---
+description: When a user generates a merge commit message for a merge request with GitLab Duo
+internal_events: true
+status: active
+action: generate_merge_commit_message
+classification: duo
+identifiers:
+- project
+- namespace
+- user
+product_group: code_review
+product_categories:
+- code_review_workflow
+milestone: '19.2'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240198
+tiers:
+- premium
+- ultimate

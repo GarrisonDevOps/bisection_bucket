@@ -1,0 +1,10 @@
+---
+name: created_compliance_requirement
+description: A requirement is added to a compliance framework
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/470695
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/169485
+milestone: '17.6'
+feature_category: compliance_management
+saved_to_database: true
+streamed: true
+scope: [Group]

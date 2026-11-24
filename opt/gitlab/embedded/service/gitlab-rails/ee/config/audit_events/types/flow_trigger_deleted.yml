@@ -1,0 +1,10 @@
+---
+name: flow_trigger_deleted
+description: A flow trigger was deleted from a project or group
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/593020
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230069
+feature_category: dap_triggers
+milestone: '19.0'
+saved_to_database: true
+streamed: true
+scope: [Group, Project]

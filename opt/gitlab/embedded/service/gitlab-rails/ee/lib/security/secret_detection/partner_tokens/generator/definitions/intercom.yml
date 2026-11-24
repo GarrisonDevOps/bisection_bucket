@@ -1,0 +1,19 @@
+---
+token_type: "Intercom API token"
+class_name: "IntercomClient"
+partner_name: "intercom"
+endpoint: "https://api.intercom.io/me"
+http_method: "get"
+auth_style: "bearer"
+token_pattern: '\AdG9rO(?:[0-9A-Za-z]{55}|[0-9A-Za-z]{54}=|[0-9A-Za-z]{53}==)\z'
+sample_token: "dG9rOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+rate_limit_key: "partner_intercom_api"
+doc_url: "https://developers.intercom.com/docs/build-an-integration/learn-more/authentication"
+status_map:
+  "200": "active"
+  "401": "inactive"
+  "429": "rate_limit"
+  "500": "network_error"
+  "502": "network_error"
+  "503": "network_error"
+  "504": "network_error"

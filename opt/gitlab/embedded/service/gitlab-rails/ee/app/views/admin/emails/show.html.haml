@@ -1,0 +1,11 @@
+- if admin_emails_are_currently_rate_limited?
+  = render Pajamas::AlertComponent.new(variant: :danger, dismissible: false, alert_options: { class: 'gl-mt-4' }) do |c|
+    - c.with_body do
+      = admin_emails_rate_limited_alert
+
+- page_title _("Email Notification")
+%h1.page-title.gl-text-size-h-display
+  = _('Send email notification')
+%p
+  = _('You can notify the app / group or a project by sending them an email notification')
+#js-admin-emails-form{ data: { admin_email_path: admin_email_path, admin_emails_are_currently_rate_limited: admin_emails_are_currently_rate_limited? } }

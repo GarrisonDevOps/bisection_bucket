@@ -1,0 +1,16 @@
+---
+description: Tracks clicks on the Learn More links in the Get Started page.
+internal_events: true
+action: click_learn_more_links_in_get_started
+product_group: activation
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192693
+tiers:
+  - premium
+  - ultimate
+additional_properties:
+  label:
+    description: hardcoded value for different topics
+status: removed
+milestone_removed: '19.6'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267245

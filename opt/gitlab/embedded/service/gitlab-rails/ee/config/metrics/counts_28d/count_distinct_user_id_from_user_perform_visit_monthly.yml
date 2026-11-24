@@ -1,0 +1,23 @@
+---
+key_path: redis_hll_counters.count_distinct_namespace_id_with_active_compliance_frameworks_from_user_perform_visit_monthly
+description: Monthly count of unique namespaces with active compliance frameworks visiting audit event logs
+product_group: compliance
+product_categories:
+- compliance_management
+- audit_events
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/174039
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: user_perform_visit
+  filter:
+    page_name: audit_events
+    with_active_compliance_frameworks: "true"
+  unique: namespace.id

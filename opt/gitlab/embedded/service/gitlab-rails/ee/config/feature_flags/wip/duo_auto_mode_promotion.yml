@@ -1,0 +1,10 @@
+---
+name: duo_auto_mode_promotion
+description: Signs the tools left at a default of ask into the DWS tool access policy so auto mode can run them without a prompt
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630345
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268961
+rollout_issue_url:
+milestone: '19.6'
+group: group::developer clients
+type: wip
+default_enabled: false

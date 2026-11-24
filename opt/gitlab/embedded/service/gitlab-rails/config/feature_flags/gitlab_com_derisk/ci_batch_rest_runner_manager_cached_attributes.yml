@@ -1,0 +1,10 @@
+---
+name: ci_batch_rest_runner_manager_cached_attributes
+description: Reads the cached attributes of the managers listed by the REST runner managers endpoint with one batched Redis read
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/638238
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269199
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639069
+milestone: '19.6'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

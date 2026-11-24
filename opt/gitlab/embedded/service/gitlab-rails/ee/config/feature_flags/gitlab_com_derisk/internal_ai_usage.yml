@@ -1,0 +1,11 @@
+---
+name: internal_ai_usage
+description: Apply AI quota checks and usage tracking to GitLab team members in pilot
+  groups
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631119
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260743
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/631121
+milestone: '19.6'
+group: group::entitlements
+type: gitlab_com_derisk
+default_enabled: false

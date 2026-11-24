@@ -1,0 +1,15 @@
+---
+key_path: usage_activity_by_stage.secure.user_cluster_image_scanning_scans
+description: Number of users who have run a Cluster image scan
+product_group: composition_analysis
+value_type: number
+status: removed
+milestone_removed: '15.5'
+removed_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/98858'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/49444
+time_frame: all
+data_source: database
+data_category: optional
+tiers:
+- ultimate
+milestone: "<16.4"

@@ -1,0 +1,11 @@
+---
+name: route_unknown_oauth_clients_to_iam
+description: Route OAuth authorize requests to the IAM Auth Service when the client_id
+  is missing or does not match a Rails OAuth application.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639410
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/269744
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/639452
+milestone: '19.6'
+group: group::authentication
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,10 @@
+---
+name: group_permanent_deletion_requested
+description: A group permanent deletion is requested
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/issues/632327
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/261108
+feature_category: groups_and_projects
+milestone: '19.5'
+saved_to_database: true
+streamed: true
+scope: [Group]

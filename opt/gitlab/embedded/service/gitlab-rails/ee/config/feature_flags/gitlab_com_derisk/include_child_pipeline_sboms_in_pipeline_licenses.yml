@@ -1,0 +1,10 @@
+---
+name: include_child_pipeline_sboms_in_pipeline_licenses
+description: Include SBOM reports from child pipelines in the pipeline Licenses tab and the merge request license compliance widget
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632868
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/260721
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/632869
+milestone: '19.5'
+group: group::composition analysis
+type: gitlab_com_derisk
+default_enabled: false

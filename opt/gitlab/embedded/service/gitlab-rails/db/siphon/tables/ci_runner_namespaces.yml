@@ -1,0 +1,16 @@
+---
+table: ci_runner_namespaces
+database: ci
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_ci_runner_namespaces
+    dedup_by_columns_lookup_table: siphon_ci_runner_namespaces_pg_pkey_ordered
+    dedup_by:
+      - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - namespace_id
+  - name: gcs_parquet_consumer
+    dedup_by:
+      - id

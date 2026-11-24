@@ -1,0 +1,17 @@
+---
+description: User clicks the GitLab Credit pricing link on the upgrade to premium card on the billing page
+internal_events: true
+action: click_link_gitlab_credit_pricing
+identifiers:
+  - namespace
+  - user
+product_group: activation
+product_categories:
+  - subscription_management
+milestone: '18.10'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226401
+tiers:
+  - free
+additional_properties:
+  property:
+    description: The card where the link was clicked (upgrade_to_premium_card)

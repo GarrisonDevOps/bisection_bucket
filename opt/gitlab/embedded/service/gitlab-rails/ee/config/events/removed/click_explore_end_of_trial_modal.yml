@@ -1,0 +1,20 @@
+---
+description: Tracks when user clicks explore plans cta on trial expired modal
+internal_events: true
+status: removed
+milestone_removed: '18.11'
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228337
+action: click_explore_end_of_trial_modal
+identifiers:
+- project
+- namespace
+- user
+product_group: acquisition
+product_categories:
+- acquisition
+milestone: '18.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/213711
+tiers:
+- free
+- premium
+- ultimate

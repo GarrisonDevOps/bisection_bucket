@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/config/custom_abilities/type_schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Human readable title for the custom ability"
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique name for the custom ability"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human readable description of this custom ability"
+    },
+    "introduced_by_issue": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to GitLab issue that added this custom ability",
+      "qt-uri-protocols": [
+        "https"
+      ]
+    },
+    "introduced_by_mr": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to GitLab merge request that added this custom ability",
+      "qt-uri-protocols": [
+        "https"
+      ]
+    },
+    "feature_category": {
+      "type": "string",
+      "description": "The feature category of this this custom ability. For example, vulnerability_management"
+    },
+    "milestone": {
+      "type": "string",
+      "description": "Milestone that introduced this custom ability. For example, 15.8",
+      "pattern": "\\A[0-9]+\\.[0-9]+\\z"
+    },
+    "wip": {
+      "type": "boolean",
+      "description": "When true, the ability is excluded from loaded definitions unless the GITLAB_LOAD_WIP_CUSTOM_ABILITIES env var is set. Used while the ability is in development. Remove the key (or set to false) when ready to ship."
+    }
+  },
+  "required": [
+    "description",
+    "feature_category",
+    "introduced_by_issue",
+    "introduced_by_mr",
+    "milestone",
+    "name",
+    "title"
+  ],
+  "title": "GitLabCustomPermission"
+}

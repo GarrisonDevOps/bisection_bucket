@@ -1,0 +1,20 @@
+---
+key_path: counts.count_total_successful_pipelines_created_from_scheduled_pipeline_execution_policy
+description: Count of successfully created pipelines from Scheduled Pipeline Execution Policy
+product_group: policy_management
+product_categories:
+- security_policy_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '18.1'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189776
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: execute_job_scheduled_pipeline_execution_policy
+  filter:
+    label: success

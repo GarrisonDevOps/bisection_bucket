@@ -1,0 +1,31 @@
+%section.saml-settings.gl-mt-3
+  .well-segment
+    %p= _("To set up SAML authentication for your group through an identity provider like Azure, Okta, Onelogin, Ping Identity, or your custom SAML 2.0 provider:")
+    %ol
+      %li
+        = _('Review the process for configuring service providers in your identity provider — in this case, GitLab is the "service provider" or "relying party".')
+        = external_link _('Documentation for popular identity providers'), help_page_path('user/group/saml_sso/_index.md', anchor: 'set-up-your-identity-provider')
+      %li
+        = _("During this process, you’ll be asked for URLs from GitLab’s side. Use the URLs shown below.")
+      %li
+        = (_("Set up assertions/attributes/claims (email, first_name, last_name) and NameID according to %{docsLinkStart}the documentation %{icon}%{docsLinkEnd}") % { icon: sprite_icon('external-link'), docsLinkStart: "<a href='#{help_page_path('user/group/saml_sso/_index.md', anchor: 'configure-assertions')}' target='_blank' rel='noopener noreferrer'>", docsLinkEnd: '</a>' }).html_safe
+      %li
+        = html_escape(_("Fill in the fields below, turn on %{strong_open}Enable SAML authentication for this group%{strong_close}, and press %{strong_open}Save changes%{strong_close}")) % { strong_open: '<strong>'.html_safe, strong_close: '</strong>'.html_safe }
+      %li
+        = html_escape(_("Share the %{strong_open}GitLab single sign-on URL%{strong_close} with members so they can sign in to your group through your identity provider")) % { strong_open: '<strong>'.html_safe, strong_close: '</strong>'.html_safe }
+  .well-segment.borderless.gl-mb-5
+    = render 'info_row', field: :assertion_consumer_service_url, label_text: _('Assertion consumer service URL')
+    .form-text.gl-text-subtle= _('Also called "Relying party service URL" or "Reply URL"')
+  .well-segment.borderless.gl-mb-5
+    = render 'info_row', field: :issuer, label_text: _('Identifier')
+    .form-text.gl-text-subtle= _('Also called "Issuer" or "Relying party trust identifier"')
+  .well-segment.borderless.gl-mb-5
+    %label= _("GitLab metadata URL")
+    - metadata_url = user_group_saml_omniauth_metadata_url(@group)
+    %div= link_to metadata_url, metadata_url
+    .form-text.gl-text-subtle= _("Used to help configure your identity provider")
+  .well-segment.borderless.gl-mb-5
+    %label= _("GitLab single sign-on URL")
+    - user_login_url = sso_group_saml_providers_url(@group, token: @group.saml_discovery_token)
+    %div= link_to user_login_url, user_login_url, data: { testid: 'user-login-url-link' }
+    .form-text.gl-text-subtle= _("Used by members to sign in to your group in GitLab")

@@ -1,0 +1,8 @@
+---
+name: partition_manager_sync_partitions_ci
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/268835
+rollout_issue_url:
+milestone: '19.6'
+type: ops
+group: group::database
+default_enabled: true

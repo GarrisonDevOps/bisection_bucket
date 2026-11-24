@@ -1,0 +1,17 @@
+---
+description: A blocked epic has been added
+internal_events: true
+action: g_project_management_epic_blocked_added
+extra_properties:
+identifiers:
+- project
+- user
+- namespace
+product_group: portfolio_planning
+product_categories:
+- portfolio_management
+milestone: "16.5"
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/132030
+tiers:
+- premium
+- ultimate

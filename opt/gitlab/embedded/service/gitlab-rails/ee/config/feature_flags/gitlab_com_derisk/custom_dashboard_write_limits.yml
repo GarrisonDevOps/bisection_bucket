@@ -1,0 +1,10 @@
+---
+name: custom_dashboard_write_limits
+description: Caps custom dashboards per namespace and retained versions per dashboard, and rate limits dashboard creates and config updates per user
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/636114
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/267386
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/637953
+milestone: '19.6'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

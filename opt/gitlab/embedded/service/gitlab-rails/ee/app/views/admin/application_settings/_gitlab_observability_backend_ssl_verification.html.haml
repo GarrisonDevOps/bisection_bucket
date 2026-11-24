@@ -1,0 +1,13 @@
+= gitlab_ui_form_for @application_setting, url: network_admin_application_settings_path(anchor: 'js-gob-settings'), html: { class: 'fieldset-form' } do |f|
+  = form_errors(@application_setting)
+
+  %fieldset
+    .form-group
+      = f.gitlab_ui_checkbox_component :observability_backend_ssl_verification_enabled,
+        _('Enable SSL verification'),
+        help_text: _('Disable SSL verification if GitLab Observability Backend is using a self-signed certificate inside a private network.')
+      = f.gitlab_ui_checkbox_component :fetch_observability_alerts_from_cloud,
+        _('Fetch cloud observability alerts'),
+        help_text: _('Disable fetching cloud alerts if this GitLab instance is isolated from the public internet, or does not use observe.gitlab.com for Observability features.')
+
+  = f.submit _('Save changes'), pajamas_button: true

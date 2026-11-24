@@ -1,0 +1,47 @@
+- f = local_assigns.fetch(:f)
+- presenter = local_assigns.fetch(:presenter)
+- self_hosted_embedding_models = local_assigns.fetch(:self_hosted_embedding_models)
+
+- if presenter.current_model.present?
+  .form-group{ data: { testid: 'semantic-search-embeddings-update-warning' } }
+    = render Pajamas::AlertComponent.new(variant: :warning,
+      title: s_('SemanticSearch|Changing the embedding model or dimensions results in a backfill'),
+      dismissible: false) do |alert_c|
+      - alert_c.with_body do
+        %p= s_('SemanticSearch|This process can take several hours depending on your codebase size. Semantic search remains available during the backfill.')
+.form-group
+  = f.label :embedding_model, s_('SemanticSearch|Embedding model'), class: 'label-bold'
+  = f.select :embedding_model,
+    grouped_options_for_select(embedding_models_grouped_options(presenter.current_model, self_hosted_embedding_models), embedding_model_key(presenter.form_display_model)),
+    {},
+    class: 'form-control',
+    data: { testid: 'semantic-search-embeddings-model' },
+    disabled: presenter.disable_inputs?
+  .form-text.gl-text-subtle
+    - ai_gateway_link = link_to('', help_page_path('administration/gitlab_duo/gateway.md'), target: '_blank', rel: 'noopener noreferrer')
+    - add_self_hosted_model_link = link_to('', help_page_path('administration/gitlab_duo_self_hosted/offline_deployment.md', anchor: 'add-the-self-hosted-model'), target: '_blank', rel: 'noopener noreferrer')
+    = safe_format(s_('SemanticSearch|For GitLab-managed models, make sure you have access to GitLab-operated %{ai_gateway_link_start}AI Gateway%{ai_gateway_link_end}.'), tag_pair(ai_gateway_link, :ai_gateway_link_start, :ai_gateway_link_end))
+    = safe_format(s_('SemanticSearch|For Self-hosted models, you first need to add a model under the "Embedding" model family on the %{add_self_hosted_model_link_start}Add self-hosted model%{add_self_hosted_model_link_end} form.'), tag_pair(add_self_hosted_model_link, :add_self_hosted_model_link_start, :add_self_hosted_model_link_end))
+.form-group
+  = f.label :embedding_dimensions, s_('SemanticSearch|Embedding dimensions'), class: 'label-bold'
+  = f.number_field :embedding_dimensions,
+    value: embedding_model_dimensions(presenter.form_display_model),
+    step: 1,
+    min: 1,
+    class: 'form-control',
+    data: { testid: 'semantic-search-embeddings-dimensions' },
+    disabled: presenter.disable_inputs?
+  .form-text.gl-text-subtle
+    = s_('SemanticSearch|Make sure the model allows the value, and your vector store can handle it.')
+.form-group
+  = f.label :embeddings_request_batch_size, s_('SemanticSearch|Batch size for embedding requests'), class: 'label-bold'
+  = f.number_field :embeddings_request_batch_size,
+    value: embeddings_request_batch_size(presenter.form_display_model),
+    placeholder: s_('SemanticSearch|%{default_batch_size} (Default)') % { default_batch_size: default_embeddings_request_batch_size(presenter.form_display_model) },
+    step: 1,
+    min: 1,
+    class: 'form-control',
+    id: 'semantic-search-embeddings-batch-size-input',
+    data: { testid: 'semantic-search-batch-size-input' },
+    disabled: presenter.disable_inputs?
+  .form-text.gl-text-subtle= embeddings_request_batch_size_description

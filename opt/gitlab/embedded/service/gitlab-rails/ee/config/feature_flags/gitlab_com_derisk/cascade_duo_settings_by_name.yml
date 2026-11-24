@@ -1,0 +1,12 @@
+---
+name: cascade_duo_settings_by_name
+description: Queue Duo settings cascades with setting names instead of values, so the worker
+  cascades the group's current values and repeated changes collapse into one job. Enable only
+  after every Sidekiq node runs the code that accepts the new job arguments.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635299
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/264331
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/635514
+milestone: '19.6'
+group: group::ai control plane
+type: gitlab_com_derisk
+default_enabled: false

@@ -1,0 +1,20 @@
+---
+version: 1
+type: LineChart
+data:
+  type: dora_metrics
+  query:
+    metric: lead_time_for_changes
+    dateRange: 180d
+    interval: DAILY
+options:
+  xAxis:
+    name: Date
+    type: time
+  yAxis:
+    name: "Time from merge to deploy"
+    type: value
+  includeLegendAvgMax: false
+  chartTooltip:
+    titleFormatter: DATE
+    valueUnit: TIME_INTERVAL

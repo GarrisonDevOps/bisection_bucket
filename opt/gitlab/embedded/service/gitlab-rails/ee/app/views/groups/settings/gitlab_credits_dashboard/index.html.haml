@@ -1,0 +1,7 @@
+- title_text = s_('UsageBilling|GitLab Credits dashboard')
+- page_title title_text
+- breadcrumb_title title_text
+
+= render GitlabSubscriptions::GitlabCreditsExpiryAlertComponent.new(user: current_user, group: @group)
+
+#js-group-usage-billing-dashboard{ data: usage_billing_dashboard_data(@group, @plans_data) }

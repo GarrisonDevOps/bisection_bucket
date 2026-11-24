@@ -1,0 +1,7 @@
+- title_text = s_('UsageBilling|Your GitLab Credits usage')
+- page_title title_text
+- breadcrumb_title title_text
+
+%h1.gl-mb-3= title_text
+
+#js-personal-gitlab-credits-dashboard{ data: { groups_with_gitlab_credits: @groups_with_gitlab_credits.to_json } }

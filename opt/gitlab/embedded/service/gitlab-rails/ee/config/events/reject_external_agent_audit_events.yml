@@ -1,0 +1,22 @@
+---
+description: GitLab rejected a batch of audit events from glab because an event failed validation. Requests over the JSON validation limits are rejected before this and are not counted. Includes requests that would also fail the session lookup or ownership check
+internal_events: true
+status: active
+action: reject_external_agent_audit_events
+identifiers:
+- user
+- namespace
+- project
+additional_properties:
+  property:
+    description: 'Reason, one of occurred_at_in_future, occurred_at_too_old, or details_too_large'
+  value:
+    description: 'Number of audit events in the rejected batch'
+product_group: ai_governance
+product_categories:
+- ai_governance
+milestone: '19.6'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/263121
+tiers:
+- premium
+- ultimate

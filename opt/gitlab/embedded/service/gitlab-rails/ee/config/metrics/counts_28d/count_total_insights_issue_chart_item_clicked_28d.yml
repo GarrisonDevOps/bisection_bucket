@@ -1,0 +1,18 @@
+---
+key_path: count_total_insights_issue_chart_item_clicked_28d
+description: Total count of users that clicked on an Insights issue chart item in the last 28 days.
+product_group: optimize
+product_categories:
+- value_stream_management
+performance_indicator_type: []
+value_type: number
+status: active
+milestone: '16.7'
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/139277
+time_frame: 28d
+data_source: internal_events
+data_category: optional
+tiers:
+- ultimate
+events:
+- name: insights_issue_chart_item_clicked

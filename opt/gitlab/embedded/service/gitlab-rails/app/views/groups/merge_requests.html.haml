@@ -1,0 +1,9 @@
+- has_bulk_update_permission = can?(current_user, :admin_merge_request, @group) && @group.licensed_feature_available?(:group_bulk_edit)
+- page_title _("Merge requests")
+- @force_show_panel_header = true
+- @force_fluid_layout = true
+- add_page_specific_style 'page_bundles/issuable_list'
+
+.js-merge-request-list-root{ data: group_merge_requests_list_data(@group, current_user) }
+- if has_bulk_update_permission
+  = render_if_exists 'groups/group_bulk_update_sidebar', group: @group, type: :merge_requests

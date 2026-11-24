@@ -1,0 +1,7 @@
+- return unless group.allow_personal_snippets_available?(current_user)
+
+= f.gitlab_ui_checkbox_component :allow_personal_snippets, checkbox_options: { checked: group.namespace_settings.allow_personal_snippets } do |c|
+  - c.with_label do
+    = s_('GroupSettings|Allow personal snippets')
+  - c.with_help_text do
+    = s_("GroupSettings|When enabled, enterprise users in this group can create personal snippets. When disabled, enterprise users will be restricted from creating snippets in their personal namespace.")

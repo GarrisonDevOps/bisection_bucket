@@ -1,0 +1,13 @@
+- button_style = 'border-radius: 8px; font-size: 14px; padding: 8px 12px; background-color: #3a383d; color: #fff; cursor: pointer; text-decoration: none; display: inline-block;'
+
+- download_link = link_to 'Download export', export_url, style: button_style
+- tag = tag_pair(download_link, :link_start, :link_end)
+
+%p{ style: 'font-size:18px; text-align:center; line-height:1.4;' }
+  = safe_format(title_text, exportable: exportable_link, context_label: context_label)
+
+%p{ style: 'text-align:center; margin-top:10px;' }
+  = safe_format(download_text, tag)
+
+%p{ style: 'text-align:center; font-size:14px;' }
+  = expiration_text % { number: expiration_days }

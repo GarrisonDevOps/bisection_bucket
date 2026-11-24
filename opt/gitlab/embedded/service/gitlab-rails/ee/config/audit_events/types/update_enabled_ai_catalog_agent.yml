@@ -1,0 +1,10 @@
+---
+name: update_enabled_ai_catalog_agent
+description: A user updates an enabled AI Catalog agent in a project or group.
+introduced_by_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/584495
+introduced_by_mr: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226176
+feature_category: ai_catalog_curation
+milestone: '18.10'
+saved_to_database: true
+streamed: true
+scope: [Project, Group]

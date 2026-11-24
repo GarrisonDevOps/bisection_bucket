@@ -1,0 +1,2 @@
+%p
+  = _('%{strong_start}%{author}%{strong_end} has created a merge request that you can approve.').html_safe % { author: @merge_request.author.name, strong_start: '<strong>'.html_safe, strong_end: '</strong>'.html_safe }

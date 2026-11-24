@@ -1,0 +1,3 @@
+---
+name: read_subscription_usage
+description: Grants the ability to read subscription usage data for a namespace or organization.

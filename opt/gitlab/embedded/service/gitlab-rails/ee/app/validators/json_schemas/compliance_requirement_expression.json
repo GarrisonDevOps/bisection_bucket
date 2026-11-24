@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Compliance Requirement Expression Schema",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/complexExpression"
+    },
+    {
+      "$ref": "#/definitions/simpleExpression"
+    }
+  ],
+  "definitions": {
+    "complexExpression": {
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "enum": [
+            "AND"
+          ]
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/simpleExpression"
+              }
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 5
+        }
+      },
+      "required": [
+        "operator",
+        "conditions"
+      ],
+      "additionalProperties": false
+    },
+    "simpleExpression": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string",
+          "enum": [
+            "scanner_sast_running",
+            "minimum_approvals_required",
+            "merge_request_prevent_author_approval",
+            "merge_request_prevent_committers_approval",
+            "project_visibility",
+            "default_branch_protected"
+          ]
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "="
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "field": {
+                "enum": [
+                  "project_name"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "operator": {
+                "enum": [
+                  "="
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "field": {
+                "enum": [
+                  "scanner_sast_running",
+                  "merge_request_prevent_author_approval",
+                  "merge_request_prevent_committers_approval",
+                  "default_branch_protected"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              },
+              "operator": {
+                "enum": [
+                  "="
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "field": {
+                "enum": [
+                  "minimum_approvals_required"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "operator": {
+                "enum": [
+                  "="
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "field": {
+                "enum": [
+                  "project_visibility"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string",
+                "enum": [
+                  "private",
+                  "internal",
+                  "public"
+                ]
+              },
+              "operator": {
+                "enum": [
+                  "="
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
